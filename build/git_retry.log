@@ -1,0 +1,177 @@
+AGENT_WORKDIR=/home/jenkins/agent
+BITBUCKET_REPO_SLUG=cdf
+BUILD_DISPLAY_NAME=#66 prakash
+BUILD_ID=66
+BUILD_NUMBER=66
+BUILD_TAG=jenkins-user-prakash-generate_sdk_pr-66
+BUILD_TIMESTAMP=2021-07-14 03:23:23 UTC
+BUILD_URL=https://jenkins.corp.clum.io/job/user/job/prakash/job/generate_sdk_pr/66/
+CDF_BRANCH=origin/release/CCM-2571
+CDF_PROTO_ARTIFACT=1
+CI=true
+GIT_ASKPASS=echo
+HOME=/home/jenkins
+HOSTNAME=user-prakash-generate-sdk-pr-66-k37lx-x7fbn-39qwk
+HUDSON_COOKIE=8535afa3-5193-4049-ba0e-cc9acc204ec8
+HUDSON_HOME=/var/jenkins_home
+HUDSON_SERVER_COOKIE=07b7711d3918e173
+HUDSON_URL=https://jenkins.corp.clum.io/
+JAVA_HOME=/opt/java/openjdk
+JAVA_OPTS=-Xmx100m -XX:MaxMetaspaceSize=48m -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled -XX:+UseCompressedClassPointers -XshowSettings:vm
+JAVA_VERSION=jdk8u272-b10
+JENKINS_AGENT_NAME=user-prakash-generate-sdk-pr-66-k37lx-x7fbn-39qwk
+JENKINS_AGENT_PORT=tcp://172.20.201.32:50000
+JENKINS_AGENT_PORT_50000_TCP=tcp://172.20.201.32:50000
+JENKINS_AGENT_PORT_50000_TCP_ADDR=172.20.201.32
+JENKINS_AGENT_PORT_50000_TCP_PORT=50000
+JENKINS_AGENT_PORT_50000_TCP_PROTO=tcp
+JENKINS_AGENT_SERVICE_HOST=172.20.201.32
+JENKINS_AGENT_SERVICE_PORT=50000
+JENKINS_AGENT_SERVICE_PORT_SLAVELISTENER=50000
+JENKINS_AGENT_WORKDIR=/home/jenkins/agent
+JENKINS_HOME=/var/jenkins_home
+JENKINS_NAME=user-prakash-generate-sdk-pr-66-k37lx-x7fbn-39qwk
+JENKINS_PORT=tcp://172.20.237.107:443
+JENKINS_PORT_443_TCP=tcp://172.20.237.107:443
+JENKINS_PORT_443_TCP_ADDR=172.20.237.107
+JENKINS_PORT_443_TCP_PORT=443
+JENKINS_PORT_443_TCP_PROTO=tcp
+JENKINS_SECRET=4feb7a49a62d8e381fa39d63ed1202e152ac27db06dcec0a639a36d53a000fb7
+JENKINS_SERVER_COOKIE=07b7711d3918e173
+JENKINS_SERVICE_HOST=172.20.237.107
+JENKINS_SERVICE_PORT=443
+JENKINS_SERVICE_PORT_HTTP=443
+JENKINS_TUNNEL=jenkins-agent:50000
+JENKINS_URL=https://jenkins.corp.clum.io/
+JIRA_ID=CLUMIO-33196
+JOB_BASE_NAME=generate_sdk_pr
+JOB_DISPLAY_URL=https://jenkins.corp.clum.io/job/user/job/prakash/job/generate_sdk_pr/display/redirect
+JOB_NAME=user/prakash/generate_sdk_pr
+JOB_URL=https://jenkins.corp.clum.io/job/user/job/prakash/job/generate_sdk_pr/
+KUBERNETES_PORT=tcp://172.20.0.1:443
+KUBERNETES_PORT_443_TCP=tcp://172.20.0.1:443
+KUBERNETES_PORT_443_TCP_ADDR=172.20.0.1
+KUBERNETES_PORT_443_TCP_PORT=443
+KUBERNETES_PORT_443_TCP_PROTO=tcp
+KUBERNETES_SERVICE_HOST=172.20.0.1
+KUBERNETES_SERVICE_PORT=443
+KUBERNETES_SERVICE_PORT_HTTPS=443
+LANG=en_US.UTF-8
+LANGUAGE=en_US:en
+LC_ALL=en_US.UTF-8
+PATH=/opt/java/openjdk/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+PWD=/home/jenkins/agent/workspace/user/prakash/generate_sdk_pr/clumio-python-sdk
+PYTEST_ADDOPTS=--color=yes
+PYTHONUNBUFFERED=1
+RUN_ARTIFACTS_DISPLAY_URL=https://jenkins.corp.clum.io/job/user/job/prakash/job/generate_sdk_pr/66/display/redirect?page=artifacts
+RUN_CHANGES_DISPLAY_URL=https://jenkins.corp.clum.io/job/user/job/prakash/job/generate_sdk_pr/66/display/redirect?page=changes
+RUN_DISPLAY_URL=https://jenkins.corp.clum.io/job/user/job/prakash/job/generate_sdk_pr/66/display/redirect
+RUN_TESTS_DISPLAY_URL=https://jenkins.corp.clum.io/job/user/job/prakash/job/generate_sdk_pr/66/display/redirect?page=tests
+SDK_GEN_BRANCH=origin/user/prakash/CLUMIO-33195/main
+SDK_LANGUAGE=python
+SHLVL=1
+VAULT_ADDR=https://vault-internal.corp.clum.io
+_=/usr/bin/env
+library.prepare.version=main
+
+top - 03:24:22 up 78 days, 21:50,  0 users,  load average: 0.44, 0.53, 0.60
+Tasks:   5 total,   1 running,   4 sleeping,   0 stopped,   0 zombie
+%Cpu0  :   0.0/0.0     0[                                                                                                    ]
+%Cpu1  :   0.0/0.0     0[                                                                                                    ]
+%Cpu2  :  56.2/0.0    56[||||||||||||||||||||||||||||||||||||||||||||||||||||||||                                            ]
+%Cpu3  :   0.0/0.0     0[                                                                                                    ]
+%Cpu4  :   0.0/0.0     0[                                                                                                    ]
+%Cpu5  :   0.0/0.0     0[                                                                                                    ]
+%Cpu6  :   0.0/0.0     0[                                                                                                    ]
+%Cpu7  :   0.0/0.0     0[                                                                                                    ]
+%Cpu8  :   0.0/0.0     0[                                                                                                    ]
+%Cpu9  :   0.0/0.0     0[                                                                                                    ]
+%Cpu10 :   0.0/0.0     0[                                                                                                    ]
+%Cpu11 :   0.0/0.0     0[                                                                                                    ]
+%Cpu12 :   0.0/0.0     0[                                                                                                    ]
+%Cpu13 :   0.0/0.0     0[                                                                                                    ]
+%Cpu14 :   0.0/0.0     0[                                                                                                    ]
+%Cpu15 :   0.0/0.0     0[                                                                                                    ]
+GiB Mem : 26.1/30.4     [                                                                                                    ]
+GiB Swap:  0.0/0.0      [                                                                                                    ]
+
+    PID USER      PR  NI    VIRT    RES  %CPU  %MEM     TIME+ S COMMAND
+      1 root      20   0    0.9m   0.0m   0.0   0.0   0:00.01 S pause
+      6 jenkins   20   0 4981.1m 126.2m  73.3   0.4   0:13.09 S java
+     29 root      20   0    4.1m   3.4m   0.0   0.0   0:00.00 S bash
+    248 jenkins   20   0    2.2m   1.7m   0.0   0.0   0:00.00 S git
+    255 jenkins   20   0    1.8m   0.6m   0.0   0.0   0:00.00 R top
+
+Memory: 182542336/419430400
+2021-07-14T03:24:22+0000 1: git init /home/jenkins/agent/workspace/user/prakash/generate_sdk_pr/clumio-python-sdk
+Initialized empty Git repository in /home/jenkins/agent/workspace/user/prakash/generate_sdk_pr/clumio-python-sdk/.git/
+2021-07-14T03:24:31+0000 1: git --version
+git version 2.26.2
+PR: https://github.com/clumio-code/clumio-python-sdk.git TARGET: +refs/heads/*:refs/remotes/origin/*
+2021-07-14T03:24:31+0000 1: git fetch --tags --force --progress --depth=100 -- https://github.com/clumio-code/clumio-python-sdk.git +refs/heads/*:refs/remotes/origin/*
+remote: Enumerating objects: 975, done.        
+remote: Counting objects:   0% (1/975)        remote: Counting objects:   1% (10/975)        remote: Counting objects:   2% (20/975)        remote: Counting objects:   3% (30/975)        remote: Counting objects:   4% (39/975)        remote: Counting objects:   5% (49/975)        remote: Counting objects:   6% (59/975)        remote: Counting objects:   7% (69/975)        remote: Counting objects:   8% (78/975)        remote: Counting objects:   9% (88/975)        remote: Counting objects:  10% (98/975)        remote: Counting objects:  11% (108/975)        remote: Counting objects:  12% (117/975)        remote: Counting objects:  13% (127/975)        remote: Counting objects:  14% (137/975)        remote: Counting objects:  15% (147/975)        remote: Counting objects:  16% (156/975)        remote: Counting objects:  17% (166/975)        remote: Counting objects:  18% (176/975)        remote: Counting objects:  19% (186/975)        remote: Counting objects:  20% (195/975)        remote: Counting objects:  21% (205/975)        remote: Counting objects:  22% (215/975)        remote: Counting objects:  23% (225/975)        remote: Counting objects:  24% (234/975)        remote: Counting objects:  25% (244/975)        remote: Counting objects:  26% (254/975)        remote: Counting objects:  27% (264/975)        remote: Counting objects:  28% (273/975)        remote: Counting objects:  29% (283/975)        remote: Counting objects:  30% (293/975)        remote: Counting objects:  31% (303/975)        remote: Counting objects:  32% (312/975)        remote: Counting objects:  33% (322/975)        remote: Counting objects:  34% (332/975)        remote: Counting objects:  35% (342/975)        remote: Counting objects:  36% (351/975)        remote: Counting objects:  37% (361/975)        remote: Counting objects:  38% (371/975)        remote: Counting objects:  39% (381/975)        remote: Counting objects:  40% (390/975)        remote: Counting objects:  41% (400/975)        remote: Counting objects:  42% (410/975)        remote: Counting objects:  43% (420/975)        remote: Counting objects:  44% (429/975)        remote: Counting objects:  45% (439/975)        remote: Counting objects:  46% (449/975)        remote: Counting objects:  47% (459/975)        remote: Counting objects:  48% (468/975)        remote: Counting objects:  49% (478/975)        remote: Counting objects:  50% (488/975)        remote: Counting objects:  51% (498/975)        remote: Counting objects:  52% (507/975)        remote: Counting objects:  53% (517/975)        remote: Counting objects:  54% (527/975)        remote: Counting objects:  55% (537/975)        remote: Counting objects:  56% (546/975)        remote: Counting objects:  57% (556/975)        remote: Counting objects:  58% (566/975)        remote: Counting objects:  59% (576/975)        remote: Counting objects:  60% (585/975)        remote: Counting objects:  61% (595/975)        remote: Counting objects:  62% (605/975)        remote: Counting objects:  63% (615/975)        remote: Counting objects:  64% (624/975)        remote: Counting objects:  65% (634/975)        remote: Counting objects:  66% (644/975)        remote: Counting objects:  67% (654/975)        remote: Counting objects:  68% (663/975)        remote: Counting objects:  69% (673/975)        remote: Counting objects:  70% (683/975)        remote: Counting objects:  71% (693/975)        remote: Counting objects:  72% (702/975)        remote: Counting objects:  73% (712/975)        remote: Counting objects:  74% (722/975)        remote: Counting objects:  75% (732/975)        remote: Counting objects:  76% (741/975)        remote: Counting objects:  77% (751/975)        remote: Counting objects:  78% (761/975)        remote: Counting objects:  79% (771/975)        remote: Counting objects:  80% (780/975)        remote: Counting objects:  81% (790/975)        remote: Counting objects:  82% (800/975)        remote: Counting objects:  83% (810/975)        remote: Counting objects:  84% (819/975)        remote: Counting objects:  85% (829/975)        remote: Counting objects:  86% (839/975)        remote: Counting objects:  87% (849/975)        remote: Counting objects:  88% (858/975)        remote: Counting objects:  89% (868/975)        remote: Counting objects:  90% (878/975)        remote: Counting objects:  91% (888/975)        remote: Counting objects:  92% (897/975)        remote: Counting objects:  93% (907/975)        remote: Counting objects:  94% (917/975)        remote: Counting objects:  95% (927/975)        remote: Counting objects:  96% (936/975)        remote: Counting objects:  97% (946/975)        remote: Counting objects:  98% (956/975)        remote: Counting objects:  99% (966/975)        remote: Counting objects: 100% (975/975)        remote: Counting objects: 100% (975/975), done.        
+remote: Compressing objects:   0% (1/249)        remote: Compressing objects:   1% (3/249)        remote: Compressing objects:   2% (5/249)        remote: Compressing objects:   3% (8/249)        remote: Compressing objects:   4% (10/249)        remote: Compressing objects:   5% (13/249)        remote: Compressing objects:   6% (15/249)        remote: Compressing objects:   7% (18/249)        remote: Compressing objects:   8% (20/249)        remote: Compressing objects:   9% (23/249)        remote: Compressing objects:  10% (25/249)        remote: Compressing objects:  11% (28/249)        remote: Compressing objects:  12% (30/249)        remote: Compressing objects:  13% (33/249)        remote: Compressing objects:  14% (35/249)        remote: Compressing objects:  15% (38/249)        remote: Compressing objects:  16% (40/249)        remote: Compressing objects:  17% (43/249)        remote: Compressing objects:  18% (45/249)        remote: Compressing objects:  19% (48/249)        remote: Compressing objects:  20% (50/249)        remote: Compressing objects:  21% (53/249)        remote: Compressing objects:  22% (55/249)        remote: Compressing objects:  23% (58/249)        remote: Compressing objects:  24% (60/249)        remote: Compressing objects:  25% (63/249)        remote: Compressing objects:  26% (65/249)        remote: Compressing objects:  27% (68/249)        remote: Compressing objects:  28% (70/249)        remote: Compressing objects:  29% (73/249)        remote: Compressing objects:  30% (75/249)        remote: Compressing objects:  31% (78/249)        remote: Compressing objects:  32% (80/249)        remote: Compressing objects:  33% (83/249)        remote: Compressing objects:  34% (85/249)        remote: Compressing objects:  35% (88/249)        remote: Compressing objects:  36% (90/249)        remote: Compressing objects:  37% (93/249)        remote: Compressing objects:  38% (95/249)        remote: Compressing objects:  39% (98/249)        remote: Compressing objects:  40% (100/249)        remote: Compressing objects:  41% (103/249)        remote: Compressing objects:  42% (105/249)        remote: Compressing objects:  43% (108/249)        remote: Compressing objects:  44% (110/249)        remote: Compressing objects:  45% (113/249)        remote: Compressing objects:  46% (115/249)        remote: Compressing objects:  47% (118/249)        remote: Compressing objects:  48% (120/249)        remote: Compressing objects:  49% (123/249)        remote: Compressing objects:  50% (125/249)        remote: Compressing objects:  51% (127/249)        remote: Compressing objects:  52% (130/249)        remote: Compressing objects:  53% (132/249)        remote: Compressing objects:  54% (135/249)        remote: Compressing objects:  55% (137/249)        remote: Compressing objects:  56% (140/249)        remote: Compressing objects:  57% (142/249)        remote: Compressing objects:  58% (145/249)        remote: Compressing objects:  59% (147/249)        remote: Compressing objects:  60% (150/249)        remote: Compressing objects:  61% (152/249)        remote: Compressing objects:  62% (155/249)        remote: Compressing objects:  63% (157/249)        remote: Compressing objects:  64% (160/249)        remote: Compressing objects:  65% (162/249)        remote: Compressing objects:  66% (165/249)        remote: Compressing objects:  67% (167/249)        remote: Compressing objects:  68% (170/249)        remote: Compressing objects:  69% (172/249)        remote: Compressing objects:  70% (175/249)        remote: Compressing objects:  71% (177/249)        remote: Compressing objects:  72% (180/249)        remote: Compressing objects:  73% (182/249)        remote: Compressing objects:  74% (185/249)        remote: Compressing objects:  75% (187/249)        remote: Compressing objects:  76% (190/249)        remote: Compressing objects:  77% (192/249)        remote: Compressing objects:  78% (195/249)        remote: Compressing objects:  79% (197/249)        remote: Compressing objects:  80% (200/249)        remote: Compressing objects:  81% (202/249)        remote: Compressing objects:  82% (205/249)        remote: Compressing objects:  83% (207/249)        remote: Compressing objects:  84% (210/249)        remote: Compressing objects:  85% (212/249)        remote: Compressing objects:  86% (215/249)        remote: Compressing objects:  87% (217/249)        remote: Compressing objects:  88% (220/249)        remote: Compressing objects:  89% (222/249)        remote: Compressing objects:  90% (225/249)        remote: Compressing objects:  91% (227/249)        remote: Compressing objects:  92% (230/249)        remote: Compressing objects:  93% (232/249)        remote: Compressing objects:  94% (235/249)        remote: Compressing objects:  95% (237/249)        remote: Compressing objects:  96% (240/249)        remote: Compressing objects:  97% (242/249)        remote: Compressing objects:  98% (245/249)        remote: Compressing objects:  99% (247/249)        remote: Compressing objects: 100% (249/249)        remote: Compressing objects: 100% (249/249), done.        
+Receiving objects:   0% (1/975)Receiving objects:   1% (10/975)Receiving objects:   2% (20/975)Receiving objects:   3% (30/975)Receiving objects:   4% (39/975)Receiving objects:   5% (49/975)Receiving objects:   6% (59/975)Receiving objects:   7% (69/975)Receiving objects:   8% (78/975)Receiving objects:   9% (88/975)Receiving objects:  10% (98/975)Receiving objects:  11% (108/975)Receiving objects:  12% (117/975)Receiving objects:  13% (127/975)Receiving objects:  14% (137/975)Receiving objects:  15% (147/975)Receiving objects:  16% (156/975)Receiving objects:  17% (166/975)Receiving objects:  18% (176/975)Receiving objects:  19% (186/975)Receiving objects:  20% (195/975)Receiving objects:  21% (205/975)Receiving objects:  22% (215/975)Receiving objects:  23% (225/975)Receiving objects:  24% (234/975)Receiving objects:  25% (244/975)Receiving objects:  26% (254/975)Receiving objects:  27% (264/975)Receiving objects:  28% (273/975)Receiving objects:  29% (283/975)Receiving objects:  30% (293/975)Receiving objects:  31% (303/975)Receiving objects:  32% (312/975)Receiving objects:  33% (322/975)Receiving objects:  34% (332/975)Receiving objects:  35% (342/975)Receiving objects:  36% (351/975)Receiving objects:  37% (361/975)Receiving objects:  38% (371/975)Receiving objects:  39% (381/975)Receiving objects:  40% (390/975)Receiving objects:  41% (400/975)Receiving objects:  42% (410/975)Receiving objects:  43% (420/975)Receiving objects:  44% (429/975)Receiving objects:  45% (439/975)Receiving objects:  46% (449/975)Receiving objects:  47% (459/975)Receiving objects:  48% (468/975)Receiving objects:  49% (478/975)Receiving objects:  50% (488/975)Receiving objects:  51% (498/975)Receiving objects:  52% (507/975)Receiving objects:  53% (517/975)Receiving objects:  54% (527/975)Receiving objects:  55% (537/975)Receiving objects:  56% (546/975)Receiving objects:  57% (556/975)Receiving objects:  58% (566/975)Receiving objects:  59% (576/975)Receiving objects:  60% (585/975)Receiving objects:  61% (595/975)Receiving objects:  62% (605/975)Receiving objects:  63% (615/975)Receiving objects:  64% (624/975)Receiving objects:  65% (634/975)Receiving objects:  66% (644/975)Receiving objects:  67% (654/975)Receiving objects:  68% (663/975)Receiving objects:  69% (673/975)Receiving objects:  70% (683/975)Receiving objects:  71% (693/975)Receiving objects:  72% (702/975)Receiving objects:  73% (712/975)Receiving objects:  74% (722/975)Receiving objects:  75% (732/975)Receiving objects:  76% (741/975)Receiving objects:  77% (751/975)Receiving objects:  78% (761/975)Receiving objects:  79% (771/975)Receiving objects:  80% (780/975)Receiving objects:  81% (790/975)Receiving objects:  82% (800/975)Receiving objects:  83% (810/975)Receiving objects:  84% (819/975)Receiving objects:  85% (829/975)Receiving objects:  86% (839/975)Receiving objects:  87% (849/975)Receiving objects:  88% (858/975)Receiving objects:  89% (868/975)Receiving objects:  90% (878/975)Receiving objects:  91% (888/975)Receiving objects:  92% (897/975)Receiving objects:  93% (907/975)Receiving objects:  94% (917/975)Receiving objects:  95% (927/975)remote: Total 975 (delta 721), reused 975 (delta 721), pack-reused 0        
+Receiving objects:  96% (936/975)Receiving objects:  97% (946/975)Receiving objects:  98% (956/975)Receiving objects:  99% (966/975)Receiving objects: 100% (975/975)Receiving objects: 100% (975/975), 606.30 KiB | 5.94 MiB/s, done.
+Resolving deltas:   0% (0/721)Resolving deltas:   1% (9/721)Resolving deltas:   8% (61/721)Resolving deltas:  10% (74/721)Resolving deltas:  11% (82/721)Resolving deltas:  13% (98/721)Resolving deltas:  20% (149/721)Resolving deltas:  22% (161/721)Resolving deltas:  26% (191/721)Resolving deltas:  27% (195/721)Resolving deltas:  28% (205/721)Resolving deltas:  31% (230/721)Resolving deltas:  32% (237/721)Resolving deltas:  34% (247/721)Resolving deltas:  37% (270/721)Resolving deltas:  38% (279/721)Resolving deltas:  39% (285/721)Resolving deltas:  40% (290/721)Resolving deltas:  42% (304/721)Resolving deltas:  43% (311/721)Resolving deltas:  44% (321/721)Resolving deltas:  45% (325/721)Resolving deltas:  48% (347/721)Resolving deltas:  49% (354/721)Resolving deltas:  50% (363/721)Resolving deltas:  51% (368/721)Resolving deltas:  52% (375/721)Resolving deltas:  54% (392/721)Resolving deltas:  56% (404/721)Resolving deltas:  69% (501/721)Resolving deltas:  72% (520/721)Resolving deltas:  76% (555/721)Resolving deltas:  77% (562/721)Resolving deltas:  78% (563/721)Resolving deltas:  79% (570/721)Resolving deltas:  80% (583/721)Resolving deltas:  81% (588/721)Resolving deltas:  82% (593/721)Resolving deltas:  83% (599/721)Resolving deltas:  85% (613/721)Resolving deltas:  86% (623/721)Resolving deltas:  87% (628/721)Resolving deltas:  88% (640/721)Resolving deltas:  89% (644/721)Resolving deltas:  90% (651/721)Resolving deltas:  91% (657/721)Resolving deltas:  94% (679/721)Resolving deltas:  95% (689/721)Resolving deltas:  96% (696/721)Resolving deltas:  98% (708/721)Resolving deltas:  99% (714/721)Resolving deltas: 100% (721/721)Resolving deltas: 100% (721/721), done.
+From https://github.com/clumio-code/clumio-python-sdk
+ * [new branch]      main                 -> origin/main
+ * [new branch]      release/CCM-2571-SDK -> origin/release/CCM-2571-SDK
+2021-07-14T03:24:32+0000 1: git config remote.origin.url https://github.com/clumio-code/clumio-python-sdk.git
+2021-07-14T03:24:32+0000 1: git config --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/*
+2021-07-14T03:24:32+0000 1: git rev-parse refs/remotes/origin/main^{commit}
+4275bc6e50ed409d2e5f5ee3ac2350bdf36ea27a
+2021-07-14T03:24:32+0000 1: git config core.sparsecheckout
+2021-07-14T03:24:32+0000 1: git checkout -f 4275bc6e50ed409d2e5f5ee3ac2350bdf36ea27a
+Note: switching to '4275bc6e50ed409d2e5f5ee3ac2350bdf36ea27a'.
+
+You are in 'detached HEAD' state. You can look around, make experimental
+changes and commit them, and you can discard any commits you make in this
+state without impacting any branches by switching back to a branch.
+
+If you want to create a new branch to retain commits you create, you may
+do so (now or later) by using -c with the switch command. Example:
+
+  git switch -c <new-branch-name>
+
+Or undo this operation with:
+
+  git switch -
+
+Turn off this advice by setting config variable advice.detachedHead to false
+
+HEAD is now at 4275bc6 first commit
+
+top - 03:24:32 up 78 days, 21:50,  0 users,  load average: 0.38, 0.51, 0.59
+Tasks:   5 total,   1 running,   4 sleeping,   0 stopped,   0 zombie
+%Cpu0  :   0.0/0.0     0[                                                                                                    ]
+%Cpu1  :   0.0/0.0     0[                                                                                                    ]
+%Cpu2  :   0.0/0.0     0[                                                                                                    ]
+%Cpu3  :   0.0/0.0     0[                                                                                                    ]
+%Cpu4  :   0.0/0.0     0[                                                                                                    ]
+%Cpu5  :   0.0/0.0     0[                                                                                                    ]
+%Cpu6  :   0.0/0.0     0[                                                                                                    ]
+%Cpu7  :   6.7/0.0     7[|||||||                                                                                             ]
+%Cpu8  :   0.0/0.0     0[                                                                                                    ]
+%Cpu9  :   0.0/0.0     0[                                                                                                    ]
+%Cpu10 :   0.0/0.0     0[                                                                                                    ]
+%Cpu11 :   0.0/0.0     0[                                                                                                    ]
+%Cpu12 :   0.0/0.0     0[                                                                                                    ]
+%Cpu13 :   0.0/0.0     0[                                                                                                    ]
+%Cpu14 :   0.0/0.0     0[                                                                                                    ]
+%Cpu15 :   0.0/0.0     0[                                                                                                    ]
+GiB Mem : 26.1/30.4     [                                                                                                    ]
+GiB Swap:  0.0/0.0      [                                                                                                    ]
+
+    PID USER      PR  NI    VIRT    RES  %CPU  %MEM     TIME+ S COMMAND
+      1 root      20   0    0.9m   0.0m   0.0   0.0   0:00.01 S pause
+      6 jenkins   20   0 4981.1m 127.1m   0.0   0.4   0:13.86 S java
+     29 root      20   0    4.1m   3.4m   0.0   0.0   0:00.00 S bash
+    344 jenkins   20   0    2.2m   1.7m   0.0   0.0   0:00.00 S git
+    355 jenkins   20   0    1.8m   0.6m   0.0   0.0   0:00.00 R top
+
+Memory: 185524224/419430400
+2021-07-14T03:24:32+0000 1: git rev-list --no-walk 4275bc6e50ed409d2e5f5ee3ac2350bdf36ea27a
+4275bc6e50ed409d2e5f5ee3ac2350bdf36ea27a
+2021-07-14T03:24:32+0000 1: git whatchanged --no-abbrev -M --format=commit %H%ntree %T%nparent %P%nauthor %aN <%aE> %ai%ncommitter %cN <%cE> %ci%n%n%w(0,4,4)%B -n 1024 4275bc6e50ed409d2e5f5ee3ac2350bdf36ea27a ^4275bc6e50ed409d2e5f5ee3ac2350bdf36ea27a

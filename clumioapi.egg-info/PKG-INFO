@@ -1,3 +1,15 @@
+Metadata-Version: 2.1
+Name: clumioapi
+Version: 0.1.0
+Summary: Python SDK for Clumio REST API
+Home-page: https://clumio.com
+Author: Clumio Inc.
+Author-email: support@clumio.com
+License: UNKNOWN
+Platform: UNKNOWN
+Description-Content-Type: text/markdown
+License-File: LICENSE
+
 # Clumio Python SDK
 
 ## Overview
@@ -17,3 +29,4 @@ pip install 'git+https://github.com/clumio/clumio-python-sdk.git@<version>#egg=c
 
 ## Documentation
 For full documentation, including a quick start example, see https://clumio-code.github.io/clumio-python-sdk
+
