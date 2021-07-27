@@ -1,3 +1,15 @@
+Metadata-Version: 2.1
+Name: clumioapi
+Version: 0.1.0
+Summary: Python SDK for Clumio REST API
+Home-page: https://clumio.com
+Author: Clumio Inc.
+Author-email: support@clumio.com
+License: UNKNOWN
+Platform: UNKNOWN
+Description-Content-Type: text/markdown
+License-File: LICENSE
+
 # Clumio Python SDK
 
 ## Overview
@@ -34,3 +46,4 @@ The following code block explains how to use the clumioapi SDK package.
 
 ```
 The REST API documentation describes all the available APIs and can be accessed from the help section in the top right corner of the Clumio UI.
+
