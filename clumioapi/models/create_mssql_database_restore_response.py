@@ -14,9 +14,9 @@ class CreateMssqlDatabaseRestoreResponse:
 
     Attributes:
         embedded:
-            Embedded responses related to the resource.
+            URLs to pages related to the resource.
         links:
-            Embedded responses related to the resource.
+            URLs to pages related to the resource.
     """
 
     # Create a mapping from Model property names to API property names

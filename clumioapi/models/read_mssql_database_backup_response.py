@@ -47,7 +47,8 @@ class ReadMssqlDatabaseBackupResponse:
         start_timestamp:
             The timestamp of when this backup started. Represented in RFC-3339 format.
         subgroup_id:
-            The Clumio-assigned management subgroup ID at the time of backup.
+            The Clumio-assigned ID of the management subgroup associated with the database
+            at the time of backup.
         type:
             The type of backup. Possible values include `mssql_database_backup`,
             `mssql_log_backup_full_recovery_model` and `mssql_log_backup_bulk_logged_model`.

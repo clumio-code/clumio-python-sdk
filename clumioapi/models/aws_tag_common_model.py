@@ -15,23 +15,18 @@ class AwsTagCommonModel:
     Attributes:
         key:
             The AWS-assigned tag key.
-        organizational_unit_id:
-            The Clumio-assigned ID of the organizational unit associated with the tag.
         value:
             The AWS-assigned tag value.
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'key': 'key', 'organizational_unit_id': 'organizational_unit_id', 'value': 'value'}
+    _names = {'key': 'key', 'value': 'value'}
 
-    def __init__(
-        self, key: str = None, organizational_unit_id: str = None, value: str = None
-    ) -> None:
+    def __init__(self, key: str = None, value: str = None) -> None:
         """Constructor for the AwsTagCommonModel class."""
 
         # Initialize members of the class
         self.key: str = key
-        self.organizational_unit_id: str = organizational_unit_id
         self.value: str = value
 
     @classmethod
@@ -51,7 +46,6 @@ class AwsTagCommonModel:
 
         # Extract variables from the dictionary
         key = dictionary.get('key')
-        organizational_unit_id = dictionary.get('organizational_unit_id')
         value = dictionary.get('value')
         # Return an object of this model
-        return cls(key, organizational_unit_id, value)
+        return cls(key, value)

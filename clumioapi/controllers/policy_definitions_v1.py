@@ -43,6 +43,11 @@ class PolicyDefinitionsV1Controller(base_controller.BaseController):
         +----------------------------------+-------------------------------------------+
         | aws_rds_resource_granular_backup | AWS RDS granular backup stored in Clumio. |
         +----------------------------------+-------------------------------------------+
+        | mssql_database_backup            | VMC MSSQL database backup stored in       |
+        |                                  | Clumio.                                   |
+        +----------------------------------+-------------------------------------------+
+        | mssql_log_backup                 | VMC MSSQL log backup stored in Clumio.    |
+        +----------------------------------+-------------------------------------------+
 
 
         The following table describes the supported policy activation statuses.
@@ -103,6 +108,13 @@ class PolicyDefinitionsV1Controller(base_controller.BaseController):
                 | stats                                 | VMs into the _embedded field of each |
                 |                                       | policy in the response. For example, |
                 |                                       | embed=read-policy-vmware-vms-        |
+                |                                       | compliance-stats                     |
+                +---------------------------------------+--------------------------------------+
+                | read-policy-aws-dynamodb-tables-      | Embeds compliance statistics about   |
+                | compliance-stats                      | DynamoDB tables into the _embedded   |
+                |                                       | field of each policy in the          |
+                |                                       | response. For example, embed=read-   |
+                |                                       | policy-aws-dynamodb-tables-          |
                 |                                       | compliance-stats                     |
                 +---------------------------------------+--------------------------------------+
 
@@ -304,8 +316,7 @@ class PolicyDefinitionsV1Controller(base_controller.BaseController):
         return update_policy_response.UpdatePolicyResponse.from_dictionary(resp)
 
     def delete_policy_definition(self, policy_id: str) -> object:
-        """Deletes the specified policy. A policy can only be deleted if it is currently
-        not being used to protect workloads.
+        """Deletes the specified policy.
 
         Args:
             policy_id:

@@ -18,7 +18,7 @@ class AwsRegionsV1Controller(base_controller.BaseController):
         self.config = config
 
     def list_connection_aws_regions(
-        self, limit: int = None, start: str = None
+        self, limit: int = None, start: str = None, filter: str = None
     ) -> list_aws_regions_response.ListAWSRegionsResponse:
         """Returns a list of valid regions for creating AWS connections
 
@@ -29,6 +29,25 @@ class AwsRegionsV1Controller(base_controller.BaseController):
                 Sets the page token used to browse the collection. Leave this parameter empty to
                 get the first page.
                 Other pages can be traversed using HATEOAS links.
+            filter:
+                Narrows down the results to only the items that satisfy the filter criteria. The
+                following table lists
+                the supported filter fields for this resource and the filter conditions that can
+                be applied on those fields:
+
+                +----------------------+------------------+------------------------------------+
+                |        Field         | Filter Condition |            Description             |
+                +======================+==================+====================================+
+                | is_data_plane_region | $eq              | The target regions which can be    |
+                |                      |                  | chosen for out-of-region backups.  |
+                |                      |                  | These are the regions for which    |
+                |                      |                  | Clumio has a data plane. Set to    |
+                |                      |                  | "true" to retrieve the AWS data    |
+                |                      |                  | plane regions. For example, filter |
+                |                      |                  | ={"is_data_plane_region":{"$eq":tr |
+                |                      |                  | ue}}                               |
+                +----------------------+------------------+------------------------------------+
+
         Returns:
             ListAWSRegionsResponse: Response from the API.
         Raises:
@@ -41,7 +60,7 @@ class AwsRegionsV1Controller(base_controller.BaseController):
         _url_path = f'{self.config.base_path}/connections/aws/regions'
 
         _query_parameters = {}
-        _query_parameters = {'limit': limit, 'start': start}
+        _query_parameters = {'limit': limit, 'start': start, 'filter': filter}
 
         # Prepare headers
         _headers = {

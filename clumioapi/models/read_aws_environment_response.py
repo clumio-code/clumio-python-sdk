@@ -39,8 +39,8 @@ class ReadAWSEnvironmentResponse:
             The Clumio-assigned ID of the organizational unit associated with the
             environment.
         services_enabled:
-            The AWS services enabled for this environment. Possible values include "ebs" and
-            "rds".
+            The AWS services enabled for this environment. Possible values include "ebs",
+            "rds" and "dynamodb".
         template_version:
             The Clumio CloudFormation template version used to deploy the CloudFormation
             stack.

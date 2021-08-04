@@ -4,36 +4,26 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-T = TypeVar('T', bound='DiscoverConfig')
+T = TypeVar('T', bound='RdsAssetInfo')
 
 
-class DiscoverConfig:
-    """Implementation of the 'DiscoverConfig' model.
+class RdsAssetInfo:
+    """Implementation of the 'RdsAssetInfo' model.
 
-    The configuration of the Clumio Discover product for this connection.If this
-    connection is not configured for Clumio Discover, then this field has avalue of
-    `null`.
+    The latest available information for the EBS/ EC2 feature.
 
     Attributes:
-        asset_types_enabled:
-            The asset types supported on the current version of the feature
         installed_template_version:
             The current version of the feature.
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
-        'asset_types_enabled': 'asset_types_enabled',
-        'installed_template_version': 'installed_template_version',
-    }
+    _names = {'installed_template_version': 'installed_template_version'}
 
-    def __init__(
-        self, asset_types_enabled: Sequence[str] = None, installed_template_version: str = None
-    ) -> None:
-        """Constructor for the DiscoverConfig class."""
+    def __init__(self, installed_template_version: str = None) -> None:
+        """Constructor for the RdsAssetInfo class."""
 
         # Initialize members of the class
-        self.asset_types_enabled: Sequence[str] = asset_types_enabled
         self.installed_template_version: str = installed_template_version
 
     @classmethod
@@ -52,7 +42,6 @@ class DiscoverConfig:
             return None
 
         # Extract variables from the dictionary
-        asset_types_enabled = dictionary.get('asset_types_enabled')
         installed_template_version = dictionary.get('installed_template_version')
         # Return an object of this model
-        return cls(asset_types_enabled, installed_template_version)
+        return cls(installed_template_version)

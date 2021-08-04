@@ -19,28 +19,15 @@ class AwsTagModel:
             The AWS-assigned tag key.
         key_id:
             The Clumio-assigned ID of the AWS key.
-        organizational_unit_id:
-            The Clumio-assigned ID of the organizational unit associated with the tag.
         value:
             The AWS-assigned tag value.
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
-        'id': 'id',
-        'key': 'key',
-        'key_id': 'key_id',
-        'organizational_unit_id': 'organizational_unit_id',
-        'value': 'value',
-    }
+    _names = {'id': 'id', 'key': 'key', 'key_id': 'key_id', 'value': 'value'}
 
     def __init__(
-        self,
-        id: str = None,
-        key: str = None,
-        key_id: str = None,
-        organizational_unit_id: str = None,
-        value: str = None,
+        self, id: str = None, key: str = None, key_id: str = None, value: str = None
     ) -> None:
         """Constructor for the AwsTagModel class."""
 
@@ -48,7 +35,6 @@ class AwsTagModel:
         self.id: str = id
         self.key: str = key
         self.key_id: str = key_id
-        self.organizational_unit_id: str = organizational_unit_id
         self.value: str = value
 
     @classmethod
@@ -70,7 +56,6 @@ class AwsTagModel:
         id = dictionary.get('id')
         key = dictionary.get('key')
         key_id = dictionary.get('key_id')
-        organizational_unit_id = dictionary.get('organizational_unit_id')
         value = dictionary.get('value')
         # Return an object of this model
-        return cls(id, key, key_id, organizational_unit_id, value)
+        return cls(id, key, key_id, value)

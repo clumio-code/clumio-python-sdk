@@ -86,6 +86,18 @@ class AwsEnvironmentsV1Controller(base_controller.BaseController):
                 |                                       | example, embed=read-aws-environment- |
                 |                                       | rds-resources-compliance-stats       |
                 +---------------------------------------+--------------------------------------+
+                | read-aws-environment-dynamodb-tables- | Embeds compliance statistics about   |
+                | compliance-stats                      | DynamoDB tables for each AWS         |
+                |                                       | environment into the response. For   |
+                |                                       | example, embed=read-aws-environment- |
+                |                                       | dynamodb-tables-compliance-stats     |
+                +---------------------------------------+--------------------------------------+
+                | read-aws-environment-ec2-mssql-       | Embeds compliance statistics about   |
+                | compliance-stats                      | EC2 MSSQL databases for each AWS     |
+                |                                       | environment into the response. For   |
+                |                                       | example, embed=read-aws-environment- |
+                |                                       | ec2-mssql-compliance-stats           |
+                +---------------------------------------+--------------------------------------+
 
         Returns:
             ListAWSEnvironmentsResponse: Response from the API.
@@ -142,6 +154,18 @@ class AwsEnvironmentsV1Controller(base_controller.BaseController):
                 |                                       | of the response. For example,        |
                 |                                       | embed=read-aws-environment-rds-      |
                 |                                       | resources-compliance-stats           |
+                +---------------------------------------+--------------------------------------+
+                | read-aws-environment-dynamodb-tables- | Embeds compliance stats about        |
+                | compliance-stats                      | DynamoDB tables into the _embedded   |
+                |                                       | field of the response. For example,  |
+                |                                       | embed=read-aws-environment-dynamodb- |
+                |                                       | tables-compliance-stats              |
+                +---------------------------------------+--------------------------------------+
+                | read-aws-environment-ec2-mssql-       | Embeds compliance statistics about   |
+                | compliance-stats                      | EC2 MSSQL databases for each AWS     |
+                |                                       | environment into the response. For   |
+                |                                       | example, embed=read-aws-environment- |
+                |                                       | ec2-mssql-compliance-stats           |
                 +---------------------------------------+--------------------------------------+
 
         Returns:

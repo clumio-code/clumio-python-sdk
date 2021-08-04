@@ -25,6 +25,8 @@ class ReportDownload:
 
         start_timestamp:
             The time when the request was made.
+        task_id:
+            The Clumio-assigned ID of the task which generated the restored file.
         type:
             The type of report this CSV Download is associated with.
             The possible values include "activity" and "compliance".
@@ -39,6 +41,7 @@ class ReportDownload:
         'filters': 'filters',
         'id': 'id',
         'start_timestamp': 'start_timestamp',
+        'task_id': 'task_id',
         'type': 'type',
     }
 
@@ -51,6 +54,7 @@ class ReportDownload:
         filters: str = None,
         id: str = None,
         start_timestamp: str = None,
+        task_id: str = None,
         type: str = None,
     ) -> None:
         """Constructor for the ReportDownload class."""
@@ -63,6 +67,7 @@ class ReportDownload:
         self.filters: str = filters
         self.id: str = id
         self.start_timestamp: str = start_timestamp
+        self.task_id: str = task_id
         self.type: str = type
 
     @classmethod
@@ -88,6 +93,7 @@ class ReportDownload:
         filters = dictionary.get('filters')
         id = dictionary.get('id')
         start_timestamp = dictionary.get('start_timestamp')
+        task_id = dictionary.get('task_id')
         type = dictionary.get('type')
         # Return an object of this model
         return cls(
@@ -98,5 +104,6 @@ class ReportDownload:
             filters,
             id,
             start_timestamp,
+            task_id,
             type,
         )
