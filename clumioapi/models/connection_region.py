@@ -13,18 +13,21 @@ class ConnectionRegion:
     Attributes:
         id:
             The Clumio-assigned ID of the connection.
+        is_data_plane_region:
+            Boolean that notes which regions can be designated as targets
         name:
             Name is a user friendly name of the AWS region.
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'id': 'id', 'name': 'name'}
+    _names = {'id': 'id', 'is_data_plane_region': 'is_data_plane_region', 'name': 'name'}
 
-    def __init__(self, id: str = None, name: str = None) -> None:
+    def __init__(self, id: str = None, is_data_plane_region: bool = None, name: str = None) -> None:
         """Constructor for the ConnectionRegion class."""
 
         # Initialize members of the class
         self.id: str = id
+        self.is_data_plane_region: bool = is_data_plane_region
         self.name: str = name
 
     @classmethod
@@ -44,6 +47,7 @@ class ConnectionRegion:
 
         # Extract variables from the dictionary
         id = dictionary.get('id')
+        is_data_plane_region = dictionary.get('is_data_plane_region')
         name = dictionary.get('name')
         # Return an object of this model
-        return cls(id, name)
+        return cls(id, is_data_plane_region, name)

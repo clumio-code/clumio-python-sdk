@@ -103,6 +103,12 @@ class AwsEnvironmentTagsV1Controller(base_controller.BaseController):
                 |                                       | aws-environment-tag-ebs-volumes-     |
                 |                                       | compliance-stats                     |
                 +---------------------------------------+--------------------------------------+
+                | read-aws-environment-tag-dynamodb-    | Embeds compliance statistics about   |
+                | tables-compliance-stats               | DynamoDB tables for each tag into    |
+                |                                       | the response. For example,           |
+                |                                       | embed=read-aws-environment-tag-      |
+                |                                       | dynamodb-tables-compliance-stats     |
+                +---------------------------------------+--------------------------------------+
                 | read-policy-definition                | Embeds the associated policy of a    |
                 |                                       | protected tag into the response. For |
                 |                                       | example, embed=read-policy-          |
@@ -170,6 +176,12 @@ class AwsEnvironmentTagsV1Controller(base_controller.BaseController):
                 |                                       | into the response. For example,      |
                 |                                       | embed=read-aws-environment-tag-ebs-  |
                 |                                       | volumes-compliance-stats             |
+                +---------------------------------------+--------------------------------------+
+                | read-aws-environment-tag-dynamodb-    | Embeds compliance stats about        |
+                | tables-compliance-stats               | DynamoDB tables associated with this |
+                |                                       | tag into the response. For example,  |
+                |                                       | embed=read-aws-environment-tag-      |
+                |                                       | dynamodb-tables-compliance-stats     |
                 +---------------------------------------+--------------------------------------+
                 | read-policy-definition                | Embeds the associated policy of a    |
                 |                                       | protected tag into the response. For |

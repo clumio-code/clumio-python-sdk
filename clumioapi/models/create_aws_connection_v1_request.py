@@ -25,6 +25,10 @@ class CreateAwsConnectionV1Request:
             defaults to the first organizational unit assigned to the requesting
             user. For more information about organizational units, refer to the
             Organizational-Units documentation.
+        protect_asset_types_enabled:
+            The asset types enabled for protect. This is only populated if "protect"
+            is enabled. Valid values are any of ["EBS", "RDS", "DynamoDB"]. EBS and RDS
+            are mandatory datasources.
         services_enabled:
             The services to be enabled for this configuration. Valid values are
             ["discover"], ["discover", "protect"]. This is only set when the
@@ -38,6 +42,7 @@ class CreateAwsConnectionV1Request:
         'aws_region': 'aws_region',
         'description': 'description',
         'organizational_unit_id': 'organizational_unit_id',
+        'protect_asset_types_enabled': 'protect_asset_types_enabled',
         'services_enabled': 'services_enabled',
     }
 
@@ -47,6 +52,7 @@ class CreateAwsConnectionV1Request:
         aws_region: str = None,
         description: str = None,
         organizational_unit_id: str = None,
+        protect_asset_types_enabled: Sequence[str] = None,
         services_enabled: Sequence[str] = None,
     ) -> None:
         """Constructor for the CreateAwsConnectionV1Request class."""
@@ -56,6 +62,7 @@ class CreateAwsConnectionV1Request:
         self.aws_region: str = aws_region
         self.description: str = description
         self.organizational_unit_id: str = organizational_unit_id
+        self.protect_asset_types_enabled: Sequence[str] = protect_asset_types_enabled
         self.services_enabled: Sequence[str] = services_enabled
 
     @classmethod
@@ -78,8 +85,14 @@ class CreateAwsConnectionV1Request:
         aws_region = dictionary.get('aws_region')
         description = dictionary.get('description')
         organizational_unit_id = dictionary.get('organizational_unit_id')
+        protect_asset_types_enabled = dictionary.get('protect_asset_types_enabled')
         services_enabled = dictionary.get('services_enabled')
         # Return an object of this model
         return cls(
-            account_native_id, aws_region, description, organizational_unit_id, services_enabled
+            account_native_id,
+            aws_region,
+            description,
+            organizational_unit_id,
+            protect_asset_types_enabled,
+            services_enabled,
         )

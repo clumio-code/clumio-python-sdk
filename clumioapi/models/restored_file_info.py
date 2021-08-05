@@ -36,6 +36,8 @@ class RestoredFileInfo:
             The Clumio-assigned name of the restored file.
         size:
             The size of the restored file. Measured in bytes (B).
+        task_id:
+            The Clumio-assigned ID of the task which generated the restored file.
     """
 
     # Create a mapping from Model property names to API property names
@@ -47,6 +49,7 @@ class RestoredFileInfo:
         'id': 'id',
         'name': 'name',
         'size': 'size',
+        'task_id': 'task_id',
     }
 
     def __init__(
@@ -58,6 +61,7 @@ class RestoredFileInfo:
         id: str = None,
         name: str = None,
         size: int = None,
+        task_id: str = None,
     ) -> None:
         """Constructor for the RestoredFileInfo class."""
 
@@ -69,6 +73,7 @@ class RestoredFileInfo:
         self.id: str = id
         self.name: str = name
         self.size: int = size
+        self.task_id: str = task_id
 
     @classmethod
     def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
@@ -98,7 +103,15 @@ class RestoredFileInfo:
         id = dictionary.get('id')
         name = dictionary.get('name')
         size = dictionary.get('size')
+        task_id = dictionary.get('task_id')
         # Return an object of this model
         return cls(
-            access_methods, backup_id, backup_timestamp, expiration_timestamp, id, name, size
+            access_methods,
+            backup_id,
+            backup_timestamp,
+            expiration_timestamp,
+            id,
+            name,
+            size,
+            task_id,
         )

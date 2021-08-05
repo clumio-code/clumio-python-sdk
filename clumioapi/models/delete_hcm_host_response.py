@@ -14,9 +14,9 @@ class DeleteHcmHostResponse:
 
     Attributes:
         embedded:
-            Embedded responses related to the resource.
+            URLs to pages related to the resource.
         links:
-            Embedded responses related to the resource.
+            URLs to pages related to the resource.
         task_id:
             TaskID for DeleteHostsReq
     """

@@ -47,6 +47,10 @@ class ReadAWSConnectionResponse:
             If this connection is not configured for Clumio Cloud Protect, then this field
             has a
             value of `null`.
+        protect_asset_types_enabled:
+            The asset types enabled for protect. This is only populated if "protect"
+            is enabled. Valid values are any of ["EBS", "RDS", "DynamoDB"]. EBS and RDS
+            are mandatory datasources.
         services_enabled:
             The services to be enabled for this configuration. Valid values are
             ["discover"], ["discover", "protect"]. This is only set when the
@@ -77,6 +81,7 @@ class ReadAWSConnectionResponse:
         'id': 'id',
         'organizational_unit_id': 'organizational_unit_id',
         'protect': 'protect',
+        'protect_asset_types_enabled': 'protect_asset_types_enabled',
         'services_enabled': 'services_enabled',
         'stack_arn': 'stack_arn',
         'stack_name': 'stack_name',
@@ -96,6 +101,7 @@ class ReadAWSConnectionResponse:
         id: str = None,
         organizational_unit_id: str = None,
         protect: protect_config.ProtectConfig = None,
+        protect_asset_types_enabled: Sequence[str] = None,
         services_enabled: Sequence[str] = None,
         stack_arn: str = None,
         stack_name: str = None,
@@ -115,6 +121,7 @@ class ReadAWSConnectionResponse:
         self.id: str = id
         self.organizational_unit_id: str = organizational_unit_id
         self.protect: protect_config.ProtectConfig = protect
+        self.protect_asset_types_enabled: Sequence[str] = protect_asset_types_enabled
         self.services_enabled: Sequence[str] = services_enabled
         self.stack_arn: str = stack_arn
         self.stack_name: str = stack_name
@@ -165,6 +172,7 @@ class ReadAWSConnectionResponse:
             else None
         )
 
+        protect_asset_types_enabled = dictionary.get('protect_asset_types_enabled')
         services_enabled = dictionary.get('services_enabled')
         stack_arn = dictionary.get('stack_arn')
         stack_name = dictionary.get('stack_name')
@@ -182,6 +190,7 @@ class ReadAWSConnectionResponse:
             id,
             organizational_unit_id,
             protect,
+            protect_asset_types_enabled,
             services_enabled,
             stack_arn,
             stack_name,
