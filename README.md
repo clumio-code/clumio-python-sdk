@@ -12,7 +12,7 @@ The library requires Python 3.6 and higher. Third-party libraries are also requi
 
 ## Installation
 ```
-pip install 'git+https://github.com/clumio/clumio-python-sdk.git@<version>#egg=clumio-python-sdk'
+pip install 'git+https://github.com/clumio-code/clumio-python-sdk.git@<version>#egg=clumio-python-sdk'
 ```
 
 ## Quick Start
