@@ -49,8 +49,8 @@ class ReadAWSConnectionResponse:
             value of `null`.
         protect_asset_types_enabled:
             The asset types enabled for protect. This is only populated if "protect"
-            is enabled. Valid values are any of ["EBS", "RDS", "DynamoDB"]. EBS and RDS
-            are mandatory datasources.
+            is enabled. Valid values are any of ["EBS", "RDS", "DynamoDB", "EC2MSSQL"].
+            EBS and RDS are mandatory datasources.
         services_enabled:
             The services to be enabled for this configuration. Valid values are
             ["discover"], ["discover", "protect"]. This is only set when the

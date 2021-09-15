@@ -4,25 +4,25 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-T = TypeVar('T', bound='EbsAssetInfo')
+T = TypeVar('T', bound='RdsTemplateInfo')
 
 
-class EbsAssetInfo:
-    """Implementation of the 'EbsAssetInfo' model.
+class RdsTemplateInfo:
+    """Implementation of the 'RdsTemplateInfo' model.
 
     Attributes:
-        installed_template_version:
-            The current version of the feature.
+        available_template_version:
+            The latest available feature version for the asset.
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'installed_template_version': 'installed_template_version'}
+    _names = {'available_template_version': 'available_template_version'}
 
-    def __init__(self, installed_template_version: str = None) -> None:
-        """Constructor for the EbsAssetInfo class."""
+    def __init__(self, available_template_version: str = None) -> None:
+        """Constructor for the RdsTemplateInfo class."""
 
         # Initialize members of the class
-        self.installed_template_version: str = installed_template_version
+        self.available_template_version: str = available_template_version
 
     @classmethod
     def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
@@ -40,6 +40,6 @@ class EbsAssetInfo:
             return None
 
         # Extract variables from the dictionary
-        installed_template_version = dictionary.get('installed_template_version')
+        available_template_version = dictionary.get('available_template_version')
         # Return an object of this model
-        return cls(installed_template_version)
+        return cls(available_template_version)

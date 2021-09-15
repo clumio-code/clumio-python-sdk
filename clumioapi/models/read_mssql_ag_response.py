@@ -30,6 +30,9 @@ class ReadMssqlAGResponse:
         protection_info:
             The protection policy applied to this resource. If the resource is not
             protected, then this field has a value of `null`.
+        status:
+            The status of the availability group, Possible values include 'active' and
+            'inactive'.
     """
 
     # Create a mapping from Model property names to API property names
@@ -40,6 +43,7 @@ class ReadMssqlAGResponse:
         'name': 'name',
         'organizational_unit_id': 'organizational_unit_id',
         'protection_info': 'protection_info',
+        'status': 'status',
     }
 
     def __init__(
@@ -50,6 +54,7 @@ class ReadMssqlAGResponse:
         name: str = None,
         organizational_unit_id: str = None,
         protection_info: protection_info.ProtectionInfo = None,
+        status: str = None,
     ) -> None:
         """Constructor for the ReadMssqlAGResponse class."""
 
@@ -60,6 +65,7 @@ class ReadMssqlAGResponse:
         self.name: str = name
         self.organizational_unit_id: str = organizational_unit_id
         self.protection_info: protection_info.ProtectionInfo = protection_info
+        self.status: str = status
 
     @classmethod
     def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
@@ -101,5 +107,6 @@ class ReadMssqlAGResponse:
             else None
         )
 
+        status = dictionary.get('status')
         # Return an object of this model
-        return cls(embedded, links, id, name, organizational_unit_id, p_protection_info)
+        return cls(embedded, links, id, name, organizational_unit_id, p_protection_info, status)

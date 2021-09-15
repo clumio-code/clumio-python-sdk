@@ -19,7 +19,7 @@ class DeleteOrganizationalUnitResponse:
         embedded:
             Embedded responses related to the resource.
         links:
-            URLs to pages related to the resource.
+            Embedded responses related to the resource.
     """
 
     # Create a mapping from Model property names to API property names

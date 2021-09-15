@@ -34,6 +34,8 @@ class ReadMssqlHostResponse:
         protection_info:
             The protection policy applied to this resource. If the resource is not
             protected, then this field has a value of `null`.
+        status:
+            The status of the Host, Possible values include 'active' and 'inactive'.
         subgroup_id:
             The Clumio-assigned ID of the management subgroup to which the host belongs.
     """
@@ -49,6 +51,7 @@ class ReadMssqlHostResponse:
         'instance_count': 'instance_count',
         'organizational_unit_id': 'organizational_unit_id',
         'protection_info': 'protection_info',
+        'status': 'status',
         'subgroup_id': 'subgroup_id',
     }
 
@@ -63,6 +66,7 @@ class ReadMssqlHostResponse:
         instance_count: int = None,
         organizational_unit_id: str = None,
         protection_info: protection_info.ProtectionInfo = None,
+        status: str = None,
         subgroup_id: str = None,
     ) -> None:
         """Constructor for the ReadMssqlHostResponse class."""
@@ -77,6 +81,7 @@ class ReadMssqlHostResponse:
         self.instance_count: int = instance_count
         self.organizational_unit_id: str = organizational_unit_id
         self.protection_info: protection_info.ProtectionInfo = protection_info
+        self.status: str = status
         self.subgroup_id: str = subgroup_id
 
     @classmethod
@@ -122,6 +127,7 @@ class ReadMssqlHostResponse:
             else None
         )
 
+        status = dictionary.get('status')
         subgroup_id = dictionary.get('subgroup_id')
         # Return an object of this model
         return cls(
@@ -134,5 +140,6 @@ class ReadMssqlHostResponse:
             instance_count,
             organizational_unit_id,
             p_protection_info,
+            status,
             subgroup_id,
         )

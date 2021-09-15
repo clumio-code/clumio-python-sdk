@@ -14,9 +14,9 @@ class RestoreFileResponse:
 
     Attributes:
         embedded:
-            URLs to pages related to the resource.
+            Embedded responses related to the resource.
         links:
-            URLs to pages related to the resource.
+            Embedded responses related to the resource.
         id:
             The Clumio-assigned ID of the restored file.
         passcode:

@@ -40,6 +40,8 @@ class MssqlInstance:
             protected, then this field has a value of `null`.
         server_name:
             The Microsoft SQL assigned server name of the instance.
+        status:
+            The status of the Instance, Possible values include 'active' and 'inactive'.
         subgroup_id:
             The Clumio-assigned ID of the management subgroup to which the host belongs.
     """
@@ -58,6 +60,7 @@ class MssqlInstance:
         'product_version': 'product_version',
         'protection_info': 'protection_info',
         'server_name': 'server_name',
+        'status': 'status',
         'subgroup_id': 'subgroup_id',
     }
 
@@ -75,6 +78,7 @@ class MssqlInstance:
         product_version: str = None,
         protection_info: protection_info.ProtectionInfo = None,
         server_name: str = None,
+        status: str = None,
         subgroup_id: str = None,
     ) -> None:
         """Constructor for the MssqlInstance class."""
@@ -92,6 +96,7 @@ class MssqlInstance:
         self.product_version: str = product_version
         self.protection_info: protection_info.ProtectionInfo = protection_info
         self.server_name: str = server_name
+        self.status: str = status
         self.subgroup_id: str = subgroup_id
 
     @classmethod
@@ -140,6 +145,7 @@ class MssqlInstance:
         )
 
         server_name = dictionary.get('server_name')
+        status = dictionary.get('status')
         subgroup_id = dictionary.get('subgroup_id')
         # Return an object of this model
         return cls(
@@ -155,5 +161,6 @@ class MssqlInstance:
             product_version,
             p_protection_info,
             server_name,
+            status,
             subgroup_id,
         )

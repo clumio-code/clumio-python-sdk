@@ -62,6 +62,9 @@ class MssqlInstanceV1Controller(base_controller.BaseController):
                 |                           |                  | protection_status is equal to |
                 |                           |                  | the given string.             |
                 +---------------------------+------------------+-------------------------------+
+                | status                    | $eq              | Filter Database whose status  |
+                |                           |                  | is equal to the given string. |
+                +---------------------------+------------------+-------------------------------+
 
         Returns:
             ListMssqlInstancesResponse: Response from the API.

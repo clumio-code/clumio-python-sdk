@@ -10,8 +10,6 @@ T = TypeVar('T', bound='RdsAssetInfo')
 class RdsAssetInfo:
     """Implementation of the 'RdsAssetInfo' model.
 
-    The latest available information for the EBS/ EC2 feature.
-
     Attributes:
         installed_template_version:
             The current version of the feature.
