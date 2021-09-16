@@ -58,6 +58,9 @@ class MssqlAvailabilityGroupsV1Controller(base_controller.BaseController):
                 |                           |                  | whose protection_status is    |
                 |                           |                  | equal to the given string.    |
                 +---------------------------+------------------+-------------------------------+
+                | status                    | $eq              | Filter Database whose status  |
+                |                           |                  | is equal to the given string. |
+                +---------------------------+------------------+-------------------------------+
 
         Returns:
             ListMssqlAGsResponse: Response from the API.

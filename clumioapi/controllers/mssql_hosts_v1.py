@@ -366,6 +366,9 @@ class MssqlHostsV1Controller(base_controller.BaseController):
                 | id                        | $eq              | Filter Host whose id is equal |
                 |                           |                  | to the given string.          |
                 +---------------------------+------------------+-------------------------------+
+                | status                    | $eq              | Filter Database whose status  |
+                |                           |                  | is equal to the given string. |
+                +---------------------------+------------------+-------------------------------+
 
             embed:
                 Embeds the details of an associated resource. Set the parameter to one of the

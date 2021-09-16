@@ -4,8 +4,8 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import ebs_asset_info
-from clumioapi.models import rds_asset_info
+from clumioapi.models import ebs_template_info
+from clumioapi.models import rds_template_info
 
 T = TypeVar('T', bound='ProtectTemplateInfo')
 
@@ -23,9 +23,9 @@ class ProtectTemplateInfo:
         available_template_version:
             The latest available version for the template.
         ebs:
-            The latest available information for the EBS/ EC2 feature.
+
         rds:
-            The latest available information for the EBS/ EC2 feature.
+
     """
 
     # Create a mapping from Model property names to API property names
@@ -42,8 +42,8 @@ class ProtectTemplateInfo:
         asset_types_enabled: Sequence[str] = None,
         available_template_url: str = None,
         available_template_version: str = None,
-        ebs: ebs_asset_info.EbsAssetInfo = None,
-        rds: rds_asset_info.RdsAssetInfo = None,
+        ebs: ebs_template_info.EbsTemplateInfo = None,
+        rds: rds_template_info.RdsTemplateInfo = None,
     ) -> None:
         """Constructor for the ProtectTemplateInfo class."""
 
@@ -51,8 +51,8 @@ class ProtectTemplateInfo:
         self.asset_types_enabled: Sequence[str] = asset_types_enabled
         self.available_template_url: str = available_template_url
         self.available_template_version: str = available_template_version
-        self.ebs: ebs_asset_info.EbsAssetInfo = ebs
-        self.rds: rds_asset_info.RdsAssetInfo = rds
+        self.ebs: ebs_template_info.EbsTemplateInfo = ebs
+        self.rds: rds_template_info.RdsTemplateInfo = rds
 
     @classmethod
     def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
@@ -75,14 +75,14 @@ class ProtectTemplateInfo:
         available_template_version = dictionary.get('available_template_version')
         key = 'ebs'
         ebs = (
-            ebs_asset_info.EbsAssetInfo.from_dictionary(dictionary.get(key))
+            ebs_template_info.EbsTemplateInfo.from_dictionary(dictionary.get(key))
             if dictionary.get(key)
             else None
         )
 
         key = 'rds'
         rds = (
-            rds_asset_info.RdsAssetInfo.from_dictionary(dictionary.get(key))
+            rds_template_info.RdsTemplateInfo.from_dictionary(dictionary.get(key))
             if dictionary.get(key)
             else None
         )

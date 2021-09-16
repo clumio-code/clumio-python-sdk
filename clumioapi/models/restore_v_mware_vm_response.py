@@ -14,9 +14,9 @@ class RestoreVMwareVMResponse:
 
     Attributes:
         embedded:
-            URLs to pages related to the resource.
+            Embedded responses related to the resource.
         links:
-            URLs to pages related to the resource.
+            Embedded responses related to the resource.
         task_id:
             The Clumio-assigned ID of the task created by this restore request. The progress
             of the task can be monitored using the `GET /tasks/{task_id}` endpoint.
