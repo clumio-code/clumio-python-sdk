@@ -230,7 +230,8 @@ class UsersV1Controller(base_controller.BaseController):
         self, user_id: int, body: update_user_v1_request.UpdateUserV1Request = None
     ) -> update_user_response.UpdateUserResponse:
         """Manages an existing user. Managing a user includes enabling or disabling the
-        user, or changing the user's full name.
+        user,
+        changing the user's full name or updating the user's role.
 
         Args:
             user_id:

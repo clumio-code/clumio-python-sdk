@@ -11,6 +11,21 @@ class CreateUserV1Request:
     """Implementation of the 'CreateUserV1Request' model.
 
     Attributes:
+        assigned_role:
+            The Clumio-assigned ID of the role to assign to the user.
+            The available roles can be retrieved via the [GET /roles](#operation/list-roles)
+            API.
+            When not set, the role is determined as follows
+
+            +-------------+---------------------------+----------------+
+            |   Inviter   |       Assigned OUs        | Resulting Role |
+            +=============+===========================+================+
+            | Super Admin | Gloabl OU is assigned     | Super Admin    |
+            +-------------+---------------------------+----------------+
+            | Super Admin | Gloabl OU is not assigned | OU Admin       |
+            +-------------+---------------------------+----------------+
+            | OU Admin    | Any                       | OU Admin       |
+            +-------------+---------------------------+----------------+
         email:
             The email address of the user to be added to Clumio.
         full_name:
@@ -24,6 +39,7 @@ class CreateUserV1Request:
 
     # Create a mapping from Model property names to API property names
     _names = {
+        'assigned_role': 'assigned_role',
         'email': 'email',
         'full_name': 'full_name',
         'organizational_unit_ids': 'organizational_unit_ids',
@@ -31,6 +47,7 @@ class CreateUserV1Request:
 
     def __init__(
         self,
+        assigned_role: str = None,
         email: str = None,
         full_name: str = None,
         organizational_unit_ids: Sequence[str] = None,
@@ -38,6 +55,7 @@ class CreateUserV1Request:
         """Constructor for the CreateUserV1Request class."""
 
         # Initialize members of the class
+        self.assigned_role: str = assigned_role
         self.email: str = email
         self.full_name: str = full_name
         self.organizational_unit_ids: Sequence[str] = organizational_unit_ids
@@ -58,8 +76,9 @@ class CreateUserV1Request:
             return None
 
         # Extract variables from the dictionary
+        assigned_role = dictionary.get('assigned_role')
         email = dictionary.get('email')
         full_name = dictionary.get('full_name')
         organizational_unit_ids = dictionary.get('organizational_unit_ids')
         # Return an object of this model
-        return cls(email, full_name, organizational_unit_ids)
+        return cls(assigned_role, email, full_name, organizational_unit_ids)

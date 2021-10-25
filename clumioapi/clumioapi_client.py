@@ -11,6 +11,7 @@ from clumioapi.controllers import aws_ebs_volumes_v1
 from clumioapi.controllers import aws_environment_tags_v1
 from clumioapi.controllers import aws_environments_v1
 from clumioapi.controllers import aws_regions_v1
+from clumioapi.controllers import aws_templates_v1
 from clumioapi.controllers import backup_aws_ebs_volumes_v1
 from clumioapi.controllers import backup_filesystem_directories_v1
 from clumioapi.controllers import backup_filesystems_v1
@@ -33,6 +34,7 @@ from clumioapi.controllers import restored_aws_ebs_volumes_v1
 from clumioapi.controllers import restored_files_v1
 from clumioapi.controllers import restored_mssql_databases_v1
 from clumioapi.controllers import restored_vmware_vms_v1
+from clumioapi.controllers import roles_v1
 from clumioapi.controllers import tasks_v1
 from clumioapi.controllers import users_v1
 from clumioapi.controllers import vmware_vcenter_categories_v1
@@ -126,6 +128,11 @@ class ClumioAPIClient:
     @functools.lru_cache(1)
     def aws_regions_v1(self) -> aws_regions_v1.AwsRegionsV1Controller:
         return aws_regions_v1.AwsRegionsV1Controller(self.config)
+
+    @property
+    @functools.lru_cache(1)
+    def aws_templates_v1(self) -> aws_templates_v1.AwsTemplatesV1Controller:
+        return aws_templates_v1.AwsTemplatesV1Controller(self.config)
 
     @property
     @functools.lru_cache(1)
@@ -332,6 +339,11 @@ class ClumioAPIClient:
     @functools.lru_cache(1)
     def restored_vmware_vms_v1(self) -> restored_vmware_vms_v1.RestoredVmwareVmsV1Controller:
         return restored_vmware_vms_v1.RestoredVmwareVmsV1Controller(self.config)
+
+    @property
+    @functools.lru_cache(1)
+    def roles_v1(self) -> roles_v1.RolesV1Controller:
+        return roles_v1.RolesV1Controller(self.config)
 
     @property
     @functools.lru_cache(1)
