@@ -117,6 +117,13 @@ class PolicyDefinitionsV1Controller(base_controller.BaseController):
                 |                                       | policy-aws-dynamodb-tables-          |
                 |                                       | compliance-stats                     |
                 +---------------------------------------+--------------------------------------+
+                | read-policy-protection-groups-        | Embeds compliance statistics about   |
+                | compliance-stats                      | protection groups into the _embedded |
+                |                                       | field of each policy in the          |
+                |                                       | response. For example, embed=read-   |
+                |                                       | policy-protection-groups-compliance- |
+                |                                       | stats                                |
+                +---------------------------------------+--------------------------------------+
 
         Returns:
             ListPoliciesResponse: Response from the API.

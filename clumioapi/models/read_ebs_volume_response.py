@@ -7,7 +7,7 @@ from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 from clumioapi.models import aws_tag_model
 from clumioapi.models import ebs_volume_embedded
 from clumioapi.models import ebs_volume_links
-from clumioapi.models import protection_info
+from clumioapi.models import protection_info_with_rule
 
 T = TypeVar('T', bound='ReadEbsVolumeResponse')
 
@@ -137,7 +137,7 @@ class ReadEbsVolumeResponse:
         last_snapshot_timestamp: str = None,
         name: str = None,
         organizational_unit_id: str = None,
-        protection_info: protection_info.ProtectionInfo = None,
+        protection_info: protection_info_with_rule.ProtectionInfoWithRule = None,
         protection_status: str = None,
         size: int = None,
         tags: Sequence[aws_tag_model.AwsTagModel] = None,
@@ -165,7 +165,7 @@ class ReadEbsVolumeResponse:
         self.last_snapshot_timestamp: str = last_snapshot_timestamp
         self.name: str = name
         self.organizational_unit_id: str = organizational_unit_id
-        self.protection_info: protection_info.ProtectionInfo = protection_info
+        self.protection_info: protection_info_with_rule.ProtectionInfoWithRule = protection_info
         self.protection_status: str = protection_status
         self.size: int = size
         self.tags: Sequence[aws_tag_model.AwsTagModel] = tags
@@ -219,8 +219,8 @@ class ReadEbsVolumeResponse:
         name = dictionary.get('name')
         organizational_unit_id = dictionary.get('organizational_unit_id')
         key = 'protection_info'
-        p_protection_info = (
-            protection_info.ProtectionInfo.from_dictionary(dictionary.get(key))
+        protection_info = (
+            protection_info_with_rule.ProtectionInfoWithRule.from_dictionary(dictionary.get(key))
             if dictionary.get(key)
             else None
         )
@@ -255,7 +255,7 @@ class ReadEbsVolumeResponse:
             last_snapshot_timestamp,
             name,
             organizational_unit_id,
-            p_protection_info,
+            protection_info,
             protection_status,
             size,
             tags,

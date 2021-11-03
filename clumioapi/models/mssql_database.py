@@ -46,6 +46,8 @@ class MssqlDatabase:
             The Clumio-assigned ID of the instance containing the given database.
         instance_name:
             The name of the Microsoft SQL instance containing the given database.
+        is_supported:
+            is_supported is true if Clumio supports backup of the database.
         last_backup_timestamp:
             The timestamp of the last time this database was full backed up.
             Represented in RFC-3339 format. If this database has never been backed up,
@@ -82,6 +84,10 @@ class MssqlDatabase:
         type:
             The type of the database. Possible values include 'availability_group_database'
             and 'standalone_database'.
+        unsupported_reason:
+            unsupported_reason is the reason why Clumio doesn't support backup of such
+            database,
+            possible values include 'filestream_enabled_database'.
     """
 
     # Create a mapping from Model property names to API property names
@@ -97,6 +103,7 @@ class MssqlDatabase:
         'id': 'id',
         'instance_id': 'instance_id',
         'instance_name': 'instance_name',
+        'is_supported': 'is_supported',
         'last_backup_timestamp': 'last_backup_timestamp',
         'last_bulk_recovery_model_log_backup_timestamp': 'last_bulk_recovery_model_log_backup_timestamp',
         'last_full_recovery_model_log_backup_timestamp': 'last_full_recovery_model_log_backup_timestamp',
@@ -108,6 +115,7 @@ class MssqlDatabase:
         'status': 'status',
         'subgroup_id': 'subgroup_id',
         'type': 'type',
+        'unsupported_reason': 'unsupported_reason',
     }
 
     def __init__(
@@ -123,6 +131,7 @@ class MssqlDatabase:
         id: str = None,
         instance_id: str = None,
         instance_name: str = None,
+        is_supported: bool = None,
         last_backup_timestamp: str = None,
         last_bulk_recovery_model_log_backup_timestamp: str = None,
         last_full_recovery_model_log_backup_timestamp: str = None,
@@ -134,6 +143,7 @@ class MssqlDatabase:
         status: str = None,
         subgroup_id: str = None,
         type: str = None,
+        unsupported_reason: str = None,
     ) -> None:
         """Constructor for the MssqlDatabase class."""
 
@@ -149,6 +159,7 @@ class MssqlDatabase:
         self.id: str = id
         self.instance_id: str = instance_id
         self.instance_name: str = instance_name
+        self.is_supported: bool = is_supported
         self.last_backup_timestamp: str = last_backup_timestamp
         self.last_bulk_recovery_model_log_backup_timestamp: str = (
             last_bulk_recovery_model_log_backup_timestamp
@@ -164,6 +175,7 @@ class MssqlDatabase:
         self.status: str = status
         self.subgroup_id: str = subgroup_id
         self.type: str = type
+        self.unsupported_reason: str = unsupported_reason
 
     @classmethod
     def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
@@ -204,6 +216,7 @@ class MssqlDatabase:
         id = dictionary.get('id')
         instance_id = dictionary.get('instance_id')
         instance_name = dictionary.get('instance_name')
+        is_supported = dictionary.get('is_supported')
         last_backup_timestamp = dictionary.get('last_backup_timestamp')
         last_bulk_recovery_model_log_backup_timestamp = dictionary.get(
             'last_bulk_recovery_model_log_backup_timestamp'
@@ -225,6 +238,7 @@ class MssqlDatabase:
         status = dictionary.get('status')
         subgroup_id = dictionary.get('subgroup_id')
         type = dictionary.get('type')
+        unsupported_reason = dictionary.get('unsupported_reason')
         # Return an object of this model
         return cls(
             embedded,
@@ -238,6 +252,7 @@ class MssqlDatabase:
             id,
             instance_id,
             instance_name,
+            is_supported,
             last_backup_timestamp,
             last_bulk_recovery_model_log_backup_timestamp,
             last_full_recovery_model_log_backup_timestamp,
@@ -249,4 +264,5 @@ class MssqlDatabase:
             status,
             subgroup_id,
             type,
+            unsupported_reason,
         )
