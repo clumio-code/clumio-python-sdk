@@ -92,6 +92,12 @@ class AwsEnvironmentsV1Controller(base_controller.BaseController):
                 |                                       | example, embed=read-aws-environment- |
                 |                                       | dynamodb-tables-compliance-stats     |
                 +---------------------------------------+--------------------------------------+
+                | read-aws-environment-protection-      | Embeds compliance statistics about   |
+                | groups-compliance-stats               | Protection Groups for each AWS       |
+                |                                       | environment into the response. For   |
+                |                                       | example, embed=read-aws-environment- |
+                |                                       | protection-groups-compliance-stats   |
+                +---------------------------------------+--------------------------------------+
                 | read-aws-environment-ec2-mssql-       | Embeds compliance statistics about   |
                 | compliance-stats                      | EC2 MSSQL databases for each AWS     |
                 |                                       | environment into the response. For   |
@@ -160,6 +166,12 @@ class AwsEnvironmentsV1Controller(base_controller.BaseController):
                 |                                       | field of the response. For example,  |
                 |                                       | embed=read-aws-environment-dynamodb- |
                 |                                       | tables-compliance-stats              |
+                +---------------------------------------+--------------------------------------+
+                | read-aws-environment-protection-      | Embeds compliance stats about        |
+                | groups-compliance-stats               | DynamoDB tables into the _embedded   |
+                |                                       | field of the response. For example,  |
+                |                                       | embed=read-aws-environment-          |
+                |                                       | protection-groups-compliance-stats   |
                 +---------------------------------------+--------------------------------------+
                 | read-aws-environment-ec2-mssql-       | Embeds compliance statistics about   |
                 | compliance-stats                      | EC2 MSSQL databases for each AWS     |

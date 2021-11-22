@@ -40,20 +40,39 @@ class AwsConnectionsV1Controller(base_controller.BaseController):
                 operations
                 that can be performed on the field:
 
-                +-------------------+------------------+---------------------------------------+
-                |       Field       | Filter Condition |              Description              |
-                +===================+==================+=======================================+
-                | account_native_id | $begins_with     | A prefix of the account ID to search  |
-                |                   |                  | for.                                  |
-                |                   |                  | For example, filter={"account_native_ |
-                |                   |                  | id":{"$begins_with":"23345"}}         |
-                +-------------------+------------------+---------------------------------------+
-                | connection_type   | $eq              | A connection type to search for.      |
-                |                   |                  | Supported types are ['discover',      |
-                |                   |                  | 'protect']. For example, filter={"con |
-                |                   |                  | nection_type":{"$eq":"protect"}}      |
-                |                   |                  |                                       |
-                +-------------------+------------------+---------------------------------------+
+                +-------------------+-------------------+--------------------------------------+
+                |       Field       | Filter Condition  |             Description              |
+                +===================+===================+======================================+
+                | account_native_id | $begins_with, $in | A prefix of the account ID to search |
+                |                   |                   | for or the list of account IDs to    |
+                |                   |                   | return.                              |
+                |                   |                   |                                      |
+                |                   |                   | {"account_native_id":{"$begins_with" |
+                |                   |                   | :"23345"}}                           |
+                |                   |                   |                                      |
+                |                   |                   |                                      |
+                |                   |                   | {"account_native_id":{"$in":["111111 |
+                |                   |                   | 111111", "222222222222"]}}           |
+                |                   |                   |                                      |
+                |                   |                   |                                      |
+                +-------------------+-------------------+--------------------------------------+
+                | account_alias     | $contains         | A substring within the account alias |
+                |                   |                   | (if available) to search for.        |
+                |                   |                   |                                      |
+                |                   |                   | {"account_alias":{"$contains":"foo"} |
+                |                   |                   | }                                    |
+                |                   |                   |                                      |
+                |                   |                   |                                      |
+                +-------------------+-------------------+--------------------------------------+
+                | connection_type   | $eq               | A connection type to search for.     |
+                |                   |                   | Supported types are: ['discover',    |
+                |                   |                   | 'protect'].                          |
+                |                   |                   |                                      |
+                |                   |                   | {"connection_type":{"$eq":"protect"} |
+                |                   |                   | }                                    |
+                |                   |                   |                                      |
+                |                   |                   |                                      |
+                +-------------------+-------------------+--------------------------------------+
 
         Returns:
             ListAWSConnectionsResponse: Response from the API.

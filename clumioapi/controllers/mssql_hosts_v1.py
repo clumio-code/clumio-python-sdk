@@ -54,6 +54,9 @@ class MssqlHostsV1Controller(base_controller.BaseController):
                 | subgroup_id | $eq              | Filter hosts which belong to the given sub- |
                 |             |                  | group.                                      |
                 +-------------+------------------+---------------------------------------------+
+                | name        | $contains        | Filter hosts which contain the given        |
+                |             |                  | substring in their name.                    |
+                +-------------+------------------+---------------------------------------------+
 
             limit:
                 Limits the size of the response on each page to the specified number of items.

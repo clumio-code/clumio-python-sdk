@@ -7,7 +7,7 @@ from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 from clumioapi.models import aws_tag_model
 from clumioapi.models import ebs_volume_embedded
 from clumioapi.models import ebs_volume_links
-from clumioapi.models import protection_info
+from clumioapi.models import protection_info_with_rule
 
 T = TypeVar('T', bound='EBS')
 
@@ -35,8 +35,12 @@ class EBS:
         deletion_timestamp:
             The timestamp of when the volume was deleted. Represented in RFC-3339 format. If
             this volume has not been deleted, then this field has a value of `null`.
+        direct_assignment_policy_id:
+            The Clumio-assigned ID of the policy directly assigned to the entity.
         environment_id:
             The Clumio-assigned ID of the AWS environment associated with the EBS volume.
+        has_direct_assignment:
+            Determines whether the table has a direct assignment.
         id:
             The Clumio-assigned ID of the EBS volume.
         is_deleted:
@@ -99,7 +103,9 @@ class EBS:
         'aws_region': 'aws_region',
         'compliance_status': 'compliance_status',
         'deletion_timestamp': 'deletion_timestamp',
+        'direct_assignment_policy_id': 'direct_assignment_policy_id',
         'environment_id': 'environment_id',
+        'has_direct_assignment': 'has_direct_assignment',
         'id': 'id',
         'is_deleted': 'is_deleted',
         'is_encrypted': 'is_encrypted',
@@ -127,7 +133,9 @@ class EBS:
         aws_region: str = None,
         compliance_status: str = None,
         deletion_timestamp: str = None,
+        direct_assignment_policy_id: str = None,
         environment_id: str = None,
+        has_direct_assignment: bool = None,
         id: str = None,
         is_deleted: bool = None,
         is_encrypted: bool = None,
@@ -137,7 +145,7 @@ class EBS:
         last_snapshot_timestamp: str = None,
         name: str = None,
         organizational_unit_id: str = None,
-        protection_info: protection_info.ProtectionInfo = None,
+        protection_info: protection_info_with_rule.ProtectionInfoWithRule = None,
         protection_status: str = None,
         size: int = None,
         tags: Sequence[aws_tag_model.AwsTagModel] = None,
@@ -155,7 +163,9 @@ class EBS:
         self.aws_region: str = aws_region
         self.compliance_status: str = compliance_status
         self.deletion_timestamp: str = deletion_timestamp
+        self.direct_assignment_policy_id: str = direct_assignment_policy_id
         self.environment_id: str = environment_id
+        self.has_direct_assignment: bool = has_direct_assignment
         self.id: str = id
         self.is_deleted: bool = is_deleted
         self.is_encrypted: bool = is_encrypted
@@ -165,7 +175,7 @@ class EBS:
         self.last_snapshot_timestamp: str = last_snapshot_timestamp
         self.name: str = name
         self.organizational_unit_id: str = organizational_unit_id
-        self.protection_info: protection_info.ProtectionInfo = protection_info
+        self.protection_info: protection_info_with_rule.ProtectionInfoWithRule = protection_info
         self.protection_status: str = protection_status
         self.size: int = size
         self.tags: Sequence[aws_tag_model.AwsTagModel] = tags
@@ -208,7 +218,9 @@ class EBS:
         aws_region = dictionary.get('aws_region')
         compliance_status = dictionary.get('compliance_status')
         deletion_timestamp = dictionary.get('deletion_timestamp')
+        direct_assignment_policy_id = dictionary.get('direct_assignment_policy_id')
         environment_id = dictionary.get('environment_id')
+        has_direct_assignment = dictionary.get('has_direct_assignment')
         id = dictionary.get('id')
         is_deleted = dictionary.get('is_deleted')
         is_encrypted = dictionary.get('is_encrypted')
@@ -219,8 +231,8 @@ class EBS:
         name = dictionary.get('name')
         organizational_unit_id = dictionary.get('organizational_unit_id')
         key = 'protection_info'
-        p_protection_info = (
-            protection_info.ProtectionInfo.from_dictionary(dictionary.get(key))
+        protection_info = (
+            protection_info_with_rule.ProtectionInfoWithRule.from_dictionary(dictionary.get(key))
             if dictionary.get(key)
             else None
         )
@@ -245,7 +257,9 @@ class EBS:
             aws_region,
             compliance_status,
             deletion_timestamp,
+            direct_assignment_policy_id,
             environment_id,
+            has_direct_assignment,
             id,
             is_deleted,
             is_encrypted,
@@ -255,7 +269,7 @@ class EBS:
             last_snapshot_timestamp,
             name,
             organizational_unit_id,
-            p_protection_info,
+            protection_info,
             protection_status,
             size,
             tags,
