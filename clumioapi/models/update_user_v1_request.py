@@ -13,6 +13,10 @@ class UpdateUserV1Request:
     """Implementation of the 'UpdateUserV1Request' model.
 
     Attributes:
+        assigned_role:
+            Updates the role assigned to the user.
+            The available roles can be retrieved via the [GET /roles](#operation/list-roles)
+            API.
         full_name:
             The full name of the user that is to replace the existing full name.
             For example, enter the user's first name and last name.
@@ -28,6 +32,7 @@ class UpdateUserV1Request:
 
     # Create a mapping from Model property names to API property names
     _names = {
+        'assigned_role': 'assigned_role',
         'full_name': 'full_name',
         'is_enabled': 'is_enabled',
         'organizational_unit_assignment_updates': 'organizational_unit_assignment_updates',
@@ -35,6 +40,7 @@ class UpdateUserV1Request:
 
     def __init__(
         self,
+        assigned_role: str = None,
         full_name: str = None,
         is_enabled: bool = None,
         organizational_unit_assignment_updates: entity_group_assignmet_updates.EntityGroupAssignmetUpdates = None,
@@ -42,6 +48,7 @@ class UpdateUserV1Request:
         """Constructor for the UpdateUserV1Request class."""
 
         # Initialize members of the class
+        self.assigned_role: str = assigned_role
         self.full_name: str = full_name
         self.is_enabled: bool = is_enabled
         self.organizational_unit_assignment_updates: entity_group_assignmet_updates.EntityGroupAssignmetUpdates = (
@@ -64,6 +71,7 @@ class UpdateUserV1Request:
             return None
 
         # Extract variables from the dictionary
+        assigned_role = dictionary.get('assigned_role')
         full_name = dictionary.get('full_name')
         is_enabled = dictionary.get('is_enabled')
         key = 'organizational_unit_assignment_updates'
@@ -76,4 +84,4 @@ class UpdateUserV1Request:
         )
 
         # Return an object of this model
-        return cls(full_name, is_enabled, organizational_unit_assignment_updates)
+        return cls(assigned_role, full_name, is_enabled, organizational_unit_assignment_updates)

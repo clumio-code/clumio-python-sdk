@@ -47,6 +47,13 @@ class BackupMssqlDatabasesV1Controller(base_controller.BaseController):
                 |                 |                  | timestamp is "less than or equal to" or |
                 |                 |                  | "greater than" a given timestamp.       |
                 +-----------------+------------------+-----------------------------------------+
+                | type            | $in              | Filter a particular type of database    |
+                |                 |                  | backups. Possible values include        |
+                |                 |                  | `mssql_database_backup`,                |
+                |                 |                  | `mssql_log_backup_full_recovery_model`  |
+                |                 |                  | and                                     |
+                |                 |                  | `mssql_log_backup_bulk_logged_model`.   |
+                +-----------------+------------------+-----------------------------------------+
 
             embed:
                 Embeds the details of an associated resource. Set the parameter to one of the

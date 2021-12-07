@@ -22,6 +22,8 @@ class EditProfileResponse:
             The list of organizational unit IDs assigned to the user.
             This attribute will be available when reading a single user and not when listing
             users.
+        assigned_role:
+            Assigned Role for the user.
         email:
             The email address of the Clumio user.
         full_name:
@@ -56,6 +58,7 @@ class EditProfileResponse:
         'embedded': '_embedded',
         'links': '_links',
         'assigned_organizational_unit_ids': 'assigned_organizational_unit_ids',
+        'assigned_role': 'assigned_role',
         'email': 'email',
         'full_name': 'full_name',
         'id': 'id',
@@ -71,6 +74,7 @@ class EditProfileResponse:
         embedded: user_embedded.UserEmbedded = None,
         links: user_links.UserLinks = None,
         assigned_organizational_unit_ids: Sequence[str] = None,
+        assigned_role: str = None,
         email: str = None,
         full_name: str = None,
         id: str = None,
@@ -86,6 +90,7 @@ class EditProfileResponse:
         self.embedded: user_embedded.UserEmbedded = embedded
         self.links: user_links.UserLinks = links
         self.assigned_organizational_unit_ids: Sequence[str] = assigned_organizational_unit_ids
+        self.assigned_role: str = assigned_role
         self.email: str = email
         self.full_name: str = full_name
         self.id: str = id
@@ -126,6 +131,7 @@ class EditProfileResponse:
         )
 
         assigned_organizational_unit_ids = dictionary.get('assigned_organizational_unit_ids')
+        assigned_role = dictionary.get('assigned_role')
         email = dictionary.get('email')
         full_name = dictionary.get('full_name')
         id = dictionary.get('id')
@@ -139,6 +145,7 @@ class EditProfileResponse:
             embedded,
             links,
             assigned_organizational_unit_ids,
+            assigned_role,
             email,
             full_name,
             id,
