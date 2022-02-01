@@ -48,8 +48,8 @@ class BackupAwsEbsVolumesV1Controller(base_controller.BaseController):
                 | start_timestamp | $lte, $gt        | The timestamp value of when the backup  |
                 |                 |                  | started. Represented in RFC-3339        |
                 |                 |                  | format. For example, filter={"start_tim |
-                |                 |                  | estamp":{"$lte":"1985-04-12T23:20:50Z"} |
-                |                 |                  | }                                       |
+                |                 |                  | estamp":{"$lte":"1985-04-               |
+                |                 |                  | 12T23:20:50Z"}}                         |
                 +-----------------+------------------+-----------------------------------------+
 
         Returns:

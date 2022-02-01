@@ -57,8 +57,8 @@ class VmwareVcenterDatacentersV1Controller(base_controller.BaseController):
                 |                           |                  | policy protecting the data    |
                 |                           |                  | center. For example, filter={ |
                 |                           |                  | "protection_info.policy_id":{ |
-                |                           |                  | "$eq":"9c2934fc-ff4d-11e9-8e1 |
-                |                           |                  | 1-76706df7fe01"}}             |
+                |                           |                  | "$eq":"9c2934fc-ff4d-11e9-    |
+                |                           |                  | 8e11-76706df7fe01"}}          |
                 +---------------------------+------------------+-------------------------------+
                 | protection_status         | in               | The protection status of the  |
                 |                           |                  | data center. Refer to the     |

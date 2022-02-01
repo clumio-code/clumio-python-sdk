@@ -85,10 +85,10 @@ class VmwareVcenterVmsV1Controller(base_controller.BaseController):
                 |                             |                  | protecting the VM. For      |
                 |                             |                  | example, filter={"protectio |
                 |                             |                  | n_info.policy_id":{"$eq":"9 |
-                |                             |                  | c2934fc-ff4d-11e9-8e11-7670 |
-                |                             |                  | 6df7fe01"}}. This parameter |
-                |                             |                  | cannot be set with          |
-                |                             |                  | is_deleted=true. This       |
+                |                             |                  | c2934fc-ff4d-11e9-8e11-     |
+                |                             |                  | 76706df7fe01"}}. This       |
+                |                             |                  | parameter cannot be set     |
+                |                             |                  | with is_deleted=true. This  |
                 |                             |                  | parameter cannot be set if  |
                 |                             |                  | the protection_status       |
                 |                             |                  | filter parameter is set to  |
@@ -98,8 +98,8 @@ class VmwareVcenterVmsV1Controller(base_controller.BaseController):
                 | tag.id                      | $eq              | The VMware-assigned ID of a |
                 |                             |                  | tag assigned to the VM. For |
                 |                             |                  | example, filter={"tag.id":{ |
-                |                             |                  | "$eq":"d78cd819-ab15-48e2-a |
-                |                             |                  | cea-3f94d3a9f2fb"}}. This   |
+                |                             |                  | "$eq":"d78cd819-ab15-48e2-  |
+                |                             |                  | acea-3f94d3a9f2fb"}}. This  |
                 |                             |                  | parameter cannot be set     |
                 |                             |                  | with is_deleted=true.       |
                 +-----------------------------+------------------+-----------------------------+
@@ -135,8 +135,8 @@ class VmwareVcenterVmsV1Controller(base_controller.BaseController):
                 |                             |                  | of the data center in which |
                 |                             |                  | the VM resides. For         |
                 |                             |                  | example, filter={"datacente |
-                |                             |                  | r.id":{"$eq":"datacenter-98 |
-                |                             |                  | 22"}}. This parameter       |
+                |                             |                  | r.id":{"$eq":"datacenter-   |
+                |                             |                  | 9822"}}. This parameter     |
                 |                             |                  | cannot be set with          |
                 |                             |                  | is_deleted=true.            |
                 +-----------------------------+------------------+-----------------------------+

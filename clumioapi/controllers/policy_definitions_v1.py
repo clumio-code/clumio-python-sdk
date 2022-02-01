@@ -36,12 +36,38 @@ class PolicyDefinitionsV1Controller(base_controller.BaseController):
         +----------------------------------+-------------------------------------------+
         | aws_ebs_volume_backup            | AWS EBS volume backup.                    |
         +----------------------------------+-------------------------------------------+
+        | aws_ebs_volume_snapshot          | AWS EBS volume snapshot stored in         |
+        |                                  | customer's AWS account.                   |
+        +----------------------------------+-------------------------------------------+
+        | aws_ec2_instance_backup          | AWS EC2 instance backup.                  |
+        +----------------------------------+-------------------------------------------+
+        | aws_ec2_instance_snapshot        | AWS EC2 instance snapshot stored in       |
+        |                                  | customer's AWS account.                   |
+        +----------------------------------+-------------------------------------------+
+        | ec2_mssql_database_backup        | AWS EC2 MSSQL database backup.            |
+        +----------------------------------+-------------------------------------------+
+        | ec2_mssql_log_backup             | AWS EC2 MSSQL log backup.                 |
+        +----------------------------------+-------------------------------------------+
         | aws_rds_resource_aws_snapshot    | AWS RDS snapshot stored in the customer's |
         |                                  | AWS account.                              |
         +----------------------------------+-------------------------------------------+
         | aws_rds_resource_rolling_backup  | AWS RDS backup stored in Clumio.          |
         +----------------------------------+-------------------------------------------+
         | aws_rds_resource_granular_backup | AWS RDS granular backup stored in Clumio. |
+        +----------------------------------+-------------------------------------------+
+        | aws_dynamodb_table_snapshot      | AWS DynamoDB table snapshot stored in     |
+        |                                  | customer's AWS account.                   |
+        +----------------------------------+-------------------------------------------+
+        | aws_dynamodb_table_pitr          | AWS DynamoDB table point-in-time          |
+        |                                  | recovery.                                 |
+        +----------------------------------+-------------------------------------------+
+        | protection_group_backup          | AWS S3 Protection Group backup.           |
+        +----------------------------------+-------------------------------------------+
+        | microsoft365_mailbox_backup      | Microsoft365 mailbox backup.              |
+        +----------------------------------+-------------------------------------------+
+        | microsoft365_onedrive_backup     | Microsoft365 onedrive backup.             |
+        +----------------------------------+-------------------------------------------+
+        | microsoft365_share_point_backup  | Microsoft365 site backup.                 |
         +----------------------------------+-------------------------------------------+
         | mssql_database_backup            | VMC MSSQL database backup stored in       |
         |                                  | Clumio.                                   |
@@ -98,27 +124,27 @@ class PolicyDefinitionsV1Controller(base_controller.BaseController):
                 +---------------------------------------+--------------------------------------+
                 |            Embeddable Link            |             Description              |
                 +=======================================+======================================+
-                | read-policy-aws-ebs-volumes-          | Embeds compliance statistics about   |
-                | compliance-stats                      | EBS volumes into the _embedded field |
+                | [DEPRECATED] read-policy-aws-ebs-     | Embeds compliance statistics about   |
+                | volumes-compliance-stats              | EBS volumes into the _embedded field |
                 |                                       | of each policy in the response. For  |
                 |                                       | example, embed=read-policy-aws-ebs-  |
                 |                                       | volumes-compliance-stats             |
                 +---------------------------------------+--------------------------------------+
-                | read-policy-vmware-vms-compliance-    | Embeds compliance statistics about   |
-                | stats                                 | VMs into the _embedded field of each |
+                | [DEPRECATED] read-policy-vmware-vms-  | Embeds compliance statistics about   |
+                | compliance-stats                      | VMs into the _embedded field of each |
                 |                                       | policy in the response. For example, |
                 |                                       | embed=read-policy-vmware-vms-        |
                 |                                       | compliance-stats                     |
                 +---------------------------------------+--------------------------------------+
-                | read-policy-aws-dynamodb-tables-      | Embeds compliance statistics about   |
-                | compliance-stats                      | DynamoDB tables into the _embedded   |
+                | [DEPRECATED] read-policy-aws-         | Embeds compliance statistics about   |
+                | dynamodb-tables-compliance-stats      | DynamoDB tables into the _embedded   |
                 |                                       | field of each policy in the          |
                 |                                       | response. For example, embed=read-   |
                 |                                       | policy-aws-dynamodb-tables-          |
                 |                                       | compliance-stats                     |
                 +---------------------------------------+--------------------------------------+
-                | read-policy-protection-groups-        | Embeds compliance statistics about   |
-                | compliance-stats                      | protection groups into the _embedded |
+                | [DEPRECATED] read-policy-protection-  | Embeds compliance statistics about   |
+                | groups-compliance-stats               | protection groups into the _embedded |
                 |                                       | field of each policy in the          |
                 |                                       | response. For example, embed=read-   |
                 |                                       | policy-protection-groups-compliance- |
@@ -210,14 +236,14 @@ class PolicyDefinitionsV1Controller(base_controller.BaseController):
                 +---------------------------------------+--------------------------------------+
                 |            Embeddable Link            |             Description              |
                 +=======================================+======================================+
-                | read-policy-aws-ebs-volumes-          | Embeds compliance statistics about   |
-                | compliance-stats                      | EBS volumes into the _embedded field |
+                | [DEPRECATED] read-policy-aws-ebs-     | Embeds compliance statistics about   |
+                | volumes-compliance-stats              | EBS volumes into the _embedded field |
                 |                                       | of the response. For example,        |
                 |                                       | embed=read-policy-aws-ebs-volumes-   |
                 |                                       | compliance-stats                     |
                 +---------------------------------------+--------------------------------------+
-                | read-policy-vmware-vms-compliance-    | Embeds compliance statistics about   |
-                | stats                                 | VMs into the _embedded field of the  |
+                | [DEPRECATED] read-policy-vmware-vms-  | Embeds compliance statistics about   |
+                | compliance-stats                      | VMs into the _embedded field of the  |
                 |                                       | response. For example, embed=read-   |
                 |                                       | policy-vmware-vms-compliance-stats   |
                 +---------------------------------------+--------------------------------------+
@@ -273,14 +299,14 @@ class PolicyDefinitionsV1Controller(base_controller.BaseController):
                 +---------------------------------------+--------------------------------------+
                 |            Embeddable Link            |             Description              |
                 +=======================================+======================================+
-                | read-policy-aws-ebs-volumes-          | Embeds compliance statistics about   |
-                | compliance-stats                      | EBS volumes into the _embedded field |
+                | [DEPRECATED] read-policy-aws-ebs-     | Embeds compliance statistics about   |
+                | volumes-compliance-stats              | EBS volumes into the _embedded field |
                 |                                       | of the response. For example,        |
                 |                                       | embed=read-policy-aws-ebs-volumes-   |
                 |                                       | compliance-stats                     |
                 +---------------------------------------+--------------------------------------+
-                | read-policy-vmware-vms-compliance-    | Embeds compliance statistics about   |
-                | stats                                 | VMs into the _embedded field of the  |
+                | [DEPRECATED] read-policy-vmware-vms-  | Embeds compliance statistics about   |
+                | compliance-stats                      | VMs into the _embedded field of the  |
                 |                                       | response. For example, embed=read-   |
                 |                                       | policy-vmware-vms-compliance-stats   |
                 +---------------------------------------+--------------------------------------+

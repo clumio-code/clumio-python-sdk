@@ -38,7 +38,7 @@ class CreateOrganizationalUnitV1Request:
     def __init__(
         self,
         description: str = None,
-        entities: Sequence[entity_model.entityModel] = None,
+        entities: Sequence[entity_model.EntityModel] = None,
         name: str = None,
         parent_id: str = None,
         users: Sequence[str] = None,
@@ -47,7 +47,7 @@ class CreateOrganizationalUnitV1Request:
 
         # Initialize members of the class
         self.description: str = description
-        self.entities: Sequence[entity_model.entityModel] = entities
+        self.entities: Sequence[entity_model.EntityModel] = entities
         self.name: str = name
         self.parent_id: str = parent_id
         self.users: Sequence[str] = users
@@ -73,7 +73,7 @@ class CreateOrganizationalUnitV1Request:
         if dictionary.get('entities'):
             entities = list()
             for value in dictionary.get('entities'):
-                entities.append(entity_model.entityModel.from_dictionary(value))
+                entities.append(entity_model.EntityModel.from_dictionary(value))
 
         name = dictionary.get('name')
         parent_id = dictionary.get('parent_id')

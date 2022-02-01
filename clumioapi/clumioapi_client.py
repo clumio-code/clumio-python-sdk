@@ -11,6 +11,7 @@ from clumioapi.controllers import aws_ebs_volumes_v1
 from clumioapi.controllers import aws_environment_tags_v1
 from clumioapi.controllers import aws_environments_v1
 from clumioapi.controllers import aws_regions_v1
+from clumioapi.controllers import aws_s3_buckets_v1
 from clumioapi.controllers import aws_templates_v1
 from clumioapi.controllers import backup_aws_ebs_volumes_v1
 from clumioapi.controllers import backup_filesystem_directories_v1
@@ -28,7 +29,12 @@ from clumioapi.controllers import mssql_databases_v1
 from clumioapi.controllers import mssql_hosts_v1
 from clumioapi.controllers import mssql_instance_v1
 from clumioapi.controllers import organizational_units_v1
+from clumioapi.controllers import policy_assignments_v1
 from clumioapi.controllers import policy_definitions_v1
+from clumioapi.controllers import policy_rules_v1
+from clumioapi.controllers import post_process_aws_connection_v1
+from clumioapi.controllers import protection_groups_s3_assets_v1
+from clumioapi.controllers import protection_groups_v1
 from clumioapi.controllers import report_downloads_v1
 from clumioapi.controllers import restored_aws_ebs_volumes_v1
 from clumioapi.controllers import restored_files_v1
@@ -126,6 +132,13 @@ class ClumioAPIClient:
 
     @property
     @functools.lru_cache(1)
+    def post_process_aws_connection_v1(
+        self,
+    ) -> post_process_aws_connection_v1.PostProcessAwsConnectionV1Controller:
+        return post_process_aws_connection_v1.PostProcessAwsConnectionV1Controller(self.config)
+
+    @property
+    @functools.lru_cache(1)
     def aws_regions_v1(self) -> aws_regions_v1.AwsRegionsV1Controller:
         return aws_regions_v1.AwsRegionsV1Controller(self.config)
 
@@ -156,6 +169,11 @@ class ClumioAPIClient:
 
     @property
     @functools.lru_cache(1)
+    def aws_s3_buckets_v1(self) -> aws_s3_buckets_v1.AwsS3BucketsV1Controller:
+        return aws_s3_buckets_v1.AwsS3BucketsV1Controller(self.config)
+
+    @property
+    @functools.lru_cache(1)
     def mssql_availability_groups_v1(
         self,
     ) -> mssql_availability_groups_v1.MssqlAvailabilityGroupsV1Controller:
@@ -170,6 +188,18 @@ class ClumioAPIClient:
     @functools.lru_cache(1)
     def mssql_instance_v1(self) -> mssql_instance_v1.MssqlInstanceV1Controller:
         return mssql_instance_v1.MssqlInstanceV1Controller(self.config)
+
+    @property
+    @functools.lru_cache(1)
+    def protection_groups_v1(self) -> protection_groups_v1.ProtectionGroupsV1Controller:
+        return protection_groups_v1.ProtectionGroupsV1Controller(self.config)
+
+    @property
+    @functools.lru_cache(1)
+    def protection_groups_s3_assets_v1(
+        self,
+    ) -> protection_groups_s3_assets_v1.ProtectionGroupsS3AssetsV1Controller:
+        return protection_groups_s3_assets_v1.ProtectionGroupsS3AssetsV1Controller(self.config)
 
     @property
     @functools.lru_cache(1)
@@ -308,8 +338,18 @@ class ClumioAPIClient:
 
     @property
     @functools.lru_cache(1)
+    def policy_assignments_v1(self) -> policy_assignments_v1.PolicyAssignmentsV1Controller:
+        return policy_assignments_v1.PolicyAssignmentsV1Controller(self.config)
+
+    @property
+    @functools.lru_cache(1)
     def policy_definitions_v1(self) -> policy_definitions_v1.PolicyDefinitionsV1Controller:
         return policy_definitions_v1.PolicyDefinitionsV1Controller(self.config)
+
+    @property
+    @functools.lru_cache(1)
+    def policy_rules_v1(self) -> policy_rules_v1.PolicyRulesV1Controller:
+        return policy_rules_v1.PolicyRulesV1Controller(self.config)
 
     @property
     @functools.lru_cache(1)

@@ -53,15 +53,15 @@ class VmwareVcenterTagsV1Controller(base_controller.BaseController):
                 |                           |                  | category in which to search   |
                 |                           |                  | for tags. For example, filter |
                 |                           |                  | ={"category.id":{"$eq":"d78cd |
-                |                           |                  | 819-ab15-48e2-acea-3f94d3a9f2 |
-                |                           |                  | fb"}}                         |
+                |                           |                  | 819-ab15-48e2-acea-           |
+                |                           |                  | 3f94d3a9f2fb"}}               |
                 +---------------------------+------------------+-------------------------------+
                 | protection_info.policy_id | eq               | The Clumio-assigned ID of the |
                 |                           |                  | policy protecting the tag.    |
                 |                           |                  | For example, filter={"protect |
                 |                           |                  | ion_info.policy_id":{"$eq":"9 |
-                |                           |                  | c2934fc-ff4d-11e9-8e11-76706d |
-                |                           |                  | f7fe01"}}                     |
+                |                           |                  | c2934fc-ff4d-11e9-8e11-       |
+                |                           |                  | 76706df7fe01"}}               |
                 +---------------------------+------------------+-------------------------------+
                 | protection_status         | in               | The protection status of the  |
                 |                           |                  | tag. Refer to the Protection  |

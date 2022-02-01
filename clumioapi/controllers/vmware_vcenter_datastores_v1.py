@@ -67,10 +67,10 @@ class VmwareVcenterDatastoresV1Controller(base_controller.BaseController):
                 |                       |                  | Object Reference (MoRef) ID of    |
                 |                       |                  | the hosts associated with this    |
                 |                       |                  | datastore. For example, filter={" |
-                |                       |                  | hosts.id":{"$all":["host-114","ho |
-                |                       |                  | st-395"]}}. If multiple hosts are |
-                |                       |                  | specified, all of them must be    |
-                |                       |                  | associated with the same          |
+                |                       |                  | hosts.id":{"$all":["host-         |
+                |                       |                  | 114","host-395"]}}. If multiple   |
+                |                       |                  | hosts are specified, all of them  |
+                |                       |                  | must be associated with the same  |
                 |                       |                  | datastore.                        |
                 +-----------------------+------------------+-----------------------------------+
                 | *compute_resources.id | $all             | The VMware-assigned Managed       |
@@ -78,8 +78,8 @@ class VmwareVcenterDatastoresV1Controller(base_controller.BaseController):
                 |                       |                  | the compute resources associated  |
                 |                       |                  | with this datastore. For example, |
                 |                       |                  | filter={"compute_resources.id":{" |
-                |                       |                  | $all":["domain-c9827","domain-s21 |
-                |                       |                  | 532"]}}. If multiple compute      |
+                |                       |                  | $all":["domain-c9827","domain-    |
+                |                       |                  | s21532"]}}. If multiple compute   |
                 |                       |                  | resources are specified, all of   |
                 |                       |                  | them must be associated with the  |
                 |                       |                  | same datastore.                   |

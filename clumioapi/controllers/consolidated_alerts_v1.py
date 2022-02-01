@@ -74,9 +74,10 @@ class ConsolidatedAlertsV1Controller(base_controller.BaseController):
                 |                             |                  | set together. For example,  |
                 |                             |                  | filter={"parent_entity.id": |
                 |                             |                  | {"$eq":"9c2934fc-ff4d-11e9- |
-                |                             |                  | 8e11-76706df7fe01"},"parent |
-                |                             |                  | _entity.type":{"$eq":"aws_e |
-                |                             |                  | nvironment"}}               |
+                |                             |                  | 8e11-                       |
+                |                             |                  | 76706df7fe01"},"parent_enti |
+                |                             |                  | ty.type":{"$eq":"aws_enviro |
+                |                             |                  | nment"}}                    |
                 +-----------------------------+------------------+-----------------------------+
 
         Returns:

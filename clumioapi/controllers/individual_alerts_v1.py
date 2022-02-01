@@ -160,8 +160,8 @@ class IndividualAlertsV1Controller(base_controller.BaseController):
                 |                             |                  | individual alert. For       |
                 |                             |                  | example, filter={"consolida |
                 |                             |                  | ted_alert_id":{"$eq":"d78cd |
-                |                             |                  | 819-ab15-48e2-acea-3f94d3a9 |
-                |                             |                  | f2fb"}}                     |
+                |                             |                  | 819-ab15-48e2-acea-         |
+                |                             |                  | 3f94d3a9f2fb"}}             |
                 +-----------------------------+------------------+-----------------------------+
                 | primary_entity.id           | $eq              | The system-generated ID of  |
                 |                             |                  | the primary entity affected |
@@ -197,9 +197,10 @@ class IndividualAlertsV1Controller(base_controller.BaseController):
                 |                             |                  | must be used together. For  |
                 |                             |                  | example, filter={"parent_en |
                 |                             |                  | tity.id":{"$eq":"9c2934fc-f |
-                |                             |                  | f4d-11e9-8e11-76706df7fe01" |
-                |                             |                  | },"parent_entity.type":{"$e |
-                |                             |                  | q":"aws_environment"}}      |
+                |                             |                  | f4d-11e9-8e11-              |
+                |                             |                  | 76706df7fe01"},"parent_enti |
+                |                             |                  | ty.type":{"$eq":"aws_enviro |
+                |                             |                  | nment"}}                    |
                 +-----------------------------+------------------+-----------------------------+
 
             embed:

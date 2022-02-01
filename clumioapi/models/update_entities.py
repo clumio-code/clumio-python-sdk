@@ -26,14 +26,14 @@ class UpdateEntities:
 
     def __init__(
         self,
-        add: Sequence[entity_model.entityModel] = None,
-        remove: Sequence[entity_model.entityModel] = None,
+        add: Sequence[entity_model.EntityModel] = None,
+        remove: Sequence[entity_model.EntityModel] = None,
     ) -> None:
         """Constructor for the UpdateEntities class."""
 
         # Initialize members of the class
-        self.add: Sequence[entity_model.entityModel] = add
-        self.remove: Sequence[entity_model.entityModel] = remove
+        self.add: Sequence[entity_model.EntityModel] = add
+        self.remove: Sequence[entity_model.EntityModel] = remove
 
     @classmethod
     def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
@@ -55,13 +55,13 @@ class UpdateEntities:
         if dictionary.get('add'):
             add = list()
             for value in dictionary.get('add'):
-                add.append(entity_model.entityModel.from_dictionary(value))
+                add.append(entity_model.EntityModel.from_dictionary(value))
 
         remove = None
         if dictionary.get('remove'):
             remove = list()
             for value in dictionary.get('remove'):
-                remove.append(entity_model.entityModel.from_dictionary(value))
+                remove.append(entity_model.EntityModel.from_dictionary(value))
 
         # Return an object of this model
         return cls(add, remove)

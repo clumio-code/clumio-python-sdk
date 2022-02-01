@@ -120,8 +120,8 @@ class CreateReportDownloadV1Request:
             |                   |                  |                   | filter={"primary_ |
             |                   |                  |                   | entity.id":{"$in" |
             |                   |                  |                   | :["9c2934fc-ff4d- |
-            |                   |                  |                   | 11e9-8e11-76706df |
-            |                   |                  |                   | 7fe01"]}}         |
+            |                   |                  |                   | 11e9-8e11-        |
+            |                   |                  |                   | 76706df7fe01"]}}  |
             |                   |                  |                   |                   |
             |                   |                  |                   |                   |
             +-------------------+------------------+-------------------+-------------------+
@@ -159,9 +159,9 @@ class CreateReportDownloadV1Request:
             |                   |                  |                   | primary entity    |
             |                   |                  |                   | type              |
             |                   |                  |                   | "aws_ebs_volume"  |
-            |                   |                  |                   | is "vol-0a5f2e52d |
-            |                   |                  |                   | 6decd664"         |
-            |                   |                  |                   | representing      |
+            |                   |                  |                   | is "vol-          |
+            |                   |                  |                   | 0a5f2e52d6decd664 |
+            |                   |                  |                   | " representing    |
             |                   |                  |                   | the name of the   |
             |                   |                  |                   | EBS volume. The   |
             |                   |                  |                   | filter supports   |
@@ -226,9 +226,9 @@ class CreateReportDownloadV1Request:
             |                   |                  |                   |                   |
             |                   |                  |                   | filter={"parent_e |
             |                   |                  |                   | ntity.id":{"$in": |
-            |                   |                  |                   | ["9c2934fc-ff4d-1 |
-            |                   |                  |                   | 1e9-8e11-76706df7 |
-            |                   |                  |                   | fe01"]}}          |
+            |                   |                  |                   | ["9c2934fc-ff4d-  |
+            |                   |                  |                   | 11e9-8e11-        |
+            |                   |                  |                   | 76706df7fe01"]}}  |
             |                   |                  |                   |                   |
             |                   |                  |                   |                   |
             +-------------------+------------------+-------------------+-------------------+
