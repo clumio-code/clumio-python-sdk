@@ -198,7 +198,7 @@ class UsersV1Controller(base_controller.BaseController):
 
         Args:
             user_id:
-                Performs the operation on the user with the specified ID.
+                The Clumio-assigned ID of the user to delete.
         Returns:
             object: Response from the API.
         Raises:
@@ -235,7 +235,7 @@ class UsersV1Controller(base_controller.BaseController):
 
         Args:
             user_id:
-                Performs the operation on the user with the specified ID.
+                The Clumio-assigned ID of the user to delete.
             body:
 
         Returns:

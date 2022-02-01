@@ -69,16 +69,16 @@ class VmwareVcenterComputeResourcesV1Controller(base_controller.BaseController):
                 |                             |                  | associated with this        |
                 |                             |                  | compute resource. For       |
                 |                             |                  | example, filter={"datacente |
-                |                             |                  | r.id":{"$eq":"datacenter-39 |
-                |                             |                  | 4"}}                        |
+                |                             |                  | r.id":{"$eq":"datacenter-   |
+                |                             |                  | 394"}}                      |
                 +-----------------------------+------------------+-----------------------------+
                 | protection_info.policy_id   | eq               | The Clumio-assigned ID of   |
                 |                             |                  | the policy protecting the   |
                 |                             |                  | compute resource. For       |
                 |                             |                  | example, filter={"protectio |
                 |                             |                  | n_info.policy_id":{"$eq":"9 |
-                |                             |                  | c2934fc-ff4d-11e9-8e11-7670 |
-                |                             |                  | 6df7fe01"}}                 |
+                |                             |                  | c2934fc-ff4d-11e9-8e11-     |
+                |                             |                  | 76706df7fe01"}}             |
                 +-----------------------------+------------------+-----------------------------+
                 | protection_status           | in               | The protection status of    |
                 |                             |                  | the compute resource. Refer |

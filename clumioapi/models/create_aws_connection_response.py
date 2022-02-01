@@ -23,6 +23,10 @@ class CreateAWSConnectionResponse:
             The AWS-assigned ID of the account associated with the connection.
         aws_region:
             The AWS region associated with the connection. For example, `us-east-1`.
+        clumio_aws_account_id:
+            Clumio AWS AccountId
+        clumio_aws_region:
+            Clumio AWS Region
         connection_status:
             The status of the connection. Possible values include "connecting",
             "connected", and "unlinked".
@@ -36,6 +40,8 @@ class CreateAWSConnectionResponse:
             value of `null`.
         id:
             The Clumio-assigned ID of the connection.
+        namespace:
+            K8S Namespace
         organizational_unit_id:
             The Clumio-assigned ID of the organizational unit associated with the
             AWS environment. If this parameter is not provided, then the value
@@ -74,11 +80,14 @@ class CreateAWSConnectionResponse:
         'account_name': 'account_name',
         'account_native_id': 'account_native_id',
         'aws_region': 'aws_region',
+        'clumio_aws_account_id': 'clumio_aws_account_id',
+        'clumio_aws_region': 'clumio_aws_region',
         'connection_status': 'connection_status',
         'created_timestamp': 'created_timestamp',
         'description': 'description',
         'discover': 'discover',
         'id': 'id',
+        'namespace': 'namespace',
         'organizational_unit_id': 'organizational_unit_id',
         'protect': 'protect',
         'protect_asset_types_enabled': 'protect_asset_types_enabled',
@@ -94,11 +103,14 @@ class CreateAWSConnectionResponse:
         account_name: str = None,
         account_native_id: str = None,
         aws_region: str = None,
+        clumio_aws_account_id: str = None,
+        clumio_aws_region: str = None,
         connection_status: str = None,
         created_timestamp: str = None,
         description: str = None,
         discover: discover_config.DiscoverConfig = None,
         id: str = None,
+        namespace: str = None,
         organizational_unit_id: str = None,
         protect: protect_config.ProtectConfig = None,
         protect_asset_types_enabled: Sequence[str] = None,
@@ -114,11 +126,14 @@ class CreateAWSConnectionResponse:
         self.account_name: str = account_name
         self.account_native_id: str = account_native_id
         self.aws_region: str = aws_region
+        self.clumio_aws_account_id: str = clumio_aws_account_id
+        self.clumio_aws_region: str = clumio_aws_region
         self.connection_status: str = connection_status
         self.created_timestamp: str = created_timestamp
         self.description: str = description
         self.discover: discover_config.DiscoverConfig = discover
         self.id: str = id
+        self.namespace: str = namespace
         self.organizational_unit_id: str = organizational_unit_id
         self.protect: protect_config.ProtectConfig = protect
         self.protect_asset_types_enabled: Sequence[str] = protect_asset_types_enabled
@@ -153,6 +168,8 @@ class CreateAWSConnectionResponse:
         account_name = dictionary.get('account_name')
         account_native_id = dictionary.get('account_native_id')
         aws_region = dictionary.get('aws_region')
+        clumio_aws_account_id = dictionary.get('clumio_aws_account_id')
+        clumio_aws_region = dictionary.get('clumio_aws_region')
         connection_status = dictionary.get('connection_status')
         created_timestamp = dictionary.get('created_timestamp')
         description = dictionary.get('description')
@@ -164,6 +181,7 @@ class CreateAWSConnectionResponse:
         )
 
         id = dictionary.get('id')
+        namespace = dictionary.get('namespace')
         organizational_unit_id = dictionary.get('organizational_unit_id')
         key = 'protect'
         protect = (
@@ -183,11 +201,14 @@ class CreateAWSConnectionResponse:
             account_name,
             account_native_id,
             aws_region,
+            clumio_aws_account_id,
+            clumio_aws_region,
             connection_status,
             created_timestamp,
             description,
             discover,
             id,
+            namespace,
             organizational_unit_id,
             protect,
             protect_asset_types_enabled,

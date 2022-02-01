@@ -22,9 +22,9 @@ class PolicyOperation:
             If set to `immediate`, Clumio starts the backup process right away. If set to
             `window`, Clumio starts the backup process when the backup window
             (`backup_window`) opens.
-            If set to `window` and `operation="aws_rds_resource_aws_snapshot"`,
-            the backup window will be determined by the database's maintenance window (as
-            specified by AWS) and not Clumio's backup window.
+            If set to `window` and `operation in ("aws_rds_resource_aws_snapshot",
+            "mssql_log_backup", "ec2_mssql_log_backup")`,
+            the backup window will not be determined by Clumio's backup window.
         backup_window:
             The start and end times for the customized backup window.
         slas:

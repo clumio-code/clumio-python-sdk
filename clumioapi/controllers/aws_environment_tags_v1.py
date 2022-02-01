@@ -58,8 +58,9 @@ class AwsEnvironmentTagsV1Controller(base_controller.BaseController):
                 | key_id                    | $eq              | The Clumio-assigned ID of the |
                 |                           |                  | AWS tag key associated with   |
                 |                           |                  | the tag. For example, filter= |
-                |                           |                  | {"key_id":{"$eq":"d23cd819-ab |
-                |                           |                  | 15-48e2-acea-3f94d3a9f2fb"}}  |
+                |                           |                  | {"key_id":{"$eq":"d23cd819-   |
+                |                           |                  | ab15-48e2-acea-               |
+                |                           |                  | 3f94d3a9f2fb"}}               |
                 +---------------------------+------------------+-------------------------------+
                 | value                     | $contains        | The AWS-assigned value of the |
                 |                           |                  | tag. For example, filter={"va |
@@ -76,16 +77,16 @@ class AwsEnvironmentTagsV1Controller(base_controller.BaseController):
                 |                           |                  | Clumio policy applied to the  |
                 |                           |                  | tag. For example, filter={"pr |
                 |                           |                  | otection_info.policy_id":{"$e |
-                |                           |                  | q":"e12cd819-ab15-48e2-acea-3 |
-                |                           |                  | f94d3a9f2fb"}}                |
+                |                           |                  | q":"e12cd819-ab15-48e2-acea-  |
+                |                           |                  | 3f94d3a9f2fb"}}               |
                 +---------------------------+------------------+-------------------------------+
                 | id                        | $in              | The Clumio-assigned ID of the |
                 |                           |                  | AWS tag. Multiple tags can be |
                 |                           |                  | specified. For example, filte |
-                |                           |                  | r={"id":{"in":["f78cd123-ab15 |
-                |                           |                  | -48e2-acea-3f94d3a9f2fb","abb |
-                |                           |                  | cd819-ba15-48e2-acea-3f94aba9 |
-                |                           |                  | f2fb"]}}                      |
+                |                           |                  | r={"id":{"in":["f78cd123-     |
+                |                           |                  | ab15-48e2-acea-               |
+                |                           |                  | 3f94d3a9f2fb","abbcd819-ba15- |
+                |                           |                  | 48e2-acea-3f94aba9f2fb"]}}    |
                 |                           |                  |                               |
                 +---------------------------+------------------+-------------------------------+
 

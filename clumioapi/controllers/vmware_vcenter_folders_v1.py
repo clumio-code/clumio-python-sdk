@@ -91,8 +91,8 @@ class VmwareVcenterFoldersV1Controller(base_controller.BaseController):
                 |                           |                  | policy protecting the folder. |
                 |                           |                  | For example, filter={"protect |
                 |                           |                  | ion_info.policy_id":{"$eq":"9 |
-                |                           |                  | c2934fc-ff4d-11e9-8e11-76706d |
-                |                           |                  | f7fe01"}}                     |
+                |                           |                  | c2934fc-ff4d-11e9-8e11-       |
+                |                           |                  | 76706df7fe01"}}               |
                 +---------------------------+------------------+-------------------------------+
                 | protection_status         | $in              | The protection status of the  |
                 |                           |                  | folder. Refer to the          |

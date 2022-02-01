@@ -85,8 +85,8 @@ class AwsEbsVolumesV1Controller(base_controller.BaseController):
                 |                           |                  | to the EBS volume. For        |
                 |                           |                  | example, filter={"tags.id":{" |
                 |                           |                  | $all":["c764b152-5819-11ea-bb |
-                |                           |                  | 9f-b2e1c9a040ad","c764abb6-58 |
-                |                           |                  | 19-11ea-                      |
+                |                           |                  | 9f-b2e1c9a040ad","c764abb6-   |
+                |                           |                  | 5819-11ea-                    |
                 |                           |                  | bb9f-b2e1c9a040ad"]}}. If     |
                 |                           |                  | multiple tags are specified,  |
                 |                           |                  | all of them must be applied   |

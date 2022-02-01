@@ -51,8 +51,8 @@ class VmwareVcenterHostsV1Controller(base_controller.BaseController):
                 |                     |                  | Reference (MoRef) ID of the compute |
                 |                     |                  | resource from which this host       |
                 |                     |                  | draws. For example, filter={"comput |
-                |                     |                  | e_resource.id":{"$eq":"domain-s4298 |
-                |                     |                  | "}}                                 |
+                |                     |                  | e_resource.id":{"$eq":"domain-      |
+                |                     |                  | s4298"}}                            |
                 +---------------------+------------------+-------------------------------------+
                 | datacenter.id       | $eq              | The VMware-assigned Managed Object  |
                 |                     |                  | Reference (MoRef) ID of the data    |

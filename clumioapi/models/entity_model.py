@@ -7,11 +7,11 @@ from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 from clumioapi.models import organizational_unit_parent_entity
 from clumioapi.models import organizational_unit_primary_entity
 
-T = TypeVar('T', bound='entityModel')
+T = TypeVar('T', bound='EntityModel')
 
 
-class entityModel:
-    """Implementation of the 'entityModel' model.
+class EntityModel:
+    """Implementation of the 'EntityModel' model.
 
     entityModel denotes the entityModel
 
@@ -35,7 +35,7 @@ class entityModel:
         parent_entity: organizational_unit_parent_entity.OrganizationalUnitParentEntity = None,
         primary_entity: organizational_unit_primary_entity.OrganizationalUnitPrimaryEntity = None,
     ) -> None:
-        """Constructor for the entityModel class."""
+        """Constructor for the EntityModel class."""
 
         # Initialize members of the class
         self.parent_entity: organizational_unit_parent_entity.OrganizationalUnitParentEntity = (

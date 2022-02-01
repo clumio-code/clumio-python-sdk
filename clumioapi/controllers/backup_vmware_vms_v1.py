@@ -34,9 +34,10 @@ class BackupVmwareVmsV1Controller(base_controller.BaseController):
                 Pages are indexed starting from 1 (i.e., `start=1`).
             filter:
                 Narrows down the results to only the items that satisfy the filter criteria. The
-                following table lists
+                vcenter_id and vm_id filter are required for this API. The following table lists
                 the supported filter fields for this resource and the filter conditions that can
-                be applied on those fields:
+                be
+                applied on those fields:
 
                 +-----------------+------------------+-----------------------------------------+
                 |      Field      | Filter Condition |               Description               |
@@ -44,8 +45,8 @@ class BackupVmwareVmsV1Controller(base_controller.BaseController):
                 | start_timestamp | $lte, $gt        | The timestamp value of when the backup  |
                 |                 |                  | started. Represented in RFC-3339        |
                 |                 |                  | format. For example, filter={"start_tim |
-                |                 |                  | estamp":{"$lte":"1985-04-12T23:20:50Z"} |
-                |                 |                  | }                                       |
+                |                 |                  | estamp":{"$lte":"1985-04-               |
+                |                 |                  | 12T23:20:50Z"}}                         |
                 +-----------------+------------------+-----------------------------------------+
                 | vcenter_id      | $eq              | The ID of the vCenter associated with   |
                 |                 |                  | the backup VM. For example,             |
