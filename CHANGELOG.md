@@ -1,3 +1,6 @@
+## 0.4.0
+APIs corresponding to S3 buckets, protection-groups, policy rules and policy_assignments added.
+
 ## 0.3.0
 APIs corresponding to new resources roles and aws_templates added.
 Additional parameter added to create_user API.
