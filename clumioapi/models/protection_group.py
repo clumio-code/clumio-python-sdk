@@ -23,6 +23,20 @@ class ProtectionGroup:
             URLs to pages related to the resource.
         bucket_count:
             Number of buckets
+        bucket_rule:
+            The following table describes the possible conditions for a bucket to be
+            automatically added to a protection group.
+
+            +---------+----------------+---------------------------------------------------+
+            |  Field  | Rule Condition |                    Description                    |
+            +=========+================+===================================================+
+            | aws_tag | $eq            | Denotes the AWS tag(s) to conditionalize on       |
+            |         |                |                                                   |
+            |         |                | {"aws_tag":{"$eq":{"key":"Environment",           |
+            |         |                | "value":"Prod"}}}                                 |
+            |         |                |                                                   |
+            |         |                |                                                   |
+            +---------+----------------+---------------------------------------------------+
         compliance_stats:
             The compliance statistics of workloads associated with this entity.
         compliance_status:
@@ -77,6 +91,7 @@ class ProtectionGroup:
         'embedded': '_embedded',
         'links': '_links',
         'bucket_count': 'bucket_count',
+        'bucket_rule': 'bucket_rule',
         'compliance_stats': 'compliance_stats',
         'compliance_status': 'compliance_status',
         'created_timestamp': 'created_timestamp',
@@ -100,6 +115,7 @@ class ProtectionGroup:
         embedded: protection_group_embedded.ProtectionGroupEmbedded = None,
         links: protection_group_links.ProtectionGroupLinks = None,
         bucket_count: int = None,
+        bucket_rule: str = None,
         compliance_stats: protection_compliance_stats_with_seeding.ProtectionComplianceStatsWithSeeding = None,
         compliance_status: str = None,
         created_timestamp: str = None,
@@ -123,6 +139,7 @@ class ProtectionGroup:
         self.embedded: protection_group_embedded.ProtectionGroupEmbedded = embedded
         self.links: protection_group_links.ProtectionGroupLinks = links
         self.bucket_count: int = bucket_count
+        self.bucket_rule: str = bucket_rule
         self.compliance_stats: protection_compliance_stats_with_seeding.ProtectionComplianceStatsWithSeeding = (
             compliance_stats
         )
@@ -173,6 +190,7 @@ class ProtectionGroup:
         )
 
         bucket_count = dictionary.get('bucket_count')
+        bucket_rule = dictionary.get('bucket_rule')
         key = 'compliance_stats'
         compliance_stats = (
             protection_compliance_stats_with_seeding.ProtectionComplianceStatsWithSeeding.from_dictionary(
@@ -214,6 +232,7 @@ class ProtectionGroup:
             embedded,
             links,
             bucket_count,
+            bucket_rule,
             compliance_stats,
             compliance_status,
             created_timestamp,

@@ -122,6 +122,7 @@ class AwsEnvironmentsV1Controller(base_controller.BaseController):
         # Prepare headers
         _headers = {
             'accept': 'application/aws-environments=v1+json',
+            'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
         }
         # Execute request
         try:
@@ -199,6 +200,7 @@ class AwsEnvironmentsV1Controller(base_controller.BaseController):
         # Prepare headers
         _headers = {
             'accept': 'application/aws-environments=v1+json',
+            'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
         }
         # Execute request
         try:

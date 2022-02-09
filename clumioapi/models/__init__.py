@@ -373,6 +373,8 @@ __all__ = [
     'rule_list_embedded',
     'rule_list_links',
     'rule_priority',
+    's3_bucket_size_res',
+    's3_cloudwatch_metrics',
     'set_assignments_response',
     'set_policy_assignments_v1_request',
     'single_error_response',

@@ -42,6 +42,7 @@ class RestoredAwsEbsVolumesV1Controller(base_controller.BaseController):
         # Prepare headers
         _headers = {
             'accept': 'application/restored-aws-ebs-volumes=v1+json',
+            'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
         }
         # Execute request
         try:
