@@ -21,6 +21,10 @@ class PostProcessAwsConnectionV1Request:
             ClumioEventPubId is the Clumio Event Pub SNS topic ID.
         configuration:
             Configuration represents the AWS connection configuration in json string format
+        properties:
+            Properties is a key value map meant to be used for passing additional
+            information
+            like resource IDs/ARNs.
         request_type:
             RequestType indicates whether this is a Create, Update or Delete request
         role_arn:
@@ -38,6 +42,7 @@ class PostProcessAwsConnectionV1Request:
         'aws_region': 'aws_region',
         'clumio_event_pub_id': 'clumio_event_pub_id',
         'configuration': 'configuration',
+        'properties': 'properties',
         'request_type': 'request_type',
         'role_arn': 'role_arn',
         'role_external_id': 'role_external_id',
@@ -50,6 +55,7 @@ class PostProcessAwsConnectionV1Request:
         aws_region: str = None,
         clumio_event_pub_id: str = None,
         configuration: str = None,
+        properties: Mapping[str, str] = None,
         request_type: str = None,
         role_arn: str = None,
         role_external_id: str = None,
@@ -62,6 +68,7 @@ class PostProcessAwsConnectionV1Request:
         self.aws_region: str = aws_region
         self.clumio_event_pub_id: str = clumio_event_pub_id
         self.configuration: str = configuration
+        self.properties: Mapping[str, str] = properties
         self.request_type: str = request_type
         self.role_arn: str = role_arn
         self.role_external_id: str = role_external_id
@@ -87,6 +94,7 @@ class PostProcessAwsConnectionV1Request:
         aws_region = dictionary.get('aws_region')
         clumio_event_pub_id = dictionary.get('clumio_event_pub_id')
         configuration = dictionary.get('configuration')
+        properties = dictionary.get('properties')
         request_type = dictionary.get('request_type')
         role_arn = dictionary.get('role_arn')
         role_external_id = dictionary.get('role_external_id')
@@ -97,6 +105,7 @@ class PostProcessAwsConnectionV1Request:
             aws_region,
             clumio_event_pub_id,
             configuration,
+            properties,
             request_type,
             role_arn,
             role_external_id,

@@ -25,7 +25,11 @@ class Configuration:
     base_path: str = '/api'
 
     def __init__(
-        self, api_token: str = None, client: rest3client.RESTclient = None, hostname: str = None
+        self,
+        api_token: str = None,
+        client: rest3client.RESTclient = None,
+        hostname: str = None,
+        organizational_unit_context: str = '',
     ) -> None:
         self.api_token: str = api_token or os.getenv('API_TOKEN')
         if hostname:
@@ -38,3 +42,4 @@ class Configuration:
                 errors=None,
             )
         self.client = client
+        self.organizational_unit_context = organizational_unit_context

@@ -6,6 +6,7 @@ from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
 from clumioapi.models import backup_sla
 from clumioapi.models import backup_window
+from clumioapi.models import policy_advanced_settings
 
 T = TypeVar('T', bound='PolicyOperation')
 
@@ -25,6 +26,9 @@ class PolicyOperation:
             If set to `window` and `operation in ("aws_rds_resource_aws_snapshot",
             "mssql_log_backup", "ec2_mssql_log_backup")`,
             the backup window will not be determined by Clumio's backup window.
+        advanced_settings:
+            Additional operation-specific policy settings. For operation types which do not
+            support additional settings, this field is `null`.
         backup_window:
             The start and end times for the customized backup window.
         slas:
@@ -40,6 +44,7 @@ class PolicyOperation:
     # Create a mapping from Model property names to API property names
     _names = {
         'action_setting': 'action_setting',
+        'advanced_settings': 'advanced_settings',
         'backup_window': 'backup_window',
         'slas': 'slas',
         'type': 'type',
@@ -48,6 +53,7 @@ class PolicyOperation:
     def __init__(
         self,
         action_setting: str = None,
+        advanced_settings: policy_advanced_settings.PolicyAdvancedSettings = None,
         backup_window: backup_window.BackupWindow = None,
         slas: Sequence[backup_sla.BackupSLA] = None,
         type: str = None,
@@ -56,6 +62,7 @@ class PolicyOperation:
 
         # Initialize members of the class
         self.action_setting: str = action_setting
+        self.advanced_settings: policy_advanced_settings.PolicyAdvancedSettings = advanced_settings
         self.backup_window: backup_window.BackupWindow = backup_window
         self.slas: Sequence[backup_sla.BackupSLA] = slas
         self.type: str = type
@@ -77,6 +84,13 @@ class PolicyOperation:
 
         # Extract variables from the dictionary
         action_setting = dictionary.get('action_setting')
+        key = 'advanced_settings'
+        advanced_settings = (
+            policy_advanced_settings.PolicyAdvancedSettings.from_dictionary(dictionary.get(key))
+            if dictionary.get(key)
+            else None
+        )
+
         key = 'backup_window'
         p_backup_window = (
             backup_window.BackupWindow.from_dictionary(dictionary.get(key))
@@ -92,4 +106,4 @@ class PolicyOperation:
 
         type = dictionary.get('type')
         # Return an object of this model
-        return cls(action_setting, p_backup_window, slas, type)
+        return cls(action_setting, advanced_settings, p_backup_window, slas, type)

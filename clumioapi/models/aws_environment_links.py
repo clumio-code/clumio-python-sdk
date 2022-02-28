@@ -22,6 +22,8 @@ class AWSEnvironmentLinks:
             A resource-specific HATEOAS link.
         read_aws_environment_ebs_volumes_compliance_stats:
             A resource-specific HATEOAS link.
+        read_organizational_unit:
+            A resource-specific HATEOAS link.
     """
 
     # Create a mapping from Model property names to API property names
@@ -29,6 +31,7 @@ class AWSEnvironmentLinks:
         'p_self': '_self',
         'protect_entities': 'protect-entities',
         'read_aws_environment_ebs_volumes_compliance_stats': 'read-aws-environment-ebs-volumes-compliance-stats',
+        'read_organizational_unit': 'read-organizational-unit',
     }
 
     def __init__(
@@ -36,6 +39,7 @@ class AWSEnvironmentLinks:
         p_self: hateoas_self_link.HateoasSelfLink = None,
         protect_entities: hateoas_link.HateoasLink = None,
         read_aws_environment_ebs_volumes_compliance_stats: hateoas_link.HateoasLink = None,
+        read_organizational_unit: hateoas_link.HateoasLink = None,
     ) -> None:
         """Constructor for the AWSEnvironmentLinks class."""
 
@@ -45,6 +49,7 @@ class AWSEnvironmentLinks:
         self.read_aws_environment_ebs_volumes_compliance_stats: hateoas_link.HateoasLink = (
             read_aws_environment_ebs_volumes_compliance_stats
         )
+        self.read_organizational_unit: hateoas_link.HateoasLink = read_organizational_unit
 
     @classmethod
     def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
@@ -83,5 +88,17 @@ class AWSEnvironmentLinks:
             else None
         )
 
+        key = 'read-organizational-unit'
+        read_organizational_unit = (
+            hateoas_link.HateoasLink.from_dictionary(dictionary.get(key))
+            if dictionary.get(key)
+            else None
+        )
+
         # Return an object of this model
-        return cls(p_self, protect_entities, read_aws_environment_ebs_volumes_compliance_stats)
+        return cls(
+            p_self,
+            protect_entities,
+            read_aws_environment_ebs_volumes_compliance_stats,
+            read_organizational_unit,
+        )

@@ -60,6 +60,7 @@ class VmwareVcentersV1Controller(base_controller.BaseController):
         # Prepare headers
         _headers = {
             'accept': 'application/vmware-vcenters=v1+json',
+            'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
         }
         # Execute request
         try:
@@ -112,6 +113,7 @@ class VmwareVcentersV1Controller(base_controller.BaseController):
         # Prepare headers
         _headers = {
             'accept': 'application/vmware-vcenters=v1+json',
+            'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
         }
         # Execute request
         try:

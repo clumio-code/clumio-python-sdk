@@ -38,8 +38,8 @@ class UpdateProtectionGroupResponse:
             ObjectFilter
             defines which objects will be backed up.
         organizational_unit_id:
-            The Clumio-assigned ID of the organizational unit associated with the EBS
-            volume.
+            The Clumio-assigned ID of the organizational unit associated with the Protection
+            Group.
         total_backed_up_object_count:
             Cumulative count of all unexpired objects in each backup (any new or updated
             since

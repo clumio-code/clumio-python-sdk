@@ -6,6 +6,10 @@ from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
 from clumioapi.models import aws_tag_model
 from clumioapi.models import bucket_links
+from clumioapi.models import s3_cloudwatch_metrics
+from clumioapi.models import s3_encryption_output
+from clumioapi.models import s3_replication_output
+from clumioapi.models import s3_versioning_output
 
 T = TypeVar('T', bound='Bucket')
 
@@ -22,10 +26,12 @@ class Bucket:
             The AWS-assigned ID of the account associated with the S3 bucket.
         aws_region:
             The AWS region associated with the S3 bucket.
+        cloudwatch_metrics:
+            The Cloudwatch metrics of the bucket.
         creation_timestamp:
             The timestamp of when the bucket was created. Represented in RFC-3339 format.
-        encryption_configuration:
-            Encryption configuration of the bucket
+        encryption_setting:
+            The AWS encryption output of the bucket.
         environment_id:
             The Clumio-assigned ID of the AWS environment associated with the S3 bucket.
         id:
@@ -38,15 +44,15 @@ class Bucket:
             The Clumio-assigned ID of the organizational unit associated with the S3 bucket.
         protection_group_count:
             Protection group count reflects how many protection groups are linked to this
-            bucket
-        replication_configuration:
-            Replication configuration of the bucket
+            bucket.
+        replication_setting:
+            The AWS replication output of the bucket.
         size_bytes:
             Size of bucket in bytes.
         tags:
             The AWS tags applied to the S3 bucket.
-        version_configuration:
-            Version configuration of the bucket
+        versioning_setting:
+            The AWS versioning output of the bucket.
     """
 
     # Create a mapping from Model property names to API property names
@@ -55,18 +61,19 @@ class Bucket:
         'links': '_links',
         'account_native_id': 'account_native_id',
         'aws_region': 'aws_region',
+        'cloudwatch_metrics': 'cloudwatch_metrics',
         'creation_timestamp': 'creation_timestamp',
-        'encryption_configuration': 'encryption_configuration',
+        'encryption_setting': 'encryption_setting',
         'environment_id': 'environment_id',
         'id': 'id',
         'name': 'name',
         'object_count': 'object_count',
         'organizational_unit_id': 'organizational_unit_id',
         'protection_group_count': 'protection_group_count',
-        'replication_configuration': 'replication_configuration',
+        'replication_setting': 'replication_setting',
         'size_bytes': 'size_bytes',
         'tags': 'tags',
-        'version_configuration': 'version_configuration',
+        'versioning_setting': 'versioning_setting',
     }
 
     def __init__(
@@ -75,18 +82,19 @@ class Bucket:
         links: bucket_links.BucketLinks = None,
         account_native_id: str = None,
         aws_region: str = None,
+        cloudwatch_metrics: s3_cloudwatch_metrics.S3CloudwatchMetrics = None,
         creation_timestamp: str = None,
-        encryption_configuration: str = None,
+        encryption_setting: s3_encryption_output.S3EncryptionOutput = None,
         environment_id: str = None,
         id: str = None,
         name: str = None,
         object_count: int = None,
         organizational_unit_id: str = None,
         protection_group_count: int = None,
-        replication_configuration: str = None,
+        replication_setting: s3_replication_output.S3ReplicationOutput = None,
         size_bytes: int = None,
         tags: Sequence[aws_tag_model.AwsTagModel] = None,
-        version_configuration: str = None,
+        versioning_setting: s3_versioning_output.S3VersioningOutput = None,
     ) -> None:
         """Constructor for the Bucket class."""
 
@@ -95,18 +103,19 @@ class Bucket:
         self.links: bucket_links.BucketLinks = links
         self.account_native_id: str = account_native_id
         self.aws_region: str = aws_region
+        self.cloudwatch_metrics: s3_cloudwatch_metrics.S3CloudwatchMetrics = cloudwatch_metrics
         self.creation_timestamp: str = creation_timestamp
-        self.encryption_configuration: str = encryption_configuration
+        self.encryption_setting: s3_encryption_output.S3EncryptionOutput = encryption_setting
         self.environment_id: str = environment_id
         self.id: str = id
         self.name: str = name
         self.object_count: int = object_count
         self.organizational_unit_id: str = organizational_unit_id
         self.protection_group_count: int = protection_group_count
-        self.replication_configuration: str = replication_configuration
+        self.replication_setting: s3_replication_output.S3ReplicationOutput = replication_setting
         self.size_bytes: int = size_bytes
         self.tags: Sequence[aws_tag_model.AwsTagModel] = tags
-        self.version_configuration: str = version_configuration
+        self.versioning_setting: s3_versioning_output.S3VersioningOutput = versioning_setting
 
     @classmethod
     def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
@@ -134,15 +143,34 @@ class Bucket:
 
         account_native_id = dictionary.get('account_native_id')
         aws_region = dictionary.get('aws_region')
+        key = 'cloudwatch_metrics'
+        cloudwatch_metrics = (
+            s3_cloudwatch_metrics.S3CloudwatchMetrics.from_dictionary(dictionary.get(key))
+            if dictionary.get(key)
+            else None
+        )
+
         creation_timestamp = dictionary.get('creation_timestamp')
-        encryption_configuration = dictionary.get('encryption_configuration')
+        key = 'encryption_setting'
+        encryption_setting = (
+            s3_encryption_output.S3EncryptionOutput.from_dictionary(dictionary.get(key))
+            if dictionary.get(key)
+            else None
+        )
+
         environment_id = dictionary.get('environment_id')
         id = dictionary.get('id')
         name = dictionary.get('name')
         object_count = dictionary.get('object_count')
         organizational_unit_id = dictionary.get('organizational_unit_id')
         protection_group_count = dictionary.get('protection_group_count')
-        replication_configuration = dictionary.get('replication_configuration')
+        key = 'replication_setting'
+        replication_setting = (
+            s3_replication_output.S3ReplicationOutput.from_dictionary(dictionary.get(key))
+            if dictionary.get(key)
+            else None
+        )
+
         size_bytes = dictionary.get('size_bytes')
         tags = None
         if dictionary.get('tags'):
@@ -150,23 +178,30 @@ class Bucket:
             for value in dictionary.get('tags'):
                 tags.append(aws_tag_model.AwsTagModel.from_dictionary(value))
 
-        version_configuration = dictionary.get('version_configuration')
+        key = 'versioning_setting'
+        versioning_setting = (
+            s3_versioning_output.S3VersioningOutput.from_dictionary(dictionary.get(key))
+            if dictionary.get(key)
+            else None
+        )
+
         # Return an object of this model
         return cls(
             embedded,
             links,
             account_native_id,
             aws_region,
+            cloudwatch_metrics,
             creation_timestamp,
-            encryption_configuration,
+            encryption_setting,
             environment_id,
             id,
             name,
             object_count,
             organizational_unit_id,
             protection_group_count,
-            replication_configuration,
+            replication_setting,
             size_bytes,
             tags,
-            version_configuration,
+            versioning_setting,
         )
