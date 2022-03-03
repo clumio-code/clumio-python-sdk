@@ -15,6 +15,8 @@ class AWSConnection:
     """Implementation of the 'AWSConnection' model.
 
     Attributes:
+        embedded:
+            Embedded responses related to the resource.
         links:
             URLs to pages related to the resource.
         account_name:
@@ -76,6 +78,7 @@ class AWSConnection:
 
     # Create a mapping from Model property names to API property names
     _names = {
+        'embedded': '_embedded',
         'links': '_links',
         'account_name': 'account_name',
         'account_native_id': 'account_native_id',
@@ -99,6 +102,7 @@ class AWSConnection:
 
     def __init__(
         self,
+        embedded: object = None,
         links: aws_connection_links.AWSConnectionLinks = None,
         account_name: str = None,
         account_native_id: str = None,
@@ -122,6 +126,7 @@ class AWSConnection:
         """Constructor for the AWSConnection class."""
 
         # Initialize members of the class
+        self.embedded: object = embedded
         self.links: aws_connection_links.AWSConnectionLinks = links
         self.account_name: str = account_name
         self.account_native_id: str = account_native_id
@@ -158,6 +163,7 @@ class AWSConnection:
             return None
 
         # Extract variables from the dictionary
+        embedded = dictionary.get('_embedded')
         key = '_links'
         links = (
             aws_connection_links.AWSConnectionLinks.from_dictionary(dictionary.get(key))
@@ -197,6 +203,7 @@ class AWSConnection:
         token = dictionary.get('token')
         # Return an object of this model
         return cls(
+            embedded,
             links,
             account_name,
             account_native_id,

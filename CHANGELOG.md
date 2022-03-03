@@ -1,3 +1,6 @@
+## 0.4.1
+Additional parameters added to protection-group APIs and OrganizationalUnitContext added to the config.
+
 ## 0.4.0
 APIs corresponding to S3 buckets, protection-groups, policy rules and policy_assignments added.
 

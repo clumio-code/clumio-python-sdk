@@ -44,6 +44,7 @@ class ReportDownloadsV1Controller(base_controller.BaseController):
         # Prepare headers
         _headers = {
             'accept': 'application/report-downloads=v1+json',
+            'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
         }
         # Execute request
         try:
@@ -84,6 +85,7 @@ class ReportDownloadsV1Controller(base_controller.BaseController):
         # Prepare headers
         _headers = {
             'accept': 'application/report-downloads=v1+json',
+            'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
         }
         # Execute request
         try:

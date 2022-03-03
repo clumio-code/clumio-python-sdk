@@ -47,6 +47,7 @@ class VmwareVcenterComputeResourceComplianceStatsV1Controller(base_controller.Ba
         # Prepare headers
         _headers = {
             'accept': 'application/vmware-vcenter-compute-resource-compliance-stats=v1+json',
+            'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
         }
         # Execute request
         try:

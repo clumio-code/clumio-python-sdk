@@ -18,22 +18,30 @@ class TaskLinks:
     Attributes:
         p_self:
             The HATEOAS link to this resource.
+        read_organizational_unit:
+            A resource-specific HATEOAS link.
         update_task:
             A resource-specific HATEOAS link.
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'p_self': '_self', 'update_task': 'update-task'}
+    _names = {
+        'p_self': '_self',
+        'read_organizational_unit': 'read-organizational-unit',
+        'update_task': 'update-task',
+    }
 
     def __init__(
         self,
         p_self: hateoas_self_link.HateoasSelfLink = None,
+        read_organizational_unit: hateoas_link.HateoasLink = None,
         update_task: hateoas_link.HateoasLink = None,
     ) -> None:
         """Constructor for the TaskLinks class."""
 
         # Initialize members of the class
         self.p_self: hateoas_self_link.HateoasSelfLink = p_self
+        self.read_organizational_unit: hateoas_link.HateoasLink = read_organizational_unit
         self.update_task: hateoas_link.HateoasLink = update_task
 
     @classmethod
@@ -59,6 +67,13 @@ class TaskLinks:
             else None
         )
 
+        key = 'read-organizational-unit'
+        read_organizational_unit = (
+            hateoas_link.HateoasLink.from_dictionary(dictionary.get(key))
+            if dictionary.get(key)
+            else None
+        )
+
         key = 'update-task'
         update_task = (
             hateoas_link.HateoasLink.from_dictionary(dictionary.get(key))
@@ -67,4 +82,4 @@ class TaskLinks:
         )
 
         # Return an object of this model
-        return cls(p_self, update_task)
+        return cls(p_self, read_organizational_unit, update_task)

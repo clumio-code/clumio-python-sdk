@@ -49,7 +49,13 @@ class CreatePolicyRuleV1Request:
             |                       |                           |                          |
             +-----------------------+---------------------------+--------------------------+
             | aws_tag               | $eq, $in, $all, $contains | Denotes the AWS tag(s)   |
-            |                       |                           | to conditionalize on     |
+            |                       |                           | to conditionalize on.    |
+            |                       |                           | Max 100 tags allowed in  |
+            |                       |                           | each rule                |
+            |                       |                           | and tag key can be upto  |
+            |                       |                           | 128 characters and value |
+            |                       |                           | can be upto 256          |
+            |                       |                           | characters long.         |
             |                       |                           |                          |
             |                       |                           | {"aws_tag":{"$eq":{"key" |
             |                       |                           | :"Environment",          |
@@ -78,7 +84,7 @@ class CreatePolicyRuleV1Request:
             +-----------------------+---------------------------+--------------------------+
             | entity_type           | $eq, $in                  | Denotes the AWS entity   |
             |                       |                           | type to conditionalize   |
-            |                       |                           | on                       |
+            |                       |                           | on. (Required)           |
             |                       |                           |                          |
             |                       |                           | {"entity_type":{"$eq":"a |
             |                       |                           | ws_rds_instance"}}       |
@@ -94,7 +100,7 @@ class CreatePolicyRuleV1Request:
             |                       |                           |                          |
             +-----------------------+---------------------------+--------------------------+
         name:
-            Name of the rule.
+            Name of the rule. Max 100 characters.
         priority:
             A priority relative to other rules.
     """

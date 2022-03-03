@@ -90,6 +90,7 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
         # Prepare headers
         _headers = {
             'accept': 'application/protection-groups=v1+json',
+            'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
         }
         # Execute request
         try:
@@ -127,6 +128,7 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
         # Prepare headers
         _headers = {
             'accept': 'application/protection-groups=v1+json',
+            'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
         }
         # Execute request
         try:
@@ -146,7 +148,10 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
         seconds to minutes at most. As a result, the protection group won't be
         protectable
         via /policies/assignments until it appears in the /datasources/protection-groups
-        endpoint.
+        endpoint. Additionally, to create a protection group in the context of another
+        Organizational
+        Unit, refer to the Getting Started
+        documentation.
 
         Args:
             body:
@@ -167,6 +172,7 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
         # Prepare headers
         _headers = {
             'accept': 'application/protection-groups=v1+json',
+            'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
         }
         # Execute request
         try:
@@ -217,6 +223,7 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
         # Prepare headers
         _headers = {
             'accept': 'application/protection-groups=v1+json',
+            'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
         }
         # Execute request
         try:
@@ -263,6 +270,7 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
         # Prepare headers
         _headers = {
             'accept': 'application/protection-groups=v1+json',
+            'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
         }
         # Execute request
         try:
@@ -309,6 +317,7 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
         # Prepare headers
         _headers = {
             'accept': 'application/protection-groups=v1+json',
+            'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
         }
         # Execute request
         try:
@@ -361,6 +370,7 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
         # Prepare headers
         _headers = {
             'accept': 'application/protection-groups=v1+json',
+            'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
         }
         # Execute request
         try:

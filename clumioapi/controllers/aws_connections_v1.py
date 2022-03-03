@@ -40,39 +40,50 @@ class AwsConnectionsV1Controller(base_controller.BaseController):
                 operations
                 that can be performed on the field:
 
-                +-------------------+-------------------+--------------------------------------+
-                |       Field       | Filter Condition  |             Description              |
-                +===================+===================+======================================+
-                | account_native_id | $begins_with, $in | A prefix of the account ID to search |
-                |                   |                   | for or the list of account IDs to    |
-                |                   |                   | return.                              |
-                |                   |                   |                                      |
-                |                   |                   | {"account_native_id":{"$begins_with" |
-                |                   |                   | :"23345"}}                           |
-                |                   |                   |                                      |
-                |                   |                   |                                      |
-                |                   |                   | {"account_native_id":{"$in":["111111 |
-                |                   |                   | 111111", "222222222222"]}}           |
-                |                   |                   |                                      |
-                |                   |                   |                                      |
-                +-------------------+-------------------+--------------------------------------+
-                | account_alias     | $contains         | A substring within the account alias |
-                |                   |                   | (if available) to search for.        |
-                |                   |                   |                                      |
-                |                   |                   | {"account_alias":{"$contains":"foo"} |
-                |                   |                   | }                                    |
-                |                   |                   |                                      |
-                |                   |                   |                                      |
-                +-------------------+-------------------+--------------------------------------+
-                | connection_type   | $eq               | A connection type to search for.     |
-                |                   |                   | Supported types are: ['discover',    |
-                |                   |                   | 'protect'].                          |
-                |                   |                   |                                      |
-                |                   |                   | {"connection_type":{"$eq":"protect"} |
-                |                   |                   | }                                    |
-                |                   |                   |                                      |
-                |                   |                   |                                      |
-                +-------------------+-------------------+--------------------------------------+
+                +------------------------+-------------------+---------------------------------+
+                |         Field          | Filter Condition  |           Description           |
+                +========================+===================+=================================+
+                | account_native_id      | $begins_with, $in | A prefix of the account ID to   |
+                |                        |                   | search for or the list of       |
+                |                        |                   | account IDs to return.          |
+                |                        |                   |                                 |
+                |                        |                   | {"account_native_id":{"$begins_ |
+                |                        |                   | with":"23345"}}                 |
+                |                        |                   |                                 |
+                |                        |                   |                                 |
+                |                        |                   | {"account_native_id":{"$in":["1 |
+                |                        |                   | 11111111111", "222222222222"]}} |
+                |                        |                   |                                 |
+                |                        |                   |                                 |
+                +------------------------+-------------------+---------------------------------+
+                | account_alias          | $contains         | A substring within the account  |
+                |                        |                   | alias (if available) to search  |
+                |                        |                   | for.                            |
+                |                        |                   |                                 |
+                |                        |                   | {"account_alias":{"$contains":" |
+                |                        |                   | foo"}}                          |
+                |                        |                   |                                 |
+                |                        |                   |                                 |
+                +------------------------+-------------------+---------------------------------+
+                | connection_type        | $eq               | A connection type to search     |
+                |                        |                   | for. Supported types are:       |
+                |                        |                   | ['discover', 'protect'].        |
+                |                        |                   |                                 |
+                |                        |                   | {"connection_type":{"$eq":"prot |
+                |                        |                   | ect"}}                          |
+                |                        |                   |                                 |
+                |                        |                   |                                 |
+                +------------------------+-------------------+---------------------------------+
+                | organizational_unit_id | $in               | Lists the connections in the    |
+                |                        |                   | specified organizational units. |
+                |                        |                   |                                 |
+                |                        |                   | {"organizational_unit_id":{"$in |
+                |                        |                   | ":["ca849d10-7ea1-4869-b2d0-    |
+                |                        |                   | 46c42b5f2bea", "27b9ee09-c59c-  |
+                |                        |                   | 466f-b2c4-223e9h8df7c8"]}}      |
+                |                        |                   |                                 |
+                |                        |                   |                                 |
+                +------------------------+-------------------+---------------------------------+
 
         Returns:
             ListAWSConnectionsResponse: Response from the API.
@@ -91,6 +102,7 @@ class AwsConnectionsV1Controller(base_controller.BaseController):
         # Prepare headers
         _headers = {
             'accept': 'application/aws-connections=v1+json',
+            'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
         }
         # Execute request
         try:
@@ -126,6 +138,7 @@ class AwsConnectionsV1Controller(base_controller.BaseController):
         # Prepare headers
         _headers = {
             'accept': 'application/aws-connections=v1+json',
+            'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
         }
         # Execute request
         try:
@@ -168,6 +181,7 @@ class AwsConnectionsV1Controller(base_controller.BaseController):
         # Prepare headers
         _headers = {
             'accept': 'application/aws-connections=v1+json',
+            'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
         }
         # Execute request
         try:
@@ -203,6 +217,7 @@ class AwsConnectionsV1Controller(base_controller.BaseController):
         # Prepare headers
         _headers = {
             'accept': 'application/aws-connections=v1+json',
+            'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
         }
         # Execute request
         try:
@@ -244,6 +259,7 @@ class AwsConnectionsV1Controller(base_controller.BaseController):
         # Prepare headers
         _headers = {
             'accept': 'application/aws-connections=v1+json',
+            'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
         }
         # Execute request
         try:

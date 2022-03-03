@@ -57,7 +57,13 @@ class Rule:
             |                       |                           |                          |
             +-----------------------+---------------------------+--------------------------+
             | aws_tag               | $eq, $in, $all, $contains | Denotes the AWS tag(s)   |
-            |                       |                           | to conditionalize on     |
+            |                       |                           | to conditionalize on.    |
+            |                       |                           | Max 100 tags allowed in  |
+            |                       |                           | each rule                |
+            |                       |                           | and tag key can be upto  |
+            |                       |                           | 128 characters and value |
+            |                       |                           | can be upto 256          |
+            |                       |                           | characters long.         |
             |                       |                           |                          |
             |                       |                           | {"aws_tag":{"$eq":{"key" |
             |                       |                           | :"Environment",          |
@@ -86,7 +92,7 @@ class Rule:
             +-----------------------+---------------------------+--------------------------+
             | entity_type           | $eq, $in                  | Denotes the AWS entity   |
             |                       |                           | type to conditionalize   |
-            |                       |                           | on                       |
+            |                       |                           | on. (Required)           |
             |                       |                           |                          |
             |                       |                           | {"entity_type":{"$eq":"a |
             |                       |                           | ws_rds_instance"}}       |
@@ -104,7 +110,10 @@ class Rule:
         id:
             The Clumio-assigned ID of the policy rule.
         name:
-            Name of the rule.
+            Name of the rule. Max 100 characters.
+        organizational_unit_id:
+            The Clumio-assigned ID of the organizational unit (OU) to which the policy rule
+            belongs.
         priority:
             A priority relative to other rules.
     """
@@ -117,6 +126,7 @@ class Rule:
         'condition': 'condition',
         'id': 'id',
         'name': 'name',
+        'organizational_unit_id': 'organizational_unit_id',
         'priority': 'priority',
     }
 
@@ -128,6 +138,7 @@ class Rule:
         condition: str = None,
         id: str = None,
         name: str = None,
+        organizational_unit_id: str = None,
         priority: rule_priority.RulePriority = None,
     ) -> None:
         """Constructor for the Rule class."""
@@ -139,6 +150,7 @@ class Rule:
         self.condition: str = condition
         self.id: str = id
         self.name: str = name
+        self.organizational_unit_id: str = organizational_unit_id
         self.priority: rule_priority.RulePriority = priority
 
     @classmethod
@@ -181,6 +193,7 @@ class Rule:
         condition = dictionary.get('condition')
         id = dictionary.get('id')
         name = dictionary.get('name')
+        organizational_unit_id = dictionary.get('organizational_unit_id')
         key = 'priority'
         priority = (
             rule_priority.RulePriority.from_dictionary(dictionary.get(key))
@@ -189,4 +202,4 @@ class Rule:
         )
 
         # Return an object of this model
-        return cls(embedded, links, action, condition, id, name, priority)
+        return cls(embedded, links, action, condition, id, name, organizational_unit_id, priority)

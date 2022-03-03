@@ -43,7 +43,8 @@ class RestoredFilesV1Controller(base_controller.BaseController):
                 | asset_type | $eq              | Required. The type of the asset within which |
                 |            |                  | to search for files. Possible values include |
                 |            |                  | aws_ebs_volume,                              |
-                |            |                  | aws_ec2_instance, and vmware_vm.             |
+                |            |                  | aws_ec2_instance, vmware_vm and              |
+                |            |                  | aws_dynamodb_table.                          |
                 +------------+------------------+----------------------------------------------+
                 | asset_id   | $eq              | Required. The Clumio-assigned ID of the      |
                 |            |                  | asset                                        |
@@ -67,6 +68,7 @@ class RestoredFilesV1Controller(base_controller.BaseController):
         # Prepare headers
         _headers = {
             'accept': 'application/restored-files=v1+json',
+            'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
         }
         # Execute request
         try:
@@ -102,6 +104,7 @@ class RestoredFilesV1Controller(base_controller.BaseController):
         # Prepare headers
         _headers = {
             'accept': 'application/restored-files=v1+json',
+            'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
         }
         # Execute request
         try:

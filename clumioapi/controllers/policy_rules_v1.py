@@ -69,19 +69,16 @@ class PolicyRulesV1Controller(base_controller.BaseController):
                 the supported filter fields for this resource and the filter conditions that can
                 be applied on those fields:
 
-                +-----------+------------------+-----------------------------------------------+
-                |   Field   | Filter Condition |                  Description                  |
-                +===========+==================+===============================================+
-                | policy_id | $in              | Denotes the Clumio-assigned ID of a Policy to |
-                |           |                  | conditionalize on                             |
-                +-----------+------------------+-----------------------------------------------+
-                | id        | $in              | Denotes the specific Rule IDs to retrieve, up |
-                |           |                  | to 100 ids                                    |
-                |           |                  |                                               |
-                |           |                  | {"rule_id":{"$in":["1", "2"]}}                |
-                |           |                  |                                               |
-                |           |                  |                                               |
-                +-----------+------------------+-----------------------------------------------+
+                +-------+------------------+---------------------------------------------------+
+                | Field | Filter Condition |                    Description                    |
+                +=======+==================+===================================================+
+                | id    | $in              | Denotes the specific Rule IDs to retrieve, up to  |
+                |       |                  | 100 ids                                           |
+                |       |                  |                                                   |
+                |       |                  | {"rule_id":{"$in":["1", "2"]}}                    |
+                |       |                  |                                                   |
+                |       |                  |                                                   |
+                +-------+------------------+---------------------------------------------------+
 
         Returns:
             ListRulesResponse: Response from the API.
@@ -106,6 +103,7 @@ class PolicyRulesV1Controller(base_controller.BaseController):
         # Prepare headers
         _headers = {
             'accept': 'application/policy-rules=v1+json',
+            'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
         }
         # Execute request
         try:
@@ -122,6 +120,9 @@ class PolicyRulesV1Controller(base_controller.BaseController):
     ) -> create_rule_response.CreateRuleResponse:
         """Creates a new policy rule. Policy rules determine how a policy should be
         assigned to assets.
+        Additionally, to create a rule in the context of another Organizational Unit,
+        refer to the
+        Getting Started documentation.
 
         Args:
             body:
@@ -142,6 +143,7 @@ class PolicyRulesV1Controller(base_controller.BaseController):
         # Prepare headers
         _headers = {
             'accept': 'application/policy-rules=v1+json',
+            'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
         }
         # Execute request
         try:
@@ -180,6 +182,7 @@ class PolicyRulesV1Controller(base_controller.BaseController):
         # Prepare headers
         _headers = {
             'accept': 'application/policy-rules=v1+json',
+            'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
         }
         # Execute request
         try:
@@ -217,6 +220,7 @@ class PolicyRulesV1Controller(base_controller.BaseController):
         # Prepare headers
         _headers = {
             'accept': 'application/policy-rules=v1+json',
+            'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
         }
         # Execute request
         try:
@@ -259,6 +263,7 @@ class PolicyRulesV1Controller(base_controller.BaseController):
         # Prepare headers
         _headers = {
             'accept': 'application/policy-rules=v1+json',
+            'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
         }
         # Execute request
         try:

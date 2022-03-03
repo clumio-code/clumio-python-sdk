@@ -48,8 +48,8 @@ class ReadProtectionGroupResponse:
             ObjectFilter
             defines which objects will be backed up.
         organizational_unit_id:
-            The Clumio-assigned ID of the organizational unit associated with the EBS
-            volume.
+            The Clumio-assigned ID of the organizational unit associated with the Protection
+            Group.
         protection_info:
             The protection policy applied to this resource. If the resource is not
             protected, then this field has a value of `null`.
