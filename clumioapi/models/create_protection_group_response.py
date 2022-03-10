@@ -20,6 +20,20 @@ class CreateProtectionGroupResponse:
             URLs to pages related to the resource.
         bucket_count:
             Number of buckets
+        bucket_rule:
+            The following table describes the possible conditions for a bucket to be
+            automatically added to a protection group.
+
+            +---------+----------------+---------------------------------------------------+
+            |  Field  | Rule Condition |                    Description                    |
+            +=========+================+===================================================+
+            | aws_tag | $eq            | Denotes the AWS tag(s) to conditionalize on       |
+            |         |                |                                                   |
+            |         |                | {"aws_tag":{"$eq":{"key":"Environment",           |
+            |         |                | "value":"Prod"}}}                                 |
+            |         |                |                                                   |
+            |         |                |                                                   |
+            +---------+----------------+---------------------------------------------------+
         created_timestamp:
             Creation time of the protection group in RFC-3339 format.
         description:
@@ -58,6 +72,7 @@ class CreateProtectionGroupResponse:
         'embedded': '_embedded',
         'links': '_links',
         'bucket_count': 'bucket_count',
+        'bucket_rule': 'bucket_rule',
         'created_timestamp': 'created_timestamp',
         'description': 'description',
         'id': 'id',
@@ -77,6 +92,7 @@ class CreateProtectionGroupResponse:
         embedded: object = None,
         links: protection_group_version_links.ProtectionGroupVersionLinks = None,
         bucket_count: int = None,
+        bucket_rule: str = None,
         created_timestamp: str = None,
         description: str = None,
         id: str = None,
@@ -96,6 +112,7 @@ class CreateProtectionGroupResponse:
         self.embedded: object = embedded
         self.links: protection_group_version_links.ProtectionGroupVersionLinks = links
         self.bucket_count: int = bucket_count
+        self.bucket_rule: str = bucket_rule
         self.created_timestamp: str = created_timestamp
         self.description: str = description
         self.id: str = id
@@ -136,6 +153,7 @@ class CreateProtectionGroupResponse:
         )
 
         bucket_count = dictionary.get('bucket_count')
+        bucket_rule = dictionary.get('bucket_rule')
         created_timestamp = dictionary.get('created_timestamp')
         description = dictionary.get('description')
         id = dictionary.get('id')
@@ -159,6 +177,7 @@ class CreateProtectionGroupResponse:
             embedded,
             links,
             bucket_count,
+            bucket_rule,
             created_timestamp,
             description,
             id,

@@ -13,6 +13,20 @@ class UpdateProtectionGroupV1Request:
     """Implementation of the 'UpdateProtectionGroupV1Request' model.
 
     Attributes:
+        bucket_rule:
+            The following table describes the possible conditions for a bucket to be
+            automatically added to a protection group.
+
+            +---------+----------------+---------------------------------------------------+
+            |  Field  | Rule Condition |                    Description                    |
+            +=========+================+===================================================+
+            | aws_tag | $eq            | Denotes the AWS tag(s) to conditionalize on       |
+            |         |                |                                                   |
+            |         |                | {"aws_tag":{"$eq":{"key":"Environment",           |
+            |         |                | "value":"Prod"}}}                                 |
+            |         |                |                                                   |
+            |         |                |                                                   |
+            +---------+----------------+---------------------------------------------------+
         description:
             The user-assigned description of the protection group.
         name:
@@ -23,10 +37,16 @@ class UpdateProtectionGroupV1Request:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'description': 'description', 'name': 'name', 'object_filter': 'object_filter'}
+    _names = {
+        'bucket_rule': 'bucket_rule',
+        'description': 'description',
+        'name': 'name',
+        'object_filter': 'object_filter',
+    }
 
     def __init__(
         self,
+        bucket_rule: str = None,
         description: str = None,
         name: str = None,
         object_filter: object_filter.ObjectFilter = None,
@@ -34,6 +54,7 @@ class UpdateProtectionGroupV1Request:
         """Constructor for the UpdateProtectionGroupV1Request class."""
 
         # Initialize members of the class
+        self.bucket_rule: str = bucket_rule
         self.description: str = description
         self.name: str = name
         self.object_filter: object_filter.ObjectFilter = object_filter
@@ -54,6 +75,7 @@ class UpdateProtectionGroupV1Request:
             return None
 
         # Extract variables from the dictionary
+        bucket_rule = dictionary.get('bucket_rule')
         description = dictionary.get('description')
         name = dictionary.get('name')
         key = 'object_filter'
@@ -64,4 +86,4 @@ class UpdateProtectionGroupV1Request:
         )
 
         # Return an object of this model
-        return cls(description, name, p_object_filter)
+        return cls(bucket_rule, description, name, p_object_filter)
