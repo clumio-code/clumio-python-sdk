@@ -61,8 +61,9 @@ class AwsEnvironmentsV1Controller(base_controller.BaseController):
                 | services_enabled  | $contains         | The AWS services enabled for this    |
                 |                   |                   | environment. This is case            |
                 |                   |                   | insensitive. Possible values include |
-                |                   |                   | "EBS" and "RDS". For example, filter |
-                |                   |                   | ={"services_enabled":{"$eq":"RDS"}}. |
+                |                   |                   | "EBS", "RDS" and "DynamoDB". For     |
+                |                   |                   | example, filter={"services_enabled": |
+                |                   |                   | {"$contains":"RDS"}}.                |
                 +-------------------+-------------------+--------------------------------------+
 
 

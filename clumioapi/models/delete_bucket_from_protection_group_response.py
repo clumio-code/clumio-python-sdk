@@ -13,6 +13,10 @@ class DeleteBucketFromProtectionGroupResponse:
     Attributes:
         account_native_id:
             The AWS-assigned ID of the account associated with the DynamoDB table.
+        added_by_bucket_rule:
+            Whether this bucket was added to this protection group by the bucket rule
+        added_by_user:
+            Whether this bucket was added to this protection group by the user
         aws_region:
             The AWS region associated with the DynamoDB table.
         bucket_id:
@@ -52,6 +56,8 @@ class DeleteBucketFromProtectionGroupResponse:
     # Create a mapping from Model property names to API property names
     _names = {
         'account_native_id': 'account_native_id',
+        'added_by_bucket_rule': 'added_by_bucket_rule',
+        'added_by_user': 'added_by_user',
         'aws_region': 'aws_region',
         'bucket_id': 'bucket_id',
         'bucket_name': 'bucket_name',
@@ -71,6 +77,8 @@ class DeleteBucketFromProtectionGroupResponse:
     def __init__(
         self,
         account_native_id: str = None,
+        added_by_bucket_rule: bool = None,
+        added_by_user: bool = None,
         aws_region: str = None,
         bucket_id: str = None,
         bucket_name: str = None,
@@ -90,6 +98,8 @@ class DeleteBucketFromProtectionGroupResponse:
 
         # Initialize members of the class
         self.account_native_id: str = account_native_id
+        self.added_by_bucket_rule: bool = added_by_bucket_rule
+        self.added_by_user: bool = added_by_user
         self.aws_region: str = aws_region
         self.bucket_id: str = bucket_id
         self.bucket_name: str = bucket_name
@@ -122,6 +132,8 @@ class DeleteBucketFromProtectionGroupResponse:
 
         # Extract variables from the dictionary
         account_native_id = dictionary.get('account_native_id')
+        added_by_bucket_rule = dictionary.get('added_by_bucket_rule')
+        added_by_user = dictionary.get('added_by_user')
         aws_region = dictionary.get('aws_region')
         bucket_id = dictionary.get('bucket_id')
         bucket_name = dictionary.get('bucket_name')
@@ -139,6 +151,8 @@ class DeleteBucketFromProtectionGroupResponse:
         # Return an object of this model
         return cls(
             account_native_id,
+            added_by_bucket_rule,
+            added_by_user,
             aws_region,
             bucket_id,
             bucket_name,

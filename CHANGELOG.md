@@ -1,3 +1,6 @@
+## 0.4.2
+Bucket rule added to protection-group APIs.
+
 ## 0.4.1
 Additional parameters added to protection-group APIs and OrganizationalUnitContext added to the config.
 
