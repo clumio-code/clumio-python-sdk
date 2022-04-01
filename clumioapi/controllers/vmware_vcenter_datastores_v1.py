@@ -129,7 +129,7 @@ class VmwareVcenterDatastoresV1Controller(base_controller.BaseController):
 
         # Prepare headers
         _headers = {
-            'accept': 'application/vmware-vcenter-datastores=v1+json',
+            'accept': 'application/api.clumio.vmware-vcenter-datastores=v1+json',
             'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
         }
         # Execute request
@@ -169,7 +169,7 @@ class VmwareVcenterDatastoresV1Controller(base_controller.BaseController):
 
         # Prepare headers
         _headers = {
-            'accept': 'application/vmware-vcenter-datastores=v1+json',
+            'accept': 'application/api.clumio.vmware-vcenter-datastores=v1+json',
             'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
         }
         # Execute request

@@ -120,7 +120,7 @@ class MssqlDatabasesV1Controller(base_controller.BaseController):
 
         # Prepare headers
         _headers = {
-            'accept': 'application/mssql-databases=v1+json',
+            'accept': 'application/api.clumio.mssql-databases=v1+json',
             'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
         }
         # Execute request
@@ -158,7 +158,7 @@ class MssqlDatabasesV1Controller(base_controller.BaseController):
 
         # Prepare headers
         _headers = {
-            'accept': 'application/mssql-databases=v1+json',
+            'accept': 'application/api.clumio.mssql-databases=v1+json',
             'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
         }
         # Execute request
@@ -219,7 +219,7 @@ class MssqlDatabasesV1Controller(base_controller.BaseController):
 
         # Prepare headers
         _headers = {
-            'accept': 'application/mssql-databases=v1+json',
+            'accept': 'application/api.clumio.mssql-databases=v1+json',
             'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
         }
         # Execute request

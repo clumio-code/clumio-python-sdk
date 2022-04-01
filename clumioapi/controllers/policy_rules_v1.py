@@ -102,7 +102,7 @@ class PolicyRulesV1Controller(base_controller.BaseController):
 
         # Prepare headers
         _headers = {
-            'accept': 'application/policy-rules=v1+json',
+            'accept': 'application/api.clumio.policy-rules=v1+json',
             'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
         }
         # Execute request
@@ -142,7 +142,7 @@ class PolicyRulesV1Controller(base_controller.BaseController):
 
         # Prepare headers
         _headers = {
-            'accept': 'application/policy-rules=v1+json',
+            'accept': 'application/api.clumio.policy-rules=v1+json',
             'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
         }
         # Execute request
@@ -181,7 +181,7 @@ class PolicyRulesV1Controller(base_controller.BaseController):
 
         # Prepare headers
         _headers = {
-            'accept': 'application/policy-rules=v1+json',
+            'accept': 'application/api.clumio.policy-rules=v1+json',
             'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
         }
         # Execute request
@@ -219,7 +219,7 @@ class PolicyRulesV1Controller(base_controller.BaseController):
 
         # Prepare headers
         _headers = {
-            'accept': 'application/policy-rules=v1+json',
+            'accept': 'application/api.clumio.policy-rules=v1+json',
             'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
         }
         # Execute request
@@ -262,7 +262,7 @@ class PolicyRulesV1Controller(base_controller.BaseController):
 
         # Prepare headers
         _headers = {
-            'accept': 'application/policy-rules=v1+json',
+            'accept': 'application/api.clumio.policy-rules=v1+json',
             'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
         }
         # Execute request

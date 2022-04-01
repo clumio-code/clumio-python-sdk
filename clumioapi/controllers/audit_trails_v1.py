@@ -232,7 +232,7 @@ class AuditTrailsV1Controller(base_controller.BaseController):
 
         # Prepare headers
         _headers = {
-            'accept': 'application/audit-trails=v1+json',
+            'accept': 'application/api.clumio.audit-trails=v1+json',
             'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
         }
         # Execute request

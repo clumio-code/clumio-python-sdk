@@ -45,7 +45,7 @@ class PolicyAssignmentsV1Controller(base_controller.BaseController):
 
         # Prepare headers
         _headers = {
-            'accept': 'application/policy-assignments=v1+json',
+            'accept': 'application/api.clumio.policy-assignments=v1+json',
             'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
         }
         # Execute request

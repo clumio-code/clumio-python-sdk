@@ -113,7 +113,7 @@ class ProtectionGroupsS3AssetsV1Controller(base_controller.BaseController):
 
         # Prepare headers
         _headers = {
-            'accept': 'application/protection-groups-s3-assets=v1+json',
+            'accept': 'application/api.clumio.protection-groups-s3-assets=v1+json',
             'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
         }
         # Execute request
@@ -153,7 +153,7 @@ class ProtectionGroupsS3AssetsV1Controller(base_controller.BaseController):
 
         # Prepare headers
         _headers = {
-            'accept': 'application/protection-groups-s3-assets=v1+json',
+            'accept': 'application/api.clumio.protection-groups-s3-assets=v1+json',
             'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
         }
         # Execute request

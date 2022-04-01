@@ -38,7 +38,7 @@ class RolesV1Controller(base_controller.BaseController):
 
         # Prepare headers
         _headers = {
-            'accept': 'application/roles=v1+json',
+            'accept': 'application/api.clumio.roles=v1+json',
             'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
         }
         # Execute request
@@ -72,7 +72,7 @@ class RolesV1Controller(base_controller.BaseController):
 
         # Prepare headers
         _headers = {
-            'accept': 'application/roles=v1+json',
+            'accept': 'application/api.clumio.roles=v1+json',
             'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
         }
         # Execute request

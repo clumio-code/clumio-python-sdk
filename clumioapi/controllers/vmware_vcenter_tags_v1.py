@@ -111,7 +111,7 @@ class VmwareVcenterTagsV1Controller(base_controller.BaseController):
 
         # Prepare headers
         _headers = {
-            'accept': 'application/vmware-vcenter-tags=v1+json',
+            'accept': 'application/api.clumio.vmware-vcenter-tags=v1+json',
             'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
         }
         # Execute request
@@ -175,7 +175,7 @@ class VmwareVcenterTagsV1Controller(base_controller.BaseController):
 
         # Prepare headers
         _headers = {
-            'accept': 'application/vmware-vcenter-tags=v1+json',
+            'accept': 'application/api.clumio.vmware-vcenter-tags=v1+json',
             'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
         }
         # Execute request
