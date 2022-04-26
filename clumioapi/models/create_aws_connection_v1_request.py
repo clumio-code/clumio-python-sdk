@@ -27,13 +27,14 @@ class CreateAwsConnectionV1Request:
             Organizational-Units documentation.
         protect_asset_types_enabled:
             The asset types enabled for protect. This is only populated if "protect"
-            is enabled. Valid values are any of ["EBS", "RDS", "DynamoDB", "EC2MSSQL"].
-            EBS and RDS are mandatory datasources.
+            is enabled. Valid values are any of ["EBS", "RDS", "DynamoDB", "EC2MSSQL",
+            "S3"].
+            EBS and RDS are mandatory datasources. (Deprecated)
         services_enabled:
             The services to be enabled for this configuration. Valid values are
             ["discover"], ["discover", "protect"]. This is only set when the
             registration is created, the enabled services are obtained directly from
-            the installed template after that.
+            the installed template after that. (Deprecated)
     """
 
     # Create a mapping from Model property names to API property names

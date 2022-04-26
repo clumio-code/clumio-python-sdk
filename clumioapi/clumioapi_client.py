@@ -17,6 +17,7 @@ from clumioapi.controllers import backup_aws_ebs_volumes_v1
 from clumioapi.controllers import backup_filesystem_directories_v1
 from clumioapi.controllers import backup_filesystems_v1
 from clumioapi.controllers import backup_mssql_databases_v1
+from clumioapi.controllers import backup_protection_groups_v1
 from clumioapi.controllers import backup_vmware_vms_v1
 from clumioapi.controllers import backups_files_v1
 from clumioapi.controllers import consolidated_alerts_v1
@@ -39,6 +40,8 @@ from clumioapi.controllers import report_downloads_v1
 from clumioapi.controllers import restored_aws_ebs_volumes_v1
 from clumioapi.controllers import restored_files_v1
 from clumioapi.controllers import restored_mssql_databases_v1
+from clumioapi.controllers import restored_protection_group_s3_assets_v1
+from clumioapi.controllers import restored_protection_groups_v1
 from clumioapi.controllers import restored_vmware_vms_v1
 from clumioapi.controllers import roles_v1
 from clumioapi.controllers import tasks_v1
@@ -100,6 +103,13 @@ class ClumioAPIClient:
         self,
     ) -> backup_mssql_databases_v1.BackupMssqlDatabasesV1Controller:
         return backup_mssql_databases_v1.BackupMssqlDatabasesV1Controller(self.config)
+
+    @property
+    @functools.lru_cache(1)
+    def backup_protection_groups_v1(
+        self,
+    ) -> backup_protection_groups_v1.BackupProtectionGroupsV1Controller:
+        return backup_protection_groups_v1.BackupProtectionGroupsV1Controller(self.config)
 
     @property
     @functools.lru_cache(1)
@@ -374,6 +384,22 @@ class ClumioAPIClient:
         self,
     ) -> restored_mssql_databases_v1.RestoredMssqlDatabasesV1Controller:
         return restored_mssql_databases_v1.RestoredMssqlDatabasesV1Controller(self.config)
+
+    @property
+    @functools.lru_cache(1)
+    def restored_protection_groups_v1(
+        self,
+    ) -> restored_protection_groups_v1.RestoredProtectionGroupsV1Controller:
+        return restored_protection_groups_v1.RestoredProtectionGroupsV1Controller(self.config)
+
+    @property
+    @functools.lru_cache(1)
+    def restored_protection_group_s3_assets_v1(
+        self,
+    ) -> restored_protection_group_s3_assets_v1.RestoredProtectionGroupS3AssetsV1Controller:
+        return restored_protection_group_s3_assets_v1.RestoredProtectionGroupS3AssetsV1Controller(
+            self.config
+        )
 
     @property
     @functools.lru_cache(1)

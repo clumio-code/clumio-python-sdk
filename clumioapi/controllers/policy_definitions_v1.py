@@ -8,6 +8,7 @@ from clumioapi.controllers import base_controller
 from clumioapi.exceptions import clumio_exception
 from clumioapi.models import create_policy_definition_v1_request
 from clumioapi.models import create_policy_response
+from clumioapi.models import delete_policy_response
 from clumioapi.models import list_policies_response
 from clumioapi.models import read_policy_response
 from clumioapi.models import update_policy_definition_v1_request
@@ -352,14 +353,16 @@ class PolicyDefinitionsV1Controller(base_controller.BaseController):
             )
         return update_policy_response.UpdatePolicyResponse.from_dictionary(resp)
 
-    def delete_policy_definition(self, policy_id: str) -> object:
+    def delete_policy_definition(
+        self, policy_id: str
+    ) -> delete_policy_response.DeletePolicyResponse:
         """Deletes the specified policy.
 
         Args:
             policy_id:
                 Performs the operation on the policy with the specified ID.
         Returns:
-            object: Response from the API.
+            DeletePolicyResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -386,4 +389,4 @@ class PolicyDefinitionsV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing delete_policy_definition.', errors
             )
-        return resp
+        return delete_policy_response.DeletePolicyResponse.from_dictionary(resp)

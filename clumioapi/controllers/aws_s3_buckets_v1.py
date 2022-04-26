@@ -41,11 +41,16 @@ class AwsS3BucketsV1Controller(base_controller.BaseController):
                 | environment_id    | $eq              | The Clumio-assigned ID of the AWS     |
                 |                   |                  | environment.                          |
                 +-------------------+------------------+---------------------------------------+
-                | name              | $contains        | The AWS-assigned name of this         |
-                |                   |                  | resource. For example,                |
+                | name              | $contains, $in   | The AWS-assigned name of this         |
+                |                   |                  | resource to conditionalize on. For    |
+                |                   |                  | example,                              |
                 |                   |                  | filter={"name":{"$contains":"dev"}}   |
                 |                   |                  | retrieves all S3 buckets with "dev"   |
                 |                   |                  | in their name.                        |
+                |                   |                  | filter={"name":{"$in":["prod",        |
+                |                   |                  | "dev"]}} retrieves only S3 buckets    |
+                |                   |                  | with names that exactly match "dev"   |
+                |                   |                  | or "prod"                             |
                 +-------------------+------------------+---------------------------------------+
                 | account_native_id | $eq              | The AWS-assigned ID of the AWS        |
                 |                   |                  | account. For example, filter={"accoun |

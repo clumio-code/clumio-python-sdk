@@ -6,11 +6,11 @@ from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
 from clumioapi.models import template_configuration_v2
 
-T = TypeVar('T', bound='CreateAWSTemplateV2Response')
+T = TypeVar('T', bound='CreateAWSTemplateResponse')
 
 
-class CreateAWSTemplateV2Response:
-    """Implementation of the 'CreateAWSTemplateV2Response' model.
+class CreateAWSTemplateResponse:
+    """Implementation of the 'CreateAWSTemplateResponse' model.
 
     Attributes:
         cloudformation_url:
@@ -34,7 +34,7 @@ class CreateAWSTemplateV2Response:
         config: template_configuration_v2.TemplateConfigurationV2 = None,
         terraform_url: str = None,
     ) -> None:
-        """Constructor for the CreateAWSTemplateV2Response class."""
+        """Constructor for the CreateAWSTemplateResponse class."""
 
         # Initialize members of the class
         self.cloudformation_url: str = cloudformation_url

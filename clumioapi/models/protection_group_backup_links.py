@@ -4,28 +4,29 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-T = TypeVar('T', bound='CreateConnectionTemplateV1Request')
+from clumioapi.models import hateoas_self_link
+
+T = TypeVar('T', bound='ProtectionGroupBackupLinks')
 
 
-class CreateConnectionTemplateV1Request:
-    """Implementation of the 'CreateConnectionTemplateV1Request' model.
+class ProtectionGroupBackupLinks:
+    """Implementation of the 'ProtectionGroupBackupLinks' model.
 
-    The body of the request.
+    URLs to pages related to the resource.
 
     Attributes:
-        asset_types_enabled:
-            The asset types for which the template is to be generated. Possible
-            asset types are ["EBS", "RDS", "DynamoDB", "EC2MSSQL"].
+        p_self:
+            The HATEOAS link to this resource.
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'asset_types_enabled': 'asset_types_enabled'}
+    _names = {'p_self': '_self'}
 
-    def __init__(self, asset_types_enabled: Sequence[str] = None) -> None:
-        """Constructor for the CreateConnectionTemplateV1Request class."""
+    def __init__(self, p_self: hateoas_self_link.HateoasSelfLink = None) -> None:
+        """Constructor for the ProtectionGroupBackupLinks class."""
 
         # Initialize members of the class
-        self.asset_types_enabled: Sequence[str] = asset_types_enabled
+        self.p_self: hateoas_self_link.HateoasSelfLink = p_self
 
     @classmethod
     def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
@@ -43,6 +44,12 @@ class CreateConnectionTemplateV1Request:
             return None
 
         # Extract variables from the dictionary
-        asset_types_enabled = dictionary.get('asset_types_enabled')
+        key = '_self'
+        p_self = (
+            hateoas_self_link.HateoasSelfLink.from_dictionary(dictionary.get(key))
+            if dictionary.get(key)
+            else None
+        )
+
         # Return an object of this model
-        return cls(asset_types_enabled)
+        return cls(p_self)

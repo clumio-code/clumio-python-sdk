@@ -4,28 +4,29 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-T = TypeVar('T', bound='CreateConnectionTemplateV1Request')
+from clumioapi.models import protect_template_config
+
+T = TypeVar('T', bound='CreateAwsConnectionTemplateV1Request')
 
 
-class CreateConnectionTemplateV1Request:
-    """Implementation of the 'CreateConnectionTemplateV1Request' model.
+class CreateAwsConnectionTemplateV1Request:
+    """Implementation of the 'CreateAwsConnectionTemplateV1Request' model.
 
     The body of the request.
 
     Attributes:
-        asset_types_enabled:
-            The asset types for which the template is to be generated. Possible
-            asset types are ["EBS", "RDS", "DynamoDB", "EC2MSSQL"].
+        protect:
+
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'asset_types_enabled': 'asset_types_enabled'}
+    _names = {'protect': 'protect'}
 
-    def __init__(self, asset_types_enabled: Sequence[str] = None) -> None:
-        """Constructor for the CreateConnectionTemplateV1Request class."""
+    def __init__(self, protect: protect_template_config.ProtectTemplateConfig = None) -> None:
+        """Constructor for the CreateAwsConnectionTemplateV1Request class."""
 
         # Initialize members of the class
-        self.asset_types_enabled: Sequence[str] = asset_types_enabled
+        self.protect: protect_template_config.ProtectTemplateConfig = protect
 
     @classmethod
     def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
@@ -43,6 +44,12 @@ class CreateConnectionTemplateV1Request:
             return None
 
         # Extract variables from the dictionary
-        asset_types_enabled = dictionary.get('asset_types_enabled')
+        key = 'protect'
+        protect = (
+            protect_template_config.ProtectTemplateConfig.from_dictionary(dictionary.get(key))
+            if dictionary.get(key)
+            else None
+        )
+
         # Return an object of this model
-        return cls(asset_types_enabled)
+        return cls(protect)
