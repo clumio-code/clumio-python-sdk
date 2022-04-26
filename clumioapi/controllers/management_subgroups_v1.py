@@ -52,7 +52,7 @@ class ManagementSubgroupsV1Controller(base_controller.BaseController):
 
         # Prepare headers
         _headers = {
-            'accept': 'application/management-subgroups=v1+json',
+            'accept': 'application/api.clumio.management-subgroups=v1+json',
             'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
         }
         # Execute request
@@ -95,7 +95,7 @@ class ManagementSubgroupsV1Controller(base_controller.BaseController):
 
         # Prepare headers
         _headers = {
-            'accept': 'application/management-subgroups=v1+json',
+            'accept': 'application/api.clumio.management-subgroups=v1+json',
             'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
         }
         # Execute request
@@ -140,7 +140,7 @@ class ManagementSubgroupsV1Controller(base_controller.BaseController):
 
         # Prepare headers
         _headers = {
-            'accept': 'application/management-subgroups=v1+json',
+            'accept': 'application/api.clumio.management-subgroups=v1+json',
             'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
         }
         # Execute request

@@ -45,7 +45,7 @@ class VmwareVcenterDatacenterComplianceStatsV1Controller(base_controller.BaseCon
 
         # Prepare headers
         _headers = {
-            'accept': 'application/vmware-vcenter-datacenter-compliance-stats=v1+json',
+            'accept': 'application/api.clumio.vmware-vcenter-datacenter-compliance-stats=v1+json',
             'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
         }
         # Execute request

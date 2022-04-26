@@ -238,7 +238,7 @@ class IndividualAlertsV1Controller(base_controller.BaseController):
 
         # Prepare headers
         _headers = {
-            'accept': 'application/individual-alerts=v1+json',
+            'accept': 'application/api.clumio.individual-alerts=v1+json',
             'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
         }
         # Execute request
@@ -290,7 +290,7 @@ class IndividualAlertsV1Controller(base_controller.BaseController):
 
         # Prepare headers
         _headers = {
-            'accept': 'application/individual-alerts=v1+json',
+            'accept': 'application/api.clumio.individual-alerts=v1+json',
             'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
         }
         # Execute request
@@ -348,7 +348,7 @@ class IndividualAlertsV1Controller(base_controller.BaseController):
 
         # Prepare headers
         _headers = {
-            'accept': 'application/individual-alerts=v1+json',
+            'accept': 'application/api.clumio.individual-alerts=v1+json',
             'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
         }
         # Execute request

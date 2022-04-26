@@ -91,7 +91,7 @@ class AwsS3BucketsV1Controller(base_controller.BaseController):
 
         # Prepare headers
         _headers = {
-            'accept': 'application/aws-s3-buckets=v1+json',
+            'accept': 'application/api.clumio.aws-s3-buckets=v1+json',
             'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
         }
         # Execute request
@@ -127,7 +127,7 @@ class AwsS3BucketsV1Controller(base_controller.BaseController):
 
         # Prepare headers
         _headers = {
-            'accept': 'application/aws-s3-buckets=v1+json',
+            'accept': 'application/api.clumio.aws-s3-buckets=v1+json',
             'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
         }
         # Execute request

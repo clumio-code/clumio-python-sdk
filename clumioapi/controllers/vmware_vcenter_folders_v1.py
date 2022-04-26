@@ -143,7 +143,7 @@ class VmwareVcenterFoldersV1Controller(base_controller.BaseController):
 
         # Prepare headers
         _headers = {
-            'accept': 'application/vmware-vcenter-folders=v1+json',
+            'accept': 'application/api.clumio.vmware-vcenter-folders=v1+json',
             'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
         }
         # Execute request
@@ -201,7 +201,7 @@ class VmwareVcenterFoldersV1Controller(base_controller.BaseController):
 
         # Prepare headers
         _headers = {
-            'accept': 'application/vmware-vcenter-folders=v1+json',
+            'accept': 'application/api.clumio.vmware-vcenter-folders=v1+json',
             'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
         }
         # Execute request

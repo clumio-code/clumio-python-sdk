@@ -89,7 +89,7 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
 
         # Prepare headers
         _headers = {
-            'accept': 'application/protection-groups=v1+json',
+            'accept': 'application/api.clumio.protection-groups=v1+json',
             'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
         }
         # Execute request
@@ -127,7 +127,7 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
 
         # Prepare headers
         _headers = {
-            'accept': 'application/protection-groups=v1+json',
+            'accept': 'application/api.clumio.protection-groups=v1+json',
             'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
         }
         # Execute request
@@ -171,7 +171,7 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
 
         # Prepare headers
         _headers = {
-            'accept': 'application/protection-groups=v1+json',
+            'accept': 'application/api.clumio.protection-groups=v1+json',
             'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
         }
         # Execute request
@@ -222,7 +222,7 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
 
         # Prepare headers
         _headers = {
-            'accept': 'application/protection-groups=v1+json',
+            'accept': 'application/api.clumio.protection-groups=v1+json',
             'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
         }
         # Execute request
@@ -269,7 +269,7 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
 
         # Prepare headers
         _headers = {
-            'accept': 'application/protection-groups=v1+json',
+            'accept': 'application/api.clumio.protection-groups=v1+json',
             'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
         }
         # Execute request
@@ -316,7 +316,7 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
 
         # Prepare headers
         _headers = {
-            'accept': 'application/protection-groups=v1+json',
+            'accept': 'application/api.clumio.protection-groups=v1+json',
             'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
         }
         # Execute request
@@ -369,7 +369,7 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
 
         # Prepare headers
         _headers = {
-            'accept': 'application/protection-groups=v1+json',
+            'accept': 'application/api.clumio.protection-groups=v1+json',
             'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
         }
         # Execute request

@@ -96,7 +96,7 @@ class ConsolidatedAlertsV1Controller(base_controller.BaseController):
 
         # Prepare headers
         _headers = {
-            'accept': 'application/consolidated-alerts=v1+json',
+            'accept': 'application/api.clumio.consolidated-alerts=v1+json',
             'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
         }
         # Execute request
@@ -134,7 +134,7 @@ class ConsolidatedAlertsV1Controller(base_controller.BaseController):
 
         # Prepare headers
         _headers = {
-            'accept': 'application/consolidated-alerts=v1+json',
+            'accept': 'application/api.clumio.consolidated-alerts=v1+json',
             'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
         }
         # Execute request
@@ -175,7 +175,7 @@ class ConsolidatedAlertsV1Controller(base_controller.BaseController):
 
         # Prepare headers
         _headers = {
-            'accept': 'application/consolidated-alerts=v1+json',
+            'accept': 'application/api.clumio.consolidated-alerts=v1+json',
             'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
         }
         # Execute request
