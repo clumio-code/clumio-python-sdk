@@ -29,7 +29,7 @@ class UpdateUserResponse:
         full_name:
             The first and last name of the Clumio user. The name appears in the User
             Management screen and is used to identify the user.
-        id:
+        p_id:
             The Clumio-assigned ID of the Clumio user.
         inviter:
             The ID number of the user who sent the email invitation.
@@ -61,7 +61,7 @@ class UpdateUserResponse:
         'assigned_role': 'assigned_role',
         'email': 'email',
         'full_name': 'full_name',
-        'id': 'id',
+        'p_id': 'id',
         'inviter': 'inviter',
         'is_confirmed': 'is_confirmed',
         'is_enabled': 'is_enabled',
@@ -77,7 +77,7 @@ class UpdateUserResponse:
         assigned_role: str = None,
         email: str = None,
         full_name: str = None,
-        id: str = None,
+        p_id: str = None,
         inviter: str = None,
         is_confirmed: bool = None,
         is_enabled: bool = None,
@@ -93,7 +93,7 @@ class UpdateUserResponse:
         self.assigned_role: str = assigned_role
         self.email: str = email
         self.full_name: str = full_name
-        self.id: str = id
+        self.p_id: str = p_id
         self.inviter: str = inviter
         self.is_confirmed: bool = is_confirmed
         self.is_enabled: bool = is_enabled
@@ -134,7 +134,7 @@ class UpdateUserResponse:
         assigned_role = dictionary.get('assigned_role')
         email = dictionary.get('email')
         full_name = dictionary.get('full_name')
-        id = dictionary.get('id')
+        p_id = dictionary.get('id')
         inviter = dictionary.get('inviter')
         is_confirmed = dictionary.get('is_confirmed')
         is_enabled = dictionary.get('is_enabled')
@@ -148,7 +148,7 @@ class UpdateUserResponse:
             assigned_role,
             email,
             full_name,
-            id,
+            p_id,
             inviter,
             is_confirmed,
             is_enabled,

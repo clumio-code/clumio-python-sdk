@@ -35,7 +35,7 @@ class PolicyOperation:
             The service level agreement (SLA) for the policy. A policy can include one or
             more SLAs. For example, a policy can retain daily backups for a month each, and
             monthly backups for a year each.
-        type:
+        p_type:
             The operation to be performed for this SLA set. Each SLA set corresponds to one
             and only one operation.
             Refer to the Policy Operation table for a complete list of policy operations.
@@ -47,7 +47,7 @@ class PolicyOperation:
         'advanced_settings': 'advanced_settings',
         'backup_window': 'backup_window',
         'slas': 'slas',
-        'type': 'type',
+        'p_type': 'type',
     }
 
     def __init__(
@@ -56,7 +56,7 @@ class PolicyOperation:
         advanced_settings: policy_advanced_settings.PolicyAdvancedSettings = None,
         backup_window: backup_window.BackupWindow = None,
         slas: Sequence[backup_sla.BackupSLA] = None,
-        type: str = None,
+        p_type: str = None,
     ) -> None:
         """Constructor for the PolicyOperation class."""
 
@@ -65,7 +65,7 @@ class PolicyOperation:
         self.advanced_settings: policy_advanced_settings.PolicyAdvancedSettings = advanced_settings
         self.backup_window: backup_window.BackupWindow = backup_window
         self.slas: Sequence[backup_sla.BackupSLA] = slas
-        self.type: str = type
+        self.p_type: str = p_type
 
     @classmethod
     def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
@@ -104,6 +104,6 @@ class PolicyOperation:
             for value in dictionary.get('slas'):
                 slas.append(backup_sla.BackupSLA.from_dictionary(value))
 
-        type = dictionary.get('type')
+        p_type = dictionary.get('type')
         # Return an object of this model
-        return cls(action_setting, advanced_settings, p_backup_window, slas, type)
+        return cls(action_setting, advanced_settings, p_backup_window, slas, p_type)

@@ -19,7 +19,7 @@ class VCenterFolder:
             URLs to pages related to the resource.
         hasChildGroups:
             HasChildGroups denotes whether direct child folders exist.
-        id:
+        p_id:
             The Clumio-assigned ID of the item.
         isRoot:
             IsRoot denotes whether this folder is a root (hidden) folder.
@@ -39,7 +39,7 @@ class VCenterFolder:
     _names = {
         'links': '_links',
         'hasChildGroups': 'hasChildGroups',
-        'id': 'id',
+        'p_id': 'id',
         'isRoot': 'isRoot',
         'name': 'name',
         'organizational_unit_id': 'organizational_unit_id',
@@ -51,7 +51,7 @@ class VCenterFolder:
         self,
         links: v_center_folder_links.VCenterFolderLinks = None,
         hasChildGroups: bool = None,
-        id: str = None,
+        p_id: str = None,
         isRoot: bool = None,
         name: str = None,
         organizational_unit_id: str = None,
@@ -63,7 +63,7 @@ class VCenterFolder:
         # Initialize members of the class
         self.links: v_center_folder_links.VCenterFolderLinks = links
         self.hasChildGroups: bool = hasChildGroups
-        self.id: str = id
+        self.p_id: str = p_id
         self.isRoot: bool = isRoot
         self.name: str = name
         self.organizational_unit_id: str = organizational_unit_id
@@ -94,7 +94,7 @@ class VCenterFolder:
         )
 
         hasChildGroups = dictionary.get('hasChildGroups')
-        id = dictionary.get('id')
+        p_id = dictionary.get('id')
         isRoot = dictionary.get('isRoot')
         name = dictionary.get('name')
         organizational_unit_id = dictionary.get('organizational_unit_id')
@@ -114,5 +114,12 @@ class VCenterFolder:
 
         # Return an object of this model
         return cls(
-            links, hasChildGroups, id, isRoot, name, organizational_unit_id, protectionInfo, vmStats
+            links,
+            hasChildGroups,
+            p_id,
+            isRoot,
+            name,
+            organizational_unit_id,
+            protectionInfo,
+            vmStats,
         )

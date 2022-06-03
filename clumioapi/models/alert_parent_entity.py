@@ -15,9 +15,9 @@ class AlertParentEntity:
     "aws_ebs_volume".
 
     Attributes:
-        id:
+        p_id:
             A system-generated ID assigned to this entity.
-        type:
+        p_type:
             The following table describes the entity types that Clumio supports.
 
             +--------------------------------+---------------------------------------------+
@@ -61,14 +61,14 @@ class AlertParentEntity:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'id': 'id', 'type': 'type', 'value': 'value'}
+    _names = {'p_id': 'id', 'p_type': 'type', 'value': 'value'}
 
-    def __init__(self, id: str = None, type: str = None, value: str = None) -> None:
+    def __init__(self, p_id: str = None, p_type: str = None, value: str = None) -> None:
         """Constructor for the AlertParentEntity class."""
 
         # Initialize members of the class
-        self.id: str = id
-        self.type: str = type
+        self.p_id: str = p_id
+        self.p_type: str = p_type
         self.value: str = value
 
     @classmethod
@@ -87,8 +87,8 @@ class AlertParentEntity:
             return None
 
         # Extract variables from the dictionary
-        id = dictionary.get('id')
-        type = dictionary.get('type')
+        p_id = dictionary.get('id')
+        p_type = dictionary.get('type')
         value = dictionary.get('value')
         # Return an object of this model
-        return cls(id, type, value)
+        return cls(p_id, p_type, value)

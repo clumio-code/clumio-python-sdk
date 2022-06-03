@@ -25,10 +25,10 @@ class S3ReplicationRule:
             Specifies information about where to publish analysis or configuration results.
         existing_object_replication:
             Configuration to replicate existing source bucket objects.
-        filter:
+        p_filter:
             A filter that identifies the subset of objects
             to which the replication rule applies.
-        id:
+        p_id:
             A unique identifier for the rule (max 255 characters).
         priority:
             The priority indicates which rule has precedence whenever
@@ -45,8 +45,8 @@ class S3ReplicationRule:
         'delete_marker_replication': 'delete_marker_replication',
         'destination': 'destination',
         'existing_object_replication': 'existing_object_replication',
-        'filter': 'filter',
-        'id': 'id',
+        'p_filter': 'filter',
+        'p_id': 'id',
         'priority': 'priority',
         'source_selection_criteria': 'source_selection_criteria',
         'status': 'status',
@@ -57,8 +57,8 @@ class S3ReplicationRule:
         delete_marker_replication: s3_delete_marker_replication.S3DeleteMarkerReplication = None,
         destination: s3_destination.S3Destination = None,
         existing_object_replication: s3_existing_object_replication.S3ExistingObjectReplication = None,
-        filter: s3_replication_rule_filter.S3ReplicationRuleFilter = None,
-        id: str = None,
+        p_filter: s3_replication_rule_filter.S3ReplicationRuleFilter = None,
+        p_id: str = None,
         priority: int = None,
         source_selection_criteria: s3_source_selection_criteria.S3SourceSelectionCriteria = None,
         status: str = None,
@@ -73,8 +73,8 @@ class S3ReplicationRule:
         self.existing_object_replication: s3_existing_object_replication.S3ExistingObjectReplication = (
             existing_object_replication
         )
-        self.filter: s3_replication_rule_filter.S3ReplicationRuleFilter = filter
-        self.id: str = id
+        self.p_filter: s3_replication_rule_filter.S3ReplicationRuleFilter = p_filter
+        self.p_id: str = p_id
         self.priority: int = priority
         self.source_selection_criteria: s3_source_selection_criteria.S3SourceSelectionCriteria = (
             source_selection_criteria
@@ -123,13 +123,13 @@ class S3ReplicationRule:
         )
 
         key = 'filter'
-        filter = (
+        p_filter = (
             s3_replication_rule_filter.S3ReplicationRuleFilter.from_dictionary(dictionary.get(key))
             if dictionary.get(key)
             else None
         )
 
-        id = dictionary.get('id')
+        p_id = dictionary.get('id')
         priority = dictionary.get('priority')
         key = 'source_selection_criteria'
         source_selection_criteria = (
@@ -146,8 +146,8 @@ class S3ReplicationRule:
             delete_marker_replication,
             destination,
             existing_object_replication,
-            filter,
-            id,
+            p_filter,
+            p_id,
             priority,
             source_selection_criteria,
             status,

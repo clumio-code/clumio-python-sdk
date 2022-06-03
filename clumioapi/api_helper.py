@@ -26,7 +26,9 @@ def json_deserialize(json, unboxing_function: Any = None) -> Any:
 
     try:
         decoded = jsonpickle.decode(json)
-    except:
+    except MemoryError as memory_error:
+        raise memory_error
+    except Exception:
         return json
 
     if not unboxing_function:

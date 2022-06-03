@@ -20,7 +20,7 @@ class ReadMssqlAGResponse:
             Embedded responses related to the resource.
         links:
             URLs to pages related to the resource.
-        id:
+        p_id:
             The Clumio-assigned ID of the availability group.
         name:
             The Microsoft SQL-assigned name of the availability group.
@@ -39,7 +39,7 @@ class ReadMssqlAGResponse:
     _names = {
         'embedded': '_embedded',
         'links': '_links',
-        'id': 'id',
+        'p_id': 'id',
         'name': 'name',
         'organizational_unit_id': 'organizational_unit_id',
         'protection_info': 'protection_info',
@@ -50,7 +50,7 @@ class ReadMssqlAGResponse:
         self,
         embedded: mssql_ag_embedded.MssqlAGEmbedded = None,
         links: mssql_ag_links.MssqlAGLinks = None,
-        id: str = None,
+        p_id: str = None,
         name: str = None,
         organizational_unit_id: str = None,
         protection_info: protection_info.ProtectionInfo = None,
@@ -61,7 +61,7 @@ class ReadMssqlAGResponse:
         # Initialize members of the class
         self.embedded: mssql_ag_embedded.MssqlAGEmbedded = embedded
         self.links: mssql_ag_links.MssqlAGLinks = links
-        self.id: str = id
+        self.p_id: str = p_id
         self.name: str = name
         self.organizational_unit_id: str = organizational_unit_id
         self.protection_info: protection_info.ProtectionInfo = protection_info
@@ -97,7 +97,7 @@ class ReadMssqlAGResponse:
             else None
         )
 
-        id = dictionary.get('id')
+        p_id = dictionary.get('id')
         name = dictionary.get('name')
         organizational_unit_id = dictionary.get('organizational_unit_id')
         key = 'protection_info'
@@ -109,4 +109,4 @@ class ReadMssqlAGResponse:
 
         status = dictionary.get('status')
         # Return an object of this model
-        return cls(embedded, links, id, name, organizational_unit_id, p_protection_info, status)
+        return cls(embedded, links, p_id, name, organizational_unit_id, p_protection_info, status)

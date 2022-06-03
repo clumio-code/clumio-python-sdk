@@ -18,11 +18,11 @@ class ReadManagementGroupResponse:
         backup_across_subgroups:
             Determines whether backups are allowed to occur across different subgroups or
             cloud connectors.
-        id:
+        p_id:
             The Clumio-assigned ID of the management group.
         name:
             The name of the management group.
-        type:
+        p_type:
             The type of the management group. Possible values include `on_prem`.
         vcenter_id:
             The Clumio-assigned ID of the vCenter server associated with the management
@@ -34,9 +34,9 @@ class ReadManagementGroupResponse:
     _names = {
         'links': '_links',
         'backup_across_subgroups': 'backup_across_subgroups',
-        'id': 'id',
+        'p_id': 'id',
         'name': 'name',
-        'type': 'type',
+        'p_type': 'type',
         'vcenter_id': 'vcenter_id',
     }
 
@@ -44,9 +44,9 @@ class ReadManagementGroupResponse:
         self,
         links: management_group_links.ManagementGroupLinks = None,
         backup_across_subgroups: bool = None,
-        id: str = None,
+        p_id: str = None,
         name: str = None,
-        type: str = None,
+        p_type: str = None,
         vcenter_id: str = None,
     ) -> None:
         """Constructor for the ReadManagementGroupResponse class."""
@@ -54,9 +54,9 @@ class ReadManagementGroupResponse:
         # Initialize members of the class
         self.links: management_group_links.ManagementGroupLinks = links
         self.backup_across_subgroups: bool = backup_across_subgroups
-        self.id: str = id
+        self.p_id: str = p_id
         self.name: str = name
-        self.type: str = type
+        self.p_type: str = p_type
         self.vcenter_id: str = vcenter_id
 
     @classmethod
@@ -83,9 +83,9 @@ class ReadManagementGroupResponse:
         )
 
         backup_across_subgroups = dictionary.get('backup_across_subgroups')
-        id = dictionary.get('id')
+        p_id = dictionary.get('id')
         name = dictionary.get('name')
-        type = dictionary.get('type')
+        p_type = dictionary.get('type')
         vcenter_id = dictionary.get('vcenter_id')
         # Return an object of this model
-        return cls(links, backup_across_subgroups, id, name, type, vcenter_id)
+        return cls(links, backup_across_subgroups, p_id, name, p_type, vcenter_id)

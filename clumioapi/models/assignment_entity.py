@@ -11,10 +11,10 @@ class AssignmentEntity:
     """Implementation of the 'AssignmentEntity' model.
 
     Attributes:
-        id:
+        p_id:
             A system-generated ID assigned of an entity being assigned or unassigned to a
             policy.
-        type:
+        p_type:
 
             The type of an entity being associated or disassociated with a policy.
             Valid primary entity types include the following:
@@ -37,14 +37,14 @@ class AssignmentEntity:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'id': 'id', 'type': 'type'}
+    _names = {'p_id': 'id', 'p_type': 'type'}
 
-    def __init__(self, id: str = None, type: str = None) -> None:
+    def __init__(self, p_id: str = None, p_type: str = None) -> None:
         """Constructor for the AssignmentEntity class."""
 
         # Initialize members of the class
-        self.id: str = id
-        self.type: str = type
+        self.p_id: str = p_id
+        self.p_type: str = p_type
 
     @classmethod
     def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
@@ -62,7 +62,7 @@ class AssignmentEntity:
             return None
 
         # Extract variables from the dictionary
-        id = dictionary.get('id')
-        type = dictionary.get('type')
+        p_id = dictionary.get('id')
+        p_type = dictionary.get('type')
         # Return an object of this model
-        return cls(id, type)
+        return cls(p_id, p_type)

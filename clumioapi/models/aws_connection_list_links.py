@@ -20,7 +20,7 @@ class AWSConnectionListLinks:
     Attributes:
         first:
             The HATEOAS link to the first page of results.
-        next:
+        p_next:
             The HATEOAS link to the next page of results.
         p_self:
             The HATEOAS link to this resource.
@@ -31,7 +31,7 @@ class AWSConnectionListLinks:
     # Create a mapping from Model property names to API property names
     _names = {
         'first': '_first',
-        'next': '_next',
+        'p_next': '_next',
         'p_self': '_self',
         'create_aws_connection': 'create-aws-connection',
     }
@@ -39,7 +39,7 @@ class AWSConnectionListLinks:
     def __init__(
         self,
         first: hateoas_first_link.HateoasFirstLink = None,
-        next: hateoas_next_link.HateoasNextLink = None,
+        p_next: hateoas_next_link.HateoasNextLink = None,
         p_self: hateoas_self_link.HateoasSelfLink = None,
         create_aws_connection: hateoas_link.HateoasLink = None,
     ) -> None:
@@ -47,7 +47,7 @@ class AWSConnectionListLinks:
 
         # Initialize members of the class
         self.first: hateoas_first_link.HateoasFirstLink = first
-        self.next: hateoas_next_link.HateoasNextLink = next
+        self.p_next: hateoas_next_link.HateoasNextLink = p_next
         self.p_self: hateoas_self_link.HateoasSelfLink = p_self
         self.create_aws_connection: hateoas_link.HateoasLink = create_aws_connection
 
@@ -75,7 +75,7 @@ class AWSConnectionListLinks:
         )
 
         key = '_next'
-        next = (
+        p_next = (
             hateoas_next_link.HateoasNextLink.from_dictionary(dictionary.get(key))
             if dictionary.get(key)
             else None
@@ -96,4 +96,4 @@ class AWSConnectionListLinks:
         )
 
         # Return an object of this model
-        return cls(first, next, p_self, create_aws_connection)
+        return cls(first, p_next, p_self, create_aws_connection)

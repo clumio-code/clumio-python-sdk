@@ -19,6 +19,10 @@ class ReportDownloadsV1Controller(base_controller.BaseController):
     def __init__(self, config: configuration.Configuration) -> None:
         super().__init__(config)
         self.config = config
+        self.headers = {
+            'accept': 'application/api.clumio.report-downloads=v1+json',
+            'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
+        }
 
     def list_report_downloads(
         self, body: list_report_downloads_v1_request.ListReportDownloadsV1Request = None
@@ -41,16 +45,11 @@ class ReportDownloadsV1Controller(base_controller.BaseController):
 
         _query_parameters = {}
 
-        # Prepare headers
-        _headers = {
-            'accept': 'application/api.clumio.report-downloads=v1+json',
-            'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
-        }
         # Execute request
         try:
             resp = self.client.get(
                 _url_path,
-                headers=_headers,
+                headers=self.headers,
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
             )
@@ -82,16 +81,11 @@ class ReportDownloadsV1Controller(base_controller.BaseController):
 
         _query_parameters = {}
 
-        # Prepare headers
-        _headers = {
-            'accept': 'application/api.clumio.report-downloads=v1+json',
-            'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
-        }
         # Execute request
         try:
             resp = self.client.post(
                 _url_path,
-                headers=_headers,
+                headers=self.headers,
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
             )

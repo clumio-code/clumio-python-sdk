@@ -17,6 +17,10 @@ class AwsS3BucketsV1Controller(base_controller.BaseController):
     def __init__(self, config: configuration.Configuration) -> None:
         super().__init__(config)
         self.config = config
+        self.headers = {
+            'accept': 'application/api.clumio.aws-s3-buckets=v1+json',
+            'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
+        }
 
     def list_aws_s3_buckets(
         self, limit: int = None, start: str = None, filter: str = None
@@ -41,11 +45,16 @@ class AwsS3BucketsV1Controller(base_controller.BaseController):
                 | environment_id    | $eq              | The Clumio-assigned ID of the AWS     |
                 |                   |                  | environment.                          |
                 +-------------------+------------------+---------------------------------------+
-                | name              | $contains        | The AWS-assigned name of this         |
-                |                   |                  | resource. For example,                |
+                | name              | $contains, $in   | The AWS-assigned name of this         |
+                |                   |                  | resource to conditionalize on. For    |
+                |                   |                  | example,                              |
                 |                   |                  | filter={"name":{"$contains":"dev"}}   |
                 |                   |                  | retrieves all S3 buckets with "dev"   |
                 |                   |                  | in their name.                        |
+                |                   |                  | filter={"name":{"$in":["prod",        |
+                |                   |                  | "dev"]}} retrieves only S3 buckets    |
+                |                   |                  | with names that exactly match "dev"   |
+                |                   |                  | or "prod"                             |
                 +-------------------+------------------+---------------------------------------+
                 | account_native_id | $eq              | The AWS-assigned ID of the AWS        |
                 |                   |                  | account. For example, filter={"accoun |
@@ -89,14 +98,9 @@ class AwsS3BucketsV1Controller(base_controller.BaseController):
         _query_parameters = {}
         _query_parameters = {'limit': limit, 'start': start, 'filter': filter}
 
-        # Prepare headers
-        _headers = {
-            'accept': 'application/api.clumio.aws-s3-buckets=v1+json',
-            'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
-        }
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=_headers, params=_query_parameters)
+            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
@@ -125,14 +129,9 @@ class AwsS3BucketsV1Controller(base_controller.BaseController):
         )
         _query_parameters = {}
 
-        # Prepare headers
-        _headers = {
-            'accept': 'application/api.clumio.aws-s3-buckets=v1+json',
-            'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
-        }
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=_headers, params=_query_parameters)
+            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(

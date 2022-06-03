@@ -18,20 +18,20 @@ class HateoasFirstLink:
         templated:
             Determines whether the "href" link is a URI template. If set to `true`, the
             "href" link is a URI template.
-        type:
+        p_type:
             The HTTP method to be used with the "href" link for the referenced operation.
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'href': 'href', 'templated': 'templated', 'type': 'type'}
+    _names = {'href': 'href', 'templated': 'templated', 'p_type': 'type'}
 
-    def __init__(self, href: str = None, templated: bool = None, type: str = None) -> None:
+    def __init__(self, href: str = None, templated: bool = None, p_type: str = None) -> None:
         """Constructor for the HateoasFirstLink class."""
 
         # Initialize members of the class
         self.href: str = href
         self.templated: bool = templated
-        self.type: str = type
+        self.p_type: str = p_type
 
     @classmethod
     def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
@@ -51,6 +51,6 @@ class HateoasFirstLink:
         # Extract variables from the dictionary
         href = dictionary.get('href')
         templated = dictionary.get('templated')
-        type = dictionary.get('type')
+        p_type = dictionary.get('type')
         # Return an object of this model
-        return cls(href, templated, type)
+        return cls(href, templated, p_type)

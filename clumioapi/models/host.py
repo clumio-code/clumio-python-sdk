@@ -23,7 +23,7 @@ class Host:
             The user-provided endpoint used to connect the host.
         group_id:
             The Clumio-assigned ID of the management group associated with the host.
-        id:
+        p_id:
             The Clumio-assigned ID of the Host.
         last_heartbeat_timestamp:
             The timestamp of the last successful heartbeat of this host. Represented in
@@ -52,7 +52,7 @@ class Host:
         'edge_connector_version': 'edge_connector_version',
         'endpoint': 'endpoint',
         'group_id': 'group_id',
-        'id': 'id',
+        'p_id': 'id',
         'last_heartbeat_timestamp': 'last_heartbeat_timestamp',
         'name': 'name',
         'operational_status': 'operational_status',
@@ -68,7 +68,7 @@ class Host:
         edge_connector_version: str = None,
         endpoint: str = None,
         group_id: str = None,
-        id: str = None,
+        p_id: str = None,
         last_heartbeat_timestamp: str = None,
         name: str = None,
         operational_status: str = None,
@@ -84,7 +84,7 @@ class Host:
         self.edge_connector_version: str = edge_connector_version
         self.endpoint: str = endpoint
         self.group_id: str = group_id
-        self.id: str = id
+        self.p_id: str = p_id
         self.last_heartbeat_timestamp: str = last_heartbeat_timestamp
         self.name: str = name
         self.operational_status: str = operational_status
@@ -119,7 +119,7 @@ class Host:
         edge_connector_version = dictionary.get('edge_connector_version')
         endpoint = dictionary.get('endpoint')
         group_id = dictionary.get('group_id')
-        id = dictionary.get('id')
+        p_id = dictionary.get('id')
         last_heartbeat_timestamp = dictionary.get('last_heartbeat_timestamp')
         name = dictionary.get('name')
         operational_status = dictionary.get('operational_status')
@@ -133,7 +133,7 @@ class Host:
             edge_connector_version,
             endpoint,
             group_id,
-            id,
+            p_id,
             last_heartbeat_timestamp,
             name,
             operational_status,

@@ -30,7 +30,7 @@ class RestoredFileInfo:
         expiration_timestamp:
             The timestamp of when the restored file will expire. Represented in RFC-3339
             format.
-        id:
+        p_id:
             The Clumio-assigned ID of the restored file.
         name:
             The Clumio-assigned name of the restored file.
@@ -46,7 +46,7 @@ class RestoredFileInfo:
         'backup_id': 'backup_id',
         'backup_timestamp': 'backup_timestamp',
         'expiration_timestamp': 'expiration_timestamp',
-        'id': 'id',
+        'p_id': 'id',
         'name': 'name',
         'size': 'size',
         'task_id': 'task_id',
@@ -58,7 +58,7 @@ class RestoredFileInfo:
         backup_id: str = None,
         backup_timestamp: str = None,
         expiration_timestamp: str = None,
-        id: str = None,
+        p_id: str = None,
         name: str = None,
         size: int = None,
         task_id: str = None,
@@ -70,7 +70,7 @@ class RestoredFileInfo:
         self.backup_id: str = backup_id
         self.backup_timestamp: str = backup_timestamp
         self.expiration_timestamp: str = expiration_timestamp
-        self.id: str = id
+        self.p_id: str = p_id
         self.name: str = name
         self.size: int = size
         self.task_id: str = task_id
@@ -100,7 +100,7 @@ class RestoredFileInfo:
         backup_id = dictionary.get('backup_id')
         backup_timestamp = dictionary.get('backup_timestamp')
         expiration_timestamp = dictionary.get('expiration_timestamp')
-        id = dictionary.get('id')
+        p_id = dictionary.get('id')
         name = dictionary.get('name')
         size = dictionary.get('size')
         task_id = dictionary.get('task_id')
@@ -110,7 +110,7 @@ class RestoredFileInfo:
             backup_id,
             backup_timestamp,
             expiration_timestamp,
-            id,
+            p_id,
             name,
             size,
             task_id,

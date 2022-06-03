@@ -16,6 +16,10 @@ class VmwareVcenterDatacenterComplianceStatsV1Controller(base_controller.BaseCon
     def __init__(self, config: configuration.Configuration) -> None:
         super().__init__(config)
         self.config = config
+        self.headers = {
+            'accept': 'application/api.clumio.vmware-vcenter-datacenter-compliance-stats=v1+json',
+            'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
+        }
 
     def read_vmware_vcenter_datacenter_compliance_stats(
         self, vcenter_id: str, datacenter_id: str
@@ -43,14 +47,9 @@ class VmwareVcenterDatacenterComplianceStatsV1Controller(base_controller.BaseCon
         )
         _query_parameters = {}
 
-        # Prepare headers
-        _headers = {
-            'accept': 'application/api.clumio.vmware-vcenter-datacenter-compliance-stats=v1+json',
-            'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
-        }
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=_headers, params=_query_parameters)
+            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(

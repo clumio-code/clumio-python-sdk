@@ -34,7 +34,7 @@ class ConsolidatedAlert:
             it.
         details:
             Additional information about the consolidated alert.
-        id:
+        p_id:
             The Clumio-assigned ID of the consolidated alert.
         notes:
             A record of user-provided information about the alert.
@@ -51,7 +51,7 @@ class ConsolidatedAlert:
             A consolidated alert goes into "cleared" status when all of its associated
             individual alerts are in "cleared" status or when a Clumio user manually clears
             it.
-        type:
+        p_type:
             The general alert category. An alert type may be associated with multiple alert
             causes. Examples of alert types include "tag_conflict" and "policy_violated".
             Refer to the Alert Type table for a complete list of alert types.
@@ -69,13 +69,13 @@ class ConsolidatedAlert:
         'cleared_entity_count': 'cleared_entity_count',
         'cleared_timestamp': 'cleared_timestamp',
         'details': 'details',
-        'id': 'id',
+        'p_id': 'id',
         'notes': 'notes',
         'parent_entity': 'parent_entity',
         'raised_timestamp': 'raised_timestamp',
         'severity': 'severity',
         'status': 'status',
-        'type': 'type',
+        'p_type': 'type',
         'updated_timestamp': 'updated_timestamp',
     }
 
@@ -87,13 +87,13 @@ class ConsolidatedAlert:
         cleared_entity_count: int = None,
         cleared_timestamp: str = None,
         details: consolidated_alert_details.ConsolidatedAlertDetails = None,
-        id: str = None,
+        p_id: str = None,
         notes: str = None,
         parent_entity: consolidated_alert_parent_entity.ConsolidatedAlertParentEntity = None,
         raised_timestamp: str = None,
         severity: str = None,
         status: str = None,
-        type: str = None,
+        p_type: str = None,
         updated_timestamp: str = None,
     ) -> None:
         """Constructor for the ConsolidatedAlert class."""
@@ -105,7 +105,7 @@ class ConsolidatedAlert:
         self.cleared_entity_count: int = cleared_entity_count
         self.cleared_timestamp: str = cleared_timestamp
         self.details: consolidated_alert_details.ConsolidatedAlertDetails = details
-        self.id: str = id
+        self.p_id: str = p_id
         self.notes: str = notes
         self.parent_entity: consolidated_alert_parent_entity.ConsolidatedAlertParentEntity = (
             parent_entity
@@ -113,7 +113,7 @@ class ConsolidatedAlert:
         self.raised_timestamp: str = raised_timestamp
         self.severity: str = severity
         self.status: str = status
-        self.type: str = type
+        self.p_type: str = p_type
         self.updated_timestamp: str = updated_timestamp
 
     @classmethod
@@ -150,7 +150,7 @@ class ConsolidatedAlert:
             else None
         )
 
-        id = dictionary.get('id')
+        p_id = dictionary.get('id')
         notes = dictionary.get('notes')
         key = 'parent_entity'
         parent_entity = (
@@ -164,7 +164,7 @@ class ConsolidatedAlert:
         raised_timestamp = dictionary.get('raised_timestamp')
         severity = dictionary.get('severity')
         status = dictionary.get('status')
-        type = dictionary.get('type')
+        p_type = dictionary.get('type')
         updated_timestamp = dictionary.get('updated_timestamp')
         # Return an object of this model
         return cls(
@@ -174,12 +174,12 @@ class ConsolidatedAlert:
             cleared_entity_count,
             cleared_timestamp,
             details,
-            id,
+            p_id,
             notes,
             parent_entity,
             raised_timestamp,
             severity,
             status,
-            type,
+            p_type,
             updated_timestamp,
         )

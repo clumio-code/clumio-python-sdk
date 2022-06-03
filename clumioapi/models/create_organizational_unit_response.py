@@ -27,7 +27,7 @@ class CreateOrganizationalUnitResponse:
             List of all recursive descendant organizational units of this OU.
         description:
             A description of the organizational unit.
-        id:
+        p_id:
             The Clumio assigned ID of the organizational unit.
         name:
             Unique name assigned to the organizational unit.
@@ -54,7 +54,7 @@ class CreateOrganizationalUnitResponse:
         'configured_datasource_types': 'configured_datasource_types',
         'descendant_ids': 'descendant_ids',
         'description': 'description',
-        'id': 'id',
+        'p_id': 'id',
         'name': 'name',
         'parent_id': 'parent_id',
         'user_count': 'user_count',
@@ -69,7 +69,7 @@ class CreateOrganizationalUnitResponse:
         configured_datasource_types: Sequence[str] = None,
         descendant_ids: Sequence[str] = None,
         description: str = None,
-        id: str = None,
+        p_id: str = None,
         name: str = None,
         parent_id: str = None,
         user_count: int = None,
@@ -84,7 +84,7 @@ class CreateOrganizationalUnitResponse:
         self.configured_datasource_types: Sequence[str] = configured_datasource_types
         self.descendant_ids: Sequence[str] = descendant_ids
         self.description: str = description
-        self.id: str = id
+        self.p_id: str = p_id
         self.name: str = name
         self.parent_id: str = parent_id
         self.user_count: int = user_count
@@ -124,7 +124,7 @@ class CreateOrganizationalUnitResponse:
         configured_datasource_types = dictionary.get('configured_datasource_types')
         descendant_ids = dictionary.get('descendant_ids')
         description = dictionary.get('description')
-        id = dictionary.get('id')
+        p_id = dictionary.get('id')
         name = dictionary.get('name')
         parent_id = dictionary.get('parent_id')
         user_count = dictionary.get('user_count')
@@ -137,7 +137,7 @@ class CreateOrganizationalUnitResponse:
             configured_datasource_types,
             descendant_ids,
             description,
-            id,
+            p_id,
             name,
             parent_id,
             user_count,

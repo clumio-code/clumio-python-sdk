@@ -5,6 +5,7 @@
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
 from clumioapi.models import aws_connection_links
+from clumioapi.models import consolidated_config
 from clumioapi.models import discover_config
 from clumioapi.models import protect_config
 
@@ -29,6 +30,12 @@ class UpdateAWSConnectionResponse:
             Clumio AWS AccountId
         clumio_aws_region:
             Clumio AWS Region
+        config:
+            The consolidated configuration of the Clumio Cloud Protect and Clumio Cloud
+            Discover products for this connection.
+            If this connection is deprecated to use unconsolidated configuration, then this
+            field has a
+            value of `null`.
         connection_status:
             The status of the connection. Possible values include "connecting",
             "connected", and "unlinked".
@@ -40,7 +47,7 @@ class UpdateAWSConnectionResponse:
             The configuration of the Clumio Discover product for this connection.
             If this connection is not configured for Clumio Discover, then this field has a
             value of `null`.
-        id:
+        p_id:
             The Clumio-assigned ID of the connection.
         namespace:
             K8S Namespace
@@ -57,13 +64,15 @@ class UpdateAWSConnectionResponse:
             value of `null`.
         protect_asset_types_enabled:
             The asset types enabled for protect. This is only populated if "protect"
-            is enabled. Valid values are any of ["EBS", "RDS", "DynamoDB", "EC2MSSQL"].
-            EBS and RDS are mandatory datasources.
+            is enabled. Valid values are any of ["EBS", "RDS", "DynamoDB", "EC2MSSQL",
+            "S3"].
+            EBS and RDS are mandatory datasources. (Deprecated)
         services_enabled:
             The services to be enabled for this configuration. Valid values are
             ["discover"], ["discover", "protect"]. This is only set when the
             registration is created, the enabled services are obtained directly from
-            the installed template after that.
+            the installed template after that. (Deprecated as all connections will have
+            both discover and protect enabled)
         stack_arn:
             The Amazon Resource Name of the installed CloudFormation stack in this AWS
             account
@@ -85,11 +94,12 @@ class UpdateAWSConnectionResponse:
         'aws_region': 'aws_region',
         'clumio_aws_account_id': 'clumio_aws_account_id',
         'clumio_aws_region': 'clumio_aws_region',
+        'config': 'config',
         'connection_status': 'connection_status',
         'created_timestamp': 'created_timestamp',
         'description': 'description',
         'discover': 'discover',
-        'id': 'id',
+        'p_id': 'id',
         'namespace': 'namespace',
         'organizational_unit_id': 'organizational_unit_id',
         'protect': 'protect',
@@ -109,11 +119,12 @@ class UpdateAWSConnectionResponse:
         aws_region: str = None,
         clumio_aws_account_id: str = None,
         clumio_aws_region: str = None,
+        config: consolidated_config.ConsolidatedConfig = None,
         connection_status: str = None,
         created_timestamp: str = None,
         description: str = None,
         discover: discover_config.DiscoverConfig = None,
-        id: str = None,
+        p_id: str = None,
         namespace: str = None,
         organizational_unit_id: str = None,
         protect: protect_config.ProtectConfig = None,
@@ -133,11 +144,12 @@ class UpdateAWSConnectionResponse:
         self.aws_region: str = aws_region
         self.clumio_aws_account_id: str = clumio_aws_account_id
         self.clumio_aws_region: str = clumio_aws_region
+        self.config: consolidated_config.ConsolidatedConfig = config
         self.connection_status: str = connection_status
         self.created_timestamp: str = created_timestamp
         self.description: str = description
         self.discover: discover_config.DiscoverConfig = discover
-        self.id: str = id
+        self.p_id: str = p_id
         self.namespace: str = namespace
         self.organizational_unit_id: str = organizational_unit_id
         self.protect: protect_config.ProtectConfig = protect
@@ -176,6 +188,13 @@ class UpdateAWSConnectionResponse:
         aws_region = dictionary.get('aws_region')
         clumio_aws_account_id = dictionary.get('clumio_aws_account_id')
         clumio_aws_region = dictionary.get('clumio_aws_region')
+        key = 'config'
+        config = (
+            consolidated_config.ConsolidatedConfig.from_dictionary(dictionary.get(key))
+            if dictionary.get(key)
+            else None
+        )
+
         connection_status = dictionary.get('connection_status')
         created_timestamp = dictionary.get('created_timestamp')
         description = dictionary.get('description')
@@ -186,7 +205,7 @@ class UpdateAWSConnectionResponse:
             else None
         )
 
-        id = dictionary.get('id')
+        p_id = dictionary.get('id')
         namespace = dictionary.get('namespace')
         organizational_unit_id = dictionary.get('organizational_unit_id')
         key = 'protect'
@@ -210,11 +229,12 @@ class UpdateAWSConnectionResponse:
             aws_region,
             clumio_aws_account_id,
             clumio_aws_region,
+            config,
             connection_status,
             created_timestamp,
             description,
             discover,
-            id,
+            p_id,
             namespace,
             organizational_unit_id,
             protect,

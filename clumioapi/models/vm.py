@@ -48,7 +48,7 @@ class Vm:
             The host on which the VM resides. If the VM is deleted, then `host.id` and
             `host.is_standalone` have values of `null`. The `host.name` field may also have
             a value of `null`.
-        id:
+        p_id:
             The VMware-assigned Managed Object Reference (MoRef) ID of the VM.
             VMs from different vCenters may have the same VMware-assigned ID.
         is_deleted:
@@ -104,7 +104,7 @@ class Vm:
         'datacenter': 'datacenter',
         'datacenter_folder': 'datacenter_folder',
         'host': 'host',
-        'id': 'id',
+        'p_id': 'id',
         'is_deleted': 'is_deleted',
         'is_supported': 'is_supported',
         'last_backup_timestamp': 'last_backup_timestamp',
@@ -130,7 +130,7 @@ class Vm:
         datacenter: vm_datacenter_model.VMDatacenterModel = None,
         datacenter_folder: vm_datacenter_folder_model.VMDatacenterFolderModel = None,
         host: vm_host_model.VMHostModel = None,
-        id: str = None,
+        p_id: str = None,
         is_deleted: bool = None,
         is_supported: bool = None,
         last_backup_timestamp: str = None,
@@ -160,7 +160,7 @@ class Vm:
             datacenter_folder
         )
         self.host: vm_host_model.VMHostModel = host
-        self.id: str = id
+        self.p_id: str = p_id
         self.is_deleted: bool = is_deleted
         self.is_supported: bool = is_supported
         self.last_backup_timestamp: str = last_backup_timestamp
@@ -241,7 +241,7 @@ class Vm:
             else None
         )
 
-        id = dictionary.get('id')
+        p_id = dictionary.get('id')
         is_deleted = dictionary.get('is_deleted')
         is_supported = dictionary.get('is_supported')
         last_backup_timestamp = dictionary.get('last_backup_timestamp')
@@ -295,7 +295,7 @@ class Vm:
             datacenter,
             datacenter_folder,
             host,
-            id,
+            p_id,
             is_deleted,
             is_supported,
             last_backup_timestamp,

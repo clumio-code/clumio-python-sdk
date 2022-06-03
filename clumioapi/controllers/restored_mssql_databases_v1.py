@@ -17,6 +17,10 @@ class RestoredMssqlDatabasesV1Controller(base_controller.BaseController):
     def __init__(self, config: configuration.Configuration) -> None:
         super().__init__(config)
         self.config = config
+        self.headers = {
+            'accept': 'application/api.clumio.restored-mssql-databases=v1+json',
+            'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
+        }
 
     def restore_mssql_database(
         self,
@@ -55,16 +59,11 @@ class RestoredMssqlDatabasesV1Controller(base_controller.BaseController):
         _query_parameters = {}
         _query_parameters = {'embed': embed}
 
-        # Prepare headers
-        _headers = {
-            'accept': 'application/api.clumio.restored-mssql-databases=v1+json',
-            'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
-        }
         # Execute request
         try:
             resp = self.client.post(
                 _url_path,
-                headers=_headers,
+                headers=self.headers,
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
             )

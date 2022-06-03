@@ -22,7 +22,7 @@ class FileSystem:
             The filesystem UUID produced by the `lsblk` linux command. If this filesystem
             was not given a UUID in the host environment, then this field has a value of
             `null`.
-        id:
+        p_id:
             The Clumio-assigned ID of the filesystem.
         indexing_failed_reason:
             The reason why file indexing failed. If file indexing succeeded, then this field
@@ -38,7 +38,7 @@ class FileSystem:
             identified by a '/'.
         size:
             The total amount of memory available to the filesystem in bytes.
-        type:
+        p_type:
             The type of the filesystem. This field is populated with values returned from
             the lsblk command. Possible values include `ntfs`, `xfs`, and `ext3`.
         used:
@@ -50,13 +50,13 @@ class FileSystem:
         'links': '_links',
         'available': 'available',
         'filesystem_native_id': 'filesystem_native_id',
-        'id': 'id',
+        'p_id': 'id',
         'indexing_failed_reason': 'indexing_failed_reason',
         'is_encrypted': 'is_encrypted',
         'is_indexed': 'is_indexed',
         'mount_path': 'mount_path',
         'size': 'size',
-        'type': 'type',
+        'p_type': 'type',
         'used': 'used',
     }
 
@@ -65,13 +65,13 @@ class FileSystem:
         links: hateoas_common_links.HateoasCommonLinks = None,
         available: int = None,
         filesystem_native_id: str = None,
-        id: str = None,
+        p_id: str = None,
         indexing_failed_reason: str = None,
         is_encrypted: bool = None,
         is_indexed: bool = None,
         mount_path: str = None,
         size: int = None,
-        type: str = None,
+        p_type: str = None,
         used: int = None,
     ) -> None:
         """Constructor for the FileSystem class."""
@@ -80,13 +80,13 @@ class FileSystem:
         self.links: hateoas_common_links.HateoasCommonLinks = links
         self.available: int = available
         self.filesystem_native_id: str = filesystem_native_id
-        self.id: str = id
+        self.p_id: str = p_id
         self.indexing_failed_reason: str = indexing_failed_reason
         self.is_encrypted: bool = is_encrypted
         self.is_indexed: bool = is_indexed
         self.mount_path: str = mount_path
         self.size: int = size
-        self.type: str = type
+        self.p_type: str = p_type
         self.used: int = used
 
     @classmethod
@@ -114,25 +114,25 @@ class FileSystem:
 
         available = dictionary.get('available')
         filesystem_native_id = dictionary.get('filesystem_native_id')
-        id = dictionary.get('id')
+        p_id = dictionary.get('id')
         indexing_failed_reason = dictionary.get('indexing_failed_reason')
         is_encrypted = dictionary.get('is_encrypted')
         is_indexed = dictionary.get('is_indexed')
         mount_path = dictionary.get('mount_path')
         size = dictionary.get('size')
-        type = dictionary.get('type')
+        p_type = dictionary.get('type')
         used = dictionary.get('used')
         # Return an object of this model
         return cls(
             links,
             available,
             filesystem_native_id,
-            id,
+            p_id,
             indexing_failed_reason,
             is_encrypted,
             is_indexed,
             mount_path,
             size,
-            type,
+            p_type,
             used,
         )

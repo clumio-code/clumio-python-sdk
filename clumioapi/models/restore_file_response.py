@@ -17,7 +17,7 @@ class RestoreFileResponse:
             Embedded responses related to the resource.
         links:
             Embedded responses related to the resource.
-        id:
+        p_id:
             The Clumio-assigned ID of the restored file.
         passcode:
             passcode that the end-user must use to access the restored
@@ -26,13 +26,13 @@ class RestoreFileResponse:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'embedded': '_embedded', 'links': '_links', 'id': 'id', 'passcode': 'passcode'}
+    _names = {'embedded': '_embedded', 'links': '_links', 'p_id': 'id', 'passcode': 'passcode'}
 
     def __init__(
         self,
         embedded: read_task_hateoas_links.ReadTaskHateoasLinks = None,
         links: read_task_hateoas_links.ReadTaskHateoasLinks = None,
-        id: str = None,
+        p_id: str = None,
         passcode: str = None,
     ) -> None:
         """Constructor for the RestoreFileResponse class."""
@@ -40,7 +40,7 @@ class RestoreFileResponse:
         # Initialize members of the class
         self.embedded: read_task_hateoas_links.ReadTaskHateoasLinks = embedded
         self.links: read_task_hateoas_links.ReadTaskHateoasLinks = links
-        self.id: str = id
+        self.p_id: str = p_id
         self.passcode: str = passcode
 
     @classmethod
@@ -73,7 +73,7 @@ class RestoreFileResponse:
             else None
         )
 
-        id = dictionary.get('id')
+        p_id = dictionary.get('id')
         passcode = dictionary.get('passcode')
         # Return an object of this model
-        return cls(embedded, links, id, passcode)
+        return cls(embedded, links, p_id, passcode)

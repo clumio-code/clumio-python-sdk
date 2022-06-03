@@ -17,7 +17,7 @@ class VMTagWithCategoryModel:
             The VMware-assigned Managed Object Reference (MoRef) ID of the tag category.
         category_name:
             The VMware-assigned name of the tag category.
-        id:
+        p_id:
             The VMware-assigned Managed Object Reference (MoRef) ID of the tag.
         name:
             The VMware-assigned name of the tag.
@@ -29,7 +29,7 @@ class VMTagWithCategoryModel:
     _names = {
         'category_id': 'category_id',
         'category_name': 'category_name',
-        'id': 'id',
+        'p_id': 'id',
         'name': 'name',
         'organizational_unit_id': 'organizational_unit_id',
     }
@@ -38,7 +38,7 @@ class VMTagWithCategoryModel:
         self,
         category_id: str = None,
         category_name: str = None,
-        id: str = None,
+        p_id: str = None,
         name: str = None,
         organizational_unit_id: str = None,
     ) -> None:
@@ -47,7 +47,7 @@ class VMTagWithCategoryModel:
         # Initialize members of the class
         self.category_id: str = category_id
         self.category_name: str = category_name
-        self.id: str = id
+        self.p_id: str = p_id
         self.name: str = name
         self.organizational_unit_id: str = organizational_unit_id
 
@@ -69,8 +69,8 @@ class VMTagWithCategoryModel:
         # Extract variables from the dictionary
         category_id = dictionary.get('category_id')
         category_name = dictionary.get('category_name')
-        id = dictionary.get('id')
+        p_id = dictionary.get('id')
         name = dictionary.get('name')
         organizational_unit_id = dictionary.get('organizational_unit_id')
         # Return an object of this model
-        return cls(category_id, category_name, id, name, organizational_unit_id)
+        return cls(category_id, category_name, p_id, name, organizational_unit_id)

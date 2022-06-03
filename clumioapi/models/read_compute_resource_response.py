@@ -27,7 +27,7 @@ class ReadComputeResourceResponse:
             The compute resource folder in which the compute resource resides.
         datacenter:
             The data center associated with this compute resource.
-        id:
+        p_id:
             The VMware-assigned Managed Object Reference (MoRef) ID of the compute resource.
         is_cluster:
             Determines whether the compute resource is a cluster. If `true`, then the
@@ -56,7 +56,7 @@ class ReadComputeResourceResponse:
         'links': '_links',
         'compute_resource_folder': 'compute_resource_folder',
         'datacenter': 'datacenter',
-        'id': 'id',
+        'p_id': 'id',
         'is_cluster': 'is_cluster',
         'is_drs_enabled': 'is_drs_enabled',
         'name': 'name',
@@ -72,7 +72,7 @@ class ReadComputeResourceResponse:
         links: compute_resource_links.ComputeResourceLinks = None,
         compute_resource_folder: v_mware_v_center_compute_resource_folder_model.VMwareVCenterComputeResourceFolderModel = None,
         datacenter: v_mware_v_center_compute_resource_datacenter_model.VMwareVCenterComputeResourceDatacenterModel = None,
-        id: str = None,
+        p_id: str = None,
         is_cluster: bool = None,
         is_drs_enabled: bool = None,
         name: str = None,
@@ -92,7 +92,7 @@ class ReadComputeResourceResponse:
         self.datacenter: v_mware_v_center_compute_resource_datacenter_model.VMwareVCenterComputeResourceDatacenterModel = (
             datacenter
         )
-        self.id: str = id
+        self.p_id: str = p_id
         self.is_cluster: bool = is_cluster
         self.is_drs_enabled: bool = is_drs_enabled
         self.name: str = name
@@ -149,7 +149,7 @@ class ReadComputeResourceResponse:
             else None
         )
 
-        id = dictionary.get('id')
+        p_id = dictionary.get('id')
         is_cluster = dictionary.get('is_cluster')
         is_drs_enabled = dictionary.get('is_drs_enabled')
         name = dictionary.get('name')
@@ -169,7 +169,7 @@ class ReadComputeResourceResponse:
             links,
             compute_resource_folder,
             datacenter,
-            id,
+            p_id,
             is_cluster,
             is_drs_enabled,
             name,

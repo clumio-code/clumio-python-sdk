@@ -13,7 +13,7 @@ class PermissionModel:
     Attributes:
         description:
             Description of the permission.
-        id:
+        p_id:
             The Clumio-assigned ID of the permission.
         name:
             Name of the permission.
@@ -44,14 +44,14 @@ class PermissionModel:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'description': 'description', 'id': 'id', 'name': 'name'}
+    _names = {'description': 'description', 'p_id': 'id', 'name': 'name'}
 
-    def __init__(self, description: str = None, id: str = None, name: str = None) -> None:
+    def __init__(self, description: str = None, p_id: str = None, name: str = None) -> None:
         """Constructor for the PermissionModel class."""
 
         # Initialize members of the class
         self.description: str = description
-        self.id: str = id
+        self.p_id: str = p_id
         self.name: str = name
 
     @classmethod
@@ -71,7 +71,7 @@ class PermissionModel:
 
         # Extract variables from the dictionary
         description = dictionary.get('description')
-        id = dictionary.get('id')
+        p_id = dictionary.get('id')
         name = dictionary.get('name')
         # Return an object of this model
-        return cls(description, id, name)
+        return cls(description, p_id, name)

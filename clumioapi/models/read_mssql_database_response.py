@@ -40,7 +40,7 @@ class ReadMssqlDatabaseResponse:
             The user-provided endpoint of the host containing the given database.
         host_id:
             The Clumio-assigned ID of the host containing the given database.
-        id:
+        p_id:
             The Clumio-assigned ID of the Database.
         instance_id:
             The Clumio-assigned ID of the instance containing the given database.
@@ -81,7 +81,7 @@ class ReadMssqlDatabaseResponse:
             subgroup id is the id of the Subgroup where this database belongs, in case of AG
             database
             it will be empty.
-        type:
+        p_type:
             The type of the database. Possible values include 'availability_group_database'
             and 'standalone_database'.
         unsupported_reason:
@@ -100,7 +100,7 @@ class ReadMssqlDatabaseResponse:
         'group_id': 'group_id',
         'host_endpoint': 'host_endpoint',
         'host_id': 'host_id',
-        'id': 'id',
+        'p_id': 'id',
         'instance_id': 'instance_id',
         'instance_name': 'instance_name',
         'is_supported': 'is_supported',
@@ -114,7 +114,7 @@ class ReadMssqlDatabaseResponse:
         'size': 'size',
         'status': 'status',
         'subgroup_id': 'subgroup_id',
-        'type': 'type',
+        'p_type': 'type',
         'unsupported_reason': 'unsupported_reason',
     }
 
@@ -128,7 +128,7 @@ class ReadMssqlDatabaseResponse:
         group_id: str = None,
         host_endpoint: str = None,
         host_id: str = None,
-        id: str = None,
+        p_id: str = None,
         instance_id: str = None,
         instance_name: str = None,
         is_supported: bool = None,
@@ -142,7 +142,7 @@ class ReadMssqlDatabaseResponse:
         size: float = None,
         status: str = None,
         subgroup_id: str = None,
-        type: str = None,
+        p_type: str = None,
         unsupported_reason: str = None,
     ) -> None:
         """Constructor for the ReadMssqlDatabaseResponse class."""
@@ -156,7 +156,7 @@ class ReadMssqlDatabaseResponse:
         self.group_id: str = group_id
         self.host_endpoint: str = host_endpoint
         self.host_id: str = host_id
-        self.id: str = id
+        self.p_id: str = p_id
         self.instance_id: str = instance_id
         self.instance_name: str = instance_name
         self.is_supported: bool = is_supported
@@ -174,7 +174,7 @@ class ReadMssqlDatabaseResponse:
         self.size: float = size
         self.status: str = status
         self.subgroup_id: str = subgroup_id
-        self.type: str = type
+        self.p_type: str = p_type
         self.unsupported_reason: str = unsupported_reason
 
     @classmethod
@@ -213,7 +213,7 @@ class ReadMssqlDatabaseResponse:
         group_id = dictionary.get('group_id')
         host_endpoint = dictionary.get('host_endpoint')
         host_id = dictionary.get('host_id')
-        id = dictionary.get('id')
+        p_id = dictionary.get('id')
         instance_id = dictionary.get('instance_id')
         instance_name = dictionary.get('instance_name')
         is_supported = dictionary.get('is_supported')
@@ -237,7 +237,7 @@ class ReadMssqlDatabaseResponse:
         size = dictionary.get('size')
         status = dictionary.get('status')
         subgroup_id = dictionary.get('subgroup_id')
-        type = dictionary.get('type')
+        p_type = dictionary.get('type')
         unsupported_reason = dictionary.get('unsupported_reason')
         # Return an object of this model
         return cls(
@@ -249,7 +249,7 @@ class ReadMssqlDatabaseResponse:
             group_id,
             host_endpoint,
             host_id,
-            id,
+            p_id,
             instance_id,
             instance_name,
             is_supported,
@@ -263,6 +263,6 @@ class ReadMssqlDatabaseResponse:
             size,
             status,
             subgroup_id,
-            type,
+            p_type,
             unsupported_reason,
         )

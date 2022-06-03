@@ -27,6 +27,10 @@ class MssqlHostsV1Controller(base_controller.BaseController):
     def __init__(self, config: configuration.Configuration) -> None:
         super().__init__(config)
         self.config = config
+        self.headers = {
+            'accept': 'application/api.clumio.mssql-hosts=v1+json',
+            'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
+        }
 
     def list_mssql_host_connections(
         self, current_count: int = None, filter: str = None, limit: int = None, start: str = None
@@ -83,14 +87,9 @@ class MssqlHostsV1Controller(base_controller.BaseController):
             'start': start,
         }
 
-        # Prepare headers
-        _headers = {
-            'accept': 'application/api.clumio.mssql-hosts=v1+json',
-            'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
-        }
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=_headers, params=_query_parameters)
+            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
@@ -120,16 +119,11 @@ class MssqlHostsV1Controller(base_controller.BaseController):
 
         _query_parameters = {}
 
-        # Prepare headers
-        _headers = {
-            'accept': 'application/api.clumio.mssql-hosts=v1+json',
-            'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
-        }
         # Execute request
         try:
             resp = self.client.post(
                 _url_path,
-                headers=_headers,
+                headers=self.headers,
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
             )
@@ -176,16 +170,11 @@ class MssqlHostsV1Controller(base_controller.BaseController):
         _query_parameters = {}
         _query_parameters = {'embed': embed}
 
-        # Prepare headers
-        _headers = {
-            'accept': 'application/api.clumio.mssql-hosts=v1+json',
-            'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
-        }
         # Execute request
         try:
             resp = self.client.delete(
                 _url_path,
-                headers=_headers,
+                headers=self.headers,
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
             )
@@ -233,16 +222,11 @@ class MssqlHostsV1Controller(base_controller.BaseController):
         _query_parameters = {}
         _query_parameters = {'embed': embed}
 
-        # Prepare headers
-        _headers = {
-            'accept': 'application/api.clumio.mssql-hosts=v1+json',
-            'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
-        }
         # Execute request
         try:
             resp = self.client.patch(
                 _url_path,
-                headers=_headers,
+                headers=self.headers,
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
             )
@@ -275,16 +259,11 @@ class MssqlHostsV1Controller(base_controller.BaseController):
 
         _query_parameters = {}
 
-        # Prepare headers
-        _headers = {
-            'accept': 'application/api.clumio.mssql-hosts=v1+json',
-            'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
-        }
         # Execute request
         try:
             resp = self.client.post(
                 _url_path,
-                headers=_headers,
+                headers=self.headers,
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
             )
@@ -318,14 +297,9 @@ class MssqlHostsV1Controller(base_controller.BaseController):
         _url_path = api_helper.append_url_with_template_parameters(_url_path, {'host_id': host_id})
         _query_parameters = {}
 
-        # Prepare headers
-        _headers = {
-            'accept': 'application/api.clumio.mssql-hosts=v1+json',
-            'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
-        }
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=_headers, params=_query_parameters)
+            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
@@ -412,14 +386,9 @@ class MssqlHostsV1Controller(base_controller.BaseController):
         _query_parameters = {}
         _query_parameters = {'limit': limit, 'start': start, 'filter': filter, 'embed': embed}
 
-        # Prepare headers
-        _headers = {
-            'accept': 'application/api.clumio.mssql-hosts=v1+json',
-            'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
-        }
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=_headers, params=_query_parameters)
+            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
@@ -446,14 +415,9 @@ class MssqlHostsV1Controller(base_controller.BaseController):
         _url_path = api_helper.append_url_with_template_parameters(_url_path, {'host_id': host_id})
         _query_parameters = {}
 
-        # Prepare headers
-        _headers = {
-            'accept': 'application/api.clumio.mssql-hosts=v1+json',
-            'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
-        }
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=_headers, params=_query_parameters)
+            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(

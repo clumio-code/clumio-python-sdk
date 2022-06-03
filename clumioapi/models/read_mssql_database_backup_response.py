@@ -38,7 +38,7 @@ class ReadMssqlDatabaseBackupResponse:
         host_id:
             The Clumio-assigned ID of the host associated with the database at the time of
             backup.
-        id:
+        p_id:
             The Clumio-assigned ID of the backup.
         instance_id:
             The Clumio-assigned instance id at the time of backup.
@@ -49,7 +49,7 @@ class ReadMssqlDatabaseBackupResponse:
         subgroup_id:
             The Clumio-assigned ID of the management subgroup associated with the database
             at the time of backup.
-        type:
+        p_type:
             The type of backup. Possible values include `mssql_database_backup`,
             `mssql_log_backup_full_recovery_model` and `mssql_log_backup_bulk_logged_model`.
     """
@@ -66,12 +66,12 @@ class ReadMssqlDatabaseBackupResponse:
         'group_id': 'group_id',
         'host_endpoint': 'host_endpoint',
         'host_id': 'host_id',
-        'id': 'id',
+        'p_id': 'id',
         'instance_id': 'instance_id',
         'instance_name': 'instance_name',
         'start_timestamp': 'start_timestamp',
         'subgroup_id': 'subgroup_id',
-        'type': 'type',
+        'p_type': 'type',
     }
 
     def __init__(
@@ -86,12 +86,12 @@ class ReadMssqlDatabaseBackupResponse:
         group_id: str = None,
         host_endpoint: str = None,
         host_id: str = None,
-        id: str = None,
+        p_id: str = None,
         instance_id: str = None,
         instance_name: str = None,
         start_timestamp: str = None,
         subgroup_id: str = None,
-        type: str = None,
+        p_type: str = None,
     ) -> None:
         """Constructor for the ReadMssqlDatabaseBackupResponse class."""
 
@@ -106,12 +106,12 @@ class ReadMssqlDatabaseBackupResponse:
         self.group_id: str = group_id
         self.host_endpoint: str = host_endpoint
         self.host_id: str = host_id
-        self.id: str = id
+        self.p_id: str = p_id
         self.instance_id: str = instance_id
         self.instance_name: str = instance_name
         self.start_timestamp: str = start_timestamp
         self.subgroup_id: str = subgroup_id
-        self.type: str = type
+        self.p_type: str = p_type
 
     @classmethod
     def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
@@ -160,12 +160,12 @@ class ReadMssqlDatabaseBackupResponse:
         group_id = dictionary.get('group_id')
         host_endpoint = dictionary.get('host_endpoint')
         host_id = dictionary.get('host_id')
-        id = dictionary.get('id')
+        p_id = dictionary.get('id')
         instance_id = dictionary.get('instance_id')
         instance_name = dictionary.get('instance_name')
         start_timestamp = dictionary.get('start_timestamp')
         subgroup_id = dictionary.get('subgroup_id')
-        type = dictionary.get('type')
+        p_type = dictionary.get('type')
         # Return an object of this model
         return cls(
             embedded,
@@ -178,10 +178,10 @@ class ReadMssqlDatabaseBackupResponse:
             group_id,
             host_endpoint,
             host_id,
-            id,
+            p_id,
             instance_id,
             instance_name,
             start_timestamp,
             subgroup_id,
-            type,
+            p_type,
         )

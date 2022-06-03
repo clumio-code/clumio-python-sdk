@@ -11,7 +11,7 @@ class ListReportDownloadsV1Request:
     """Implementation of the 'ListReportDownloadsV1Request' model.
 
     Attributes:
-        filter:
+        p_filter:
 
             +-----------------+------------------+-----------------------------------------+
             |      Field      | Filter Condition |               Description               |
@@ -51,13 +51,13 @@ class ListReportDownloadsV1Request:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'filter': 'filter', 'limit': 'limit', 'start': 'start'}
+    _names = {'p_filter': 'filter', 'limit': 'limit', 'start': 'start'}
 
-    def __init__(self, filter: str = None, limit: int = None, start: str = None) -> None:
+    def __init__(self, p_filter: str = None, limit: int = None, start: str = None) -> None:
         """Constructor for the ListReportDownloadsV1Request class."""
 
         # Initialize members of the class
-        self.filter: str = filter
+        self.p_filter: str = p_filter
         self.limit: int = limit
         self.start: str = start
 
@@ -77,8 +77,8 @@ class ListReportDownloadsV1Request:
             return None
 
         # Extract variables from the dictionary
-        filter = dictionary.get('filter')
+        p_filter = dictionary.get('filter')
         limit = dictionary.get('limit')
         start = dictionary.get('start')
         # Return an object of this model
-        return cls(filter, limit, start)
+        return cls(p_filter, limit, start)

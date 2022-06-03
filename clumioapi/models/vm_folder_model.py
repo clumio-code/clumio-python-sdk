@@ -14,20 +14,20 @@ class VMFolderModel:
     value of `null`.
 
     Attributes:
-        id:
+        p_id:
             The VMware-assigned Managed Object Reference (MoRef) ID of the folder.
         name:
             The VMware-assigned name of the folder.
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'id': 'id', 'name': 'name'}
+    _names = {'p_id': 'id', 'name': 'name'}
 
-    def __init__(self, id: str = None, name: str = None) -> None:
+    def __init__(self, p_id: str = None, name: str = None) -> None:
         """Constructor for the VMFolderModel class."""
 
         # Initialize members of the class
-        self.id: str = id
+        self.p_id: str = p_id
         self.name: str = name
 
     @classmethod
@@ -46,7 +46,7 @@ class VMFolderModel:
             return None
 
         # Extract variables from the dictionary
-        id = dictionary.get('id')
+        p_id = dictionary.get('id')
         name = dictionary.get('name')
         # Return an object of this model
-        return cls(id, name)
+        return cls(p_id, name)

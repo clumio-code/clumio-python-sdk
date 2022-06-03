@@ -13,20 +13,20 @@ class CreateBackupMssqlDatabaseV1Request:
     Attributes:
         asset_id:
             Performs the operation on the Mssql asset with the specified Clumio-assigned ID.
-        type:
+        p_type:
             The type of the backup. Possible values - `mssql_database_backup`,
             `mssql_log_backup`.
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'asset_id': 'asset_id', 'type': 'type'}
+    _names = {'asset_id': 'asset_id', 'p_type': 'type'}
 
-    def __init__(self, asset_id: str = None, type: str = None) -> None:
+    def __init__(self, asset_id: str = None, p_type: str = None) -> None:
         """Constructor for the CreateBackupMssqlDatabaseV1Request class."""
 
         # Initialize members of the class
         self.asset_id: str = asset_id
-        self.type: str = type
+        self.p_type: str = p_type
 
     @classmethod
     def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
@@ -45,6 +45,6 @@ class CreateBackupMssqlDatabaseV1Request:
 
         # Extract variables from the dictionary
         asset_id = dictionary.get('asset_id')
-        type = dictionary.get('type')
+        p_type = dictionary.get('type')
         # Return an object of this model
-        return cls(asset_id, type)
+        return cls(asset_id, p_type)

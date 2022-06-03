@@ -25,7 +25,7 @@ class MssqlHost:
             The Clumio-assigned ID of the management group to which the host belongs.
         has_associated_availability_group:
             Determines whether or not an availability group is present in the host.
-        id:
+        p_id:
             The Clumio-assigned ID of the Host.
         instance_count:
             The number of instances present in the host.
@@ -47,7 +47,7 @@ class MssqlHost:
         'endpoint': 'endpoint',
         'group_id': 'group_id',
         'has_associated_availability_group': 'has_associated_availability_group',
-        'id': 'id',
+        'p_id': 'id',
         'instance_count': 'instance_count',
         'organizational_unit_id': 'organizational_unit_id',
         'protection_info': 'protection_info',
@@ -62,7 +62,7 @@ class MssqlHost:
         endpoint: str = None,
         group_id: str = None,
         has_associated_availability_group: bool = None,
-        id: str = None,
+        p_id: str = None,
         instance_count: int = None,
         organizational_unit_id: str = None,
         protection_info: protection_info.ProtectionInfo = None,
@@ -77,7 +77,7 @@ class MssqlHost:
         self.endpoint: str = endpoint
         self.group_id: str = group_id
         self.has_associated_availability_group: bool = has_associated_availability_group
-        self.id: str = id
+        self.p_id: str = p_id
         self.instance_count: int = instance_count
         self.organizational_unit_id: str = organizational_unit_id
         self.protection_info: protection_info.ProtectionInfo = protection_info
@@ -117,7 +117,7 @@ class MssqlHost:
         endpoint = dictionary.get('endpoint')
         group_id = dictionary.get('group_id')
         has_associated_availability_group = dictionary.get('has_associated_availability_group')
-        id = dictionary.get('id')
+        p_id = dictionary.get('id')
         instance_count = dictionary.get('instance_count')
         organizational_unit_id = dictionary.get('organizational_unit_id')
         key = 'protection_info'
@@ -136,7 +136,7 @@ class MssqlHost:
             endpoint,
             group_id,
             has_associated_availability_group,
-            id,
+            p_id,
             instance_count,
             organizational_unit_id,
             p_protection_info,

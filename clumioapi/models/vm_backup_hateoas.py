@@ -30,7 +30,7 @@ class VMBackupHateoas:
         host_id:
             The VMware-assigned Managed Object Reference (MoRef) ID of the
             host associated with this backup.
-        id:
+        p_id:
             The Clumio-assigned ID of the backup.
         is_browsable:
             Determines whether browsing is available for the backup. If `true`, then
@@ -68,7 +68,7 @@ class VMBackupHateoas:
         'datacenter_id': 'datacenter_id',
         'expiration_timestamp': 'expiration_timestamp',
         'host_id': 'host_id',
-        'id': 'id',
+        'p_id': 'id',
         'is_browsable': 'is_browsable',
         'nics': 'nics',
         'resource_pool_id': 'resource_pool_id',
@@ -88,7 +88,7 @@ class VMBackupHateoas:
         datacenter_id: str = None,
         expiration_timestamp: str = None,
         host_id: str = None,
-        id: str = None,
+        p_id: str = None,
         is_browsable: bool = None,
         nics: Sequence[vm_nic_backup_model.VMNicBackupModel] = None,
         resource_pool_id: str = None,
@@ -108,7 +108,7 @@ class VMBackupHateoas:
         self.datacenter_id: str = datacenter_id
         self.expiration_timestamp: str = expiration_timestamp
         self.host_id: str = host_id
-        self.id: str = id
+        self.p_id: str = p_id
         self.is_browsable: bool = is_browsable
         self.nics: Sequence[vm_nic_backup_model.VMNicBackupModel] = nics
         self.resource_pool_id: str = resource_pool_id
@@ -147,7 +147,7 @@ class VMBackupHateoas:
         datacenter_id = dictionary.get('datacenter_id')
         expiration_timestamp = dictionary.get('expiration_timestamp')
         host_id = dictionary.get('host_id')
-        id = dictionary.get('id')
+        p_id = dictionary.get('id')
         is_browsable = dictionary.get('is_browsable')
         nics = None
         if dictionary.get('nics'):
@@ -177,7 +177,7 @@ class VMBackupHateoas:
             datacenter_id,
             expiration_timestamp,
             host_id,
-            id,
+            p_id,
             is_browsable,
             nics,
             resource_pool_id,

@@ -17,6 +17,10 @@ class RestoredVmwareVmsV1Controller(base_controller.BaseController):
     def __init__(self, config: configuration.Configuration) -> None:
         super().__init__(config)
         self.config = config
+        self.headers = {
+            'accept': 'application/api.clumio.restored-vmware-vms=v1+json',
+            'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
+        }
 
     def restore_vmware_vm(
         self, body: restore_vmware_vm_v1_request.RestoreVmwareVmV1Request = None
@@ -40,16 +44,11 @@ class RestoredVmwareVmsV1Controller(base_controller.BaseController):
 
         _query_parameters = {}
 
-        # Prepare headers
-        _headers = {
-            'accept': 'application/api.clumio.restored-vmware-vms=v1+json',
-            'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
-        }
         # Execute request
         try:
             resp = self.client.post(
                 _url_path,
-                headers=_headers,
+                headers=self.headers,
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
             )

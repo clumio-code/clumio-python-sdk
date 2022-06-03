@@ -32,7 +32,7 @@ class AddBucketToProtectionGroupResponse:
             The Clumio-assigned ID of the protection group
         group_name:
             The name of the protection group
-        id:
+        p_id:
             The Clumio-assigned ID that represents the bucket within the protection group.
         is_deleted:
             Determines whether the protection group bucket has been deleted
@@ -65,7 +65,7 @@ class AddBucketToProtectionGroupResponse:
         'environment_id': 'environment_id',
         'group_id': 'group_id',
         'group_name': 'group_name',
-        'id': 'id',
+        'p_id': 'id',
         'is_deleted': 'is_deleted',
         'last_backup_timestamp': 'last_backup_timestamp',
         'last_discover_sync_timestamp': 'last_discover_sync_timestamp',
@@ -86,7 +86,7 @@ class AddBucketToProtectionGroupResponse:
         environment_id: str = None,
         group_id: str = None,
         group_name: str = None,
-        id: str = None,
+        p_id: str = None,
         is_deleted: bool = None,
         last_backup_timestamp: str = None,
         last_discover_sync_timestamp: str = None,
@@ -107,7 +107,7 @@ class AddBucketToProtectionGroupResponse:
         self.environment_id: str = environment_id
         self.group_id: str = group_id
         self.group_name: str = group_name
-        self.id: str = id
+        self.p_id: str = p_id
         self.is_deleted: bool = is_deleted
         self.last_backup_timestamp: str = last_backup_timestamp
         self.last_discover_sync_timestamp: str = last_discover_sync_timestamp
@@ -141,7 +141,7 @@ class AddBucketToProtectionGroupResponse:
         environment_id = dictionary.get('environment_id')
         group_id = dictionary.get('group_id')
         group_name = dictionary.get('group_name')
-        id = dictionary.get('id')
+        p_id = dictionary.get('id')
         is_deleted = dictionary.get('is_deleted')
         last_backup_timestamp = dictionary.get('last_backup_timestamp')
         last_discover_sync_timestamp = dictionary.get('last_discover_sync_timestamp')
@@ -160,7 +160,7 @@ class AddBucketToProtectionGroupResponse:
             environment_id,
             group_id,
             group_name,
-            id,
+            p_id,
             is_deleted,
             last_backup_timestamp,
             last_discover_sync_timestamp,

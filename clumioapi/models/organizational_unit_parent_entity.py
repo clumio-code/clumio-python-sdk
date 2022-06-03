@@ -16,21 +16,21 @@ class OrganizationalUnitParentEntity:
     omitted for other data sources.
 
     Attributes:
-        id:
+        p_id:
             The Clumio assigned ID of the entity.
-        type:
+        p_type:
             The entity type.
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'id': 'id', 'type': 'type'}
+    _names = {'p_id': 'id', 'p_type': 'type'}
 
-    def __init__(self, id: str = None, type: str = None) -> None:
+    def __init__(self, p_id: str = None, p_type: str = None) -> None:
         """Constructor for the OrganizationalUnitParentEntity class."""
 
         # Initialize members of the class
-        self.id: str = id
-        self.type: str = type
+        self.p_id: str = p_id
+        self.p_type: str = p_type
 
     @classmethod
     def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
@@ -48,7 +48,7 @@ class OrganizationalUnitParentEntity:
             return None
 
         # Extract variables from the dictionary
-        id = dictionary.get('id')
-        type = dictionary.get('type')
+        p_id = dictionary.get('id')
+        p_type = dictionary.get('type')
         # Return an object of this model
-        return cls(id, type)
+        return cls(p_id, p_type)

@@ -13,7 +13,7 @@ class CreateReportDownloadV1Request:
     Attributes:
         file_name:
             The name of the report. Field cannot be empty.
-        filter:
+        p_filter:
 
             +-------------------+------------------+-------------------+-------------------+
             |       Field       | Filter Condition |    Report Type    |    Description    |
@@ -236,21 +236,21 @@ class CreateReportDownloadV1Request:
             For more information about filtering, refer to the
             Filtering section of this guide.
             in: query
-        type:
+        p_type:
             The report type. Examples of report types include, "activity",
             "compliance", "audit".
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'file_name': 'file_name', 'filter': 'filter', 'type': 'type'}
+    _names = {'file_name': 'file_name', 'p_filter': 'filter', 'p_type': 'type'}
 
-    def __init__(self, file_name: str = None, filter: str = None, type: str = None) -> None:
+    def __init__(self, file_name: str = None, p_filter: str = None, p_type: str = None) -> None:
         """Constructor for the CreateReportDownloadV1Request class."""
 
         # Initialize members of the class
         self.file_name: str = file_name
-        self.filter: str = filter
-        self.type: str = type
+        self.p_filter: str = p_filter
+        self.p_type: str = p_type
 
     @classmethod
     def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
@@ -269,7 +269,7 @@ class CreateReportDownloadV1Request:
 
         # Extract variables from the dictionary
         file_name = dictionary.get('file_name')
-        filter = dictionary.get('filter')
-        type = dictionary.get('type')
+        p_filter = dictionary.get('filter')
+        p_type = dictionary.get('type')
         # Return an object of this model
-        return cls(file_name, filter, type)
+        return cls(file_name, p_filter, p_type)

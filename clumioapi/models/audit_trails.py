@@ -113,7 +113,7 @@ class AuditTrails:
             +-------------------------+----------------------------------------------------+
         details:
             Additional details about the activity provided in JSON format.
-        id:
+        p_id:
             The Clumio-assigned ID of the audit event.
         interface:
             The interface used to make the request i.e. 'UI','API'
@@ -143,7 +143,7 @@ class AuditTrails:
         'action': 'action',
         'category': 'category',
         'details': 'details',
-        'id': 'id',
+        'p_id': 'id',
         'interface': 'interface',
         'ip_address': 'ip_address',
         'parent_entity': 'parent_entity',
@@ -158,7 +158,7 @@ class AuditTrails:
         action: str = None,
         category: str = None,
         details: str = None,
-        id: str = None,
+        p_id: str = None,
         interface: str = None,
         ip_address: str = None,
         parent_entity: audit_parent_entity.AuditParentEntity = None,
@@ -173,7 +173,7 @@ class AuditTrails:
         self.action: str = action
         self.category: str = category
         self.details: str = details
-        self.id: str = id
+        self.p_id: str = p_id
         self.interface: str = interface
         self.ip_address: str = ip_address
         self.parent_entity: audit_parent_entity.AuditParentEntity = parent_entity
@@ -201,7 +201,7 @@ class AuditTrails:
         action = dictionary.get('action')
         category = dictionary.get('category')
         details = dictionary.get('details')
-        id = dictionary.get('id')
+        p_id = dictionary.get('id')
         interface = dictionary.get('interface')
         ip_address = dictionary.get('ip_address')
         key = 'parent_entity'
@@ -226,7 +226,7 @@ class AuditTrails:
             action,
             category,
             details,
-            id,
+            p_id,
             interface,
             ip_address,
             parent_entity,

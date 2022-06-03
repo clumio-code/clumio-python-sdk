@@ -11,7 +11,7 @@ class InheritedFrom:
     """Implementation of the 'InheritedFrom' model.
 
     Attributes:
-        id:
+        p_id:
             The Clumio-assigned ID of the item.
         name:
             Name of the folder.
@@ -20,13 +20,13 @@ class InheritedFrom:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'id': 'id', 'name': 'name', 'objectType': 'objectType'}
+    _names = {'p_id': 'id', 'name': 'name', 'objectType': 'objectType'}
 
-    def __init__(self, id: str = None, name: str = None, objectType: str = None) -> None:
+    def __init__(self, p_id: str = None, name: str = None, objectType: str = None) -> None:
         """Constructor for the InheritedFrom class."""
 
         # Initialize members of the class
-        self.id: str = id
+        self.p_id: str = p_id
         self.name: str = name
         self.objectType: str = objectType
 
@@ -46,8 +46,8 @@ class InheritedFrom:
             return None
 
         # Extract variables from the dictionary
-        id = dictionary.get('id')
+        p_id = dictionary.get('id')
         name = dictionary.get('name')
         objectType = dictionary.get('objectType')
         # Return an object of this model
-        return cls(id, name, objectType)
+        return cls(p_id, name, objectType)

@@ -19,6 +19,10 @@ class ManagementGroupsV1Controller(base_controller.BaseController):
     def __init__(self, config: configuration.Configuration) -> None:
         super().__init__(config)
         self.config = config
+        self.headers = {
+            'accept': 'application/api.clumio.management-groups=v1+json',
+            'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
+        }
 
     def list_management_groups(
         self, limit: int = None, start: str = None
@@ -46,14 +50,9 @@ class ManagementGroupsV1Controller(base_controller.BaseController):
         _query_parameters = {}
         _query_parameters = {'limit': limit, 'start': start}
 
-        # Prepare headers
-        _headers = {
-            'accept': 'application/api.clumio.management-groups=v1+json',
-            'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
-        }
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=_headers, params=_query_parameters)
+            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
@@ -88,14 +87,9 @@ class ManagementGroupsV1Controller(base_controller.BaseController):
         )
         _query_parameters = {}
 
-        # Prepare headers
-        _headers = {
-            'accept': 'application/api.clumio.management-groups=v1+json',
-            'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
-        }
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=_headers, params=_query_parameters)
+            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
@@ -130,16 +124,11 @@ class ManagementGroupsV1Controller(base_controller.BaseController):
         )
         _query_parameters = {}
 
-        # Prepare headers
-        _headers = {
-            'accept': 'application/api.clumio.management-groups=v1+json',
-            'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
-        }
         # Execute request
         try:
             resp = self.client.put(
                 _url_path,
-                headers=_headers,
+                headers=self.headers,
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
             )

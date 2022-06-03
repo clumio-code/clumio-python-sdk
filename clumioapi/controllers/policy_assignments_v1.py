@@ -17,6 +17,10 @@ class PolicyAssignmentsV1Controller(base_controller.BaseController):
     def __init__(self, config: configuration.Configuration) -> None:
         super().__init__(config)
         self.config = config
+        self.headers = {
+            'accept': 'application/api.clumio.policy-assignments=v1+json',
+            'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
+        }
 
     def set_policy_assignments(
         self, body: set_policy_assignments_v1_request.SetPolicyAssignmentsV1Request = None
@@ -43,16 +47,11 @@ class PolicyAssignmentsV1Controller(base_controller.BaseController):
 
         _query_parameters = {}
 
-        # Prepare headers
-        _headers = {
-            'accept': 'application/api.clumio.policy-assignments=v1+json',
-            'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
-        }
         # Execute request
         try:
             resp = self.client.post(
                 _url_path,
-                headers=_headers,
+                headers=self.headers,
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
             )

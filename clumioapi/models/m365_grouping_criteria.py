@@ -17,7 +17,7 @@ class M365GroupingCriteria:
             Determines whether or not this data group is editable. If false, then an
             organizational unit uses this data group.
             To edit this data group, all organizational units using it must be deleted.
-        type:
+        p_type:
             The entity type used to group organizational units for Microsoft 365 resources.
 
             +---------------------+------------------------+
@@ -30,14 +30,14 @@ class M365GroupingCriteria:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'is_editable': 'is_editable', 'type': 'type'}
+    _names = {'is_editable': 'is_editable', 'p_type': 'type'}
 
-    def __init__(self, is_editable: bool = None, type: str = None) -> None:
+    def __init__(self, is_editable: bool = None, p_type: str = None) -> None:
         """Constructor for the M365GroupingCriteria class."""
 
         # Initialize members of the class
         self.is_editable: bool = is_editable
-        self.type: str = type
+        self.p_type: str = p_type
 
     @classmethod
     def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
@@ -56,6 +56,6 @@ class M365GroupingCriteria:
 
         # Extract variables from the dictionary
         is_editable = dictionary.get('is_editable')
-        type = dictionary.get('type')
+        p_type = dictionary.get('type')
         # Return an object of this model
-        return cls(is_editable, type)
+        return cls(is_editable, p_type)

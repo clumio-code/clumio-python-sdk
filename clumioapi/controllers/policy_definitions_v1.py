@@ -8,6 +8,7 @@ from clumioapi.controllers import base_controller
 from clumioapi.exceptions import clumio_exception
 from clumioapi.models import create_policy_definition_v1_request
 from clumioapi.models import create_policy_response
+from clumioapi.models import delete_policy_response
 from clumioapi.models import list_policies_response
 from clumioapi.models import read_policy_response
 from clumioapi.models import update_policy_definition_v1_request
@@ -21,6 +22,10 @@ class PolicyDefinitionsV1Controller(base_controller.BaseController):
     def __init__(self, config: configuration.Configuration) -> None:
         super().__init__(config)
         self.config = config
+        self.headers = {
+            'accept': 'application/api.clumio.policy-definitions=v1+json',
+            'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
+        }
 
     def list_policy_definitions(
         self, filter: str = None, embed: str = None
@@ -165,14 +170,9 @@ class PolicyDefinitionsV1Controller(base_controller.BaseController):
         _query_parameters = {}
         _query_parameters = {'filter': filter, 'embed': embed}
 
-        # Prepare headers
-        _headers = {
-            'accept': 'application/api.clumio.policy-definitions=v1+json',
-            'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
-        }
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=_headers, params=_query_parameters)
+            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
@@ -202,16 +202,11 @@ class PolicyDefinitionsV1Controller(base_controller.BaseController):
 
         _query_parameters = {}
 
-        # Prepare headers
-        _headers = {
-            'accept': 'application/api.clumio.policy-definitions=v1+json',
-            'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
-        }
         # Execute request
         try:
             resp = self.client.post(
                 _url_path,
-                headers=_headers,
+                headers=self.headers,
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
             )
@@ -266,14 +261,9 @@ class PolicyDefinitionsV1Controller(base_controller.BaseController):
         _query_parameters = {}
         _query_parameters = {'embed': embed}
 
-        # Prepare headers
-        _headers = {
-            'accept': 'application/api.clumio.policy-definitions=v1+json',
-            'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
-        }
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=_headers, params=_query_parameters)
+            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
@@ -332,16 +322,11 @@ class PolicyDefinitionsV1Controller(base_controller.BaseController):
         _query_parameters = {}
         _query_parameters = {'embed': embed}
 
-        # Prepare headers
-        _headers = {
-            'accept': 'application/api.clumio.policy-definitions=v1+json',
-            'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
-        }
         # Execute request
         try:
             resp = self.client.put(
                 _url_path,
-                headers=_headers,
+                headers=self.headers,
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
             )
@@ -352,14 +337,16 @@ class PolicyDefinitionsV1Controller(base_controller.BaseController):
             )
         return update_policy_response.UpdatePolicyResponse.from_dictionary(resp)
 
-    def delete_policy_definition(self, policy_id: str) -> object:
+    def delete_policy_definition(
+        self, policy_id: str
+    ) -> delete_policy_response.DeletePolicyResponse:
         """Deletes the specified policy.
 
         Args:
             policy_id:
                 Performs the operation on the policy with the specified ID.
         Returns:
-            object: Response from the API.
+            DeletePolicyResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -373,17 +360,12 @@ class PolicyDefinitionsV1Controller(base_controller.BaseController):
         )
         _query_parameters = {}
 
-        # Prepare headers
-        _headers = {
-            'accept': 'application/api.clumio.policy-definitions=v1+json',
-            'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
-        }
         # Execute request
         try:
-            resp = self.client.delete(_url_path, headers=_headers, params=_query_parameters)
+            resp = self.client.delete(_url_path, headers=self.headers, params=_query_parameters)
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing delete_policy_definition.', errors
             )
-        return resp
+        return delete_policy_response.DeletePolicyResponse.from_dictionary(resp)
