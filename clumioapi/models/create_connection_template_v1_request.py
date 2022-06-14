@@ -4,8 +4,6 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import aws_connection_config_model
-
 T = TypeVar('T', bound='CreateConnectionTemplateV1Request')
 
 
@@ -15,18 +13,19 @@ class CreateConnectionTemplateV1Request:
     The body of the request.
 
     Attributes:
-        config:
-
+        asset_types_enabled:
+            The asset types for which the template is to be generated. Possible
+            asset types are ["EBS", "RDS", "DynamoDB", "EC2MSSQL"].
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'config': 'config'}
+    _names = {'asset_types_enabled': 'asset_types_enabled'}
 
-    def __init__(self, config: aws_connection_config_model.AWSConnectionConfigModel = None) -> None:
+    def __init__(self, asset_types_enabled: Sequence[str] = None) -> None:
         """Constructor for the CreateConnectionTemplateV1Request class."""
 
         # Initialize members of the class
-        self.config: aws_connection_config_model.AWSConnectionConfigModel = config
+        self.asset_types_enabled: Sequence[str] = asset_types_enabled
 
     @classmethod
     def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
@@ -44,14 +43,6 @@ class CreateConnectionTemplateV1Request:
             return None
 
         # Extract variables from the dictionary
-        key = 'config'
-        config = (
-            aws_connection_config_model.AWSConnectionConfigModel.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
-        )
-
+        asset_types_enabled = dictionary.get('asset_types_enabled')
         # Return an object of this model
-        return cls(config)
+        return cls(asset_types_enabled)

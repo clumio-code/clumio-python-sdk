@@ -4,6 +4,7 @@
 
 from clumioapi import api_helper
 from clumioapi import configuration
+from clumioapi import sdk_version
 from clumioapi.controllers import base_controller
 from clumioapi.exceptions import clumio_exception
 from clumioapi.models import create_aws_template_v2_response
@@ -18,6 +19,12 @@ class AwsTemplatesV1Controller(base_controller.BaseController):
     def __init__(self, config: configuration.Configuration) -> None:
         super().__init__(config)
         self.config = config
+        self.headers = {
+            'accept': 'application/api.clumio.aws-templates=v1+json',
+            'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
+            'x-clumio-api-client': 'clumio-python-sdk',
+            'x-clumio-sdk-version': f'clumio-python-sdk:{sdk_version}',
+        }
 
     def read_connection_templates(self):
         """Returns the AWS CloudFormation and Terraform templates available to install to
@@ -36,14 +43,9 @@ class AwsTemplatesV1Controller(base_controller.BaseController):
 
         _query_parameters = {}
 
-        # Prepare headers
-        _headers = {
-            'accept': 'application/api.clumio.aws-templates=v1+json',
-            'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
-        }
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=_headers, params=_query_parameters)
+            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
@@ -73,16 +75,11 @@ class AwsTemplatesV1Controller(base_controller.BaseController):
 
         _query_parameters = {}
 
-        # Prepare headers
-        _headers = {
-            'accept': 'application/api.clumio.aws-templates=v1+json',
-            'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
-        }
         # Execute request
         try:
             resp = self.client.post(
                 _url_path,
-                headers=_headers,
+                headers=self.headers,
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
             )

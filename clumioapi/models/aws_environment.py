@@ -6,6 +6,7 @@ from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
 from clumioapi.models import aws_environment_embedded
 from clumioapi.models import aws_environment_links
+from clumioapi.models import consolidated_config
 
 T = TypeVar('T', bound='AWSEnvironment')
 
@@ -26,6 +27,12 @@ class AWSEnvironment:
             The valid AWS availability zones for the environment. For example, `us_west-2a`.
         aws_region:
             The AWS region associated with the environment. For example, `us-west-2`.
+        config:
+            The consolidated configuration of the Clumio Cloud Protect and Clumio Cloud
+            Discover products for this connection.
+            If this connection is deprecated to use unconsolidated configuration, then this
+            field has a
+            value of `null`.
         connection_id:
             The Clumio-assigned ID of the connection associated with the environment.
         connection_status:
@@ -54,6 +61,7 @@ class AWSEnvironment:
         'account_native_id': 'account_native_id',
         'aws_az': 'aws_az',
         'aws_region': 'aws_region',
+        'config': 'config',
         'connection_id': 'connection_id',
         'connection_status': 'connection_status',
         'description': 'description',
@@ -71,6 +79,7 @@ class AWSEnvironment:
         account_native_id: str = None,
         aws_az: Sequence[str] = None,
         aws_region: str = None,
+        config: consolidated_config.ConsolidatedConfig = None,
         connection_id: str = None,
         connection_status: str = None,
         description: str = None,
@@ -88,6 +97,7 @@ class AWSEnvironment:
         self.account_native_id: str = account_native_id
         self.aws_az: Sequence[str] = aws_az
         self.aws_region: str = aws_region
+        self.config: consolidated_config.ConsolidatedConfig = config
         self.connection_id: str = connection_id
         self.connection_status: str = connection_status
         self.description: str = description
@@ -130,6 +140,13 @@ class AWSEnvironment:
         account_native_id = dictionary.get('account_native_id')
         aws_az = dictionary.get('aws_az')
         aws_region = dictionary.get('aws_region')
+        key = 'config'
+        config = (
+            consolidated_config.ConsolidatedConfig.from_dictionary(dictionary.get(key))
+            if dictionary.get(key)
+            else None
+        )
+
         connection_id = dictionary.get('connection_id')
         connection_status = dictionary.get('connection_status')
         description = dictionary.get('description')
@@ -145,6 +162,7 @@ class AWSEnvironment:
             account_native_id,
             aws_az,
             aws_region,
+            config,
             connection_id,
             connection_status,
             description,

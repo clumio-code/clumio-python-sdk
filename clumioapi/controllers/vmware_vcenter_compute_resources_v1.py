@@ -4,6 +4,7 @@
 
 from clumioapi import api_helper
 from clumioapi import configuration
+from clumioapi import sdk_version
 from clumioapi.controllers import base_controller
 from clumioapi.exceptions import clumio_exception
 from clumioapi.models import list_compute_resources_response
@@ -17,6 +18,12 @@ class VmwareVcenterComputeResourcesV1Controller(base_controller.BaseController):
     def __init__(self, config: configuration.Configuration) -> None:
         super().__init__(config)
         self.config = config
+        self.headers = {
+            'accept': 'application/api.clumio.vmware-vcenter-compute-resources=v1+json',
+            'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
+            'x-clumio-api-client': 'clumio-python-sdk',
+            'x-clumio-sdk-version': f'clumio-python-sdk:{sdk_version}',
+        }
 
     def list_vmware_vcenter_compute_resources(
         self,
@@ -142,14 +149,9 @@ class VmwareVcenterComputeResourcesV1Controller(base_controller.BaseController):
         _query_parameters = {}
         _query_parameters = {'limit': limit, 'start': start, 'filter': filter, 'embed': embed}
 
-        # Prepare headers
-        _headers = {
-            'accept': 'application/api.clumio.vmware-vcenter-compute-resources=v1+json',
-            'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
-        }
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=_headers, params=_query_parameters)
+            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
@@ -200,14 +202,9 @@ class VmwareVcenterComputeResourcesV1Controller(base_controller.BaseController):
         _query_parameters = {}
         _query_parameters = {'embed': embed}
 
-        # Prepare headers
-        _headers = {
-            'accept': 'application/api.clumio.vmware-vcenter-compute-resources=v1+json',
-            'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
-        }
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=_headers, params=_query_parameters)
+            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(

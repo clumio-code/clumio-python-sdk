@@ -4,8 +4,7 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import discover_template_info
-from clumioapi.models import protect_template_info
+from clumioapi.models import template_configuration_v2
 
 T = TypeVar('T', bound='ReadAWSTemplatesResponse')
 
@@ -14,25 +13,18 @@ class ReadAWSTemplatesResponse:
     """Implementation of the 'ReadAWSTemplatesResponse' model.
 
     Attributes:
-        discover:
-            The latest available CloudFormation template for Clumio Discover.
-        protect:
-            The latest available CloudFormation template for Clumio Cloud Protect.
+        config:
+
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'discover': 'discover', 'protect': 'protect'}
+    _names = {'config': 'config'}
 
-    def __init__(
-        self,
-        discover: discover_template_info.DiscoverTemplateInfo = None,
-        protect: protect_template_info.ProtectTemplateInfo = None,
-    ) -> None:
+    def __init__(self, config: template_configuration_v2.TemplateConfigurationV2 = None) -> None:
         """Constructor for the ReadAWSTemplatesResponse class."""
 
         # Initialize members of the class
-        self.discover: discover_template_info.DiscoverTemplateInfo = discover
-        self.protect: protect_template_info.ProtectTemplateInfo = protect
+        self.config: template_configuration_v2.TemplateConfigurationV2 = config
 
     @classmethod
     def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
@@ -50,19 +42,12 @@ class ReadAWSTemplatesResponse:
             return None
 
         # Extract variables from the dictionary
-        key = 'discover'
-        discover = (
-            discover_template_info.DiscoverTemplateInfo.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
-
-        key = 'protect'
-        protect = (
-            protect_template_info.ProtectTemplateInfo.from_dictionary(dictionary.get(key))
+        key = 'config'
+        config = (
+            template_configuration_v2.TemplateConfigurationV2.from_dictionary(dictionary.get(key))
             if dictionary.get(key)
             else None
         )
 
         # Return an object of this model
-        return cls(discover, protect)
+        return cls(config)

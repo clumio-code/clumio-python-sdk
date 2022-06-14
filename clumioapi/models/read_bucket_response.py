@@ -6,6 +6,7 @@ from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
 from clumioapi.models import aws_tag_model
 from clumioapi.models import bucket_links
+from clumioapi.models import s3_buckets_inventory_summary_bucket_size_breakdown
 from clumioapi.models import s3_cloudwatch_metrics
 from clumioapi.models import s3_encryption_output
 from clumioapi.models import s3_replication_output
@@ -26,6 +27,10 @@ class ReadBucketResponse:
             The AWS-assigned ID of the account associated with the S3 bucket.
         aws_region:
             The AWS region associated with the S3 bucket.
+        bucket_size_bytes_breakdown:
+            The total size breakdown of S3 buckets in bytes per storage class. This
+            parameter aggregates relevant fields from cloudwatch_metrics >
+            size_bytes_per_storage_class
         cloudwatch_metrics:
             The Cloudwatch metrics of the bucket.
         creation_timestamp:
@@ -61,6 +66,7 @@ class ReadBucketResponse:
         'links': '_links',
         'account_native_id': 'account_native_id',
         'aws_region': 'aws_region',
+        'bucket_size_bytes_breakdown': 'bucket_size_bytes_breakdown',
         'cloudwatch_metrics': 'cloudwatch_metrics',
         'creation_timestamp': 'creation_timestamp',
         'encryption_setting': 'encryption_setting',
@@ -82,6 +88,7 @@ class ReadBucketResponse:
         links: bucket_links.BucketLinks = None,
         account_native_id: str = None,
         aws_region: str = None,
+        bucket_size_bytes_breakdown: s3_buckets_inventory_summary_bucket_size_breakdown.S3BucketsInventorySummaryBucketSizeBreakdown = None,
         cloudwatch_metrics: s3_cloudwatch_metrics.S3CloudwatchMetrics = None,
         creation_timestamp: str = None,
         encryption_setting: s3_encryption_output.S3EncryptionOutput = None,
@@ -103,6 +110,9 @@ class ReadBucketResponse:
         self.links: bucket_links.BucketLinks = links
         self.account_native_id: str = account_native_id
         self.aws_region: str = aws_region
+        self.bucket_size_bytes_breakdown: s3_buckets_inventory_summary_bucket_size_breakdown.S3BucketsInventorySummaryBucketSizeBreakdown = (
+            bucket_size_bytes_breakdown
+        )
         self.cloudwatch_metrics: s3_cloudwatch_metrics.S3CloudwatchMetrics = cloudwatch_metrics
         self.creation_timestamp: str = creation_timestamp
         self.encryption_setting: s3_encryption_output.S3EncryptionOutput = encryption_setting
@@ -143,6 +153,15 @@ class ReadBucketResponse:
 
         account_native_id = dictionary.get('account_native_id')
         aws_region = dictionary.get('aws_region')
+        key = 'bucket_size_bytes_breakdown'
+        bucket_size_bytes_breakdown = (
+            s3_buckets_inventory_summary_bucket_size_breakdown.S3BucketsInventorySummaryBucketSizeBreakdown.from_dictionary(
+                dictionary.get(key)
+            )
+            if dictionary.get(key)
+            else None
+        )
+
         key = 'cloudwatch_metrics'
         cloudwatch_metrics = (
             s3_cloudwatch_metrics.S3CloudwatchMetrics.from_dictionary(dictionary.get(key))
@@ -191,6 +210,7 @@ class ReadBucketResponse:
             links,
             account_native_id,
             aws_region,
+            bucket_size_bytes_breakdown,
             cloudwatch_metrics,
             creation_timestamp,
             encryption_setting,
