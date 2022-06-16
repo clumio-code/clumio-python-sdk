@@ -5,6 +5,7 @@
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
 from clumioapi.models import aws_connection_links
+from clumioapi.models import consolidated_config
 from clumioapi.models import discover_config
 from clumioapi.models import protect_config
 
@@ -29,6 +30,12 @@ class AWSConnection:
             Clumio AWS AccountId
         clumio_aws_region:
             Clumio AWS Region
+        config:
+            The consolidated configuration of the Clumio Cloud Protect and Clumio Cloud
+            Discover products for this connection.
+            If this connection is deprecated to use unconsolidated configuration, then this
+            field has a
+            value of `null`.
         connection_status:
             The status of the connection. Possible values include "connecting",
             "connected", and "unlinked".
@@ -57,13 +64,15 @@ class AWSConnection:
             value of `null`.
         protect_asset_types_enabled:
             The asset types enabled for protect. This is only populated if "protect"
-            is enabled. Valid values are any of ["EBS", "RDS", "DynamoDB", "EC2MSSQL"].
-            EBS and RDS are mandatory datasources.
+            is enabled. Valid values are any of ["EBS", "RDS", "DynamoDB", "EC2MSSQL",
+            "S3"].
+            EBS and RDS are mandatory datasources. (Deprecated)
         services_enabled:
             The services to be enabled for this configuration. Valid values are
             ["discover"], ["discover", "protect"]. This is only set when the
             registration is created, the enabled services are obtained directly from
-            the installed template after that.
+            the installed template after that. (Deprecated as all connections will have
+            both discover and protect enabled)
         stack_arn:
             The Amazon Resource Name of the installed CloudFormation stack in this AWS
             account
@@ -85,6 +94,7 @@ class AWSConnection:
         'aws_region': 'aws_region',
         'clumio_aws_account_id': 'clumio_aws_account_id',
         'clumio_aws_region': 'clumio_aws_region',
+        'config': 'config',
         'connection_status': 'connection_status',
         'created_timestamp': 'created_timestamp',
         'description': 'description',
@@ -109,6 +119,7 @@ class AWSConnection:
         aws_region: str = None,
         clumio_aws_account_id: str = None,
         clumio_aws_region: str = None,
+        config: consolidated_config.ConsolidatedConfig = None,
         connection_status: str = None,
         created_timestamp: str = None,
         description: str = None,
@@ -133,6 +144,7 @@ class AWSConnection:
         self.aws_region: str = aws_region
         self.clumio_aws_account_id: str = clumio_aws_account_id
         self.clumio_aws_region: str = clumio_aws_region
+        self.config: consolidated_config.ConsolidatedConfig = config
         self.connection_status: str = connection_status
         self.created_timestamp: str = created_timestamp
         self.description: str = description
@@ -176,6 +188,13 @@ class AWSConnection:
         aws_region = dictionary.get('aws_region')
         clumio_aws_account_id = dictionary.get('clumio_aws_account_id')
         clumio_aws_region = dictionary.get('clumio_aws_region')
+        key = 'config'
+        config = (
+            consolidated_config.ConsolidatedConfig.from_dictionary(dictionary.get(key))
+            if dictionary.get(key)
+            else None
+        )
+
         connection_status = dictionary.get('connection_status')
         created_timestamp = dictionary.get('created_timestamp')
         description = dictionary.get('description')
@@ -210,6 +229,7 @@ class AWSConnection:
             aws_region,
             clumio_aws_account_id,
             clumio_aws_region,
+            config,
             connection_status,
             created_timestamp,
             description,

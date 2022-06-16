@@ -4,7 +4,7 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import template_configuration
+from clumioapi.models import template_configuration_v2
 
 T = TypeVar('T', bound='CreateAWSTemplateV2Response')
 
@@ -31,14 +31,14 @@ class CreateAWSTemplateV2Response:
     def __init__(
         self,
         cloudformation_url: str = None,
-        config: template_configuration.TemplateConfiguration = None,
+        config: template_configuration_v2.TemplateConfigurationV2 = None,
         terraform_url: str = None,
     ) -> None:
         """Constructor for the CreateAWSTemplateV2Response class."""
 
         # Initialize members of the class
         self.cloudformation_url: str = cloudformation_url
-        self.config: template_configuration.TemplateConfiguration = config
+        self.config: template_configuration_v2.TemplateConfigurationV2 = config
         self.terraform_url: str = terraform_url
 
     @classmethod
@@ -60,7 +60,7 @@ class CreateAWSTemplateV2Response:
         cloudformation_url = dictionary.get('cloudformation_url')
         key = 'config'
         config = (
-            template_configuration.TemplateConfiguration.from_dictionary(dictionary.get(key))
+            template_configuration_v2.TemplateConfigurationV2.from_dictionary(dictionary.get(key))
             if dictionary.get(key)
             else None
         )

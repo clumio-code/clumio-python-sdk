@@ -4,7 +4,7 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import template_configuration
+from clumioapi.models import template_configuration_v2
 
 T = TypeVar('T', bound='ReadAWSTemplatesV2Response')
 
@@ -20,11 +20,11 @@ class ReadAWSTemplatesV2Response:
     # Create a mapping from Model property names to API property names
     _names = {'config': 'config'}
 
-    def __init__(self, config: template_configuration.TemplateConfiguration = None) -> None:
+    def __init__(self, config: template_configuration_v2.TemplateConfigurationV2 = None) -> None:
         """Constructor for the ReadAWSTemplatesV2Response class."""
 
         # Initialize members of the class
-        self.config: template_configuration.TemplateConfiguration = config
+        self.config: template_configuration_v2.TemplateConfigurationV2 = config
 
     @classmethod
     def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
@@ -44,7 +44,7 @@ class ReadAWSTemplatesV2Response:
         # Extract variables from the dictionary
         key = 'config'
         config = (
-            template_configuration.TemplateConfiguration.from_dictionary(dictionary.get(key))
+            template_configuration_v2.TemplateConfigurationV2.from_dictionary(dictionary.get(key))
             if dictionary.get(key)
             else None
         )

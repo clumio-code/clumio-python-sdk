@@ -1,3 +1,7 @@
+## 0.5.0
+APIs added for backup and restore of protection-group s3 assets.
+Bug fixes for incorrect version headers.
+
 ## 0.4.2
 Bucket rule added to protection-group APIs.
 

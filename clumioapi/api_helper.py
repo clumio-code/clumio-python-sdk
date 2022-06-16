@@ -3,6 +3,7 @@
 #
 
 import enum
+import json
 from typing import Any, Dict, Mapping
 
 import jsonpickle
@@ -11,23 +12,23 @@ from requests import utils
 """A Helper module for various functions associated with API Calls."""
 
 
-def json_deserialize(json, unboxing_function: Any = None) -> Any:
-    """JSON Deerialization of a given string.
+def json_deserialize(json_string, unboxing_function: Any = None) -> Any:
+    """JSON Deserialization of a given string.
 
     Args:
-        json: The JSON serialized string to deserialize.
+        json_string: The JSON serialized string to deserialize.
         unboxing_function (Any): Function used to convert the json string
             to a class instance.
     Returns:
         An object representing the data contained in the JSON serialized string.
     """
-    if json is None:
+    if json_string is None:
         return None
 
     try:
-        decoded = jsonpickle.decode(json)
-    except:
-        return json
+        decoded = jsonpickle.decode(json_string)
+    except (json.decoder.JSONDecodeError, ValueError):
+        return json_string
 
     if not unboxing_function:
         return decoded
