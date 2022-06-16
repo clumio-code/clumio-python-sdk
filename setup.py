@@ -12,7 +12,7 @@ else:
 
 setup(
     name='clumioapi',
-    version='SDK_VERSION',
+    version='0.5.0',
     description='Python SDK for Clumio REST API',
     long_description=long_description,
     long_description_content_type='text/markdown',

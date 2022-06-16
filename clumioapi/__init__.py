@@ -2,7 +2,7 @@
 # Copyright 2021. Clumio, Inc.
 #
 
-sdk_version = 'SDK_VERSION'
+sdk_version = '0.5.0'
 
 __all__ = [
     'api_helper',
