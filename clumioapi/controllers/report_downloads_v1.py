@@ -30,7 +30,7 @@ class ReportDownloadsV1Controller(base_controller.BaseController):
     def list_report_downloads(
         self, body: list_report_downloads_v1_request.ListReportDownloadsV1Request = None
     ) -> list_report_downloads_response.ListReportDownloadsResponse:
-        """List unexpired report downloads.
+        """Returns a list of unexpired, generated reports.
 
         Args:
             body:
@@ -66,7 +66,8 @@ class ReportDownloadsV1Controller(base_controller.BaseController):
     def create_report_download(
         self, body: create_report_download_v1_request.CreateReportDownloadV1Request = None
     ) -> create_report_download_response.CreateReportDownloadResponse:
-        """Create a new Report download.
+        """Generates a report of a specified type given certain general conditions such as
+        time range and other type-specific filters.
 
         Args:
             body:

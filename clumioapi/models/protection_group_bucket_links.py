@@ -19,6 +19,8 @@ class ProtectionGroupBucketLinks:
             The HATEOAS link to this resource.
         delete_bucket_protection_group:
             A resource-specific HATEOAS link.
+        read_organizational_unit:
+            A resource-specific HATEOAS link.
         read_policy_definition:
             A HATEOAS link to the policy protecting this resource. Will be omitted for
             unprotected entities.
@@ -28,6 +30,7 @@ class ProtectionGroupBucketLinks:
     _names = {
         'p_self': '_self',
         'delete_bucket_protection_group': 'delete-bucket-protection-group',
+        'read_organizational_unit': 'read-organizational-unit',
         'read_policy_definition': 'read-policy-definition',
     }
 
@@ -35,6 +38,7 @@ class ProtectionGroupBucketLinks:
         self,
         p_self: hateoas_self_link.HateoasSelfLink = None,
         delete_bucket_protection_group: hateoas_link.HateoasLink = None,
+        read_organizational_unit: hateoas_link.HateoasLink = None,
         read_policy_definition: read_policy_definition_hateoas_link.ReadPolicyDefinitionHateoasLink = None,
     ) -> None:
         """Constructor for the ProtectionGroupBucketLinks class."""
@@ -44,6 +48,7 @@ class ProtectionGroupBucketLinks:
         self.delete_bucket_protection_group: hateoas_link.HateoasLink = (
             delete_bucket_protection_group
         )
+        self.read_organizational_unit: hateoas_link.HateoasLink = read_organizational_unit
         self.read_policy_definition: read_policy_definition_hateoas_link.ReadPolicyDefinitionHateoasLink = (
             read_policy_definition
         )
@@ -78,6 +83,13 @@ class ProtectionGroupBucketLinks:
             else None
         )
 
+        key = 'read-organizational-unit'
+        read_organizational_unit = (
+            hateoas_link.HateoasLink.from_dictionary(dictionary.get(key))
+            if dictionary.get(key)
+            else None
+        )
+
         key = 'read-policy-definition'
         read_policy_definition = (
             read_policy_definition_hateoas_link.ReadPolicyDefinitionHateoasLink.from_dictionary(
@@ -88,4 +100,6 @@ class ProtectionGroupBucketLinks:
         )
 
         # Return an object of this model
-        return cls(p_self, delete_bucket_protection_group, read_policy_definition)
+        return cls(
+            p_self, delete_bucket_protection_group, read_organizational_unit, read_policy_definition
+        )

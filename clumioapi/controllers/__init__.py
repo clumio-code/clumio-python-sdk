@@ -33,6 +33,7 @@ __all__ = [
     'policy_definitions_v1',
     'policy_rules_v1',
     'post_process_aws_connection_v1',
+    'post_process_kms_v1',
     'protection_groups_s3_assets_v1',
     'protection_groups_v1',
     'report_downloads_v1',
@@ -61,4 +62,5 @@ __all__ = [
     'vmware_vcenter_tags_v1',
     'vmware_vcenter_vms_v1',
     'vmware_vcenters_v1',
+    'wallets_v1',
 ]

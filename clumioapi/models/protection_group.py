@@ -52,6 +52,8 @@ class ProtectionGroup:
             The Clumio-assigned ID of the protection group.
         last_backup_timestamp:
             Time of the last backup in RFC-3339 format.
+        last_continuous_backup_timestamp:
+            Time of the last successful continuous backup in RFC-3339 format.
         last_discover_sync_timestamp:
             Time of the last discover sync in RFC-3339 format.
         modified_timestamp:
@@ -98,6 +100,7 @@ class ProtectionGroup:
         'description': 'description',
         'id': 'id',
         'last_backup_timestamp': 'last_backup_timestamp',
+        'last_continuous_backup_timestamp': 'last_continuous_backup_timestamp',
         'last_discover_sync_timestamp': 'last_discover_sync_timestamp',
         'modified_timestamp': 'modified_timestamp',
         'name': 'name',
@@ -122,6 +125,7 @@ class ProtectionGroup:
         description: str = None,
         id: str = None,
         last_backup_timestamp: str = None,
+        last_continuous_backup_timestamp: str = None,
         last_discover_sync_timestamp: str = None,
         modified_timestamp: str = None,
         name: str = None,
@@ -148,6 +152,7 @@ class ProtectionGroup:
         self.description: str = description
         self.id: str = id
         self.last_backup_timestamp: str = last_backup_timestamp
+        self.last_continuous_backup_timestamp: str = last_continuous_backup_timestamp
         self.last_discover_sync_timestamp: str = last_discover_sync_timestamp
         self.modified_timestamp: str = modified_timestamp
         self.name: str = name
@@ -205,6 +210,7 @@ class ProtectionGroup:
         description = dictionary.get('description')
         id = dictionary.get('id')
         last_backup_timestamp = dictionary.get('last_backup_timestamp')
+        last_continuous_backup_timestamp = dictionary.get('last_continuous_backup_timestamp')
         last_discover_sync_timestamp = dictionary.get('last_discover_sync_timestamp')
         modified_timestamp = dictionary.get('modified_timestamp')
         name = dictionary.get('name')
@@ -239,6 +245,7 @@ class ProtectionGroup:
             description,
             id,
             last_backup_timestamp,
+            last_continuous_backup_timestamp,
             last_discover_sync_timestamp,
             modified_timestamp,
             name,

@@ -51,6 +51,8 @@ class ReadProtectionGroupS3AssetResponse:
             Determines whether the protection group bucket has been deleted
         last_backup_timestamp:
             Time of the last backup in RFC-3339 format.
+        last_continuous_backup_timestamp:
+            Time of the last successful continuous backup in RFC-3339 format.
         last_discover_sync_timestamp:
             Time of the last discover sync in RFC-3339 format.
         organizational_unit_id:
@@ -93,6 +95,7 @@ class ReadProtectionGroupS3AssetResponse:
         'id': 'id',
         'is_deleted': 'is_deleted',
         'last_backup_timestamp': 'last_backup_timestamp',
+        'last_continuous_backup_timestamp': 'last_continuous_backup_timestamp',
         'last_discover_sync_timestamp': 'last_discover_sync_timestamp',
         'organizational_unit_id': 'organizational_unit_id',
         'protection_info': 'protection_info',
@@ -119,6 +122,7 @@ class ReadProtectionGroupS3AssetResponse:
         id: str = None,
         is_deleted: bool = None,
         last_backup_timestamp: str = None,
+        last_continuous_backup_timestamp: str = None,
         last_discover_sync_timestamp: str = None,
         organizational_unit_id: str = None,
         protection_info: protection_info_with_rule.ProtectionInfoWithRule = None,
@@ -145,6 +149,7 @@ class ReadProtectionGroupS3AssetResponse:
         self.id: str = id
         self.is_deleted: bool = is_deleted
         self.last_backup_timestamp: str = last_backup_timestamp
+        self.last_continuous_backup_timestamp: str = last_continuous_backup_timestamp
         self.last_discover_sync_timestamp: str = last_discover_sync_timestamp
         self.organizational_unit_id: str = organizational_unit_id
         self.protection_info: protection_info_with_rule.ProtectionInfoWithRule = protection_info
@@ -200,6 +205,7 @@ class ReadProtectionGroupS3AssetResponse:
         id = dictionary.get('id')
         is_deleted = dictionary.get('is_deleted')
         last_backup_timestamp = dictionary.get('last_backup_timestamp')
+        last_continuous_backup_timestamp = dictionary.get('last_continuous_backup_timestamp')
         last_discover_sync_timestamp = dictionary.get('last_discover_sync_timestamp')
         organizational_unit_id = dictionary.get('organizational_unit_id')
         key = 'protection_info'
@@ -230,6 +236,7 @@ class ReadProtectionGroupS3AssetResponse:
             id,
             is_deleted,
             last_backup_timestamp,
+            last_continuous_backup_timestamp,
             last_discover_sync_timestamp,
             organizational_unit_id,
             protection_info,
