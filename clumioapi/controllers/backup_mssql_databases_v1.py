@@ -112,9 +112,7 @@ class BackupMssqlDatabasesV1Controller(base_controller.BaseController):
         embed: str = None,
         body: create_backup_mssql_database_v1_request.CreateBackupMssqlDatabaseV1Request = None,
     ) -> on_demand_mssql_backup_response.OnDemandMssqlBackupResponse:
-        """Performs an on-demand backup for the specified MSSQL asset. The MSSQL asset must
-        be protected with a policy that includes a service level agreement (SLA)
-        configured for on-demand backups.
+        """Performs an on-demand backup for the specified MSSQL asset.
 
         Args:
             embed:

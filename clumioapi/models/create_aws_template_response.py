@@ -4,7 +4,7 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import template_configuration_v2
+from clumioapi.models import template_configuration
 
 T = TypeVar('T', bound='CreateAWSTemplateResponse')
 
@@ -13,33 +13,25 @@ class CreateAWSTemplateResponse:
     """Implementation of the 'CreateAWSTemplateResponse' model.
 
     Attributes:
-        cloudformation_url:
+        available_template_url:
             The latest available URL for the template.
         config:
 
-        terraform_url:
-            The latest available URL for the terraform template.
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
-        'cloudformation_url': 'cloudformation_url',
-        'config': 'config',
-        'terraform_url': 'terraform_url',
-    }
+    _names = {'available_template_url': 'available_template_url', 'config': 'config'}
 
     def __init__(
         self,
-        cloudformation_url: str = None,
-        config: template_configuration_v2.TemplateConfigurationV2 = None,
-        terraform_url: str = None,
+        available_template_url: str = None,
+        config: template_configuration.TemplateConfiguration = None,
     ) -> None:
         """Constructor for the CreateAWSTemplateResponse class."""
 
         # Initialize members of the class
-        self.cloudformation_url: str = cloudformation_url
-        self.config: template_configuration_v2.TemplateConfigurationV2 = config
-        self.terraform_url: str = terraform_url
+        self.available_template_url: str = available_template_url
+        self.config: template_configuration.TemplateConfiguration = config
 
     @classmethod
     def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
@@ -57,14 +49,13 @@ class CreateAWSTemplateResponse:
             return None
 
         # Extract variables from the dictionary
-        cloudformation_url = dictionary.get('cloudformation_url')
+        available_template_url = dictionary.get('available_template_url')
         key = 'config'
         config = (
-            template_configuration_v2.TemplateConfigurationV2.from_dictionary(dictionary.get(key))
+            template_configuration.TemplateConfiguration.from_dictionary(dictionary.get(key))
             if dictionary.get(key)
             else None
         )
 
-        terraform_url = dictionary.get('terraform_url')
         # Return an object of this model
-        return cls(cloudformation_url, config, terraform_url)
+        return cls(available_template_url, config)

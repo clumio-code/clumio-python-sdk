@@ -81,6 +81,60 @@ class CreateReportDownloadV1Request:
             |                   |                  |                   |                   |
             |                   |                  |                   |                   |
             +-------------------+------------------+-------------------+-------------------+
+            | timestamp         | $gte, $lte, $eq  | Consumption       | timestamp denotes |
+            |                   |                  |                   | the time filter   |
+            |                   |                  |                   | for Consumption   |
+            |                   |                  |                   | reports.          |
+            |                   |                  |                   | $gte and $lte     |
+            |                   |                  |                   | accept RFC-3999   |
+            |                   |                  |                   | timestamps and    |
+            |                   |                  |                   | $eq accepts a     |
+            |                   |                  |                   | duration in       |
+            |                   |                  |                   | seconds           |
+            |                   |                  |                   | denoting the      |
+            |                   |                  |                   | offset from the   |
+            |                   |                  |                   | current time. $eq |
+            |                   |                  |                   | takes precedence  |
+            |                   |                  |                   | over both         |
+            |                   |                  |                   | $gte and $lte so  |
+            |                   |                  |                   | if $eq is used,   |
+            |                   |                  |                   | the backend will  |
+            |                   |                  |                   | use the relative  |
+            |                   |                  |                   | time filter       |
+            |                   |                  |                   | instead of        |
+            |                   |                  |                   | absolute time     |
+            |                   |                  |                   | filters.          |
+            |                   |                  |                   |                   |
+            |                   |                  |                   | "filter": "{\"tim |
+            |                   |                  |                   | estamp\":{\"$gte\\ |
+            |                   |                  |                   | ":\"2022-07-      |
+            |                   |                  |                   | 27T14:35:33.735Z\\ |
+            |                   |                  |                   | ",\"$lte\":\"2022 |
+            |                   |                  |                   | -08-              |
+            |                   |                  |                   | 03T14:35:33.735Z\\ |
+            |                   |                  |                   | "}}"              |
+            |                   |                  |                   |                   |
+            |                   |                  |                   |                   |
+            +-------------------+------------------+-------------------+-------------------+
+            | organizational_un | $in              | Consumption       | Organizational    |
+            | it_id             |                  |                   | Unit ID (OU ID)   |
+            |                   |                  |                   | filters the       |
+            |                   |                  |                   | consumption data  |
+            |                   |                  |                   | generated for the |
+            |                   |                  |                   | report to the     |
+            |                   |                  |                   | given OU IDs and  |
+            |                   |                  |                   | its children.     |
+            |                   |                  |                   |                   |
+            |                   |                  |                   | "filter": "{\"org |
+            |                   |                  |                   | anizational_unit_ |
+            |                   |                  |                   | id\":{\"$in\":[\" |
+            |                   |                  |                   | 00000000-0000-    |
+            |                   |                  |                   | 0000-0000-        |
+            |                   |                  |                   | 000000000000\"]}} |
+            |                   |                  |                   | "                 |
+            |                   |                  |                   |                   |
+            |                   |                  |                   |                   |
+            +-------------------+------------------+-------------------+-------------------+
             | task              | $in              | Activity          |  Possible values  |
             |                   |                  |                   | for task include  |
             |                   |                  |                   | backup and        |
@@ -238,7 +292,7 @@ class CreateReportDownloadV1Request:
             in: query
         type:
             The report type. Examples of report types include, "activity",
-            "compliance", "audit".
+            "compliance", "audit", and "consumption".
     """
 
     # Create a mapping from Model property names to API property names

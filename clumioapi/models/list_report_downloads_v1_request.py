@@ -30,7 +30,8 @@ class ListReportDownloadsV1Request:
             |                 |                  | Filter report downloaded records whose  |
             |                 |                  | type is one of the given values. The    |
             |                 |                  | possible values are: "activity",        |
-            |                 |                  | "compliance".                           |
+            |                 |                  | "compliance", "audit", and              |
+            |                 |                  | "consumption".                          |
             |                 |                  |                                         |
             |                 |                  | filter={"report_type":{"$in":["complian |
             |                 |                  | ce"]}}                                  |

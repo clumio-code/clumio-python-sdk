@@ -4,6 +4,8 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
+from clumioapi.models import on_demand_setting
+
 T = TypeVar('T', bound='CreateBackupAwsEbsVolumeV1Request')
 
 
@@ -11,17 +13,22 @@ class CreateBackupAwsEbsVolumeV1Request:
     """Implementation of the 'CreateBackupAwsEbsVolumeV1Request' model.
 
     Attributes:
+        settings:
+            Settings for requesting on-demand backup directly
         volume_id:
             Performs the operation on the EBS volume with the specified Clumio-assigned ID.
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'volume_id': 'volume_id'}
+    _names = {'settings': 'settings', 'volume_id': 'volume_id'}
 
-    def __init__(self, volume_id: str = None) -> None:
+    def __init__(
+        self, settings: on_demand_setting.OnDemandSetting = None, volume_id: str = None
+    ) -> None:
         """Constructor for the CreateBackupAwsEbsVolumeV1Request class."""
 
         # Initialize members of the class
+        self.settings: on_demand_setting.OnDemandSetting = settings
         self.volume_id: str = volume_id
 
     @classmethod
@@ -40,6 +47,13 @@ class CreateBackupAwsEbsVolumeV1Request:
             return None
 
         # Extract variables from the dictionary
+        key = 'settings'
+        settings = (
+            on_demand_setting.OnDemandSetting.from_dictionary(dictionary.get(key))
+            if dictionary.get(key)
+            else None
+        )
+
         volume_id = dictionary.get('volume_id')
         # Return an object of this model
-        return cls(volume_id)
+        return cls(settings, volume_id)
