@@ -103,6 +103,15 @@ class ProtectionGroupsS3AssetsV1Controller(base_controller.BaseController):
                 |                           |                  | parameter value cannot        |
                 |                           |                  | include "unprotected".        |
                 +---------------------------+------------------+-------------------------------+
+                | organizational_unit_id    | $in              | Denotes the organizational    |
+                |                           |                  | unit IDs that can own the     |
+                |                           |                  | assets that are returned. For |
+                |                           |                  | example, filter={"organizatio |
+                |                           |                  | nal_unit_id":{"$in":["c764b15 |
+                |                           |                  | 2-5819-11ea-bb9f-             |
+                |                           |                  | b2e1c9a040ad","c764abb6-5819- |
+                |                           |                  | 11ea-bb9f-b2e1c9a040ad"]}}    |
+                +---------------------------+------------------+-------------------------------+
 
         Returns:
             ListProtectionGroupS3AssetsResponse: Response from the API.

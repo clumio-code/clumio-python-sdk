@@ -14,9 +14,11 @@ T = TypeVar('T', bound='PolicyOperation')
 class PolicyOperation:
     """Implementation of the 'PolicyOperation' model.
 
-    The SLAs of an individual operation.
-
     Attributes:
+        NextStartTime:
+            The next start time of this operation.
+        PrevStartTime:
+            The previous start time of this operation.
         action_setting:
             Determines whether the protection policy should take action now or during the
             specified backup window.
@@ -31,6 +33,8 @@ class PolicyOperation:
             support additional settings, this field is `null`.
         backup_window:
             The start and end times for the customized backup window.
+        backup_window_tz:
+            The start and end times for the customized backup window.
         slas:
             The service level agreement (SLA) for the policy. A policy can include one or
             more SLAs. For example, a policy can retain daily backups for a month each, and
@@ -43,27 +47,36 @@ class PolicyOperation:
 
     # Create a mapping from Model property names to API property names
     _names = {
+        'NextStartTime': 'NextStartTime',
+        'PrevStartTime': 'PrevStartTime',
         'action_setting': 'action_setting',
         'advanced_settings': 'advanced_settings',
         'backup_window': 'backup_window',
+        'backup_window_tz': 'backup_window_tz',
         'slas': 'slas',
         'type': 'type',
     }
 
     def __init__(
         self,
+        NextStartTime: int = None,
+        PrevStartTime: int = None,
         action_setting: str = None,
         advanced_settings: policy_advanced_settings.PolicyAdvancedSettings = None,
         backup_window: backup_window.BackupWindow = None,
+        backup_window_tz: backup_window.BackupWindow = None,
         slas: Sequence[backup_sla.BackupSLA] = None,
         type: str = None,
     ) -> None:
         """Constructor for the PolicyOperation class."""
 
         # Initialize members of the class
+        self.NextStartTime: int = NextStartTime
+        self.PrevStartTime: int = PrevStartTime
         self.action_setting: str = action_setting
         self.advanced_settings: policy_advanced_settings.PolicyAdvancedSettings = advanced_settings
         self.backup_window: backup_window.BackupWindow = backup_window
+        self.backup_window_tz: backup_window.BackupWindow = backup_window_tz
         self.slas: Sequence[backup_sla.BackupSLA] = slas
         self.type: str = type
 
@@ -83,6 +96,8 @@ class PolicyOperation:
             return None
 
         # Extract variables from the dictionary
+        NextStartTime = dictionary.get('NextStartTime')
+        PrevStartTime = dictionary.get('PrevStartTime')
         action_setting = dictionary.get('action_setting')
         key = 'advanced_settings'
         advanced_settings = (
@@ -98,6 +113,13 @@ class PolicyOperation:
             else None
         )
 
+        key = 'backup_window_tz'
+        backup_window_tz = (
+            backup_window.BackupWindow.from_dictionary(dictionary.get(key))
+            if dictionary.get(key)
+            else None
+        )
+
         slas = None
         if dictionary.get('slas'):
             slas = list()
@@ -106,4 +128,13 @@ class PolicyOperation:
 
         type = dictionary.get('type')
         # Return an object of this model
-        return cls(action_setting, advanced_settings, p_backup_window, slas, type)
+        return cls(
+            NextStartTime,
+            PrevStartTime,
+            action_setting,
+            advanced_settings,
+            p_backup_window,
+            backup_window_tz,
+            slas,
+            type,
+        )

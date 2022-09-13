@@ -24,6 +24,8 @@ class CreatePolicyDefinitionV1Request:
             one or more SLA sets that span across various operations.
         organizational_unit_id:
             The Clumio-assigned ID of the organizational unit associated with the policy.
+        timezone:
+            The timezone for the policy.
     """
 
     # Create a mapping from Model property names to API property names
@@ -32,6 +34,7 @@ class CreatePolicyDefinitionV1Request:
         'name': 'name',
         'operations': 'operations',
         'organizational_unit_id': 'organizational_unit_id',
+        'timezone': 'timezone',
     }
 
     def __init__(
@@ -40,6 +43,7 @@ class CreatePolicyDefinitionV1Request:
         name: str = None,
         operations: Sequence[policy_operation.PolicyOperation] = None,
         organizational_unit_id: str = None,
+        timezone: str = None,
     ) -> None:
         """Constructor for the CreatePolicyDefinitionV1Request class."""
 
@@ -48,6 +52,7 @@ class CreatePolicyDefinitionV1Request:
         self.name: str = name
         self.operations: Sequence[policy_operation.PolicyOperation] = operations
         self.organizational_unit_id: str = organizational_unit_id
+        self.timezone: str = timezone
 
     @classmethod
     def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
@@ -74,5 +79,6 @@ class CreatePolicyDefinitionV1Request:
                 operations.append(policy_operation.PolicyOperation.from_dictionary(value))
 
         organizational_unit_id = dictionary.get('organizational_unit_id')
+        timezone = dictionary.get('timezone')
         # Return an object of this model
-        return cls(activation_status, name, operations, organizational_unit_id)
+        return cls(activation_status, name, operations, organizational_unit_id, timezone)

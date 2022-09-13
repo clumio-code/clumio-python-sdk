@@ -34,6 +34,7 @@ from clumioapi.controllers import policy_assignments_v1
 from clumioapi.controllers import policy_definitions_v1
 from clumioapi.controllers import policy_rules_v1
 from clumioapi.controllers import post_process_aws_connection_v1
+from clumioapi.controllers import post_process_kms_v1
 from clumioapi.controllers import protection_groups_s3_assets_v1
 from clumioapi.controllers import protection_groups_v1
 from clumioapi.controllers import report_downloads_v1
@@ -62,6 +63,7 @@ from clumioapi.controllers import vmware_vcenter_tag_compliance_stats_v1
 from clumioapi.controllers import vmware_vcenter_tags_v1
 from clumioapi.controllers import vmware_vcenter_vms_v1
 from clumioapi.controllers import vmware_vcenters_v1
+from clumioapi.controllers import wallets_v1
 
 
 class ClumioAPIClient:
@@ -425,3 +427,13 @@ class ClumioAPIClient:
     @functools.lru_cache(1)
     def users_v1(self) -> users_v1.UsersV1Controller:
         return users_v1.UsersV1Controller(self.config)
+
+    @property
+    @functools.lru_cache(1)
+    def wallets_v1(self) -> wallets_v1.WalletsV1Controller:
+        return wallets_v1.WalletsV1Controller(self.config)
+
+    @property
+    @functools.lru_cache(1)
+    def post_process_kms_v1(self) -> post_process_kms_v1.PostProcessKmsV1Controller:
+        return post_process_kms_v1.PostProcessKmsV1Controller(self.config)

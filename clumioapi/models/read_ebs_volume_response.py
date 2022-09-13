@@ -43,6 +43,8 @@ class ReadEbsVolumeResponse:
             Determines whether the table has a direct assignment.
         id:
             The Clumio-assigned ID of the EBS volume.
+        iops:
+            Iops of the volume.
         is_deleted:
             Determines whether the EBS volume has been deleted. If `true`, the volume has
             been
@@ -107,6 +109,7 @@ class ReadEbsVolumeResponse:
         'environment_id': 'environment_id',
         'has_direct_assignment': 'has_direct_assignment',
         'id': 'id',
+        'iops': 'iops',
         'is_deleted': 'is_deleted',
         'is_encrypted': 'is_encrypted',
         'is_supported': 'is_supported',
@@ -137,6 +140,7 @@ class ReadEbsVolumeResponse:
         environment_id: str = None,
         has_direct_assignment: bool = None,
         id: str = None,
+        iops: int = None,
         is_deleted: bool = None,
         is_encrypted: bool = None,
         is_supported: bool = None,
@@ -167,6 +171,7 @@ class ReadEbsVolumeResponse:
         self.environment_id: str = environment_id
         self.has_direct_assignment: bool = has_direct_assignment
         self.id: str = id
+        self.iops: int = iops
         self.is_deleted: bool = is_deleted
         self.is_encrypted: bool = is_encrypted
         self.is_supported: bool = is_supported
@@ -222,6 +227,7 @@ class ReadEbsVolumeResponse:
         environment_id = dictionary.get('environment_id')
         has_direct_assignment = dictionary.get('has_direct_assignment')
         id = dictionary.get('id')
+        iops = dictionary.get('iops')
         is_deleted = dictionary.get('is_deleted')
         is_encrypted = dictionary.get('is_encrypted')
         is_supported = dictionary.get('is_supported')
@@ -261,6 +267,7 @@ class ReadEbsVolumeResponse:
             environment_id,
             has_direct_assignment,
             id,
+            iops,
             is_deleted,
             is_encrypted,
             is_supported,

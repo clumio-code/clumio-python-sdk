@@ -1,3 +1,6 @@
+## 0.6.0
+New APIs added for wallets and updates to protection-group APIs.
+
 ## 0.5.0
 APIs added for backup and restore of protection-group s3 assets.
 Bug fixes for incorrect version headers.

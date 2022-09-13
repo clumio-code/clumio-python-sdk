@@ -86,9 +86,7 @@ class BackupAwsEbsVolumesV1Controller(base_controller.BaseController):
     def create_backup_aws_ebs_volume(
         self, body: create_backup_aws_ebs_volume_v1_request.CreateBackupAwsEbsVolumeV1Request = None
     ) -> object:
-        """Performs an on-demand backup for the specified EBS volume. The EBS volume must
-        be protected with a policy that includes a service level agreement (SLA)
-        configured for on-demand backups.
+        """Performs an on-demand backup for the specified EBS volume.
 
         Args:
             body:

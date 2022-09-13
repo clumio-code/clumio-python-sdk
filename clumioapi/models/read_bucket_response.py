@@ -39,6 +39,8 @@ class ReadBucketResponse:
             The AWS encryption output of the bucket.
         environment_id:
             The Clumio-assigned ID of the AWS environment associated with the S3 bucket.
+        event_bridge_enabled:
+            The EventBridge enablement state for the S3 bucket.
         id:
             The Clumio-assigned ID of the bucket.
         name:
@@ -71,6 +73,7 @@ class ReadBucketResponse:
         'creation_timestamp': 'creation_timestamp',
         'encryption_setting': 'encryption_setting',
         'environment_id': 'environment_id',
+        'event_bridge_enabled': 'event_bridge_enabled',
         'id': 'id',
         'name': 'name',
         'object_count': 'object_count',
@@ -93,6 +96,7 @@ class ReadBucketResponse:
         creation_timestamp: str = None,
         encryption_setting: s3_encryption_output.S3EncryptionOutput = None,
         environment_id: str = None,
+        event_bridge_enabled: bool = None,
         id: str = None,
         name: str = None,
         object_count: int = None,
@@ -117,6 +121,7 @@ class ReadBucketResponse:
         self.creation_timestamp: str = creation_timestamp
         self.encryption_setting: s3_encryption_output.S3EncryptionOutput = encryption_setting
         self.environment_id: str = environment_id
+        self.event_bridge_enabled: bool = event_bridge_enabled
         self.id: str = id
         self.name: str = name
         self.object_count: int = object_count
@@ -178,6 +183,7 @@ class ReadBucketResponse:
         )
 
         environment_id = dictionary.get('environment_id')
+        event_bridge_enabled = dictionary.get('event_bridge_enabled')
         id = dictionary.get('id')
         name = dictionary.get('name')
         object_count = dictionary.get('object_count')
@@ -215,6 +221,7 @@ class ReadBucketResponse:
             creation_timestamp,
             encryption_setting,
             environment_id,
+            event_bridge_enabled,
             id,
             name,
             object_count,

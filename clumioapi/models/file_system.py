@@ -36,6 +36,8 @@ class FileSystem:
             The location of this filesystem in the host environment. Only identifies mount
             points that correspond to Windows drive letters. All other mount points are
             identified by a '/'.
+        num_files_indexed:
+            The number of files (including directories) indexed in the file system.
         size:
             The total amount of memory available to the filesystem in bytes.
         type:
@@ -55,6 +57,7 @@ class FileSystem:
         'is_encrypted': 'is_encrypted',
         'is_indexed': 'is_indexed',
         'mount_path': 'mount_path',
+        'num_files_indexed': 'num_files_indexed',
         'size': 'size',
         'type': 'type',
         'used': 'used',
@@ -70,6 +73,7 @@ class FileSystem:
         is_encrypted: bool = None,
         is_indexed: bool = None,
         mount_path: str = None,
+        num_files_indexed: int = None,
         size: int = None,
         type: str = None,
         used: int = None,
@@ -85,6 +89,7 @@ class FileSystem:
         self.is_encrypted: bool = is_encrypted
         self.is_indexed: bool = is_indexed
         self.mount_path: str = mount_path
+        self.num_files_indexed: int = num_files_indexed
         self.size: int = size
         self.type: str = type
         self.used: int = used
@@ -119,6 +124,7 @@ class FileSystem:
         is_encrypted = dictionary.get('is_encrypted')
         is_indexed = dictionary.get('is_indexed')
         mount_path = dictionary.get('mount_path')
+        num_files_indexed = dictionary.get('num_files_indexed')
         size = dictionary.get('size')
         type = dictionary.get('type')
         used = dictionary.get('used')
@@ -132,6 +138,7 @@ class FileSystem:
             is_encrypted,
             is_indexed,
             mount_path,
+            num_files_indexed,
             size,
             type,
             used,

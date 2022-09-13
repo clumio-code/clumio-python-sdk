@@ -6,52 +6,48 @@ from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
 from clumioapi.models import hateoas_link
 from clumioapi.models import hateoas_self_link
-from clumioapi.models import read_policy_definition_hateoas_link
 
-T = TypeVar('T', bound='ProtectionGroupBucketLinks')
+T = TypeVar('T', bound='WalletLinks')
 
 
-class ProtectionGroupBucketLinks:
-    """Implementation of the 'ProtectionGroupBucketLinks' model.
+class WalletLinks:
+    """Implementation of the 'WalletLinks' model.
+
+    URLs to pages related to the resource.
 
     Attributes:
         p_self:
             The HATEOAS link to this resource.
-        delete_bucket_protection_group:
+        delete_wallet:
             A resource-specific HATEOAS link.
-        read_organizational_unit:
+        list_wallet_keys:
             A resource-specific HATEOAS link.
-        read_policy_definition:
-            A HATEOAS link to the policy protecting this resource. Will be omitted for
-            unprotected entities.
+        refresh_wallet:
+            A resource-specific HATEOAS link.
     """
 
     # Create a mapping from Model property names to API property names
     _names = {
         'p_self': '_self',
-        'delete_bucket_protection_group': 'delete-bucket-protection-group',
-        'read_organizational_unit': 'read-organizational-unit',
-        'read_policy_definition': 'read-policy-definition',
+        'delete_wallet': 'delete-wallet',
+        'list_wallet_keys': 'list-wallet-keys',
+        'refresh_wallet': 'refresh-wallet',
     }
 
     def __init__(
         self,
         p_self: hateoas_self_link.HateoasSelfLink = None,
-        delete_bucket_protection_group: hateoas_link.HateoasLink = None,
-        read_organizational_unit: hateoas_link.HateoasLink = None,
-        read_policy_definition: read_policy_definition_hateoas_link.ReadPolicyDefinitionHateoasLink = None,
+        delete_wallet: hateoas_link.HateoasLink = None,
+        list_wallet_keys: hateoas_link.HateoasLink = None,
+        refresh_wallet: hateoas_link.HateoasLink = None,
     ) -> None:
-        """Constructor for the ProtectionGroupBucketLinks class."""
+        """Constructor for the WalletLinks class."""
 
         # Initialize members of the class
         self.p_self: hateoas_self_link.HateoasSelfLink = p_self
-        self.delete_bucket_protection_group: hateoas_link.HateoasLink = (
-            delete_bucket_protection_group
-        )
-        self.read_organizational_unit: hateoas_link.HateoasLink = read_organizational_unit
-        self.read_policy_definition: read_policy_definition_hateoas_link.ReadPolicyDefinitionHateoasLink = (
-            read_policy_definition
-        )
+        self.delete_wallet: hateoas_link.HateoasLink = delete_wallet
+        self.list_wallet_keys: hateoas_link.HateoasLink = list_wallet_keys
+        self.refresh_wallet: hateoas_link.HateoasLink = refresh_wallet
 
     @classmethod
     def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
@@ -76,30 +72,26 @@ class ProtectionGroupBucketLinks:
             else None
         )
 
-        key = 'delete-bucket-protection-group'
-        delete_bucket_protection_group = (
+        key = 'delete-wallet'
+        delete_wallet = (
             hateoas_link.HateoasLink.from_dictionary(dictionary.get(key))
             if dictionary.get(key)
             else None
         )
 
-        key = 'read-organizational-unit'
-        read_organizational_unit = (
+        key = 'list-wallet-keys'
+        list_wallet_keys = (
             hateoas_link.HateoasLink.from_dictionary(dictionary.get(key))
             if dictionary.get(key)
             else None
         )
 
-        key = 'read-policy-definition'
-        read_policy_definition = (
-            read_policy_definition_hateoas_link.ReadPolicyDefinitionHateoasLink.from_dictionary(
-                dictionary.get(key)
-            )
+        key = 'refresh-wallet'
+        refresh_wallet = (
+            hateoas_link.HateoasLink.from_dictionary(dictionary.get(key))
             if dictionary.get(key)
             else None
         )
 
         # Return an object of this model
-        return cls(
-            p_self, delete_bucket_protection_group, read_organizational_unit, read_policy_definition
-        )
+        return cls(p_self, delete_wallet, list_wallet_keys, refresh_wallet)

@@ -95,9 +95,7 @@ class BackupVmwareVmsV1Controller(base_controller.BaseController):
     def create_backup_vmware_vm(
         self, body: create_backup_vmware_vm_v1_request.CreateBackupVmwareVmV1Request = None
     ) -> object:
-        """Performs an on-demand backup for the specified VM. The VM must be protected with
-        a policy that includes a service level agreement (SLA) configured for on-demand
-        backups.
+        """Performs an on-demand backup for the specified VM.
 
         Args:
             body:

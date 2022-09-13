@@ -81,6 +81,18 @@ class AwsConnectionsV1Controller(base_controller.BaseController):
                 |                        |                   |                                 |
                 |                        |                   |                                 |
                 +------------------------+-------------------+---------------------------------+
+                | connection_status      | $eq, $in          | The status of the connection to |
+                |                        |                   | the environment, which is       |
+                |                        |                   | mediated by a CloudFormation    |
+                |                        |                   | stack. Possible values include  |
+                |                        |                   | "connecting", "connected",      |
+                |                        |                   | "unlinked". For example,        |
+                |                        |                   | filter={"connection_status":{"$ |
+                |                        |                   | eq":"connected"}}               |
+                |                        |                   | filter={"connection_status":{"$ |
+                |                        |                   | in":["unlinked","connected"]}}  |
+                |                        |                   |                                 |
+                +------------------------+-------------------+---------------------------------+
                 | organizational_unit_id | $in               | Lists the connections in the    |
                 |                        |                   | specified organizational units. |
                 |                        |                   |                                 |
@@ -88,6 +100,16 @@ class AwsConnectionsV1Controller(base_controller.BaseController):
                 |                        |                   | ":["ca849d10-7ea1-4869-b2d0-    |
                 |                        |                   | 46c42b5f2bea", "27b9ee09-c59c-  |
                 |                        |                   | 466f-b2c4-223e9h8df7c8"]}}      |
+                |                        |                   |                                 |
+                |                        |                   |                                 |
+                +------------------------+-------------------+---------------------------------+
+                | services_enabled       | $contains         | Lists the connections that have |
+                |                        |                   | the given asset_types enabled.  |
+                |                        |                   | Supported types are: ['rds',    |
+                |                        |                   | 's3', 'ebs', 'ec2mssql'].       |
+                |                        |                   |                                 |
+                |                        |                   | {"services_enabled":{"$contains |
+                |                        |                   | ":"rds"}}                       |
                 |                        |                   |                                 |
                 |                        |                   |                                 |
                 +------------------------+-------------------+---------------------------------+

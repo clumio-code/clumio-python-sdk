@@ -38,6 +38,8 @@ class DeleteBucketFromProtectionGroupResponse:
             Determines whether the protection group bucket has been deleted
         last_backup_timestamp:
             Time of the last backup in RFC-3339 format.
+        last_continuous_backup_timestamp:
+            Time of the last successful continuous backup in RFC-3339 format.
         last_discover_sync_timestamp:
             Time of the last discover sync in RFC-3339 format.
         organizational_unit_id:
@@ -68,6 +70,7 @@ class DeleteBucketFromProtectionGroupResponse:
         'id': 'id',
         'is_deleted': 'is_deleted',
         'last_backup_timestamp': 'last_backup_timestamp',
+        'last_continuous_backup_timestamp': 'last_continuous_backup_timestamp',
         'last_discover_sync_timestamp': 'last_discover_sync_timestamp',
         'organizational_unit_id': 'organizational_unit_id',
         'total_backed_up_object_count': 'total_backed_up_object_count',
@@ -89,6 +92,7 @@ class DeleteBucketFromProtectionGroupResponse:
         id: str = None,
         is_deleted: bool = None,
         last_backup_timestamp: str = None,
+        last_continuous_backup_timestamp: str = None,
         last_discover_sync_timestamp: str = None,
         organizational_unit_id: str = None,
         total_backed_up_object_count: int = None,
@@ -110,6 +114,7 @@ class DeleteBucketFromProtectionGroupResponse:
         self.id: str = id
         self.is_deleted: bool = is_deleted
         self.last_backup_timestamp: str = last_backup_timestamp
+        self.last_continuous_backup_timestamp: str = last_continuous_backup_timestamp
         self.last_discover_sync_timestamp: str = last_discover_sync_timestamp
         self.organizational_unit_id: str = organizational_unit_id
         self.total_backed_up_object_count: int = total_backed_up_object_count
@@ -144,6 +149,7 @@ class DeleteBucketFromProtectionGroupResponse:
         id = dictionary.get('id')
         is_deleted = dictionary.get('is_deleted')
         last_backup_timestamp = dictionary.get('last_backup_timestamp')
+        last_continuous_backup_timestamp = dictionary.get('last_continuous_backup_timestamp')
         last_discover_sync_timestamp = dictionary.get('last_discover_sync_timestamp')
         organizational_unit_id = dictionary.get('organizational_unit_id')
         total_backed_up_object_count = dictionary.get('total_backed_up_object_count')
@@ -163,6 +169,7 @@ class DeleteBucketFromProtectionGroupResponse:
             id,
             is_deleted,
             last_backup_timestamp,
+            last_continuous_backup_timestamp,
             last_discover_sync_timestamp,
             organizational_unit_id,
             total_backed_up_object_count,

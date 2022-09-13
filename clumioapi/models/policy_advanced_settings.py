@@ -4,6 +4,8 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
+from clumioapi.models import ebs_backup_advanced_setting
+from clumioapi.models import ec2_backup_advanced_setting
 from clumioapi.models import mssql_database_backup_advanced_setting
 from clumioapi.models import mssql_log_backup_advanced_setting
 from clumioapi.models import protection_group_backup_advanced_setting
@@ -18,6 +20,10 @@ class PolicyAdvancedSettings:
     support additional settings, this field is `null`.
 
     Attributes:
+        aws_ebs_volume_backup:
+            Backup tier to store the backup in. Valid values are: `` for standard, `lite`
+        aws_ec2_instance_backup:
+            Backup tier to store the backup in. Valid values are: `` for standard, `lite`
         ec2_mssql_database_backup:
             Additional policy configuration settings for the `mssql_database_backup`
             operation. If this operation is not of type `mssql_database_backup`, then this
@@ -42,6 +48,8 @@ class PolicyAdvancedSettings:
 
     # Create a mapping from Model property names to API property names
     _names = {
+        'aws_ebs_volume_backup': 'aws_ebs_volume_backup',
+        'aws_ec2_instance_backup': 'aws_ec2_instance_backup',
         'ec2_mssql_database_backup': 'ec2_mssql_database_backup',
         'ec2_mssql_log_backup': 'ec2_mssql_log_backup',
         'mssql_database_backup': 'mssql_database_backup',
@@ -51,6 +59,8 @@ class PolicyAdvancedSettings:
 
     def __init__(
         self,
+        aws_ebs_volume_backup: ebs_backup_advanced_setting.EBSBackupAdvancedSetting = None,
+        aws_ec2_instance_backup: ec2_backup_advanced_setting.EC2BackupAdvancedSetting = None,
         ec2_mssql_database_backup: mssql_database_backup_advanced_setting.MSSQLDatabaseBackupAdvancedSetting = None,
         ec2_mssql_log_backup: mssql_log_backup_advanced_setting.MSSQLLogBackupAdvancedSetting = None,
         mssql_database_backup: mssql_database_backup_advanced_setting.MSSQLDatabaseBackupAdvancedSetting = None,
@@ -60,6 +70,12 @@ class PolicyAdvancedSettings:
         """Constructor for the PolicyAdvancedSettings class."""
 
         # Initialize members of the class
+        self.aws_ebs_volume_backup: ebs_backup_advanced_setting.EBSBackupAdvancedSetting = (
+            aws_ebs_volume_backup
+        )
+        self.aws_ec2_instance_backup: ec2_backup_advanced_setting.EC2BackupAdvancedSetting = (
+            aws_ec2_instance_backup
+        )
         self.ec2_mssql_database_backup: mssql_database_backup_advanced_setting.MSSQLDatabaseBackupAdvancedSetting = (
             ec2_mssql_database_backup
         )
@@ -92,6 +108,24 @@ class PolicyAdvancedSettings:
             return None
 
         # Extract variables from the dictionary
+        key = 'aws_ebs_volume_backup'
+        aws_ebs_volume_backup = (
+            ebs_backup_advanced_setting.EBSBackupAdvancedSetting.from_dictionary(
+                dictionary.get(key)
+            )
+            if dictionary.get(key)
+            else None
+        )
+
+        key = 'aws_ec2_instance_backup'
+        aws_ec2_instance_backup = (
+            ec2_backup_advanced_setting.EC2BackupAdvancedSetting.from_dictionary(
+                dictionary.get(key)
+            )
+            if dictionary.get(key)
+            else None
+        )
+
         key = 'ec2_mssql_database_backup'
         ec2_mssql_database_backup = (
             mssql_database_backup_advanced_setting.MSSQLDatabaseBackupAdvancedSetting.from_dictionary(
@@ -139,6 +173,8 @@ class PolicyAdvancedSettings:
 
         # Return an object of this model
         return cls(
+            aws_ebs_volume_backup,
+            aws_ec2_instance_backup,
             ec2_mssql_database_backup,
             ec2_mssql_log_backup,
             mssql_database_backup,

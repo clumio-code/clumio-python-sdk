@@ -42,50 +42,85 @@ class AwsS3BucketsV1Controller(base_controller.BaseController):
                 the supported filter fields for this resource and the filter conditions that can
                 be applied on those fields:
 
-                +-------------------+------------------+---------------------------------------+
-                |       Field       | Filter Condition |              Description              |
-                +===================+==================+=======================================+
-                | environment_id    | $eq              | The Clumio-assigned ID of the AWS     |
-                |                   |                  | environment.                          |
-                +-------------------+------------------+---------------------------------------+
-                | name              | $contains, $in   | The AWS-assigned name of this         |
-                |                   |                  | resource to conditionalize on. For    |
-                |                   |                  | example,                              |
-                |                   |                  | filter={"name":{"$contains":"dev"}}   |
-                |                   |                  | retrieves all S3 buckets with "dev"   |
-                |                   |                  | in their name.                        |
-                |                   |                  | filter={"name":{"$in":["prod",        |
-                |                   |                  | "dev"]}} retrieves only S3 buckets    |
-                |                   |                  | with names that exactly match "dev"   |
-                |                   |                  | or "prod"                             |
-                +-------------------+------------------+---------------------------------------+
-                | account_native_id | $eq              | The AWS-assigned ID of the AWS        |
-                |                   |                  | account. For example, filter={"accoun |
-                |                   |                  | t_native_id":{"$eq":"789901323485"}}  |
-                +-------------------+------------------+---------------------------------------+
-                | is_deleted        | $eq              | The deletion status of the bucket.    |
-                |                   |                  | Set to "true" to retrieve deleted     |
-                |                   |                  | buckets. For example,                 |
-                |                   |                  | filter={"is_deleted":{"$eq":true}}    |
-                +-------------------+------------------+---------------------------------------+
-                | tags.id           | $all             | The Clumio-assigned ID(s) of AWS      |
-                |                   |                  | tag(s) applied to this resource. For  |
-                |                   |                  | example, filter={"tags.id":{"$all":[" |
-                |                   |                  | c764b152-5819-11ea-bb9f-              |
-                |                   |                  | b2e1c9a040ad","c764abb6-5819-11ea-    |
-                |                   |                  | bb9f-b2e1c9a040ad"]}} retrieves all   |
-                |                   |                  | S3 buckets that are associated with   |
-                |                   |                  | the 2 AWS tags identified by these    |
-                |                   |                  | IDs. If multiple tags are specified,  |
-                |                   |                  | all of them must be applied to the    |
-                |                   |                  | same S3 bucket.                       |
-                +-------------------+------------------+---------------------------------------+
-                | aws_tag           | $in, $all        | Denotes the AWS tags to               |
-                |                   |                  | conditionalize on. For example, filte |
-                |                   |                  | r={"aws_tag":{"$in":[{"key":"Environm |
-                |                   |                  | ent", "value":"Prod"},                |
-                |                   |                  | {"key":"Hello", "value":"World"}]}}   |
-                +-------------------+------------------+---------------------------------------+
+                +------------------------+------------------+----------------------------------+
+                |         Field          | Filter Condition |           Description            |
+                +========================+==================+==================================+
+                | environment_id         | $eq              | The Clumio-assigned ID of the    |
+                |                        |                  | AWS environment.                 |
+                +------------------------+------------------+----------------------------------+
+                | name                   | $contains, $in   | The AWS-assigned name of this    |
+                |                        |                  | resource to conditionalize on.   |
+                |                        |                  | For example, filter={"name":{"$c |
+                |                        |                  | ontains":"dev"}} retrieves all   |
+                |                        |                  | S3 buckets with "dev" in their   |
+                |                        |                  | name.                            |
+                |                        |                  | filter={"name":{"$in":["prod",   |
+                |                        |                  | "dev"]}} retrieves only S3       |
+                |                        |                  | buckets with names that exactly  |
+                |                        |                  | match "dev" or "prod"            |
+                +------------------------+------------------+----------------------------------+
+                | account_native_id      | $eq              | The AWS-assigned ID of the AWS   |
+                |                        |                  | account. For example, filter={"a |
+                |                        |                  | ccount_native_id":{"$eq":"789901 |
+                |                        |                  | 323485"}}                        |
+                +------------------------+------------------+----------------------------------+
+                | aws_region             | $eq, $in         | The AWS region of a given        |
+                |                        |                  | account to which this resource   |
+                |                        |                  | belongs. For example,            |
+                |                        |                  | filter={"aws_region":{"$eq":"us- |
+                |                        |                  | east-1"}}                        |
+                +------------------------+------------------+----------------------------------+
+                | is_deleted             | $eq              | The deletion status of the       |
+                |                        |                  | bucket. Set to "true" to         |
+                |                        |                  | retrieve deleted buckets. For    |
+                |                        |                  | example, filter={"is_deleted":{" |
+                |                        |                  | $eq":true}}                      |
+                +------------------------+------------------+----------------------------------+
+                | tags.id                | $all             | The Clumio-assigned ID(s) of AWS |
+                |                        |                  | tag(s) applied to this resource. |
+                |                        |                  | For example, filter={"tags.id":{ |
+                |                        |                  | "$all":["c764b152-5819-11ea-bb9f |
+                |                        |                  | -b2e1c9a040ad","c764abb6-5819-   |
+                |                        |                  | 11ea-bb9f-b2e1c9a040ad"]}}       |
+                |                        |                  | retrieves all S3 buckets that    |
+                |                        |                  | are associated with the 2 AWS    |
+                |                        |                  | tags identified by these IDs. If |
+                |                        |                  | multiple tags are specified, all |
+                |                        |                  | of them must be applied to the   |
+                |                        |                  | same S3 bucket.                  |
+                +------------------------+------------------+----------------------------------+
+                | aws_tag                | $in, $all        | Denotes the AWS tags to          |
+                |                        |                  | conditionalize on. For example,  |
+                |                        |                  | filter={"aws_tag":{"$in":[{"key" |
+                |                        |                  | :"Environment", "value":"Prod"}, |
+                |                        |                  | {"key":"Hello",                  |
+                |                        |                  | "value":"World"}]}}              |
+                +------------------------+------------------+----------------------------------+
+                | excluded_aws_tag       | $all             | Denotes the AWS tags to          |
+                |                        |                  | conditionalize against, that     |
+                |                        |                  | assets cannot have. For example, |
+                |                        |                  | filter={"excluded_aws_tag":{"$al |
+                |                        |                  | l":[{"key":"Environment",        |
+                |                        |                  | "value":"Prod"}, {"key":"Hello", |
+                |                        |                  | "value":"World"}]}}              |
+                +------------------------+------------------+----------------------------------+
+                | organizational_unit_id | $in              | Denotes the organizational unit  |
+                |                        |                  | IDs that can own the assets that |
+                |                        |                  | are returned. For example, filte |
+                |                        |                  | r={"organizational_unit_id":{"$i |
+                |                        |                  | n":["c764b152-5819-11ea-bb9f-    |
+                |                        |                  | b2e1c9a040ad","c764abb6-5819-    |
+                |                        |                  | 11ea-bb9f-b2e1c9a040ad"]}}       |
+                +------------------------+------------------+----------------------------------+
+                | asset_id               | $in              | Denotes the asset IDs that the   |
+                |                        |                  | results will be constrained to,  |
+                |                        |                  | with other filters still         |
+                |                        |                  | applied. For example, filter={"a |
+                |                        |                  | sset_id":{"$in":["c764b152-5819- |
+                |                        |                  | 11ea-bb9f-                       |
+                |                        |                  | b2e1c9a040ad","c764abb6-5819-    |
+                |                        |                  | 11ea-bb9f-b2e1c9a040ad"]}}       |
+                +------------------------+------------------+----------------------------------+
 
         Returns:
             ListBucketsResponse: Response from the API.

@@ -4,6 +4,8 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
+from clumioapi.models import on_demand_setting
+
 T = TypeVar('T', bound='CreateBackupVmwareVmV1Request')
 
 
@@ -11,6 +13,8 @@ class CreateBackupVmwareVmV1Request:
     """Implementation of the 'CreateBackupVmwareVmV1Request' model.
 
     Attributes:
+        settings:
+            Settings for requesting on-demand backup directly
         vcenter_id:
             Performs the operation on a VM within the specified vCenter server.
         vm_id:
@@ -19,12 +23,18 @@ class CreateBackupVmwareVmV1Request:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'vcenter_id': 'vcenter_id', 'vm_id': 'vm_id'}
+    _names = {'settings': 'settings', 'vcenter_id': 'vcenter_id', 'vm_id': 'vm_id'}
 
-    def __init__(self, vcenter_id: str = None, vm_id: str = None) -> None:
+    def __init__(
+        self,
+        settings: on_demand_setting.OnDemandSetting = None,
+        vcenter_id: str = None,
+        vm_id: str = None,
+    ) -> None:
         """Constructor for the CreateBackupVmwareVmV1Request class."""
 
         # Initialize members of the class
+        self.settings: on_demand_setting.OnDemandSetting = settings
         self.vcenter_id: str = vcenter_id
         self.vm_id: str = vm_id
 
@@ -44,7 +54,14 @@ class CreateBackupVmwareVmV1Request:
             return None
 
         # Extract variables from the dictionary
+        key = 'settings'
+        settings = (
+            on_demand_setting.OnDemandSetting.from_dictionary(dictionary.get(key))
+            if dictionary.get(key)
+            else None
+        )
+
         vcenter_id = dictionary.get('vcenter_id')
         vm_id = dictionary.get('vm_id')
         # Return an object of this model
-        return cls(vcenter_id, vm_id)
+        return cls(settings, vcenter_id, vm_id)

@@ -27,6 +27,8 @@ class ProtectionGroupLinks:
             A resource-specific HATEOAS link.
         protect_entities:
             A HATEOAS link to protect the entities.
+        read_organizational_unit:
+            A resource-specific HATEOAS link.
         read_policy_definition:
             A HATEOAS link to the policy protecting this resource. Will be omitted for
             unprotected entities.
@@ -42,6 +44,7 @@ class ProtectionGroupLinks:
         'add_bucket_protection_group': 'add-bucket-protection-group',
         'delete_bucket_protection_group': 'delete-bucket-protection-group',
         'protect_entities': 'protect-entities',
+        'read_organizational_unit': 'read-organizational-unit',
         'read_policy_definition': 'read-policy-definition',
         'unprotect_entities': 'unprotect-entities',
         'update_protection_group': 'update-protection-group',
@@ -53,6 +56,7 @@ class ProtectionGroupLinks:
         add_bucket_protection_group: hateoas_link.HateoasLink = None,
         delete_bucket_protection_group: hateoas_link.HateoasLink = None,
         protect_entities: protect_entities_hateoas_link.ProtectEntitiesHateoasLink = None,
+        read_organizational_unit: hateoas_link.HateoasLink = None,
         read_policy_definition: read_policy_definition_hateoas_link.ReadPolicyDefinitionHateoasLink = None,
         unprotect_entities: unprotect_entities_hateoas_link.UnprotectEntitiesHateoasLink = None,
         update_protection_group: hateoas_link.HateoasLink = None,
@@ -68,6 +72,7 @@ class ProtectionGroupLinks:
         self.protect_entities: protect_entities_hateoas_link.ProtectEntitiesHateoasLink = (
             protect_entities
         )
+        self.read_organizational_unit: hateoas_link.HateoasLink = read_organizational_unit
         self.read_policy_definition: read_policy_definition_hateoas_link.ReadPolicyDefinitionHateoasLink = (
             read_policy_definition
         )
@@ -122,6 +127,13 @@ class ProtectionGroupLinks:
             else None
         )
 
+        key = 'read-organizational-unit'
+        read_organizational_unit = (
+            hateoas_link.HateoasLink.from_dictionary(dictionary.get(key))
+            if dictionary.get(key)
+            else None
+        )
+
         key = 'read-policy-definition'
         read_policy_definition = (
             read_policy_definition_hateoas_link.ReadPolicyDefinitionHateoasLink.from_dictionary(
@@ -153,6 +165,7 @@ class ProtectionGroupLinks:
             add_bucket_protection_group,
             delete_bucket_protection_group,
             protect_entities,
+            read_organizational_unit,
             read_policy_definition,
             unprotect_entities,
             update_protection_group,

@@ -143,12 +143,13 @@ class TasksV1Controller(base_controller.BaseController):
                 |                      |                  | ty.id":{"eq":"c8011712-9e16-11eb-  |
                 |                      |                  | bb8f-0a06889d7896"}}               |
                 +----------------------+------------------+------------------------------------+
-                | start_timestamp      | $lte, $gte       | The timestamp value of when the    |
-                |                      |                  | task was started.                  |
-                |                      |                  | Measured in microseconds since the |
-                |                      |                  | Unix epoch.                        |
-                |                      |                  | For example, filter={"start_timest |
-                |                      |                  | amp":{"$lte":1575524732608053}}    |
+                | created_timestamp    | $lte, $gte       | The timestamp value of when the    |
+                |                      |                  | task was started                   |
+                |                      |                  | (cannot exceed the last 6 months)  |
+                |                      |                  | in RFC-3999 format.                |
+                |                      |                  | For example, filter={"created_time |
+                |                      |                  | stamp":{"$lte":                    |
+                |                      |                  | "2020-09-13T00:00:00Z"}}           |
                 +----------------------+------------------+------------------------------------+
                 | type                 | $in              | The task type.                     |
                 |                      |                  | Examples of task types include     |
