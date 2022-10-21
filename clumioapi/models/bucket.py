@@ -4,13 +4,15 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import aws_tag_model
-from clumioapi.models import bucket_links
-from clumioapi.models import s3_buckets_inventory_summary_bucket_size_breakdown
-from clumioapi.models import s3_cloudwatch_metrics
-from clumioapi.models import s3_encryption_output
-from clumioapi.models import s3_replication_output
-from clumioapi.models import s3_versioning_output
+from clumioapi.models import (
+    aws_tag_model,
+    bucket_links,
+    s3_buckets_inventory_summary_bucket_size_breakdown,
+    s3_cloudwatch_metrics,
+    s3_encryption_output,
+    s3_replication_output,
+    s3_versioning_output,
+)
 
 T = TypeVar('T', bound='Bucket')
 

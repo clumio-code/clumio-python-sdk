@@ -2,15 +2,16 @@
 # Copyright 2021. Clumio, Inc.
 #
 
-from clumioapi import api_helper
-from clumioapi import configuration
-from clumioapi import sdk_version
+import requests
+
+from clumioapi import api_helper, configuration, sdk_version
 from clumioapi.controllers import base_controller
 from clumioapi.exceptions import clumio_exception
-from clumioapi.models import patch_general_settings_response_v2
-from clumioapi.models import read_general_settings_response_v2
-from clumioapi.models import update_general_settings_v2_request
-import requests
+from clumioapi.models import (
+    patch_general_settings_response_v2,
+    read_general_settings_response_v2,
+    update_general_settings_v2_request,
+)
 
 
 class GeneralSettingsV2Controller(base_controller.BaseController):
@@ -25,6 +26,8 @@ class GeneralSettingsV2Controller(base_controller.BaseController):
             'x-clumio-api-client': 'clumio-python-sdk',
             'x-clumio-sdk-version': f'clumio-python-sdk:{sdk_version}',
         }
+        if config.custom_headers != None:
+            self.headers.update(config.custom_headers)
 
     def read_general_settings(self):
         """Retrieves organization-wide setting details, including password and security
@@ -48,7 +51,7 @@ class GeneralSettingsV2Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing read_general_settings.', errors
+                "Error occurred while executing read_general_settings.", errors
             )
         return read_general_settings_response_v2.ReadGeneralSettingsResponseV2.from_dictionary(resp)
 
@@ -84,7 +87,7 @@ class GeneralSettingsV2Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing update_general_settings.', errors
+                "Error occurred while executing update_general_settings.", errors
             )
         return patch_general_settings_response_v2.PatchGeneralSettingsResponseV2.from_dictionary(
             resp

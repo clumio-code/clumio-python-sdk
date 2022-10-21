@@ -4,8 +4,10 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import v_mware_v_center_network_list_embedded
-from clumioapi.models import v_mware_v_center_network_list_links
+from clumioapi.models import (
+    v_mware_v_center_network_list_embedded,
+    v_mware_v_center_network_list_links,
+)
 
 T = TypeVar('T', bound='ListVMwareVCenterNetworksResponse')
 

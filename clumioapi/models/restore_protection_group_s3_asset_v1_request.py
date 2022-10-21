@@ -4,8 +4,10 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import protection_group_restore_target
-from clumioapi.models import protection_group_s3_asset_restore_source
+from clumioapi.models import (
+    protection_group_restore_target,
+    protection_group_s3_asset_restore_source,
+)
 
 T = TypeVar('T', bound='RestoreProtectionGroupS3AssetV1Request')
 

@@ -14,9 +14,10 @@ class MssqlDatabaseEmbedded:
 
     Attributes:
         read_management_group:
-            Embedded types
+            Embeds details about the management group if requested using the `embed` query.
         read_management_subgroup:
-            Embedded types
+            Embeds details about the management subgroup if requested using the `embed`
+            query.
         read_policy_definition:
             Embeds the associated policy of a protected resource in the response if
             requested using the `embed` query parameter. Unprotected resources will not have
@@ -32,9 +33,9 @@ class MssqlDatabaseEmbedded:
 
     def __init__(
         self,
-        read_management_group: object = None,
-        read_management_subgroup: object = None,
-        read_policy_definition: object = None,
+        read_management_group: None = None,
+        read_management_subgroup: None = None,
+        read_policy_definition: None = None,
     ) -> None:
         """Constructor for the MssqlDatabaseEmbedded class."""
 

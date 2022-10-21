@@ -30,8 +30,8 @@ class FolderEmbedded:
 
     def __init__(
         self,
-        read_policy_definition: object = None,
-        read_vmware_vcenter_folder_compliance_stats: object = None,
+        read_policy_definition: None = None,
+        read_vmware_vcenter_folder_compliance_stats: None = None,
     ) -> None:
         """Constructor for the FolderEmbedded class."""
 

@@ -4,8 +4,7 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import vm_backup_list_embedded
-from clumioapi.models import vm_backup_list_hateoas_links
+from clumioapi.models import vm_backup_list_embedded, vm_backup_list_hateoas_links
 
 T = TypeVar('T', bound='ListVMBackupsResponse')
 

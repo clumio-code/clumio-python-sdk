@@ -4,9 +4,7 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import database_links
-from clumioapi.models import mssql_database_embedded
-from clumioapi.models import protection_info
+from clumioapi.models import database_links, mssql_database_embedded, protection_info
 
 T = TypeVar('T', bound='ReadMssqlDatabaseResponse')
 

@@ -2,16 +2,17 @@
 # Copyright 2021. Clumio, Inc.
 #
 
-from clumioapi import api_helper
-from clumioapi import configuration
-from clumioapi import sdk_version
+import requests
+
+from clumioapi import api_helper, configuration, sdk_version
 from clumioapi.controllers import base_controller
 from clumioapi.exceptions import clumio_exception
-from clumioapi.models import list_management_groups_response
-from clumioapi.models import read_management_group_response
-from clumioapi.models import update_management_group_response
-from clumioapi.models import update_management_group_v1_request
-import requests
+from clumioapi.models import (
+    list_management_groups_response,
+    read_management_group_response,
+    update_management_group_response,
+    update_management_group_v1_request,
+)
 
 
 class ManagementGroupsV1Controller(base_controller.BaseController):
@@ -26,6 +27,8 @@ class ManagementGroupsV1Controller(base_controller.BaseController):
             'x-clumio-api-client': 'clumio-python-sdk',
             'x-clumio-sdk-version': f'clumio-python-sdk:{sdk_version}',
         }
+        if config.custom_headers != None:
+            self.headers.update(config.custom_headers)
 
     def list_management_groups(
         self, limit: int = None, start: str = None
@@ -59,7 +62,7 @@ class ManagementGroupsV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing list_management_groups.', errors
+                "Error occurred while executing list_management_groups.", errors
             )
         return list_management_groups_response.ListManagementGroupsResponse.from_dictionary(resp)
 
@@ -96,7 +99,7 @@ class ManagementGroupsV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing read_management_group.', errors
+                "Error occurred while executing read_management_group.", errors
             )
         return read_management_group_response.ReadManagementGroupResponse.from_dictionary(resp)
 
@@ -138,6 +141,6 @@ class ManagementGroupsV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing update_management_group.', errors
+                "Error occurred while executing update_management_group.", errors
             )
         return update_management_group_response.UpdateManagementGroupResponse.from_dictionary(resp)

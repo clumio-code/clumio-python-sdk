@@ -4,8 +4,7 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import protect_entities_hateoas_link
-from clumioapi.models import unprotect_entities_hateoas_link
+from clumioapi.models import protect_entities_hateoas_link, unprotect_entities_hateoas_link
 
 T = TypeVar('T', bound='VCenterComputeResourceLinks')
 

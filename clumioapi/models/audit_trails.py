@@ -4,8 +4,7 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import audit_parent_entity
-from clumioapi.models import audit_primary_entity
+from clumioapi.models import audit_parent_entity, audit_primary_entity
 
 T = TypeVar('T', bound='AuditTrails')
 

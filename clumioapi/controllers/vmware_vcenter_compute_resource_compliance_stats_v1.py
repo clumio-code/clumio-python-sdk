@@ -2,13 +2,12 @@
 # Copyright 2021. Clumio, Inc.
 #
 
-from clumioapi import api_helper
-from clumioapi import configuration
-from clumioapi import sdk_version
+import requests
+
+from clumioapi import api_helper, configuration, sdk_version
 from clumioapi.controllers import base_controller
 from clumioapi.exceptions import clumio_exception
 from clumioapi.models import read_v_mware_compute_resource_stats_response
-import requests
 
 
 class VmwareVcenterComputeResourceComplianceStatsV1Controller(base_controller.BaseController):
@@ -23,6 +22,8 @@ class VmwareVcenterComputeResourceComplianceStatsV1Controller(base_controller.Ba
             'x-clumio-api-client': 'clumio-python-sdk',
             'x-clumio-sdk-version': f'clumio-python-sdk:{sdk_version}',
         }
+        if config.custom_headers != None:
+            self.headers.update(config.custom_headers)
 
     def read_vmware_vcenter_compute_resource_compliance_stats(
         self, vcenter_id: str, compute_resource_id: str
@@ -57,7 +58,7 @@ class VmwareVcenterComputeResourceComplianceStatsV1Controller(base_controller.Ba
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing read_vmware_vcenter_compute_resource_compliance_stats.',
+                "Error occurred while executing read_vmware_vcenter_compute_resource_compliance_stats.",
                 errors,
             )
         return read_v_mware_compute_resource_stats_response.ReadVMwareComputeResourceStatsResponse.from_dictionary(

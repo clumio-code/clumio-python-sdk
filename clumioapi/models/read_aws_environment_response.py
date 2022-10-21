@@ -4,9 +4,7 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import aws_environment_embedded
-from clumioapi.models import aws_environment_links
-from clumioapi.models import consolidated_config
+from clumioapi.models import aws_environment_embedded, aws_environment_links, consolidated_config
 
 T = TypeVar('T', bound='ReadAWSEnvironmentResponse')
 

@@ -4,8 +4,7 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import ebs_backup_list_embedded_v1
-from clumioapi.models import ebs_backup_list_links_v1
+from clumioapi.models import ebs_backup_list_embedded_v1, ebs_backup_list_links_v1
 
 T = TypeVar('T', bound='ListEBSBackupsResponseV1')
 

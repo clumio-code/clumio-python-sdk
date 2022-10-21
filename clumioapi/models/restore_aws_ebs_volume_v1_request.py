@@ -4,8 +4,7 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import ebs_restore_source_v1
-from clumioapi.models import ebs_restore_target_v1
+from clumioapi.models import ebs_restore_source_v1, ebs_restore_target_v1
 
 T = TypeVar('T', bound='RestoreAwsEbsVolumeV1Request')
 

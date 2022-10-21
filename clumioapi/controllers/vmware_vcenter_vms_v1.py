@@ -2,14 +2,12 @@
 # Copyright 2021. Clumio, Inc.
 #
 
-from clumioapi import api_helper
-from clumioapi import configuration
-from clumioapi import sdk_version
+import requests
+
+from clumioapi import api_helper, configuration, sdk_version
 from clumioapi.controllers import base_controller
 from clumioapi.exceptions import clumio_exception
-from clumioapi.models import list_vms_response
-from clumioapi.models import read_vm_response
-import requests
+from clumioapi.models import list_vms_response, read_vm_response
 
 
 class VmwareVcenterVmsV1Controller(base_controller.BaseController):
@@ -24,6 +22,8 @@ class VmwareVcenterVmsV1Controller(base_controller.BaseController):
             'x-clumio-api-client': 'clumio-python-sdk',
             'x-clumio-sdk-version': f'clumio-python-sdk:{sdk_version}',
         }
+        if config.custom_headers != None:
+            self.headers.update(config.custom_headers)
 
     def list_vmware_vcenter_vms(
         self,
@@ -212,7 +212,7 @@ class VmwareVcenterVmsV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing list_vmware_vcenter_vms.', errors
+                "Error occurred while executing list_vmware_vcenter_vms.", errors
             )
         return list_vms_response.ListVmsResponse.from_dictionary(resp)
 
@@ -260,6 +260,6 @@ class VmwareVcenterVmsV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing read_vmware_vcenter_vm.', errors
+                "Error occurred while executing read_vmware_vcenter_vm.", errors
             )
         return read_vm_response.ReadVmResponse.from_dictionary(resp)

@@ -4,8 +4,7 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import s3_replica_modifications
-from clumioapi.models import s3_sse_kms_encrypted_objects
+from clumioapi.models import s3_replica_modifications, s3_sse_kms_encrypted_objects
 
 T = TypeVar('T', bound='S3SourceSelectionCriteria')
 

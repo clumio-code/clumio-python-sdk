@@ -4,8 +4,7 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import move_hosts_links
-from clumioapi.models import read_task_hateoas_links
+from clumioapi.models import move_hosts_links, read_task_hateoas_links
 
 T = TypeVar('T', bound='MoveHcmHostsResponse')
 

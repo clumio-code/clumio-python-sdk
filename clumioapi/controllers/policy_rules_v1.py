@@ -2,19 +2,20 @@
 # Copyright 2021. Clumio, Inc.
 #
 
-from clumioapi import api_helper
-from clumioapi import configuration
-from clumioapi import sdk_version
+import requests
+
+from clumioapi import api_helper, configuration, sdk_version
 from clumioapi.controllers import base_controller
 from clumioapi.exceptions import clumio_exception
-from clumioapi.models import create_policy_rule_v1_request
-from clumioapi.models import create_rule_response
-from clumioapi.models import delete_rule_response
-from clumioapi.models import list_rules_response
-from clumioapi.models import read_rule_response
-from clumioapi.models import update_policy_rule_v1_request
-from clumioapi.models import update_rule_response
-import requests
+from clumioapi.models import (
+    create_policy_rule_v1_request,
+    create_rule_response,
+    delete_rule_response,
+    list_rules_response,
+    read_rule_response,
+    update_policy_rule_v1_request,
+    update_rule_response,
+)
 
 
 class PolicyRulesV1Controller(base_controller.BaseController):
@@ -29,6 +30,8 @@ class PolicyRulesV1Controller(base_controller.BaseController):
             'x-clumio-api-client': 'clumio-python-sdk',
             'x-clumio-sdk-version': f'clumio-python-sdk:{sdk_version}',
         }
+        if config.custom_headers != None:
+            self.headers.update(config.custom_headers)
 
     def list_policy_rules(
         self,
@@ -113,7 +116,7 @@ class PolicyRulesV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing list_policy_rules.', errors
+                "Error occurred while executing list_policy_rules.", errors
             )
         return list_rules_response.ListRulesResponse.from_dictionary(resp)
 
@@ -153,7 +156,7 @@ class PolicyRulesV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing create_policy_rule.', errors
+                "Error occurred while executing create_policy_rule.", errors
             )
         return create_rule_response.CreateRuleResponse.from_dictionary(resp)
 
@@ -182,7 +185,7 @@ class PolicyRulesV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing read_policy_rule.', errors
+                "Error occurred while executing read_policy_rule.", errors
             )
         return read_rule_response.ReadRuleResponse.from_dictionary(resp)
 
@@ -220,7 +223,7 @@ class PolicyRulesV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing update_policy_rule.', errors
+                "Error occurred while executing update_policy_rule.", errors
             )
         return update_rule_response.UpdateRuleResponse.from_dictionary(resp)
 
@@ -258,6 +261,6 @@ class PolicyRulesV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing delete_policy_rule.', errors
+                "Error occurred while executing delete_policy_rule.", errors
             )
         return delete_rule_response.DeleteRuleResponse.from_dictionary(resp)

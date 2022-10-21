@@ -4,10 +4,7 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import rule_action
-from clumioapi.models import rule_embedded
-from clumioapi.models import rule_links
-from clumioapi.models import rule_priority
+from clumioapi.models import rule_action, rule_embedded, rule_links, rule_priority
 
 T = TypeVar('T', bound='ReadRuleResponse')
 

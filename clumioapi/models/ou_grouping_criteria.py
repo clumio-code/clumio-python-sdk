@@ -4,9 +4,11 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import aws_ds_grouping_criteria
-from clumioapi.models import m365_grouping_criteria
-from clumioapi.models import v_mware_ds_grouping_criteria
+from clumioapi.models import (
+    aws_ds_grouping_criteria,
+    m365_grouping_criteria,
+    v_mware_ds_grouping_criteria,
+)
 
 T = TypeVar('T', bound='OUGroupingCriteria')
 

@@ -4,8 +4,7 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import organizational_unit_parent_entity
-from clumioapi.models import organizational_unit_primary_entity
+from clumioapi.models import organizational_unit_parent_entity, organizational_unit_primary_entity
 
 T = TypeVar('T', bound='EntityModel')
 

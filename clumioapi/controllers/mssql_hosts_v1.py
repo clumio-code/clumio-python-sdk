@@ -2,24 +2,25 @@
 # Copyright 2021. Clumio, Inc.
 #
 
-from clumioapi import api_helper
-from clumioapi import configuration
-from clumioapi import sdk_version
+import requests
+
+from clumioapi import api_helper, configuration, sdk_version
 from clumioapi.controllers import base_controller
 from clumioapi.exceptions import clumio_exception
-from clumioapi.models import create_hcm_host_response
-from clumioapi.models import create_host_ec_credentials_response
-from clumioapi.models import create_mssql_host_connection_credentials_v1_request
-from clumioapi.models import create_mssql_host_connections_v1_request
-from clumioapi.models import delete_hcm_host_response
-from clumioapi.models import delete_mssql_host_connections_v1_request
-from clumioapi.models import list_hcm_hosts_response
-from clumioapi.models import list_mssql_hosts_response
-from clumioapi.models import move_hcm_hosts_response
-from clumioapi.models import move_mssql_host_connections_v1_request
-from clumioapi.models import read_hcm_host_response
-from clumioapi.models import read_mssql_host_response
-import requests
+from clumioapi.models import (
+    create_hcm_host_response,
+    create_host_ec_credentials_response,
+    create_mssql_host_connection_credentials_v1_request,
+    create_mssql_host_connections_v1_request,
+    delete_hcm_host_response,
+    delete_mssql_host_connections_v1_request,
+    list_hcm_hosts_response,
+    list_mssql_hosts_response,
+    move_hcm_hosts_response,
+    move_mssql_host_connections_v1_request,
+    read_hcm_host_response,
+    read_mssql_host_response,
+)
 
 
 class MssqlHostsV1Controller(base_controller.BaseController):
@@ -34,6 +35,8 @@ class MssqlHostsV1Controller(base_controller.BaseController):
             'x-clumio-api-client': 'clumio-python-sdk',
             'x-clumio-sdk-version': f'clumio-python-sdk:{sdk_version}',
         }
+        if config.custom_headers != None:
+            self.headers.update(config.custom_headers)
 
     def list_mssql_host_connections(
         self, current_count: int = None, filter: str = None, limit: int = None, start: str = None
@@ -96,7 +99,7 @@ class MssqlHostsV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing list_mssql_host_connections.', errors
+                "Error occurred while executing list_mssql_host_connections.", errors
             )
         return list_hcm_hosts_response.ListHcmHostsResponse.from_dictionary(resp)
 
@@ -133,7 +136,7 @@ class MssqlHostsV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing create_mssql_host_connections.', errors
+                "Error occurred while executing create_mssql_host_connections.", errors
             )
         return create_hcm_host_response.CreateHcmHostResponse.from_dictionary(resp)
 
@@ -184,7 +187,7 @@ class MssqlHostsV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing delete_mssql_host_connections.', errors
+                "Error occurred while executing delete_mssql_host_connections.", errors
             )
         return delete_hcm_host_response.DeleteHcmHostResponse.from_dictionary(resp)
 
@@ -236,7 +239,7 @@ class MssqlHostsV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing move_mssql_host_connections.', errors
+                "Error occurred while executing move_mssql_host_connections.", errors
             )
         return move_hcm_hosts_response.MoveHcmHostsResponse.from_dictionary(resp)
 
@@ -273,7 +276,7 @@ class MssqlHostsV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing create_mssql_host_connection_credentials.', errors
+                "Error occurred while executing create_mssql_host_connection_credentials.", errors
             )
         return create_host_ec_credentials_response.CreateHostECCredentialsResponse.from_dictionary(
             resp
@@ -306,7 +309,7 @@ class MssqlHostsV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing read_mssql_host_connections.', errors
+                "Error occurred while executing read_mssql_host_connections.", errors
             )
         return read_hcm_host_response.ReadHcmHostResponse.from_dictionary(resp)
 
@@ -395,7 +398,7 @@ class MssqlHostsV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing list_mssql_hosts.', errors
+                "Error occurred while executing list_mssql_hosts.", errors
             )
         return list_mssql_hosts_response.ListMssqlHostsResponse.from_dictionary(resp)
 
@@ -424,6 +427,6 @@ class MssqlHostsV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing read_mssql_hosts.', errors
+                "Error occurred while executing read_mssql_hosts.", errors
             )
         return read_mssql_host_response.ReadMssqlHostResponse.from_dictionary(resp)

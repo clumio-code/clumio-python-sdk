@@ -4,11 +4,13 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import compute_resource_id_model
-from clumioapi.models import host_id_model
-from clumioapi.models import v_mware_datastore_links
-from clumioapi.models import v_mware_v_center_datastore_datacenter_model
-from clumioapi.models import v_mware_v_center_datastore_folder_model
+from clumioapi.models import (
+    compute_resource_id_model,
+    host_id_model,
+    v_mware_datastore_links,
+    v_mware_v_center_datastore_datacenter_model,
+    v_mware_v_center_datastore_folder_model,
+)
 
 T = TypeVar('T', bound='ReadVMwareDatastoreResponse')
 

@@ -4,11 +4,13 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import hateoas_self_link
-from clumioapi.models import protect_entities_hateoas_link
-from clumioapi.models import read_policy_definition_hateoas_link
-from clumioapi.models import read_v_center_object_protection_stats_hateoas_link
-from clumioapi.models import unprotect_entities_hateoas_link
+from clumioapi.models import (
+    hateoas_self_link,
+    protect_entities_hateoas_link,
+    read_policy_definition_hateoas_link,
+    read_v_center_object_protection_stats_hateoas_link,
+    unprotect_entities_hateoas_link,
+)
 
 T = TypeVar('T', bound='Tag2Links')
 

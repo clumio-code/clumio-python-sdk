@@ -4,10 +4,12 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import aws_tag_model
-from clumioapi.models import ebs_volume_embedded
-from clumioapi.models import ebs_volume_links
-from clumioapi.models import protection_info_with_rule
+from clumioapi.models import (
+    aws_tag_model,
+    ebs_volume_embedded,
+    ebs_volume_links,
+    protection_info_with_rule,
+)
 
 T = TypeVar('T', bound='EBS')
 

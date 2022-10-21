@@ -4,8 +4,7 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import general_settings_links
-from clumioapi.models import ou_grouping_criteria
+from clumioapi.models import general_settings_links, ou_grouping_criteria
 
 T = TypeVar('T', bound='PatchGeneralSettingsResponseV2')
 

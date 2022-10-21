@@ -4,11 +4,13 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import ebs_backup_advanced_setting
-from clumioapi.models import ec2_backup_advanced_setting
-from clumioapi.models import mssql_database_backup_advanced_setting
-from clumioapi.models import mssql_log_backup_advanced_setting
-from clumioapi.models import protection_group_backup_advanced_setting
+from clumioapi.models import (
+    ebs_backup_advanced_setting,
+    ec2_backup_advanced_setting,
+    mssql_database_backup_advanced_setting,
+    mssql_log_backup_advanced_setting,
+    protection_group_backup_advanced_setting,
+)
 
 T = TypeVar('T', bound='PolicyAdvancedSettings')
 

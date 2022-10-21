@@ -4,12 +4,14 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import alert_embedded
-from clumioapi.models import alert_links
-from clumioapi.models import alert_parent_entity
-from clumioapi.models import alert_primary_entity
-from clumioapi.models import individual_alert_details
-from clumioapi.models import rest_entity
+from clumioapi.models import (
+    alert_embedded,
+    alert_links,
+    alert_parent_entity,
+    alert_primary_entity,
+    individual_alert_details,
+    rest_entity,
+)
 
 T = TypeVar('T', bound='UpdateAlertResponse')
 

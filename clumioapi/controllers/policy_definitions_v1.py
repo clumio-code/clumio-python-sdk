@@ -2,19 +2,20 @@
 # Copyright 2021. Clumio, Inc.
 #
 
-from clumioapi import api_helper
-from clumioapi import configuration
-from clumioapi import sdk_version
+import requests
+
+from clumioapi import api_helper, configuration, sdk_version
 from clumioapi.controllers import base_controller
 from clumioapi.exceptions import clumio_exception
-from clumioapi.models import create_policy_definition_v1_request
-from clumioapi.models import create_policy_response
-from clumioapi.models import delete_policy_response
-from clumioapi.models import list_policies_response
-from clumioapi.models import read_policy_response
-from clumioapi.models import update_policy_definition_v1_request
-from clumioapi.models import update_policy_response
-import requests
+from clumioapi.models import (
+    create_policy_definition_v1_request,
+    create_policy_response,
+    delete_policy_response,
+    list_policies_response,
+    read_policy_response,
+    update_policy_definition_v1_request,
+    update_policy_response,
+)
 
 
 class PolicyDefinitionsV1Controller(base_controller.BaseController):
@@ -29,6 +30,8 @@ class PolicyDefinitionsV1Controller(base_controller.BaseController):
             'x-clumio-api-client': 'clumio-python-sdk',
             'x-clumio-sdk-version': f'clumio-python-sdk:{sdk_version}',
         }
+        if config.custom_headers != None:
+            self.headers.update(config.custom_headers)
 
     def list_policy_definitions(
         self, filter: str = None, embed: str = None
@@ -179,7 +182,7 @@ class PolicyDefinitionsV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing list_policy_definitions.', errors
+                "Error occurred while executing list_policy_definitions.", errors
             )
         return list_policies_response.ListPoliciesResponse.from_dictionary(resp)
 
@@ -216,7 +219,7 @@ class PolicyDefinitionsV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing create_policy_definition.', errors
+                "Error occurred while executing create_policy_definition.", errors
             )
         return create_policy_response.CreatePolicyResponse.from_dictionary(resp)
 
@@ -270,7 +273,7 @@ class PolicyDefinitionsV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing read_policy_definition.', errors
+                "Error occurred while executing read_policy_definition.", errors
             )
         return read_policy_response.ReadPolicyResponse.from_dictionary(resp)
 
@@ -336,7 +339,7 @@ class PolicyDefinitionsV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing update_policy_definition.', errors
+                "Error occurred while executing update_policy_definition.", errors
             )
         return update_policy_response.UpdatePolicyResponse.from_dictionary(resp)
 
@@ -369,6 +372,6 @@ class PolicyDefinitionsV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing delete_policy_definition.', errors
+                "Error occurred while executing delete_policy_definition.", errors
             )
         return delete_policy_response.DeletePolicyResponse.from_dictionary(resp)

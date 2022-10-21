@@ -4,8 +4,7 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import file_restore_source
-from clumioapi.models import file_restore_target
+from clumioapi.models import file_restore_source, file_restore_target
 
 T = TypeVar('T', bound='RestoreFilesV1Request')
 

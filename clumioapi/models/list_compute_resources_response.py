@@ -4,8 +4,7 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import v_center_compute_resource
-from clumioapi.models import v_center_folder
+from clumioapi.models import v_center_compute_resource, v_center_folder
 
 T = TypeVar('T', bound='ListComputeResourcesResponse')
 

@@ -2,21 +2,22 @@
 # Copyright 2021. Clumio, Inc.
 #
 
-from clumioapi import api_helper
-from clumioapi import configuration
-from clumioapi import sdk_version
+import requests
+
+from clumioapi import api_helper, configuration, sdk_version
 from clumioapi.controllers import base_controller
 from clumioapi.exceptions import clumio_exception
-from clumioapi.models import add_bucket_protection_group_v1_request
-from clumioapi.models import add_bucket_to_protection_group_response
-from clumioapi.models import create_protection_group_response
-from clumioapi.models import create_protection_group_v1_request
-from clumioapi.models import delete_bucket_from_protection_group_response
-from clumioapi.models import list_protection_groups_response
-from clumioapi.models import read_protection_group_response
-from clumioapi.models import update_protection_group_response
-from clumioapi.models import update_protection_group_v1_request
-import requests
+from clumioapi.models import (
+    add_bucket_protection_group_v1_request,
+    add_bucket_to_protection_group_response,
+    create_protection_group_response,
+    create_protection_group_v1_request,
+    delete_bucket_from_protection_group_response,
+    list_protection_groups_response,
+    read_protection_group_response,
+    update_protection_group_response,
+    update_protection_group_v1_request,
+)
 
 
 class ProtectionGroupsV1Controller(base_controller.BaseController):
@@ -31,6 +32,8 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
             'x-clumio-api-client': 'clumio-python-sdk',
             'x-clumio-sdk-version': f'clumio-python-sdk:{sdk_version}',
         }
+        if config.custom_headers != None:
+            self.headers.update(config.custom_headers)
 
     def list_protection_groups(
         self, limit: int = None, start: str = None, filter: str = None
@@ -109,7 +112,7 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing list_protection_groups.', errors
+                "Error occurred while executing list_protection_groups.", errors
             )
         return list_protection_groups_response.ListProtectionGroupsResponse.from_dictionary(resp)
 
@@ -142,7 +145,7 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing read_protection_group.', errors
+                "Error occurred while executing read_protection_group.", errors
             )
         return read_protection_group_response.ReadProtectionGroupResponse.from_dictionary(resp)
 
@@ -186,7 +189,7 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing create_protection_group.', errors
+                "Error occurred while executing create_protection_group.", errors
             )
         return create_protection_group_response.CreateProtectionGroupResponse.from_dictionary(resp)
 
@@ -232,7 +235,7 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing update_protection_group.', errors
+                "Error occurred while executing update_protection_group.", errors
             )
         return update_protection_group_response.UpdateProtectionGroupResponse.from_dictionary(resp)
 
@@ -269,7 +272,7 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing delete_protection_group.', errors
+                "Error occurred while executing delete_protection_group.", errors
             )
         return resp
 
@@ -316,7 +319,7 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing add_bucket_protection_group.', errors
+                "Error occurred while executing add_bucket_protection_group.", errors
             )
         return add_bucket_to_protection_group_response.AddBucketToProtectionGroupResponse.from_dictionary(
             resp
@@ -359,7 +362,7 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing delete_bucket_protection_group.', errors
+                "Error occurred while executing delete_bucket_protection_group.", errors
             )
         return delete_bucket_from_protection_group_response.DeleteBucketFromProtectionGroupResponse.from_dictionary(
             resp

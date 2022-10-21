@@ -2,21 +2,22 @@
 # Copyright 2021. Clumio, Inc.
 #
 
-from clumioapi import api_helper
-from clumioapi import configuration
-from clumioapi import sdk_version
+import requests
+
+from clumioapi import api_helper, configuration, sdk_version
 from clumioapi.controllers import base_controller
 from clumioapi.exceptions import clumio_exception
-from clumioapi.models import change_password_v1_request
-from clumioapi.models import create_user_response
-from clumioapi.models import create_user_v1_request
-from clumioapi.models import edit_profile_response
-from clumioapi.models import list_users_response
-from clumioapi.models import read_user_response
-from clumioapi.models import update_user_profile_v1_request
-from clumioapi.models import update_user_response
-from clumioapi.models import update_user_v1_request
-import requests
+from clumioapi.models import (
+    change_password_v1_request,
+    create_user_response,
+    create_user_v1_request,
+    edit_profile_response,
+    list_users_response,
+    read_user_response,
+    update_user_profile_v1_request,
+    update_user_response,
+    update_user_v1_request,
+)
 
 
 class UsersV1Controller(base_controller.BaseController):
@@ -31,6 +32,8 @@ class UsersV1Controller(base_controller.BaseController):
             'x-clumio-api-client': 'clumio-python-sdk',
             'x-clumio-sdk-version': f'clumio-python-sdk:{sdk_version}',
         }
+        if config.custom_headers != None:
+            self.headers.update(config.custom_headers)
 
     def list_users(
         self, limit: int = None, start: str = None, filter: str = None
@@ -76,7 +79,7 @@ class UsersV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing list_users.', errors
+                "Error occurred while executing list_users.", errors
             )
         return list_users_response.ListUsersResponse.from_dictionary(resp)
 
@@ -114,7 +117,7 @@ class UsersV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing create_user.', errors
+                "Error occurred while executing create_user.", errors
             )
         return create_user_response.CreateUserResponse.from_dictionary(resp)
 
@@ -150,7 +153,7 @@ class UsersV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing update_user_profile.', errors
+                "Error occurred while executing update_user_profile.", errors
             )
         return edit_profile_response.EditProfileResponse.from_dictionary(resp)
 
@@ -179,7 +182,7 @@ class UsersV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing read_user.', errors
+                "Error occurred while executing read_user.", errors
             )
         return read_user_response.ReadUserResponse.from_dictionary(resp)
 
@@ -209,7 +212,7 @@ class UsersV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing delete_user.', errors
+                "Error occurred while executing delete_user.", errors
             )
         return resp
 
@@ -249,7 +252,7 @@ class UsersV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing update_user.', errors
+                "Error occurred while executing update_user.", errors
             )
         return update_user_response.UpdateUserResponse.from_dictionary(resp)
 
@@ -287,6 +290,6 @@ class UsersV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing change_password.', errors
+                "Error occurred while executing change_password.", errors
             )
         return resp

@@ -4,8 +4,7 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import object_filter
-from clumioapi.models import protection_group_version_links
+from clumioapi.models import object_filter, protection_group_version_links
 
 T = TypeVar('T', bound='UpdateProtectionGroupResponse')
 

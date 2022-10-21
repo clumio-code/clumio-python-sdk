@@ -4,9 +4,7 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import mssql_host_embedded
-from clumioapi.models import mssql_host_links
-from clumioapi.models import protection_info
+from clumioapi.models import mssql_host_embedded, mssql_host_links, protection_info
 
 T = TypeVar('T', bound='MssqlHost')
 

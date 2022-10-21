@@ -4,8 +4,7 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import user_embedded
-from clumioapi.models import user_links
+from clumioapi.models import user_embedded, user_links
 
 T = TypeVar('T', bound='CreateUserResponse')
 

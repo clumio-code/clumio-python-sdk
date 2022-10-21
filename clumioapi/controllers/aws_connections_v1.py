@@ -2,18 +2,19 @@
 # Copyright 2021. Clumio, Inc.
 #
 
-from clumioapi import api_helper
-from clumioapi import configuration
-from clumioapi import sdk_version
+import requests
+
+from clumioapi import api_helper, configuration, sdk_version
 from clumioapi.controllers import base_controller
 from clumioapi.exceptions import clumio_exception
-from clumioapi.models import create_aws_connection_response
-from clumioapi.models import create_aws_connection_v1_request
-from clumioapi.models import list_aws_connections_response
-from clumioapi.models import read_aws_connection_response
-from clumioapi.models import update_aws_connection_response
-from clumioapi.models import update_aws_connection_v1_request
-import requests
+from clumioapi.models import (
+    create_aws_connection_response,
+    create_aws_connection_v1_request,
+    list_aws_connections_response,
+    read_aws_connection_response,
+    update_aws_connection_response,
+    update_aws_connection_v1_request,
+)
 
 
 class AwsConnectionsV1Controller(base_controller.BaseController):
@@ -28,6 +29,8 @@ class AwsConnectionsV1Controller(base_controller.BaseController):
             'x-clumio-api-client': 'clumio-python-sdk',
             'x-clumio-sdk-version': f'clumio-python-sdk:{sdk_version}',
         }
+        if config.custom_headers != None:
+            self.headers.update(config.custom_headers)
 
     def list_aws_connections(
         self, limit: int = None, start: str = None, filter: str = None
@@ -134,7 +137,7 @@ class AwsConnectionsV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing list_aws_connections.', errors
+                "Error occurred while executing list_aws_connections.", errors
             )
         return list_aws_connections_response.ListAWSConnectionsResponse.from_dictionary(resp)
 
@@ -170,7 +173,7 @@ class AwsConnectionsV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing create_aws_connection.', errors
+                "Error occurred while executing create_aws_connection.", errors
             )
         return create_aws_connection_response.CreateAWSConnectionResponse.from_dictionary(resp)
 
@@ -203,7 +206,7 @@ class AwsConnectionsV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing read_aws_connection.', errors
+                "Error occurred while executing read_aws_connection.", errors
             )
         return read_aws_connection_response.ReadAWSConnectionResponse.from_dictionary(resp)
 
@@ -234,7 +237,7 @@ class AwsConnectionsV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing delete_aws_connection.', errors
+                "Error occurred while executing delete_aws_connection.", errors
             )
         return resp
 
@@ -276,6 +279,6 @@ class AwsConnectionsV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing update_aws_connection.', errors
+                "Error occurred while executing update_aws_connection.", errors
             )
         return update_aws_connection_response.UpdateAWSConnectionResponse.from_dictionary(resp)

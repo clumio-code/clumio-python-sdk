@@ -22,7 +22,7 @@ class EbsVolumeEmbedded:
     # Create a mapping from Model property names to API property names
     _names = {'read_policy_definition': 'read-policy-definition'}
 
-    def __init__(self, read_policy_definition: object = None) -> None:
+    def __init__(self, read_policy_definition: None = None) -> None:
         """Constructor for the EbsVolumeEmbedded class."""
 
         # Initialize members of the class

@@ -4,9 +4,11 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import mssql_database_backup_embedded
-from clumioapi.models import mssql_database_backup_links
-from clumioapi.models import mssql_database_file
+from clumioapi.models import (
+    mssql_database_backup_embedded,
+    mssql_database_backup_links,
+    mssql_database_file,
+)
 
 T = TypeVar('T', bound='MssqlDatabaseBackup')
 

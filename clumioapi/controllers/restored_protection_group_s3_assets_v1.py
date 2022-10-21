@@ -2,14 +2,15 @@
 # Copyright 2021. Clumio, Inc.
 #
 
-from clumioapi import api_helper
-from clumioapi import configuration
-from clumioapi import sdk_version
+import requests
+
+from clumioapi import api_helper, configuration, sdk_version
 from clumioapi.controllers import base_controller
 from clumioapi.exceptions import clumio_exception
-from clumioapi.models import restore_protection_group_s3_asset_response
-from clumioapi.models import restore_protection_group_s3_asset_v1_request
-import requests
+from clumioapi.models import (
+    restore_protection_group_s3_asset_response,
+    restore_protection_group_s3_asset_v1_request,
+)
 
 
 class RestoredProtectionGroupS3AssetsV1Controller(base_controller.BaseController):
@@ -24,6 +25,8 @@ class RestoredProtectionGroupS3AssetsV1Controller(base_controller.BaseController
             'x-clumio-api-client': 'clumio-python-sdk',
             'x-clumio-sdk-version': f'clumio-python-sdk:{sdk_version}',
         }
+        if config.custom_headers != None:
+            self.headers.update(config.custom_headers)
 
     def restore_protection_group_s3_asset(
         self,
@@ -73,7 +76,7 @@ class RestoredProtectionGroupS3AssetsV1Controller(base_controller.BaseController
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing restore_protection_group_s3_asset.', errors
+                "Error occurred while executing restore_protection_group_s3_asset.", errors
             )
         return restore_protection_group_s3_asset_response.RestoreProtectionGroupS3AssetResponse.from_dictionary(
             resp

@@ -4,8 +4,7 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import audit_trail_list_embedded
-from clumioapi.models import audit_trail_list_links
+from clumioapi.models import audit_trail_list_embedded, audit_trail_list_links
 
 T = TypeVar('T', bound='ListAuditTrailsResponse')
 

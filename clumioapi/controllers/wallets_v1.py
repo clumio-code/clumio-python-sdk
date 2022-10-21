@@ -2,17 +2,18 @@
 # Copyright 2021. Clumio, Inc.
 #
 
-from clumioapi import api_helper
-from clumioapi import configuration
-from clumioapi import sdk_version
+import requests
+
+from clumioapi import api_helper, configuration, sdk_version
 from clumioapi.controllers import base_controller
 from clumioapi.exceptions import clumio_exception
-from clumioapi.models import create_wallet_response
-from clumioapi.models import create_wallet_v1_request
-from clumioapi.models import list_wallets_response
-from clumioapi.models import read_wallet_response
-from clumioapi.models import refresh_wallet_response
-import requests
+from clumioapi.models import (
+    create_wallet_response,
+    create_wallet_v1_request,
+    list_wallets_response,
+    read_wallet_response,
+    refresh_wallet_response,
+)
 
 
 class WalletsV1Controller(base_controller.BaseController):
@@ -27,6 +28,8 @@ class WalletsV1Controller(base_controller.BaseController):
             'x-clumio-api-client': 'clumio-python-sdk',
             'x-clumio-sdk-version': f'clumio-python-sdk:{sdk_version}',
         }
+        if config.custom_headers != None:
+            self.headers.update(config.custom_headers)
 
     def list_wallets(
         self, limit: int = None, start: str = None
@@ -60,7 +63,7 @@ class WalletsV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing list_wallets.', errors
+                "Error occurred while executing list_wallets.", errors
             )
         return list_wallets_response.ListWalletsResponse.from_dictionary(resp)
 
@@ -96,7 +99,7 @@ class WalletsV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing create_wallet.', errors
+                "Error occurred while executing create_wallet.", errors
             )
         return create_wallet_response.CreateWalletResponse.from_dictionary(resp)
 
@@ -127,7 +130,7 @@ class WalletsV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing read_wallet.', errors
+                "Error occurred while executing read_wallet.", errors
             )
         return read_wallet_response.ReadWalletResponse.from_dictionary(resp)
 
@@ -158,7 +161,7 @@ class WalletsV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing delete_wallet.', errors
+                "Error occurred while executing delete_wallet.", errors
             )
         return resp
 
@@ -190,6 +193,6 @@ class WalletsV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing refresh_wallet.', errors
+                "Error occurred while executing refresh_wallet.", errors
             )
         return refresh_wallet_response.RefreshWalletResponse.from_dictionary(resp)

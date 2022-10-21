@@ -2,15 +2,16 @@
 # Copyright 2021. Clumio, Inc.
 #
 
-from clumioapi import api_helper
-from clumioapi import configuration
-from clumioapi import sdk_version
+import requests
+
+from clumioapi import api_helper, configuration, sdk_version
 from clumioapi.controllers import base_controller
 from clumioapi.exceptions import clumio_exception
-from clumioapi.models import create_backup_vmware_vm_v1_request
-from clumioapi.models import list_vm_backups_response
-from clumioapi.models import read_vm_backup_response
-import requests
+from clumioapi.models import (
+    create_backup_vmware_vm_v1_request,
+    list_vm_backups_response,
+    read_vm_backup_response,
+)
 
 
 class BackupVmwareVmsV1Controller(base_controller.BaseController):
@@ -25,6 +26,8 @@ class BackupVmwareVmsV1Controller(base_controller.BaseController):
             'x-clumio-api-client': 'clumio-python-sdk',
             'x-clumio-sdk-version': f'clumio-python-sdk:{sdk_version}',
         }
+        if config.custom_headers != None:
+            self.headers.update(config.custom_headers)
 
     def list_backup_vmware_vms(
         self, limit: int = None, start: str = None, filter: str = None
@@ -88,7 +91,7 @@ class BackupVmwareVmsV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing list_backup_vmware_vms.', errors
+                "Error occurred while executing list_backup_vmware_vms.", errors
             )
         return list_vm_backups_response.ListVMBackupsResponse.from_dictionary(resp)
 
@@ -124,7 +127,7 @@ class BackupVmwareVmsV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing create_backup_vmware_vm.', errors
+                "Error occurred while executing create_backup_vmware_vm.", errors
             )
         return resp
 
@@ -155,6 +158,6 @@ class BackupVmwareVmsV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing read_backup_vmware_vm.', errors
+                "Error occurred while executing read_backup_vmware_vm.", errors
             )
         return read_vm_backup_response.ReadVMBackupResponse.from_dictionary(resp)

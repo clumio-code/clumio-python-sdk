@@ -4,9 +4,11 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import host_links
-from clumioapi.models import v_mware_v_center_host_compute_resource_model
-from clumioapi.models import v_mware_v_center_host_datacenter_model
+from clumioapi.models import (
+    host_links,
+    v_mware_v_center_host_compute_resource_model,
+    v_mware_v_center_host_datacenter_model,
+)
 
 T = TypeVar('T', bound='HostWithETag')
 

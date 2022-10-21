@@ -14,9 +14,10 @@ class MssqlDatabaseBackupEmbedded:
 
     Attributes:
         read_management_group:
-            Embedded types
+            Embeds details about the management group if requested using the `embed` query.
         read_management_subgroup:
-            Embedded types
+            Embeds details about the management subgroup if requested using the `embed`
+            query.
     """
 
     # Create a mapping from Model property names to API property names
@@ -26,7 +27,7 @@ class MssqlDatabaseBackupEmbedded:
     }
 
     def __init__(
-        self, read_management_group: object = None, read_management_subgroup: object = None
+        self, read_management_group: None = None, read_management_subgroup: None = None
     ) -> None:
         """Constructor for the MssqlDatabaseBackupEmbedded class."""
 

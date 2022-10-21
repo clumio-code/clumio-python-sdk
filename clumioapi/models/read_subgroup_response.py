@@ -4,8 +4,7 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import cloud_connector_count_by_status
-from clumioapi.models import subgroup_links
+from clumioapi.models import cloud_connector_count_by_status, subgroup_links
 
 T = TypeVar('T', bound='ReadSubgroupResponse')
 

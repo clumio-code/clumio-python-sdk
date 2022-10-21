@@ -2,15 +2,16 @@
 # Copyright 2021. Clumio, Inc.
 #
 
-from clumioapi import api_helper
-from clumioapi import configuration
-from clumioapi import sdk_version
+import requests
+
+from clumioapi import api_helper, configuration, sdk_version
 from clumioapi.controllers import base_controller
 from clumioapi.exceptions import clumio_exception
-from clumioapi.models import create_aws_template_v2_response
-from clumioapi.models import create_connection_template_v1_request
-from clumioapi.models import read_aws_templates_v2_response
-import requests
+from clumioapi.models import (
+    create_aws_template_v2_response,
+    create_connection_template_v1_request,
+    read_aws_templates_v2_response,
+)
 
 
 class AwsTemplatesV1Controller(base_controller.BaseController):
@@ -25,6 +26,8 @@ class AwsTemplatesV1Controller(base_controller.BaseController):
             'x-clumio-api-client': 'clumio-python-sdk',
             'x-clumio-sdk-version': f'clumio-python-sdk:{sdk_version}',
         }
+        if config.custom_headers != None:
+            self.headers.update(config.custom_headers)
 
     def read_connection_templates(self):
         """Returns the AWS CloudFormation and Terraform templates available to install to
@@ -49,7 +52,7 @@ class AwsTemplatesV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing read_connection_templates.', errors
+                "Error occurred while executing read_connection_templates.", errors
             )
         return read_aws_templates_v2_response.ReadAWSTemplatesV2Response.from_dictionary(resp)
 
@@ -86,6 +89,6 @@ class AwsTemplatesV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing create_connection_template.', errors
+                "Error occurred while executing create_connection_template.", errors
             )
         return create_aws_template_v2_response.CreateAWSTemplateV2Response.from_dictionary(resp)

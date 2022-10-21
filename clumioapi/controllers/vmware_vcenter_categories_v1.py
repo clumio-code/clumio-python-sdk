@@ -2,14 +2,12 @@
 # Copyright 2021. Clumio, Inc.
 #
 
-from clumioapi import api_helper
-from clumioapi import configuration
-from clumioapi import sdk_version
+import requests
+
+from clumioapi import api_helper, configuration, sdk_version
 from clumioapi.controllers import base_controller
 from clumioapi.exceptions import clumio_exception
-from clumioapi.models import list_tag_categories2_response
-from clumioapi.models import read_tag_category2_response
-import requests
+from clumioapi.models import list_tag_categories2_response, read_tag_category2_response
 
 
 class VmwareVcenterCategoriesV1Controller(base_controller.BaseController):
@@ -24,6 +22,8 @@ class VmwareVcenterCategoriesV1Controller(base_controller.BaseController):
             'x-clumio-api-client': 'clumio-python-sdk',
             'x-clumio-sdk-version': f'clumio-python-sdk:{sdk_version}',
         }
+        if config.custom_headers != None:
+            self.headers.update(config.custom_headers)
 
     def list_vmware_vcenter_categories(
         self, vcenter_id: str, limit: int = None, start: str = None, filter: str = None
@@ -73,7 +73,7 @@ class VmwareVcenterCategoriesV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing list_vmware_vcenter_categories.', errors
+                "Error occurred while executing list_vmware_vcenter_categories.", errors
             )
         return list_tag_categories2_response.ListTagCategories2Response.from_dictionary(resp)
 
@@ -108,6 +108,6 @@ class VmwareVcenterCategoriesV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing read_vmware_vcenter_category.', errors
+                "Error occurred while executing read_vmware_vcenter_category.", errors
             )
         return read_tag_category2_response.ReadTagCategory2Response.from_dictionary(resp)

@@ -2,13 +2,12 @@
 # Copyright 2021. Clumio, Inc.
 #
 
-from clumioapi import api_helper
-from clumioapi import configuration
-from clumioapi import sdk_version
+import requests
+
+from clumioapi import api_helper, configuration, sdk_version
 from clumioapi.controllers import base_controller
 from clumioapi.exceptions import clumio_exception
 from clumioapi.models import read_v_mware_datacenter_stats_response
-import requests
 
 
 class VmwareVcenterDatacenterComplianceStatsV1Controller(base_controller.BaseController):
@@ -23,6 +22,8 @@ class VmwareVcenterDatacenterComplianceStatsV1Controller(base_controller.BaseCon
             'x-clumio-api-client': 'clumio-python-sdk',
             'x-clumio-sdk-version': f'clumio-python-sdk:{sdk_version}',
         }
+        if config.custom_headers != None:
+            self.headers.update(config.custom_headers)
 
     def read_vmware_vcenter_datacenter_compliance_stats(
         self, vcenter_id: str, datacenter_id: str
@@ -56,7 +57,7 @@ class VmwareVcenterDatacenterComplianceStatsV1Controller(base_controller.BaseCon
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing read_vmware_vcenter_datacenter_compliance_stats.',
+                "Error occurred while executing read_vmware_vcenter_datacenter_compliance_stats.",
                 errors,
             )
         return read_v_mware_datacenter_stats_response.ReadVMwareDatacenterStatsResponse.from_dictionary(

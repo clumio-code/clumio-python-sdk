@@ -4,8 +4,7 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import folder_list_embedded
-from clumioapi.models import folder_list_links
+from clumioapi.models import folder_list_embedded, folder_list_links
 
 T = TypeVar('T', bound='ListFoldersResponse')
 

@@ -4,14 +4,16 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import hateoas_link
-from clumioapi.models import hateoas_self_link
-from clumioapi.models import protect_entities_hateoas_link
-from clumioapi.models import read_policy_definition_hateoas_link
-from clumioapi.models import unprotect_entities_hateoas_link
-from clumioapi.models import vm_compute_resource_link
-from clumioapi.models import vm_datacenter_link
-from clumioapi.models import vm_folder_link
+from clumioapi.models import (
+    hateoas_link,
+    hateoas_self_link,
+    protect_entities_hateoas_link,
+    read_policy_definition_hateoas_link,
+    unprotect_entities_hateoas_link,
+    vm_compute_resource_link,
+    vm_datacenter_link,
+    vm_folder_link,
+)
 
 T = TypeVar('T', bound='VmLinks')
 

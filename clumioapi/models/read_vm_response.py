@@ -4,18 +4,20 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import protection_info
-from clumioapi.models import vm_compute_resource_folder_model
-from clumioapi.models import vm_compute_resource_model
-from clumioapi.models import vm_datacenter_folder_model
-from clumioapi.models import vm_datacenter_model
-from clumioapi.models import vm_embedded
-from clumioapi.models import vm_folder_model
-from clumioapi.models import vm_host_model
-from clumioapi.models import vm_links
-from clumioapi.models import vm_nic_model
-from clumioapi.models import vm_resource_pool_model
-from clumioapi.models import vm_tag_with_category_model
+from clumioapi.models import (
+    protection_info,
+    vm_compute_resource_folder_model,
+    vm_compute_resource_model,
+    vm_datacenter_folder_model,
+    vm_datacenter_model,
+    vm_embedded,
+    vm_folder_model,
+    vm_host_model,
+    vm_links,
+    vm_nic_model,
+    vm_resource_pool_model,
+    vm_tag_with_category_model,
+)
 
 T = TypeVar('T', bound='ReadVmResponse')
 

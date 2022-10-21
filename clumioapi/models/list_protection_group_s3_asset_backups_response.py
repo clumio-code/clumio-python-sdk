@@ -4,8 +4,10 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import protection_group_s3_asset_backup_list_embedded
-from clumioapi.models import protection_group_s3_asset_backup_list_links
+from clumioapi.models import (
+    protection_group_s3_asset_backup_list_embedded,
+    protection_group_s3_asset_backup_list_links,
+)
 
 T = TypeVar('T', bound='ListProtectionGroupS3AssetBackupsResponse')
 

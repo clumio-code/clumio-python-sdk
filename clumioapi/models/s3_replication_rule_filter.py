@@ -4,8 +4,7 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import s3_replication_rule_and_operator
-from clumioapi.models import s3_tag
+from clumioapi.models import s3_replication_rule_and_operator, s3_tag
 
 T = TypeVar('T', bound='S3ReplicationRuleFilter')
 

@@ -4,11 +4,13 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import folder_embedded
-from clumioapi.models import folder_links
-from clumioapi.models import protection_info
-from clumioapi.models import v_mware_v_center_folder_datacenter_model
-from clumioapi.models import v_mware_v_center_parent_folder_model
+from clumioapi.models import (
+    folder_embedded,
+    folder_links,
+    protection_info,
+    v_mware_v_center_folder_datacenter_model,
+    v_mware_v_center_parent_folder_model,
+)
 
 T = TypeVar('T', bound='ReadFolderResponse')
 

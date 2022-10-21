@@ -4,8 +4,7 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import policy_advanced_settings
-from clumioapi.models import retention_backup_sla_param
+from clumioapi.models import policy_advanced_settings, retention_backup_sla_param
 
 T = TypeVar('T', bound='OnDemandSetting')
 

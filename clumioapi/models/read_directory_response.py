@@ -4,8 +4,7 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import directory_browse_embedded
-from clumioapi.models import directory_browse_links
+from clumioapi.models import directory_browse_embedded, directory_browse_links
 
 T = TypeVar('T', bound='ReadDirectoryResponse')
 

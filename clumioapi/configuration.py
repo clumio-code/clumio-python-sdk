@@ -4,8 +4,9 @@
 
 import os
 
-from clumioapi.exceptions import clumio_exception
 import rest3client
+
+from clumioapi.exceptions import clumio_exception
 
 
 class Configuration:
@@ -30,6 +31,7 @@ class Configuration:
         client: rest3client.RESTclient = None,
         hostname: str = None,
         organizational_unit_context: str = '',
+        custom_headers: map[string, string] = None,
     ) -> None:
         self.api_token: str = api_token or os.getenv('API_TOKEN')
         if hostname:

@@ -4,8 +4,7 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import ebs_asset_info
-from clumioapi.models import rds_asset_info
+from clumioapi.models import ebs_asset_info, rds_asset_info
 
 T = TypeVar('T', bound='ConsolidatedConfig')
 

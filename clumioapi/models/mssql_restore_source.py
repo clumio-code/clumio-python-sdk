@@ -4,8 +4,7 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import mssql_pitr_options
-from clumioapi.models import mssql_restore_from_backup_options
+from clumioapi.models import mssql_pitr_options, mssql_restore_from_backup_options
 
 T = TypeVar('T', bound='MssqlRestoreSource')
 

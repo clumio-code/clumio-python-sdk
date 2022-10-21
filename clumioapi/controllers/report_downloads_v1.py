@@ -2,16 +2,16 @@
 # Copyright 2021. Clumio, Inc.
 #
 
-from clumioapi import api_helper
-from clumioapi import configuration
-from clumioapi import sdk_version
+import requests
+
+from clumioapi import api_helper, configuration, sdk_version
 from clumioapi.controllers import base_controller
 from clumioapi.exceptions import clumio_exception
-from clumioapi.models import create_report_download_response
-from clumioapi.models import create_report_download_v1_request
-from clumioapi.models import list_report_downloads_response
-from clumioapi.models import list_report_downloads_v1_request
-import requests
+from clumioapi.models import (
+    create_report_download_response,
+    create_report_download_v1_request,
+    list_report_downloads_response,
+)
 
 
 class ReportDownloadsV1Controller(base_controller.BaseController):
@@ -26,15 +26,50 @@ class ReportDownloadsV1Controller(base_controller.BaseController):
             'x-clumio-api-client': 'clumio-python-sdk',
             'x-clumio-sdk-version': f'clumio-python-sdk:{sdk_version}',
         }
+        if config.custom_headers != None:
+            self.headers.update(config.custom_headers)
 
     def list_report_downloads(
-        self, body: list_report_downloads_v1_request.ListReportDownloadsV1Request = None
+        self, limit: int = None, start: str = None, filter: str = None
     ) -> list_report_downloads_response.ListReportDownloadsResponse:
         """Returns a list of unexpired, generated reports.
 
         Args:
-            body:
+            limit:
+                Limits the size of the response on each page to the specified number of items.
+            start:
+                Sets the page number used to browse the collection.
+                Pages are indexed starting from 1 (i.e., `start=1`).
+            filter:
 
+                +-----------------+------------------+-----------------------------------------+
+                |      Field      | Filter Condition |               Description               |
+                +=================+==================+=========================================+
+                | start_timestamp | $gte, $lt        | Start timestamp denotes the time filter |
+                |                 |                  | for listing report CSV downloads.       |
+                |                 |                  | $gte and $lt accept RFC-3999            |
+                |                 |                  | timestamps. For example,                |
+                |                 |                  |                                         |
+                |                 |                  | "filter":"{"start_timestamp":{"$gt":"20 |
+                |                 |                  | 19-10-12T07:20:50.52Z"}}"               |
+                |                 |                  |                                         |
+                |                 |                  |                                         |
+                +-----------------+------------------+-----------------------------------------+
+                | report_type     | $in              |                                         |
+                |                 |                  | Filter report downloaded records whose  |
+                |                 |                  | type is one of the given values. The    |
+                |                 |                  | possible values are: "activity",        |
+                |                 |                  | "compliance", "audit", and              |
+                |                 |                  | "consumption".                          |
+                |                 |                  |                                         |
+                |                 |                  | filter={"report_type":{"$in":["complian |
+                |                 |                  | ce"]}}                                  |
+                |                 |                  |                                         |
+                |                 |                  |                                         |
+                +-----------------+------------------+-----------------------------------------+
+
+                For more information about filtering, refer to the
+                Filtering section of this guide.
         Returns:
             ListReportDownloadsResponse: Response from the API.
         Raises:
@@ -47,19 +82,15 @@ class ReportDownloadsV1Controller(base_controller.BaseController):
         _url_path = f'{self.config.base_path}/reports/downloads'
 
         _query_parameters = {}
+        _query_parameters = {'limit': limit, 'start': start, 'filter': filter}
 
         # Execute request
         try:
-            resp = self.client.get(
-                _url_path,
-                headers=self.headers,
-                params=_query_parameters,
-                json=api_helper.to_dictionary(body),
-            )
+            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing list_report_downloads.', errors
+                "Error occurred while executing list_report_downloads.", errors
             )
         return list_report_downloads_response.ListReportDownloadsResponse.from_dictionary(resp)
 
@@ -96,6 +127,6 @@ class ReportDownloadsV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing create_report_download.', errors
+                "Error occurred while executing create_report_download.", errors
             )
         return create_report_download_response.CreateReportDownloadResponse.from_dictionary(resp)

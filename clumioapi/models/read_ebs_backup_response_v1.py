@@ -4,8 +4,7 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import aws_tag_common_model
-from clumioapi.models import ebs_backup_links_v1
+from clumioapi.models import aws_tag_common_model, ebs_backup_links_v1
 
 T = TypeVar('T', bound='ReadEBSBackupResponseV1')
 

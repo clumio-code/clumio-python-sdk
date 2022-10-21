@@ -4,9 +4,7 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import mssql_ag_embedded
-from clumioapi.models import mssql_ag_links
-from clumioapi.models import protection_info
+from clumioapi.models import mssql_ag_embedded, mssql_ag_links, protection_info
 
 T = TypeVar('T', bound='MssqlAG')
 

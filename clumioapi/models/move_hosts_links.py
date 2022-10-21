@@ -4,8 +4,7 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import hateoas_self_link
-from clumioapi.models import read_task_hateoas_links
+from clumioapi.models import hateoas_self_link, read_task_hateoas_links
 
 T = TypeVar('T', bound='MoveHostsLinks')
 

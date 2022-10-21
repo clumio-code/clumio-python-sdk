@@ -4,9 +4,11 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import protected_stats_deprecated
-from clumioapi.models import protection_info_deprecated
-from clumioapi.models import v_center_folder_links
+from clumioapi.models import (
+    protected_stats_deprecated,
+    protection_info_deprecated,
+    v_center_folder_links,
+)
 
 T = TypeVar('T', bound='VCenterFolder')
 

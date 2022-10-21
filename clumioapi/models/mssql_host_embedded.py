@@ -16,9 +16,10 @@ class MssqlHostEmbedded:
         get_mssql_host_stats:
             host level stats
         read_management_group:
-            Embedded types
+            Embeds details about the management group if requested using the `embed` query.
         read_management_subgroup:
-            Embedded types
+            Embeds details about the management subgroup if requested using the `embed`
+            query.
         read_policy_definition:
             Embeds the associated policy of a protected resource in the response if
             requested using the `embed` query parameter. Unprotected resources will not have
@@ -26,19 +27,18 @@ class MssqlHostEmbedded:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names = { 
         'get_mssql_host_stats': 'get-mssql-host-stats',
         'read_management_group': 'read-management-group',
         'read_management_subgroup': 'read-management-subgroup',
-        'read_policy_definition': 'read-policy-definition',
+        'read_policy_definition': 'read-policy-definition'
     }
 
-    def __init__(
-        self,
-        get_mssql_host_stats: object = None,
-        read_management_group: object = None,
-        read_management_subgroup: object = None,
-        read_policy_definition: object = None,
+    def __init__(self,
+        get_mssql_host_stats:  = None,
+        read_management_group: None = None,
+        read_management_subgroup: None = None,
+        read_policy_definition: None = None
     ) -> None:
         """Constructor for the MssqlHostEmbedded class."""
 
@@ -49,7 +49,10 @@ class MssqlHostEmbedded:
         self.read_policy_definition: object = read_policy_definition
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: Type,
+        dictionary: Mapping[str, Any]
+    ) -> Optional[T]:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -73,5 +76,4 @@ class MssqlHostEmbedded:
             get_mssql_host_stats,
             read_management_group,
             read_management_subgroup,
-            read_policy_definition,
-        )
+            read_policy_definition)

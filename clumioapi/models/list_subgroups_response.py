@@ -4,8 +4,7 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import subgroup_list_embedded
-from clumioapi.models import subgroup_list_links
+from clumioapi.models import subgroup_list_embedded, subgroup_list_links
 
 T = TypeVar('T', bound='ListSubgroupsResponse')
 

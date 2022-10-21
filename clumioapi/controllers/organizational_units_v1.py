@@ -2,19 +2,20 @@
 # Copyright 2021. Clumio, Inc.
 #
 
-from clumioapi import api_helper
-from clumioapi import configuration
-from clumioapi import sdk_version
+import requests
+
+from clumioapi import api_helper, configuration, sdk_version
 from clumioapi.controllers import base_controller
 from clumioapi.exceptions import clumio_exception
-from clumioapi.models import create_organizational_unit_response
-from clumioapi.models import create_organizational_unit_v1_request
-from clumioapi.models import delete_organizational_unit_response
-from clumioapi.models import list_organizational_units_response
-from clumioapi.models import patch_organizational_unit_response
-from clumioapi.models import patch_organizational_unit_v1_request
-from clumioapi.models import read_organizational_unit_response
-import requests
+from clumioapi.models import (
+    create_organizational_unit_response,
+    create_organizational_unit_v1_request,
+    delete_organizational_unit_response,
+    list_organizational_units_response,
+    patch_organizational_unit_response,
+    patch_organizational_unit_v1_request,
+    read_organizational_unit_response,
+)
 
 
 class OrganizationalUnitsV1Controller(base_controller.BaseController):
@@ -29,6 +30,8 @@ class OrganizationalUnitsV1Controller(base_controller.BaseController):
             'x-clumio-api-client': 'clumio-python-sdk',
             'x-clumio-sdk-version': f'clumio-python-sdk:{sdk_version}',
         }
+        if config.custom_headers != None:
+            self.headers.update(config.custom_headers)
 
     def list_organizational_units(
         self, limit: int = None, start: str = None, filter: str = None
@@ -80,7 +83,7 @@ class OrganizationalUnitsV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing list_organizational_units.', errors
+                "Error occurred while executing list_organizational_units.", errors
             )
         return list_organizational_units_response.ListOrganizationalUnitsResponse.from_dictionary(
             resp
@@ -133,7 +136,7 @@ class OrganizationalUnitsV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing create_organizational_unit.', errors
+                "Error occurred while executing create_organizational_unit.", errors
             )
         return create_organizational_unit_response.CreateOrganizationalUnitResponse.from_dictionary(
             resp
@@ -166,7 +169,7 @@ class OrganizationalUnitsV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing read_organizational_unit.', errors
+                "Error occurred while executing read_organizational_unit.", errors
             )
         return read_organizational_unit_response.ReadOrganizationalUnitResponse.from_dictionary(
             resp
@@ -212,7 +215,7 @@ class OrganizationalUnitsV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing delete_organizational_unit.', errors
+                "Error occurred while executing delete_organizational_unit.", errors
             )
         return delete_organizational_unit_response.DeleteOrganizationalUnitResponse.from_dictionary(
             resp
@@ -270,7 +273,7 @@ class OrganizationalUnitsV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing patch_organizational_unit.', errors
+                "Error occurred while executing patch_organizational_unit.", errors
             )
         return patch_organizational_unit_response.PatchOrganizationalUnitResponse.from_dictionary(
             resp

@@ -4,8 +4,7 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import retention_backup_sla_param
-from clumioapi.models import rpo_backup_sla_param
+from clumioapi.models import retention_backup_sla_param, rpo_backup_sla_param
 
 T = TypeVar('T', bound='BackupSLA')
 

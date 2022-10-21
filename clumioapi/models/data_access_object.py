@@ -4,8 +4,7 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import direct_download_data_access_object
-from clumioapi.models import email_download_data_access_object
+from clumioapi.models import direct_download_data_access_object, email_download_data_access_object
 
 T = TypeVar('T', bound='DataAccessObject')
 

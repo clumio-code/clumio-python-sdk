@@ -4,9 +4,7 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import task_links
-from clumioapi.models import task_parent_entity
-from clumioapi.models import task_primary_entity
+from clumioapi.models import task_links, task_parent_entity, task_primary_entity
 
 T = TypeVar('T', bound='Task')
 

@@ -4,11 +4,13 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import compute_resource_embedded
-from clumioapi.models import compute_resource_links
-from clumioapi.models import protection_info
-from clumioapi.models import v_mware_v_center_compute_resource_datacenter_model
-from clumioapi.models import v_mware_v_center_compute_resource_folder_model
+from clumioapi.models import (
+    compute_resource_embedded,
+    compute_resource_links,
+    protection_info,
+    v_mware_v_center_compute_resource_datacenter_model,
+    v_mware_v_center_compute_resource_folder_model,
+)
 
 T = TypeVar('T', bound='ReadComputeResourceResponse')
 

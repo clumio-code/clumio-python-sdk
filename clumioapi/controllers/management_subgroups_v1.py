@@ -2,16 +2,17 @@
 # Copyright 2021. Clumio, Inc.
 #
 
-from clumioapi import api_helper
-from clumioapi import configuration
-from clumioapi import sdk_version
+import requests
+
+from clumioapi import api_helper, configuration, sdk_version
 from clumioapi.controllers import base_controller
 from clumioapi.exceptions import clumio_exception
-from clumioapi.models import list_subgroups_response
-from clumioapi.models import read_subgroup_response
-from clumioapi.models import update_management_subgroup_v1_request
-from clumioapi.models import update_subgroup_response
-import requests
+from clumioapi.models import (
+    list_subgroups_response,
+    read_subgroup_response,
+    update_management_subgroup_v1_request,
+    update_subgroup_response,
+)
 
 
 class ManagementSubgroupsV1Controller(base_controller.BaseController):
@@ -26,6 +27,8 @@ class ManagementSubgroupsV1Controller(base_controller.BaseController):
             'x-clumio-api-client': 'clumio-python-sdk',
             'x-clumio-sdk-version': f'clumio-python-sdk:{sdk_version}',
         }
+        if config.custom_headers != None:
+            self.headers.update(config.custom_headers)
 
     def list_management_subgroups(
         self, group_id: str, limit: int = None, start: str = None
@@ -63,7 +66,7 @@ class ManagementSubgroupsV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing list_management_subgroups.', errors
+                "Error occurred while executing list_management_subgroups.", errors
             )
         return list_subgroups_response.ListSubgroupsResponse.from_dictionary(resp)
 
@@ -101,7 +104,7 @@ class ManagementSubgroupsV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing read_management_subgroup.', errors
+                "Error occurred while executing read_management_subgroup.", errors
             )
         return read_subgroup_response.ReadSubgroupResponse.from_dictionary(resp)
 
@@ -146,6 +149,6 @@ class ManagementSubgroupsV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing update_management_subgroup.', errors
+                "Error occurred while executing update_management_subgroup.", errors
             )
         return update_subgroup_response.UpdateSubgroupResponse.from_dictionary(resp)

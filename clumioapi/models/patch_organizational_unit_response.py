@@ -4,8 +4,7 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import entity_group_embedded
-from clumioapi.models import organizational_unit_links
+from clumioapi.models import entity_group_embedded, organizational_unit_links
 
 T = TypeVar('T', bound='PatchOrganizationalUnitResponse')
 

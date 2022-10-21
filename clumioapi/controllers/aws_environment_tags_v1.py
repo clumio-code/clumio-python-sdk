@@ -2,15 +2,16 @@
 # Copyright 2021. Clumio, Inc.
 #
 
-from clumioapi import api_helper
-from clumioapi import configuration
-from clumioapi import sdk_version
+import requests
+
+from clumioapi import api_helper, configuration, sdk_version
 from clumioapi.controllers import base_controller
 from clumioapi.exceptions import clumio_exception
-from clumioapi.models import list_aws_tags_response
-from clumioapi.models import read_aws_tag_response
-from clumioapi.models import read_ebs_tag_compliance_stats_response
-import requests
+from clumioapi.models import (
+    list_aws_tags_response,
+    read_aws_tag_response,
+    read_ebs_tag_compliance_stats_response,
+)
 
 
 class AwsEnvironmentTagsV1Controller(base_controller.BaseController):
@@ -25,6 +26,8 @@ class AwsEnvironmentTagsV1Controller(base_controller.BaseController):
             'x-clumio-api-client': 'clumio-python-sdk',
             'x-clumio-sdk-version': f'clumio-python-sdk:{sdk_version}',
         }
+        if config.custom_headers != None:
+            self.headers.update(config.custom_headers)
 
     def list_aws_environment_tags(
         self,
@@ -153,7 +156,7 @@ class AwsEnvironmentTagsV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing list_aws_environment_tags.', errors
+                "Error occurred while executing list_aws_environment_tags.", errors
             )
         return list_aws_tags_response.ListAwsTagsResponse.from_dictionary(resp)
 
@@ -217,7 +220,7 @@ class AwsEnvironmentTagsV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing read_aws_environment_tag.', errors
+                "Error occurred while executing read_aws_environment_tag.", errors
             )
         return read_aws_tag_response.ReadAwsTagResponse.from_dictionary(resp)
 
@@ -252,7 +255,7 @@ class AwsEnvironmentTagsV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing read_aws_environment_tag_ebs_volumes_compliance_stats.',
+                "Error occurred while executing read_aws_environment_tag_ebs_volumes_compliance_stats.",
                 errors,
             )
         return read_ebs_tag_compliance_stats_response.ReadEbsTagComplianceStatsResponse.from_dictionary(

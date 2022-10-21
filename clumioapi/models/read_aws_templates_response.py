@@ -4,8 +4,7 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import discover_template_info
-from clumioapi.models import protect_template_info
+from clumioapi.models import discover_template_info, protect_template_info
 
 T = TypeVar('T', bound='ReadAWSTemplatesResponse')
 

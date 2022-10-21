@@ -4,9 +4,9 @@
 
 from typing import Any, Mapping, Optional
 
-from clumioapi import api_helper
-from clumioapi import configuration
 import rest3client
+
+from clumioapi import api_helper, configuration
 
 
 class BaseController:

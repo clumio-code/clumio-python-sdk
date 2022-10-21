@@ -4,10 +4,12 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import aws_connection_links
-from clumioapi.models import consolidated_config
-from clumioapi.models import discover_config
-from clumioapi.models import protect_config
+from clumioapi.models import (
+    aws_connection_links,
+    consolidated_config,
+    discover_config,
+    protect_config,
+)
 
 T = TypeVar('T', bound='ReadAWSConnectionResponse')
 

@@ -4,9 +4,11 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import consolidated_alert_details
-from clumioapi.models import consolidated_alert_links
-from clumioapi.models import consolidated_alert_parent_entity
+from clumioapi.models import (
+    consolidated_alert_details,
+    consolidated_alert_links,
+    consolidated_alert_parent_entity,
+)
 
 T = TypeVar('T', bound='ReadConsolidatedAlertResponse')
 

@@ -4,8 +4,7 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import hateoas_self_link
-from clumioapi.models import read_v_center_object_protection_stats_hateoas_link
+from clumioapi.models import hateoas_self_link, read_v_center_object_protection_stats_hateoas_link
 
 T = TypeVar('T', bound='VcenterLinks')
 

@@ -2,16 +2,17 @@
 # Copyright 2021. Clumio, Inc.
 #
 
-from clumioapi import api_helper
-from clumioapi import configuration
-from clumioapi import sdk_version
+import requests
+
+from clumioapi import api_helper, configuration, sdk_version
 from clumioapi.controllers import base_controller
 from clumioapi.exceptions import clumio_exception
-from clumioapi.models import list_tasks_response
-from clumioapi.models import read_task_response
-from clumioapi.models import update_task_response
-from clumioapi.models import update_task_v1_request
-import requests
+from clumioapi.models import (
+    list_tasks_response,
+    read_task_response,
+    update_task_response,
+    update_task_v1_request,
+)
 
 
 class TasksV1Controller(base_controller.BaseController):
@@ -26,6 +27,8 @@ class TasksV1Controller(base_controller.BaseController):
             'x-clumio-api-client': 'clumio-python-sdk',
             'x-clumio-sdk-version': f'clumio-python-sdk:{sdk_version}',
         }
+        if config.custom_headers != None:
+            self.headers.update(config.custom_headers)
 
     def list_tasks(
         self, limit: int = None, start: str = None, filter: str = None
@@ -211,7 +214,7 @@ class TasksV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing list_tasks.', errors
+                "Error occurred while executing list_tasks.", errors
             )
         return list_tasks_response.ListTasksResponse.from_dictionary(resp)
 
@@ -240,7 +243,7 @@ class TasksV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing read_task.', errors
+                "Error occurred while executing read_task.", errors
             )
         return read_task_response.ReadTaskResponse.from_dictionary(resp)
 
@@ -279,6 +282,6 @@ class TasksV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing update_task.', errors
+                "Error occurred while executing update_task.", errors
             )
         return update_task_response.UpdateTaskResponse.from_dictionary(resp)

@@ -21,35 +21,37 @@ class ComputeResourceEmbedded:
             Embeds the compliance statistics of VMs into each vCenter resource in the
             response, if requested using the `_embed` query parameter.
         read_vmware_vcenter_compute_resource_connection_stats:
-
+            
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names = { 
         'read_policy_definition': 'read-policy-definition',
-        'read_vmware_vcenter_compute_resource_compliance_stats': 'read-vmware-vcenter-compute-resource-compliance-stats',
-        'read_vmware_vcenter_compute_resource_connection_stats': 'read-vmware-vcenter-compute-resource-connection-stats',
+        'read_vmware_vcenter_compute_resource_compliance_stats':
+            'read-vmware-vcenter-compute-resource-compliance-stats',
+        'read_vmware_vcenter_compute_resource_connection_stats':
+            'read-vmware-vcenter-compute-resource-connection-stats'
     }
 
-    def __init__(
-        self,
-        read_policy_definition: object = None,
-        read_vmware_vcenter_compute_resource_compliance_stats: object = None,
-        read_vmware_vcenter_compute_resource_connection_stats: object = None,
+    def __init__(self,
+        read_policy_definition: None = None,
+        read_vmware_vcenter_compute_resource_compliance_stats: None = None,
+        read_vmware_vcenter_compute_resource_connection_stats:  = None
     ) -> None:
         """Constructor for the ComputeResourceEmbedded class."""
 
         # Initialize members of the class
         self.read_policy_definition: object = read_policy_definition
         self.read_vmware_vcenter_compute_resource_compliance_stats: object = (
-            read_vmware_vcenter_compute_resource_compliance_stats
-        )
+            read_vmware_vcenter_compute_resource_compliance_stats)
         self.read_vmware_vcenter_compute_resource_connection_stats: object = (
-            read_vmware_vcenter_compute_resource_connection_stats
-        )
+            read_vmware_vcenter_compute_resource_connection_stats)
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: Type,
+        dictionary: Mapping[str, Any]
+    ) -> Optional[T]:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -65,15 +67,10 @@ class ComputeResourceEmbedded:
 
         # Extract variables from the dictionary
         read_policy_definition = dictionary.get('read-policy-definition')
-        read_vmware_vcenter_compute_resource_compliance_stats = dictionary.get(
-            'read-vmware-vcenter-compute-resource-compliance-stats'
-        )
-        read_vmware_vcenter_compute_resource_connection_stats = dictionary.get(
-            'read-vmware-vcenter-compute-resource-connection-stats'
-        )
+        read_vmware_vcenter_compute_resource_compliance_stats = dictionary.get('read-vmware-vcenter-compute-resource-compliance-stats')
+        read_vmware_vcenter_compute_resource_connection_stats = dictionary.get('read-vmware-vcenter-compute-resource-connection-stats')
         # Return an object of this model
         return cls(
             read_policy_definition,
             read_vmware_vcenter_compute_resource_compliance_stats,
-            read_vmware_vcenter_compute_resource_connection_stats,
-        )
+            read_vmware_vcenter_compute_resource_connection_stats)

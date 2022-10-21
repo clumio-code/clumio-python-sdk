@@ -4,8 +4,7 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import read_task_hateoas_links
-from clumioapi.models import rule
+from clumioapi.models import read_task_hateoas_links, rule
 
 T = TypeVar('T', bound='UpdateRuleResponse')
 

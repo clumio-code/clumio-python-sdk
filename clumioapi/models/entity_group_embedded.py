@@ -21,7 +21,7 @@ class EntityGroupEmbedded:
     # Create a mapping from Model property names to API property names
     _names = {'read_task': 'read-task'}
 
-    def __init__(self, read_task: object = None) -> None:
+    def __init__(self, read_task: None = None) -> None:
         """Constructor for the EntityGroupEmbedded class."""
 
         # Initialize members of the class

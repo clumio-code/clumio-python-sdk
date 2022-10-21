@@ -4,8 +4,7 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import permission_model
-from clumioapi.models import role_links
+from clumioapi.models import permission_model, role_links
 
 T = TypeVar('T', bound='ReadRoleResponse')
 

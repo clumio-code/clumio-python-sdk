@@ -2,14 +2,12 @@
 # Copyright 2021. Clumio, Inc.
 #
 
-from clumioapi import api_helper
-from clumioapi import configuration
-from clumioapi import sdk_version
+import requests
+
+from clumioapi import api_helper, configuration, sdk_version
 from clumioapi.controllers import base_controller
 from clumioapi.exceptions import clumio_exception
-from clumioapi.models import set_assignments_response
-from clumioapi.models import set_policy_assignments_v1_request
-import requests
+from clumioapi.models import set_assignments_response, set_policy_assignments_v1_request
 
 
 class PolicyAssignmentsV1Controller(base_controller.BaseController):
@@ -24,6 +22,8 @@ class PolicyAssignmentsV1Controller(base_controller.BaseController):
             'x-clumio-api-client': 'clumio-python-sdk',
             'x-clumio-sdk-version': f'clumio-python-sdk:{sdk_version}',
         }
+        if config.custom_headers != None:
+            self.headers.update(config.custom_headers)
 
     def set_policy_assignments(
         self, body: set_policy_assignments_v1_request.SetPolicyAssignmentsV1Request = None
@@ -61,6 +61,6 @@ class PolicyAssignmentsV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing set_policy_assignments.', errors
+                "Error occurred while executing set_policy_assignments.", errors
             )
         return set_assignments_response.SetAssignmentsResponse.from_dictionary(resp)

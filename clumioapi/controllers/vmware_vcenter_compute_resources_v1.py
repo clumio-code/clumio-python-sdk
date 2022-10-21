@@ -2,14 +2,12 @@
 # Copyright 2021. Clumio, Inc.
 #
 
-from clumioapi import api_helper
-from clumioapi import configuration
-from clumioapi import sdk_version
+import requests
+
+from clumioapi import api_helper, configuration, sdk_version
 from clumioapi.controllers import base_controller
 from clumioapi.exceptions import clumio_exception
-from clumioapi.models import list_compute_resources_response
-from clumioapi.models import read_compute_resource_response
-import requests
+from clumioapi.models import list_compute_resources_response, read_compute_resource_response
 
 
 class VmwareVcenterComputeResourcesV1Controller(base_controller.BaseController):
@@ -24,6 +22,8 @@ class VmwareVcenterComputeResourcesV1Controller(base_controller.BaseController):
             'x-clumio-api-client': 'clumio-python-sdk',
             'x-clumio-sdk-version': f'clumio-python-sdk:{sdk_version}',
         }
+        if config.custom_headers != None:
+            self.headers.update(config.custom_headers)
 
     def list_vmware_vcenter_compute_resources(
         self,
@@ -155,7 +155,7 @@ class VmwareVcenterComputeResourcesV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing list_vmware_vcenter_compute_resources.', errors
+                "Error occurred while executing list_vmware_vcenter_compute_resources.", errors
             )
         return list_compute_resources_response.ListComputeResourcesResponse.from_dictionary(resp)
 
@@ -208,6 +208,6 @@ class VmwareVcenterComputeResourcesV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing read_vmware_vcenter_compute_resource.', errors
+                "Error occurred while executing read_vmware_vcenter_compute_resource.", errors
             )
         return read_compute_resource_response.ReadComputeResourceResponse.from_dictionary(resp)

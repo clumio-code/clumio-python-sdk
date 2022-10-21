@@ -4,8 +4,7 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import ebs_template_info
-from clumioapi.models import rds_template_info
+from clumioapi.models import ebs_template_info, rds_template_info
 
 T = TypeVar('T', bound='ProtectTemplateInfo')
 

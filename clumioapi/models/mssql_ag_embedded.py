@@ -23,15 +23,14 @@ class MssqlAGEmbedded:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names = { 
         'get_mssql_availability_group_stats': 'get-mssql-availability-group-stats',
-        'read_policy_definition': 'read-policy-definition',
+        'read_policy_definition': 'read-policy-definition'
     }
 
-    def __init__(
-        self,
-        get_mssql_availability_group_stats: object = None,
-        read_policy_definition: object = None,
+    def __init__(self,
+        get_mssql_availability_group_stats:  = None,
+        read_policy_definition: None = None
     ) -> None:
         """Constructor for the MssqlAGEmbedded class."""
 
@@ -40,7 +39,10 @@ class MssqlAGEmbedded:
         self.read_policy_definition: object = read_policy_definition
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: Type,
+        dictionary: Mapping[str, Any]
+    ) -> Optional[T]:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -58,4 +60,6 @@ class MssqlAGEmbedded:
         get_mssql_availability_group_stats = dictionary.get('get-mssql-availability-group-stats')
         read_policy_definition = dictionary.get('read-policy-definition')
         # Return an object of this model
-        return cls(get_mssql_availability_group_stats, read_policy_definition)
+        return cls(
+            get_mssql_availability_group_stats,
+            read_policy_definition)

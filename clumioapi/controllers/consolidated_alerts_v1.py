@@ -2,16 +2,17 @@
 # Copyright 2021. Clumio, Inc.
 #
 
-from clumioapi import api_helper
-from clumioapi import configuration
-from clumioapi import sdk_version
+import requests
+
+from clumioapi import api_helper, configuration, sdk_version
 from clumioapi.controllers import base_controller
 from clumioapi.exceptions import clumio_exception
-from clumioapi.models import list_consolidated_alerts_response
-from clumioapi.models import read_consolidated_alert_response
-from clumioapi.models import update_consolidated_alert_response
-from clumioapi.models import update_consolidated_alert_v1_request
-import requests
+from clumioapi.models import (
+    list_consolidated_alerts_response,
+    read_consolidated_alert_response,
+    update_consolidated_alert_response,
+    update_consolidated_alert_v1_request,
+)
 
 
 class ConsolidatedAlertsV1Controller(base_controller.BaseController):
@@ -26,6 +27,8 @@ class ConsolidatedAlertsV1Controller(base_controller.BaseController):
             'x-clumio-api-client': 'clumio-python-sdk',
             'x-clumio-sdk-version': f'clumio-python-sdk:{sdk_version}',
         }
+        if config.custom_headers != None:
+            self.headers.update(config.custom_headers)
 
     def list_consolidated_alerts(
         self, limit: int = None, start: str = None, filter: str = None
@@ -107,7 +110,7 @@ class ConsolidatedAlertsV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing list_consolidated_alerts.', errors
+                "Error occurred while executing list_consolidated_alerts.", errors
             )
         return list_consolidated_alerts_response.ListConsolidatedAlertsResponse.from_dictionary(
             resp
@@ -140,7 +143,7 @@ class ConsolidatedAlertsV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing read_consolidated_alert.', errors
+                "Error occurred while executing read_consolidated_alert.", errors
             )
         return read_consolidated_alert_response.ReadConsolidatedAlertResponse.from_dictionary(resp)
 
@@ -181,7 +184,7 @@ class ConsolidatedAlertsV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing update_consolidated_alert.', errors
+                "Error occurred while executing update_consolidated_alert.", errors
             )
         return update_consolidated_alert_response.UpdateConsolidatedAlertResponse.from_dictionary(
             resp

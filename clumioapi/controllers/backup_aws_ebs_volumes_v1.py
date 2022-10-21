@@ -2,15 +2,16 @@
 # Copyright 2021. Clumio, Inc.
 #
 
-from clumioapi import api_helper
-from clumioapi import configuration
-from clumioapi import sdk_version
+import requests
+
+from clumioapi import api_helper, configuration, sdk_version
 from clumioapi.controllers import base_controller
 from clumioapi.exceptions import clumio_exception
-from clumioapi.models import create_backup_aws_ebs_volume_v1_request
-from clumioapi.models import list_ebs_backups_response_v1
-from clumioapi.models import read_ebs_backup_response_v1
-import requests
+from clumioapi.models import (
+    create_backup_aws_ebs_volume_v1_request,
+    list_ebs_backups_response_v1,
+    read_ebs_backup_response_v1,
+)
 
 
 class BackupAwsEbsVolumesV1Controller(base_controller.BaseController):
@@ -25,6 +26,8 @@ class BackupAwsEbsVolumesV1Controller(base_controller.BaseController):
             'x-clumio-api-client': 'clumio-python-sdk',
             'x-clumio-sdk-version': f'clumio-python-sdk:{sdk_version}',
         }
+        if config.custom_headers != None:
+            self.headers.update(config.custom_headers)
 
     def list_backup_aws_ebs_volumes(
         self, limit: int = None, start: str = None, filter: str = None
@@ -79,7 +82,7 @@ class BackupAwsEbsVolumesV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing list_backup_aws_ebs_volumes.', errors
+                "Error occurred while executing list_backup_aws_ebs_volumes.", errors
             )
         return list_ebs_backups_response_v1.ListEBSBackupsResponseV1.from_dictionary(resp)
 
@@ -115,7 +118,7 @@ class BackupAwsEbsVolumesV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing create_backup_aws_ebs_volume.', errors
+                "Error occurred while executing create_backup_aws_ebs_volume.", errors
             )
         return resp
 
@@ -148,6 +151,6 @@ class BackupAwsEbsVolumesV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing read_backup_aws_ebs_volume.', errors
+                "Error occurred while executing read_backup_aws_ebs_volume.", errors
             )
         return read_ebs_backup_response_v1.ReadEBSBackupResponseV1.from_dictionary(resp)

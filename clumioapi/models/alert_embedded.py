@@ -18,16 +18,23 @@ class AlertEmbedded:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'read_consolidated_alert': 'read-consolidated-alert'}
+    _names = { 
+        'read_consolidated_alert': 'read-consolidated-alert'
+    }
 
-    def __init__(self, read_consolidated_alert: object = None) -> None:
+    def __init__(self,
+        read_consolidated_alert:  = None
+    ) -> None:
         """Constructor for the AlertEmbedded class."""
 
         # Initialize members of the class
         self.read_consolidated_alert: object = read_consolidated_alert
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: Type,
+        dictionary: Mapping[str, Any]
+    ) -> Optional[T]:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -44,4 +51,5 @@ class AlertEmbedded:
         # Extract variables from the dictionary
         read_consolidated_alert = dictionary.get('read-consolidated-alert')
         # Return an object of this model
-        return cls(read_consolidated_alert)
+        return cls(
+            read_consolidated_alert)

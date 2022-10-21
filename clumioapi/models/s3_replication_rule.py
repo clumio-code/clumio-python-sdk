@@ -4,11 +4,13 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import s3_delete_marker_replication
-from clumioapi.models import s3_destination
-from clumioapi.models import s3_existing_object_replication
-from clumioapi.models import s3_replication_rule_filter
-from clumioapi.models import s3_source_selection_criteria
+from clumioapi.models import (
+    s3_delete_marker_replication,
+    s3_destination,
+    s3_existing_object_replication,
+    s3_replication_rule_filter,
+    s3_source_selection_criteria,
+)
 
 T = TypeVar('T', bound='S3ReplicationRule')
 

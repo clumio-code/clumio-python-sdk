@@ -4,8 +4,7 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import vcenter_embedded
-from clumioapi.models import vcenter_links
+from clumioapi.models import vcenter_embedded, vcenter_links
 
 T = TypeVar('T', bound='ReadVcenterResponse')
 

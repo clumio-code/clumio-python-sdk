@@ -4,8 +4,7 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import tag_category2_list_embedded
-from clumioapi.models import tag_category2_list_links
+from clumioapi.models import tag_category2_list_embedded, tag_category2_list_links
 
 T = TypeVar('T', bound='ListTagCategories2Response')
 

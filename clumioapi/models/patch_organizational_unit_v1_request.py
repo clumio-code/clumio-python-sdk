@@ -4,8 +4,7 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import update_entities
-from clumioapi.models import update_user_assignments
+from clumioapi.models import update_entities, update_user_assignments
 
 T = TypeVar('T', bound='PatchOrganizationalUnitV1Request')
 

@@ -4,11 +4,13 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import object_filter
-from clumioapi.models import protection_compliance_stats_with_seeding
-from clumioapi.models import protection_group_embedded
-from clumioapi.models import protection_group_links
-from clumioapi.models import protection_info_with_rule
+from clumioapi.models import (
+    object_filter,
+    protection_compliance_stats_with_seeding,
+    protection_group_embedded,
+    protection_group_links,
+    protection_info_with_rule,
+)
 
 T = TypeVar('T', bound='ReadProtectionGroupResponse')
 

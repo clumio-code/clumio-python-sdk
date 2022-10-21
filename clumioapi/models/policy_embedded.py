@@ -21,28 +21,29 @@ class PolicyEmbedded:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
-        'read_policy_aws_ebs_volumes_compliance_stats': 'read-policy-aws-ebs-volumes-compliance-stats',
-        'read_policy_vmware_vms_compliance_stats': 'read-policy-vmware-vms-compliance-stats',
+    _names = { 
+        'read_policy_aws_ebs_volumes_compliance_stats':
+            'read-policy-aws-ebs-volumes-compliance-stats',
+        'read_policy_vmware_vms_compliance_stats': 'read-policy-vmware-vms-compliance-stats'
     }
 
-    def __init__(
-        self,
-        read_policy_aws_ebs_volumes_compliance_stats: object = None,
-        read_policy_vmware_vms_compliance_stats: object = None,
+    def __init__(self,
+        read_policy_aws_ebs_volumes_compliance_stats:  = None,
+        read_policy_vmware_vms_compliance_stats:  = None
     ) -> None:
         """Constructor for the PolicyEmbedded class."""
 
         # Initialize members of the class
         self.read_policy_aws_ebs_volumes_compliance_stats: object = (
-            read_policy_aws_ebs_volumes_compliance_stats
-        )
+            read_policy_aws_ebs_volumes_compliance_stats)
         self.read_policy_vmware_vms_compliance_stats: object = (
-            read_policy_vmware_vms_compliance_stats
-        )
+            read_policy_vmware_vms_compliance_stats)
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: Type,
+        dictionary: Mapping[str, Any]
+    ) -> Optional[T]:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -57,13 +58,9 @@ class PolicyEmbedded:
             return None
 
         # Extract variables from the dictionary
-        read_policy_aws_ebs_volumes_compliance_stats = dictionary.get(
-            'read-policy-aws-ebs-volumes-compliance-stats'
-        )
-        read_policy_vmware_vms_compliance_stats = dictionary.get(
-            'read-policy-vmware-vms-compliance-stats'
-        )
+        read_policy_aws_ebs_volumes_compliance_stats = dictionary.get('read-policy-aws-ebs-volumes-compliance-stats')
+        read_policy_vmware_vms_compliance_stats = dictionary.get('read-policy-vmware-vms-compliance-stats')
         # Return an object of this model
         return cls(
-            read_policy_aws_ebs_volumes_compliance_stats, read_policy_vmware_vms_compliance_stats
-        )
+            read_policy_aws_ebs_volumes_compliance_stats,
+            read_policy_vmware_vms_compliance_stats)

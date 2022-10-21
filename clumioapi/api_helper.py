@@ -3,9 +3,9 @@
 #
 
 import enum
-import json
 from typing import Any, Dict, Mapping
 
+import json
 import jsonpickle
 from requests import utils
 
@@ -52,7 +52,7 @@ def append_url_with_template_parameters(
     """
     # Parameter validation
     if not url:
-        raise ValueError('URL is None.')
+        raise ValueError("URL is None.")
     if not parameters:
         return url
 
@@ -64,7 +64,7 @@ def append_url_with_template_parameters(
         if not element:
             replace_value = ''
         elif isinstance(element, list):
-            replace_value = '/'.join(
+            replace_value = "/".join(
                 (utils.quote(str(x), safe='') if encode else str(x)) for x in element
             )
         else:

@@ -4,8 +4,7 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import rule_action
-from clumioapi.models import rule_priority
+from clumioapi.models import rule_action, rule_priority
 
 T = TypeVar('T', bound='UpdatePolicyRuleV1Request')
 

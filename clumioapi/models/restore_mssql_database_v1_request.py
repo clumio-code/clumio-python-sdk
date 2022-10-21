@@ -4,8 +4,7 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import mssql_restore_source
-from clumioapi.models import mssql_restore_target
+from clumioapi.models import mssql_restore_source, mssql_restore_target
 
 T = TypeVar('T', bound='RestoreMssqlDatabaseV1Request')
 

@@ -4,10 +4,12 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import resource_pool_datacenter_model
-from clumioapi.models import resource_pool_links
-from clumioapi.models import v_mware_resource_pool_compute_resource_model
-from clumioapi.models import v_mware_resource_pool_parent_model
+from clumioapi.models import (
+    resource_pool_datacenter_model,
+    resource_pool_links,
+    v_mware_resource_pool_compute_resource_model,
+    v_mware_resource_pool_parent_model,
+)
 
 T = TypeVar('T', bound='ResourcePoolWithETag')
 

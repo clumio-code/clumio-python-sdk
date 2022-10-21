@@ -4,10 +4,7 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import protection_info
-from clumioapi.models import tag2_embedded
-from clumioapi.models import tag2_links
-from clumioapi.models import tag_parent_category_model
+from clumioapi.models import protection_info, tag2_embedded, tag2_links, tag_parent_category_model
 
 T = TypeVar('T', bound='Tag2')
 

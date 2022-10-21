@@ -2,15 +2,16 @@
 # Copyright 2021. Clumio, Inc.
 #
 
-from clumioapi import api_helper
-from clumioapi import configuration
-from clumioapi import sdk_version
+import requests
+
+from clumioapi import api_helper, configuration, sdk_version
 from clumioapi.controllers import base_controller
 from clumioapi.exceptions import clumio_exception
-from clumioapi.models import list_mssql_database_pitr_intervals_response
-from clumioapi.models import list_mssql_databases_response
-from clumioapi.models import read_mssql_database_response
-import requests
+from clumioapi.models import (
+    list_mssql_database_pitr_intervals_response,
+    list_mssql_databases_response,
+    read_mssql_database_response,
+)
 
 
 class MssqlDatabasesV1Controller(base_controller.BaseController):
@@ -25,6 +26,8 @@ class MssqlDatabasesV1Controller(base_controller.BaseController):
             'x-clumio-api-client': 'clumio-python-sdk',
             'x-clumio-sdk-version': f'clumio-python-sdk:{sdk_version}',
         }
+        if config.custom_headers != None:
+            self.headers.update(config.custom_headers)
 
     def list_mssql_databases(
         self, limit: int = None, start: str = None, filter: str = None, embed: str = None
@@ -131,7 +134,7 @@ class MssqlDatabasesV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing list_mssql_databases.', errors
+                "Error occurred while executing list_mssql_databases.", errors
             )
         return list_mssql_databases_response.ListMssqlDatabasesResponse.from_dictionary(resp)
 
@@ -164,7 +167,7 @@ class MssqlDatabasesV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing read_mssql_databases.', errors
+                "Error occurred while executing read_mssql_databases.", errors
             )
         return read_mssql_database_response.ReadMssqlDatabaseResponse.from_dictionary(resp)
 
@@ -220,7 +223,7 @@ class MssqlDatabasesV1Controller(base_controller.BaseController):
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing list_mssql_database_pitr_intervals.', errors
+                "Error occurred while executing list_mssql_database_pitr_intervals.", errors
             )
         return list_mssql_database_pitr_intervals_response.ListMssqlDatabasePitrIntervalsResponse.from_dictionary(
             resp

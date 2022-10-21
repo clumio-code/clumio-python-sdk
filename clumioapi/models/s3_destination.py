@@ -4,10 +4,12 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import s3_access_control_translation
-from clumioapi.models import s3_encryption_configuration
-from clumioapi.models import s3_metrics
-from clumioapi.models import s3_replication_time
+from clumioapi.models import (
+    s3_access_control_translation,
+    s3_encryption_configuration,
+    s3_metrics,
+    s3_replication_time,
+)
 
 T = TypeVar('T', bound='S3Destination')
 

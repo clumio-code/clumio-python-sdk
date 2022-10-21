@@ -4,9 +4,11 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import vm_backup_hateoas_links
-from clumioapi.models import vm_nic_backup_model
-from clumioapi.models import vm_tag_with_category_model
+from clumioapi.models import (
+    vm_backup_hateoas_links,
+    vm_nic_backup_model,
+    vm_tag_with_category_model,
+)
 
 T = TypeVar('T', bound='ReadVMBackupResponse')
 

@@ -4,12 +4,14 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import hateoas_first_link
-from clumioapi.models import hateoas_last_link
-from clumioapi.models import hateoas_link
-from clumioapi.models import hateoas_next_link
-from clumioapi.models import hateoas_prev_link
-from clumioapi.models import hateoas_self_link
+from clumioapi.models import (
+    hateoas_first_link,
+    hateoas_last_link,
+    hateoas_link,
+    hateoas_next_link,
+    hateoas_prev_link,
+    hateoas_self_link,
+)
 
 T = TypeVar('T', bound='UserListHateoasLinks')
 

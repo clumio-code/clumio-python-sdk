@@ -4,9 +4,11 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import protection_group_bucket_embedded
-from clumioapi.models import protection_group_bucket_links
-from clumioapi.models import protection_info_with_rule
+from clumioapi.models import (
+    protection_group_bucket_embedded,
+    protection_group_bucket_links,
+    protection_info_with_rule,
+)
 
 T = TypeVar('T', bound='ReadProtectionGroupS3AssetResponse')
 

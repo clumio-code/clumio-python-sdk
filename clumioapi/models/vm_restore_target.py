@@ -4,8 +4,7 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import vm_nic_restore
-from clumioapi.models import vm_restore_tag
+from clumioapi.models import vm_nic_restore, vm_restore_tag
 
 T = TypeVar('T', bound='VMRestoreTarget')
 

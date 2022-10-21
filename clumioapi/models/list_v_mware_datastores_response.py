@@ -4,8 +4,7 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import v_mware_datastore_list_embedded
-from clumioapi.models import v_mware_datastore_list_links
+from clumioapi.models import v_mware_datastore_list_embedded, v_mware_datastore_list_links
 
 T = TypeVar('T', bound='ListVMwareDatastoresResponse')
 
