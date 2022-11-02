@@ -16,9 +16,10 @@ class BackupWindow:
         end_time:
             The time when the backup window closes. Specify the end time in the format
             `hh:mm`, where `hh` represents the hour of the day and `mm` represents the
-            minute of the day based on the 24 hour clock. If the backup window closes while
-            a backup is in progress, the entire backup process is aborted. Clumio will
-            perform the next backup when the backup window opens again.
+            minute of the day, based on a 24 hour clock. Leave empty if you do not want to
+            specify an end time. If the backup window closes while a backup is in progress,
+            the entire backup process is aborted. Clumio will perform the next backup when
+            the backup window re-opens.
         start_time:
             The time when the backup window opens. Specify the start time in the format
             `hh:mm`, where `hh` represents the hour of the day and `mm` represents the

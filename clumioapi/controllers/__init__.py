@@ -4,6 +4,8 @@
 
 __all__ = [
     'audit_trails_v1',
+    'auto_user_provisioning_rules_v1',
+    'auto_user_provisioning_settings_v1',
     'aws_cloudformation_templates_v1',
     'aws_connections_v1',
     'aws_ebs_volumes_v1',

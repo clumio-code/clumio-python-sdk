@@ -28,6 +28,8 @@ class ReadPolicyResponse:
         assigned_organizational_unit_ids:
             The Clumio-assigned IDs of the organizational units to whom the policy has been
             assigned.
+        created_time:
+            The created time of the policy in unix time.
         id:
             The Clumio-assigned ID of the policy.
         lock_status:
@@ -53,6 +55,8 @@ class ReadPolicyResponse:
             The Clumio-assigned ID of the organizational unit associated with the policy.
         timezone:
             The timezone for the policy.
+        updated_time:
+            The updated time of the policy in unix time.
     """
 
     # Create a mapping from Model property names to API property names
@@ -61,12 +65,14 @@ class ReadPolicyResponse:
         'links': '_links',
         'activation_status': 'activation_status',
         'assigned_organizational_unit_ids': 'assigned_organizational_unit_ids',
+        'created_time': 'created_time',
         'id': 'id',
         'lock_status': 'lock_status',
         'name': 'name',
         'operations': 'operations',
         'organizational_unit_id': 'organizational_unit_id',
         'timezone': 'timezone',
+        'updated_time': 'updated_time',
     }
 
     def __init__(
@@ -75,12 +81,14 @@ class ReadPolicyResponse:
         links: policy_links.PolicyLinks = None,
         activation_status: str = None,
         assigned_organizational_unit_ids: Sequence[str] = None,
+        created_time: int = None,
         id: str = None,
         lock_status: str = None,
         name: str = None,
         operations: Sequence[policy_operation.PolicyOperation] = None,
         organizational_unit_id: str = None,
         timezone: str = None,
+        updated_time: int = None,
     ) -> None:
         """Constructor for the ReadPolicyResponse class."""
 
@@ -89,12 +97,14 @@ class ReadPolicyResponse:
         self.links: policy_links.PolicyLinks = links
         self.activation_status: str = activation_status
         self.assigned_organizational_unit_ids: Sequence[str] = assigned_organizational_unit_ids
+        self.created_time: int = created_time
         self.id: str = id
         self.lock_status: str = lock_status
         self.name: str = name
         self.operations: Sequence[policy_operation.PolicyOperation] = operations
         self.organizational_unit_id: str = organizational_unit_id
         self.timezone: str = timezone
+        self.updated_time: int = updated_time
 
     @classmethod
     def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
@@ -128,6 +138,7 @@ class ReadPolicyResponse:
 
         activation_status = dictionary.get('activation_status')
         assigned_organizational_unit_ids = dictionary.get('assigned_organizational_unit_ids')
+        created_time = dictionary.get('created_time')
         id = dictionary.get('id')
         lock_status = dictionary.get('lock_status')
         name = dictionary.get('name')
@@ -139,16 +150,19 @@ class ReadPolicyResponse:
 
         organizational_unit_id = dictionary.get('organizational_unit_id')
         timezone = dictionary.get('timezone')
+        updated_time = dictionary.get('updated_time')
         # Return an object of this model
         return cls(
             embedded,
             links,
             activation_status,
             assigned_organizational_unit_ids,
+            created_time,
             id,
             lock_status,
             name,
             operations,
             organizational_unit_id,
             timezone,
+            updated_time,
         )

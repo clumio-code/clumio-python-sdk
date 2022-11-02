@@ -4,6 +4,7 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
+from clumioapi.models import error_model
 from clumioapi.models import wallet_links
 
 T = TypeVar('T', bound='ReadWalletResponse')
@@ -19,6 +20,8 @@ class ReadWalletResponse:
             URLs to pages related to the resource.
         account_native_id:
             AWS Account ID associated with the wallet.
+        available_version:
+            Version of the template available
         clumio_aws_account_id:
             Clumio AWS Account ID.
         deployment_url:
@@ -33,6 +36,8 @@ class ReadWalletResponse:
             The Clumio-assigned ID of the wallet.
         installed_regions:
             The regions where the wallet is installed.
+        key_errors:
+            Errors, if any, in accessing the multi-region key in the wallet.
         role_arn:
             RoleArn is the AWS Resource Name of the IAM Role created by the stack.
         stack_version:
@@ -59,12 +64,14 @@ class ReadWalletResponse:
         'embedded': '_embedded',
         'links': '_links',
         'account_native_id': 'account_native_id',
+        'available_version': 'available_version',
         'clumio_aws_account_id': 'clumio_aws_account_id',
         'deployment_url': 'deployment_url',
         'error_code': 'error_code',
         'error_message': 'error_message',
         'id': 'id',
         'installed_regions': 'installed_regions',
+        'key_errors': 'key_errors',
         'role_arn': 'role_arn',
         'stack_version': 'stack_version',
         'state': 'state',
@@ -78,12 +85,14 @@ class ReadWalletResponse:
         embedded: object = None,
         links: wallet_links.WalletLinks = None,
         account_native_id: str = None,
+        available_version: int = None,
         clumio_aws_account_id: str = None,
         deployment_url: str = None,
         error_code: str = None,
         error_message: str = None,
         id: str = None,
         installed_regions: Sequence[str] = None,
+        key_errors: Mapping[str, error_model.ErrorModel] = None,
         role_arn: str = None,
         stack_version: int = None,
         state: str = None,
@@ -97,12 +106,14 @@ class ReadWalletResponse:
         self.embedded: object = embedded
         self.links: wallet_links.WalletLinks = links
         self.account_native_id: str = account_native_id
+        self.available_version: int = available_version
         self.clumio_aws_account_id: str = clumio_aws_account_id
         self.deployment_url: str = deployment_url
         self.error_code: str = error_code
         self.error_message: str = error_message
         self.id: str = id
         self.installed_regions: Sequence[str] = installed_regions
+        self.key_errors: Mapping[str, error_model.ErrorModel] = key_errors
         self.role_arn: str = role_arn
         self.stack_version: int = stack_version
         self.state: str = state
@@ -135,12 +146,17 @@ class ReadWalletResponse:
         )
 
         account_native_id = dictionary.get('account_native_id')
+        available_version = dictionary.get('available_version')
         clumio_aws_account_id = dictionary.get('clumio_aws_account_id')
         deployment_url = dictionary.get('deployment_url')
         error_code = dictionary.get('error_code')
         error_message = dictionary.get('error_message')
         id = dictionary.get('id')
         installed_regions = dictionary.get('installed_regions')
+        key_errors: Dict[str, error_model.ErrorModel] = {}
+        for key, value in dictionary.get('key_errors').items():
+            key_errors[key] = error_model.ErrorModel.from_dictionary(value) if value else None
+
         role_arn = dictionary.get('role_arn')
         stack_version = dictionary.get('stack_version')
         state = dictionary.get('state')
@@ -152,12 +168,14 @@ class ReadWalletResponse:
             embedded,
             links,
             account_native_id,
+            available_version,
             clumio_aws_account_id,
             deployment_url,
             error_code,
             error_message,
             id,
             installed_regions,
+            key_errors,
             role_arn,
             stack_version,
             state,

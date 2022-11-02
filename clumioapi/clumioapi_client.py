@@ -5,6 +5,8 @@ import functools
 
 from clumioapi import configuration
 from clumioapi.controllers import audit_trails_v1
+from clumioapi.controllers import auto_user_provisioning_rules_v1
+from clumioapi.controllers import auto_user_provisioning_settings_v1
 from clumioapi.controllers import aws_cloudformation_templates_v1
 from clumioapi.controllers import aws_connections_v1
 from clumioapi.controllers import aws_ebs_volumes_v1
@@ -412,6 +414,22 @@ class ClumioAPIClient:
     @functools.lru_cache(1)
     def roles_v1(self) -> roles_v1.RolesV1Controller:
         return roles_v1.RolesV1Controller(self.config)
+
+    @property
+    @functools.lru_cache(1)
+    def auto_user_provisioning_settings_v1(
+        self,
+    ) -> auto_user_provisioning_settings_v1.AutoUserProvisioningSettingsV1Controller:
+        return auto_user_provisioning_settings_v1.AutoUserProvisioningSettingsV1Controller(
+            self.config
+        )
+
+    @property
+    @functools.lru_cache(1)
+    def auto_user_provisioning_rules_v1(
+        self,
+    ) -> auto_user_provisioning_rules_v1.AutoUserProvisioningRulesV1Controller:
+        return auto_user_provisioning_rules_v1.AutoUserProvisioningRulesV1Controller(self.config)
 
     @property
     @functools.lru_cache(1)

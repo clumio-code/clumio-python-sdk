@@ -24,6 +24,8 @@ class RolesV1Controller(base_controller.BaseController):
             'x-clumio-api-client': 'clumio-python-sdk',
             'x-clumio-sdk-version': f'clumio-python-sdk:{sdk_version}',
         }
+        if config.custom_headers != None:
+            self.headers.update(config.custom_headers)
 
     def list_roles(self):
         """Returns a list of roles that can be assigned to users, either while inviting

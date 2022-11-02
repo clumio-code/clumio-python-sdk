@@ -23,6 +23,8 @@ class AwsRegionsV1Controller(base_controller.BaseController):
             'x-clumio-api-client': 'clumio-python-sdk',
             'x-clumio-sdk-version': f'clumio-python-sdk:{sdk_version}',
         }
+        if config.custom_headers != None:
+            self.headers.update(config.custom_headers)
 
     def list_connection_aws_regions(
         self, limit: int = None, start: str = None, filter: str = None
