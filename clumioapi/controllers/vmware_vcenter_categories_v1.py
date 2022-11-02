@@ -24,6 +24,8 @@ class VmwareVcenterCategoriesV1Controller(base_controller.BaseController):
             'x-clumio-api-client': 'clumio-python-sdk',
             'x-clumio-sdk-version': f'clumio-python-sdk:{sdk_version}',
         }
+        if config.custom_headers != None:
+            self.headers.update(config.custom_headers)
 
     def list_vmware_vcenter_categories(
         self, vcenter_id: str, limit: int = None, start: str = None, filter: str = None

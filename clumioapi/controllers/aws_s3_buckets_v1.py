@@ -9,6 +9,8 @@ from clumioapi.controllers import base_controller
 from clumioapi.exceptions import clumio_exception
 from clumioapi.models import list_buckets_response
 from clumioapi.models import read_bucket_response
+from clumioapi.models import set_bucket_properties_response
+from clumioapi.models import set_bucket_properties_v1_request
 import requests
 
 
@@ -24,6 +26,8 @@ class AwsS3BucketsV1Controller(base_controller.BaseController):
             'x-clumio-api-client': 'clumio-python-sdk',
             'x-clumio-sdk-version': f'clumio-python-sdk:{sdk_version}',
         }
+        if config.custom_headers != None:
+            self.headers.update(config.custom_headers)
 
     def list_aws_s3_buckets(
         self, limit: int = None, start: str = None, filter: str = None
@@ -121,6 +125,12 @@ class AwsS3BucketsV1Controller(base_controller.BaseController):
                 |                        |                  | b2e1c9a040ad","c764abb6-5819-    |
                 |                        |                  | 11ea-bb9f-b2e1c9a040ad"]}}       |
                 +------------------------+------------------+----------------------------------+
+                | event_bridge_enabled   | $eq              | The AWS EventBridge status for   |
+                |                        |                  | the S3 bucket required for S3    |
+                |                        |                  | continuous backup. For example,  |
+                |                        |                  | filter={"event_bridge_enabled":{ |
+                |                        |                  | "$eq":true}}                     |
+                +------------------------+------------------+----------------------------------+
 
         Returns:
             ListBucketsResponse: Response from the API.
@@ -176,3 +186,46 @@ class AwsS3BucketsV1Controller(base_controller.BaseController):
                 'Error occurred while executing read_aws_s3_bucket.', errors
             )
         return read_bucket_response.ReadBucketResponse.from_dictionary(resp)
+
+    def set_bucket_properties(
+        self,
+        bucket_id: str,
+        body: set_bucket_properties_v1_request.SetBucketPropertiesV1Request = None,
+    ) -> set_bucket_properties_response.SetBucketPropertiesResponse:
+        """Idempotent call to set properties on an S3 bucket to enable flows like S3
+        continuous backup.
+
+        Args:
+            bucket_id:
+                Set the properties for the bucket with the specified ID.
+            body:
+                The set of properties that are being updated for the given bucket.
+        Returns:
+            SetBucketPropertiesResponse: Response from the API.
+        Raises:
+            ClumioException: An error occured while executing the API.
+                This exception includes the HTTP response code, an error
+                message, and the HTTP body that was received in the request.
+        """
+
+        # Prepare query URL
+        _url_path = f'{self.config.base_path}/datasources/aws/s3-buckets/{bucket_id}'
+        _url_path = api_helper.append_url_with_template_parameters(
+            _url_path, {'bucket_id': bucket_id}
+        )
+        _query_parameters = {}
+
+        # Execute request
+        try:
+            resp = self.client.patch(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                json=api_helper.to_dictionary(body),
+            )
+        except requests.exceptions.HTTPError as http_error:
+            errors = self.client.get_error_message(http_error.response)
+            raise clumio_exception.ClumioException(
+                'Error occurred while executing set_bucket_properties.', errors
+            )
+        return set_bucket_properties_response.SetBucketPropertiesResponse.from_dictionary(resp)

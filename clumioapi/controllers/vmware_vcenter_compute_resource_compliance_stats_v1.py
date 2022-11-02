@@ -23,6 +23,8 @@ class VmwareVcenterComputeResourceComplianceStatsV1Controller(base_controller.Ba
             'x-clumio-api-client': 'clumio-python-sdk',
             'x-clumio-sdk-version': f'clumio-python-sdk:{sdk_version}',
         }
+        if config.custom_headers != None:
+            self.headers.update(config.custom_headers)
 
     def read_vmware_vcenter_compute_resource_compliance_stats(
         self, vcenter_id: str, compute_resource_id: str

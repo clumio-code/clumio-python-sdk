@@ -23,6 +23,8 @@ class RestoredAwsEbsVolumesV1Controller(base_controller.BaseController):
             'x-clumio-api-client': 'clumio-python-sdk',
             'x-clumio-sdk-version': f'clumio-python-sdk:{sdk_version}',
         }
+        if config.custom_headers != None:
+            self.headers.update(config.custom_headers)
 
     def restore_aws_ebs_volume(
         self, body: restore_aws_ebs_volume_v1_request.RestoreAwsEbsVolumeV1Request = None
