@@ -25,6 +25,8 @@ class GeneralSettingsV2Controller(base_controller.BaseController):
             'x-clumio-api-client': 'clumio-python-sdk',
             'x-clumio-sdk-version': f'clumio-python-sdk:{sdk_version}',
         }
+        if config.custom_headers != None:
+            self.headers.update(config.custom_headers)
 
     def read_general_settings(self):
         """Retrieves organization-wide setting details, including password and security

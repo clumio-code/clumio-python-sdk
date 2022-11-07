@@ -1,3 +1,6 @@
+## 0.7.0
+New APIs added for S3 and Auto User Provisioning and changes to Report APIs.
+
 ## 0.6.0
 New APIs added for wallets and updates to protection-group APIs.
 

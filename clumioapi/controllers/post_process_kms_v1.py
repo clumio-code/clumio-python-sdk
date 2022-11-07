@@ -23,6 +23,8 @@ class PostProcessKmsV1Controller(base_controller.BaseController):
             'x-clumio-api-client': 'clumio-python-sdk',
             'x-clumio-sdk-version': f'clumio-python-sdk:{sdk_version}',
         }
+        if config.custom_headers != None:
+            self.headers.update(config.custom_headers)
 
     def post_process_kms(
         self, body: post_process_kms_v1_request.PostProcessKmsV1Request = None

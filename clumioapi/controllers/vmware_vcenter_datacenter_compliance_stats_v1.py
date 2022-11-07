@@ -23,6 +23,8 @@ class VmwareVcenterDatacenterComplianceStatsV1Controller(base_controller.BaseCon
             'x-clumio-api-client': 'clumio-python-sdk',
             'x-clumio-sdk-version': f'clumio-python-sdk:{sdk_version}',
         }
+        if config.custom_headers != None:
+            self.headers.update(config.custom_headers)
 
     def read_vmware_vcenter_datacenter_compliance_stats(
         self, vcenter_id: str, datacenter_id: str

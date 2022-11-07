@@ -3,6 +3,7 @@
 #
 
 import os
+from typing import Mapping
 
 from clumioapi.exceptions import clumio_exception
 import rest3client
@@ -30,6 +31,7 @@ class Configuration:
         client: rest3client.RESTclient = None,
         hostname: str = None,
         organizational_unit_context: str = '',
+        custom_headers: Mapping[str, str] = None,
     ) -> None:
         self.api_token: str = api_token or os.getenv('API_TOKEN')
         if hostname:
@@ -43,3 +45,4 @@ class Configuration:
             )
         self.client = client
         self.organizational_unit_context = organizational_unit_context
+        self.custom_headers = custom_headers

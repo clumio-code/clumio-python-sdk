@@ -23,6 +23,8 @@ class VmwareVcenterFolderComplianceStatsV1Controller(base_controller.BaseControl
             'x-clumio-api-client': 'clumio-python-sdk',
             'x-clumio-sdk-version': f'clumio-python-sdk:{sdk_version}',
         }
+        if config.custom_headers != None:
+            self.headers.update(config.custom_headers)
 
     def read_vmware_vcenter_folder_compliance_stats(
         self, vcenter_id: str, folder_id: str

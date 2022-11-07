@@ -23,6 +23,8 @@ class PostProcessAwsConnectionV1Controller(base_controller.BaseController):
             'x-clumio-api-client': 'clumio-python-sdk',
             'x-clumio-sdk-version': f'clumio-python-sdk:{sdk_version}',
         }
+        if config.custom_headers != None:
+            self.headers.update(config.custom_headers)
 
     def post_process_aws_connection(
         self, body: post_process_aws_connection_v1_request.PostProcessAwsConnectionV1Request = None

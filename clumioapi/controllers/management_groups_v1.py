@@ -26,6 +26,8 @@ class ManagementGroupsV1Controller(base_controller.BaseController):
             'x-clumio-api-client': 'clumio-python-sdk',
             'x-clumio-sdk-version': f'clumio-python-sdk:{sdk_version}',
         }
+        if config.custom_headers != None:
+            self.headers.update(config.custom_headers)
 
     def list_management_groups(
         self, limit: int = None, start: str = None

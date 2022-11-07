@@ -32,6 +32,8 @@ class PostProcessKmsV1Request:
         token:
             The 36-character Clumio AWS integration ID token used to identify the
             installation of the CloudFormation/Terraform template on the account.
+        version:
+            The cloudformation/terraform template version used.
     """
 
     # Create a mapping from Model property names to API property names
@@ -45,6 +47,7 @@ class PostProcessKmsV1Request:
         'role_external_id': 'role_external_id',
         'role_id': 'role_id',
         'token': 'token',
+        'version': 'version',
     }
 
     def __init__(
@@ -58,6 +61,7 @@ class PostProcessKmsV1Request:
         role_external_id: str = None,
         role_id: str = None,
         token: str = None,
+        version: int = None,
     ) -> None:
         """Constructor for the PostProcessKmsV1Request class."""
 
@@ -71,6 +75,7 @@ class PostProcessKmsV1Request:
         self.role_external_id: str = role_external_id
         self.role_id: str = role_id
         self.token: str = token
+        self.version: int = version
 
     @classmethod
     def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
@@ -97,6 +102,7 @@ class PostProcessKmsV1Request:
         role_external_id = dictionary.get('role_external_id')
         role_id = dictionary.get('role_id')
         token = dictionary.get('token')
+        version = dictionary.get('version')
         # Return an object of this model
         return cls(
             account_native_id,
@@ -108,4 +114,5 @@ class PostProcessKmsV1Request:
             role_external_id,
             role_id,
             token,
+            version,
         )

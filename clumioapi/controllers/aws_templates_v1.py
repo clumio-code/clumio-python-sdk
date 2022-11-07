@@ -25,6 +25,8 @@ class AwsTemplatesV1Controller(base_controller.BaseController):
             'x-clumio-api-client': 'clumio-python-sdk',
             'x-clumio-sdk-version': f'clumio-python-sdk:{sdk_version}',
         }
+        if config.custom_headers != None:
+            self.headers.update(config.custom_headers)
 
     def read_connection_templates(self):
         """Returns the AWS CloudFormation and Terraform templates available to install to

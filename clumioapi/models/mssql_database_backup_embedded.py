@@ -14,9 +14,10 @@ class MssqlDatabaseBackupEmbedded:
 
     Attributes:
         read_management_group:
-            Embedded types
+            Embeds details about the management group if requested using the `embed` query.
         read_management_subgroup:
-            Embedded types
+            Embeds details about the management subgroup if requested using the `embed`
+            query.
     """
 
     # Create a mapping from Model property names to API property names
