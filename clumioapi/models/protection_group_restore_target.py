@@ -29,15 +29,19 @@ class ProtectionGroupRestoreTarget:
         overwrite:
             If overwrite is set to true, we will overwrite an object if it exists. If it's
             set to false,
-            then we will fail the restore if an object already exists. The default value is
-            false.
+            then we will fail the restore if an object already exists.
         prefix:
             Prefix to restore the objects under. If more than one bucket is restored, the
             bucket name will be appended to the prefix.
+        restore_original_storage_class:
+            Whether to restore objects with their original storage class or not.
+            If it is `true`, `storage_class` must be empty.
+            Otherwise, `storage_class` must be given.
         storage_class:
             Storage class for restored objects. Valid values are: `S3 Standard`, `S3
             Standard-IA`,
             `S3 Intelligent-Tiering` and `S3 One Zone-IA`.
+            Note that this must be given unless `restore_original_storage_class` is `true`.
         tags:
             The AWS tags to be applied to the restored objects.
             The restored objects will not have any tags applied if this is specified as
@@ -50,6 +54,7 @@ class ProtectionGroupRestoreTarget:
         'environment_id': 'environment_id',
         'overwrite': 'overwrite',
         'prefix': 'prefix',
+        'restore_original_storage_class': 'restore_original_storage_class',
         'storage_class': 'storage_class',
         'tags': 'tags',
     }
@@ -60,6 +65,7 @@ class ProtectionGroupRestoreTarget:
         environment_id: str = None,
         overwrite: bool = None,
         prefix: str = None,
+        restore_original_storage_class: bool = None,
         storage_class: str = None,
         tags: Sequence[aws_tag_common_model.AwsTagCommonModel] = None,
     ) -> None:
@@ -70,6 +76,7 @@ class ProtectionGroupRestoreTarget:
         self.environment_id: str = environment_id
         self.overwrite: bool = overwrite
         self.prefix: str = prefix
+        self.restore_original_storage_class: bool = restore_original_storage_class
         self.storage_class: str = storage_class
         self.tags: Sequence[aws_tag_common_model.AwsTagCommonModel] = tags
 
@@ -93,6 +100,7 @@ class ProtectionGroupRestoreTarget:
         environment_id = dictionary.get('environment_id')
         overwrite = dictionary.get('overwrite')
         prefix = dictionary.get('prefix')
+        restore_original_storage_class = dictionary.get('restore_original_storage_class')
         storage_class = dictionary.get('storage_class')
         tags = None
         if dictionary.get('tags'):
@@ -101,4 +109,12 @@ class ProtectionGroupRestoreTarget:
                 tags.append(aws_tag_common_model.AwsTagCommonModel.from_dictionary(value))
 
         # Return an object of this model
-        return cls(bucket_id, environment_id, overwrite, prefix, storage_class, tags)
+        return cls(
+            bucket_id,
+            environment_id,
+            overwrite,
+            prefix,
+            restore_original_storage_class,
+            storage_class,
+            tags,
+        )

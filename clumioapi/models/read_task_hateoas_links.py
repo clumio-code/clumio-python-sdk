@@ -4,28 +4,29 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
+from clumioapi.models import read_task_hateoas_link
+
 T = TypeVar('T', bound='ReadTaskHateoasLinks')
 
 
 class ReadTaskHateoasLinks:
     """Implementation of the 'ReadTaskHateoasLinks' model.
 
-    Embedded responses related to the resource.
+    URLs to pages related to the resource.
 
     Attributes:
         read_task:
-            Embeds the associated task of a resource in the response if requested using the
-            `embed` query parameter.
+            A HATEOAS link to the task associated with this resource.
     """
 
     # Create a mapping from Model property names to API property names
     _names = {'read_task': 'read-task'}
 
-    def __init__(self, read_task: object = None) -> None:
+    def __init__(self, read_task: read_task_hateoas_link.ReadTaskHateoasLink = None) -> None:
         """Constructor for the ReadTaskHateoasLinks class."""
 
         # Initialize members of the class
-        self.read_task: object = read_task
+        self.read_task: read_task_hateoas_link.ReadTaskHateoasLink = read_task
 
     @classmethod
     def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
@@ -43,6 +44,12 @@ class ReadTaskHateoasLinks:
             return None
 
         # Extract variables from the dictionary
-        read_task = dictionary.get('read-task')
+        key = 'read-task'
+        read_task = (
+            read_task_hateoas_link.ReadTaskHateoasLink.from_dictionary(dictionary.get(key))
+            if dictionary.get(key)
+            else None
+        )
+
         # Return an object of this model
         return cls(read_task)

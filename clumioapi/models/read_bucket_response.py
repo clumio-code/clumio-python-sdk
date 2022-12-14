@@ -43,6 +43,12 @@ class ReadBucketResponse:
             The EventBridge enablement state for the S3 bucket.
         id:
             The Clumio-assigned ID of the bucket.
+        is_encryption_enabled:
+            The Encryption enablement state for the S3 bucket.
+        is_replication_enabled:
+            The Replication enablement state for the S3 bucket.
+        is_versioning_enabled:
+            The Versioning enablement state for the S3 bucket.
         name:
             The AWS-assigned name of the bucket.
         object_count:
@@ -75,6 +81,9 @@ class ReadBucketResponse:
         'environment_id': 'environment_id',
         'event_bridge_enabled': 'event_bridge_enabled',
         'id': 'id',
+        'is_encryption_enabled': 'is_encryption_enabled',
+        'is_replication_enabled': 'is_replication_enabled',
+        'is_versioning_enabled': 'is_versioning_enabled',
         'name': 'name',
         'object_count': 'object_count',
         'organizational_unit_id': 'organizational_unit_id',
@@ -98,6 +107,9 @@ class ReadBucketResponse:
         environment_id: str = None,
         event_bridge_enabled: bool = None,
         id: str = None,
+        is_encryption_enabled: bool = None,
+        is_replication_enabled: bool = None,
+        is_versioning_enabled: bool = None,
         name: str = None,
         object_count: int = None,
         organizational_unit_id: str = None,
@@ -123,6 +135,9 @@ class ReadBucketResponse:
         self.environment_id: str = environment_id
         self.event_bridge_enabled: bool = event_bridge_enabled
         self.id: str = id
+        self.is_encryption_enabled: bool = is_encryption_enabled
+        self.is_replication_enabled: bool = is_replication_enabled
+        self.is_versioning_enabled: bool = is_versioning_enabled
         self.name: str = name
         self.object_count: int = object_count
         self.organizational_unit_id: str = organizational_unit_id
@@ -185,6 +200,9 @@ class ReadBucketResponse:
         environment_id = dictionary.get('environment_id')
         event_bridge_enabled = dictionary.get('event_bridge_enabled')
         id = dictionary.get('id')
+        is_encryption_enabled = dictionary.get('is_encryption_enabled')
+        is_replication_enabled = dictionary.get('is_replication_enabled')
+        is_versioning_enabled = dictionary.get('is_versioning_enabled')
         name = dictionary.get('name')
         object_count = dictionary.get('object_count')
         organizational_unit_id = dictionary.get('organizational_unit_id')
@@ -223,6 +241,9 @@ class ReadBucketResponse:
             environment_id,
             event_bridge_enabled,
             id,
+            is_encryption_enabled,
+            is_replication_enabled,
+            is_versioning_enabled,
             name,
             object_count,
             organizational_unit_id,

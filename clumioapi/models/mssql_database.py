@@ -32,6 +32,10 @@ class MssqlDatabase:
             the Compliance Status table
 
             for a complete list of compliance statuses.
+        failover_cluster_id:
+            The Clumio-assigned ID of the failover cluster.
+        failover_cluster_name:
+            The Microsoft SQL assigned name of the Failover Cluster
         group_id:
             The Clumio-assigned ID of the group to which the standalone database belongs, in
             case of an
@@ -97,6 +101,8 @@ class MssqlDatabase:
         'availability_group_id': 'availability_group_id',
         'availability_group_name': 'availability_group_name',
         'compliance_status': 'compliance_status',
+        'failover_cluster_id': 'failover_cluster_id',
+        'failover_cluster_name': 'failover_cluster_name',
         'group_id': 'group_id',
         'host_endpoint': 'host_endpoint',
         'host_id': 'host_id',
@@ -125,6 +131,8 @@ class MssqlDatabase:
         availability_group_id: str = None,
         availability_group_name: str = None,
         compliance_status: str = None,
+        failover_cluster_id: str = None,
+        failover_cluster_name: str = None,
         group_id: str = None,
         host_endpoint: str = None,
         host_id: str = None,
@@ -153,6 +161,8 @@ class MssqlDatabase:
         self.availability_group_id: str = availability_group_id
         self.availability_group_name: str = availability_group_name
         self.compliance_status: str = compliance_status
+        self.failover_cluster_id: str = failover_cluster_id
+        self.failover_cluster_name: str = failover_cluster_name
         self.group_id: str = group_id
         self.host_endpoint: str = host_endpoint
         self.host_id: str = host_id
@@ -210,6 +220,8 @@ class MssqlDatabase:
         availability_group_id = dictionary.get('availability_group_id')
         availability_group_name = dictionary.get('availability_group_name')
         compliance_status = dictionary.get('compliance_status')
+        failover_cluster_id = dictionary.get('failover_cluster_id')
+        failover_cluster_name = dictionary.get('failover_cluster_name')
         group_id = dictionary.get('group_id')
         host_endpoint = dictionary.get('host_endpoint')
         host_id = dictionary.get('host_id')
@@ -246,6 +258,8 @@ class MssqlDatabase:
             availability_group_id,
             availability_group_name,
             compliance_status,
+            failover_cluster_id,
+            failover_cluster_name,
             group_id,
             host_endpoint,
             host_id,

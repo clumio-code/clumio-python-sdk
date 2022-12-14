@@ -25,9 +25,6 @@ class Policy:
             The status of the policy.
             Refer to the Policy Activation Status table for a complete list of policy
             statuses.
-        assigned_organizational_unit_ids:
-            The Clumio-assigned IDs of the organizational units to whom the policy has been
-            assigned.
         created_time:
             The created time of the policy in unix time.
         id:
@@ -64,7 +61,6 @@ class Policy:
         'embedded': '_embedded',
         'links': '_links',
         'activation_status': 'activation_status',
-        'assigned_organizational_unit_ids': 'assigned_organizational_unit_ids',
         'created_time': 'created_time',
         'id': 'id',
         'lock_status': 'lock_status',
@@ -80,7 +76,6 @@ class Policy:
         embedded: policy_embedded.PolicyEmbedded = None,
         links: policy_links.PolicyLinks = None,
         activation_status: str = None,
-        assigned_organizational_unit_ids: Sequence[str] = None,
         created_time: int = None,
         id: str = None,
         lock_status: str = None,
@@ -96,7 +91,6 @@ class Policy:
         self.embedded: policy_embedded.PolicyEmbedded = embedded
         self.links: policy_links.PolicyLinks = links
         self.activation_status: str = activation_status
-        self.assigned_organizational_unit_ids: Sequence[str] = assigned_organizational_unit_ids
         self.created_time: int = created_time
         self.id: str = id
         self.lock_status: str = lock_status
@@ -137,7 +131,6 @@ class Policy:
         )
 
         activation_status = dictionary.get('activation_status')
-        assigned_organizational_unit_ids = dictionary.get('assigned_organizational_unit_ids')
         created_time = dictionary.get('created_time')
         id = dictionary.get('id')
         lock_status = dictionary.get('lock_status')
@@ -156,7 +149,6 @@ class Policy:
             embedded,
             links,
             activation_status,
-            assigned_organizational_unit_ids,
             created_time,
             id,
             lock_status,

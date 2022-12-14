@@ -13,7 +13,7 @@ T = TypeVar('T', bound='OnDemandSetting')
 class OnDemandSetting:
     """Implementation of the 'OnDemandSetting' model.
 
-    Settings for requesting on-demand backup directly
+    Settings for requesting on-demand backup directly.
 
     Attributes:
         advanced_settings:

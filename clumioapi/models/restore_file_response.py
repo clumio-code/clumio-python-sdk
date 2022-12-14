@@ -4,7 +4,8 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import read_task_hateoas_links
+from clumioapi.models import read_task_hateoas_outer_embedded
+from clumioapi.models import restore_file_links
 
 T = TypeVar('T', bound='RestoreFileResponse')
 
@@ -16,32 +17,44 @@ class RestoreFileResponse:
         embedded:
             Embedded responses related to the resource.
         links:
-            Embedded responses related to the resource.
+            URLs to pages related to the resource.
         id:
             The Clumio-assigned ID of the restored file.
         passcode:
-            passcode that the end-user must use to access the restored
+            The passcode that the end-user must use to access the restored
             file, in the case the restored file was emailed to the end-user as part
             of transparent data access.
+        task_id:
+            The Clumio-assigned ID of the task created by this restore request.
+            The progress of the task can be monitored using the
+            `GET /tasks/{task_id}` endpoint.
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'embedded': '_embedded', 'links': '_links', 'id': 'id', 'passcode': 'passcode'}
+    _names = {
+        'embedded': '_embedded',
+        'links': '_links',
+        'id': 'id',
+        'passcode': 'passcode',
+        'task_id': 'task_id',
+    }
 
     def __init__(
         self,
-        embedded: read_task_hateoas_links.ReadTaskHateoasLinks = None,
-        links: read_task_hateoas_links.ReadTaskHateoasLinks = None,
+        embedded: read_task_hateoas_outer_embedded.ReadTaskHateoasOuterEmbedded = None,
+        links: restore_file_links.RestoreFileLinks = None,
         id: str = None,
         passcode: str = None,
+        task_id: str = None,
     ) -> None:
         """Constructor for the RestoreFileResponse class."""
 
         # Initialize members of the class
-        self.embedded: read_task_hateoas_links.ReadTaskHateoasLinks = embedded
-        self.links: read_task_hateoas_links.ReadTaskHateoasLinks = links
+        self.embedded: read_task_hateoas_outer_embedded.ReadTaskHateoasOuterEmbedded = embedded
+        self.links: restore_file_links.RestoreFileLinks = links
         self.id: str = id
         self.passcode: str = passcode
+        self.task_id: str = task_id
 
     @classmethod
     def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
@@ -61,19 +74,22 @@ class RestoreFileResponse:
         # Extract variables from the dictionary
         key = '_embedded'
         embedded = (
-            read_task_hateoas_links.ReadTaskHateoasLinks.from_dictionary(dictionary.get(key))
+            read_task_hateoas_outer_embedded.ReadTaskHateoasOuterEmbedded.from_dictionary(
+                dictionary.get(key)
+            )
             if dictionary.get(key)
             else None
         )
 
         key = '_links'
         links = (
-            read_task_hateoas_links.ReadTaskHateoasLinks.from_dictionary(dictionary.get(key))
+            restore_file_links.RestoreFileLinks.from_dictionary(dictionary.get(key))
             if dictionary.get(key)
             else None
         )
 
         id = dictionary.get('id')
         passcode = dictionary.get('passcode')
+        task_id = dictionary.get('task_id')
         # Return an object of this model
-        return cls(embedded, links, id, passcode)
+        return cls(embedded, links, id, passcode, task_id)

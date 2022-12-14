@@ -12,6 +12,8 @@ T = TypeVar('T', bound='DirectoryBrowseEmbedded')
 class DirectoryBrowseEmbedded:
     """Implementation of the 'DirectoryBrowseEmbedded' model.
 
+    Embedded responses related to the resource.
+
     Attributes:
         items:
             A collection of requested items.

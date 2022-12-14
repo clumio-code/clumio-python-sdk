@@ -18,7 +18,6 @@ class AwsDsGroupingCriteria:
             organizational unit uses this data group.
             To edit this data group, all organizational units using it must be deleted.
         type:
-            The entity type used to group organizational units for AWS resources.
 
             +-----------------+-------------------------+
             |   Entity Type   |         Details         |

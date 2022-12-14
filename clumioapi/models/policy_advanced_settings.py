@@ -21,9 +21,11 @@ class PolicyAdvancedSettings:
 
     Attributes:
         aws_ebs_volume_backup:
-            Backup tier to store the backup in. Valid values are: `` for standard, `lite`
+            Backup tier to store the backup in. Valid values are: (empty) equivalent to
+            standard, `standard`, and `lite`.
         aws_ec2_instance_backup:
-            Backup tier to store the backup in. Valid values are: `` for standard, `lite`
+            Backup tier to store the backup in. Valid values are: (empty) equivalent to
+            standard, `standard`, and `lite`.
         ec2_mssql_database_backup:
             Additional policy configuration settings for the `mssql_database_backup`
             operation. If this operation is not of type `mssql_database_backup`, then this

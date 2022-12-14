@@ -29,6 +29,9 @@ class ReadMssqlHostResponse:
             The Clumio-assigned ID of the Host.
         instance_count:
             The number of instances present in the host.
+        is_part_of_fci:
+            IsPartOfFCI is a boolean field representing if the Host is part of Failover
+            Cluster
         organizational_unit_id:
             The Clumio-assigned ID of the organizational unit associated with the host.
         protection_info:
@@ -49,6 +52,7 @@ class ReadMssqlHostResponse:
         'has_associated_availability_group': 'has_associated_availability_group',
         'id': 'id',
         'instance_count': 'instance_count',
+        'is_part_of_fci': 'is_part_of_fci',
         'organizational_unit_id': 'organizational_unit_id',
         'protection_info': 'protection_info',
         'status': 'status',
@@ -64,6 +68,7 @@ class ReadMssqlHostResponse:
         has_associated_availability_group: bool = None,
         id: str = None,
         instance_count: int = None,
+        is_part_of_fci: bool = None,
         organizational_unit_id: str = None,
         protection_info: protection_info.ProtectionInfo = None,
         status: str = None,
@@ -79,6 +84,7 @@ class ReadMssqlHostResponse:
         self.has_associated_availability_group: bool = has_associated_availability_group
         self.id: str = id
         self.instance_count: int = instance_count
+        self.is_part_of_fci: bool = is_part_of_fci
         self.organizational_unit_id: str = organizational_unit_id
         self.protection_info: protection_info.ProtectionInfo = protection_info
         self.status: str = status
@@ -119,6 +125,7 @@ class ReadMssqlHostResponse:
         has_associated_availability_group = dictionary.get('has_associated_availability_group')
         id = dictionary.get('id')
         instance_count = dictionary.get('instance_count')
+        is_part_of_fci = dictionary.get('is_part_of_fci')
         organizational_unit_id = dictionary.get('organizational_unit_id')
         key = 'protection_info'
         p_protection_info = (
@@ -138,6 +145,7 @@ class ReadMssqlHostResponse:
             has_associated_availability_group,
             id,
             instance_count,
+            is_part_of_fci,
             organizational_unit_id,
             p_protection_info,
             status,

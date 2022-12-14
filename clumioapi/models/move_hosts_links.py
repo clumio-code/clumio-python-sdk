@@ -17,7 +17,7 @@ class MoveHostsLinks:
 
     Attributes:
         links:
-            Embedded responses related to the resource.
+            URLs to pages related to the resource.
         p_self:
             The HATEOAS link to this resource.
     """

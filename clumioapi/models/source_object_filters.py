@@ -16,7 +16,7 @@ class SourceObjectFilters:
         etag:
             Filter for objects with this etag.
         latest_version_only:
-            If set to true, filter for latest versions only. Otherwise all versions will
+            If set to true, filter for latest versions only. Otherwise, all versions will
             be returned.
         max_object_size_bytes:
             Filter for objects with at most this size in bytes.

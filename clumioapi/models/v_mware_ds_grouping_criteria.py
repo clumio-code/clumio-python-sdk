@@ -18,7 +18,6 @@ class VMwareDsGroupingCriteria:
             organizational unit uses this data group.
             To edit this data group, all organizational units using it must be deleted.
         type:
-            The entity type used to group organizational units for VMware resources.
 
             +--------------------------------+---------------------------------+
             |         vmware_vcenter         |         VMware vCenter.         |

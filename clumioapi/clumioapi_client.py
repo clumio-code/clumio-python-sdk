@@ -12,9 +12,11 @@ from clumioapi.controllers import aws_connections_v1
 from clumioapi.controllers import aws_ebs_volumes_v1
 from clumioapi.controllers import aws_environment_tags_v1
 from clumioapi.controllers import aws_environments_v1
+from clumioapi.controllers import aws_rds_resource_restored_records_v1
 from clumioapi.controllers import aws_regions_v1
 from clumioapi.controllers import aws_s3_buckets_v1
 from clumioapi.controllers import aws_templates_v1
+from clumioapi.controllers import backup_aws_dynamodb_tables_v1
 from clumioapi.controllers import backup_aws_ebs_volumes_v1
 from clumioapi.controllers import backup_filesystem_directories_v1
 from clumioapi.controllers import backup_filesystems_v1
@@ -40,11 +42,16 @@ from clumioapi.controllers import post_process_kms_v1
 from clumioapi.controllers import protection_groups_s3_assets_v1
 from clumioapi.controllers import protection_groups_v1
 from clumioapi.controllers import report_downloads_v1
+from clumioapi.controllers import restored_aws_dynamodb_tables_v1
 from clumioapi.controllers import restored_aws_ebs_volumes_v1
+from clumioapi.controllers import restored_aws_ebs_volumes_v2
+from clumioapi.controllers import restored_aws_ec2_instances_v1
+from clumioapi.controllers import restored_aws_rds_resources_v1
 from clumioapi.controllers import restored_files_v1
 from clumioapi.controllers import restored_mssql_databases_v1
 from clumioapi.controllers import restored_protection_group_s3_assets_v1
 from clumioapi.controllers import restored_protection_groups_v1
+from clumioapi.controllers import restored_records_aws_dynamodb_tables_v1
 from clumioapi.controllers import restored_vmware_vms_v1
 from clumioapi.controllers import roles_v1
 from clumioapi.controllers import tasks_v1
@@ -88,6 +95,13 @@ class ClumioAPIClient:
     @functools.lru_cache(1)
     def audit_trails_v1(self) -> audit_trails_v1.AuditTrailsV1Controller:
         return audit_trails_v1.AuditTrailsV1Controller(self.config)
+
+    @property
+    @functools.lru_cache(1)
+    def backup_aws_dynamodb_tables_v1(
+        self,
+    ) -> backup_aws_dynamodb_tables_v1.BackupAwsDynamodbTablesV1Controller:
+        return backup_aws_dynamodb_tables_v1.BackupAwsDynamodbTablesV1Controller(self.config)
 
     @property
     @functools.lru_cache(1)
@@ -372,10 +386,56 @@ class ClumioAPIClient:
 
     @property
     @functools.lru_cache(1)
+    def restored_aws_dynamodb_tables_v1(
+        self,
+    ) -> restored_aws_dynamodb_tables_v1.RestoredAwsDynamodbTablesV1Controller:
+        return restored_aws_dynamodb_tables_v1.RestoredAwsDynamodbTablesV1Controller(self.config)
+
+    @property
+    @functools.lru_cache(1)
+    def restored_records_aws_dynamodb_tables_v1(
+        self,
+    ) -> restored_records_aws_dynamodb_tables_v1.RestoredRecordsAwsDynamodbTablesV1Controller:
+        return restored_records_aws_dynamodb_tables_v1.RestoredRecordsAwsDynamodbTablesV1Controller(
+            self.config
+        )
+
+    @property
+    @functools.lru_cache(1)
+    def restored_aws_ebs_volumes_v2(
+        self,
+    ) -> restored_aws_ebs_volumes_v2.RestoredAwsEbsVolumesV2Controller:
+        return restored_aws_ebs_volumes_v2.RestoredAwsEbsVolumesV2Controller(self.config)
+
+    @property
+    @functools.lru_cache(1)
     def restored_aws_ebs_volumes_v1(
         self,
     ) -> restored_aws_ebs_volumes_v1.RestoredAwsEbsVolumesV1Controller:
         return restored_aws_ebs_volumes_v1.RestoredAwsEbsVolumesV1Controller(self.config)
+
+    @property
+    @functools.lru_cache(1)
+    def restored_aws_ec2_instances_v1(
+        self,
+    ) -> restored_aws_ec2_instances_v1.RestoredAwsEc2InstancesV1Controller:
+        return restored_aws_ec2_instances_v1.RestoredAwsEc2InstancesV1Controller(self.config)
+
+    @property
+    @functools.lru_cache(1)
+    def restored_aws_rds_resources_v1(
+        self,
+    ) -> restored_aws_rds_resources_v1.RestoredAwsRdsResourcesV1Controller:
+        return restored_aws_rds_resources_v1.RestoredAwsRdsResourcesV1Controller(self.config)
+
+    @property
+    @functools.lru_cache(1)
+    def aws_rds_resource_restored_records_v1(
+        self,
+    ) -> aws_rds_resource_restored_records_v1.AwsRdsResourceRestoredRecordsV1Controller:
+        return aws_rds_resource_restored_records_v1.AwsRdsResourceRestoredRecordsV1Controller(
+            self.config
+        )
 
     @property
     @functools.lru_cache(1)

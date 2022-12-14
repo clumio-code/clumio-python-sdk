@@ -15,7 +15,7 @@ class ReadDirectoryResponse:
 
     Attributes:
         embedded:
-
+            Embedded responses related to the resource.
         links:
             URLs to pages related to the resource.
         current_count:

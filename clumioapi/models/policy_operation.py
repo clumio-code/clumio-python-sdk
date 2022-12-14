@@ -28,9 +28,11 @@ class PolicyOperation:
             Additional operation-specific policy settings. For operation types which do not
             support additional settings, this field is `null`.
         backup_window:
-            The start and end times for the customized backup window.
+            The start and end times of the customized backup window. Use of `backup_window`
+            is deprecated, use `backup_window_tz` instead.
         backup_window_tz:
-            The start and end times for the customized backup window.
+            The start and end times of the customized backup window. Use of `backup_window`
+            is deprecated, use `backup_window_tz` instead.
         next_start_time:
             The next start time of this operation in unix time.
         previous_start_time:
