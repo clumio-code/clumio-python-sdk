@@ -16,7 +16,7 @@ class CreateBackupMssqlDatabaseV1Request:
         asset_id:
             Performs the operation on the Mssql asset with the specified Clumio-assigned ID.
         settings:
-            Settings for requesting on-demand backup directly
+            Settings for requesting on-demand backup directly.
         type:
             The type of the backup. Possible values - `mssql_database_backup`,
             `mssql_log_backup`.

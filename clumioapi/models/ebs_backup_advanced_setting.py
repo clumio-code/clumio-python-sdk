@@ -10,7 +10,8 @@ T = TypeVar('T', bound='EBSBackupAdvancedSetting')
 class EBSBackupAdvancedSetting:
     """Implementation of the 'EBSBackupAdvancedSetting' model.
 
-    Backup tier to store the backup in. Valid values are: `` for standard, `lite`
+    Backup tier to store the backup in. Valid values are: (empty) equivalent to
+    standard, `standard`, and `lite`.
 
     Attributes:
         backup_tier:

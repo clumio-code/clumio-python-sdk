@@ -14,7 +14,7 @@ class CreateBackupVmwareVmV1Request:
 
     Attributes:
         settings:
-            Settings for requesting on-demand backup directly
+            Settings for requesting on-demand backup directly.
         vcenter_id:
             Performs the operation on a VM within the specified vCenter server.
         vm_id:

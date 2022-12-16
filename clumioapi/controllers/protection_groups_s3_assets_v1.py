@@ -114,6 +114,11 @@ class ProtectionGroupsS3AssetsV1Controller(base_controller.BaseController):
                 |                           |                  | b2e1c9a040ad","c764abb6-5819- |
                 |                           |                  | 11ea-bb9f-b2e1c9a040ad"]}}    |
                 +---------------------------+------------------+-------------------------------+
+                | added_by                  | $in              | The method of addition used   |
+                |                           |                  | to create a protection group  |
+                |                           |                  | s3 asset. Possible values     |
+                |                           |                  | include user and bucket_rule. |
+                +---------------------------+------------------+-------------------------------+
 
         Returns:
             ListProtectionGroupS3AssetsResponse: Response from the API.

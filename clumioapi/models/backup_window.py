@@ -10,7 +10,8 @@ T = TypeVar('T', bound='BackupWindow')
 class BackupWindow:
     """Implementation of the 'BackupWindow' model.
 
-    The start and end times for the customized backup window.
+    The start and end times of the customized backup window. Use of `backup_window`
+    is deprecated, use `backup_window_tz` instead.
 
     Attributes:
         end_time:

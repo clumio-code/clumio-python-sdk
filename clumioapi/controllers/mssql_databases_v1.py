@@ -73,15 +73,19 @@ class MssqlDatabasesV1Controller(base_controller.BaseController):
                 |                           |                  | given array of string.        |
                 +---------------------------+------------------+-------------------------------+
                 | instance_id               | $eq              | Filter Database whose         |
-                |                           |                  | instance id is equal to the   |
+                |                           |                  | instance ID is equal to the   |
                 |                           |                  | given string.                 |
                 +---------------------------+------------------+-------------------------------+
-                | host_id                   | $eq              | Filter Database whose host id |
+                | host_id                   | $eq              | Filter Database whose host ID |
                 |                           |                  | is equal to the given string. |
                 +---------------------------+------------------+-------------------------------+
                 | availability_group_id     | $eq              | Filter Database whose         |
-                |                           |                  | availability group id is      |
+                |                           |                  | availability group ID is      |
                 |                           |                  | equal to the given string.    |
+                +---------------------------+------------------+-------------------------------+
+                | failover_cluster_id       | $eq              | Filter Database whose         |
+                |                           |                  | failover cluster ID is equal  |
+                |                           |                  | to the given string.          |
                 +---------------------------+------------------+-------------------------------+
                 | status                    | $eq              | Filter Database whose status  |
                 |                           |                  | is equal to the given string. |

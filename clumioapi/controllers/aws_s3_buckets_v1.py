@@ -131,6 +131,21 @@ class AwsS3BucketsV1Controller(base_controller.BaseController):
                 |                        |                  | filter={"event_bridge_enabled":{ |
                 |                        |                  | "$eq":true}}                     |
                 +------------------------+------------------+----------------------------------+
+                | is_versioning_enabled  | $eq              | The AWS Version status for the   |
+                |                        |                  | S3 bucket. For example, filter={ |
+                |                        |                  | "is_versioning_enabled":{"$eq":t |
+                |                        |                  | rue}}                            |
+                +------------------------+------------------+----------------------------------+
+                | is_encryption_enabled  | $eq              | The AWS Encryption status for    |
+                |                        |                  | the S3 bucket. For example, filt |
+                |                        |                  | er={"is_encryption_enabled":{"$e |
+                |                        |                  | q":true}}                        |
+                +------------------------+------------------+----------------------------------+
+                | is_replication_enabled | $eq              | The AWS Replication status for   |
+                |                        |                  | the S3 bucket. For example, filt |
+                |                        |                  | er={"is_replication_enabled":{"$ |
+                |                        |                  | eq":true}}                       |
+                +------------------------+------------------+----------------------------------+
 
         Returns:
             ListBucketsResponse: Response from the API.

@@ -14,7 +14,7 @@ class CreateBackupAwsEbsVolumeV1Request:
 
     Attributes:
         settings:
-            Settings for requesting on-demand backup directly
+            Settings for requesting on-demand backup directly.
         volume_id:
             Performs the operation on the EBS volume with the specified Clumio-assigned ID.
     """

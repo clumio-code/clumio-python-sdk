@@ -5,6 +5,7 @@
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
 from clumioapi.models import read_task_hateoas_links
+from clumioapi.models import read_task_hateoas_outer_embedded
 
 T = TypeVar('T', bound='OnDemandMssqlBackupResponse')
 
@@ -16,7 +17,7 @@ class OnDemandMssqlBackupResponse:
         embedded:
             Embedded responses related to the resource.
         links:
-            Embedded responses related to the resource.
+            URLs to pages related to the resource.
     """
 
     # Create a mapping from Model property names to API property names
@@ -24,13 +25,13 @@ class OnDemandMssqlBackupResponse:
 
     def __init__(
         self,
-        embedded: read_task_hateoas_links.ReadTaskHateoasLinks = None,
+        embedded: read_task_hateoas_outer_embedded.ReadTaskHateoasOuterEmbedded = None,
         links: read_task_hateoas_links.ReadTaskHateoasLinks = None,
     ) -> None:
         """Constructor for the OnDemandMssqlBackupResponse class."""
 
         # Initialize members of the class
-        self.embedded: read_task_hateoas_links.ReadTaskHateoasLinks = embedded
+        self.embedded: read_task_hateoas_outer_embedded.ReadTaskHateoasOuterEmbedded = embedded
         self.links: read_task_hateoas_links.ReadTaskHateoasLinks = links
 
     @classmethod
@@ -51,7 +52,9 @@ class OnDemandMssqlBackupResponse:
         # Extract variables from the dictionary
         key = '_embedded'
         embedded = (
-            read_task_hateoas_links.ReadTaskHateoasLinks.from_dictionary(dictionary.get(key))
+            read_task_hateoas_outer_embedded.ReadTaskHateoasOuterEmbedded.from_dictionary(
+                dictionary.get(key)
+            )
             if dictionary.get(key)
             else None
         )

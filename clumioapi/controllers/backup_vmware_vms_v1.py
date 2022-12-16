@@ -29,7 +29,7 @@ class BackupVmwareVmsV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def list_backup_vmware_vms(
-        self, limit: int = None, start: str = None, filter: str = None
+        self, limit: int = None, start: str = None, sort: str = None, filter: str = None
     ) -> list_vm_backups_response.ListVMBackupsResponse:
         """Returns a list of VMware virtual machines (VMs) that have been backed up by
         Clumio. VM backups can be restored through the [POST
@@ -41,6 +41,24 @@ class BackupVmwareVmsV1Controller(base_controller.BaseController):
             start:
                 Sets the page number used to browse the collection.
                 Pages are indexed starting from 1 (i.e., `start=1`).
+            sort:
+                Returns the list of backups in the order specified. Set `sort` to the name of
+                the sort field by
+                which to sort in ascending order. To sort the list in reverse order, prefix the
+                field name
+                with a minus sign (`-`). Only one field may be sorted at a time.
+
+                The following table lists the supported sort fields for this resource:
+
+                +-----------------+------------------------------------------------------------+
+                |   Sort Field    |                        Description                         |
+                +=================+============================================================+
+                | start_timestamp | Sorts the backups in ascending timestamp order (oldest     |
+                |                 | first). For example, sort=start_timestamp                  |
+                +-----------------+------------------------------------------------------------+
+
+                If a sort order is not specified, the individual rules are sorted by
+                "start_timestamp" in descending timestamp order (newest first).
             filter:
                 Narrows down the results to only the items that satisfy the filter criteria. The
                 vcenter_id and vm_id filter are required for this API. The following table lists
@@ -82,7 +100,7 @@ class BackupVmwareVmsV1Controller(base_controller.BaseController):
         _url_path = f'{self.config.base_path}/backups/vmware/vms'
 
         _query_parameters = {}
-        _query_parameters = {'limit': limit, 'start': start, 'filter': filter}
+        _query_parameters = {'limit': limit, 'start': start, 'sort': sort, 'filter': filter}
 
         # Execute request
         try:

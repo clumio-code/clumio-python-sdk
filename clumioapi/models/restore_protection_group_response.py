@@ -4,7 +4,8 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import read_task_hateoas_links
+from clumioapi.models import read_task_hateoas_outer_embedded
+from clumioapi.models import restore_protection_group_links
 
 T = TypeVar('T', bound='RestoreProtectionGroupResponse')
 
@@ -16,22 +17,28 @@ class RestoreProtectionGroupResponse:
         embedded:
             Embedded responses related to the resource.
         links:
-            Embedded responses related to the resource.
+            URLs to pages related to the resource.
+        task_id:
+            The Clumio-assigned ID of the task created by this restore request.
+            The progress of the task can be monitored using the
+            `GET /tasks/{task_id}` endpoint.
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'embedded': '_embedded', 'links': '_links'}
+    _names = {'embedded': '_embedded', 'links': '_links', 'task_id': 'task_id'}
 
     def __init__(
         self,
-        embedded: read_task_hateoas_links.ReadTaskHateoasLinks = None,
-        links: read_task_hateoas_links.ReadTaskHateoasLinks = None,
+        embedded: read_task_hateoas_outer_embedded.ReadTaskHateoasOuterEmbedded = None,
+        links: restore_protection_group_links.RestoreProtectionGroupLinks = None,
+        task_id: str = None,
     ) -> None:
         """Constructor for the RestoreProtectionGroupResponse class."""
 
         # Initialize members of the class
-        self.embedded: read_task_hateoas_links.ReadTaskHateoasLinks = embedded
-        self.links: read_task_hateoas_links.ReadTaskHateoasLinks = links
+        self.embedded: read_task_hateoas_outer_embedded.ReadTaskHateoasOuterEmbedded = embedded
+        self.links: restore_protection_group_links.RestoreProtectionGroupLinks = links
+        self.task_id: str = task_id
 
     @classmethod
     def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
@@ -51,17 +58,22 @@ class RestoreProtectionGroupResponse:
         # Extract variables from the dictionary
         key = '_embedded'
         embedded = (
-            read_task_hateoas_links.ReadTaskHateoasLinks.from_dictionary(dictionary.get(key))
+            read_task_hateoas_outer_embedded.ReadTaskHateoasOuterEmbedded.from_dictionary(
+                dictionary.get(key)
+            )
             if dictionary.get(key)
             else None
         )
 
         key = '_links'
         links = (
-            read_task_hateoas_links.ReadTaskHateoasLinks.from_dictionary(dictionary.get(key))
+            restore_protection_group_links.RestoreProtectionGroupLinks.from_dictionary(
+                dictionary.get(key)
+            )
             if dictionary.get(key)
             else None
         )
 
+        task_id = dictionary.get('task_id')
         # Return an object of this model
-        return cls(embedded, links)
+        return cls(embedded, links, task_id)
