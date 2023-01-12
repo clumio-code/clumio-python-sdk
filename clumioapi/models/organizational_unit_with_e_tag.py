@@ -41,6 +41,10 @@ class OrganizationalUnitWithETag:
             and can update this organizational unit.
             If this organizational unit is the global organizational unit, then this field
             has a value of `null`.
+        task_id:
+            The Clumio-assigned ID of the task associated with this organizational unit.
+            The progress of the task can be monitored using the
+            [GET /tasks/{task_id}](#operation/read-task) endpoint.
         user_count:
             Number of users to whom this organizational unit or any of its descendants have
             been assigned.
@@ -62,6 +66,7 @@ class OrganizationalUnitWithETag:
         'id': 'id',
         'name': 'name',
         'parent_id': 'parent_id',
+        'task_id': 'task_id',
         'user_count': 'user_count',
         'users': 'users',
     }
@@ -78,6 +83,7 @@ class OrganizationalUnitWithETag:
         id: str = None,
         name: str = None,
         parent_id: str = None,
+        task_id: str = None,
         user_count: int = None,
         users: Sequence[str] = None,
     ) -> None:
@@ -94,6 +100,7 @@ class OrganizationalUnitWithETag:
         self.id: str = id
         self.name: str = name
         self.parent_id: str = parent_id
+        self.task_id: str = task_id
         self.user_count: int = user_count
         self.users: Sequence[str] = users
 
@@ -135,6 +142,7 @@ class OrganizationalUnitWithETag:
         id = dictionary.get('id')
         name = dictionary.get('name')
         parent_id = dictionary.get('parent_id')
+        task_id = dictionary.get('task_id')
         user_count = dictionary.get('user_count')
         users = dictionary.get('users')
         # Return an object of this model
@@ -149,6 +157,7 @@ class OrganizationalUnitWithETag:
             id,
             name,
             parent_id,
+            task_id,
             user_count,
             users,
         )

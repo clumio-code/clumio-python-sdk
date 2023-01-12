@@ -4,6 +4,7 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
+from clumioapi.models import protection_group_restore_source_pitr_options
 from clumioapi.models import source_object_filters
 
 T = TypeVar('T', bound='ProtectionGroupRestoreSource')
@@ -19,8 +20,12 @@ class ProtectionGroupRestoreSource:
             The Clumio-assigned ID of the protection group backup to be restored. Use the
             [GET /backups/protection-groups](#operation/list-backup-protection-groups)
             endpoint to fetch valid values.
+            Note that only one of `backup_id` or `pitr` must be given.
         object_filters:
             Search for or restore only objects that pass the source object filter.
+        pitr:
+            The parameters for initiating a point in time restore.
+            Note that only one of `backup_id` or `pitr` must be given.
         protection_group_s3_asset_ids:
             A list of Clumio-assigned IDs of protection group S3 assets, representing the
             buckets within the protection group to restore from. Use the
@@ -33,6 +38,7 @@ class ProtectionGroupRestoreSource:
     _names = {
         'backup_id': 'backup_id',
         'object_filters': 'object_filters',
+        'pitr': 'pitr',
         'protection_group_s3_asset_ids': 'protection_group_s3_asset_ids',
     }
 
@@ -40,6 +46,7 @@ class ProtectionGroupRestoreSource:
         self,
         backup_id: str = None,
         object_filters: source_object_filters.SourceObjectFilters = None,
+        pitr: protection_group_restore_source_pitr_options.ProtectionGroupRestoreSourcePitrOptions = None,
         protection_group_s3_asset_ids: Sequence[str] = None,
     ) -> None:
         """Constructor for the ProtectionGroupRestoreSource class."""
@@ -47,6 +54,9 @@ class ProtectionGroupRestoreSource:
         # Initialize members of the class
         self.backup_id: str = backup_id
         self.object_filters: source_object_filters.SourceObjectFilters = object_filters
+        self.pitr: protection_group_restore_source_pitr_options.ProtectionGroupRestoreSourcePitrOptions = (
+            pitr
+        )
         self.protection_group_s3_asset_ids: Sequence[str] = protection_group_s3_asset_ids
 
     @classmethod
@@ -73,6 +83,15 @@ class ProtectionGroupRestoreSource:
             else None
         )
 
+        key = 'pitr'
+        pitr = (
+            protection_group_restore_source_pitr_options.ProtectionGroupRestoreSourcePitrOptions.from_dictionary(
+                dictionary.get(key)
+            )
+            if dictionary.get(key)
+            else None
+        )
+
         protection_group_s3_asset_ids = dictionary.get('protection_group_s3_asset_ids')
         # Return an object of this model
-        return cls(backup_id, object_filters, protection_group_s3_asset_ids)
+        return cls(backup_id, object_filters, pitr, protection_group_s3_asset_ids)

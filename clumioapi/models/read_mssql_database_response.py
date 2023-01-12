@@ -36,6 +36,10 @@ class ReadMssqlDatabaseResponse:
             The Clumio-assigned ID of the failover cluster.
         failover_cluster_name:
             The Microsoft SQL assigned name of the Failover Cluster
+        failover_cluster_protection_status:
+            Failovercluster Protection Status is used to indicate the fci protection status
+            associated with the
+            fci database
         group_id:
             The Clumio-assigned ID of the group to which the standalone database belongs, in
             case of an
@@ -103,6 +107,7 @@ class ReadMssqlDatabaseResponse:
         'compliance_status': 'compliance_status',
         'failover_cluster_id': 'failover_cluster_id',
         'failover_cluster_name': 'failover_cluster_name',
+        'failover_cluster_protection_status': 'failover_cluster_protection_status',
         'group_id': 'group_id',
         'host_endpoint': 'host_endpoint',
         'host_id': 'host_id',
@@ -133,6 +138,7 @@ class ReadMssqlDatabaseResponse:
         compliance_status: str = None,
         failover_cluster_id: str = None,
         failover_cluster_name: str = None,
+        failover_cluster_protection_status: str = None,
         group_id: str = None,
         host_endpoint: str = None,
         host_id: str = None,
@@ -163,6 +169,7 @@ class ReadMssqlDatabaseResponse:
         self.compliance_status: str = compliance_status
         self.failover_cluster_id: str = failover_cluster_id
         self.failover_cluster_name: str = failover_cluster_name
+        self.failover_cluster_protection_status: str = failover_cluster_protection_status
         self.group_id: str = group_id
         self.host_endpoint: str = host_endpoint
         self.host_id: str = host_id
@@ -222,6 +229,7 @@ class ReadMssqlDatabaseResponse:
         compliance_status = dictionary.get('compliance_status')
         failover_cluster_id = dictionary.get('failover_cluster_id')
         failover_cluster_name = dictionary.get('failover_cluster_name')
+        failover_cluster_protection_status = dictionary.get('failover_cluster_protection_status')
         group_id = dictionary.get('group_id')
         host_endpoint = dictionary.get('host_endpoint')
         host_id = dictionary.get('host_id')
@@ -260,6 +268,7 @@ class ReadMssqlDatabaseResponse:
             compliance_status,
             failover_cluster_id,
             failover_cluster_name,
+            failover_cluster_protection_status,
             group_id,
             host_endpoint,
             host_id,

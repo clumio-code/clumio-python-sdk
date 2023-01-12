@@ -1,10 +1,17 @@
 #
 # Copyright 2021. Clumio, Inc.
 #
-
+import enum
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
 T = TypeVar('T', bound='RPOBackupSLAParam')
+
+
+class Unit(enum.Enum):
+    hours = 1
+    days = 2
+    months = 3
+    years = 4
 
 
 class RPOBackupSLAParam:
@@ -18,8 +25,7 @@ class RPOBackupSLAParam:
 
     Attributes:
         unit:
-            The measurement unit of the SLA parameter. Values include `hours`, `days`,
-            `months`, and `years`.
+            The measurement unit of the SLA parameter.
         value:
             The measurement value of the SLA parameter.
     """
@@ -50,7 +56,8 @@ class RPOBackupSLAParam:
             return None
 
         # Extract variables from the dictionary
-        unit = dictionary.get('unit')
+        unit = Unit[dictionary.get('unit')]
+
         value = dictionary.get('value')
         # Return an object of this model
         return cls(unit, value)

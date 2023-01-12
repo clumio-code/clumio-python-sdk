@@ -5,7 +5,7 @@
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
 from clumioapi.models import entity_group_embedded
-from clumioapi.models import read_task_hateoas_links
+from clumioapi.models import organizational_unit_links_for_delete
 
 T = TypeVar('T', bound='DeleteOrganizationalUnitResponse')
 
@@ -20,21 +20,27 @@ class DeleteOrganizationalUnitResponse:
             Embedded responses related to the resource.
         links:
             URLs to pages related to the resource.
+        task_id:
+            The Clumio-assigned ID of the task associated with this organizational unit.
+            The progress of the task can be monitored using the
+            [GET /tasks/{task_id}](#operation/read-task) endpoint.
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'embedded': '_embedded', 'links': '_links'}
+    _names = {'embedded': '_embedded', 'links': '_links', 'task_id': 'task_id'}
 
     def __init__(
         self,
         embedded: entity_group_embedded.EntityGroupEmbedded = None,
-        links: read_task_hateoas_links.ReadTaskHateoasLinks = None,
+        links: organizational_unit_links_for_delete.OrganizationalUnitLinksForDelete = None,
+        task_id: str = None,
     ) -> None:
         """Constructor for the DeleteOrganizationalUnitResponse class."""
 
         # Initialize members of the class
         self.embedded: entity_group_embedded.EntityGroupEmbedded = embedded
-        self.links: read_task_hateoas_links.ReadTaskHateoasLinks = links
+        self.links: organizational_unit_links_for_delete.OrganizationalUnitLinksForDelete = links
+        self.task_id: str = task_id
 
     @classmethod
     def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
@@ -61,10 +67,13 @@ class DeleteOrganizationalUnitResponse:
 
         key = '_links'
         links = (
-            read_task_hateoas_links.ReadTaskHateoasLinks.from_dictionary(dictionary.get(key))
+            organizational_unit_links_for_delete.OrganizationalUnitLinksForDelete.from_dictionary(
+                dictionary.get(key)
+            )
             if dictionary.get(key)
             else None
         )
 
+        task_id = dictionary.get('task_id')
         # Return an object of this model
-        return cls(embedded, links)
+        return cls(embedded, links, task_id)

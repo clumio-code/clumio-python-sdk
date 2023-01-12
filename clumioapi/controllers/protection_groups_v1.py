@@ -61,8 +61,10 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
                 |                           |                  | example, filter={"is_deleted" |
                 |                           |                  | :{"$eq":true}}                |
                 +---------------------------+------------------+-------------------------------+
-                | name                      | $contains        | The AWS-assigned name of this |
-                |                           |                  | resource. For example, filter |
+                | name                      | $contains, $eq   | The AWS-assigned name of this |
+                |                           |                  | resource, can use either the  |
+                |                           |                  | contains or exact equal       |
+                |                           |                  | operator. For example, filter |
                 |                           |                  | ={"name":{"$contains":"dev"}} |
                 |                           |                  | retrieves all protection      |
                 |                           |                  | groups with "dev" in their    |

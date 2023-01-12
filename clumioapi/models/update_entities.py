@@ -12,7 +12,9 @@ T = TypeVar('T', bound='UpdateEntities')
 class UpdateEntities:
     """Implementation of the 'UpdateEntities' model.
 
-    Updates to the entities in the organizational unit.
+    Updates to the entities in the organizational unit.Adding or removing entities
+    from the OU is an asynchronous operation.The response has a task ID which can be
+    used to track the progress of the operation.
 
     Attributes:
         add:

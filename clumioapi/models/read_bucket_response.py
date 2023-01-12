@@ -49,6 +49,8 @@ class ReadBucketResponse:
             The Replication enablement state for the S3 bucket.
         is_versioning_enabled:
             The Versioning enablement state for the S3 bucket.
+        last_backup_timestamp:
+            Time of the last backup in RFC-3339 format.
         name:
             The AWS-assigned name of the bucket.
         object_count:
@@ -84,6 +86,7 @@ class ReadBucketResponse:
         'is_encryption_enabled': 'is_encryption_enabled',
         'is_replication_enabled': 'is_replication_enabled',
         'is_versioning_enabled': 'is_versioning_enabled',
+        'last_backup_timestamp': 'last_backup_timestamp',
         'name': 'name',
         'object_count': 'object_count',
         'organizational_unit_id': 'organizational_unit_id',
@@ -110,6 +113,7 @@ class ReadBucketResponse:
         is_encryption_enabled: bool = None,
         is_replication_enabled: bool = None,
         is_versioning_enabled: bool = None,
+        last_backup_timestamp: str = None,
         name: str = None,
         object_count: int = None,
         organizational_unit_id: str = None,
@@ -138,6 +142,7 @@ class ReadBucketResponse:
         self.is_encryption_enabled: bool = is_encryption_enabled
         self.is_replication_enabled: bool = is_replication_enabled
         self.is_versioning_enabled: bool = is_versioning_enabled
+        self.last_backup_timestamp: str = last_backup_timestamp
         self.name: str = name
         self.object_count: int = object_count
         self.organizational_unit_id: str = organizational_unit_id
@@ -203,6 +208,7 @@ class ReadBucketResponse:
         is_encryption_enabled = dictionary.get('is_encryption_enabled')
         is_replication_enabled = dictionary.get('is_replication_enabled')
         is_versioning_enabled = dictionary.get('is_versioning_enabled')
+        last_backup_timestamp = dictionary.get('last_backup_timestamp')
         name = dictionary.get('name')
         object_count = dictionary.get('object_count')
         organizational_unit_id = dictionary.get('organizational_unit_id')
@@ -244,6 +250,7 @@ class ReadBucketResponse:
             is_encryption_enabled,
             is_replication_enabled,
             is_versioning_enabled,
+            last_backup_timestamp,
             name,
             object_count,
             organizational_unit_id,
