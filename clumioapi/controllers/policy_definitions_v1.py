@@ -2,6 +2,8 @@
 # Copyright 2021. Clumio, Inc.
 #
 
+import json
+
 from clumioapi import api_helper
 from clumioapi import configuration
 from clumioapi import sdk_version
@@ -162,7 +164,7 @@ class PolicyDefinitionsV1Controller(base_controller.BaseController):
                 +---------------------------------------+--------------------------------------+
 
         Returns:
-            ListPoliciesResponse: Response from the API.
+            list_policies_response.ListPoliciesResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -183,6 +185,7 @@ class PolicyDefinitionsV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_policy_definitions.', errors
             )
+
         return list_policies_response.ListPoliciesResponse.from_dictionary(resp)
 
     def create_policy_definition(
@@ -195,7 +198,7 @@ class PolicyDefinitionsV1Controller(base_controller.BaseController):
             body:
 
         Returns:
-            CreatePolicyResponse: Response from the API.
+            create_policy_response.CreatePolicyResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -220,6 +223,7 @@ class PolicyDefinitionsV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing create_policy_definition.', errors
             )
+
         return create_policy_response.CreatePolicyResponse.from_dictionary(resp)
 
     def read_policy_definition(
@@ -251,7 +255,7 @@ class PolicyDefinitionsV1Controller(base_controller.BaseController):
                 +---------------------------------------+--------------------------------------+
 
         Returns:
-            ReadPolicyResponse: Response from the API.
+            read_policy_response.ReadPolicyResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -274,6 +278,7 @@ class PolicyDefinitionsV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_policy_definition.', errors
             )
+
         return read_policy_response.ReadPolicyResponse.from_dictionary(resp)
 
     def update_policy_definition(
@@ -312,7 +317,7 @@ class PolicyDefinitionsV1Controller(base_controller.BaseController):
             body:
 
         Returns:
-            UpdatePolicyResponse: Response from the API.
+            update_policy_response.UpdatePolicyResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -340,6 +345,7 @@ class PolicyDefinitionsV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing update_policy_definition.', errors
             )
+
         return update_policy_response.UpdatePolicyResponse.from_dictionary(resp)
 
     def delete_policy_definition(
@@ -351,7 +357,7 @@ class PolicyDefinitionsV1Controller(base_controller.BaseController):
             policy_id:
                 Performs the operation on the policy with the specified ID.
         Returns:
-            DeletePolicyResponse: Response from the API.
+            delete_policy_response.DeletePolicyResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -373,4 +379,5 @@ class PolicyDefinitionsV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing delete_policy_definition.', errors
             )
+
         return delete_policy_response.DeletePolicyResponse.from_dictionary(resp)

@@ -2,6 +2,8 @@
 # Copyright 2021. Clumio, Inc.
 #
 
+import json
+
 from clumioapi import api_helper
 from clumioapi import configuration
 from clumioapi import sdk_version
@@ -134,7 +136,7 @@ class VmwareVcenterComputeResourcesV1Controller(base_controller.BaseController):
                 +---------------------------------------+--------------------------------------+
 
         Returns:
-            ListComputeResourcesResponse: Response from the API.
+            list_compute_resources_response.ListComputeResourcesResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -159,6 +161,7 @@ class VmwareVcenterComputeResourcesV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_vmware_vcenter_compute_resources.', errors
             )
+
         return list_compute_resources_response.ListComputeResourcesResponse.from_dictionary(resp)
 
     def read_vmware_vcenter_compute_resource(
@@ -189,7 +192,7 @@ class VmwareVcenterComputeResourcesV1Controller(base_controller.BaseController):
                 +---------------------------------------+--------------------------------------+
 
         Returns:
-            ReadComputeResourceResponse: Response from the API.
+            read_compute_resource_response.ReadComputeResourceResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -212,4 +215,5 @@ class VmwareVcenterComputeResourcesV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_vmware_vcenter_compute_resource.', errors
             )
+
         return read_compute_resource_response.ReadComputeResourceResponse.from_dictionary(resp)

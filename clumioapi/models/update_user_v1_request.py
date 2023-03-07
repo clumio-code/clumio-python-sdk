@@ -4,7 +4,7 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import entity_group_assignmet_updates
+from clumioapi.models import entity_group_assignment_updates_v1
 
 T = TypeVar('T', bound='UpdateUserV1Request')
 
@@ -43,7 +43,7 @@ class UpdateUserV1Request:
         assigned_role: str = None,
         full_name: str = None,
         is_enabled: bool = None,
-        organizational_unit_assignment_updates: entity_group_assignmet_updates.EntityGroupAssignmetUpdates = None,
+        organizational_unit_assignment_updates: entity_group_assignment_updates_v1.EntityGroupAssignmentUpdatesV1 = None,
     ) -> None:
         """Constructor for the UpdateUserV1Request class."""
 
@@ -51,7 +51,7 @@ class UpdateUserV1Request:
         self.assigned_role: str = assigned_role
         self.full_name: str = full_name
         self.is_enabled: bool = is_enabled
-        self.organizational_unit_assignment_updates: entity_group_assignmet_updates.EntityGroupAssignmetUpdates = (
+        self.organizational_unit_assignment_updates: entity_group_assignment_updates_v1.EntityGroupAssignmentUpdatesV1 = (
             organizational_unit_assignment_updates
         )
 
@@ -76,7 +76,7 @@ class UpdateUserV1Request:
         is_enabled = dictionary.get('is_enabled')
         key = 'organizational_unit_assignment_updates'
         organizational_unit_assignment_updates = (
-            entity_group_assignmet_updates.EntityGroupAssignmetUpdates.from_dictionary(
+            entity_group_assignment_updates_v1.EntityGroupAssignmentUpdatesV1.from_dictionary(
                 dictionary.get(key)
             )
             if dictionary.get(key)

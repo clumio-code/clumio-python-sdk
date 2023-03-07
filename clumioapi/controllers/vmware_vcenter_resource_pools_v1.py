@@ -2,6 +2,8 @@
 # Copyright 2021. Clumio, Inc.
 #
 
+import json
+
 from clumioapi import api_helper
 from clumioapi import configuration
 from clumioapi import sdk_version
@@ -88,7 +90,7 @@ class VmwareVcenterResourcePoolsV1Controller(base_controller.BaseController):
                 compute_resource.id
 
         Returns:
-            ListResourcePoolsResponse: Response from the API.
+            list_resource_pools_response.ListResourcePoolsResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -113,6 +115,7 @@ class VmwareVcenterResourcePoolsV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_vmware_vcenter_resource_pools.', errors
             )
+
         return list_resource_pools_response.ListResourcePoolsResponse.from_dictionary(resp)
 
     def read_vmware_vcenter_resource_pool(
@@ -126,7 +129,7 @@ class VmwareVcenterResourcePoolsV1Controller(base_controller.BaseController):
             resource_pool_id:
                 Performs the operation on the resource pool with the specified ID.
         Returns:
-            ReadResourcePoolResponse: Response from the API.
+            read_resource_pool_response.ReadResourcePoolResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -148,4 +151,5 @@ class VmwareVcenterResourcePoolsV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_vmware_vcenter_resource_pool.', errors
             )
+
         return read_resource_pool_response.ReadResourcePoolResponse.from_dictionary(resp)

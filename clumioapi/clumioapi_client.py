@@ -9,15 +9,22 @@ from clumioapi.controllers import auto_user_provisioning_rules_v1
 from clumioapi.controllers import auto_user_provisioning_settings_v1
 from clumioapi.controllers import aws_cloudformation_templates_v1
 from clumioapi.controllers import aws_connections_v1
+from clumioapi.controllers import aws_dynamodb_tables_v1
 from clumioapi.controllers import aws_ebs_volumes_v1
+from clumioapi.controllers import aws_ec2_instances_v1
 from clumioapi.controllers import aws_environment_tags_v1
 from clumioapi.controllers import aws_environments_v1
 from clumioapi.controllers import aws_rds_resource_restored_records_v1
+from clumioapi.controllers import aws_rds_resources_v1
 from clumioapi.controllers import aws_regions_v1
 from clumioapi.controllers import aws_s3_buckets_v1
 from clumioapi.controllers import aws_templates_v1
 from clumioapi.controllers import backup_aws_dynamodb_tables_v1
 from clumioapi.controllers import backup_aws_ebs_volumes_v1
+from clumioapi.controllers import backup_aws_rds_resource_database_tables_v1
+from clumioapi.controllers import backup_aws_rds_resource_databases_v1
+from clumioapi.controllers import backup_aws_rds_resources_v1
+from clumioapi.controllers import backup_ec2_mssql_databases_v1
 from clumioapi.controllers import backup_filesystem_directories_v1
 from clumioapi.controllers import backup_filesystems_v1
 from clumioapi.controllers import backup_mssql_databases_v1
@@ -42,6 +49,7 @@ from clumioapi.controllers import post_process_kms_v1
 from clumioapi.controllers import protection_groups_s3_assets_v1
 from clumioapi.controllers import protection_groups_v1
 from clumioapi.controllers import report_downloads_v1
+from clumioapi.controllers import restore_ec2_mssql_database_v1
 from clumioapi.controllers import restored_aws_dynamodb_tables_v1
 from clumioapi.controllers import restored_aws_ebs_volumes_v1
 from clumioapi.controllers import restored_aws_ebs_volumes_v2
@@ -109,6 +117,38 @@ class ClumioAPIClient:
         self,
     ) -> backup_aws_ebs_volumes_v1.BackupAwsEbsVolumesV1Controller:
         return backup_aws_ebs_volumes_v1.BackupAwsEbsVolumesV1Controller(self.config)
+
+    @property
+    @functools.lru_cache(1)
+    def backup_ec2_mssql_databases_v1(
+        self,
+    ) -> backup_ec2_mssql_databases_v1.BackupEc2MssqlDatabasesV1Controller:
+        return backup_ec2_mssql_databases_v1.BackupEc2MssqlDatabasesV1Controller(self.config)
+
+    @property
+    @functools.lru_cache(1)
+    def backup_aws_rds_resources_v1(
+        self,
+    ) -> backup_aws_rds_resources_v1.BackupAwsRdsResourcesV1Controller:
+        return backup_aws_rds_resources_v1.BackupAwsRdsResourcesV1Controller(self.config)
+
+    @property
+    @functools.lru_cache(1)
+    def backup_aws_rds_resource_databases_v1(
+        self,
+    ) -> backup_aws_rds_resource_databases_v1.BackupAwsRdsResourceDatabasesV1Controller:
+        return backup_aws_rds_resource_databases_v1.BackupAwsRdsResourceDatabasesV1Controller(
+            self.config
+        )
+
+    @property
+    @functools.lru_cache(1)
+    def backup_aws_rds_resource_database_tables_v1(
+        self,
+    ) -> backup_aws_rds_resource_database_tables_v1.BackupAwsRdsResourceDatabaseTablesV1Controller:
+        return backup_aws_rds_resource_database_tables_v1.BackupAwsRdsResourceDatabaseTablesV1Controller(
+            self.config
+        )
 
     @property
     @functools.lru_cache(1)
@@ -182,8 +222,18 @@ class ClumioAPIClient:
 
     @property
     @functools.lru_cache(1)
+    def aws_dynamodb_tables_v1(self) -> aws_dynamodb_tables_v1.AwsDynamodbTablesV1Controller:
+        return aws_dynamodb_tables_v1.AwsDynamodbTablesV1Controller(self.config)
+
+    @property
+    @functools.lru_cache(1)
     def aws_ebs_volumes_v1(self) -> aws_ebs_volumes_v1.AwsEbsVolumesV1Controller:
         return aws_ebs_volumes_v1.AwsEbsVolumesV1Controller(self.config)
+
+    @property
+    @functools.lru_cache(1)
+    def aws_ec2_instances_v1(self) -> aws_ec2_instances_v1.AwsEc2InstancesV1Controller:
+        return aws_ec2_instances_v1.AwsEc2InstancesV1Controller(self.config)
 
     @property
     @functools.lru_cache(1)
@@ -194,6 +244,11 @@ class ClumioAPIClient:
     @functools.lru_cache(1)
     def aws_environment_tags_v1(self) -> aws_environment_tags_v1.AwsEnvironmentTagsV1Controller:
         return aws_environment_tags_v1.AwsEnvironmentTagsV1Controller(self.config)
+
+    @property
+    @functools.lru_cache(1)
+    def aws_rds_resources_v1(self) -> aws_rds_resources_v1.AwsRdsResourcesV1Controller:
+        return aws_rds_resources_v1.AwsRdsResourcesV1Controller(self.config)
 
     @property
     @functools.lru_cache(1)
@@ -420,6 +475,13 @@ class ClumioAPIClient:
         self,
     ) -> restored_aws_ec2_instances_v1.RestoredAwsEc2InstancesV1Controller:
         return restored_aws_ec2_instances_v1.RestoredAwsEc2InstancesV1Controller(self.config)
+
+    @property
+    @functools.lru_cache(1)
+    def restore_ec2_mssql_database_v1(
+        self,
+    ) -> restore_ec2_mssql_database_v1.RestoreEc2MssqlDatabaseV1Controller:
+        return restore_ec2_mssql_database_v1.RestoreEc2MssqlDatabaseV1Controller(self.config)
 
     @property
     @functools.lru_cache(1)

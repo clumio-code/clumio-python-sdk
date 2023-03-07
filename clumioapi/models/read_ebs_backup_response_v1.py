@@ -30,7 +30,7 @@ class ReadEBSBackupResponseV1:
             value of `null`.
         expiration_timestamp:
             The timestamp of when this backup expires. Represented in RFC-3339 format.
-        id:
+        p_id:
             The Clumio-assigned ID of the volume backup.
         is_browsable:
             Determines whether browsing is available for the backup. If `true`, then
@@ -47,7 +47,7 @@ class ReadEBSBackupResponseV1:
             The timestamp of when this backup started. Represented in RFC-3339 format.
         tags:
             The volume tags applied to the original EBS volume before backup.
-        type:
+        p_type:
             The volume type of the original EBS volume before backup. Possible values
             include `gp2`, `io1`, `st1`, `sc1`, `standard`.
         volume_id:
@@ -64,14 +64,14 @@ class ReadEBSBackupResponseV1:
         'aws_region': 'aws_region',
         'browsing_failed_reason': 'browsing_failed_reason',
         'expiration_timestamp': 'expiration_timestamp',
-        'id': 'id',
+        'p_id': 'id',
         'is_browsable': 'is_browsable',
         'is_encrypted': 'is_encrypted',
         'kms_key_native_id': 'kms_key_native_id',
         'size': 'size',
         'start_timestamp': 'start_timestamp',
         'tags': 'tags',
-        'type': 'type',
+        'p_type': 'type',
         'volume_id': 'volume_id',
         'volume_native_id': 'volume_native_id',
     }
@@ -84,14 +84,14 @@ class ReadEBSBackupResponseV1:
         aws_region: str = None,
         browsing_failed_reason: str = None,
         expiration_timestamp: str = None,
-        id: str = None,
+        p_id: str = None,
         is_browsable: bool = None,
         is_encrypted: bool = None,
         kms_key_native_id: str = None,
         size: int = None,
         start_timestamp: str = None,
         tags: Sequence[aws_tag_common_model.AwsTagCommonModel] = None,
-        type: str = None,
+        p_type: str = None,
         volume_id: str = None,
         volume_native_id: str = None,
     ) -> None:
@@ -104,14 +104,14 @@ class ReadEBSBackupResponseV1:
         self.aws_region: str = aws_region
         self.browsing_failed_reason: str = browsing_failed_reason
         self.expiration_timestamp: str = expiration_timestamp
-        self.id: str = id
+        self.p_id: str = p_id
         self.is_browsable: bool = is_browsable
         self.is_encrypted: bool = is_encrypted
         self.kms_key_native_id: str = kms_key_native_id
         self.size: int = size
         self.start_timestamp: str = start_timestamp
         self.tags: Sequence[aws_tag_common_model.AwsTagCommonModel] = tags
-        self.type: str = type
+        self.p_type: str = p_type
         self.volume_id: str = volume_id
         self.volume_native_id: str = volume_native_id
 
@@ -143,7 +143,7 @@ class ReadEBSBackupResponseV1:
         aws_region = dictionary.get('aws_region')
         browsing_failed_reason = dictionary.get('browsing_failed_reason')
         expiration_timestamp = dictionary.get('expiration_timestamp')
-        id = dictionary.get('id')
+        p_id = dictionary.get('id')
         is_browsable = dictionary.get('is_browsable')
         is_encrypted = dictionary.get('is_encrypted')
         kms_key_native_id = dictionary.get('kms_key_native_id')
@@ -155,7 +155,7 @@ class ReadEBSBackupResponseV1:
             for value in dictionary.get('tags'):
                 tags.append(aws_tag_common_model.AwsTagCommonModel.from_dictionary(value))
 
-        type = dictionary.get('type')
+        p_type = dictionary.get('type')
         volume_id = dictionary.get('volume_id')
         volume_native_id = dictionary.get('volume_native_id')
         # Return an object of this model
@@ -166,14 +166,14 @@ class ReadEBSBackupResponseV1:
             aws_region,
             browsing_failed_reason,
             expiration_timestamp,
-            id,
+            p_id,
             is_browsable,
             is_encrypted,
             kms_key_native_id,
             size,
             start_timestamp,
             tags,
-            type,
+            p_type,
             volume_id,
             volume_native_id,
         )

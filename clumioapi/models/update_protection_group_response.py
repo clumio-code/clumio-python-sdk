@@ -38,7 +38,7 @@ class UpdateProtectionGroupResponse:
             Creation time of the protection group in RFC-3339 format.
         description:
             The user-assigned description of the protection group.
-        id:
+        p_id:
             The Clumio-assigned ID of the protection group.
         last_backup_timestamp:
             Time of the last backup in RFC-3339 format.
@@ -77,7 +77,7 @@ class UpdateProtectionGroupResponse:
         'bucket_rule': 'bucket_rule',
         'created_timestamp': 'created_timestamp',
         'description': 'description',
-        'id': 'id',
+        'p_id': 'id',
         'last_backup_timestamp': 'last_backup_timestamp',
         'last_continuous_backup_timestamp': 'last_continuous_backup_timestamp',
         'last_discover_sync_timestamp': 'last_discover_sync_timestamp',
@@ -98,7 +98,7 @@ class UpdateProtectionGroupResponse:
         bucket_rule: str = None,
         created_timestamp: str = None,
         description: str = None,
-        id: str = None,
+        p_id: str = None,
         last_backup_timestamp: str = None,
         last_continuous_backup_timestamp: str = None,
         last_discover_sync_timestamp: str = None,
@@ -119,7 +119,7 @@ class UpdateProtectionGroupResponse:
         self.bucket_rule: str = bucket_rule
         self.created_timestamp: str = created_timestamp
         self.description: str = description
-        self.id: str = id
+        self.p_id: str = p_id
         self.last_backup_timestamp: str = last_backup_timestamp
         self.last_continuous_backup_timestamp: str = last_continuous_backup_timestamp
         self.last_discover_sync_timestamp: str = last_discover_sync_timestamp
@@ -161,7 +161,7 @@ class UpdateProtectionGroupResponse:
         bucket_rule = dictionary.get('bucket_rule')
         created_timestamp = dictionary.get('created_timestamp')
         description = dictionary.get('description')
-        id = dictionary.get('id')
+        p_id = dictionary.get('id')
         last_backup_timestamp = dictionary.get('last_backup_timestamp')
         last_continuous_backup_timestamp = dictionary.get('last_continuous_backup_timestamp')
         last_discover_sync_timestamp = dictionary.get('last_discover_sync_timestamp')
@@ -186,7 +186,7 @@ class UpdateProtectionGroupResponse:
             bucket_rule,
             created_timestamp,
             description,
-            id,
+            p_id,
             last_backup_timestamp,
             last_continuous_backup_timestamp,
             last_discover_sync_timestamp,

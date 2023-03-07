@@ -2,6 +2,8 @@
 # Copyright 2021. Clumio, Inc.
 #
 
+import json
+
 from clumioapi import api_helper
 from clumioapi import configuration
 from clumioapi import sdk_version
@@ -74,7 +76,7 @@ class MssqlHostsV1Controller(base_controller.BaseController):
                 get the first page.
                 Other pages can be traversed using HATEOAS links.
         Returns:
-            ListHcmHostsResponse: Response from the API.
+            list_hcm_hosts_response.ListHcmHostsResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -100,6 +102,7 @@ class MssqlHostsV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_mssql_host_connections.', errors
             )
+
         return list_hcm_hosts_response.ListHcmHostsResponse.from_dictionary(resp)
 
     def create_mssql_host_connections(
@@ -112,7 +115,7 @@ class MssqlHostsV1Controller(base_controller.BaseController):
             body:
 
         Returns:
-            CreateHcmHostResponse: Response from the API.
+            create_hcm_host_response.CreateHcmHostResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -137,6 +140,7 @@ class MssqlHostsV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing create_mssql_host_connections.', errors
             )
+
         return create_hcm_host_response.CreateHcmHostResponse.from_dictionary(resp)
 
     def delete_mssql_host_connections(
@@ -162,7 +166,7 @@ class MssqlHostsV1Controller(base_controller.BaseController):
             body:
 
         Returns:
-            DeleteHcmHostResponse: Response from the API.
+            delete_hcm_host_response.DeleteHcmHostResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -188,6 +192,7 @@ class MssqlHostsV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing delete_mssql_host_connections.', errors
             )
+
         return delete_hcm_host_response.DeleteHcmHostResponse.from_dictionary(resp)
 
     def move_mssql_host_connections(
@@ -214,7 +219,7 @@ class MssqlHostsV1Controller(base_controller.BaseController):
             body:
 
         Returns:
-            MoveHcmHostsResponse: Response from the API.
+            move_hcm_hosts_response.MoveHcmHostsResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -240,6 +245,7 @@ class MssqlHostsV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing move_mssql_host_connections.', errors
             )
+
         return move_hcm_hosts_response.MoveHcmHostsResponse.from_dictionary(resp)
 
     def create_mssql_host_connection_credentials(
@@ -252,7 +258,7 @@ class MssqlHostsV1Controller(base_controller.BaseController):
             body:
 
         Returns:
-            CreateHostECCredentialsResponse: Response from the API.
+            create_host_ec_credentials_response.CreateHostECCredentialsResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -277,6 +283,7 @@ class MssqlHostsV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing create_mssql_host_connection_credentials.', errors
             )
+
         return create_host_ec_credentials_response.CreateHostECCredentialsResponse.from_dictionary(
             resp
         )
@@ -290,7 +297,7 @@ class MssqlHostsV1Controller(base_controller.BaseController):
             host_id:
                 Performs the operation on a host within the specified host id.
         Returns:
-            ReadHcmHostResponse: Response from the API.
+            read_hcm_host_response.ReadHcmHostResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -310,6 +317,7 @@ class MssqlHostsV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_mssql_host_connections.', errors
             )
+
         return read_hcm_host_response.ReadHcmHostResponse.from_dictionary(resp)
 
     def list_mssql_hosts(
@@ -354,8 +362,23 @@ class MssqlHostsV1Controller(base_controller.BaseController):
                 | id                        | $eq              | Filter Host whose id is equal |
                 |                           |                  | to the given string.          |
                 +---------------------------+------------------+-------------------------------+
-                | status                    | $eq              | Filter Database whose status  |
-                |                           |                  | is equal to the given string. |
+                | status                    | $eq              | Filter Host whose status is   |
+                |                           |                  | equal to the given string.    |
+                +---------------------------+------------------+-------------------------------+
+                | host_connection_status    | $in              | Filter Hosts by connection    |
+                |                           |                  | status type.                  |
+                |                           |                  | Examples of the connection    |
+                |                           |                  | status types include          |
+                |                           |                  | "connected", "disconnected",  |
+                |                           |                  | "retired",                    |
+                |                           |                  | "partially_connected". For    |
+                |                           |                  | example,                      |
+                |                           |                  |                               |
+                |                           |                  | filter={"host_connection_stat |
+                |                           |                  | us":{"$in":["connected",      |
+                |                           |                  | "partially_connected"]}}      |
+                |                           |                  |                               |
+                |                           |                  |                               |
                 +---------------------------+------------------+-------------------------------+
 
             embed:
@@ -378,7 +401,7 @@ class MssqlHostsV1Controller(base_controller.BaseController):
                 For more information about embedded links, refer to the
                 Embedding Referenced Resources section of this guide.
         Returns:
-            ListMssqlHostsResponse: Response from the API.
+            list_mssql_hosts_response.ListMssqlHostsResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -399,6 +422,7 @@ class MssqlHostsV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_mssql_hosts.', errors
             )
+
         return list_mssql_hosts_response.ListMssqlHostsResponse.from_dictionary(resp)
 
     def read_mssql_hosts(self, host_id: str) -> read_mssql_host_response.ReadMssqlHostResponse:
@@ -408,7 +432,7 @@ class MssqlHostsV1Controller(base_controller.BaseController):
             host_id:
                 Performs the operation on a host within the specified host id.
         Returns:
-            ReadMssqlHostResponse: Response from the API.
+            read_mssql_host_response.ReadMssqlHostResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -428,4 +452,5 @@ class MssqlHostsV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_mssql_hosts.', errors
             )
+
         return read_mssql_host_response.ReadMssqlHostResponse.from_dictionary(resp)

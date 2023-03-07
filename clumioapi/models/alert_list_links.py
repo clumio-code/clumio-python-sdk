@@ -23,7 +23,7 @@ class AlertListLinks:
             The HATEOAS link to the first page of results.
         last:
             The HATEOAS link to the last page of results.
-        next:
+        p_next:
             The HATEOAS link to the next page of results.
         prev:
             The HATEOAS link to the previous page of results.
@@ -35,7 +35,7 @@ class AlertListLinks:
     _names = {
         'first': '_first',
         'last': '_last',
-        'next': '_next',
+        'p_next': '_next',
         'prev': '_prev',
         'p_self': '_self',
     }
@@ -44,7 +44,7 @@ class AlertListLinks:
         self,
         first: hateoas_first_link.HateoasFirstLink = None,
         last: hateoas_last_link.HateoasLastLink = None,
-        next: hateoas_next_link.HateoasNextLink = None,
+        p_next: hateoas_next_link.HateoasNextLink = None,
         prev: hateoas_prev_link.HateoasPrevLink = None,
         p_self: hateoas_self_link.HateoasSelfLink = None,
     ) -> None:
@@ -53,7 +53,7 @@ class AlertListLinks:
         # Initialize members of the class
         self.first: hateoas_first_link.HateoasFirstLink = first
         self.last: hateoas_last_link.HateoasLastLink = last
-        self.next: hateoas_next_link.HateoasNextLink = next
+        self.p_next: hateoas_next_link.HateoasNextLink = p_next
         self.prev: hateoas_prev_link.HateoasPrevLink = prev
         self.p_self: hateoas_self_link.HateoasSelfLink = p_self
 
@@ -88,7 +88,7 @@ class AlertListLinks:
         )
 
         key = '_next'
-        next = (
+        p_next = (
             hateoas_next_link.HateoasNextLink.from_dictionary(dictionary.get(key))
             if dictionary.get(key)
             else None
@@ -109,4 +109,4 @@ class AlertListLinks:
         )
 
         # Return an object of this model
-        return cls(first, last, next, prev, p_self)
+        return cls(first, last, p_next, prev, p_self)

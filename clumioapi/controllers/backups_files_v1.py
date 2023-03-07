@@ -2,6 +2,8 @@
 # Copyright 2021. Clumio, Inc.
 #
 
+import json
+
 from clumioapi import api_helper
 from clumioapi import configuration
 from clumioapi import sdk_version
@@ -63,7 +65,7 @@ class BackupsFilesV1Controller(base_controller.BaseController):
                 +------------+------------------+----------------------------------------------+
 
         Returns:
-            FileSearchResponse: Response from the API.
+            file_search_response.FileSearchResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -84,6 +86,7 @@ class BackupsFilesV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_files.', errors
             )
+
         return file_search_response.FileSearchResponse.from_dictionary(resp)
 
     def list_file_versions(
@@ -101,7 +104,7 @@ class BackupsFilesV1Controller(base_controller.BaseController):
                 get the first page.
                 Other pages can be traversed using HATEOAS links.
         Returns:
-            FileListResponse: Response from the API.
+            file_list_response.FileListResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -124,4 +127,5 @@ class BackupsFilesV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_file_versions.', errors
             )
+
         return file_list_response.FileListResponse.from_dictionary(resp)

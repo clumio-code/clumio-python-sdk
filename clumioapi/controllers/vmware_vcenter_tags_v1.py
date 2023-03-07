@@ -2,6 +2,8 @@
 # Copyright 2021. Clumio, Inc.
 #
 
+import json
+
 from clumioapi import api_helper
 from clumioapi import configuration
 from clumioapi import sdk_version
@@ -103,7 +105,7 @@ class VmwareVcenterTagsV1Controller(base_controller.BaseController):
                 +---------------------------------------+--------------------------------------+
 
         Returns:
-            ListTagsResponse: Response from the API.
+            list_tags_response.ListTagsResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -126,6 +128,7 @@ class VmwareVcenterTagsV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_vmware_vcenter_tags.', errors
             )
+
         return list_tags_response.ListTagsResponse.from_dictionary(resp)
 
     def read_vmware_vcenter_tag(
@@ -160,7 +163,7 @@ class VmwareVcenterTagsV1Controller(base_controller.BaseController):
                 +---------------------------------------+--------------------------------------+
 
         Returns:
-            ReadTagResponse: Response from the API.
+            read_tag_response.ReadTagResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -185,4 +188,5 @@ class VmwareVcenterTagsV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_vmware_vcenter_tag.', errors
             )
+
         return read_tag_response.ReadTagResponse.from_dictionary(resp)

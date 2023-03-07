@@ -18,26 +18,26 @@ class CreateBackupAwsDynamodbTableV1Request:
         table_id:
             Performs the operation on the DynamoDB table with the specified Clumio-assigned
             ID.
-        type:
+        p_type:
             The type of the backup. Possible values - `clumio_backup`, `aws_snapshot`. The
             type will be assumed as `aws_snapshot` if the field is left empty.
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'settings': 'settings', 'table_id': 'table_id', 'type': 'type'}
+    _names = {'settings': 'settings', 'table_id': 'table_id', 'p_type': 'type'}
 
     def __init__(
         self,
         settings: on_demand_setting.OnDemandSetting = None,
         table_id: str = None,
-        type: str = None,
+        p_type: str = None,
     ) -> None:
         """Constructor for the CreateBackupAwsDynamodbTableV1Request class."""
 
         # Initialize members of the class
         self.settings: on_demand_setting.OnDemandSetting = settings
         self.table_id: str = table_id
-        self.type: str = type
+        self.p_type: str = p_type
 
     @classmethod
     def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
@@ -63,6 +63,6 @@ class CreateBackupAwsDynamodbTableV1Request:
         )
 
         table_id = dictionary.get('table_id')
-        type = dictionary.get('type')
+        p_type = dictionary.get('type')
         # Return an object of this model
-        return cls(settings, table_id, type)
+        return cls(settings, table_id, p_type)

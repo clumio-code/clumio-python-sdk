@@ -89,7 +89,7 @@ class DynamoDBGRRAttributeFilter:
             +----------------------+-------------------------------------------------------+
         name:
             DynamoDB attribute name.
-        type:
+        p_type:
             Data-type of the DynamoDB attribute.
 
             +----------------+
@@ -110,13 +110,13 @@ class DynamoDBGRRAttributeFilter:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'condition': 'condition', 'name': 'name', 'type': 'type', 'values': 'values'}
+    _names = {'condition': 'condition', 'name': 'name', 'p_type': 'type', 'values': 'values'}
 
     def __init__(
         self,
         condition: str = None,
         name: str = None,
-        type: str = None,
+        p_type: str = None,
         values: Sequence[str] = None,
     ) -> None:
         """Constructor for the DynamoDBGRRAttributeFilter class."""
@@ -124,7 +124,7 @@ class DynamoDBGRRAttributeFilter:
         # Initialize members of the class
         self.condition: str = condition
         self.name: str = name
-        self.type: str = type
+        self.p_type: str = p_type
         self.values: Sequence[str] = values
 
     @classmethod
@@ -145,7 +145,7 @@ class DynamoDBGRRAttributeFilter:
         # Extract variables from the dictionary
         condition = dictionary.get('condition')
         name = dictionary.get('name')
-        type = dictionary.get('type')
+        p_type = dictionary.get('type')
         values = dictionary.get('values')
         # Return an object of this model
-        return cls(condition, name, type, values)
+        return cls(condition, name, p_type, values)

@@ -14,7 +14,7 @@ class CreateMssqlHostConnectionsV1Request:
         endpoints:
             The fully-qualified domain names or IP addresses of hosts to be connected.
         group_id:
-            Performs the operation on a host within the specified management group.
+
         organizational_unit_id:
             The Clumio-assigned ID of the organizational unit associated with the Host.
         subgroup_id:

@@ -20,7 +20,7 @@ class ReadRoleResponse:
             URLs to pages related to the resource.
         description:
             A description of the role.
-        id:
+        p_id:
             The Clumio-assigned ID of the role.
         name:
             Unique name assigned to the role.
@@ -35,7 +35,7 @@ class ReadRoleResponse:
         'etag': '_etag',
         'links': '_links',
         'description': 'description',
-        'id': 'id',
+        'p_id': 'id',
         'name': 'name',
         'permissions': 'permissions',
         'user_count': 'user_count',
@@ -46,7 +46,7 @@ class ReadRoleResponse:
         etag: str = None,
         links: role_links.RoleLinks = None,
         description: str = None,
-        id: str = None,
+        p_id: str = None,
         name: str = None,
         permissions: Sequence[permission_model.PermissionModel] = None,
         user_count: int = None,
@@ -57,7 +57,7 @@ class ReadRoleResponse:
         self.etag: str = etag
         self.links: role_links.RoleLinks = links
         self.description: str = description
-        self.id: str = id
+        self.p_id: str = p_id
         self.name: str = name
         self.permissions: Sequence[permission_model.PermissionModel] = permissions
         self.user_count: int = user_count
@@ -87,7 +87,7 @@ class ReadRoleResponse:
         )
 
         description = dictionary.get('description')
-        id = dictionary.get('id')
+        p_id = dictionary.get('id')
         name = dictionary.get('name')
         permissions = None
         if dictionary.get('permissions'):
@@ -97,4 +97,4 @@ class ReadRoleResponse:
 
         user_count = dictionary.get('user_count')
         # Return an object of this model
-        return cls(etag, links, description, id, name, permissions, user_count)
+        return cls(etag, links, description, p_id, name, permissions, user_count)

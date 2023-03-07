@@ -27,7 +27,7 @@ class RestoredRecord:
             The download link of the query result.
         expiration_timestamp:
             The timestamp of when the record will expire. Represented in RFC-3339 format.
-        id:
+        p_id:
             The Clumio-assigned ID of the restored record.
         query_statement:
             The SQL query statement which produced this record.
@@ -50,7 +50,7 @@ class RestoredRecord:
         'database_name': 'database_name',
         'download_link': 'download_link',
         'expiration_timestamp': 'expiration_timestamp',
-        'id': 'id',
+        'p_id': 'id',
         'query_statement': 'query_statement',
         'resource_id': 'resource_id',
         'row_count': 'row_count',
@@ -67,7 +67,7 @@ class RestoredRecord:
         database_name: str = None,
         download_link: str = None,
         expiration_timestamp: str = None,
-        id: str = None,
+        p_id: str = None,
         query_statement: str = None,
         resource_id: str = None,
         row_count: int = None,
@@ -84,7 +84,7 @@ class RestoredRecord:
         self.database_name: str = database_name
         self.download_link: str = download_link
         self.expiration_timestamp: str = expiration_timestamp
-        self.id: str = id
+        self.p_id: str = p_id
         self.query_statement: str = query_statement
         self.resource_id: str = resource_id
         self.row_count: int = row_count
@@ -120,7 +120,7 @@ class RestoredRecord:
         database_name = dictionary.get('database_name')
         download_link = dictionary.get('download_link')
         expiration_timestamp = dictionary.get('expiration_timestamp')
-        id = dictionary.get('id')
+        p_id = dictionary.get('id')
         query_statement = dictionary.get('query_statement')
         resource_id = dictionary.get('resource_id')
         row_count = dictionary.get('row_count')
@@ -135,7 +135,7 @@ class RestoredRecord:
             database_name,
             download_link,
             expiration_timestamp,
-            id,
+            p_id,
             query_statement,
             resource_id,
             row_count,

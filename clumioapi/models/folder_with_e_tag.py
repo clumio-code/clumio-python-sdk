@@ -31,7 +31,7 @@ class FolderWithETag:
             Count of all descendant folders inside this folder
         has_child_folders:
             Determines whether the folder has direct child folders.
-        id:
+        p_id:
             The VMware-assigned Managed Object Reference (MoRef) ID of the folder.
         is_root:
             Determines whether the folder is a hidden root folder. If `true`, the folder is
@@ -52,7 +52,7 @@ class FolderWithETag:
         protection_status:
             The protection status of this folder. Refer to the Protection Status table for a
             complete list of protection statuses.
-        type:
+        p_type:
             The folder type. Examples of folder types include "datacenter_folder" and
             "vm_folder". Refer to the Folder Type table for a complete list of folder types.
     """
@@ -65,7 +65,7 @@ class FolderWithETag:
         'datacenter': 'datacenter',
         'descendant_folder_count': 'descendant_folder_count',
         'has_child_folders': 'has_child_folders',
-        'id': 'id',
+        'p_id': 'id',
         'is_root': 'is_root',
         'is_supported': 'is_supported',
         'name': 'name',
@@ -73,7 +73,7 @@ class FolderWithETag:
         'parent_folder': 'parent_folder',
         'protection_info': 'protection_info',
         'protection_status': 'protection_status',
-        'type': 'type',
+        'p_type': 'type',
     }
 
     def __init__(
@@ -84,7 +84,7 @@ class FolderWithETag:
         datacenter: v_mware_v_center_folder_datacenter_model.VMwareVCenterFolderDatacenterModel = None,
         descendant_folder_count: int = None,
         has_child_folders: bool = None,
-        id: str = None,
+        p_id: str = None,
         is_root: bool = None,
         is_supported: bool = None,
         name: str = None,
@@ -92,7 +92,7 @@ class FolderWithETag:
         parent_folder: v_mware_v_center_parent_folder_model.VMwareVCenterParentFolderModel = None,
         protection_info: protection_info.ProtectionInfo = None,
         protection_status: str = None,
-        type: str = None,
+        p_type: str = None,
     ) -> None:
         """Constructor for the FolderWithETag class."""
 
@@ -105,7 +105,7 @@ class FolderWithETag:
         )
         self.descendant_folder_count: int = descendant_folder_count
         self.has_child_folders: bool = has_child_folders
-        self.id: str = id
+        self.p_id: str = p_id
         self.is_root: bool = is_root
         self.is_supported: bool = is_supported
         self.name: str = name
@@ -115,7 +115,7 @@ class FolderWithETag:
         )
         self.protection_info: protection_info.ProtectionInfo = protection_info
         self.protection_status: str = protection_status
-        self.type: str = type
+        self.p_type: str = p_type
 
     @classmethod
     def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
@@ -159,7 +159,7 @@ class FolderWithETag:
 
         descendant_folder_count = dictionary.get('descendant_folder_count')
         has_child_folders = dictionary.get('has_child_folders')
-        id = dictionary.get('id')
+        p_id = dictionary.get('id')
         is_root = dictionary.get('is_root')
         is_supported = dictionary.get('is_supported')
         name = dictionary.get('name')
@@ -181,7 +181,7 @@ class FolderWithETag:
         )
 
         protection_status = dictionary.get('protection_status')
-        type = dictionary.get('type')
+        p_type = dictionary.get('type')
         # Return an object of this model
         return cls(
             embedded,
@@ -190,7 +190,7 @@ class FolderWithETag:
             datacenter,
             descendant_folder_count,
             has_child_folders,
-            id,
+            p_id,
             is_root,
             is_supported,
             name,
@@ -198,5 +198,5 @@ class FolderWithETag:
             parent_folder,
             p_protection_info,
             protection_status,
-            type,
+            p_type,
         )

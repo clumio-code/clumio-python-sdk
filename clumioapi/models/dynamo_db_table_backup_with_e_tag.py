@@ -51,7 +51,7 @@ class DynamoDBTableBackupWithETag:
             are 2017.11.29 or 2019.11.21.
             For [POST /restores/aws/dynamodb](#operation/restore-aws-dynamodb-table), the
             version is defaulted to 2019.11.21.
-        id:
+        p_id:
             The Clumio-assigned ID of the backup.
         item_count:
             The number of items in DynamoDB table backup.
@@ -89,7 +89,7 @@ class DynamoDBTableBackupWithETag:
             The name of the DynamoDB table.
         tags:
             The AWS tags associated with the table at the time of backup.
-        type:
+        p_type:
             The type of backup. Possible values include `clumio_backup` and `aws_snapshot`.
     """
 
@@ -103,7 +103,7 @@ class DynamoDBTableBackupWithETag:
         'expiration_timestamp': 'expiration_timestamp',
         'global_secondary_indexes': 'global_secondary_indexes',
         'global_table_version': 'global_table_version',
-        'id': 'id',
+        'p_id': 'id',
         'item_count': 'item_count',
         'local_secondary_indexes': 'local_secondary_indexes',
         'provisioned_throughput': 'provisioned_throughput',
@@ -115,7 +115,7 @@ class DynamoDBTableBackupWithETag:
         'table_id': 'table_id',
         'table_name': 'table_name',
         'tags': 'tags',
-        'type': 'type',
+        'p_type': 'type',
     }
 
     def __init__(
@@ -128,7 +128,7 @@ class DynamoDBTableBackupWithETag:
         expiration_timestamp: str = None,
         global_secondary_indexes: Sequence[global_secondary_index.GlobalSecondaryIndex] = None,
         global_table_version: str = None,
-        id: str = None,
+        p_id: str = None,
         item_count: int = None,
         local_secondary_indexes: Sequence[local_secondary_index.LocalSecondaryIndex] = None,
         provisioned_throughput: provisioned_throughput.ProvisionedThroughput = None,
@@ -140,7 +140,7 @@ class DynamoDBTableBackupWithETag:
         table_id: str = None,
         table_name: str = None,
         tags: Sequence[aws_tag_common_model.AwsTagCommonModel] = None,
-        type: str = None,
+        p_type: str = None,
     ) -> None:
         """Constructor for the DynamoDBTableBackupWithETag class."""
 
@@ -155,7 +155,7 @@ class DynamoDBTableBackupWithETag:
             global_secondary_index.GlobalSecondaryIndex
         ] = global_secondary_indexes
         self.global_table_version: str = global_table_version
-        self.id: str = id
+        self.p_id: str = p_id
         self.item_count: int = item_count
         self.local_secondary_indexes: Sequence[
             local_secondary_index.LocalSecondaryIndex
@@ -171,7 +171,7 @@ class DynamoDBTableBackupWithETag:
         self.table_id: str = table_id
         self.table_name: str = table_name
         self.tags: Sequence[aws_tag_common_model.AwsTagCommonModel] = tags
-        self.type: str = type
+        self.p_type: str = p_type
 
     @classmethod
     def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
@@ -212,7 +212,7 @@ class DynamoDBTableBackupWithETag:
                 )
 
         global_table_version = dictionary.get('global_table_version')
-        id = dictionary.get('id')
+        p_id = dictionary.get('id')
         item_count = dictionary.get('item_count')
         local_secondary_indexes = None
         if dictionary.get('local_secondary_indexes'):
@@ -253,7 +253,7 @@ class DynamoDBTableBackupWithETag:
             for value in dictionary.get('tags'):
                 tags.append(aws_tag_common_model.AwsTagCommonModel.from_dictionary(value))
 
-        type = dictionary.get('type')
+        p_type = dictionary.get('type')
         # Return an object of this model
         return cls(
             etag,
@@ -264,7 +264,7 @@ class DynamoDBTableBackupWithETag:
             expiration_timestamp,
             global_secondary_indexes,
             global_table_version,
-            id,
+            p_id,
             item_count,
             local_secondary_indexes,
             p_provisioned_throughput,
@@ -276,5 +276,5 @@ class DynamoDBTableBackupWithETag:
             table_id,
             table_name,
             tags,
-            type,
+            p_type,
         )

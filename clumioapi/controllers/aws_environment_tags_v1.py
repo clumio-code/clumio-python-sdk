@@ -2,6 +2,8 @@
 # Copyright 2021. Clumio, Inc.
 #
 
+import json
+
 from clumioapi import api_helper
 from clumioapi import configuration
 from clumioapi import sdk_version
@@ -126,7 +128,7 @@ class AwsEnvironmentTagsV1Controller(base_controller.BaseController):
                 +---------------------------------------+--------------------------------------+
 
         Returns:
-            ListAwsTagsResponse: Response from the API.
+            list_aws_tags_response.ListAwsTagsResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -157,6 +159,7 @@ class AwsEnvironmentTagsV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_aws_environment_tags.', errors
             )
+
         return list_aws_tags_response.ListAwsTagsResponse.from_dictionary(resp)
 
     def read_aws_environment_tag(
@@ -196,7 +199,7 @@ class AwsEnvironmentTagsV1Controller(base_controller.BaseController):
                 +---------------------------------------+--------------------------------------+
 
         Returns:
-            ReadAwsTagResponse: Response from the API.
+            read_aws_tag_response.ReadAwsTagResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -221,6 +224,7 @@ class AwsEnvironmentTagsV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_aws_environment_tag.', errors
             )
+
         return read_aws_tag_response.ReadAwsTagResponse.from_dictionary(resp)
 
     def read_aws_environment_tag_ebs_volumes_compliance_stats(
@@ -234,7 +238,7 @@ class AwsEnvironmentTagsV1Controller(base_controller.BaseController):
             tag_id:
                 Performs the operation on the AWS tag with the specified ID.
         Returns:
-            ReadEbsTagComplianceStatsResponse: Response from the API.
+            read_ebs_tag_compliance_stats_response.ReadEbsTagComplianceStatsResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -257,6 +261,7 @@ class AwsEnvironmentTagsV1Controller(base_controller.BaseController):
                 'Error occurred while executing read_aws_environment_tag_ebs_volumes_compliance_stats.',
                 errors,
             )
+
         return read_ebs_tag_compliance_stats_response.ReadEbsTagComplianceStatsResponse.from_dictionary(
             resp
         )

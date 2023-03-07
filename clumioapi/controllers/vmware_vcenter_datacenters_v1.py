@@ -2,6 +2,8 @@
 # Copyright 2021. Clumio, Inc.
 #
 
+import json
+
 from clumioapi import api_helper
 from clumioapi import configuration
 from clumioapi import sdk_version
@@ -96,7 +98,7 @@ class VmwareVcenterDatacentersV1Controller(base_controller.BaseController):
                 +---------------------------------------+--------------------------------------+
 
         Returns:
-            ListDatacentersResponse: Response from the API.
+            list_datacenters_response.ListDatacentersResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -119,6 +121,7 @@ class VmwareVcenterDatacentersV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_vmware_vcenter_datacenters.', errors
             )
+
         return list_datacenters_response.ListDatacentersResponse.from_dictionary(resp)
 
     def read_vmware_vcenter_datacenter(
@@ -149,7 +152,7 @@ class VmwareVcenterDatacentersV1Controller(base_controller.BaseController):
                 +---------------------------------------+--------------------------------------+
 
         Returns:
-            ReadDatacenterResponse: Response from the API.
+            read_datacenter_response.ReadDatacenterResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -172,4 +175,5 @@ class VmwareVcenterDatacentersV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_vmware_vcenter_datacenter.', errors
             )
+
         return read_datacenter_response.ReadDatacenterResponse.from_dictionary(resp)

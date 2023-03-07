@@ -16,14 +16,19 @@ class CreateOrganizationalUnitV1Request:
         description:
             A description of the organizational unit.
         entities:
-            List of entities to add to the organizational unit.
+            List of entities to add to the organizational unit. Adding entities to the OU is
+            an asynchronous operation.
+            The response will has a task ID, which can be used to track the progress of the
+            operation.
         name:
             Unique name assigned to the organizational unit.
         parent_id:
             The Clumio-assigned ID of the parent organizational unit under which the new
             organizational unit is to be created.
+            If absent, the new organizational unit is created under the current
+            organizational unit.
         users:
-            List of user ids to assign this organizational unit.
+            List of user IDs to assign this organizational unit.
     """
 
     # Create a mapping from Model property names to API property names

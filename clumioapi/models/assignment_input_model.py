@@ -19,7 +19,7 @@ class AssignmentInputModel:
             The action to be executed by this request.
             Possible values include "assign" and "unassign".
         entity:
-
+            An entity being assigned or unassigned a policy.
         policy_id:
             The Clumio-assigned ID of the policy to be applied to the requested entities.
             If `action: assign`, then this parameter is required.

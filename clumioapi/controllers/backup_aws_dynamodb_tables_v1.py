@@ -2,6 +2,8 @@
 # Copyright 2021. Clumio, Inc.
 #
 
+import json
+
 from clumioapi import api_helper
 from clumioapi import configuration
 from clumioapi import sdk_version
@@ -92,7 +94,7 @@ class BackupAwsDynamodbTablesV1Controller(base_controller.BaseController):
                 +-----------------+------------------+-----------------------------------------+
 
         Returns:
-            ListDynamoDBTableBackupsResponse: Response from the API.
+            list_dynamo_db_table_backups_response.ListDynamoDBTableBackupsResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -113,6 +115,7 @@ class BackupAwsDynamodbTablesV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_backup_aws_dynamodb_tables.', errors
             )
+
         return (
             list_dynamo_db_table_backups_response.ListDynamoDBTableBackupsResponse.from_dictionary(
                 resp
@@ -144,7 +147,7 @@ class BackupAwsDynamodbTablesV1Controller(base_controller.BaseController):
             body:
 
         Returns:
-            OnDemandDynamoDBBackupResponse: Response from the API.
+            on_demand_dynamo_db_backup_response.OnDemandDynamoDBBackupResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -170,6 +173,7 @@ class BackupAwsDynamodbTablesV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing create_backup_aws_dynamodb_table.', errors
             )
+
         return on_demand_dynamo_db_backup_response.OnDemandDynamoDBBackupResponse.from_dictionary(
             resp
         )
@@ -183,7 +187,7 @@ class BackupAwsDynamodbTablesV1Controller(base_controller.BaseController):
             backup_id:
                 Performs the operation on the backup with the specified ID.
         Returns:
-            ReadDynamoDBTableBackupResponse: Response from the API.
+            read_dynamo_db_table_backup_response.ReadDynamoDBTableBackupResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -205,6 +209,7 @@ class BackupAwsDynamodbTablesV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_backup_aws_dynamodb_table.', errors
             )
+
         return read_dynamo_db_table_backup_response.ReadDynamoDBTableBackupResponse.from_dictionary(
             resp
         )

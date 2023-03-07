@@ -2,6 +2,8 @@
 # Copyright 2021. Clumio, Inc.
 #
 
+import json
+
 from clumioapi import api_helper
 from clumioapi import configuration
 from clumioapi import sdk_version
@@ -67,12 +69,13 @@ class MssqlAvailabilityGroupsV1Controller(base_controller.BaseController):
                 |                           |                  | whose protection_status is    |
                 |                           |                  | equal to the given string.    |
                 +---------------------------+------------------+-------------------------------+
-                | status                    | $eq              | Filter Database whose status  |
-                |                           |                  | is equal to the given string. |
+                | status                    | $eq              | Filter Availability Group     |
+                |                           |                  | whose status is equal to the  |
+                |                           |                  | given string.                 |
                 +---------------------------+------------------+-------------------------------+
 
         Returns:
-            ListMssqlAGsResponse: Response from the API.
+            list_mssql_a_gs_response.ListMssqlAGsResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -93,6 +96,7 @@ class MssqlAvailabilityGroupsV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_mssql_availability_groups.', errors
             )
+
         return list_mssql_a_gs_response.ListMssqlAGsResponse.from_dictionary(resp)
 
     def read_mssql_availability_group(
@@ -104,7 +108,7 @@ class MssqlAvailabilityGroupsV1Controller(base_controller.BaseController):
             availability_group_id:
                 Performs the operation on the ag with the specified ID.
         Returns:
-            ReadMssqlAGResponse: Response from the API.
+            read_mssql_ag_response.ReadMssqlAGResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -128,4 +132,5 @@ class MssqlAvailabilityGroupsV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_mssql_availability_group.', errors
             )
+
         return read_mssql_ag_response.ReadMssqlAGResponse.from_dictionary(resp)

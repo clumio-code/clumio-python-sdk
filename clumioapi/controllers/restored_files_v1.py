@@ -2,6 +2,8 @@
 # Copyright 2021. Clumio, Inc.
 #
 
+import json
+
 from clumioapi import api_helper
 from clumioapi import configuration
 from clumioapi import sdk_version
@@ -66,7 +68,7 @@ class RestoredFilesV1Controller(base_controller.BaseController):
                 +------------+------------------+----------------------------------------------+
 
         Returns:
-            RestoredFilesResponse: Response from the API.
+            restored_files_response.RestoredFilesResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -87,6 +89,7 @@ class RestoredFilesV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_restored_files.', errors
             )
+
         return restored_files_response.RestoredFilesResponse.from_dictionary(resp)
 
     def restore_files(
@@ -110,7 +113,7 @@ class RestoredFilesV1Controller(base_controller.BaseController):
             body:
 
         Returns:
-            RestoreFileResponse: Response from the API.
+            restore_file_response.RestoreFileResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -136,6 +139,7 @@ class RestoredFilesV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing restore_files.', errors
             )
+
         return restore_file_response.RestoreFileResponse.from_dictionary(resp)
 
     def download_shared_file(
@@ -148,7 +152,7 @@ class RestoredFilesV1Controller(base_controller.BaseController):
             body:
 
         Returns:
-            DownloadSharedFileResponse: Response from the API.
+            download_shared_file_response.DownloadSharedFileResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -173,6 +177,7 @@ class RestoredFilesV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing download_shared_file.', errors
             )
+
         return download_shared_file_response.DownloadSharedFileResponse.from_dictionary(resp)
 
     def generate_restored_file_passcode(
@@ -189,7 +194,7 @@ class RestoredFilesV1Controller(base_controller.BaseController):
                 Performs the operation on the restored file with the specified ID. Use
                 [GET /restores/files](#operation/list-restored-files) to fetch the `id` value.
         Returns:
-            GenerateRestoredFilePasscodeResponse: Response from the API.
+            generate_restored_file_passcode_response.GenerateRestoredFilePasscodeResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -211,6 +216,7 @@ class RestoredFilesV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing generate_restored_file_passcode.', errors
             )
+
         return generate_restored_file_passcode_response.GenerateRestoredFilePasscodeResponse.from_dictionary(
             resp
         )
@@ -238,7 +244,7 @@ class RestoredFilesV1Controller(base_controller.BaseController):
             body:
 
         Returns:
-            ShareFileRestoreEmailResponse: Response from the API.
+            share_file_restore_email_response.ShareFileRestoreEmailResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -265,4 +271,5 @@ class RestoredFilesV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing share_restored_file.', errors
             )
+
         return share_file_restore_email_response.ShareFileRestoreEmailResponse.from_dictionary(resp)

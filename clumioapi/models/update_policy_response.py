@@ -5,8 +5,8 @@
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
 from clumioapi.models import policy_embedded
-from clumioapi.models import policy_links
 from clumioapi.models import policy_operation
+from clumioapi.models import update_policy_response_links
 
 T = TypeVar('T', bound='UpdatePolicyResponse')
 
@@ -27,7 +27,7 @@ class UpdatePolicyResponse:
             statuses.
         created_time:
             The created time of the policy in unix time.
-        id:
+        p_id:
             The Clumio-assigned ID of the policy.
         lock_status:
             The following table describes the possible lock statuses of a policy.
@@ -64,7 +64,7 @@ class UpdatePolicyResponse:
         'links': '_links',
         'activation_status': 'activation_status',
         'created_time': 'created_time',
-        'id': 'id',
+        'p_id': 'id',
         'lock_status': 'lock_status',
         'name': 'name',
         'operations': 'operations',
@@ -77,10 +77,10 @@ class UpdatePolicyResponse:
     def __init__(
         self,
         embedded: policy_embedded.PolicyEmbedded = None,
-        links: policy_links.PolicyLinks = None,
+        links: update_policy_response_links.UpdatePolicyResponseLinks = None,
         activation_status: str = None,
         created_time: int = None,
-        id: str = None,
+        p_id: str = None,
         lock_status: str = None,
         name: str = None,
         operations: Sequence[policy_operation.PolicyOperation] = None,
@@ -93,10 +93,10 @@ class UpdatePolicyResponse:
 
         # Initialize members of the class
         self.embedded: policy_embedded.PolicyEmbedded = embedded
-        self.links: policy_links.PolicyLinks = links
+        self.links: update_policy_response_links.UpdatePolicyResponseLinks = links
         self.activation_status: str = activation_status
         self.created_time: int = created_time
-        self.id: str = id
+        self.p_id: str = p_id
         self.lock_status: str = lock_status
         self.name: str = name
         self.operations: Sequence[policy_operation.PolicyOperation] = operations
@@ -130,14 +130,16 @@ class UpdatePolicyResponse:
 
         key = '_links'
         links = (
-            policy_links.PolicyLinks.from_dictionary(dictionary.get(key))
+            update_policy_response_links.UpdatePolicyResponseLinks.from_dictionary(
+                dictionary.get(key)
+            )
             if dictionary.get(key)
             else None
         )
 
         activation_status = dictionary.get('activation_status')
         created_time = dictionary.get('created_time')
-        id = dictionary.get('id')
+        p_id = dictionary.get('id')
         lock_status = dictionary.get('lock_status')
         name = dictionary.get('name')
         operations = None
@@ -156,7 +158,7 @@ class UpdatePolicyResponse:
             links,
             activation_status,
             created_time,
-            id,
+            p_id,
             lock_status,
             name,
             operations,

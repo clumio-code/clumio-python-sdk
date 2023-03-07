@@ -15,20 +15,20 @@ class RDSDatabaseTableColumn:
     Attributes:
         name:
             The name of the column.
-        type:
+        p_type:
             The Hive data type of the column. Possible values include `int`, `bigint`,
             `string`, and `boolean`.
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'name': 'name', 'type': 'type'}
+    _names = {'name': 'name', 'p_type': 'type'}
 
-    def __init__(self, name: str = None, type: str = None) -> None:
+    def __init__(self, name: str = None, p_type: str = None) -> None:
         """Constructor for the RDSDatabaseTableColumn class."""
 
         # Initialize members of the class
         self.name: str = name
-        self.type: str = type
+        self.p_type: str = p_type
 
     @classmethod
     def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
@@ -47,6 +47,6 @@ class RDSDatabaseTableColumn:
 
         # Extract variables from the dictionary
         name = dictionary.get('name')
-        type = dictionary.get('type')
+        p_type = dictionary.get('type')
         # Return an object of this model
-        return cls(name, type)
+        return cls(name, p_type)

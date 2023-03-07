@@ -19,7 +19,7 @@ class ReadTagCategory2Response:
             URLs to pages related to the resource
         description:
             A description of the tag category.
-        id:
+        p_id:
             The VMware-assigned Managed Object Reference (MoRef) ID of the tag category.
         name:
             The VMware-assigned name of the tag category.
@@ -35,7 +35,7 @@ class ReadTagCategory2Response:
         'etag': '_etag',
         'links': '_links',
         'description': 'description',
-        'id': 'id',
+        'p_id': 'id',
         'name': 'name',
         'number_of_tags': 'number_of_tags',
         'organizational_unit_id': 'organizational_unit_id',
@@ -46,7 +46,7 @@ class ReadTagCategory2Response:
         etag: str = None,
         links: tag_category2_links.TagCategory2Links = None,
         description: str = None,
-        id: str = None,
+        p_id: str = None,
         name: str = None,
         number_of_tags: int = None,
         organizational_unit_id: str = None,
@@ -57,7 +57,7 @@ class ReadTagCategory2Response:
         self.etag: str = etag
         self.links: tag_category2_links.TagCategory2Links = links
         self.description: str = description
-        self.id: str = id
+        self.p_id: str = p_id
         self.name: str = name
         self.number_of_tags: int = number_of_tags
         self.organizational_unit_id: str = organizational_unit_id
@@ -87,9 +87,9 @@ class ReadTagCategory2Response:
         )
 
         description = dictionary.get('description')
-        id = dictionary.get('id')
+        p_id = dictionary.get('id')
         name = dictionary.get('name')
         number_of_tags = dictionary.get('number_of_tags')
         organizational_unit_id = dictionary.get('organizational_unit_id')
         # Return an object of this model
-        return cls(etag, links, description, id, name, number_of_tags, organizational_unit_id)
+        return cls(etag, links, description, p_id, name, number_of_tags, organizational_unit_id)

@@ -2,6 +2,8 @@
 # Copyright 2021. Clumio, Inc.
 #
 
+import json
+
 from clumioapi import api_helper
 from clumioapi import configuration
 from clumioapi import sdk_version
@@ -122,7 +124,7 @@ class AwsEbsVolumesV1Controller(base_controller.BaseController):
                 +------------------------+-----------------------------------------------------+
 
         Returns:
-            ListEbsVolumesResponse: Response from the API.
+            list_ebs_volumes_response.ListEbsVolumesResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -143,6 +145,7 @@ class AwsEbsVolumesV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_aws_ebs_volumes.', errors
             )
+
         return list_ebs_volumes_response.ListEbsVolumesResponse.from_dictionary(resp)
 
     def read_aws_ebs_volume(
@@ -167,7 +170,7 @@ class AwsEbsVolumesV1Controller(base_controller.BaseController):
                 +------------------------+-----------------------------------------------------+
 
         Returns:
-            ReadEbsVolumeResponse: Response from the API.
+            read_ebs_volume_response.ReadEbsVolumeResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -190,4 +193,5 @@ class AwsEbsVolumesV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_aws_ebs_volume.', errors
             )
+
         return read_ebs_volume_response.ReadEbsVolumeResponse.from_dictionary(resp)

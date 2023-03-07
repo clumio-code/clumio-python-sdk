@@ -40,7 +40,7 @@ class EBSRestoreTarget:
             use the [GET /backups/aws/ebs-volumes](#operation/list-aws-ebs-volumes) endpoint
             to display the original volume's tag keys (`tags.key`) and tag values
             (`tags.value`).
-        type:
+        p_type:
             Type of the volume to restore as.
             Allowed Values: gp2, gp3, io1, io2, sc1, st1, standard.
     """
@@ -52,7 +52,7 @@ class EBSRestoreTarget:
         'iops': 'iops',
         'kms_key_native_id': 'kms_key_native_id',
         'tags': 'tags',
-        'type': 'type',
+        'p_type': 'type',
     }
 
     def __init__(
@@ -62,7 +62,7 @@ class EBSRestoreTarget:
         iops: int = None,
         kms_key_native_id: str = None,
         tags: Sequence[aws_tag_common_model.AwsTagCommonModel] = None,
-        type: str = None,
+        p_type: str = None,
     ) -> None:
         """Constructor for the EBSRestoreTarget class."""
 
@@ -72,7 +72,7 @@ class EBSRestoreTarget:
         self.iops: int = iops
         self.kms_key_native_id: str = kms_key_native_id
         self.tags: Sequence[aws_tag_common_model.AwsTagCommonModel] = tags
-        self.type: str = type
+        self.p_type: str = p_type
 
     @classmethod
     def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
@@ -100,6 +100,6 @@ class EBSRestoreTarget:
             for value in dictionary.get('tags'):
                 tags.append(aws_tag_common_model.AwsTagCommonModel.from_dictionary(value))
 
-        type = dictionary.get('type')
+        p_type = dictionary.get('type')
         # Return an object of this model
-        return cls(aws_az, environment_id, iops, kms_key_native_id, tags, type)
+        return cls(aws_az, environment_id, iops, kms_key_native_id, tags, p_type)

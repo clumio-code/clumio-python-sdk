@@ -2,6 +2,8 @@
 # Copyright 2021. Clumio, Inc.
 #
 
+import json
+
 from clumioapi import api_helper
 from clumioapi import configuration
 from clumioapi import sdk_version
@@ -33,7 +35,7 @@ class AwsCloudformationTemplatesV1Controller(base_controller.BaseController):
         to Clumio. The provided URL will be pasted into the Amazon S3 URL field when
         creating the CloudFormation stack.
         Returns:
-            ReadAWSTemplatesResponse: Response from the API.
+            read_aws_templates_response.ReadAWSTemplatesResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -53,6 +55,7 @@ class AwsCloudformationTemplatesV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_aws_connection_templates.', errors
             )
+
         return read_aws_templates_response.ReadAWSTemplatesResponse.from_dictionary(resp)
 
     def create_aws_connection_template(
@@ -64,9 +67,9 @@ class AwsCloudformationTemplatesV1Controller(base_controller.BaseController):
 
         Args:
             body:
-                The body of the request.
+
         Returns:
-            CreateAWSTemplateResponse: Response from the API.
+            create_aws_template_response.CreateAWSTemplateResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -91,4 +94,5 @@ class AwsCloudformationTemplatesV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing create_aws_connection_template.', errors
             )
+
         return create_aws_template_response.CreateAWSTemplateResponse.from_dictionary(resp)

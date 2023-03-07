@@ -41,7 +41,7 @@ class Bucket:
             The Clumio-assigned ID of the AWS environment associated with the S3 bucket.
         event_bridge_enabled:
             The EventBridge enablement state for the S3 bucket.
-        id:
+        p_id:
             The Clumio-assigned ID of the bucket.
         is_encryption_enabled:
             The Encryption enablement state for the S3 bucket.
@@ -49,6 +49,10 @@ class Bucket:
             The Replication enablement state for the S3 bucket.
         is_versioning_enabled:
             The Versioning enablement state for the S3 bucket.
+        last_backup_timestamp:
+            Time of the last backup in RFC-3339 format.
+        last_continuous_backup_timestamp:
+            Time of the last continuous backup in RFC-3339 format.
         name:
             The AWS-assigned name of the bucket.
         object_count:
@@ -80,10 +84,12 @@ class Bucket:
         'encryption_setting': 'encryption_setting',
         'environment_id': 'environment_id',
         'event_bridge_enabled': 'event_bridge_enabled',
-        'id': 'id',
+        'p_id': 'id',
         'is_encryption_enabled': 'is_encryption_enabled',
         'is_replication_enabled': 'is_replication_enabled',
         'is_versioning_enabled': 'is_versioning_enabled',
+        'last_backup_timestamp': 'last_backup_timestamp',
+        'last_continuous_backup_timestamp': 'last_continuous_backup_timestamp',
         'name': 'name',
         'object_count': 'object_count',
         'organizational_unit_id': 'organizational_unit_id',
@@ -106,10 +112,12 @@ class Bucket:
         encryption_setting: s3_encryption_output.S3EncryptionOutput = None,
         environment_id: str = None,
         event_bridge_enabled: bool = None,
-        id: str = None,
+        p_id: str = None,
         is_encryption_enabled: bool = None,
         is_replication_enabled: bool = None,
         is_versioning_enabled: bool = None,
+        last_backup_timestamp: str = None,
+        last_continuous_backup_timestamp: str = None,
         name: str = None,
         object_count: int = None,
         organizational_unit_id: str = None,
@@ -134,10 +142,12 @@ class Bucket:
         self.encryption_setting: s3_encryption_output.S3EncryptionOutput = encryption_setting
         self.environment_id: str = environment_id
         self.event_bridge_enabled: bool = event_bridge_enabled
-        self.id: str = id
+        self.p_id: str = p_id
         self.is_encryption_enabled: bool = is_encryption_enabled
         self.is_replication_enabled: bool = is_replication_enabled
         self.is_versioning_enabled: bool = is_versioning_enabled
+        self.last_backup_timestamp: str = last_backup_timestamp
+        self.last_continuous_backup_timestamp: str = last_continuous_backup_timestamp
         self.name: str = name
         self.object_count: int = object_count
         self.organizational_unit_id: str = organizational_unit_id
@@ -199,10 +209,12 @@ class Bucket:
 
         environment_id = dictionary.get('environment_id')
         event_bridge_enabled = dictionary.get('event_bridge_enabled')
-        id = dictionary.get('id')
+        p_id = dictionary.get('id')
         is_encryption_enabled = dictionary.get('is_encryption_enabled')
         is_replication_enabled = dictionary.get('is_replication_enabled')
         is_versioning_enabled = dictionary.get('is_versioning_enabled')
+        last_backup_timestamp = dictionary.get('last_backup_timestamp')
+        last_continuous_backup_timestamp = dictionary.get('last_continuous_backup_timestamp')
         name = dictionary.get('name')
         object_count = dictionary.get('object_count')
         organizational_unit_id = dictionary.get('organizational_unit_id')
@@ -240,10 +252,12 @@ class Bucket:
             encryption_setting,
             environment_id,
             event_bridge_enabled,
-            id,
+            p_id,
             is_encryption_enabled,
             is_replication_enabled,
             is_versioning_enabled,
+            last_backup_timestamp,
+            last_continuous_backup_timestamp,
             name,
             object_count,
             organizational_unit_id,

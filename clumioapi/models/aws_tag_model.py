@@ -13,7 +13,7 @@ class AwsTagModel:
     A tag created through AWS console which can be applied to EBS volumes.
 
     Attributes:
-        id:
+        p_id:
             The Clumio-assigned ID of the AWS tag.
         key:
             The AWS-assigned tag key.
@@ -24,15 +24,15 @@ class AwsTagModel:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'id': 'id', 'key': 'key', 'key_id': 'key_id', 'value': 'value'}
+    _names = {'p_id': 'id', 'key': 'key', 'key_id': 'key_id', 'value': 'value'}
 
     def __init__(
-        self, id: str = None, key: str = None, key_id: str = None, value: str = None
+        self, p_id: str = None, key: str = None, key_id: str = None, value: str = None
     ) -> None:
         """Constructor for the AwsTagModel class."""
 
         # Initialize members of the class
-        self.id: str = id
+        self.p_id: str = p_id
         self.key: str = key
         self.key_id: str = key_id
         self.value: str = value
@@ -53,9 +53,9 @@ class AwsTagModel:
             return None
 
         # Extract variables from the dictionary
-        id = dictionary.get('id')
+        p_id = dictionary.get('id')
         key = dictionary.get('key')
         key_id = dictionary.get('key_id')
         value = dictionary.get('value')
         # Return an object of this model
-        return cls(id, key, key_id, value)
+        return cls(p_id, key, key_id, value)

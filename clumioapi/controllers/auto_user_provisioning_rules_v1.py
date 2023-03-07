@@ -2,6 +2,8 @@
 # Copyright 2021. Clumio, Inc.
 #
 
+import json
+
 from clumioapi import api_helper
 from clumioapi import configuration
 from clumioapi import sdk_version
@@ -63,7 +65,7 @@ class AutoUserProvisioningRulesV1Controller(base_controller.BaseController):
                 +------------------------+------------------+----------------------------------+
 
         Returns:
-            ListAutoUserProvisioningRulesResponse: Response from the API.
+            list_auto_user_provisioning_rules_response.ListAutoUserProvisioningRulesResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -84,6 +86,7 @@ class AutoUserProvisioningRulesV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_auto_user_provisioning_rules.', errors
             )
+
         return list_auto_user_provisioning_rules_response.ListAutoUserProvisioningRulesResponse.from_dictionary(
             resp
         )
@@ -100,7 +103,7 @@ class AutoUserProvisioningRulesV1Controller(base_controller.BaseController):
             body:
 
         Returns:
-            CreateAutoUserProvisioningRuleResponse: Response from the API.
+            create_auto_user_provisioning_rule_response.CreateAutoUserProvisioningRuleResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -125,6 +128,7 @@ class AutoUserProvisioningRulesV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing create_auto_user_provisioning_rule.', errors
             )
+
         return create_auto_user_provisioning_rule_response.CreateAutoUserProvisioningRuleResponse.from_dictionary(
             resp
         )
@@ -138,7 +142,7 @@ class AutoUserProvisioningRulesV1Controller(base_controller.BaseController):
             rule_id:
                 Retrieves the rule with the specified ID.
         Returns:
-            ReadAutoUserProvisioningRuleResponse: Response from the API.
+            read_auto_user_provisioning_rule_response.ReadAutoUserProvisioningRuleResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -158,6 +162,7 @@ class AutoUserProvisioningRulesV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_auto_user_provisioning_rule.', errors
             )
+
         return read_auto_user_provisioning_rule_response.ReadAutoUserProvisioningRuleResponse.from_dictionary(
             resp
         )
@@ -175,7 +180,7 @@ class AutoUserProvisioningRulesV1Controller(base_controller.BaseController):
             body:
 
         Returns:
-            UpdateAutoUserProvisioningRuleResponse: Response from the API.
+            update_auto_user_provisioning_rule_response.UpdateAutoUserProvisioningRuleResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -200,6 +205,7 @@ class AutoUserProvisioningRulesV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing update_auto_user_provisioning_rule.', errors
             )
+
         return update_auto_user_provisioning_rule_response.UpdateAutoUserProvisioningRuleResponse.from_dictionary(
             resp
         )
@@ -231,4 +237,5 @@ class AutoUserProvisioningRulesV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing delete_auto_user_provisioning_rule.', errors
             )
+
         return resp

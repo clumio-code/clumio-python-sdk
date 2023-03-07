@@ -22,7 +22,7 @@ class ReadTagResponse:
             URLs to pages related to the resource.
         category:
             The tag category associated with the tag.
-        id:
+        p_id:
             The VMware-assigned Managed Object Reference (MoRef) ID of the tag.
         name:
             The VMware-assigned name of the tag.
@@ -41,7 +41,7 @@ class ReadTagResponse:
         'embedded': '_embedded',
         'links': '_links',
         'category': 'category',
-        'id': 'id',
+        'p_id': 'id',
         'name': 'name',
         'organizational_unit_id': 'organizational_unit_id',
         'protection_info': 'protection_info',
@@ -53,7 +53,7 @@ class ReadTagResponse:
         embedded: tag2_embedded.Tag2Embedded = None,
         links: tag2_links.Tag2Links = None,
         category: tag_parent_category_model.TagParentCategoryModel = None,
-        id: str = None,
+        p_id: str = None,
         name: str = None,
         organizational_unit_id: str = None,
         protection_info: protection_info.ProtectionInfo = None,
@@ -65,7 +65,7 @@ class ReadTagResponse:
         self.embedded: tag2_embedded.Tag2Embedded = embedded
         self.links: tag2_links.Tag2Links = links
         self.category: tag_parent_category_model.TagParentCategoryModel = category
-        self.id: str = id
+        self.p_id: str = p_id
         self.name: str = name
         self.organizational_unit_id: str = organizational_unit_id
         self.protection_info: protection_info.ProtectionInfo = protection_info
@@ -108,7 +108,7 @@ class ReadTagResponse:
             else None
         )
 
-        id = dictionary.get('id')
+        p_id = dictionary.get('id')
         name = dictionary.get('name')
         organizational_unit_id = dictionary.get('organizational_unit_id')
         key = 'protection_info'
@@ -124,7 +124,7 @@ class ReadTagResponse:
             embedded,
             links,
             category,
-            id,
+            p_id,
             name,
             organizational_unit_id,
             p_protection_info,

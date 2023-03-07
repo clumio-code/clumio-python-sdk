@@ -2,19 +2,21 @@
 # Copyright 2021. Clumio, Inc.
 #
 
+import json
+
 from clumioapi import api_helper
 from clumioapi import configuration
 from clumioapi import sdk_version
 from clumioapi.controllers import base_controller
 from clumioapi.exceptions import clumio_exception
 from clumioapi.models import change_password_v1_request
-from clumioapi.models import create_user_response
+from clumioapi.models import create_user_response_v1
 from clumioapi.models import create_user_v1_request
-from clumioapi.models import edit_profile_response
-from clumioapi.models import list_users_response
-from clumioapi.models import read_user_response
+from clumioapi.models import edit_profile_response_v1
+from clumioapi.models import list_users_response_v1
+from clumioapi.models import read_user_response_v1
 from clumioapi.models import update_user_profile_v1_request
-from clumioapi.models import update_user_response
+from clumioapi.models import update_user_response_v1
 from clumioapi.models import update_user_v1_request
 import requests
 
@@ -36,7 +38,7 @@ class UsersV1Controller(base_controller.BaseController):
 
     def list_users(
         self, limit: int = None, start: str = None, filter: str = None
-    ) -> list_users_response.ListUsersResponse:
+    ) -> list_users_response_v1.ListUsersResponseV1:
         """Returns a list of Clumio users.
 
         Args:
@@ -59,7 +61,7 @@ class UsersV1Controller(base_controller.BaseController):
                 +-------+------------------+---------------------------------------------------+
 
         Returns:
-            ListUsersResponse: Response from the API.
+            list_users_response_v1.ListUsersResponseV1: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -80,11 +82,12 @@ class UsersV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_users.', errors
             )
-        return list_users_response.ListUsersResponse.from_dictionary(resp)
+
+        return list_users_response_v1.ListUsersResponseV1.from_dictionary(resp)
 
     def create_user(
         self, body: create_user_v1_request.CreateUserV1Request = None
-    ) -> create_user_response.CreateUserResponse:
+    ) -> create_user_response_v1.CreateUserResponseV1:
         """Creates a new user. Specify the user's full name and email address to generate
         an email message that is sent to the user with an invitation to activate their
         Clumio account.
@@ -93,7 +96,7 @@ class UsersV1Controller(base_controller.BaseController):
             body:
 
         Returns:
-            CreateUserResponse: Response from the API.
+            create_user_response_v1.CreateUserResponseV1: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -118,18 +121,19 @@ class UsersV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing create_user.', errors
             )
-        return create_user_response.CreateUserResponse.from_dictionary(resp)
+
+        return create_user_response_v1.CreateUserResponseV1.from_dictionary(resp)
 
     def update_user_profile(
         self, body: update_user_profile_v1_request.UpdateUserProfileV1Request = None
-    ) -> edit_profile_response.EditProfileResponse:
+    ) -> edit_profile_response_v1.EditProfileResponseV1:
         """Manages the current user's profile, such as changing the user's full name.
 
         Args:
             body:
 
         Returns:
-            EditProfileResponse: Response from the API.
+            edit_profile_response_v1.EditProfileResponseV1: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -154,16 +158,17 @@ class UsersV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing update_user_profile.', errors
             )
-        return edit_profile_response.EditProfileResponse.from_dictionary(resp)
 
-    def read_user(self, user_id: int) -> read_user_response.ReadUserResponse:
+        return edit_profile_response_v1.EditProfileResponseV1.from_dictionary(resp)
+
+    def read_user(self, user_id: int) -> read_user_response_v1.ReadUserResponseV1:
         """Returns a representation of the specified Clumio user.
 
         Args:
             user_id:
                 Performs the operation on the user with the specified ID.
         Returns:
-            ReadUserResponse: Response from the API.
+            read_user_response_v1.ReadUserResponseV1: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -183,7 +188,8 @@ class UsersV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_user.', errors
             )
-        return read_user_response.ReadUserResponse.from_dictionary(resp)
+
+        return read_user_response_v1.ReadUserResponseV1.from_dictionary(resp)
 
     def delete_user(self, user_id: int) -> object:
         """Deletes an existing user from Clumio, revoking the user's access to Clumio. A
@@ -213,11 +219,12 @@ class UsersV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing delete_user.', errors
             )
+
         return resp
 
     def update_user(
         self, user_id: int, body: update_user_v1_request.UpdateUserV1Request = None
-    ) -> update_user_response.UpdateUserResponse:
+    ) -> update_user_response_v1.UpdateUserResponseV1:
         """Manages an existing user. Managing a user includes enabling or disabling the
         user,
         changing the user's full name or updating the user's role.
@@ -228,7 +235,7 @@ class UsersV1Controller(base_controller.BaseController):
             body:
 
         Returns:
-            UpdateUserResponse: Response from the API.
+            update_user_response_v1.UpdateUserResponseV1: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -253,7 +260,8 @@ class UsersV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing update_user.', errors
             )
-        return update_user_response.UpdateUserResponse.from_dictionary(resp)
+
+        return update_user_response_v1.UpdateUserResponseV1.from_dictionary(resp)
 
     def change_password(
         self, user_id: int, body: change_password_v1_request.ChangePasswordV1Request = None
@@ -291,4 +299,5 @@ class UsersV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing change_password.', errors
             )
+
         return resp

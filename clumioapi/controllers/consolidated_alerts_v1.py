@@ -2,6 +2,8 @@
 # Copyright 2021. Clumio, Inc.
 #
 
+import json
+
 from clumioapi import api_helper
 from clumioapi import configuration
 from clumioapi import sdk_version
@@ -90,7 +92,7 @@ class ConsolidatedAlertsV1Controller(base_controller.BaseController):
                 +-----------------------------+------------------+-----------------------------+
 
         Returns:
-            ListConsolidatedAlertsResponse: Response from the API.
+            list_consolidated_alerts_response.ListConsolidatedAlertsResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -111,6 +113,7 @@ class ConsolidatedAlertsV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_consolidated_alerts.', errors
             )
+
         return list_consolidated_alerts_response.ListConsolidatedAlertsResponse.from_dictionary(
             resp
         )
@@ -124,7 +127,7 @@ class ConsolidatedAlertsV1Controller(base_controller.BaseController):
             id:
                 Performs the operation on the consolidated alert with the specified ID.
         Returns:
-            ReadConsolidatedAlertResponse: Response from the API.
+            read_consolidated_alert_response.ReadConsolidatedAlertResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -144,6 +147,7 @@ class ConsolidatedAlertsV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_consolidated_alert.', errors
             )
+
         return read_consolidated_alert_response.ReadConsolidatedAlertResponse.from_dictionary(resp)
 
     def update_consolidated_alert(
@@ -160,7 +164,7 @@ class ConsolidatedAlertsV1Controller(base_controller.BaseController):
             body:
 
         Returns:
-            UpdateConsolidatedAlertResponse: Response from the API.
+            update_consolidated_alert_response.UpdateConsolidatedAlertResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -185,6 +189,7 @@ class ConsolidatedAlertsV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing update_consolidated_alert.', errors
             )
+
         return update_consolidated_alert_response.UpdateConsolidatedAlertResponse.from_dictionary(
             resp
         )

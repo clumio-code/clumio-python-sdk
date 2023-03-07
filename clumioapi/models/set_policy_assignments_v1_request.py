@@ -14,7 +14,8 @@ class SetPolicyAssignmentsV1Request:
 
     Attributes:
         items:
-
+            Items are inputs that represent the list of assets to which a policy is to be
+            assigned or unassigned.
     """
 
     # Create a mapping from Model property names to API property names

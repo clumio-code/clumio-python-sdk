@@ -2,6 +2,8 @@
 # Copyright 2021. Clumio, Inc.
 #
 
+import json
+
 from clumioapi import api_helper
 from clumioapi import configuration
 from clumioapi import sdk_version
@@ -43,7 +45,7 @@ class WalletsV1Controller(base_controller.BaseController):
                 get the first page.
                 Other pages can be traversed using HATEOAS links.
         Returns:
-            ListWalletsResponse: Response from the API.
+            list_wallets_response.ListWalletsResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -64,6 +66,7 @@ class WalletsV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_wallets.', errors
             )
+
         return list_wallets_response.ListWalletsResponse.from_dictionary(resp)
 
     def create_wallet(
@@ -75,7 +78,7 @@ class WalletsV1Controller(base_controller.BaseController):
             body:
 
         Returns:
-            CreateWalletResponse: Response from the API.
+            create_wallet_response.CreateWalletResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -100,6 +103,7 @@ class WalletsV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing create_wallet.', errors
             )
+
         return create_wallet_response.CreateWalletResponse.from_dictionary(resp)
 
     def read_wallet(self, wallet_id: str) -> read_wallet_response.ReadWalletResponse:
@@ -109,7 +113,7 @@ class WalletsV1Controller(base_controller.BaseController):
             wallet_id:
                 Performs the operation on the wallet with the specified ID.
         Returns:
-            ReadWalletResponse: Response from the API.
+            read_wallet_response.ReadWalletResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -131,6 +135,7 @@ class WalletsV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_wallet.', errors
             )
+
         return read_wallet_response.ReadWalletResponse.from_dictionary(resp)
 
     def delete_wallet(self, wallet_id: str) -> object:
@@ -162,6 +167,7 @@ class WalletsV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing delete_wallet.', errors
             )
+
         return resp
 
     def refresh_wallet(self, wallet_id: str) -> refresh_wallet_response.RefreshWalletResponse:
@@ -172,7 +178,7 @@ class WalletsV1Controller(base_controller.BaseController):
             wallet_id:
                 Performs the operation on the wallet with the specified ID.
         Returns:
-            RefreshWalletResponse: Response from the API.
+            refresh_wallet_response.RefreshWalletResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -194,4 +200,5 @@ class WalletsV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing refresh_wallet.', errors
             )
+
         return refresh_wallet_response.RefreshWalletResponse.from_dictionary(resp)

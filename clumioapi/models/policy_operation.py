@@ -19,9 +19,9 @@ class PolicyOperation:
             Determines whether the protection policy should take action now or during the
             specified backup window.
             If set to `immediate`, Clumio starts the backup process right away. If set to
-            `window`, Clumio starts the backup process when the backup window
-            (`backup_window`) opens.
-            If set to `window` and `operation in ("aws_rds_resource_aws_snapshot",
+            `backup_window_tz`, Clumio starts the backup process when the backup window
+            (`backup_window_tz`) opens.
+            If set to `backup_window_tz` and `operation in ("aws_rds_resource_aws_snapshot",
             "mssql_log_backup", "ec2_mssql_log_backup")`,
             the backup window will not be determined by Clumio's backup window.
         advanced_settings:
@@ -41,7 +41,7 @@ class PolicyOperation:
             The service level agreement (SLA) for the policy. A policy can include one or
             more SLAs. For example, a policy can retain daily backups for a month each, and
             monthly backups for a year each.
-        type:
+        p_type:
             The operation to be performed for this SLA set. Each SLA set corresponds to one
             and only one operation.
             Refer to the Policy Operation table for a complete list of policy operations.
@@ -56,7 +56,7 @@ class PolicyOperation:
         'next_start_time': 'next_start_time',
         'previous_start_time': 'previous_start_time',
         'slas': 'slas',
-        'type': 'type',
+        'p_type': 'type',
     }
 
     def __init__(
@@ -68,7 +68,7 @@ class PolicyOperation:
         next_start_time: int = None,
         previous_start_time: int = None,
         slas: Sequence[backup_sla.BackupSLA] = None,
-        type: str = None,
+        p_type: str = None,
     ) -> None:
         """Constructor for the PolicyOperation class."""
 
@@ -80,7 +80,7 @@ class PolicyOperation:
         self.next_start_time: int = next_start_time
         self.previous_start_time: int = previous_start_time
         self.slas: Sequence[backup_sla.BackupSLA] = slas
-        self.type: str = type
+        self.p_type: str = p_type
 
     @classmethod
     def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
@@ -128,7 +128,7 @@ class PolicyOperation:
             for value in dictionary.get('slas'):
                 slas.append(backup_sla.BackupSLA.from_dictionary(value))
 
-        type = dictionary.get('type')
+        p_type = dictionary.get('type')
         # Return an object of this model
         return cls(
             action_setting,
@@ -138,5 +138,5 @@ class PolicyOperation:
             next_start_time,
             previous_start_time,
             slas,
-            type,
+            p_type,
         )

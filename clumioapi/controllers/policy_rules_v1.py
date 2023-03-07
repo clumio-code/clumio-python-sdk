@@ -2,6 +2,8 @@
 # Copyright 2021. Clumio, Inc.
 #
 
+import json
+
 from clumioapi import api_helper
 from clumioapi import configuration
 from clumioapi import sdk_version
@@ -90,7 +92,7 @@ class PolicyRulesV1Controller(base_controller.BaseController):
                 +-------+------------------+---------------------------------------------------+
 
         Returns:
-            ListRulesResponse: Response from the API.
+            list_rules_response.ListRulesResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -117,6 +119,7 @@ class PolicyRulesV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_policy_rules.', errors
             )
+
         return list_rules_response.ListRulesResponse.from_dictionary(resp)
 
     def create_policy_rule(
@@ -132,7 +135,7 @@ class PolicyRulesV1Controller(base_controller.BaseController):
             body:
 
         Returns:
-            CreateRuleResponse: Response from the API.
+            create_rule_response.CreateRuleResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -157,6 +160,7 @@ class PolicyRulesV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing create_policy_rule.', errors
             )
+
         return create_rule_response.CreateRuleResponse.from_dictionary(resp)
 
     def read_policy_rule(self, rule_id: str) -> read_rule_response.ReadRuleResponse:
@@ -166,7 +170,7 @@ class PolicyRulesV1Controller(base_controller.BaseController):
             rule_id:
                 Performs the operation on the rule with the specified ID.
         Returns:
-            ReadRuleResponse: Response from the API.
+            read_rule_response.ReadRuleResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -186,6 +190,7 @@ class PolicyRulesV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_policy_rule.', errors
             )
+
         return read_rule_response.ReadRuleResponse.from_dictionary(resp)
 
     def update_policy_rule(
@@ -199,7 +204,7 @@ class PolicyRulesV1Controller(base_controller.BaseController):
             body:
 
         Returns:
-            UpdateRuleResponse: Response from the API.
+            update_rule_response.UpdateRuleResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -224,6 +229,7 @@ class PolicyRulesV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing update_policy_rule.', errors
             )
+
         return update_rule_response.UpdateRuleResponse.from_dictionary(resp)
 
     def delete_policy_rule(
@@ -237,7 +243,7 @@ class PolicyRulesV1Controller(base_controller.BaseController):
             body:
 
         Returns:
-            DeleteRuleResponse: Response from the API.
+            delete_rule_response.DeleteRuleResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -262,4 +268,5 @@ class PolicyRulesV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing delete_policy_rule.', errors
             )
+
         return delete_rule_response.DeleteRuleResponse.from_dictionary(resp)

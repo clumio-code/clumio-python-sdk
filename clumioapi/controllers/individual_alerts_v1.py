@@ -2,6 +2,8 @@
 # Copyright 2021. Clumio, Inc.
 #
 
+import json
+
 from clumioapi import api_helper
 from clumioapi import configuration
 from clumioapi import sdk_version
@@ -226,7 +228,7 @@ class IndividualAlertsV1Controller(base_controller.BaseController):
                 +-------------------------+----------------------------------------------------+
 
         Returns:
-            ListAlertsResponse: Response from the API.
+            list_alerts_response.ListAlertsResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -253,6 +255,7 @@ class IndividualAlertsV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_individual_alerts.', errors
             )
+
         return list_alerts_response.ListAlertsResponse.from_dictionary(resp)
 
     def read_individual_alert(
@@ -277,7 +280,7 @@ class IndividualAlertsV1Controller(base_controller.BaseController):
                 +-------------------------+----------------------------------------------------+
 
         Returns:
-            ReadAlertResponse: Response from the API.
+            read_alert_response.ReadAlertResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -300,6 +303,7 @@ class IndividualAlertsV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_individual_alert.', errors
             )
+
         return read_alert_response.ReadAlertResponse.from_dictionary(resp)
 
     def update_individual_alert(
@@ -330,7 +334,7 @@ class IndividualAlertsV1Controller(base_controller.BaseController):
             body:
 
         Returns:
-            UpdateAlertResponse: Response from the API.
+            update_alert_response.UpdateAlertResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -358,4 +362,5 @@ class IndividualAlertsV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing update_individual_alert.', errors
             )
+
         return update_alert_response.UpdateAlertResponse.from_dictionary(resp)

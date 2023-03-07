@@ -2,6 +2,8 @@
 # Copyright 2021. Clumio, Inc.
 #
 
+import json
+
 from clumioapi import api_helper
 from clumioapi import configuration
 from clumioapi import sdk_version
@@ -194,7 +196,7 @@ class TasksV1Controller(base_controller.BaseController):
                 +----------------------+------------------+------------------------------------+
 
         Returns:
-            ListTasksResponse: Response from the API.
+            list_tasks_response.ListTasksResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -215,6 +217,7 @@ class TasksV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_tasks.', errors
             )
+
         return list_tasks_response.ListTasksResponse.from_dictionary(resp)
 
     def read_task(self, task_id: str) -> read_task_response.ReadTaskResponse:
@@ -224,7 +227,7 @@ class TasksV1Controller(base_controller.BaseController):
             task_id:
                 Performs the operation on the task with the specified ID.
         Returns:
-            ReadTaskResponse: Response from the API.
+            read_task_response.ReadTaskResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -244,6 +247,7 @@ class TasksV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_task.', errors
             )
+
         return read_task_response.ReadTaskResponse.from_dictionary(resp)
 
     def update_task(
@@ -258,7 +262,7 @@ class TasksV1Controller(base_controller.BaseController):
             body:
 
         Returns:
-            UpdateTaskResponse: Response from the API.
+            update_task_response.UpdateTaskResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -283,4 +287,5 @@ class TasksV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing update_task.', errors
             )
+
         return update_task_response.UpdateTaskResponse.from_dictionary(resp)

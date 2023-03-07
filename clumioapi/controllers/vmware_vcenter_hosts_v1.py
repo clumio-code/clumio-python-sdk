@@ -2,6 +2,8 @@
 # Copyright 2021. Clumio, Inc.
 #
 
+import json
+
 from clumioapi import api_helper
 from clumioapi import configuration
 from clumioapi import sdk_version
@@ -85,7 +87,7 @@ class VmwareVcenterHostsV1Controller(base_controller.BaseController):
                 datacenter.id
 
         Returns:
-            ListHostsResponse: Response from the API.
+            list_hosts_response.ListHostsResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -108,6 +110,7 @@ class VmwareVcenterHostsV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_vmware_vcenter_hosts.', errors
             )
+
         return list_hosts_response.ListHostsResponse.from_dictionary(resp)
 
     def read_vmware_vcenter_host(
@@ -121,7 +124,7 @@ class VmwareVcenterHostsV1Controller(base_controller.BaseController):
             host_id:
                 Performs the operation on the host with the specified ID.
         Returns:
-            ReadHostResponse: Response from the API.
+            read_host_response.ReadHostResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -145,4 +148,5 @@ class VmwareVcenterHostsV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_vmware_vcenter_host.', errors
             )
+
         return read_host_response.ReadHostResponse.from_dictionary(resp)

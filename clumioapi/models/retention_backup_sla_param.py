@@ -15,8 +15,7 @@ class RetentionBackupSLAParam:
 
     Attributes:
         unit:
-            The measurement unit of the SLA parameter. Values include `hours`, `days`,
-            `months`, and `years`.
+            The measurement unit of the SLA parameter.
         value:
             The measurement value of the SLA parameter.
     """

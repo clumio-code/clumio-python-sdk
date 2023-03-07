@@ -2,6 +2,8 @@
 # Copyright 2021. Clumio, Inc.
 #
 
+import json
+
 from clumioapi import api_helper
 from clumioapi import configuration
 from clumioapi import sdk_version
@@ -71,12 +73,12 @@ class MssqlInstanceV1Controller(base_controller.BaseController):
                 |                           |                  | protection_status is equal to |
                 |                           |                  | the given string.             |
                 +---------------------------+------------------+-------------------------------+
-                | status                    | $eq              | Filter Database whose status  |
+                | status                    | $eq              | Filter Instance whose status  |
                 |                           |                  | is equal to the given string. |
                 +---------------------------+------------------+-------------------------------+
 
         Returns:
-            ListMssqlInstancesResponse: Response from the API.
+            list_mssql_instances_response.ListMssqlInstancesResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -97,6 +99,7 @@ class MssqlInstanceV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_mssql_instance.', errors
             )
+
         return list_mssql_instances_response.ListMssqlInstancesResponse.from_dictionary(resp)
 
     def read_mssql_instance(
@@ -108,7 +111,7 @@ class MssqlInstanceV1Controller(base_controller.BaseController):
             instance_id:
                 Performs the operation on the instance with the specified ID.
         Returns:
-            ReadMssqlInstanceResponse: Response from the API.
+            read_mssql_instance_response.ReadMssqlInstanceResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -130,4 +133,5 @@ class MssqlInstanceV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_mssql_instance.', errors
             )
+
         return read_mssql_instance_response.ReadMssqlInstanceResponse.from_dictionary(resp)

@@ -16,7 +16,7 @@ class SetBucketPropertiesResponse:
 
     Attributes:
         links:
-
+            URLs to pages related to the resource.
     """
 
     # Create a mapping from Model property names to API property names

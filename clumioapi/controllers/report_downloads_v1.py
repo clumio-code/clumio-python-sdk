@@ -2,6 +2,8 @@
 # Copyright 2021. Clumio, Inc.
 #
 
+import json
+
 from clumioapi import api_helper
 from clumioapi import configuration
 from clumioapi import sdk_version
@@ -70,7 +72,7 @@ class ReportDownloadsV1Controller(base_controller.BaseController):
                 For more information about filtering, refer to the
                 Filtering section of this guide.
         Returns:
-            ListReportDownloadsResponse: Response from the API.
+            list_report_downloads_response.ListReportDownloadsResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -91,6 +93,7 @@ class ReportDownloadsV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_report_downloads.', errors
             )
+
         return list_report_downloads_response.ListReportDownloadsResponse.from_dictionary(resp)
 
     def create_report_download(
@@ -103,7 +106,7 @@ class ReportDownloadsV1Controller(base_controller.BaseController):
             body:
 
         Returns:
-            CreateReportDownloadResponse: Response from the API.
+            create_report_download_response.CreateReportDownloadResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -128,4 +131,5 @@ class ReportDownloadsV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing create_report_download.', errors
             )
+
         return create_report_download_response.CreateReportDownloadResponse.from_dictionary(resp)

@@ -13,18 +13,18 @@ class VMwareVCenterNetworkDatacenterModel:
     The data center associated with this network.
 
     Attributes:
-        id:
+        p_id:
             The VMware-assigned Managed Object Reference (MoRef) ID of the data center.
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'id': 'id'}
+    _names = {'p_id': 'id'}
 
-    def __init__(self, id: str = None) -> None:
+    def __init__(self, p_id: str = None) -> None:
         """Constructor for the VMwareVCenterNetworkDatacenterModel class."""
 
         # Initialize members of the class
-        self.id: str = id
+        self.p_id: str = p_id
 
     @classmethod
     def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
@@ -42,6 +42,6 @@ class VMwareVCenterNetworkDatacenterModel:
             return None
 
         # Extract variables from the dictionary
-        id = dictionary.get('id')
+        p_id = dictionary.get('id')
         # Return an object of this model
-        return cls(id)
+        return cls(p_id)

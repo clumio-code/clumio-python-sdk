@@ -24,7 +24,7 @@ class ReadResourcePoolResponse:
             The compute resource that the resource pool comprises.
         datacenter:
             The data center in which the resource pool resides.
-        id:
+        p_id:
             The VMware-assigned Managed Object Reference (MoRef) ID of the resource pool.
         is_root:
             Determines whether the resource pool is the default, hidden resource pool.
@@ -44,7 +44,7 @@ class ReadResourcePoolResponse:
         'links': '_links',
         'compute_resource': 'compute_resource',
         'datacenter': 'datacenter',
-        'id': 'id',
+        'p_id': 'id',
         'is_root': 'is_root',
         'is_supported': 'is_supported',
         'name': 'name',
@@ -57,7 +57,7 @@ class ReadResourcePoolResponse:
         links: resource_pool_links.ResourcePoolLinks = None,
         compute_resource: v_mware_resource_pool_compute_resource_model.VMwareResourcePoolComputeResourceModel = None,
         datacenter: resource_pool_datacenter_model.ResourcePoolDatacenterModel = None,
-        id: str = None,
+        p_id: str = None,
         is_root: bool = None,
         is_supported: bool = None,
         name: str = None,
@@ -72,7 +72,7 @@ class ReadResourcePoolResponse:
             compute_resource
         )
         self.datacenter: resource_pool_datacenter_model.ResourcePoolDatacenterModel = datacenter
-        self.id: str = id
+        self.p_id: str = p_id
         self.is_root: bool = is_root
         self.is_supported: bool = is_supported
         self.name: str = name
@@ -120,7 +120,7 @@ class ReadResourcePoolResponse:
             else None
         )
 
-        id = dictionary.get('id')
+        p_id = dictionary.get('id')
         is_root = dictionary.get('is_root')
         is_supported = dictionary.get('is_supported')
         name = dictionary.get('name')
@@ -135,5 +135,5 @@ class ReadResourcePoolResponse:
 
         # Return an object of this model
         return cls(
-            etag, links, compute_resource, datacenter, id, is_root, is_supported, name, parent
+            etag, links, compute_resource, datacenter, p_id, is_root, is_supported, name, parent
         )

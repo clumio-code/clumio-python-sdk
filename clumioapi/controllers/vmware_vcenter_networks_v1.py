@@ -2,6 +2,8 @@
 # Copyright 2021. Clumio, Inc.
 #
 
+import json
+
 from clumioapi import api_helper
 from clumioapi import configuration
 from clumioapi import sdk_version
@@ -78,7 +80,7 @@ class VmwareVcenterNetworksV1Controller(base_controller.BaseController):
                 network_folder.id
 
         Returns:
-            ListVMwareVCenterNetworksResponse: Response from the API.
+            list_v_mware_v_center_networks_response.ListVMwareVCenterNetworksResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -101,6 +103,7 @@ class VmwareVcenterNetworksV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_vmware_vcenter_networks.', errors
             )
+
         return list_v_mware_v_center_networks_response.ListVMwareVCenterNetworksResponse.from_dictionary(
             resp
         )
@@ -116,7 +119,7 @@ class VmwareVcenterNetworksV1Controller(base_controller.BaseController):
             network_id:
                 Performs the operation on the network with the specified ID.
         Returns:
-            ReadVMwareVCenterNetworkResponse: Response from the API.
+            read_v_mware_v_center_network_response.ReadVMwareVCenterNetworkResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -138,6 +141,7 @@ class VmwareVcenterNetworksV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_vmware_vcenter_network.', errors
             )
+
         return (
             read_v_mware_v_center_network_response.ReadVMwareVCenterNetworkResponse.from_dictionary(
                 resp

@@ -27,7 +27,7 @@ class ProtectionGroupBackup:
         failed_size_bytes:
             The total size in bytes of objects in the protection group that failed
             to be backed up.
-        id:
+        p_id:
             The Clumio-assigned ID of the protection group backup.
         protection_group_id:
             The Clumio-assigned ID of the protection group.
@@ -37,7 +37,7 @@ class ProtectionGroupBackup:
             The version of the protection group at the time the backup was taken.
         start_timestamp:
             The timestamp of when this backup started. Represented in RFC-3339 format.
-        type:
+        p_type:
             The type of backup. Possible values include `protection_group_backup`.
     """
 
@@ -49,12 +49,12 @@ class ProtectionGroupBackup:
         'expiration_timestamp': 'expiration_timestamp',
         'failed_object_count': 'failed_object_count',
         'failed_size_bytes': 'failed_size_bytes',
-        'id': 'id',
+        'p_id': 'id',
         'protection_group_id': 'protection_group_id',
         'protection_group_name': 'protection_group_name',
         'protection_group_version': 'protection_group_version',
         'start_timestamp': 'start_timestamp',
-        'type': 'type',
+        'p_type': 'type',
     }
 
     def __init__(
@@ -65,12 +65,12 @@ class ProtectionGroupBackup:
         expiration_timestamp: str = None,
         failed_object_count: int = None,
         failed_size_bytes: int = None,
-        id: str = None,
+        p_id: str = None,
         protection_group_id: str = None,
         protection_group_name: str = None,
         protection_group_version: int = None,
         start_timestamp: str = None,
-        type: str = None,
+        p_type: str = None,
     ) -> None:
         """Constructor for the ProtectionGroupBackup class."""
 
@@ -81,12 +81,12 @@ class ProtectionGroupBackup:
         self.expiration_timestamp: str = expiration_timestamp
         self.failed_object_count: int = failed_object_count
         self.failed_size_bytes: int = failed_size_bytes
-        self.id: str = id
+        self.p_id: str = p_id
         self.protection_group_id: str = protection_group_id
         self.protection_group_name: str = protection_group_name
         self.protection_group_version: int = protection_group_version
         self.start_timestamp: str = start_timestamp
-        self.type: str = type
+        self.p_type: str = p_type
 
     @classmethod
     def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
@@ -118,12 +118,12 @@ class ProtectionGroupBackup:
         expiration_timestamp = dictionary.get('expiration_timestamp')
         failed_object_count = dictionary.get('failed_object_count')
         failed_size_bytes = dictionary.get('failed_size_bytes')
-        id = dictionary.get('id')
+        p_id = dictionary.get('id')
         protection_group_id = dictionary.get('protection_group_id')
         protection_group_name = dictionary.get('protection_group_name')
         protection_group_version = dictionary.get('protection_group_version')
         start_timestamp = dictionary.get('start_timestamp')
-        type = dictionary.get('type')
+        p_type = dictionary.get('type')
         # Return an object of this model
         return cls(
             links,
@@ -132,10 +132,10 @@ class ProtectionGroupBackup:
             expiration_timestamp,
             failed_object_count,
             failed_size_bytes,
-            id,
+            p_id,
             protection_group_id,
             protection_group_name,
             protection_group_version,
             start_timestamp,
-            type,
+            p_type,
         )

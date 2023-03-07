@@ -2,6 +2,8 @@
 # Copyright 2021. Clumio, Inc.
 #
 
+import json
+
 from clumioapi import api_helper
 from clumioapi import configuration
 from clumioapi import sdk_version
@@ -33,7 +35,7 @@ class RolesV1Controller(base_controller.BaseController):
         [POST /users](#operation/create-user) API, or by updating the user using the
         [PATCH /users/{user_id}](#operation/update-user) API.
         Returns:
-            ListRolesResponse: Response from the API.
+            list_roles_response.ListRolesResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -53,6 +55,7 @@ class RolesV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_roles.', errors
             )
+
         return list_roles_response.ListRolesResponse.from_dictionary(resp)
 
     def read_role(self, role_id: str) -> read_role_response.ReadRoleResponse:
@@ -62,7 +65,7 @@ class RolesV1Controller(base_controller.BaseController):
             role_id:
                 Retrieves the role with the specified ID.
         Returns:
-            ReadRoleResponse: Response from the API.
+            read_role_response.ReadRoleResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -82,4 +85,5 @@ class RolesV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_role.', errors
             )
+
         return read_role_response.ReadRoleResponse.from_dictionary(resp)

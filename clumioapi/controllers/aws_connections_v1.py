@@ -2,6 +2,8 @@
 # Copyright 2021. Clumio, Inc.
 #
 
+import json
+
 from clumioapi import api_helper
 from clumioapi import configuration
 from clumioapi import sdk_version
@@ -117,7 +119,7 @@ class AwsConnectionsV1Controller(base_controller.BaseController):
                 +------------------------+-------------------+---------------------------------+
 
         Returns:
-            ListAWSConnectionsResponse: Response from the API.
+            list_aws_connections_response.ListAWSConnectionsResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -138,6 +140,7 @@ class AwsConnectionsV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_aws_connections.', errors
             )
+
         return list_aws_connections_response.ListAWSConnectionsResponse.from_dictionary(resp)
 
     def create_aws_connection(
@@ -147,9 +150,9 @@ class AwsConnectionsV1Controller(base_controller.BaseController):
 
         Args:
             body:
-                The body of the request.
+
         Returns:
-            CreateAWSConnectionResponse: Response from the API.
+            create_aws_connection_response.CreateAWSConnectionResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -174,6 +177,7 @@ class AwsConnectionsV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing create_aws_connection.', errors
             )
+
         return create_aws_connection_response.CreateAWSConnectionResponse.from_dictionary(resp)
 
     def read_aws_connection(
@@ -185,7 +189,7 @@ class AwsConnectionsV1Controller(base_controller.BaseController):
             connection_id:
                 Performs the operation on the AWS connection with the specified ID.
         Returns:
-            ReadAWSConnectionResponse: Response from the API.
+            read_aws_connection_response.ReadAWSConnectionResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -207,6 +211,7 @@ class AwsConnectionsV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_aws_connection.', errors
             )
+
         return read_aws_connection_response.ReadAWSConnectionResponse.from_dictionary(resp)
 
     def delete_aws_connection(self, connection_id: str) -> object:
@@ -238,6 +243,7 @@ class AwsConnectionsV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing delete_aws_connection.', errors
             )
+
         return resp
 
     def update_aws_connection(
@@ -249,11 +255,11 @@ class AwsConnectionsV1Controller(base_controller.BaseController):
 
         Args:
             connection_id:
-                Updates the connection with the specified path
+                Updates the connection with the specified connection ID
             body:
 
         Returns:
-            UpdateAWSConnectionResponse: Response from the API.
+            update_aws_connection_response.UpdateAWSConnectionResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -280,4 +286,5 @@ class AwsConnectionsV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing update_aws_connection.', errors
             )
+
         return update_aws_connection_response.UpdateAWSConnectionResponse.from_dictionary(resp)

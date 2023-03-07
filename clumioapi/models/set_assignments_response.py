@@ -4,7 +4,7 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import read_task_hateoas_links
+from clumioapi.models import set_assignments_response_links
 
 T = TypeVar('T', bound='SetAssignmentsResponse')
 
@@ -23,12 +23,14 @@ class SetAssignmentsResponse:
     _names = {'links': '_links', 'task_id': 'task_id'}
 
     def __init__(
-        self, links: read_task_hateoas_links.ReadTaskHateoasLinks = None, task_id: str = None
+        self,
+        links: set_assignments_response_links.SetAssignmentsResponseLinks = None,
+        task_id: str = None,
     ) -> None:
         """Constructor for the SetAssignmentsResponse class."""
 
         # Initialize members of the class
-        self.links: read_task_hateoas_links.ReadTaskHateoasLinks = links
+        self.links: set_assignments_response_links.SetAssignmentsResponseLinks = links
         self.task_id: str = task_id
 
     @classmethod
@@ -49,7 +51,9 @@ class SetAssignmentsResponse:
         # Extract variables from the dictionary
         key = '_links'
         links = (
-            read_task_hateoas_links.ReadTaskHateoasLinks.from_dictionary(dictionary.get(key))
+            set_assignments_response_links.SetAssignmentsResponseLinks.from_dictionary(
+                dictionary.get(key)
+            )
             if dictionary.get(key)
             else None
         )

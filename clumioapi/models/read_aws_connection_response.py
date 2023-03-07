@@ -16,8 +16,8 @@ class ReadAWSConnectionResponse:
     """Implementation of the 'ReadAWSConnectionResponse' model.
 
     Attributes:
-        embedded:
-            Embedded responses related to the resource.
+        etag:
+            The ETag value.
         links:
             URLs to pages related to the resource.
         account_name:
@@ -27,9 +27,9 @@ class ReadAWSConnectionResponse:
         aws_region:
             The AWS region associated with the connection. For example, `us-east-1`.
         clumio_aws_account_id:
-            Clumio AWS AccountId
+            AWS AccountId of Clumio Control Plane
         clumio_aws_region:
-            Clumio AWS Region
+            AWS Region of Clumio Control Plane
         config:
             The consolidated configuration of the Clumio Cloud Protect and Clumio Cloud
             Discover products for this connection.
@@ -47,7 +47,7 @@ class ReadAWSConnectionResponse:
             The configuration of the Clumio Discover product for this connection.
             If this connection is not configured for Clumio Discover, then this field has a
             value of `null`.
-        id:
+        p_id:
             The Clumio-assigned ID of the connection.
         namespace:
             K8S Namespace
@@ -63,10 +63,8 @@ class ReadAWSConnectionResponse:
             has a
             value of `null`.
         protect_asset_types_enabled:
-            The asset types enabled for protect. This is only populated if "protect"
-            is enabled. Valid values are any of ["EBS", "RDS", "DynamoDB", "EC2MSSQL",
-            "S3"].
-            EBS and RDS are mandatory datasources. (Deprecated)
+            The asset types enabled for protect.
+            Valid values are any of ["EBS", "RDS", "DynamoDB", "EC2MSSQL", "S3"].
         services_enabled:
             The services to be enabled for this configuration. Valid values are
             ["discover"], ["discover", "protect"]. This is only set when the
@@ -87,7 +85,7 @@ class ReadAWSConnectionResponse:
 
     # Create a mapping from Model property names to API property names
     _names = {
-        'embedded': '_embedded',
+        'etag': '_etag',
         'links': '_links',
         'account_name': 'account_name',
         'account_native_id': 'account_native_id',
@@ -99,7 +97,7 @@ class ReadAWSConnectionResponse:
         'created_timestamp': 'created_timestamp',
         'description': 'description',
         'discover': 'discover',
-        'id': 'id',
+        'p_id': 'id',
         'namespace': 'namespace',
         'organizational_unit_id': 'organizational_unit_id',
         'protect': 'protect',
@@ -112,7 +110,7 @@ class ReadAWSConnectionResponse:
 
     def __init__(
         self,
-        embedded: object = None,
+        etag: str = None,
         links: aws_connection_links.AWSConnectionLinks = None,
         account_name: str = None,
         account_native_id: str = None,
@@ -124,7 +122,7 @@ class ReadAWSConnectionResponse:
         created_timestamp: str = None,
         description: str = None,
         discover: discover_config.DiscoverConfig = None,
-        id: str = None,
+        p_id: str = None,
         namespace: str = None,
         organizational_unit_id: str = None,
         protect: protect_config.ProtectConfig = None,
@@ -137,7 +135,7 @@ class ReadAWSConnectionResponse:
         """Constructor for the ReadAWSConnectionResponse class."""
 
         # Initialize members of the class
-        self.embedded: object = embedded
+        self.etag: str = etag
         self.links: aws_connection_links.AWSConnectionLinks = links
         self.account_name: str = account_name
         self.account_native_id: str = account_native_id
@@ -149,7 +147,7 @@ class ReadAWSConnectionResponse:
         self.created_timestamp: str = created_timestamp
         self.description: str = description
         self.discover: discover_config.DiscoverConfig = discover
-        self.id: str = id
+        self.p_id: str = p_id
         self.namespace: str = namespace
         self.organizational_unit_id: str = organizational_unit_id
         self.protect: protect_config.ProtectConfig = protect
@@ -175,7 +173,7 @@ class ReadAWSConnectionResponse:
             return None
 
         # Extract variables from the dictionary
-        embedded = dictionary.get('_embedded')
+        etag = dictionary.get('_etag')
         key = '_links'
         links = (
             aws_connection_links.AWSConnectionLinks.from_dictionary(dictionary.get(key))
@@ -205,7 +203,7 @@ class ReadAWSConnectionResponse:
             else None
         )
 
-        id = dictionary.get('id')
+        p_id = dictionary.get('id')
         namespace = dictionary.get('namespace')
         organizational_unit_id = dictionary.get('organizational_unit_id')
         key = 'protect'
@@ -222,7 +220,7 @@ class ReadAWSConnectionResponse:
         token = dictionary.get('token')
         # Return an object of this model
         return cls(
-            embedded,
+            etag,
             links,
             account_name,
             account_native_id,
@@ -234,7 +232,7 @@ class ReadAWSConnectionResponse:
             created_timestamp,
             description,
             discover,
-            id,
+            p_id,
             namespace,
             organizational_unit_id,
             protect,

@@ -17,7 +17,7 @@ class VCenterComputeResource:
     Attributes:
         links:
             URLs to pages related to the resource.
-        id:
+        p_id:
             The Clumio-assigned ID of the item.
         isCluster:
             IsCluster denotes whether the compute resource is a cluster.
@@ -40,7 +40,7 @@ class VCenterComputeResource:
     # Create a mapping from Model property names to API property names
     _names = {
         'links': '_links',
-        'id': 'id',
+        'p_id': 'id',
         'isCluster': 'isCluster',
         'isDrsEnabled': 'isDrsEnabled',
         'name': 'name',
@@ -52,7 +52,7 @@ class VCenterComputeResource:
     def __init__(
         self,
         links: v_center_compute_resource_links.VCenterComputeResourceLinks = None,
-        id: str = None,
+        p_id: str = None,
         isCluster: bool = None,
         isDrsEnabled: bool = None,
         name: str = None,
@@ -64,7 +64,7 @@ class VCenterComputeResource:
 
         # Initialize members of the class
         self.links: v_center_compute_resource_links.VCenterComputeResourceLinks = links
-        self.id: str = id
+        self.p_id: str = p_id
         self.isCluster: bool = isCluster
         self.isDrsEnabled: bool = isDrsEnabled
         self.name: str = name
@@ -97,7 +97,7 @@ class VCenterComputeResource:
             else None
         )
 
-        id = dictionary.get('id')
+        p_id = dictionary.get('id')
         isCluster = dictionary.get('isCluster')
         isDrsEnabled = dictionary.get('isDrsEnabled')
         name = dictionary.get('name')
@@ -119,7 +119,7 @@ class VCenterComputeResource:
         # Return an object of this model
         return cls(
             links,
-            id,
+            p_id,
             isCluster,
             isDrsEnabled,
             name,

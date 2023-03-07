@@ -27,7 +27,7 @@ class ReadMssqlInstanceResponse:
             The user-provided endpoint of the host containing the given database.
         host_id:
             The Clumio-assigned ID of the host, containing the instance.
-        id:
+        p_id:
             The Clumio-assigned ID of the Instance.
         name:
             The Microsoft SQL assigned name of the instance.
@@ -54,7 +54,7 @@ class ReadMssqlInstanceResponse:
         'has_associated_availability_group': 'has_associated_availability_group',
         'host_endpoint': 'host_endpoint',
         'host_id': 'host_id',
-        'id': 'id',
+        'p_id': 'id',
         'name': 'name',
         'organizational_unit_id': 'organizational_unit_id',
         'product_version': 'product_version',
@@ -72,7 +72,7 @@ class ReadMssqlInstanceResponse:
         has_associated_availability_group: bool = None,
         host_endpoint: str = None,
         host_id: str = None,
-        id: str = None,
+        p_id: str = None,
         name: str = None,
         organizational_unit_id: str = None,
         product_version: str = None,
@@ -90,7 +90,7 @@ class ReadMssqlInstanceResponse:
         self.has_associated_availability_group: bool = has_associated_availability_group
         self.host_endpoint: str = host_endpoint
         self.host_id: str = host_id
-        self.id: str = id
+        self.p_id: str = p_id
         self.name: str = name
         self.organizational_unit_id: str = organizational_unit_id
         self.product_version: str = product_version
@@ -133,7 +133,7 @@ class ReadMssqlInstanceResponse:
         has_associated_availability_group = dictionary.get('has_associated_availability_group')
         host_endpoint = dictionary.get('host_endpoint')
         host_id = dictionary.get('host_id')
-        id = dictionary.get('id')
+        p_id = dictionary.get('id')
         name = dictionary.get('name')
         organizational_unit_id = dictionary.get('organizational_unit_id')
         product_version = dictionary.get('product_version')
@@ -155,7 +155,7 @@ class ReadMssqlInstanceResponse:
             has_associated_availability_group,
             host_endpoint,
             host_id,
-            id,
+            p_id,
             name,
             organizational_unit_id,
             product_version,

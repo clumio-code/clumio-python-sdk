@@ -19,7 +19,7 @@ class ReadAwsTagResponse:
             Embedded responses related to the resource.
         links:
             URLs to pages related to the resource.
-        id:
+        p_id:
             The Clumio-assigned ID of the AWS tag.
         key:
             The AWS-assigned tag key.
@@ -41,7 +41,7 @@ class ReadAwsTagResponse:
     _names = {
         'embedded': '_embedded',
         'links': '_links',
-        'id': 'id',
+        'p_id': 'id',
         'key': 'key',
         'key_id': 'key_id',
         'organizational_unit_id': 'organizational_unit_id',
@@ -54,7 +54,7 @@ class ReadAwsTagResponse:
         self,
         embedded: aws_tag_embedded.AwsTagEmbedded = None,
         links: aws_tag_links.AwsTagLinks = None,
-        id: str = None,
+        p_id: str = None,
         key: str = None,
         key_id: str = None,
         organizational_unit_id: str = None,
@@ -67,7 +67,7 @@ class ReadAwsTagResponse:
         # Initialize members of the class
         self.embedded: aws_tag_embedded.AwsTagEmbedded = embedded
         self.links: aws_tag_links.AwsTagLinks = links
-        self.id: str = id
+        self.p_id: str = p_id
         self.key: str = key
         self.key_id: str = key_id
         self.organizational_unit_id: str = organizational_unit_id
@@ -105,7 +105,7 @@ class ReadAwsTagResponse:
             else None
         )
 
-        id = dictionary.get('id')
+        p_id = dictionary.get('id')
         key = dictionary.get('key')
         key_id = dictionary.get('key_id')
         organizational_unit_id = dictionary.get('organizational_unit_id')
@@ -122,7 +122,7 @@ class ReadAwsTagResponse:
         return cls(
             embedded,
             links,
-            id,
+            p_id,
             key,
             key_id,
             organizational_unit_id,

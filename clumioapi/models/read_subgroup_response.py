@@ -27,7 +27,7 @@ class ReadSubgroupResponse:
             cloud connectors are in the subgroup.
         group_id:
             The Clumio-assigned ID of the management group associated with this subgroup.
-        id:
+        p_id:
             The Clumio-assigned ID of the management subgroup.
         name:
             The name of the management subgroup.
@@ -39,7 +39,7 @@ class ReadSubgroupResponse:
         'cloud_connector_count_by_status': 'cloud_connector_count_by_status',
         'cloud_connector_status': 'cloud_connector_status',
         'group_id': 'group_id',
-        'id': 'id',
+        'p_id': 'id',
         'name': 'name',
     }
 
@@ -49,7 +49,7 @@ class ReadSubgroupResponse:
         cloud_connector_count_by_status: cloud_connector_count_by_status.CloudConnectorCountByStatus = None,
         cloud_connector_status: str = None,
         group_id: str = None,
-        id: str = None,
+        p_id: str = None,
         name: str = None,
     ) -> None:
         """Constructor for the ReadSubgroupResponse class."""
@@ -61,7 +61,7 @@ class ReadSubgroupResponse:
         )
         self.cloud_connector_status: str = cloud_connector_status
         self.group_id: str = group_id
-        self.id: str = id
+        self.p_id: str = p_id
         self.name: str = name
 
     @classmethod
@@ -98,9 +98,9 @@ class ReadSubgroupResponse:
 
         cloud_connector_status = dictionary.get('cloud_connector_status')
         group_id = dictionary.get('group_id')
-        id = dictionary.get('id')
+        p_id = dictionary.get('id')
         name = dictionary.get('name')
         # Return an object of this model
         return cls(
-            links, p_cloud_connector_count_by_status, cloud_connector_status, group_id, id, name
+            links, p_cloud_connector_count_by_status, cloud_connector_status, group_id, p_id, name
         )

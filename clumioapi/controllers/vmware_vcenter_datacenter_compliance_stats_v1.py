@@ -2,6 +2,8 @@
 # Copyright 2021. Clumio, Inc.
 #
 
+import json
+
 from clumioapi import api_helper
 from clumioapi import configuration
 from clumioapi import sdk_version
@@ -38,7 +40,7 @@ class VmwareVcenterDatacenterComplianceStatsV1Controller(base_controller.BaseCon
             datacenter_id:
                 Performs the operation on the data center with the specified ID.
         Returns:
-            ReadVMwareDatacenterStatsResponse: Response from the API.
+            read_v_mware_datacenter_stats_response.ReadVMwareDatacenterStatsResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -61,6 +63,7 @@ class VmwareVcenterDatacenterComplianceStatsV1Controller(base_controller.BaseCon
                 'Error occurred while executing read_vmware_vcenter_datacenter_compliance_stats.',
                 errors,
             )
+
         return read_v_mware_datacenter_stats_response.ReadVMwareDatacenterStatsResponse.from_dictionary(
             resp
         )

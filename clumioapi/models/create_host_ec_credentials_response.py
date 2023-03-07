@@ -22,7 +22,7 @@ class CreateHostECCredentialsResponse:
             The user-provided endpoint used to connect the host.
         group_id:
             The Clumio-assigned ID of the management group associated with the host.
-        id:
+        p_id:
             The Clumio-assigned ID of the Host.
         last_heartbeat_timestamp:
             The timestamp of the last successful heartbeat of this host. Represented in
@@ -45,7 +45,7 @@ class CreateHostECCredentialsResponse:
         'edge_connector_credentials': 'edge_connector_credentials',
         'endpoint': 'endpoint',
         'group_id': 'group_id',
-        'id': 'id',
+        'p_id': 'id',
         'last_heartbeat_timestamp': 'last_heartbeat_timestamp',
         'name': 'name',
         'status': 'status',
@@ -59,7 +59,7 @@ class CreateHostECCredentialsResponse:
         edge_connector_credentials: str = None,
         endpoint: str = None,
         group_id: str = None,
-        id: str = None,
+        p_id: str = None,
         last_heartbeat_timestamp: str = None,
         name: str = None,
         status: str = None,
@@ -73,7 +73,7 @@ class CreateHostECCredentialsResponse:
         self.edge_connector_credentials: str = edge_connector_credentials
         self.endpoint: str = endpoint
         self.group_id: str = group_id
-        self.id: str = id
+        self.p_id: str = p_id
         self.last_heartbeat_timestamp: str = last_heartbeat_timestamp
         self.name: str = name
         self.status: str = status
@@ -106,7 +106,7 @@ class CreateHostECCredentialsResponse:
         edge_connector_credentials = dictionary.get('edge_connector_credentials')
         endpoint = dictionary.get('endpoint')
         group_id = dictionary.get('group_id')
-        id = dictionary.get('id')
+        p_id = dictionary.get('id')
         last_heartbeat_timestamp = dictionary.get('last_heartbeat_timestamp')
         name = dictionary.get('name')
         status = dictionary.get('status')
@@ -118,7 +118,7 @@ class CreateHostECCredentialsResponse:
             edge_connector_credentials,
             endpoint,
             group_id,
-            id,
+            p_id,
             last_heartbeat_timestamp,
             name,
             status,

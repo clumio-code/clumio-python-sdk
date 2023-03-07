@@ -2,6 +2,8 @@
 # Copyright 2021. Clumio, Inc.
 #
 
+import json
+
 from clumioapi import api_helper
 from clumioapi import configuration
 from clumioapi import sdk_version
@@ -105,7 +107,7 @@ class BackupMssqlDatabasesV1Controller(base_controller.BaseController):
                 +--------------------------+---------------------------------------------------+
 
         Returns:
-            ListMssqlDatabaseBackupsResponse: Response from the API.
+            list_mssql_database_backups_response.ListMssqlDatabaseBackupsResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -132,6 +134,7 @@ class BackupMssqlDatabasesV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_backup_mssql_databases.', errors
             )
+
         return (
             list_mssql_database_backups_response.ListMssqlDatabaseBackupsResponse.from_dictionary(
                 resp
@@ -161,7 +164,7 @@ class BackupMssqlDatabasesV1Controller(base_controller.BaseController):
             body:
 
         Returns:
-            OnDemandMssqlBackupResponse: Response from the API.
+            on_demand_mssql_backup_response.OnDemandMssqlBackupResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -187,6 +190,7 @@ class BackupMssqlDatabasesV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing create_backup_mssql_database.', errors
             )
+
         return on_demand_mssql_backup_response.OnDemandMssqlBackupResponse.from_dictionary(resp)
 
     def read_backup_mssql_database(
@@ -198,7 +202,7 @@ class BackupMssqlDatabasesV1Controller(base_controller.BaseController):
             backup_id:
                 Performs the operation on the backup with the specified ID.
         Returns:
-            ReadMssqlDatabaseBackupResponse: Response from the API.
+            read_mssql_database_backup_response.ReadMssqlDatabaseBackupResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -220,6 +224,7 @@ class BackupMssqlDatabasesV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_backup_mssql_database.', errors
             )
+
         return read_mssql_database_backup_response.ReadMssqlDatabaseBackupResponse.from_dictionary(
             resp
         )

@@ -2,6 +2,8 @@
 # Copyright 2021. Clumio, Inc.
 #
 
+import json
+
 from clumioapi import api_helper
 from clumioapi import configuration
 from clumioapi import sdk_version
@@ -51,7 +53,7 @@ class RestoredAwsEbsVolumesV2Controller(base_controller.BaseController):
             body:
 
         Returns:
-            RestoreEBSResponse: Response from the API.
+            restore_ebs_response.RestoreEBSResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -77,4 +79,5 @@ class RestoredAwsEbsVolumesV2Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing restore_aws_ebs_volume.', errors
             )
+
         return restore_ebs_response.RestoreEBSResponse.from_dictionary(resp)

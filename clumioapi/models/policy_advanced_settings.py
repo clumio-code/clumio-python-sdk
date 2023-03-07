@@ -6,6 +6,8 @@ from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
 from clumioapi.models import ebs_backup_advanced_setting
 from clumioapi.models import ec2_backup_advanced_setting
+from clumioapi.models import ec2_mssql_database_backup_advanced_setting
+from clumioapi.models import ec2_mssql_log_backup_advanced_setting
 from clumioapi.models import mssql_database_backup_advanced_setting
 from clumioapi.models import mssql_log_backup_advanced_setting
 from clumioapi.models import protection_group_backup_advanced_setting
@@ -21,19 +23,17 @@ class PolicyAdvancedSettings:
 
     Attributes:
         aws_ebs_volume_backup:
-            Backup tier to store the backup in. Valid values are: (empty) equivalent to
-            standard, `standard`, and `lite`.
+            Advanced settings for EBS backup.
         aws_ec2_instance_backup:
-            Backup tier to store the backup in. Valid values are: (empty) equivalent to
-            standard, `standard`, and `lite`.
+            Advanced settings for EC2 backup.
         ec2_mssql_database_backup:
-            Additional policy configuration settings for the `mssql_database_backup`
-            operation. If this operation is not of type `mssql_database_backup`, then this
-            field is omitted from the response.
+            Additional policy configuration settings for the `ec2_mssql_database_backup`
+            operation. If this operation is not of type `ec2_mssql_database_backup`, then
+            this field is omitted from the response.
         ec2_mssql_log_backup:
-            Additional policy configuration settings for the `mssql_log_backup` operation.
-            If this operation is not of type `mssql_log_backup`, then this field is omitted
-            from the response.
+            Additional policy configuration settings for the `ec2_mssql_log_backup`
+            operation. If this operation is not of type `ec2_mssql_log_backup`, then this
+            field is omitted from the response.
         mssql_database_backup:
             Additional policy configuration settings for the `mssql_database_backup`
             operation. If this operation is not of type `mssql_database_backup`, then this
@@ -63,8 +63,8 @@ class PolicyAdvancedSettings:
         self,
         aws_ebs_volume_backup: ebs_backup_advanced_setting.EBSBackupAdvancedSetting = None,
         aws_ec2_instance_backup: ec2_backup_advanced_setting.EC2BackupAdvancedSetting = None,
-        ec2_mssql_database_backup: mssql_database_backup_advanced_setting.MSSQLDatabaseBackupAdvancedSetting = None,
-        ec2_mssql_log_backup: mssql_log_backup_advanced_setting.MSSQLLogBackupAdvancedSetting = None,
+        ec2_mssql_database_backup: ec2_mssql_database_backup_advanced_setting.EC2MSSQLDatabaseBackupAdvancedSetting = None,
+        ec2_mssql_log_backup: ec2_mssql_log_backup_advanced_setting.EC2MSSQLLogBackupAdvancedSetting = None,
         mssql_database_backup: mssql_database_backup_advanced_setting.MSSQLDatabaseBackupAdvancedSetting = None,
         mssql_log_backup: mssql_log_backup_advanced_setting.MSSQLLogBackupAdvancedSetting = None,
         protection_group_backup: protection_group_backup_advanced_setting.ProtectionGroupBackupAdvancedSetting = None,
@@ -78,10 +78,10 @@ class PolicyAdvancedSettings:
         self.aws_ec2_instance_backup: ec2_backup_advanced_setting.EC2BackupAdvancedSetting = (
             aws_ec2_instance_backup
         )
-        self.ec2_mssql_database_backup: mssql_database_backup_advanced_setting.MSSQLDatabaseBackupAdvancedSetting = (
+        self.ec2_mssql_database_backup: ec2_mssql_database_backup_advanced_setting.EC2MSSQLDatabaseBackupAdvancedSetting = (
             ec2_mssql_database_backup
         )
-        self.ec2_mssql_log_backup: mssql_log_backup_advanced_setting.MSSQLLogBackupAdvancedSetting = (
+        self.ec2_mssql_log_backup: ec2_mssql_log_backup_advanced_setting.EC2MSSQLLogBackupAdvancedSetting = (
             ec2_mssql_log_backup
         )
         self.mssql_database_backup: mssql_database_backup_advanced_setting.MSSQLDatabaseBackupAdvancedSetting = (
@@ -130,7 +130,7 @@ class PolicyAdvancedSettings:
 
         key = 'ec2_mssql_database_backup'
         ec2_mssql_database_backup = (
-            mssql_database_backup_advanced_setting.MSSQLDatabaseBackupAdvancedSetting.from_dictionary(
+            ec2_mssql_database_backup_advanced_setting.EC2MSSQLDatabaseBackupAdvancedSetting.from_dictionary(
                 dictionary.get(key)
             )
             if dictionary.get(key)
@@ -139,7 +139,7 @@ class PolicyAdvancedSettings:
 
         key = 'ec2_mssql_log_backup'
         ec2_mssql_log_backup = (
-            mssql_log_backup_advanced_setting.MSSQLLogBackupAdvancedSetting.from_dictionary(
+            ec2_mssql_log_backup_advanced_setting.EC2MSSQLLogBackupAdvancedSetting.from_dictionary(
                 dictionary.get(key)
             )
             if dictionary.get(key)

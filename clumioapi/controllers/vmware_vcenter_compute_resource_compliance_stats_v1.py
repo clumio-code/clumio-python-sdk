@@ -2,6 +2,8 @@
 # Copyright 2021. Clumio, Inc.
 #
 
+import json
+
 from clumioapi import api_helper
 from clumioapi import configuration
 from clumioapi import sdk_version
@@ -39,7 +41,7 @@ class VmwareVcenterComputeResourceComplianceStatsV1Controller(base_controller.Ba
             compute_resource_id:
                 Performs the operation on the compute resource with the specified ID.
         Returns:
-            ReadVMwareComputeResourceStatsResponse: Response from the API.
+            read_v_mware_compute_resource_stats_response.ReadVMwareComputeResourceStatsResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -62,6 +64,7 @@ class VmwareVcenterComputeResourceComplianceStatsV1Controller(base_controller.Ba
                 'Error occurred while executing read_vmware_vcenter_compute_resource_compliance_stats.',
                 errors,
             )
+
         return read_v_mware_compute_resource_stats_response.ReadVMwareComputeResourceStatsResponse.from_dictionary(
             resp
         )

@@ -2,6 +2,8 @@
 # Copyright 2021. Clumio, Inc.
 #
 
+import json
+
 from clumioapi import api_helper
 from clumioapi import configuration
 from clumioapi import sdk_version
@@ -10,6 +12,7 @@ from clumioapi.exceptions import clumio_exception
 from clumioapi.models import list_restored_records_response
 from clumioapi.models import restore_rds_record_v1_request
 from clumioapi.models import restore_record_preview_response
+from clumioapi.models import restore_record_response
 import requests
 
 
@@ -52,7 +55,7 @@ class AwsRdsResourceRestoredRecordsV1Controller(base_controller.BaseController):
                 +----------+-----+--------------------------------------+
 
         Returns:
-            ListRestoredRecordsResponse: Response from the API.
+            list_restored_records_response.ListRestoredRecordsResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -73,13 +76,14 @@ class AwsRdsResourceRestoredRecordsV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_rds_restored_records.', errors
             )
+
         return list_restored_records_response.ListRestoredRecordsResponse.from_dictionary(resp)
 
     def restore_rds_record(
         self,
         embed: str = None,
         body: restore_rds_record_v1_request.RestoreRdsRecordV1Request = None,
-    ) -> restore_record_preview_response.RestoreRecordPreviewResponse:
+    ) -> restore_record_preview_response.RestoreRecordPreviewResponse | restore_record_response.RestoreRecordResponse:
         """Start a database backup query with the query statement provided in user input.
         If the query preview flag is set in the input then the result will be returned
         in the response otherwise the query will run in background and a task id will be
@@ -101,7 +105,7 @@ class AwsRdsResourceRestoredRecordsV1Controller(base_controller.BaseController):
             body:
 
         Returns:
-            RestoreRecordPreviewResponse: Response from the API.
+            restore_record_preview_response.RestoreRecordPreviewResponse | restore_record_response.RestoreRecordResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -121,10 +125,17 @@ class AwsRdsResourceRestoredRecordsV1Controller(base_controller.BaseController):
                 headers=self.headers,
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
+                raw_response=True,
             )
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing restore_rds_record.', errors
             )
-        return restore_record_preview_response.RestoreRecordPreviewResponse.from_dictionary(resp)
+        unmarshalled_dict = json.loads(resp.text)
+        if resp.status_code == 200:
+            return restore_record_preview_response.RestoreRecordPreviewResponse.from_dictionary(
+                unmarshalled_dict
+            )
+        if resp.status_code == 202:
+            return restore_record_response.RestoreRecordResponse.from_dictionary(unmarshalled_dict)

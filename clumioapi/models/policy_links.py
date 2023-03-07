@@ -6,7 +6,6 @@ from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
 from clumioapi.models import hateoas_link
 from clumioapi.models import hateoas_self_link
-from clumioapi.models import protect_entities_hateoas_link
 
 T = TypeVar('T', bound='PolicyLinks')
 
@@ -21,12 +20,6 @@ class PolicyLinks:
             The HATEOAS link to this resource.
         delete_policy_definition:
             A resource-specific HATEOAS link.
-        protect_entities:
-            A HATEOAS link to protect the entities.
-        read_policy_aws_ebs_volumes_compliance_stats:
-            A resource-specific HATEOAS link.
-        read_policy_vmware_vms_compliance_stats:
-            A resource-specific HATEOAS link.
         update_policy_definition:
             A resource-specific HATEOAS link.
     """
@@ -35,9 +28,6 @@ class PolicyLinks:
     _names = {
         'p_self': '_self',
         'delete_policy_definition': 'delete-policy-definition',
-        'protect_entities': 'protect-entities',
-        'read_policy_aws_ebs_volumes_compliance_stats': 'read-policy-aws-ebs-volumes-compliance-stats',
-        'read_policy_vmware_vms_compliance_stats': 'read-policy-vmware-vms-compliance-stats',
         'update_policy_definition': 'update-policy-definition',
     }
 
@@ -45,9 +35,6 @@ class PolicyLinks:
         self,
         p_self: hateoas_self_link.HateoasSelfLink = None,
         delete_policy_definition: hateoas_link.HateoasLink = None,
-        protect_entities: protect_entities_hateoas_link.ProtectEntitiesHateoasLink = None,
-        read_policy_aws_ebs_volumes_compliance_stats: hateoas_link.HateoasLink = None,
-        read_policy_vmware_vms_compliance_stats: hateoas_link.HateoasLink = None,
         update_policy_definition: hateoas_link.HateoasLink = None,
     ) -> None:
         """Constructor for the PolicyLinks class."""
@@ -55,15 +42,6 @@ class PolicyLinks:
         # Initialize members of the class
         self.p_self: hateoas_self_link.HateoasSelfLink = p_self
         self.delete_policy_definition: hateoas_link.HateoasLink = delete_policy_definition
-        self.protect_entities: protect_entities_hateoas_link.ProtectEntitiesHateoasLink = (
-            protect_entities
-        )
-        self.read_policy_aws_ebs_volumes_compliance_stats: hateoas_link.HateoasLink = (
-            read_policy_aws_ebs_volumes_compliance_stats
-        )
-        self.read_policy_vmware_vms_compliance_stats: hateoas_link.HateoasLink = (
-            read_policy_vmware_vms_compliance_stats
-        )
         self.update_policy_definition: hateoas_link.HateoasLink = update_policy_definition
 
     @classmethod
@@ -96,29 +74,6 @@ class PolicyLinks:
             else None
         )
 
-        key = 'protect-entities'
-        protect_entities = (
-            protect_entities_hateoas_link.ProtectEntitiesHateoasLink.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
-        )
-
-        key = 'read-policy-aws-ebs-volumes-compliance-stats'
-        read_policy_aws_ebs_volumes_compliance_stats = (
-            hateoas_link.HateoasLink.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
-
-        key = 'read-policy-vmware-vms-compliance-stats'
-        read_policy_vmware_vms_compliance_stats = (
-            hateoas_link.HateoasLink.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
-
         key = 'update-policy-definition'
         update_policy_definition = (
             hateoas_link.HateoasLink.from_dictionary(dictionary.get(key))
@@ -127,11 +82,4 @@ class PolicyLinks:
         )
 
         # Return an object of this model
-        return cls(
-            p_self,
-            delete_policy_definition,
-            protect_entities,
-            read_policy_aws_ebs_volumes_compliance_stats,
-            read_policy_vmware_vms_compliance_stats,
-            update_policy_definition,
-        )
+        return cls(p_self, delete_policy_definition, update_policy_definition)
