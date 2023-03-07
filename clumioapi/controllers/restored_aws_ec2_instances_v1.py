@@ -2,6 +2,8 @@
 # Copyright 2021. Clumio, Inc.
 #
 
+import json
+
 from clumioapi import api_helper
 from clumioapi import configuration
 from clumioapi import sdk_version
@@ -50,7 +52,7 @@ class RestoredAwsEc2InstancesV1Controller(base_controller.BaseController):
             body:
 
         Returns:
-            RestoreEC2Response: Response from the API.
+            restore_ec2_response.RestoreEC2Response: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -76,4 +78,5 @@ class RestoredAwsEc2InstancesV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing restore_aws_ec2_instance.', errors
             )
+
         return restore_ec2_response.RestoreEC2Response.from_dictionary(resp)

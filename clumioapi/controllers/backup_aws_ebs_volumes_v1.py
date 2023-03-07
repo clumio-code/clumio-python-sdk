@@ -2,6 +2,8 @@
 # Copyright 2021. Clumio, Inc.
 #
 
+import json
+
 from clumioapi import api_helper
 from clumioapi import configuration
 from clumioapi import sdk_version
@@ -80,7 +82,7 @@ class BackupAwsEbsVolumesV1Controller(base_controller.BaseController):
                 +-----------------+------------------+-----------------------------------------+
 
         Returns:
-            ListEBSBackupsResponseV1: Response from the API.
+            list_ebs_backups_response_v1.ListEBSBackupsResponseV1: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -101,6 +103,7 @@ class BackupAwsEbsVolumesV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_backup_aws_ebs_volumes.', errors
             )
+
         return list_ebs_backups_response_v1.ListEBSBackupsResponseV1.from_dictionary(resp)
 
     def create_backup_aws_ebs_volume(
@@ -137,6 +140,7 @@ class BackupAwsEbsVolumesV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing create_backup_aws_ebs_volume.', errors
             )
+
         return resp
 
     def read_backup_aws_ebs_volume(
@@ -148,7 +152,7 @@ class BackupAwsEbsVolumesV1Controller(base_controller.BaseController):
             backup_id:
                 Performs the operation on the backup with the specified ID.
         Returns:
-            ReadEBSBackupResponseV1: Response from the API.
+            read_ebs_backup_response_v1.ReadEBSBackupResponseV1: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -170,4 +174,5 @@ class BackupAwsEbsVolumesV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_backup_aws_ebs_volume.', errors
             )
+
         return read_ebs_backup_response_v1.ReadEBSBackupResponseV1.from_dictionary(resp)

@@ -5,6 +5,7 @@
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
 from clumioapi.models import template_configuration_v2
+from clumioapi.models import template_links
 
 T = TypeVar('T', bound='ReadAWSTemplatesV2Response')
 
@@ -13,17 +14,24 @@ class ReadAWSTemplatesV2Response:
     """Implementation of the 'ReadAWSTemplatesV2Response' model.
 
     Attributes:
+        links:
+            URLs to pages related to the resource.
         config:
-
+            The configuration of the given template
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'config': 'config'}
+    _names = {'links': '_links', 'config': 'config'}
 
-    def __init__(self, config: template_configuration_v2.TemplateConfigurationV2 = None) -> None:
+    def __init__(
+        self,
+        links: template_links.TemplateLinks = None,
+        config: template_configuration_v2.TemplateConfigurationV2 = None,
+    ) -> None:
         """Constructor for the ReadAWSTemplatesV2Response class."""
 
         # Initialize members of the class
+        self.links: template_links.TemplateLinks = links
         self.config: template_configuration_v2.TemplateConfigurationV2 = config
 
     @classmethod
@@ -42,6 +50,13 @@ class ReadAWSTemplatesV2Response:
             return None
 
         # Extract variables from the dictionary
+        key = '_links'
+        links = (
+            template_links.TemplateLinks.from_dictionary(dictionary.get(key))
+            if dictionary.get(key)
+            else None
+        )
+
         key = 'config'
         config = (
             template_configuration_v2.TemplateConfigurationV2.from_dictionary(dictionary.get(key))
@@ -50,4 +65,4 @@ class ReadAWSTemplatesV2Response:
         )
 
         # Return an object of this model
-        return cls(config)
+        return cls(links, config)

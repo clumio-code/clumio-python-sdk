@@ -2,6 +2,8 @@
 # Copyright 2021. Clumio, Inc.
 #
 
+import json
+
 from clumioapi import api_helper
 from clumioapi import configuration
 from clumioapi import sdk_version
@@ -50,7 +52,7 @@ class BackupFilesystemDirectoriesV1Controller(base_controller.BaseController):
                 get the first page.
                 Other pages can be traversed using HATEOAS links.
         Returns:
-            ReadDirectoryResponse: Response from the API.
+            read_directory_response.ReadDirectoryResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -74,4 +76,5 @@ class BackupFilesystemDirectoriesV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_backup_filesystem_directory.', errors
             )
+
         return read_directory_response.ReadDirectoryResponse.from_dictionary(resp)

@@ -2,18 +2,22 @@
 # Copyright 2021. Clumio, Inc.
 #
 
+import json
+
 from clumioapi import api_helper
 from clumioapi import configuration
 from clumioapi import sdk_version
 from clumioapi.controllers import base_controller
 from clumioapi.exceptions import clumio_exception
-from clumioapi.models import create_organizational_unit_response
+from clumioapi.models import create_organizational_unit_no_task_response_v1
+from clumioapi.models import create_organizational_unit_response_v1
 from clumioapi.models import create_organizational_unit_v1_request
 from clumioapi.models import delete_organizational_unit_response
-from clumioapi.models import list_organizational_units_response
-from clumioapi.models import patch_organizational_unit_response
+from clumioapi.models import list_organizational_units_response_v1
+from clumioapi.models import patch_organizational_unit_no_task_response_v1
+from clumioapi.models import patch_organizational_unit_response_v1
 from clumioapi.models import patch_organizational_unit_v1_request
-from clumioapi.models import read_organizational_unit_response
+from clumioapi.models import read_organizational_unit_response_v1
 import requests
 
 
@@ -34,7 +38,7 @@ class OrganizationalUnitsV1Controller(base_controller.BaseController):
 
     def list_organizational_units(
         self, limit: int = None, start: str = None, filter: str = None
-    ) -> list_organizational_units_response.ListOrganizationalUnitsResponse:
+    ) -> list_organizational_units_response_v1.ListOrganizationalUnitsResponseV1:
         """Returns a list of organizational units.
 
         Args:
@@ -63,7 +67,7 @@ class OrganizationalUnitsV1Controller(base_controller.BaseController):
                 +-----------+------------------+-----------------------------------------------+
 
         Returns:
-            ListOrganizationalUnitsResponse: Response from the API.
+            list_organizational_units_response_v1.ListOrganizationalUnitsResponseV1: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -84,16 +88,23 @@ class OrganizationalUnitsV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_organizational_units.', errors
             )
-        return list_organizational_units_response.ListOrganizationalUnitsResponse.from_dictionary(
-            resp
+
+        return (
+            list_organizational_units_response_v1.ListOrganizationalUnitsResponseV1.from_dictionary(
+                resp
+            )
         )
 
     def create_organizational_unit(
         self,
         embed: str = None,
         body: create_organizational_unit_v1_request.CreateOrganizationalUnitV1Request = None,
-    ) -> create_organizational_unit_response.CreateOrganizationalUnitResponse:
-        """Create a new organizational unit.
+    ) -> create_organizational_unit_no_task_response_v1.CreateOrganizationalUnitNoTaskResponseV1 | create_organizational_unit_response_v1.CreateOrganizationalUnitResponseV1:
+        """Create a new organizational unit. Adding entities to the OU is an asynchronous
+        operation and has a task associated.
+        When the request has entities to be added, the response has a task ID which can
+        be used to
+        track the progress of the operation.
 
         Args:
             embed:
@@ -111,7 +122,7 @@ class OrganizationalUnitsV1Controller(base_controller.BaseController):
             body:
 
         Returns:
-            CreateOrganizationalUnitResponse: Response from the API.
+            create_organizational_unit_no_task_response_v1.CreateOrganizationalUnitNoTaskResponseV1 | create_organizational_unit_response_v1.CreateOrganizationalUnitResponseV1: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -131,26 +142,45 @@ class OrganizationalUnitsV1Controller(base_controller.BaseController):
                 headers=self.headers,
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
+                raw_response=True,
             )
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing create_organizational_unit.', errors
             )
-        return create_organizational_unit_response.CreateOrganizationalUnitResponse.from_dictionary(
-            resp
-        )
+        unmarshalled_dict = json.loads(resp.text)
+        if resp.status_code == 200:
+            return create_organizational_unit_no_task_response_v1.CreateOrganizationalUnitNoTaskResponseV1.from_dictionary(
+                unmarshalled_dict
+            )
+        if resp.status_code == 202:
+            return create_organizational_unit_response_v1.CreateOrganizationalUnitResponseV1.from_dictionary(
+                unmarshalled_dict
+            )
 
     def read_organizational_unit(
-        self, id: str
-    ) -> read_organizational_unit_response.ReadOrganizationalUnitResponse:
+        self, id: str, embed: str = None
+    ) -> read_organizational_unit_response_v1.ReadOrganizationalUnitResponseV1:
         """Returns a representation of the specified organizational unit.
 
         Args:
             id:
                 Retrieve the organizational unit with the specified ID.
+            embed:
+                Embeds the details of each associated resource. Set the parameter to one of the
+                following embeddable links to include additional details associated with the
+                resource.
+
+                +-----------------+------------------------------------------------------------+
+                | Embeddable Link |                        Description                         |
+                +=================+============================================================+
+                | read-task       | Embeds the associated task in the response. For example,   |
+                |                 | embed=read-task                                            |
+                +-----------------+------------------------------------------------------------+
+
         Returns:
-            ReadOrganizationalUnitResponse: Response from the API.
+            read_organizational_unit_response_v1.ReadOrganizationalUnitResponseV1: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -161,6 +191,7 @@ class OrganizationalUnitsV1Controller(base_controller.BaseController):
         _url_path = f'{self.config.base_path}/organizational-units/{id}'
         _url_path = api_helper.append_url_with_template_parameters(_url_path, {'id': id})
         _query_parameters = {}
+        _query_parameters = {'embed': embed}
 
         # Execute request
         try:
@@ -170,8 +201,11 @@ class OrganizationalUnitsV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_organizational_unit.', errors
             )
-        return read_organizational_unit_response.ReadOrganizationalUnitResponse.from_dictionary(
-            resp
+
+        return (
+            read_organizational_unit_response_v1.ReadOrganizationalUnitResponseV1.from_dictionary(
+                resp
+            )
         )
 
     def delete_organizational_unit(
@@ -195,7 +229,7 @@ class OrganizationalUnitsV1Controller(base_controller.BaseController):
                 +-----------------+------------------------------------------------------------+
 
         Returns:
-            DeleteOrganizationalUnitResponse: Response from the API.
+            delete_organizational_unit_response.DeleteOrganizationalUnitResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -216,6 +250,7 @@ class OrganizationalUnitsV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing delete_organizational_unit.', errors
             )
+
         return delete_organizational_unit_response.DeleteOrganizationalUnitResponse.from_dictionary(
             resp
         )
@@ -225,10 +260,14 @@ class OrganizationalUnitsV1Controller(base_controller.BaseController):
         id: str,
         embed: str = None,
         body: patch_organizational_unit_v1_request.PatchOrganizationalUnitV1Request = None,
-    ) -> patch_organizational_unit_response.PatchOrganizationalUnitResponse:
+    ) -> patch_organizational_unit_no_task_response_v1.PatchOrganizationalUnitNoTaskResponseV1 | patch_organizational_unit_response_v1.PatchOrganizationalUnitResponseV1:
         """Patch the specified organizational unit.
-        The complete updated attribute(s) of the organizational unit has to be provided
+        The complete updated attribute(s) of the organizational unit have to be provided
         in the request.
+        Adding or removing entities from the OU is an asynchronous operation and has a
+        task associated.
+        When the request has entities to be added or removed, the response has a task ID
+        which can be used to track the progress of the operation.
 
         Args:
             id:
@@ -248,7 +287,7 @@ class OrganizationalUnitsV1Controller(base_controller.BaseController):
             body:
 
         Returns:
-            PatchOrganizationalUnitResponse: Response from the API.
+            patch_organizational_unit_no_task_response_v1.PatchOrganizationalUnitNoTaskResponseV1 | patch_organizational_unit_response_v1.PatchOrganizationalUnitResponseV1: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -268,12 +307,19 @@ class OrganizationalUnitsV1Controller(base_controller.BaseController):
                 headers=self.headers,
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
+                raw_response=True,
             )
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing patch_organizational_unit.', errors
             )
-        return patch_organizational_unit_response.PatchOrganizationalUnitResponse.from_dictionary(
-            resp
-        )
+        unmarshalled_dict = json.loads(resp.text)
+        if resp.status_code == 200:
+            return patch_organizational_unit_no_task_response_v1.PatchOrganizationalUnitNoTaskResponseV1.from_dictionary(
+                unmarshalled_dict
+            )
+        if resp.status_code == 202:
+            return patch_organizational_unit_response_v1.PatchOrganizationalUnitResponseV1.from_dictionary(
+                unmarshalled_dict
+            )

@@ -1,16 +1,23 @@
 #
 # Copyright 2021. Clumio, Inc.
 #
-
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
+from clumioapi.exceptions import clumio_exception
+
 T = TypeVar('T', bound='CreateAwsConnectionV1Request')
+
+ProtectAssetTypesEnabledValues = [
+    'EBS',
+    'RDS',
+    'DynamoDB',
+    'EC2MSSQL',
+    'S3',
+]
 
 
 class CreateAwsConnectionV1Request:
     """Implementation of the 'CreateAwsConnectionV1Request' model.
-
-    The body of the request.
 
     Attributes:
         account_native_id:
@@ -26,10 +33,8 @@ class CreateAwsConnectionV1Request:
             user. For more information about organizational units, refer to the
             Organizational-Units documentation.
         protect_asset_types_enabled:
-            The asset types enabled for protect. This is only populated if "protect"
-            is enabled. Valid values are any of ["EBS", "RDS", "DynamoDB", "EC2MSSQL",
-            "S3"].
-            EBS and RDS are mandatory datasources. (Deprecated)
+            The asset types enabled for protect.
+            Valid values are any of ["EBS", "RDS", "DynamoDB", "EC2MSSQL", "S3"].
         services_enabled:
             The services to be enabled for this configuration. Valid values are
             ["discover"], ["discover", "protect"]. This is only set when the
@@ -64,6 +69,13 @@ class CreateAwsConnectionV1Request:
         self.aws_region: str = aws_region
         self.description: str = description
         self.organizational_unit_id: str = organizational_unit_id
+
+        for enum_value in protect_asset_types_enabled:
+            if enum_value not in ProtectAssetTypesEnabledValues:
+                raise clumio_exception.ClumioException(
+                    f'Invalid value for protect_asset_types_enabled: {enum_value}. Valid values are { ProtectAssetTypesEnabledValues }.',
+                    None,
+                )
         self.protect_asset_types_enabled: Sequence[str] = protect_asset_types_enabled
         self.services_enabled: Sequence[str] = services_enabled
 

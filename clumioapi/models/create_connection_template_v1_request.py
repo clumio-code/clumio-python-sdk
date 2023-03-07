@@ -1,21 +1,28 @@
 #
 # Copyright 2021. Clumio, Inc.
 #
-
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
+from clumioapi.exceptions import clumio_exception
+
 T = TypeVar('T', bound='CreateConnectionTemplateV1Request')
+
+AssetTypesEnabledValues = [
+    'EBS',
+    'RDS',
+    'DynamoDB',
+    'EC2MSSQL',
+    'S3',
+]
 
 
 class CreateConnectionTemplateV1Request:
     """Implementation of the 'CreateConnectionTemplateV1Request' model.
 
-    The body of the request.
-
     Attributes:
         asset_types_enabled:
             The asset types for which the template is to be generated. Possible
-            asset types are ["EBS", "RDS", "DynamoDB", "EC2MSSQL"].
+            asset types are ["EBS", "RDS", "DynamoDB", "EC2MSSQL", "S3"].
     """
 
     # Create a mapping from Model property names to API property names
@@ -25,6 +32,13 @@ class CreateConnectionTemplateV1Request:
         """Constructor for the CreateConnectionTemplateV1Request class."""
 
         # Initialize members of the class
+
+        for enum_value in asset_types_enabled:
+            if enum_value not in AssetTypesEnabledValues:
+                raise clumio_exception.ClumioException(
+                    f'Invalid value for asset_types_enabled: {enum_value}. Valid values are { AssetTypesEnabledValues }.',
+                    None,
+                )
         self.asset_types_enabled: Sequence[str] = asset_types_enabled
 
     @classmethod

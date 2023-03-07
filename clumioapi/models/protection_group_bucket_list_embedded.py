@@ -16,7 +16,7 @@ class ProtectionGroupBucketListEmbedded:
 
     Attributes:
         items:
-
+            A collection of requested items.
     """
 
     # Create a mapping from Model property names to API property names

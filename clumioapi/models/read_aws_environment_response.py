@@ -40,7 +40,7 @@ class ReadAWSEnvironmentResponse:
             CloudFormation stack.
         description:
             The user-provided account description.
-        id:
+        p_id:
             The Clumio-assigned ID of the environment.
         organizational_unit_id:
             The Clumio-assigned ID of the organizational unit associated with the
@@ -65,7 +65,7 @@ class ReadAWSEnvironmentResponse:
         'connection_id': 'connection_id',
         'connection_status': 'connection_status',
         'description': 'description',
-        'id': 'id',
+        'p_id': 'id',
         'organizational_unit_id': 'organizational_unit_id',
         'services_enabled': 'services_enabled',
         'template_version': 'template_version',
@@ -83,7 +83,7 @@ class ReadAWSEnvironmentResponse:
         connection_id: str = None,
         connection_status: str = None,
         description: str = None,
-        id: str = None,
+        p_id: str = None,
         organizational_unit_id: str = None,
         services_enabled: Sequence[str] = None,
         template_version: int = None,
@@ -101,7 +101,7 @@ class ReadAWSEnvironmentResponse:
         self.connection_id: str = connection_id
         self.connection_status: str = connection_status
         self.description: str = description
-        self.id: str = id
+        self.p_id: str = p_id
         self.organizational_unit_id: str = organizational_unit_id
         self.services_enabled: Sequence[str] = services_enabled
         self.template_version: int = template_version
@@ -150,7 +150,7 @@ class ReadAWSEnvironmentResponse:
         connection_id = dictionary.get('connection_id')
         connection_status = dictionary.get('connection_status')
         description = dictionary.get('description')
-        id = dictionary.get('id')
+        p_id = dictionary.get('id')
         organizational_unit_id = dictionary.get('organizational_unit_id')
         services_enabled = dictionary.get('services_enabled')
         template_version = dictionary.get('template_version')
@@ -166,7 +166,7 @@ class ReadAWSEnvironmentResponse:
             connection_id,
             connection_status,
             description,
-            id,
+            p_id,
             organizational_unit_id,
             services_enabled,
             template_version,

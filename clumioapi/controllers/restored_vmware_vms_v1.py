@@ -2,6 +2,8 @@
 # Copyright 2021. Clumio, Inc.
 #
 
+import json
+
 from clumioapi import api_helper
 from clumioapi import configuration
 from clumioapi import sdk_version
@@ -37,7 +39,7 @@ class RestoredVmwareVmsV1Controller(base_controller.BaseController):
             body:
 
         Returns:
-            RestoreVMwareVMResponse: Response from the API.
+            restore_v_mware_vm_response.RestoreVMwareVMResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -62,4 +64,5 @@ class RestoredVmwareVmsV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing restore_vmware_vm.', errors
             )
+
         return restore_v_mware_vm_response.RestoreVMwareVMResponse.from_dictionary(resp)

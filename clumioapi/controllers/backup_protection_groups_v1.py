@@ -2,6 +2,8 @@
 # Copyright 2021. Clumio, Inc.
 #
 
+import json
+
 from clumioapi import api_helper
 from clumioapi import configuration
 from clumioapi import sdk_version
@@ -78,7 +80,7 @@ class BackupProtectionGroupsV1Controller(base_controller.BaseController):
                 +---------------------+-----------+--------------------------------------------+
 
         Returns:
-            ListProtectionGroupBackupsResponse: Response from the API.
+            list_protection_group_backups_response.ListProtectionGroupBackupsResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -99,6 +101,7 @@ class BackupProtectionGroupsV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_backup_protection_groups.', errors
             )
+
         return list_protection_group_backups_response.ListProtectionGroupBackupsResponse.from_dictionary(
             resp
         )
@@ -167,7 +170,7 @@ class BackupProtectionGroupsV1Controller(base_controller.BaseController):
                 +---------------------------------+-----------+--------------------------------+
 
         Returns:
-            ListProtectionGroupS3AssetBackupsResponse: Response from the API.
+            list_protection_group_s3_asset_backups_response.ListProtectionGroupS3AssetBackupsResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -188,6 +191,7 @@ class BackupProtectionGroupsV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_backup_protection_group_s3_assets.', errors
             )
+
         return list_protection_group_s3_asset_backups_response.ListProtectionGroupS3AssetBackupsResponse.from_dictionary(
             resp
         )
@@ -201,7 +205,7 @@ class BackupProtectionGroupsV1Controller(base_controller.BaseController):
             backup_id:
                 Performs the operation on the backup with the specified ID.
         Returns:
-            ReadProtectionGroupS3AssetBackupResponse: Response from the API.
+            read_protection_group_s3_asset_backup_response.ReadProtectionGroupS3AssetBackupResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -223,6 +227,7 @@ class BackupProtectionGroupsV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_backup_protection_group_s3_asset.', errors
             )
+
         return read_protection_group_s3_asset_backup_response.ReadProtectionGroupS3AssetBackupResponse.from_dictionary(
             resp
         )
@@ -236,7 +241,7 @@ class BackupProtectionGroupsV1Controller(base_controller.BaseController):
             backup_id:
                 Performs the operation on the backup with the specified ID.
         Returns:
-            ReadProtectionGroupBackupResponse: Response from the API.
+            read_protection_group_backup_response.ReadProtectionGroupBackupResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -258,6 +263,7 @@ class BackupProtectionGroupsV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_backup_protection_group.', errors
             )
+
         return (
             read_protection_group_backup_response.ReadProtectionGroupBackupResponse.from_dictionary(
                 resp

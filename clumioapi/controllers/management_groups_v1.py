@@ -2,6 +2,8 @@
 # Copyright 2021. Clumio, Inc.
 #
 
+import json
+
 from clumioapi import api_helper
 from clumioapi import configuration
 from clumioapi import sdk_version
@@ -42,7 +44,7 @@ class ManagementGroupsV1Controller(base_controller.BaseController):
                 get the first page.
                 Other pages can be traversed using HATEOAS links.
         Returns:
-            ListManagementGroupsResponse: Response from the API.
+            list_management_groups_response.ListManagementGroupsResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -63,6 +65,7 @@ class ManagementGroupsV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_management_groups.', errors
             )
+
         return list_management_groups_response.ListManagementGroupsResponse.from_dictionary(resp)
 
     def read_management_group(
@@ -78,7 +81,7 @@ class ManagementGroupsV1Controller(base_controller.BaseController):
             group_id:
                 Performs the operation on the management group with the specified ID.
         Returns:
-            ReadManagementGroupResponse: Response from the API.
+            read_management_group_response.ReadManagementGroupResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -100,6 +103,7 @@ class ManagementGroupsV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_management_group.', errors
             )
+
         return read_management_group_response.ReadManagementGroupResponse.from_dictionary(resp)
 
     def update_management_group(
@@ -115,7 +119,7 @@ class ManagementGroupsV1Controller(base_controller.BaseController):
             body:
 
         Returns:
-            UpdateManagementGroupResponse: Response from the API.
+            update_management_group_response.UpdateManagementGroupResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -142,4 +146,5 @@ class ManagementGroupsV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing update_management_group.', errors
             )
+
         return update_management_group_response.UpdateManagementGroupResponse.from_dictionary(resp)

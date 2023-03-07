@@ -18,37 +18,22 @@ class AWSEnvironmentLinks:
     Attributes:
         p_self:
             The HATEOAS link to this resource.
-        protect_entities:
-            A resource-specific HATEOAS link.
-        read_aws_environment_ebs_volumes_compliance_stats:
-            A resource-specific HATEOAS link.
         read_organizational_unit:
             A resource-specific HATEOAS link.
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
-        'p_self': '_self',
-        'protect_entities': 'protect-entities',
-        'read_aws_environment_ebs_volumes_compliance_stats': 'read-aws-environment-ebs-volumes-compliance-stats',
-        'read_organizational_unit': 'read-organizational-unit',
-    }
+    _names = {'p_self': '_self', 'read_organizational_unit': 'read-organizational-unit'}
 
     def __init__(
         self,
         p_self: hateoas_self_link.HateoasSelfLink = None,
-        protect_entities: hateoas_link.HateoasLink = None,
-        read_aws_environment_ebs_volumes_compliance_stats: hateoas_link.HateoasLink = None,
         read_organizational_unit: hateoas_link.HateoasLink = None,
     ) -> None:
         """Constructor for the AWSEnvironmentLinks class."""
 
         # Initialize members of the class
         self.p_self: hateoas_self_link.HateoasSelfLink = p_self
-        self.protect_entities: hateoas_link.HateoasLink = protect_entities
-        self.read_aws_environment_ebs_volumes_compliance_stats: hateoas_link.HateoasLink = (
-            read_aws_environment_ebs_volumes_compliance_stats
-        )
         self.read_organizational_unit: hateoas_link.HateoasLink = read_organizational_unit
 
     @classmethod
@@ -74,20 +59,6 @@ class AWSEnvironmentLinks:
             else None
         )
 
-        key = 'protect-entities'
-        protect_entities = (
-            hateoas_link.HateoasLink.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
-
-        key = 'read-aws-environment-ebs-volumes-compliance-stats'
-        read_aws_environment_ebs_volumes_compliance_stats = (
-            hateoas_link.HateoasLink.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
-
         key = 'read-organizational-unit'
         read_organizational_unit = (
             hateoas_link.HateoasLink.from_dictionary(dictionary.get(key))
@@ -96,9 +67,4 @@ class AWSEnvironmentLinks:
         )
 
         # Return an object of this model
-        return cls(
-            p_self,
-            protect_entities,
-            read_aws_environment_ebs_volumes_compliance_stats,
-            read_organizational_unit,
-        )
+        return cls(p_self, read_organizational_unit)

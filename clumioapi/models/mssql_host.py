@@ -25,7 +25,9 @@ class MssqlHost:
             The Clumio-assigned ID of the management group to which the host belongs.
         has_associated_availability_group:
             Determines whether or not an availability group is present in the host.
-        id:
+        host_connection_status:
+            Connection status of MSSQL Host
+        p_id:
             The Clumio-assigned ID of the Host.
         instance_count:
             The number of instances present in the host.
@@ -50,7 +52,8 @@ class MssqlHost:
         'endpoint': 'endpoint',
         'group_id': 'group_id',
         'has_associated_availability_group': 'has_associated_availability_group',
-        'id': 'id',
+        'host_connection_status': 'host_connection_status',
+        'p_id': 'id',
         'instance_count': 'instance_count',
         'is_part_of_fci': 'is_part_of_fci',
         'organizational_unit_id': 'organizational_unit_id',
@@ -66,7 +69,8 @@ class MssqlHost:
         endpoint: str = None,
         group_id: str = None,
         has_associated_availability_group: bool = None,
-        id: str = None,
+        host_connection_status: str = None,
+        p_id: str = None,
         instance_count: int = None,
         is_part_of_fci: bool = None,
         organizational_unit_id: str = None,
@@ -82,7 +86,8 @@ class MssqlHost:
         self.endpoint: str = endpoint
         self.group_id: str = group_id
         self.has_associated_availability_group: bool = has_associated_availability_group
-        self.id: str = id
+        self.host_connection_status: str = host_connection_status
+        self.p_id: str = p_id
         self.instance_count: int = instance_count
         self.is_part_of_fci: bool = is_part_of_fci
         self.organizational_unit_id: str = organizational_unit_id
@@ -123,7 +128,8 @@ class MssqlHost:
         endpoint = dictionary.get('endpoint')
         group_id = dictionary.get('group_id')
         has_associated_availability_group = dictionary.get('has_associated_availability_group')
-        id = dictionary.get('id')
+        host_connection_status = dictionary.get('host_connection_status')
+        p_id = dictionary.get('id')
         instance_count = dictionary.get('instance_count')
         is_part_of_fci = dictionary.get('is_part_of_fci')
         organizational_unit_id = dictionary.get('organizational_unit_id')
@@ -143,7 +149,8 @@ class MssqlHost:
             endpoint,
             group_id,
             has_associated_availability_group,
-            id,
+            host_connection_status,
+            p_id,
             instance_count,
             is_part_of_fci,
             organizational_unit_id,

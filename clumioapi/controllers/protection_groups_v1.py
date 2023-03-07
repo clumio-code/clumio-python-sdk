@@ -2,6 +2,8 @@
 # Copyright 2021. Clumio, Inc.
 #
 
+import json
+
 from clumioapi import api_helper
 from clumioapi import configuration
 from clumioapi import sdk_version
@@ -61,8 +63,10 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
                 |                           |                  | example, filter={"is_deleted" |
                 |                           |                  | :{"$eq":true}}                |
                 +---------------------------+------------------+-------------------------------+
-                | name                      | $contains        | The AWS-assigned name of this |
-                |                           |                  | resource. For example, filter |
+                | name                      | $contains, $eq   | The AWS-assigned name of this |
+                |                           |                  | resource, can use either the  |
+                |                           |                  | contains or exact equal       |
+                |                           |                  | operator. For example, filter |
                 |                           |                  | ={"name":{"$contains":"dev"}} |
                 |                           |                  | retrieves all protection      |
                 |                           |                  | groups with "dev" in their    |
@@ -92,7 +96,7 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
                 +---------------------------+------------------+-------------------------------+
 
         Returns:
-            ListProtectionGroupsResponse: Response from the API.
+            list_protection_groups_response.ListProtectionGroupsResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -113,6 +117,7 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_protection_groups.', errors
             )
+
         return list_protection_groups_response.ListProtectionGroupsResponse.from_dictionary(resp)
 
     def read_protection_group(
@@ -124,7 +129,7 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
             group_id:
                 Performs the operation on the ProtectionGroup with the specified ID.
         Returns:
-            ReadProtectionGroupResponse: Response from the API.
+            read_protection_group_response.ReadProtectionGroupResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -146,6 +151,7 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_protection_group.', errors
             )
+
         return read_protection_group_response.ReadProtectionGroupResponse.from_dictionary(resp)
 
     def create_protection_group(
@@ -165,7 +171,7 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
             body:
 
         Returns:
-            CreateProtectionGroupResponse: Response from the API.
+            create_protection_group_response.CreateProtectionGroupResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -190,6 +196,7 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing create_protection_group.', errors
             )
+
         return create_protection_group_response.CreateProtectionGroupResponse.from_dictionary(resp)
 
     def update_protection_group(
@@ -209,7 +216,7 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
             body:
 
         Returns:
-            UpdateProtectionGroupResponse: Response from the API.
+            update_protection_group_response.UpdateProtectionGroupResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -236,6 +243,7 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing update_protection_group.', errors
             )
+
         return update_protection_group_response.UpdateProtectionGroupResponse.from_dictionary(resp)
 
     def delete_protection_group(self, group_id: str) -> object:
@@ -273,6 +281,7 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing delete_protection_group.', errors
             )
+
         return resp
 
     def add_bucket_protection_group(
@@ -293,7 +302,7 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
             body:
 
         Returns:
-            AddBucketToProtectionGroupResponse: Response from the API.
+            add_bucket_to_protection_group_response.AddBucketToProtectionGroupResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -320,6 +329,7 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing add_bucket_protection_group.', errors
             )
+
         return add_bucket_to_protection_group_response.AddBucketToProtectionGroupResponse.from_dictionary(
             resp
         )
@@ -341,7 +351,7 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
             bucket_id:
                 ID of the bucket to delete
         Returns:
-            DeleteBucketFromProtectionGroupResponse: Response from the API.
+            delete_bucket_from_protection_group_response.DeleteBucketFromProtectionGroupResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -363,6 +373,7 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing delete_bucket_protection_group.', errors
             )
+
         return delete_bucket_from_protection_group_response.DeleteBucketFromProtectionGroupResponse.from_dictionary(
             resp
         )

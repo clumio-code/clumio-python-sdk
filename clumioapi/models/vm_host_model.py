@@ -15,7 +15,7 @@ class VMHostModel:
     a value of `null`.
 
     Attributes:
-        id:
+        p_id:
             The VMware-assigned Managed Object Reference (MoRef) ID of the host.
         is_standalone:
             Determines whether the host is a standalone host. If `true`, the host is a
@@ -25,13 +25,13 @@ class VMHostModel:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'id': 'id', 'is_standalone': 'is_standalone', 'name': 'name'}
+    _names = {'p_id': 'id', 'is_standalone': 'is_standalone', 'name': 'name'}
 
-    def __init__(self, id: str = None, is_standalone: bool = None, name: str = None) -> None:
+    def __init__(self, p_id: str = None, is_standalone: bool = None, name: str = None) -> None:
         """Constructor for the VMHostModel class."""
 
         # Initialize members of the class
-        self.id: str = id
+        self.p_id: str = p_id
         self.is_standalone: bool = is_standalone
         self.name: str = name
 
@@ -51,8 +51,8 @@ class VMHostModel:
             return None
 
         # Extract variables from the dictionary
-        id = dictionary.get('id')
+        p_id = dictionary.get('id')
         is_standalone = dictionary.get('is_standalone')
         name = dictionary.get('name')
         # Return an object of this model
-        return cls(id, is_standalone, name)
+        return cls(p_id, is_standalone, name)

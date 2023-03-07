@@ -107,7 +107,7 @@ class Rule:
             |                       |                           |                          |
             |                       |                           |                          |
             +-----------------------+---------------------------+--------------------------+
-        id:
+        p_id:
             The Clumio-assigned ID of the policy rule.
         name:
             Name of the rule. Max 100 characters.
@@ -124,7 +124,7 @@ class Rule:
         'links': '_links',
         'action': 'action',
         'condition': 'condition',
-        'id': 'id',
+        'p_id': 'id',
         'name': 'name',
         'organizational_unit_id': 'organizational_unit_id',
         'priority': 'priority',
@@ -136,7 +136,7 @@ class Rule:
         links: rule_links.RuleLinks = None,
         action: rule_action.RuleAction = None,
         condition: str = None,
-        id: str = None,
+        p_id: str = None,
         name: str = None,
         organizational_unit_id: str = None,
         priority: rule_priority.RulePriority = None,
@@ -148,7 +148,7 @@ class Rule:
         self.links: rule_links.RuleLinks = links
         self.action: rule_action.RuleAction = action
         self.condition: str = condition
-        self.id: str = id
+        self.p_id: str = p_id
         self.name: str = name
         self.organizational_unit_id: str = organizational_unit_id
         self.priority: rule_priority.RulePriority = priority
@@ -191,7 +191,7 @@ class Rule:
         )
 
         condition = dictionary.get('condition')
-        id = dictionary.get('id')
+        p_id = dictionary.get('id')
         name = dictionary.get('name')
         organizational_unit_id = dictionary.get('organizational_unit_id')
         key = 'priority'
@@ -202,4 +202,4 @@ class Rule:
         )
 
         # Return an object of this model
-        return cls(embedded, links, action, condition, id, name, organizational_unit_id, priority)
+        return cls(embedded, links, action, condition, p_id, name, organizational_unit_id, priority)

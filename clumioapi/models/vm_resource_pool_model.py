@@ -14,7 +14,7 @@ class VMResourcePoolModel:
     `resource_pool.id` and `resource_pool.is_root` have values of `null`.
 
     Attributes:
-        id:
+        p_id:
             The VMware-assigned Managed Object Reference (MoRef) ID of the resource pool.
         is_root:
             Determines whether the resource pool is the default, hidden resource pool.
@@ -23,13 +23,13 @@ class VMResourcePoolModel:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'id': 'id', 'is_root': 'is_root', 'name': 'name'}
+    _names = {'p_id': 'id', 'is_root': 'is_root', 'name': 'name'}
 
-    def __init__(self, id: str = None, is_root: bool = None, name: str = None) -> None:
+    def __init__(self, p_id: str = None, is_root: bool = None, name: str = None) -> None:
         """Constructor for the VMResourcePoolModel class."""
 
         # Initialize members of the class
-        self.id: str = id
+        self.p_id: str = p_id
         self.is_root: bool = is_root
         self.name: str = name
 
@@ -49,8 +49,8 @@ class VMResourcePoolModel:
             return None
 
         # Extract variables from the dictionary
-        id = dictionary.get('id')
+        p_id = dictionary.get('id')
         is_root = dictionary.get('is_root')
         name = dictionary.get('name')
         # Return an object of this model
-        return cls(id, is_root, name)
+        return cls(p_id, is_root, name)

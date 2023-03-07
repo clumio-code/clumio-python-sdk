@@ -4,7 +4,6 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import hateoas_link
 from clumioapi.models import hateoas_self_link
 from clumioapi.models import read_policy_definition_hateoas_link
 
@@ -19,36 +18,23 @@ class EbsVolumeLinks:
     Attributes:
         p_self:
             The HATEOAS link to this resource.
-        create_backup_aws_ebs_volume:
-            A resource-specific HATEOAS link.
-        list_backup_aws_ebs_volumes:
-            A resource-specific HATEOAS link.
         read_policy_definition:
             A HATEOAS link to the policy protecting this resource. Will be omitted for
             unprotected entities.
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
-        'p_self': '_self',
-        'create_backup_aws_ebs_volume': 'create-backup-aws-ebs-volume',
-        'list_backup_aws_ebs_volumes': 'list-backup-aws-ebs-volumes',
-        'read_policy_definition': 'read-policy-definition',
-    }
+    _names = {'p_self': '_self', 'read_policy_definition': 'read-policy-definition'}
 
     def __init__(
         self,
         p_self: hateoas_self_link.HateoasSelfLink = None,
-        create_backup_aws_ebs_volume: hateoas_link.HateoasLink = None,
-        list_backup_aws_ebs_volumes: hateoas_link.HateoasLink = None,
         read_policy_definition: read_policy_definition_hateoas_link.ReadPolicyDefinitionHateoasLink = None,
     ) -> None:
         """Constructor for the EbsVolumeLinks class."""
 
         # Initialize members of the class
         self.p_self: hateoas_self_link.HateoasSelfLink = p_self
-        self.create_backup_aws_ebs_volume: hateoas_link.HateoasLink = create_backup_aws_ebs_volume
-        self.list_backup_aws_ebs_volumes: hateoas_link.HateoasLink = list_backup_aws_ebs_volumes
         self.read_policy_definition: read_policy_definition_hateoas_link.ReadPolicyDefinitionHateoasLink = (
             read_policy_definition
         )
@@ -76,20 +62,6 @@ class EbsVolumeLinks:
             else None
         )
 
-        key = 'create-backup-aws-ebs-volume'
-        create_backup_aws_ebs_volume = (
-            hateoas_link.HateoasLink.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
-
-        key = 'list-backup-aws-ebs-volumes'
-        list_backup_aws_ebs_volumes = (
-            hateoas_link.HateoasLink.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
-
         key = 'read-policy-definition'
         read_policy_definition = (
             read_policy_definition_hateoas_link.ReadPolicyDefinitionHateoasLink.from_dictionary(
@@ -100,9 +72,4 @@ class EbsVolumeLinks:
         )
 
         # Return an object of this model
-        return cls(
-            p_self,
-            create_backup_aws_ebs_volume,
-            list_backup_aws_ebs_volumes,
-            read_policy_definition,
-        )
+        return cls(p_self, read_policy_definition)

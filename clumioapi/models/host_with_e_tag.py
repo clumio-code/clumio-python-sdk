@@ -28,7 +28,7 @@ class HostWithETag:
             include "connected", "disconnected", and "not_responding".
         datacenter:
             The data center in which the host resides.
-        id:
+        p_id:
             The VMware-assigned Managed Object Reference (MoRef) ID of the host.
         is_in_maintenance_mode:
             Determines whether the host has been placed in maintenance mode as seen through
@@ -57,7 +57,7 @@ class HostWithETag:
         'compute_resource': 'compute_resource',
         'connection_state': 'connection_state',
         'datacenter': 'datacenter',
-        'id': 'id',
+        'p_id': 'id',
         'is_in_maintenance_mode': 'is_in_maintenance_mode',
         'is_in_quarantine_mode': 'is_in_quarantine_mode',
         'is_standalone': 'is_standalone',
@@ -73,7 +73,7 @@ class HostWithETag:
         compute_resource: v_mware_v_center_host_compute_resource_model.VMwareVCenterHostComputeResourceModel = None,
         connection_state: str = None,
         datacenter: v_mware_v_center_host_datacenter_model.VMwareVCenterHostDatacenterModel = None,
-        id: str = None,
+        p_id: str = None,
         is_in_maintenance_mode: bool = None,
         is_in_quarantine_mode: bool = None,
         is_standalone: bool = None,
@@ -93,7 +93,7 @@ class HostWithETag:
         self.datacenter: v_mware_v_center_host_datacenter_model.VMwareVCenterHostDatacenterModel = (
             datacenter
         )
-        self.id: str = id
+        self.p_id: str = p_id
         self.is_in_maintenance_mode: bool = is_in_maintenance_mode
         self.is_in_quarantine_mode: bool = is_in_quarantine_mode
         self.is_standalone: bool = is_standalone
@@ -144,7 +144,7 @@ class HostWithETag:
             else None
         )
 
-        id = dictionary.get('id')
+        p_id = dictionary.get('id')
         is_in_maintenance_mode = dictionary.get('is_in_maintenance_mode')
         is_in_quarantine_mode = dictionary.get('is_in_quarantine_mode')
         is_standalone = dictionary.get('is_standalone')
@@ -158,7 +158,7 @@ class HostWithETag:
             compute_resource,
             connection_state,
             datacenter,
-            id,
+            p_id,
             is_in_maintenance_mode,
             is_in_quarantine_mode,
             is_standalone,

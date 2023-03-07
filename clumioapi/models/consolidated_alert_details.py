@@ -16,20 +16,20 @@ class ConsolidatedAlertDetails:
         cause:
             A brief description of the condition that caused the alert. Examples include
             "Size Limit Exceeded" and "Insufficient Cloud Connector Capacity".
-        type:
+        p_type:
             The general alert category. Examples include "Policy Violated" and "Restore
             Failed".
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'cause': 'cause', 'type': 'type'}
+    _names = {'cause': 'cause', 'p_type': 'type'}
 
-    def __init__(self, cause: str = None, type: str = None) -> None:
+    def __init__(self, cause: str = None, p_type: str = None) -> None:
         """Constructor for the ConsolidatedAlertDetails class."""
 
         # Initialize members of the class
         self.cause: str = cause
-        self.type: str = type
+        self.p_type: str = p_type
 
     @classmethod
     def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
@@ -48,6 +48,6 @@ class ConsolidatedAlertDetails:
 
         # Extract variables from the dictionary
         cause = dictionary.get('cause')
-        type = dictionary.get('type')
+        p_type = dictionary.get('type')
         # Return an object of this model
-        return cls(cause, type)
+        return cls(cause, p_type)

@@ -21,7 +21,7 @@ class ReadVMwareVCenterNetworkResponse:
             URLs to pages related to the resource.
         datacenter:
             The data center associated with this network.
-        id:
+        p_id:
             The VMware-assigned ID of this network.
         is_supported:
             Determines whether VMs can be connected to the network. If `true`, VMs can be
@@ -37,7 +37,7 @@ class ReadVMwareVCenterNetworkResponse:
         'etag': '_etag',
         'links': '_links',
         'datacenter': 'datacenter',
-        'id': 'id',
+        'p_id': 'id',
         'is_supported': 'is_supported',
         'name': 'name',
         'network_folder': 'network_folder',
@@ -48,7 +48,7 @@ class ReadVMwareVCenterNetworkResponse:
         etag: str = None,
         links: v_mware_v_center_network_links.VMwareVCenterNetworkLinks = None,
         datacenter: v_mware_v_center_network_datacenter_model.VMwareVCenterNetworkDatacenterModel = None,
-        id: str = None,
+        p_id: str = None,
         is_supported: bool = None,
         name: str = None,
         network_folder: v_mware_v_center_network_folder_model.VMwareVCenterNetworkFolderModel = None,
@@ -61,7 +61,7 @@ class ReadVMwareVCenterNetworkResponse:
         self.datacenter: v_mware_v_center_network_datacenter_model.VMwareVCenterNetworkDatacenterModel = (
             datacenter
         )
-        self.id: str = id
+        self.p_id: str = p_id
         self.is_supported: bool = is_supported
         self.name: str = name
         self.network_folder: v_mware_v_center_network_folder_model.VMwareVCenterNetworkFolderModel = (
@@ -103,7 +103,7 @@ class ReadVMwareVCenterNetworkResponse:
             else None
         )
 
-        id = dictionary.get('id')
+        p_id = dictionary.get('id')
         is_supported = dictionary.get('is_supported')
         name = dictionary.get('name')
         key = 'network_folder'
@@ -116,4 +116,4 @@ class ReadVMwareVCenterNetworkResponse:
         )
 
         # Return an object of this model
-        return cls(etag, links, datacenter, id, is_supported, name, network_folder)
+        return cls(etag, links, datacenter, p_id, is_supported, name, network_folder)

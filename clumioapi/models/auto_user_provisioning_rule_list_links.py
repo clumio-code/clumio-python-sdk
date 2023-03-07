@@ -20,7 +20,7 @@ class AutoUserProvisioningRuleListLinks:
     Attributes:
         first:
             The HATEOAS link to the first page of results.
-        next:
+        p_next:
             The HATEOAS link to the next page of results.
         p_self:
             The HATEOAS link to this resource.
@@ -31,7 +31,7 @@ class AutoUserProvisioningRuleListLinks:
     # Create a mapping from Model property names to API property names
     _names = {
         'first': '_first',
-        'next': '_next',
+        'p_next': '_next',
         'p_self': '_self',
         'create_auto_user_provisioning_rule': 'create-auto-user-provisioning-rule',
     }
@@ -39,7 +39,7 @@ class AutoUserProvisioningRuleListLinks:
     def __init__(
         self,
         first: hateoas_first_link.HateoasFirstLink = None,
-        next: hateoas_next_link.HateoasNextLink = None,
+        p_next: hateoas_next_link.HateoasNextLink = None,
         p_self: hateoas_self_link.HateoasSelfLink = None,
         create_auto_user_provisioning_rule: hateoas_link.HateoasLink = None,
     ) -> None:
@@ -47,7 +47,7 @@ class AutoUserProvisioningRuleListLinks:
 
         # Initialize members of the class
         self.first: hateoas_first_link.HateoasFirstLink = first
-        self.next: hateoas_next_link.HateoasNextLink = next
+        self.p_next: hateoas_next_link.HateoasNextLink = p_next
         self.p_self: hateoas_self_link.HateoasSelfLink = p_self
         self.create_auto_user_provisioning_rule: hateoas_link.HateoasLink = (
             create_auto_user_provisioning_rule
@@ -77,7 +77,7 @@ class AutoUserProvisioningRuleListLinks:
         )
 
         key = '_next'
-        next = (
+        p_next = (
             hateoas_next_link.HateoasNextLink.from_dictionary(dictionary.get(key))
             if dictionary.get(key)
             else None
@@ -98,4 +98,4 @@ class AutoUserProvisioningRuleListLinks:
         )
 
         # Return an object of this model
-        return cls(first, next, p_self, create_auto_user_provisioning_rule)
+        return cls(first, p_next, p_self, create_auto_user_provisioning_rule)

@@ -15,11 +15,11 @@ class ManagementGroup:
     Attributes:
         links:
             URLs to pages related to the resource.
-        id:
+        p_id:
             The Clumio-assigned ID of the management group.
         name:
             The name of the management group.
-        type:
+        p_type:
             The type of the management group. Possible values include `on_prem`.
         vcenter_id:
             The Clumio-assigned ID of the vCenter server associated with the management
@@ -30,27 +30,27 @@ class ManagementGroup:
     # Create a mapping from Model property names to API property names
     _names = {
         'links': '_links',
-        'id': 'id',
+        'p_id': 'id',
         'name': 'name',
-        'type': 'type',
+        'p_type': 'type',
         'vcenter_id': 'vcenter_id',
     }
 
     def __init__(
         self,
         links: management_group_links.ManagementGroupLinks = None,
-        id: str = None,
+        p_id: str = None,
         name: str = None,
-        type: str = None,
+        p_type: str = None,
         vcenter_id: str = None,
     ) -> None:
         """Constructor for the ManagementGroup class."""
 
         # Initialize members of the class
         self.links: management_group_links.ManagementGroupLinks = links
-        self.id: str = id
+        self.p_id: str = p_id
         self.name: str = name
-        self.type: str = type
+        self.p_type: str = p_type
         self.vcenter_id: str = vcenter_id
 
     @classmethod
@@ -76,9 +76,9 @@ class ManagementGroup:
             else None
         )
 
-        id = dictionary.get('id')
+        p_id = dictionary.get('id')
         name = dictionary.get('name')
-        type = dictionary.get('type')
+        p_type = dictionary.get('type')
         vcenter_id = dictionary.get('vcenter_id')
         # Return an object of this model
-        return cls(links, id, name, type, vcenter_id)
+        return cls(links, p_id, name, p_type, vcenter_id)

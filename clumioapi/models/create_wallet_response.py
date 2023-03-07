@@ -32,7 +32,7 @@ class CreateWalletResponse:
         error_message:
             ErrorMessage is a longer description explaining the error, if any, and how to
             fix it.
-        id:
+        p_id:
             The Clumio-assigned ID of the wallet.
         installed_regions:
             The regions where the wallet is installed.
@@ -69,7 +69,7 @@ class CreateWalletResponse:
         'deployment_url': 'deployment_url',
         'error_code': 'error_code',
         'error_message': 'error_message',
-        'id': 'id',
+        'p_id': 'id',
         'installed_regions': 'installed_regions',
         'key_errors': 'key_errors',
         'role_arn': 'role_arn',
@@ -90,7 +90,7 @@ class CreateWalletResponse:
         deployment_url: str = None,
         error_code: str = None,
         error_message: str = None,
-        id: str = None,
+        p_id: str = None,
         installed_regions: Sequence[str] = None,
         key_errors: Mapping[str, error_model.ErrorModel] = None,
         role_arn: str = None,
@@ -111,7 +111,7 @@ class CreateWalletResponse:
         self.deployment_url: str = deployment_url
         self.error_code: str = error_code
         self.error_message: str = error_message
-        self.id: str = id
+        self.p_id: str = p_id
         self.installed_regions: Sequence[str] = installed_regions
         self.key_errors: Mapping[str, error_model.ErrorModel] = key_errors
         self.role_arn: str = role_arn
@@ -151,7 +151,7 @@ class CreateWalletResponse:
         deployment_url = dictionary.get('deployment_url')
         error_code = dictionary.get('error_code')
         error_message = dictionary.get('error_message')
-        id = dictionary.get('id')
+        p_id = dictionary.get('id')
         installed_regions = dictionary.get('installed_regions')
         key_errors: Dict[str, error_model.ErrorModel] = {}
         for key, value in dictionary.get('key_errors').items():
@@ -173,7 +173,7 @@ class CreateWalletResponse:
             deployment_url,
             error_code,
             error_message,
-            id,
+            p_id,
             installed_regions,
             key_errors,
             role_arn,

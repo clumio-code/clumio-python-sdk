@@ -19,9 +19,9 @@ class PatchGeneralSettingsResponseV2:
         auto_logout_duration:
             The length of time before a user is logged out of the Clumio system due to
             inactivity. Measured in seconds.
-            The valid range is between `600` seconds (10 minutes) and `3600` seconds (60
+            The valid range is between 600 seconds (10 minutes) and 3600 seconds (60
             minutes).
-            If not configured, the value defaults to `900` seconds (15 minutes).
+            If not configured, the value defaults to 900 seconds (15 minutes).
         ip_allowlist:
             The designated range of IP addresses that are allowed to access the Clumio REST
             API.
@@ -30,7 +30,7 @@ class PatchGeneralSettingsResponseV2:
             this list; otherwise, the request will fail.
             Set the parameter to individual IP addresses and/or a range of IP addresses in
             CIDR notation.
-            For example, `["193.168.1.0/24", "193.172.1.1"]`.
+            For example, ["193.168.1.0/24", "193.172.1.1"].
             If not configured, the value defaults to ["0.0.0.0/0"] meaning all addresses
             will be allowed.
         organizational_unit_data_groups:
@@ -40,9 +40,9 @@ class PatchGeneralSettingsResponseV2:
         password_expiration_duration:
             The length of time a user password is valid before it must be changed. Measured
             in seconds.
-            The valid range is between `2592000` seconds (30 days) and `15552000` seconds
-            (180 days).
-            If not configured, the value defaults to `7776000` seconds (90 days).
+            The valid range is between 2592000 seconds (30 days) and 15552000 seconds (180
+            days).
+            If not configured, the value defaults to 7776000 seconds (90 days).
     """
 
     # Create a mapping from Model property names to API property names

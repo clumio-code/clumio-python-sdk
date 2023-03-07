@@ -17,53 +17,71 @@ class AuditTrails:
         action:
             The action performed by the user.
 
-            +------------------+-----------------------------------------------------------+
-            |      Action      |                          Details                          |
-            +==================+===========================================================+
-            | create           | Creating or adding new entities like new policy,          |
-            |                  | configuration, user, etc                                  |
-            +------------------+-----------------------------------------------------------+
-            | update           | Updating an existing entity like policy, settings,        |
-            |                  | passwords, etc                                            |
-            +------------------+-----------------------------------------------------------+
-            | delete           | Delete an existing entity like policy, settings, users,   |
-            |                  | etc                                                       |
-            +------------------+-----------------------------------------------------------+
-            | enable           | Enabling a feature like single sign on or multi factor    |
-            |                  | authentication settings                                   |
-            +------------------+-----------------------------------------------------------+
-            | disable          | Disabling features like single sign on or multi factor    |
-            |                  | authentication settings                                   |
-            +------------------+-----------------------------------------------------------+
-            | browse           | Browsing through entities in the system like mailboxes or |
-            |                  | backups, etc                                              |
-            +------------------+-----------------------------------------------------------+
-            | search           | Searching through entities in the system like mailboxes   |
-            |                  | or backups, etc                                           |
-            +------------------+-----------------------------------------------------------+
-            | login            | User logs in or tries to login                            |
-            +------------------+-----------------------------------------------------------+
-            | logout           | User explicitly logged out.                               |
-            +------------------+-----------------------------------------------------------+
-            | register         | When new registrations happen like new                    |
-            |                  | datasource registration or user registering for MFA       |
-            +------------------+-----------------------------------------------------------+
-            | unregister       | When unregistering like unregistering                     |
-            |                  | datasource or user unregistering MFA                      |
-            +------------------+-----------------------------------------------------------+
-            | apply            | Apply policy to protect entities, tags, etc               |
-            +------------------+-----------------------------------------------------------+
-            | remove           | Remove protection for entities, tags, etc                 |
-            +------------------+-----------------------------------------------------------+
-            | invite           | Inviting a user                                           |
-            +------------------+-----------------------------------------------------------+
-            | suspend          | Suspend an existing user                                  |
-            +------------------+-----------------------------------------------------------+
-            | full_restore     | Full restore of the VM, volume, mailbox, database or      |
-            |                  | other entities                                            |
-            +------------------+-----------------------------------------------------------+
-            | granular_restore | Restoring individual files, mails or records              |
-            +------------------+-----------------------------------------------------------+
+            +-------------------------+----------------------------------------------------+
+            |         Action          |                      Details                       |
+            +=========================+====================================================+
+            | create                  | Creating or adding new entities like new policy,   |
+            |                         | configuration, user, etc                           |
+            +-------------------------+----------------------------------------------------+
+            | update                  | Updating an existing entity like policy, settings, |
+            |                         | passwords, etc                                     |
+            +-------------------------+----------------------------------------------------+
+            | delete                  | Delete an existing entity like policy, settings,   |
+            |                         | users, etc                                         |
+            +-------------------------+----------------------------------------------------+
+            | enable                  | Enabling a feature like single sign on or multi    |
+            |                         | factor authentication settings                     |
+            +-------------------------+----------------------------------------------------+
+            | disable                 | Disabling features like single sign on or multi    |
+            |                         | factor authentication settings                     |
+            +-------------------------+----------------------------------------------------+
+            | browse                  | Browsing through entities in the system like       |
+            |                         | mailboxes or backups, etc                          |
+            +-------------------------+----------------------------------------------------+
+            | search                  | Searching through entities in the system like      |
+            |                         | mailboxes or backups, etc                          |
+            +-------------------------+----------------------------------------------------+
+            | login                   | User logs in or tries to login                     |
+            +-------------------------+----------------------------------------------------+
+            | logout                  | User explicitly logged out.                        |
+            +-------------------------+----------------------------------------------------+
+            | register                | When new registrations happen like new             |
+            |                         | datasource registration or user registering for    |
+            |                         | MFA                                                |
+            +-------------------------+----------------------------------------------------+
+            | unregister              | When unregistering like unregistering              |
+            |                         | datasource or user unregistering MFA               |
+            +-------------------------+----------------------------------------------------+
+            | apply                   | Apply policy to protect entities, tags, etc        |
+            +-------------------------+----------------------------------------------------+
+            | remove                  | Remove protection for entities, tags, etc          |
+            +-------------------------+----------------------------------------------------+
+            | invite                  | Inviting a user                                    |
+            +-------------------------+----------------------------------------------------+
+            | suspend                 | Suspend an existing user                           |
+            +-------------------------+----------------------------------------------------+
+            | full_restore            | Full restore of the VM, volume, mailbox, database  |
+            |                         | or other entities                                  |
+            +-------------------------+----------------------------------------------------+
+            | granular_retrieval      | Restoring individual files, mails or records       |
+            +-------------------------+----------------------------------------------------+
+            | redirected              | When cross region restore occurs.                  |
+            +-------------------------+----------------------------------------------------+
+            | unapply                 | Assets removed from a rule.                        |
+            +-------------------------+----------------------------------------------------+
+            | batch_activate          | Activate multiple policies.                        |
+            +-------------------------+----------------------------------------------------+
+            | batch_deactivate        | Deactivate multiple policies.                      |
+            +-------------------------+----------------------------------------------------+
+            | grant_email_access      | Grant email access for a file level object. This   |
+            |                         | is mutually exclusive with grant_download_access   |
+            +-------------------------+----------------------------------------------------+
+            | download                | File was download.                                 |
+            +-------------------------+----------------------------------------------------+
+            | validate_tda_passcode   | Validate passcode that is entered for a download.  |
+            +-------------------------+----------------------------------------------------+
+            | regenerate_tda_passcode | Regenerate a new passcode used for download.       |
+            +-------------------------+----------------------------------------------------+
         category:
             The category of the auditable action performed by the user.
 
@@ -108,12 +126,15 @@ class AuditTrails:
             +-------------------------+----------------------------------------------------+
             | partner_ecosystem       | Changes to partner ecosystem                       |
             +-------------------------+----------------------------------------------------+
-            | ecosystem_changes       | Changes in the ecosystem like adding or remvoings  |
+            | ecosystem_changes       | Changes in the ecosystem like adding or removing   |
             |                         | VMs                                                |
+            +-------------------------+----------------------------------------------------+
+            | organizational_unit     | Changes in the Organizational Unit/Entity group    |
+            |                         | such as creation, deletion, patch.                 |
             +-------------------------+----------------------------------------------------+
         details:
             Additional details about the activity provided in JSON format.
-        id:
+        p_id:
             The Clumio-assigned ID of the audit event.
         interface:
             The interface used to make the request i.e. 'UI','API'
@@ -143,7 +164,7 @@ class AuditTrails:
         'action': 'action',
         'category': 'category',
         'details': 'details',
-        'id': 'id',
+        'p_id': 'id',
         'interface': 'interface',
         'ip_address': 'ip_address',
         'parent_entity': 'parent_entity',
@@ -158,7 +179,7 @@ class AuditTrails:
         action: str = None,
         category: str = None,
         details: str = None,
-        id: str = None,
+        p_id: str = None,
         interface: str = None,
         ip_address: str = None,
         parent_entity: audit_parent_entity.AuditParentEntity = None,
@@ -173,7 +194,7 @@ class AuditTrails:
         self.action: str = action
         self.category: str = category
         self.details: str = details
-        self.id: str = id
+        self.p_id: str = p_id
         self.interface: str = interface
         self.ip_address: str = ip_address
         self.parent_entity: audit_parent_entity.AuditParentEntity = parent_entity
@@ -201,7 +222,7 @@ class AuditTrails:
         action = dictionary.get('action')
         category = dictionary.get('category')
         details = dictionary.get('details')
-        id = dictionary.get('id')
+        p_id = dictionary.get('id')
         interface = dictionary.get('interface')
         ip_address = dictionary.get('ip_address')
         key = 'parent_entity'
@@ -226,7 +247,7 @@ class AuditTrails:
             action,
             category,
             details,
-            id,
+            p_id,
             interface,
             ip_address,
             parent_entity,

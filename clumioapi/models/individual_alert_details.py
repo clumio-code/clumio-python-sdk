@@ -19,7 +19,7 @@ class IndividualAlertDetails:
         description:
             A detailed description of the alert, including the reason why the alert occurred
             and the steps you must take to resolve the issue.
-        type:
+        p_type:
             The general alert category. Examples include "Policy Violated" and "Restore
             Failed".
         variables:
@@ -31,7 +31,7 @@ class IndividualAlertDetails:
     _names = {
         'cause': 'cause',
         'description': 'description',
-        'type': 'type',
+        'p_type': 'type',
         'variables': 'variables',
     }
 
@@ -39,7 +39,7 @@ class IndividualAlertDetails:
         self,
         cause: str = None,
         description: str = None,
-        type: str = None,
+        p_type: str = None,
         variables: Mapping[str, str] = None,
     ) -> None:
         """Constructor for the IndividualAlertDetails class."""
@@ -47,7 +47,7 @@ class IndividualAlertDetails:
         # Initialize members of the class
         self.cause: str = cause
         self.description: str = description
-        self.type: str = type
+        self.p_type: str = p_type
         self.variables: Mapping[str, str] = variables
 
     @classmethod
@@ -68,7 +68,7 @@ class IndividualAlertDetails:
         # Extract variables from the dictionary
         cause = dictionary.get('cause')
         description = dictionary.get('description')
-        type = dictionary.get('type')
+        p_type = dictionary.get('type')
         variables = dictionary.get('variables')
         # Return an object of this model
-        return cls(cause, description, type, variables)
+        return cls(cause, description, p_type, variables)

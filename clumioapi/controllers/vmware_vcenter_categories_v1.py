@@ -2,6 +2,8 @@
 # Copyright 2021. Clumio, Inc.
 #
 
+import json
+
 from clumioapi import api_helper
 from clumioapi import configuration
 from clumioapi import sdk_version
@@ -54,7 +56,7 @@ class VmwareVcenterCategoriesV1Controller(base_controller.BaseController):
                 +-------+------------------+---------------------------------------------------+
 
         Returns:
-            ListTagCategories2Response: Response from the API.
+            list_tag_categories2_response.ListTagCategories2Response: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -77,6 +79,7 @@ class VmwareVcenterCategoriesV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_vmware_vcenter_categories.', errors
             )
+
         return list_tag_categories2_response.ListTagCategories2Response.from_dictionary(resp)
 
     def read_vmware_vcenter_category(
@@ -90,7 +93,7 @@ class VmwareVcenterCategoriesV1Controller(base_controller.BaseController):
             category_id:
                 Performs the operation on the tag category with the specified ID.
         Returns:
-            ReadTagCategory2Response: Response from the API.
+            read_tag_category2_response.ReadTagCategory2Response: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -112,4 +115,5 @@ class VmwareVcenterCategoriesV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_vmware_vcenter_category.', errors
             )
+
         return read_tag_category2_response.ReadTagCategory2Response.from_dictionary(resp)

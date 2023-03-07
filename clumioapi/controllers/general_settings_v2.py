@@ -2,6 +2,8 @@
 # Copyright 2021. Clumio, Inc.
 #
 
+import json
+
 from clumioapi import api_helper
 from clumioapi import configuration
 from clumioapi import sdk_version
@@ -32,7 +34,7 @@ class GeneralSettingsV2Controller(base_controller.BaseController):
         """Retrieves organization-wide setting details, including password and security
         settings.
         Returns:
-            ReadGeneralSettingsResponseV2: Response from the API.
+            read_general_settings_response_v2.ReadGeneralSettingsResponseV2: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -52,6 +54,7 @@ class GeneralSettingsV2Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_general_settings.', errors
             )
+
         return read_general_settings_response_v2.ReadGeneralSettingsResponseV2.from_dictionary(resp)
 
     def update_general_settings(
@@ -63,7 +66,7 @@ class GeneralSettingsV2Controller(base_controller.BaseController):
             body:
 
         Returns:
-            PatchGeneralSettingsResponseV2: Response from the API.
+            patch_general_settings_response_v2.PatchGeneralSettingsResponseV2: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -88,6 +91,7 @@ class GeneralSettingsV2Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing update_general_settings.', errors
             )
+
         return patch_general_settings_response_v2.PatchGeneralSettingsResponseV2.from_dictionary(
             resp
         )

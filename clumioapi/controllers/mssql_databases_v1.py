@@ -2,6 +2,8 @@
 # Copyright 2021. Clumio, Inc.
 #
 
+import json
+
 from clumioapi import api_helper
 from clumioapi import configuration
 from clumioapi import sdk_version
@@ -118,7 +120,7 @@ class MssqlDatabasesV1Controller(base_controller.BaseController):
                 For more information about embedded links, refer to the
                 Embedding Referenced Resources section of this guide.
         Returns:
-            ListMssqlDatabasesResponse: Response from the API.
+            list_mssql_databases_response.ListMssqlDatabasesResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -139,6 +141,7 @@ class MssqlDatabasesV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_mssql_databases.', errors
             )
+
         return list_mssql_databases_response.ListMssqlDatabasesResponse.from_dictionary(resp)
 
     def read_mssql_databases(
@@ -150,7 +153,7 @@ class MssqlDatabasesV1Controller(base_controller.BaseController):
             database_id:
                 Performs the operation on a database within the specified database id.
         Returns:
-            ReadMssqlDatabaseResponse: Response from the API.
+            read_mssql_database_response.ReadMssqlDatabaseResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -172,6 +175,7 @@ class MssqlDatabasesV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_mssql_databases.', errors
             )
+
         return read_mssql_database_response.ReadMssqlDatabaseResponse.from_dictionary(resp)
 
     def list_mssql_database_pitr_intervals(
@@ -203,7 +207,7 @@ class MssqlDatabasesV1Controller(base_controller.BaseController):
                 +-----------+------------------+-----------------------------------------------+
 
         Returns:
-            ListMssqlDatabasePitrIntervalsResponse: Response from the API.
+            list_mssql_database_pitr_intervals_response.ListMssqlDatabasePitrIntervalsResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -228,6 +232,7 @@ class MssqlDatabasesV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_mssql_database_pitr_intervals.', errors
             )
+
         return list_mssql_database_pitr_intervals_response.ListMssqlDatabasePitrIntervalsResponse.from_dictionary(
             resp
         )

@@ -10,6 +10,8 @@ T = TypeVar('T', bound='ProtectionGroupBucketEmbedded')
 class ProtectionGroupBucketEmbedded:
     """Implementation of the 'ProtectionGroupBucketEmbedded' model.
 
+    Embedded responses related to the resource.
+
     Attributes:
         read_organizational_unit:
             This embed is for internal use only since an embed results in additional HTTP

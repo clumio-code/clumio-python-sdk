@@ -36,7 +36,7 @@ class ReadDatacenterResponse:
         has_vm_folders:
             Determines whether VMs exist directly under the hidden root VM folder. If
             `true`, then VMs exist directly under the root VM folder.
-        id:
+        p_id:
             The VMware-assigned Managed Object Reference (MoRef) ID of the data center.
         name:
             The VMware-assigned name of this data center.
@@ -64,7 +64,7 @@ class ReadDatacenterResponse:
         'datacenter_folder': 'datacenter_folder',
         'has_compute_resources': 'has_compute_resources',
         'has_vm_folders': 'has_vm_folders',
-        'id': 'id',
+        'p_id': 'id',
         'name': 'name',
         'organizational_unit_id': 'organizational_unit_id',
         'protection_info': 'protection_info',
@@ -82,7 +82,7 @@ class ReadDatacenterResponse:
         datacenter_folder: v_mware_datacenter_folder_id_model.VMwareDatacenterFolderIDModel = None,
         has_compute_resources: bool = None,
         has_vm_folders: bool = None,
-        id: str = None,
+        p_id: str = None,
         name: str = None,
         organizational_unit_id: str = None,
         protection_info: protection_info.ProtectionInfo = None,
@@ -102,7 +102,7 @@ class ReadDatacenterResponse:
         )
         self.has_compute_resources: bool = has_compute_resources
         self.has_vm_folders: bool = has_vm_folders
-        self.id: str = id
+        self.p_id: str = p_id
         self.name: str = name
         self.organizational_unit_id: str = organizational_unit_id
         self.protection_info: protection_info.ProtectionInfo = protection_info
@@ -162,7 +162,7 @@ class ReadDatacenterResponse:
 
         has_compute_resources = dictionary.get('has_compute_resources')
         has_vm_folders = dictionary.get('has_vm_folders')
-        id = dictionary.get('id')
+        p_id = dictionary.get('id')
         name = dictionary.get('name')
         organizational_unit_id = dictionary.get('organizational_unit_id')
         key = 'protection_info'
@@ -200,7 +200,7 @@ class ReadDatacenterResponse:
             datacenter_folder,
             has_compute_resources,
             has_vm_folders,
-            id,
+            p_id,
             name,
             organizational_unit_id,
             p_protection_info,

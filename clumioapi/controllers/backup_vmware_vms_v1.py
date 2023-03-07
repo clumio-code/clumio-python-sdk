@@ -2,6 +2,8 @@
 # Copyright 2021. Clumio, Inc.
 #
 
+import json
+
 from clumioapi import api_helper
 from clumioapi import configuration
 from clumioapi import sdk_version
@@ -9,6 +11,7 @@ from clumioapi.controllers import base_controller
 from clumioapi.exceptions import clumio_exception
 from clumioapi.models import create_backup_vmware_vm_v1_request
 from clumioapi.models import list_vm_backups_response
+from clumioapi.models import on_demand_vm_backup_response
 from clumioapi.models import read_vm_backup_response
 import requests
 
@@ -89,7 +92,7 @@ class BackupVmwareVmsV1Controller(base_controller.BaseController):
                 +-----------------+------------------+-----------------------------------------+
 
         Returns:
-            ListVMBackupsResponse: Response from the API.
+            list_vm_backups_response.ListVMBackupsResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -110,18 +113,19 @@ class BackupVmwareVmsV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_backup_vmware_vms.', errors
             )
+
         return list_vm_backups_response.ListVMBackupsResponse.from_dictionary(resp)
 
     def create_backup_vmware_vm(
         self, body: create_backup_vmware_vm_v1_request.CreateBackupVmwareVmV1Request = None
-    ) -> object:
+    ) -> on_demand_vm_backup_response.OnDemandVMBackupResponse:
         """Performs an on-demand backup for the specified VM.
 
         Args:
             body:
 
         Returns:
-            object: Response from the API.
+            on_demand_vm_backup_response.OnDemandVMBackupResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -146,7 +150,8 @@ class BackupVmwareVmsV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing create_backup_vmware_vm.', errors
             )
-        return resp
+
+        return on_demand_vm_backup_response.OnDemandVMBackupResponse.from_dictionary(resp)
 
     def read_backup_vmware_vm(self, backup_id: int) -> read_vm_backup_response.ReadVMBackupResponse:
         """Returns a representation of the specified VM backup.
@@ -155,7 +160,7 @@ class BackupVmwareVmsV1Controller(base_controller.BaseController):
             backup_id:
                 Performs the operation on the backup with the specified ID.
         Returns:
-            ReadVMBackupResponse: Response from the API.
+            read_vm_backup_response.ReadVMBackupResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -177,4 +182,5 @@ class BackupVmwareVmsV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_backup_vmware_vm.', errors
             )
+
         return read_vm_backup_response.ReadVMBackupResponse.from_dictionary(resp)

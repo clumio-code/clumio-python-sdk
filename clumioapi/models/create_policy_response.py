@@ -27,7 +27,7 @@ class CreatePolicyResponse:
             statuses.
         created_time:
             The created time of the policy in unix time.
-        id:
+        p_id:
             The Clumio-assigned ID of the policy.
         lock_status:
             The following table describes the possible lock statuses of a policy.
@@ -62,7 +62,7 @@ class CreatePolicyResponse:
         'links': '_links',
         'activation_status': 'activation_status',
         'created_time': 'created_time',
-        'id': 'id',
+        'p_id': 'id',
         'lock_status': 'lock_status',
         'name': 'name',
         'operations': 'operations',
@@ -77,7 +77,7 @@ class CreatePolicyResponse:
         links: policy_links.PolicyLinks = None,
         activation_status: str = None,
         created_time: int = None,
-        id: str = None,
+        p_id: str = None,
         lock_status: str = None,
         name: str = None,
         operations: Sequence[policy_operation.PolicyOperation] = None,
@@ -92,7 +92,7 @@ class CreatePolicyResponse:
         self.links: policy_links.PolicyLinks = links
         self.activation_status: str = activation_status
         self.created_time: int = created_time
-        self.id: str = id
+        self.p_id: str = p_id
         self.lock_status: str = lock_status
         self.name: str = name
         self.operations: Sequence[policy_operation.PolicyOperation] = operations
@@ -132,7 +132,7 @@ class CreatePolicyResponse:
 
         activation_status = dictionary.get('activation_status')
         created_time = dictionary.get('created_time')
-        id = dictionary.get('id')
+        p_id = dictionary.get('id')
         lock_status = dictionary.get('lock_status')
         name = dictionary.get('name')
         operations = None
@@ -150,7 +150,7 @@ class CreatePolicyResponse:
             links,
             activation_status,
             created_time,
-            id,
+            p_id,
             lock_status,
             name,
             operations,

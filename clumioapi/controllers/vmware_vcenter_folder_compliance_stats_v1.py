@@ -2,6 +2,8 @@
 # Copyright 2021. Clumio, Inc.
 #
 
+import json
+
 from clumioapi import api_helper
 from clumioapi import configuration
 from clumioapi import sdk_version
@@ -38,7 +40,7 @@ class VmwareVcenterFolderComplianceStatsV1Controller(base_controller.BaseControl
             folder_id:
                 Performs the operation on the folder with the specified ID.
         Returns:
-            ReadVMwareFolderStatsResponse: Response from the API.
+            read_v_mware_folder_stats_response.ReadVMwareFolderStatsResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -61,6 +63,7 @@ class VmwareVcenterFolderComplianceStatsV1Controller(base_controller.BaseControl
                 'Error occurred while executing read_vmware_vcenter_folder_compliance_stats.',
                 errors,
             )
+
         return read_v_mware_folder_stats_response.ReadVMwareFolderStatsResponse.from_dictionary(
             resp
         )

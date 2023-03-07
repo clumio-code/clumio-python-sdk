@@ -33,7 +33,7 @@ class ReadVMwareDatastoreResponse:
             Types section for a complete list of datastore types.
         hosts:
             The hosts associated with this datastore.
-        id:
+        p_id:
             The VMware-assigned Managed Object Reference (MoRef) ID of the datastore.
         is_multi_host:
             Determines whether the datastore is shared across multiple hosts. If `true`, the
@@ -55,7 +55,7 @@ class ReadVMwareDatastoreResponse:
         'datastore_folder': 'datastore_folder',
         'datastore_type': 'datastore_type',
         'hosts': 'hosts',
-        'id': 'id',
+        'p_id': 'id',
         'is_multi_host': 'is_multi_host',
         'is_supported': 'is_supported',
         'name': 'name',
@@ -70,7 +70,7 @@ class ReadVMwareDatastoreResponse:
         datastore_folder: v_mware_v_center_datastore_folder_model.VMwareVCenterDatastoreFolderModel = None,
         datastore_type: str = None,
         hosts: Sequence[host_id_model.HostIDModel] = None,
-        id: str = None,
+        p_id: str = None,
         is_multi_host: bool = None,
         is_supported: bool = None,
         name: str = None,
@@ -91,7 +91,7 @@ class ReadVMwareDatastoreResponse:
         )
         self.datastore_type: str = datastore_type
         self.hosts: Sequence[host_id_model.HostIDModel] = hosts
-        self.id: str = id
+        self.p_id: str = p_id
         self.is_multi_host: bool = is_multi_host
         self.is_supported: bool = is_supported
         self.name: str = name
@@ -153,7 +153,7 @@ class ReadVMwareDatastoreResponse:
             for value in dictionary.get('hosts'):
                 hosts.append(host_id_model.HostIDModel.from_dictionary(value))
 
-        id = dictionary.get('id')
+        p_id = dictionary.get('id')
         is_multi_host = dictionary.get('is_multi_host')
         is_supported = dictionary.get('is_supported')
         name = dictionary.get('name')
@@ -166,7 +166,7 @@ class ReadVMwareDatastoreResponse:
             datastore_folder,
             datastore_type,
             hosts,
-            id,
+            p_id,
             is_multi_host,
             is_supported,
             name,

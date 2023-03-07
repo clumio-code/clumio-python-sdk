@@ -10,12 +10,12 @@ T = TypeVar('T', bound='EC2BackupAdvancedSetting')
 class EC2BackupAdvancedSetting:
     """Implementation of the 'EC2BackupAdvancedSetting' model.
 
-    Backup tier to store the backup in. Valid values are: (empty) equivalent to
-    standard, `standard`, and `lite`.
+    Advanced settings for EC2 backup.
 
     Attributes:
         backup_tier:
-
+            Backup tier to store the backup in. Valid values are: (empty) equivalent to
+            standard, `standard`, and `lite`.
     """
 
     # Create a mapping from Model property names to API property names

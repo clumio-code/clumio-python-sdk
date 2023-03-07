@@ -35,7 +35,7 @@ class UpdateAlertResponse:
             alert cause.
         details:
             Additional information about the alert.
-        id:
+        p_id:
             The Clumio-assigned ID of the individual alert.
         notes:
             A record of user-provided information about the alert.
@@ -59,7 +59,7 @@ class UpdateAlertResponse:
             either automatically by Clumio or manually by a Clumio user.
         tags:
             A list of associated objects for the alert.
-        type:
+        p_type:
             The general alert category. Some alert types may be associated with multiple
             causes.
             Refer to the Alert Type table for a complete list of alert types.
@@ -78,7 +78,7 @@ class UpdateAlertResponse:
         'cleared_timestamp': 'cleared_timestamp',
         'consolidated_alert_id': 'consolidated_alert_id',
         'details': 'details',
-        'id': 'id',
+        'p_id': 'id',
         'notes': 'notes',
         'parent_entity': 'parent_entity',
         'primary_entity': 'primary_entity',
@@ -87,7 +87,7 @@ class UpdateAlertResponse:
         'severity': 'severity',
         'status': 'status',
         'tags': 'tags',
-        'type': 'type',
+        'p_type': 'type',
         'updated_timestamp': 'updated_timestamp',
     }
 
@@ -99,7 +99,7 @@ class UpdateAlertResponse:
         cleared_timestamp: str = None,
         consolidated_alert_id: str = None,
         details: individual_alert_details.IndividualAlertDetails = None,
-        id: str = None,
+        p_id: str = None,
         notes: str = None,
         parent_entity: alert_parent_entity.AlertParentEntity = None,
         primary_entity: alert_primary_entity.AlertPrimaryEntity = None,
@@ -108,7 +108,7 @@ class UpdateAlertResponse:
         severity: str = None,
         status: str = None,
         tags: Sequence[rest_entity.RestEntity] = None,
-        type: str = None,
+        p_type: str = None,
         updated_timestamp: str = None,
     ) -> None:
         """Constructor for the UpdateAlertResponse class."""
@@ -120,7 +120,7 @@ class UpdateAlertResponse:
         self.cleared_timestamp: str = cleared_timestamp
         self.consolidated_alert_id: str = consolidated_alert_id
         self.details: individual_alert_details.IndividualAlertDetails = details
-        self.id: str = id
+        self.p_id: str = p_id
         self.notes: str = notes
         self.parent_entity: alert_parent_entity.AlertParentEntity = parent_entity
         self.primary_entity: alert_primary_entity.AlertPrimaryEntity = primary_entity
@@ -129,7 +129,7 @@ class UpdateAlertResponse:
         self.severity: str = severity
         self.status: str = status
         self.tags: Sequence[rest_entity.RestEntity] = tags
-        self.type: str = type
+        self.p_type: str = p_type
         self.updated_timestamp: str = updated_timestamp
 
     @classmethod
@@ -172,7 +172,7 @@ class UpdateAlertResponse:
             else None
         )
 
-        id = dictionary.get('id')
+        p_id = dictionary.get('id')
         notes = dictionary.get('notes')
         key = 'parent_entity'
         parent_entity = (
@@ -198,7 +198,7 @@ class UpdateAlertResponse:
             for value in dictionary.get('tags'):
                 tags.append(rest_entity.RestEntity.from_dictionary(value))
 
-        type = dictionary.get('type')
+        p_type = dictionary.get('type')
         updated_timestamp = dictionary.get('updated_timestamp')
         # Return an object of this model
         return cls(
@@ -208,7 +208,7 @@ class UpdateAlertResponse:
             cleared_timestamp,
             consolidated_alert_id,
             details,
-            id,
+            p_id,
             notes,
             parent_entity,
             primary_entity,
@@ -217,6 +217,6 @@ class UpdateAlertResponse:
             severity,
             status,
             tags,
-            type,
+            p_type,
             updated_timestamp,
         )

@@ -12,8 +12,6 @@ T = TypeVar('T', bound='CreateAwsConnectionTemplateV1Request')
 class CreateAwsConnectionTemplateV1Request:
     """Implementation of the 'CreateAwsConnectionTemplateV1Request' model.
 
-    The body of the request.
-
     Attributes:
         protect:
 

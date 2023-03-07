@@ -41,7 +41,7 @@ class EBS:
             The Clumio-assigned ID of the AWS environment associated with the EBS volume.
         has_direct_assignment:
             Determines whether the table has a direct assignment.
-        id:
+        p_id:
             The Clumio-assigned ID of the EBS volume.
         iops:
             Iops of the volume.
@@ -85,7 +85,7 @@ class EBS:
             The size of the EBS volume. Measured in bytes (B).
         tags:
             The AWS tags applied to the EBS volume.
-        type:
+        p_type:
             The type of EBS volume. Possible values include "gp2", "io1", "st1", "sc1", and
             "standard".
         unsupported_reason:
@@ -108,7 +108,7 @@ class EBS:
         'direct_assignment_policy_id': 'direct_assignment_policy_id',
         'environment_id': 'environment_id',
         'has_direct_assignment': 'has_direct_assignment',
-        'id': 'id',
+        'p_id': 'id',
         'iops': 'iops',
         'is_deleted': 'is_deleted',
         'is_encrypted': 'is_encrypted',
@@ -122,7 +122,7 @@ class EBS:
         'protection_status': 'protection_status',
         'size': 'size',
         'tags': 'tags',
-        'type': 'type',
+        'p_type': 'type',
         'unsupported_reason': 'unsupported_reason',
         'volume_native_id': 'volume_native_id',
     }
@@ -139,7 +139,7 @@ class EBS:
         direct_assignment_policy_id: str = None,
         environment_id: str = None,
         has_direct_assignment: bool = None,
-        id: str = None,
+        p_id: str = None,
         iops: int = None,
         is_deleted: bool = None,
         is_encrypted: bool = None,
@@ -153,7 +153,7 @@ class EBS:
         protection_status: str = None,
         size: int = None,
         tags: Sequence[aws_tag_model.AwsTagModel] = None,
-        type: str = None,
+        p_type: str = None,
         unsupported_reason: str = None,
         volume_native_id: str = None,
     ) -> None:
@@ -170,7 +170,7 @@ class EBS:
         self.direct_assignment_policy_id: str = direct_assignment_policy_id
         self.environment_id: str = environment_id
         self.has_direct_assignment: bool = has_direct_assignment
-        self.id: str = id
+        self.p_id: str = p_id
         self.iops: int = iops
         self.is_deleted: bool = is_deleted
         self.is_encrypted: bool = is_encrypted
@@ -184,7 +184,7 @@ class EBS:
         self.protection_status: str = protection_status
         self.size: int = size
         self.tags: Sequence[aws_tag_model.AwsTagModel] = tags
-        self.type: str = type
+        self.p_type: str = p_type
         self.unsupported_reason: str = unsupported_reason
         self.volume_native_id: str = volume_native_id
 
@@ -226,7 +226,7 @@ class EBS:
         direct_assignment_policy_id = dictionary.get('direct_assignment_policy_id')
         environment_id = dictionary.get('environment_id')
         has_direct_assignment = dictionary.get('has_direct_assignment')
-        id = dictionary.get('id')
+        p_id = dictionary.get('id')
         iops = dictionary.get('iops')
         is_deleted = dictionary.get('is_deleted')
         is_encrypted = dictionary.get('is_encrypted')
@@ -251,7 +251,7 @@ class EBS:
             for value in dictionary.get('tags'):
                 tags.append(aws_tag_model.AwsTagModel.from_dictionary(value))
 
-        type = dictionary.get('type')
+        p_type = dictionary.get('type')
         unsupported_reason = dictionary.get('unsupported_reason')
         volume_native_id = dictionary.get('volume_native_id')
         # Return an object of this model
@@ -266,7 +266,7 @@ class EBS:
             direct_assignment_policy_id,
             environment_id,
             has_direct_assignment,
-            id,
+            p_id,
             iops,
             is_deleted,
             is_encrypted,
@@ -280,7 +280,7 @@ class EBS:
             protection_status,
             size,
             tags,
-            type,
+            p_type,
             unsupported_reason,
             volume_native_id,
         )

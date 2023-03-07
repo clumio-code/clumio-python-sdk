@@ -2,6 +2,8 @@
 # Copyright 2021. Clumio, Inc.
 #
 
+import json
+
 from clumioapi import api_helper
 from clumioapi import configuration
 from clumioapi import sdk_version
@@ -37,7 +39,7 @@ class VmwareVcenterTagComplianceStatsV1Controller(base_controller.BaseController
             tag_id:
                 Performs the operation on the tag with the specified ID.
         Returns:
-            ReadVMwareTagStatsResponse: Response from the API.
+            read_v_mware_tag_stats_response.ReadVMwareTagStatsResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -59,4 +61,5 @@ class VmwareVcenterTagComplianceStatsV1Controller(base_controller.BaseController
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_vmware_vcenter_tag_compliance_stats.', errors
             )
+
         return read_v_mware_tag_stats_response.ReadVMwareTagStatsResponse.from_dictionary(resp)

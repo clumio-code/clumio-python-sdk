@@ -2,12 +2,15 @@
 # Copyright 2021. Clumio, Inc.
 #
 
+import json
+
 from clumioapi import api_helper
 from clumioapi import configuration
 from clumioapi import sdk_version
 from clumioapi.controllers import base_controller
 from clumioapi.exceptions import clumio_exception
 from clumioapi.models import restore_records_aws_dynamodb_table_v1_request
+from clumioapi.models import restore_records_response_async
 from clumioapi.models import restore_records_response_sync
 import requests
 
@@ -31,7 +34,7 @@ class RestoredRecordsAwsDynamodbTablesV1Controller(base_controller.BaseControlle
         self,
         embed: str = None,
         body: restore_records_aws_dynamodb_table_v1_request.RestoreRecordsAwsDynamodbTableV1Request = None,
-    ) -> restore_records_response_sync.RestoreRecordsResponseSync:
+    ) -> restore_records_response_sync.RestoreRecordsResponseSync | restore_records_response_async.RestoreRecordsResponseAsync:
         """Start a DynamoDB backup records retrieval query with the query filters provided
         in user input. If the query preview flag is set in the input then the result
         will be returned to the response otherwise the query will run in background and
@@ -53,7 +56,7 @@ class RestoredRecordsAwsDynamodbTablesV1Controller(base_controller.BaseControlle
             body:
 
         Returns:
-            RestoreRecordsResponseSync: Response from the API.
+            restore_records_response_sync.RestoreRecordsResponseSync | restore_records_response_async.RestoreRecordsResponseAsync: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -73,10 +76,19 @@ class RestoredRecordsAwsDynamodbTablesV1Controller(base_controller.BaseControlle
                 headers=self.headers,
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
+                raw_response=True,
             )
         except requests.exceptions.HTTPError as http_error:
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing restore_records_aws_dynamodb_table.', errors
             )
-        return restore_records_response_sync.RestoreRecordsResponseSync.from_dictionary(resp)
+        unmarshalled_dict = json.loads(resp.text)
+        if resp.status_code == 200:
+            return restore_records_response_sync.RestoreRecordsResponseSync.from_dictionary(
+                unmarshalled_dict
+            )
+        if resp.status_code == 202:
+            return restore_records_response_async.RestoreRecordsResponseAsync.from_dictionary(
+                unmarshalled_dict
+            )

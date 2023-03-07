@@ -2,6 +2,8 @@
 # Copyright 2021. Clumio, Inc.
 #
 
+import json
+
 from clumioapi import api_helper
 from clumioapi import configuration
 from clumioapi import sdk_version
@@ -31,7 +33,7 @@ class AutoUserProvisioningSettingsV1Controller(base_controller.BaseController):
     def read_auto_user_provisioning_setting(self):
         """Returns a representation of the auto user provisioning settings.
         Returns:
-            ReadAutoUserProvisioningSettingResponse: Response from the API.
+            read_auto_user_provisioning_setting_response.ReadAutoUserProvisioningSettingResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -51,6 +53,7 @@ class AutoUserProvisioningSettingsV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_auto_user_provisioning_setting.', errors
             )
+
         return read_auto_user_provisioning_setting_response.ReadAutoUserProvisioningSettingResponse.from_dictionary(
             resp
         )
@@ -65,7 +68,7 @@ class AutoUserProvisioningSettingsV1Controller(base_controller.BaseController):
             body:
 
         Returns:
-            UpdateAutoUserProvisioningSettingResponse: Response from the API.
+            update_auto_user_provisioning_setting_response.UpdateAutoUserProvisioningSettingResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -90,6 +93,7 @@ class AutoUserProvisioningSettingsV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing update_auto_user_provisioning_setting.', errors
             )
+
         return update_auto_user_provisioning_setting_response.UpdateAutoUserProvisioningSettingResponse.from_dictionary(
             resp
         )

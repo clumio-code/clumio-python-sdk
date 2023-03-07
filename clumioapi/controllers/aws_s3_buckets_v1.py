@@ -2,6 +2,8 @@
 # Copyright 2021. Clumio, Inc.
 #
 
+import json
+
 from clumioapi import api_helper
 from clumioapi import configuration
 from clumioapi import sdk_version
@@ -148,7 +150,7 @@ class AwsS3BucketsV1Controller(base_controller.BaseController):
                 +------------------------+------------------+----------------------------------+
 
         Returns:
-            ListBucketsResponse: Response from the API.
+            list_buckets_response.ListBucketsResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -169,6 +171,7 @@ class AwsS3BucketsV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_aws_s3_buckets.', errors
             )
+
         return list_buckets_response.ListBucketsResponse.from_dictionary(resp)
 
     def read_aws_s3_bucket(self, bucket_id: str) -> read_bucket_response.ReadBucketResponse:
@@ -178,7 +181,7 @@ class AwsS3BucketsV1Controller(base_controller.BaseController):
             bucket_id:
                 Performs the operation on the Bucket with the specified ID.
         Returns:
-            ReadBucketResponse: Response from the API.
+            read_bucket_response.ReadBucketResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -200,6 +203,7 @@ class AwsS3BucketsV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_aws_s3_bucket.', errors
             )
+
         return read_bucket_response.ReadBucketResponse.from_dictionary(resp)
 
     def set_bucket_properties(
@@ -216,7 +220,7 @@ class AwsS3BucketsV1Controller(base_controller.BaseController):
             body:
                 The set of properties that are being updated for the given bucket.
         Returns:
-            SetBucketPropertiesResponse: Response from the API.
+            set_bucket_properties_response.SetBucketPropertiesResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -243,4 +247,5 @@ class AwsS3BucketsV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing set_bucket_properties.', errors
             )
+
         return set_bucket_properties_response.SetBucketPropertiesResponse.from_dictionary(resp)

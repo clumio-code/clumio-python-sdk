@@ -28,7 +28,7 @@ class S3ReplicationRule:
         filter:
             A filter that identifies the subset of objects
             to which the replication rule applies.
-        id:
+        p_id:
             A unique identifier for the rule (max 255 characters).
         priority:
             The priority indicates which rule has precedence whenever
@@ -46,7 +46,7 @@ class S3ReplicationRule:
         'destination': 'destination',
         'existing_object_replication': 'existing_object_replication',
         'filter': 'filter',
-        'id': 'id',
+        'p_id': 'id',
         'priority': 'priority',
         'source_selection_criteria': 'source_selection_criteria',
         'status': 'status',
@@ -58,7 +58,7 @@ class S3ReplicationRule:
         destination: s3_destination.S3Destination = None,
         existing_object_replication: s3_existing_object_replication.S3ExistingObjectReplication = None,
         filter: s3_replication_rule_filter.S3ReplicationRuleFilter = None,
-        id: str = None,
+        p_id: str = None,
         priority: int = None,
         source_selection_criteria: s3_source_selection_criteria.S3SourceSelectionCriteria = None,
         status: str = None,
@@ -74,7 +74,7 @@ class S3ReplicationRule:
             existing_object_replication
         )
         self.filter: s3_replication_rule_filter.S3ReplicationRuleFilter = filter
-        self.id: str = id
+        self.p_id: str = p_id
         self.priority: int = priority
         self.source_selection_criteria: s3_source_selection_criteria.S3SourceSelectionCriteria = (
             source_selection_criteria
@@ -129,7 +129,7 @@ class S3ReplicationRule:
             else None
         )
 
-        id = dictionary.get('id')
+        p_id = dictionary.get('id')
         priority = dictionary.get('priority')
         key = 'source_selection_criteria'
         source_selection_criteria = (
@@ -147,7 +147,7 @@ class S3ReplicationRule:
             destination,
             existing_object_replication,
             filter,
-            id,
+            p_id,
             priority,
             source_selection_criteria,
             status,

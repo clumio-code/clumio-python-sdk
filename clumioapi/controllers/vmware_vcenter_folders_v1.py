@@ -2,6 +2,8 @@
 # Copyright 2021. Clumio, Inc.
 #
 
+import json
+
 from clumioapi import api_helper
 from clumioapi import configuration
 from clumioapi import sdk_version
@@ -135,7 +137,7 @@ class VmwareVcenterFoldersV1Controller(base_controller.BaseController):
                 +---------------------------------------+--------------------------------------+
 
         Returns:
-            ListFoldersResponse: Response from the API.
+            list_folders_response.ListFoldersResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -158,6 +160,7 @@ class VmwareVcenterFoldersV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_vmware_vcenter_folders.', errors
             )
+
         return list_folders_response.ListFoldersResponse.from_dictionary(resp)
 
     def read_vmware_vcenter_folder(
@@ -186,7 +189,7 @@ class VmwareVcenterFoldersV1Controller(base_controller.BaseController):
                 +---------------------------------------+--------------------------------------+
 
         Returns:
-            ReadFolderResponse: Response from the API.
+            read_folder_response.ReadFolderResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -211,4 +214,5 @@ class VmwareVcenterFoldersV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_vmware_vcenter_folder.', errors
             )
+
         return read_folder_response.ReadFolderResponse.from_dictionary(resp)

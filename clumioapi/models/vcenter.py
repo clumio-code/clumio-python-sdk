@@ -27,7 +27,7 @@ class Vcenter:
             downloaded.
         endpoint:
             The IP address or FQDN of the vCenter server.
-        id:
+        p_id:
             The Clumio-assigned ID of the vCenter server.
         ip_address:
             The IP address or FQDN of the vCenter server.
@@ -39,7 +39,7 @@ class Vcenter:
             The connection status of the Clumio Cloud Connector. Examples include "pending",
             "connected", "disconnected", "invalid_credentials", "partial", and
             "unavailable".
-        type:
+        p_type:
             The type of vCenter server. If the vCenter server's type is unavailable, this
             field has a value of `unavailable`. Refer to the vCenter Types table for a
             complete list of vCenter types.
@@ -54,11 +54,11 @@ class Vcenter:
         'backup_region': 'backup_region',
         'cloud_connector_download_url': 'cloud_connector_download_url',
         'endpoint': 'endpoint',
-        'id': 'id',
+        'p_id': 'id',
         'ip_address': 'ip_address',
         'organizational_unit_id': 'organizational_unit_id',
         'status': 'status',
-        'type': 'type',
+        'p_type': 'type',
         'vcenter_token': 'vcenter_token',
     }
 
@@ -69,11 +69,11 @@ class Vcenter:
         backup_region: str = None,
         cloud_connector_download_url: str = None,
         endpoint: str = None,
-        id: str = None,
+        p_id: str = None,
         ip_address: str = None,
         organizational_unit_id: str = None,
         status: str = None,
-        type: str = None,
+        p_type: str = None,
         vcenter_token: str = None,
     ) -> None:
         """Constructor for the Vcenter class."""
@@ -84,11 +84,11 @@ class Vcenter:
         self.backup_region: str = backup_region
         self.cloud_connector_download_url: str = cloud_connector_download_url
         self.endpoint: str = endpoint
-        self.id: str = id
+        self.p_id: str = p_id
         self.ip_address: str = ip_address
         self.organizational_unit_id: str = organizational_unit_id
         self.status: str = status
-        self.type: str = type
+        self.p_type: str = p_type
         self.vcenter_token: str = vcenter_token
 
     @classmethod
@@ -124,11 +124,11 @@ class Vcenter:
         backup_region = dictionary.get('backup_region')
         cloud_connector_download_url = dictionary.get('cloud_connector_download_url')
         endpoint = dictionary.get('endpoint')
-        id = dictionary.get('id')
+        p_id = dictionary.get('id')
         ip_address = dictionary.get('ip_address')
         organizational_unit_id = dictionary.get('organizational_unit_id')
         status = dictionary.get('status')
-        type = dictionary.get('type')
+        p_type = dictionary.get('type')
         vcenter_token = dictionary.get('vcenter_token')
         # Return an object of this model
         return cls(
@@ -137,10 +137,10 @@ class Vcenter:
             backup_region,
             cloud_connector_download_url,
             endpoint,
-            id,
+            p_id,
             ip_address,
             organizational_unit_id,
             status,
-            type,
+            p_type,
             vcenter_token,
         )

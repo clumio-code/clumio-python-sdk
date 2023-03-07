@@ -2,6 +2,8 @@
 # Copyright 2021. Clumio, Inc.
 #
 
+import json
+
 from clumioapi import api_helper
 from clumioapi import configuration
 from clumioapi import sdk_version
@@ -116,7 +118,7 @@ class AwsEnvironmentsV1Controller(base_controller.BaseController):
                 +---------------------------------------+--------------------------------------+
 
         Returns:
-            ListAWSEnvironmentsResponse: Response from the API.
+            list_aws_environments_response.ListAWSEnvironmentsResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -137,6 +139,7 @@ class AwsEnvironmentsV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_aws_environments.', errors
             )
+
         return list_aws_environments_response.ListAWSEnvironmentsResponse.from_dictionary(resp)
 
     def read_aws_environment(
@@ -187,7 +190,7 @@ class AwsEnvironmentsV1Controller(base_controller.BaseController):
                 +---------------------------------------+--------------------------------------+
 
         Returns:
-            ReadAWSEnvironmentResponse: Response from the API.
+            read_aws_environment_response.ReadAWSEnvironmentResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -210,4 +213,5 @@ class AwsEnvironmentsV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_aws_environment.', errors
             )
+
         return read_aws_environment_response.ReadAWSEnvironmentResponse.from_dictionary(resp)

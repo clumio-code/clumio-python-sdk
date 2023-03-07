@@ -10,12 +10,12 @@ T = TypeVar('T', bound='EBSBackupAdvancedSetting')
 class EBSBackupAdvancedSetting:
     """Implementation of the 'EBSBackupAdvancedSetting' model.
 
-    Backup tier to store the backup in. Valid values are: (empty) equivalent to
-    standard, `standard`, and `lite`.
+    Advanced settings for EBS backup.
 
     Attributes:
         backup_tier:
-
+            Backup tier to store the backup in. Valid values are: (empty) equivalent to
+            standard, `standard`, and `lite`.
     """
 
     # Create a mapping from Model property names to API property names

@@ -12,6 +12,8 @@ T = TypeVar('T', bound='SetBucketPropertiesResponseLinks')
 class SetBucketPropertiesResponseLinks:
     """Implementation of the 'SetBucketPropertiesResponseLinks' model.
 
+    URLs to pages related to the resource.
+
     Attributes:
         p_self:
             The HATEOAS link to this resource.

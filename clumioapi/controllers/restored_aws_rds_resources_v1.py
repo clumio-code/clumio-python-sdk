@@ -2,6 +2,8 @@
 # Copyright 2021. Clumio, Inc.
 #
 
+import json
+
 from clumioapi import api_helper
 from clumioapi import configuration
 from clumioapi import sdk_version
@@ -51,7 +53,7 @@ class RestoredAwsRdsResourcesV1Controller(base_controller.BaseController):
             body:
 
         Returns:
-            CreateRdsResourceRestoreResponse: Response from the API.
+            create_rds_resource_restore_response.CreateRdsResourceRestoreResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -77,6 +79,7 @@ class RestoredAwsRdsResourcesV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing restore_aws_rds_resource.', errors
             )
+
         return (
             create_rds_resource_restore_response.CreateRdsResourceRestoreResponse.from_dictionary(
                 resp

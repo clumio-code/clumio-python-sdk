@@ -17,20 +17,24 @@ class RPOBackupSLAParam:
     field empty.
 
     Attributes:
+        offsets:
+            The weekday in decimal of the Weekly SLA parameter. Valid values are integers
+            from 0 to 6, incidates Sunday, Monday, ..., Saturday. For example, to configure
+            backup on every Monday, set `unit="weekly"`, `value=1`, and `offsets={1}`.
         unit:
-            The measurement unit of the SLA parameter. Values include `hours`, `days`,
-            `months`, and `years`.
+            The measurement unit of the SLA parameter.
         value:
             The measurement value of the SLA parameter.
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'unit': 'unit', 'value': 'value'}
+    _names = {'offsets': 'offsets', 'unit': 'unit', 'value': 'value'}
 
-    def __init__(self, unit: str = None, value: int = None) -> None:
+    def __init__(self, offsets: Sequence[int] = None, unit: str = None, value: int = None) -> None:
         """Constructor for the RPOBackupSLAParam class."""
 
         # Initialize members of the class
+        self.offsets: Sequence[int] = offsets
         self.unit: str = unit
         self.value: int = value
 
@@ -50,7 +54,8 @@ class RPOBackupSLAParam:
             return None
 
         # Extract variables from the dictionary
+        offsets = dictionary.get('offsets')
         unit = dictionary.get('unit')
         value = dictionary.get('value')
         # Return an object of this model
-        return cls(unit, value)
+        return cls(offsets, unit, value)

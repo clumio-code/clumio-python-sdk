@@ -4,7 +4,7 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import read_task_hateoas_links
+from clumioapi.models import delete_rule_response_links
 
 T = TypeVar('T', bound='DeleteRuleResponse')
 
@@ -27,14 +27,14 @@ class DeleteRuleResponse:
 
     def __init__(
         self,
-        links: read_task_hateoas_links.ReadTaskHateoasLinks = None,
+        links: delete_rule_response_links.DeleteRuleResponseLinks = None,
         preview_id: str = None,
         task_id: str = None,
     ) -> None:
         """Constructor for the DeleteRuleResponse class."""
 
         # Initialize members of the class
-        self.links: read_task_hateoas_links.ReadTaskHateoasLinks = links
+        self.links: delete_rule_response_links.DeleteRuleResponseLinks = links
         self.preview_id: str = preview_id
         self.task_id: str = task_id
 
@@ -56,7 +56,7 @@ class DeleteRuleResponse:
         # Extract variables from the dictionary
         key = '_links'
         links = (
-            read_task_hateoas_links.ReadTaskHateoasLinks.from_dictionary(dictionary.get(key))
+            delete_rule_response_links.DeleteRuleResponseLinks.from_dictionary(dictionary.get(key))
             if dictionary.get(key)
             else None
         )

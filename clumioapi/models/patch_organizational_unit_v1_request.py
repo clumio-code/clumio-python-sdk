@@ -18,6 +18,9 @@ class PatchOrganizationalUnitV1Request:
             A description of the organizational unit.
         entities:
             Updates to the entities in the organizational unit.
+            Adding or removing entities from the OU is an asynchronous operation.
+            The response has a task ID which can be used to track the progress of the
+            operation.
         name:
             Unique name assigned to the organizational unit.
         users:

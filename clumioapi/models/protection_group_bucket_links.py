@@ -14,6 +14,8 @@ T = TypeVar('T', bound='ProtectionGroupBucketLinks')
 class ProtectionGroupBucketLinks:
     """Implementation of the 'ProtectionGroupBucketLinks' model.
 
+    URLs to pages related to the resource.
+
     Attributes:
         p_self:
             The HATEOAS link to this resource.

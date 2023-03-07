@@ -2,6 +2,8 @@
 # Copyright 2021. Clumio, Inc.
 #
 
+import json
+
 from clumioapi import api_helper
 from clumioapi import configuration
 from clumioapi import sdk_version
@@ -51,7 +53,7 @@ class RestoredAwsDynamodbTablesV1Controller(base_controller.BaseController):
             body:
 
         Returns:
-            RestoreDynamoDBTableResponse: Response from the API.
+            restore_dynamo_db_table_response.RestoreDynamoDBTableResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -77,4 +79,5 @@ class RestoredAwsDynamodbTablesV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing restore_aws_dynamodb_table.', errors
             )
+
         return restore_dynamo_db_table_response.RestoreDynamoDBTableResponse.from_dictionary(resp)

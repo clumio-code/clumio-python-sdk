@@ -18,7 +18,7 @@ class RestoreFileResponse:
             Embedded responses related to the resource.
         links:
             URLs to pages related to the resource.
-        id:
+        p_id:
             The Clumio-assigned ID of the restored file.
         passcode:
             The passcode that the end-user must use to access the restored
@@ -34,7 +34,7 @@ class RestoreFileResponse:
     _names = {
         'embedded': '_embedded',
         'links': '_links',
-        'id': 'id',
+        'p_id': 'id',
         'passcode': 'passcode',
         'task_id': 'task_id',
     }
@@ -43,7 +43,7 @@ class RestoreFileResponse:
         self,
         embedded: read_task_hateoas_outer_embedded.ReadTaskHateoasOuterEmbedded = None,
         links: restore_file_links.RestoreFileLinks = None,
-        id: str = None,
+        p_id: str = None,
         passcode: str = None,
         task_id: str = None,
     ) -> None:
@@ -52,7 +52,7 @@ class RestoreFileResponse:
         # Initialize members of the class
         self.embedded: read_task_hateoas_outer_embedded.ReadTaskHateoasOuterEmbedded = embedded
         self.links: restore_file_links.RestoreFileLinks = links
-        self.id: str = id
+        self.p_id: str = p_id
         self.passcode: str = passcode
         self.task_id: str = task_id
 
@@ -88,8 +88,8 @@ class RestoreFileResponse:
             else None
         )
 
-        id = dictionary.get('id')
+        p_id = dictionary.get('id')
         passcode = dictionary.get('passcode')
         task_id = dictionary.get('task_id')
         # Return an object of this model
-        return cls(embedded, links, id, passcode, task_id)
+        return cls(embedded, links, p_id, passcode, task_id)

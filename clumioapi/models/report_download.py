@@ -21,13 +21,13 @@ class ReportDownload:
             The name of CSV file.
         filters:
             The filters applied to the report when download was initiated.
-        id:
+        p_id:
 
         start_timestamp:
             The time when the request was made.
         task_id:
             The Clumio-assigned ID of the task which generated the restored file.
-        type:
+        p_type:
             The type of report this CSV Download is associated with.
             The possible values include "activity" and "compliance".
     """
@@ -39,10 +39,10 @@ class ReportDownload:
         'expiration_timestamp': 'expiration_timestamp',
         'file_name': 'file_name',
         'filters': 'filters',
-        'id': 'id',
+        'p_id': 'id',
         'start_timestamp': 'start_timestamp',
         'task_id': 'task_id',
-        'type': 'type',
+        'p_type': 'type',
     }
 
     def __init__(
@@ -52,10 +52,10 @@ class ReportDownload:
         expiration_timestamp: str = None,
         file_name: str = None,
         filters: str = None,
-        id: str = None,
+        p_id: str = None,
         start_timestamp: str = None,
         task_id: str = None,
-        type: str = None,
+        p_type: str = None,
     ) -> None:
         """Constructor for the ReportDownload class."""
 
@@ -65,10 +65,10 @@ class ReportDownload:
         self.expiration_timestamp: str = expiration_timestamp
         self.file_name: str = file_name
         self.filters: str = filters
-        self.id: str = id
+        self.p_id: str = p_id
         self.start_timestamp: str = start_timestamp
         self.task_id: str = task_id
-        self.type: str = type
+        self.p_type: str = p_type
 
     @classmethod
     def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
@@ -91,10 +91,10 @@ class ReportDownload:
         expiration_timestamp = dictionary.get('expiration_timestamp')
         file_name = dictionary.get('file_name')
         filters = dictionary.get('filters')
-        id = dictionary.get('id')
+        p_id = dictionary.get('id')
         start_timestamp = dictionary.get('start_timestamp')
         task_id = dictionary.get('task_id')
-        type = dictionary.get('type')
+        p_type = dictionary.get('type')
         # Return an object of this model
         return cls(
             download_link,
@@ -102,8 +102,8 @@ class ReportDownload:
             expiration_timestamp,
             file_name,
             filters,
-            id,
+            p_id,
             start_timestamp,
             task_id,
-            type,
+            p_type,
         )

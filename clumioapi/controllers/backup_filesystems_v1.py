@@ -2,6 +2,8 @@
 # Copyright 2021. Clumio, Inc.
 #
 
+import json
+
 from clumioapi import api_helper
 from clumioapi import configuration
 from clumioapi import sdk_version
@@ -41,7 +43,7 @@ class BackupFilesystemsV1Controller(base_controller.BaseController):
                 Sets the page number used to browse the collection.
                 Pages are indexed starting from 1 (i.e., `start=1`).
         Returns:
-            ListFileSystemsResponse: Response from the API.
+            list_file_systems_response.ListFileSystemsResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -64,6 +66,7 @@ class BackupFilesystemsV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_backup_filesystems.', errors
             )
+
         return list_file_systems_response.ListFileSystemsResponse.from_dictionary(resp)
 
     def read_filesystem(
@@ -77,7 +80,7 @@ class BackupFilesystemsV1Controller(base_controller.BaseController):
             backup_id:
                 Performs the operation on a filesystem within the specified backup.
         Returns:
-            ReadFileSystemResponse: Response from the API.
+            read_file_system_response.ReadFileSystemResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -99,4 +102,5 @@ class BackupFilesystemsV1Controller(base_controller.BaseController):
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_filesystem.', errors
             )
+
         return read_file_system_response.ReadFileSystemResponse.from_dictionary(resp)

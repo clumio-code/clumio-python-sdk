@@ -14,9 +14,9 @@ class UpdateUserAssignments:
 
     Attributes:
         add:
-            List of user ids to assign this organizational unit.
+            List of user IDs to assign this organizational unit.
         remove:
-            List of user ids to un-assign this organizational unit.
+            List of user IDs to un-assign this organizational unit.
     """
 
     # Create a mapping from Model property names to API property names
