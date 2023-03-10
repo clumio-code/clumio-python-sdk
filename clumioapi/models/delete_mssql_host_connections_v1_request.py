@@ -14,7 +14,7 @@ class DeleteMssqlHostConnectionsV1Request:
         endpoints:
             The endpoints of hosts to be deleted.
         group_id:
-            Performs the operation on a host within the specified management group.
+
         subgroup_id:
             Performs the operation on a host within the specified management subgroup.
     """

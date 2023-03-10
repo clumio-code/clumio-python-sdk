@@ -15,6 +15,8 @@ class UpdateConsolidatedAlertResponse:
     """Implementation of the 'UpdateConsolidatedAlertResponse' model.
 
     Attributes:
+        etag:
+            The ETag value.
         links:
             URLs to pages related to the resource.
         active_entity_count:
@@ -63,6 +65,7 @@ class UpdateConsolidatedAlertResponse:
 
     # Create a mapping from Model property names to API property names
     _names = {
+        'etag': '_etag',
         'links': '_links',
         'active_entity_count': 'active_entity_count',
         'cause': 'cause',
@@ -81,6 +84,7 @@ class UpdateConsolidatedAlertResponse:
 
     def __init__(
         self,
+        etag: str = None,
         links: consolidated_alert_links.ConsolidatedAlertLinks = None,
         active_entity_count: int = None,
         cause: str = None,
@@ -99,6 +103,7 @@ class UpdateConsolidatedAlertResponse:
         """Constructor for the UpdateConsolidatedAlertResponse class."""
 
         # Initialize members of the class
+        self.etag: str = etag
         self.links: consolidated_alert_links.ConsolidatedAlertLinks = links
         self.active_entity_count: int = active_entity_count
         self.cause: str = cause
@@ -132,6 +137,7 @@ class UpdateConsolidatedAlertResponse:
             return None
 
         # Extract variables from the dictionary
+        etag = dictionary.get('_etag')
         key = '_links'
         links = (
             consolidated_alert_links.ConsolidatedAlertLinks.from_dictionary(dictionary.get(key))
@@ -168,6 +174,7 @@ class UpdateConsolidatedAlertResponse:
         updated_timestamp = dictionary.get('updated_timestamp')
         # Return an object of this model
         return cls(
+            etag,
             links,
             active_entity_count,
             cause,

@@ -99,7 +99,10 @@ class OrganizationalUnitsV1Controller(base_controller.BaseController):
         self,
         embed: str = None,
         body: create_organizational_unit_v1_request.CreateOrganizationalUnitV1Request = None,
-    ) -> create_organizational_unit_no_task_response_v1.CreateOrganizationalUnitNoTaskResponseV1 | create_organizational_unit_response_v1.CreateOrganizationalUnitResponseV1:
+    ) -> (
+        create_organizational_unit_no_task_response_v1.CreateOrganizationalUnitNoTaskResponseV1
+        | create_organizational_unit_response_v1.CreateOrganizationalUnitResponseV1
+    ):
         """Create a new organizational unit. Adding entities to the OU is an asynchronous
         operation and has a task associated.
         When the request has entities to be added, the response has a task ID which can
@@ -260,7 +263,10 @@ class OrganizationalUnitsV1Controller(base_controller.BaseController):
         id: str,
         embed: str = None,
         body: patch_organizational_unit_v1_request.PatchOrganizationalUnitV1Request = None,
-    ) -> patch_organizational_unit_no_task_response_v1.PatchOrganizationalUnitNoTaskResponseV1 | patch_organizational_unit_response_v1.PatchOrganizationalUnitResponseV1:
+    ) -> (
+        patch_organizational_unit_no_task_response_v1.PatchOrganizationalUnitNoTaskResponseV1
+        | patch_organizational_unit_response_v1.PatchOrganizationalUnitResponseV1
+    ):
         """Patch the specified organizational unit.
         The complete updated attribute(s) of the organizational unit have to be provided
         in the request.

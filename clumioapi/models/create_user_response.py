@@ -4,6 +4,7 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
+from clumioapi.models import role_for_organizational_units
 from clumioapi.models import user_embedded
 from clumioapi.models import user_links
 
@@ -16,20 +17,18 @@ class CreateUserResponse:
     Attributes:
         embedded:
             Embedded responses related to the resource.
+        etag:
+            ETag value
         links:
             URLs to pages related to the resource.
-        assigned_organizational_unit_ids:
-            The list of organizational unit IDs assigned to the user.
-            This attribute will be available when reading a single user and not when listing
-            users.
-        assigned_role:
-            Assigned Role for the user.
+        access_control_configuration:
+            The list of organizational unit IDs along with role assigned to the user.
         email:
             The email address of the Clumio user.
         full_name:
             The first and last name of the Clumio user. The name appears in the User
             Management screen and is used to identify the user.
-        id:
+        p_id:
             The Clumio-assigned ID of the Clumio user.
         inviter:
             The ID number of the user who sent the email invitation.
@@ -47,8 +46,8 @@ class CreateUserResponse:
             If `false`, the user has been manually suspended and cannot log in to Clumio
             until another Clumio user reactivates the account.
         last_activity_timestamp:
-            The timestamp of when when the user was last active in the Clumio system.
-            Represented in RFC-3339 format.
+            The timestamp of when the user was last active in the Clumio system. Represented
+            in RFC-3339 format.
         organizational_unit_count:
             The number of organizational units accessible to the user.
     """
@@ -56,12 +55,12 @@ class CreateUserResponse:
     # Create a mapping from Model property names to API property names
     _names = {
         'embedded': '_embedded',
+        'etag': '_etag',
         'links': '_links',
-        'assigned_organizational_unit_ids': 'assigned_organizational_unit_ids',
-        'assigned_role': 'assigned_role',
+        'access_control_configuration': 'access_control_configuration',
         'email': 'email',
         'full_name': 'full_name',
-        'id': 'id',
+        'p_id': 'id',
         'inviter': 'inviter',
         'is_confirmed': 'is_confirmed',
         'is_enabled': 'is_enabled',
@@ -72,12 +71,14 @@ class CreateUserResponse:
     def __init__(
         self,
         embedded: user_embedded.UserEmbedded = None,
+        etag: str = None,
         links: user_links.UserLinks = None,
-        assigned_organizational_unit_ids: Sequence[str] = None,
-        assigned_role: str = None,
+        access_control_configuration: Sequence[
+            role_for_organizational_units.RoleForOrganizationalUnits
+        ] = None,
         email: str = None,
         full_name: str = None,
-        id: str = None,
+        p_id: str = None,
         inviter: str = None,
         is_confirmed: bool = None,
         is_enabled: bool = None,
@@ -88,12 +89,14 @@ class CreateUserResponse:
 
         # Initialize members of the class
         self.embedded: user_embedded.UserEmbedded = embedded
+        self.etag: str = etag
         self.links: user_links.UserLinks = links
-        self.assigned_organizational_unit_ids: Sequence[str] = assigned_organizational_unit_ids
-        self.assigned_role: str = assigned_role
+        self.access_control_configuration: Sequence[
+            role_for_organizational_units.RoleForOrganizationalUnits
+        ] = access_control_configuration
         self.email: str = email
         self.full_name: str = full_name
-        self.id: str = id
+        self.p_id: str = p_id
         self.inviter: str = inviter
         self.is_confirmed: bool = is_confirmed
         self.is_enabled: bool = is_enabled
@@ -123,6 +126,7 @@ class CreateUserResponse:
             else None
         )
 
+        etag = dictionary.get('_etag')
         key = '_links'
         links = (
             user_links.UserLinks.from_dictionary(dictionary.get(key))
@@ -130,11 +134,17 @@ class CreateUserResponse:
             else None
         )
 
-        assigned_organizational_unit_ids = dictionary.get('assigned_organizational_unit_ids')
-        assigned_role = dictionary.get('assigned_role')
+        access_control_configuration = None
+        if dictionary.get('access_control_configuration'):
+            access_control_configuration = list()
+            for value in dictionary.get('access_control_configuration'):
+                access_control_configuration.append(
+                    role_for_organizational_units.RoleForOrganizationalUnits.from_dictionary(value)
+                )
+
         email = dictionary.get('email')
         full_name = dictionary.get('full_name')
-        id = dictionary.get('id')
+        p_id = dictionary.get('id')
         inviter = dictionary.get('inviter')
         is_confirmed = dictionary.get('is_confirmed')
         is_enabled = dictionary.get('is_enabled')
@@ -143,12 +153,12 @@ class CreateUserResponse:
         # Return an object of this model
         return cls(
             embedded,
+            etag,
             links,
-            assigned_organizational_unit_ids,
-            assigned_role,
+            access_control_configuration,
             email,
             full_name,
-            id,
+            p_id,
             inviter,
             is_confirmed,
             is_enabled,

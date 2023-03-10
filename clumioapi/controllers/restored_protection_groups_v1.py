@@ -94,7 +94,10 @@ class RestoredProtectionGroupsV1Controller(base_controller.BaseController):
         self,
         protection_group_id: str,
         body: preview_protection_group_v1_request.PreviewProtectionGroupV1Request = None,
-    ) -> preview_protection_group_sync_response.PreviewProtectionGroupSyncResponse | preview_protection_group_async_response.PreviewProtectionGroupAsyncResponse:
+    ) -> (
+        preview_protection_group_sync_response.PreviewProtectionGroupSyncResponse
+        | preview_protection_group_async_response.PreviewProtectionGroupAsyncResponse
+    ):
         """Preview a protection group restore.
 
         Args:

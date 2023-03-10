@@ -11,6 +11,7 @@ from clumioapi.controllers import base_controller
 from clumioapi.exceptions import clumio_exception
 from clumioapi.models import create_backup_aws_ebs_volume_v1_request
 from clumioapi.models import list_ebs_backups_response_v1
+from clumioapi.models import on_demand_ebs_backup_response_v1
 from clumioapi.models import read_ebs_backup_response_v1
 import requests
 
@@ -107,15 +108,31 @@ class BackupAwsEbsVolumesV1Controller(base_controller.BaseController):
         return list_ebs_backups_response_v1.ListEBSBackupsResponseV1.from_dictionary(resp)
 
     def create_backup_aws_ebs_volume(
-        self, body: create_backup_aws_ebs_volume_v1_request.CreateBackupAwsEbsVolumeV1Request = None
-    ) -> object:
+        self,
+        embed: str = None,
+        body: create_backup_aws_ebs_volume_v1_request.CreateBackupAwsEbsVolumeV1Request = None,
+    ) -> on_demand_ebs_backup_response_v1.OnDemandEBSBackupResponseV1:
         """Performs an on-demand backup for the specified EBS volume.
 
         Args:
+            embed:
+                Embeds the details of each associated resource. Set the parameter to one of the
+                following embeddable links to
+                include additional details associated with the resource.
+
+                +-----------------+------------------------------------------------------------+
+                | Embeddable Link |                        Description                         |
+                +=================+============================================================+
+                | read-task       | Embeds the associated task in the response. For example,   |
+                |                 | embed=read-task                                            |
+                +-----------------+------------------------------------------------------------+
+
+                For more information about embedded links, refer to the
+                Embedding Referenced Resources section of this guide.
             body:
 
         Returns:
-            object: Response from the API.
+            on_demand_ebs_backup_response_v1.OnDemandEBSBackupResponseV1: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -126,6 +143,7 @@ class BackupAwsEbsVolumesV1Controller(base_controller.BaseController):
         _url_path = f'{self.config.base_path}/backups/aws/ebs-volumes'
 
         _query_parameters = {}
+        _query_parameters = {'embed': embed}
 
         # Execute request
         try:
@@ -141,7 +159,7 @@ class BackupAwsEbsVolumesV1Controller(base_controller.BaseController):
                 'Error occurred while executing create_backup_aws_ebs_volume.', errors
             )
 
-        return resp
+        return on_demand_ebs_backup_response_v1.OnDemandEBSBackupResponseV1.from_dictionary(resp)
 
     def read_backup_aws_ebs_volume(
         self, backup_id: str

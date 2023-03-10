@@ -12,6 +12,8 @@ T = TypeVar('T', bound='HateoasCommonLinks')
 class HateoasCommonLinks:
     """Implementation of the 'HateoasCommonLinks' model.
 
+    HateoasCommonLinks are the common fields for HATEOAS response.
+
     Attributes:
         p_self:
             The HATEOAS link to this resource.

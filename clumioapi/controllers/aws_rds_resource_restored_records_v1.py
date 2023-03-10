@@ -83,7 +83,10 @@ class AwsRdsResourceRestoredRecordsV1Controller(base_controller.BaseController):
         self,
         embed: str = None,
         body: restore_rds_record_v1_request.RestoreRdsRecordV1Request = None,
-    ) -> restore_record_preview_response.RestoreRecordPreviewResponse | restore_record_response.RestoreRecordResponse:
+    ) -> (
+        restore_record_preview_response.RestoreRecordPreviewResponse
+        | restore_record_response.RestoreRecordResponse
+    ):
         """Start a database backup query with the query statement provided in user input.
         If the query preview flag is set in the input then the result will be returned
         in the response otherwise the query will run in background and a task id will be

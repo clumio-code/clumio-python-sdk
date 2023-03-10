@@ -1,5 +1,9 @@
+## 0.10.0
+New version added for Users, Organizational Units and EBS Backups APIs.
+
 ## 0.9.0
 New APIs added for Dynamodb, EC2, RDS, S3 and EC2MSSQL data sources and updates to Policy and OrganizationalUnit APIs.
+
 ## 0.8.0
 New APIs added for backups and restores for EBS, EC2, RDS, EC2MSSQL data sources.
 

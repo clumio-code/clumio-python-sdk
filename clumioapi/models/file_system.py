@@ -14,7 +14,7 @@ class FileSystem:
 
     Attributes:
         links:
-
+            HateoasCommonLinks are the common fields for HATEOAS response.
         available:
             The amount of available memory on the filesystem in bytes. Does not include
             reserved memory.

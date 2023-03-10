@@ -20,6 +20,8 @@ class UpdateAlertResponse:
     Attributes:
         embedded:
             Embedded responses related to the resource.
+        etag:
+            The ETag value.
         links:
             URLs to pages related to the resource.
         cause:
@@ -73,6 +75,7 @@ class UpdateAlertResponse:
     # Create a mapping from Model property names to API property names
     _names = {
         'embedded': '_embedded',
+        'etag': '_etag',
         'links': '_links',
         'cause': 'cause',
         'cleared_timestamp': 'cleared_timestamp',
@@ -94,6 +97,7 @@ class UpdateAlertResponse:
     def __init__(
         self,
         embedded: alert_embedded.AlertEmbedded = None,
+        etag: str = None,
         links: alert_links.AlertLinks = None,
         cause: str = None,
         cleared_timestamp: str = None,
@@ -115,6 +119,7 @@ class UpdateAlertResponse:
 
         # Initialize members of the class
         self.embedded: alert_embedded.AlertEmbedded = embedded
+        self.etag: str = etag
         self.links: alert_links.AlertLinks = links
         self.cause: str = cause
         self.cleared_timestamp: str = cleared_timestamp
@@ -155,6 +160,7 @@ class UpdateAlertResponse:
             else None
         )
 
+        etag = dictionary.get('_etag')
         key = '_links'
         links = (
             alert_links.AlertLinks.from_dictionary(dictionary.get(key))
@@ -203,6 +209,7 @@ class UpdateAlertResponse:
         # Return an object of this model
         return cls(
             embedded,
+            etag,
             links,
             cause,
             cleared_timestamp,

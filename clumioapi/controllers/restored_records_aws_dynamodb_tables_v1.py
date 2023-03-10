@@ -34,7 +34,10 @@ class RestoredRecordsAwsDynamodbTablesV1Controller(base_controller.BaseControlle
         self,
         embed: str = None,
         body: restore_records_aws_dynamodb_table_v1_request.RestoreRecordsAwsDynamodbTableV1Request = None,
-    ) -> restore_records_response_sync.RestoreRecordsResponseSync | restore_records_response_async.RestoreRecordsResponseAsync:
+    ) -> (
+        restore_records_response_sync.RestoreRecordsResponseSync
+        | restore_records_response_async.RestoreRecordsResponseAsync
+    ):
         """Start a DynamoDB backup records retrieval query with the query filters provided
         in user input. If the query preview flag is set in the input then the result
         will be returned to the response otherwise the query will run in background and

@@ -4,6 +4,8 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
+from clumioapi.models import role_model
+
 T = TypeVar('T', bound='UserEmbedded')
 
 
@@ -13,21 +15,18 @@ class UserEmbedded:
     Embedded responses related to the resource.
 
     Attributes:
-        description:
-            A description of the role.
-        name:
-            Unique name assigned to the role.
+        read_role:
+            Embeds the associated Role details in the response
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'description': 'description', 'name': 'name'}
+    _names = {'read_role': 'read-role'}
 
-    def __init__(self, description: str = None, name: str = None) -> None:
+    def __init__(self, read_role: Sequence[role_model.RoleModel] = None) -> None:
         """Constructor for the UserEmbedded class."""
 
         # Initialize members of the class
-        self.description: str = description
-        self.name: str = name
+        self.read_role: Sequence[role_model.RoleModel] = read_role
 
     @classmethod
     def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
@@ -45,7 +44,11 @@ class UserEmbedded:
             return None
 
         # Extract variables from the dictionary
-        description = dictionary.get('description')
-        name = dictionary.get('name')
+        read_role = None
+        if dictionary.get('read-role'):
+            read_role = list()
+            for value in dictionary.get('read-role'):
+                read_role.append(role_model.RoleModel.from_dictionary(value))
+
         # Return an object of this model
-        return cls(description, name)
+        return cls(read_role)

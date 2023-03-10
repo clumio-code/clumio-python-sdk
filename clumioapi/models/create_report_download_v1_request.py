@@ -135,6 +135,27 @@ class CreateReportDownloadV1Request:
             |                   |                  |                   |                   |
             |                   |                  |                   |                   |
             +-------------------+------------------+-------------------+-------------------+
+            | entity_type       | $in              | Consumption       |                   |
+            |                   |                  |                   | Entity type       |
+            |                   |                  |                   | filters the       |
+            |                   |                  |                   | consumption data  |
+            |                   |                  |                   | generated for the |
+            |                   |                  |                   | report to the     |
+            |                   |                  |                   | given entity      |
+            |                   |                  |                   | types.            |
+            |                   |                  |                   | If filter is      |
+            |                   |                  |                   | empty, it shows   |
+            |                   |                  |                   | consumption       |
+            |                   |                  |                   | report of the all |
+            |                   |                  |                   | entity types.     |
+            |                   |                  |                   |                   |
+            |                   |                  |                   | filter={"entity_t |
+            |                   |                  |                   | ype":{"$in":["Loc |
+            |                   |                  |                   | alProtectionGroup |
+            |                   |                  |                   | , DynamoDB"]}}    |
+            |                   |                  |                   |                   |
+            |                   |                  |                   |                   |
+            +-------------------+------------------+-------------------+-------------------+
             | task              | $in              | Activity          |  Possible values  |
             |                   |                  |                   | for task include  |
             |                   |                  |                   | backup and        |

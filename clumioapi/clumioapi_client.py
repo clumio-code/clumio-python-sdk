@@ -21,6 +21,7 @@ from clumioapi.controllers import aws_s3_buckets_v1
 from clumioapi.controllers import aws_templates_v1
 from clumioapi.controllers import backup_aws_dynamodb_tables_v1
 from clumioapi.controllers import backup_aws_ebs_volumes_v1
+from clumioapi.controllers import backup_aws_ebs_volumes_v2
 from clumioapi.controllers import backup_aws_rds_resource_database_tables_v1
 from clumioapi.controllers import backup_aws_rds_resource_databases_v1
 from clumioapi.controllers import backup_aws_rds_resources_v1
@@ -41,6 +42,7 @@ from clumioapi.controllers import mssql_databases_v1
 from clumioapi.controllers import mssql_hosts_v1
 from clumioapi.controllers import mssql_instance_v1
 from clumioapi.controllers import organizational_units_v1
+from clumioapi.controllers import organizational_units_v2
 from clumioapi.controllers import policy_assignments_v1
 from clumioapi.controllers import policy_definitions_v1
 from clumioapi.controllers import policy_rules_v1
@@ -64,6 +66,7 @@ from clumioapi.controllers import restored_vmware_vms_v1
 from clumioapi.controllers import roles_v1
 from clumioapi.controllers import tasks_v1
 from clumioapi.controllers import users_v1
+from clumioapi.controllers import users_v2
 from clumioapi.controllers import vmware_vcenter_categories_v1
 from clumioapi.controllers import vmware_vcenter_compliance_stats_v1
 from clumioapi.controllers import vmware_vcenter_compute_resource_compliance_stats_v1
@@ -110,6 +113,13 @@ class ClumioAPIClient:
         self,
     ) -> backup_aws_dynamodb_tables_v1.BackupAwsDynamodbTablesV1Controller:
         return backup_aws_dynamodb_tables_v1.BackupAwsDynamodbTablesV1Controller(self.config)
+
+    @property
+    @functools.lru_cache(1)
+    def backup_aws_ebs_volumes_v2(
+        self,
+    ) -> backup_aws_ebs_volumes_v2.BackupAwsEbsVolumesV2Controller:
+        return backup_aws_ebs_volumes_v2.BackupAwsEbsVolumesV2Controller(self.config)
 
     @property
     @functools.lru_cache(1)
@@ -416,6 +426,11 @@ class ClumioAPIClient:
 
     @property
     @functools.lru_cache(1)
+    def organizational_units_v2(self) -> organizational_units_v2.OrganizationalUnitsV2Controller:
+        return organizational_units_v2.OrganizationalUnitsV2Controller(self.config)
+
+    @property
+    @functools.lru_cache(1)
     def organizational_units_v1(self) -> organizational_units_v1.OrganizationalUnitsV1Controller:
         return organizational_units_v1.OrganizationalUnitsV1Controller(self.config)
 
@@ -562,6 +577,11 @@ class ClumioAPIClient:
     @functools.lru_cache(1)
     def tasks_v1(self) -> tasks_v1.TasksV1Controller:
         return tasks_v1.TasksV1Controller(self.config)
+
+    @property
+    @functools.lru_cache(1)
+    def users_v2(self) -> users_v2.UsersV2Controller:
+        return users_v2.UsersV2Controller(self.config)
 
     @property
     @functools.lru_cache(1)
