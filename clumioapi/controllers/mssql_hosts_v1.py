@@ -68,6 +68,9 @@ class MssqlHostsV1Controller(base_controller.BaseController):
                 | name        | $contains        | Filter hosts which contain the given        |
                 |             |                  | substring in their name.                    |
                 +-------------+------------------+---------------------------------------------+
+                | status      | $in              | Filter hosts whose connection status is in  |
+                |             |                  | the given list of status                    |
+                +-------------+------------------+---------------------------------------------+
 
             limit:
                 Limits the size of the response on each page to the specified number of items.

@@ -20,18 +20,18 @@ class CreateUserV1Request:
             +-------------+---------------------------+----------------+
             |   Inviter   |       Assigned OUs        | Resulting Role |
             +=============+===========================+================+
-            | Super Admin | Gloabl OU is assigned     | Super Admin    |
+            | Super Admin | Global OU is assigned     | Super Admin    |
             +-------------+---------------------------+----------------+
-            | Super Admin | Gloabl OU is not assigned | OU Admin       |
+            | Super Admin | Global OU is not assigned | OU Admin       |
             +-------------+---------------------------+----------------+
             | OU Admin    | Any                       | OU Admin       |
             +-------------+---------------------------+----------------+
         email:
             The email address of the user to be added to Clumio.
         full_name:
-            The full name of the user to be added to Clumio. For example, enter the user's
+            The full name of the user to be added to Clumio. For example, type the user's
             first name and last name.
-            The name appears in the User Management screen and in the body of the email
+            The name displays on the User Management screen and in the body of the email
             invitation.
         organizational_unit_ids:
             The Clumio-assigned IDs of the organizational units to be assigned to the user.

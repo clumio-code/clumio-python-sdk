@@ -47,8 +47,8 @@ class UserHateoasV1:
             If `false`, the user has been manually suspended and cannot log in to Clumio
             until another Clumio user reactivates the account.
         last_activity_timestamp:
-            The timestamp of when when the user was last active in the Clumio system.
-            Represented in RFC-3339 format.
+            The timestamp of when the user was last active in the Clumio system. Represented
+            in RFC-3339 format.
         organizational_unit_count:
             The number of organizational units accessible to the user.
     """

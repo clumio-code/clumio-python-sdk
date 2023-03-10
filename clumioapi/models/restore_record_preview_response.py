@@ -17,7 +17,7 @@ class RestoreRecordPreviewResponse:
 
     Attributes:
         links:
-
+            HateoasCommonLinks are the common fields for HATEOAS response.
         preview_result:
             The preview of the query result, if `preview:true` in the request.
             If preview was not set to true in the request, then the result of the query will

@@ -4,7 +4,7 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import consolidated_alert
+from clumioapi.models import consolidated_alert_with_e_tag
 
 T = TypeVar('T', bound='ConsolidatedAlertListEmbedded')
 
@@ -22,11 +22,13 @@ class ConsolidatedAlertListEmbedded:
     # Create a mapping from Model property names to API property names
     _names = {'items': 'items'}
 
-    def __init__(self, items: Sequence[consolidated_alert.ConsolidatedAlert] = None) -> None:
+    def __init__(
+        self, items: Sequence[consolidated_alert_with_e_tag.ConsolidatedAlertWithETag] = None
+    ) -> None:
         """Constructor for the ConsolidatedAlertListEmbedded class."""
 
         # Initialize members of the class
-        self.items: Sequence[consolidated_alert.ConsolidatedAlert] = items
+        self.items: Sequence[consolidated_alert_with_e_tag.ConsolidatedAlertWithETag] = items
 
     @classmethod
     def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
@@ -48,7 +50,9 @@ class ConsolidatedAlertListEmbedded:
         if dictionary.get('items'):
             items = list()
             for value in dictionary.get('items'):
-                items.append(consolidated_alert.ConsolidatedAlert.from_dictionary(value))
+                items.append(
+                    consolidated_alert_with_e_tag.ConsolidatedAlertWithETag.from_dictionary(value)
+                )
 
         # Return an object of this model
         return cls(items)

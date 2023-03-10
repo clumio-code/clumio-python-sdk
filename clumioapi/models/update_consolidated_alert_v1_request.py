@@ -1,10 +1,15 @@
 #
 # Copyright 2021. Clumio, Inc.
 #
-
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
+from clumioapi.exceptions import clumio_exception
+
 T = TypeVar('T', bound='UpdateConsolidatedAlertV1Request')
+
+StatusValues = [
+    'cleared',
+]
 
 
 class UpdateConsolidatedAlertV1Request:
@@ -30,6 +35,12 @@ class UpdateConsolidatedAlertV1Request:
 
         # Initialize members of the class
         self.notes: str = notes
+
+        if status not in StatusValues:
+            raise clumio_exception.ClumioException(
+                f'Invalid value for status: { status }. Valid values are { StatusValues }.',
+                None,
+            )
         self.status: str = status
 
     @classmethod

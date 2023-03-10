@@ -92,7 +92,10 @@ class RestoredProtectionGroupS3AssetsV1Controller(base_controller.BaseController
         self,
         protection_group_s3_asset_id: str,
         body: preview_protection_group_s3_asset_v1_request.PreviewProtectionGroupS3AssetV1Request = None,
-    ) -> preview_protection_group_s3_asset_sync_response.PreviewProtectionGroupS3AssetSyncResponse | preview_protection_group_s3_asset_async_response.PreviewProtectionGroupS3AssetAsyncResponse:
+    ) -> (
+        preview_protection_group_s3_asset_sync_response.PreviewProtectionGroupS3AssetSyncResponse
+        | preview_protection_group_s3_asset_async_response.PreviewProtectionGroupS3AssetAsyncResponse
+    ):
         """Preview a protection group S3 asset restore
 
         Args:
@@ -141,7 +144,9 @@ class RestoredProtectionGroupS3AssetsV1Controller(base_controller.BaseController
 
     def preview_details_protection_group_s3_asset(
         self, protection_group_s3_asset_id: str, preview_id: str
-    ) -> preview_protection_group_s3_asset_details_response.PreviewProtectionGroupS3AssetDetailsResponse:
+    ) -> (
+        preview_protection_group_s3_asset_details_response.PreviewProtectionGroupS3AssetDetailsResponse
+    ):
         """Details for protection group S3 asset restore preview
 
         Args:

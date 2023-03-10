@@ -4,7 +4,7 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import user_hateoas
+from clumioapi.models import user_with_e_tag
 
 T = TypeVar('T', bound='UserListEmbedded')
 
@@ -22,11 +22,11 @@ class UserListEmbedded:
     # Create a mapping from Model property names to API property names
     _names = {'items': 'items'}
 
-    def __init__(self, items: Sequence[user_hateoas.UserHateoas] = None) -> None:
+    def __init__(self, items: Sequence[user_with_e_tag.UserWithETag] = None) -> None:
         """Constructor for the UserListEmbedded class."""
 
         # Initialize members of the class
-        self.items: Sequence[user_hateoas.UserHateoas] = items
+        self.items: Sequence[user_with_e_tag.UserWithETag] = items
 
     @classmethod
     def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
@@ -48,7 +48,7 @@ class UserListEmbedded:
         if dictionary.get('items'):
             items = list()
             for value in dictionary.get('items'):
-                items.append(user_hateoas.UserHateoas.from_dictionary(value))
+                items.append(user_with_e_tag.UserWithETag.from_dictionary(value))
 
         # Return an object of this model
         return cls(items)

@@ -18,66 +18,8 @@ class AuditPrimaryEntity:
         p_id:
             A system-generated ID assigned to this entity.
         p_type:
-
-            Entity Type
-            Details
-
-
-            vmware_vcenter
-            VMware vCenter.
-
-
-            vmware_vm
-            VMware virtual machine.
-
-
-            vmware_vm_folder
-            VMware VM folder.
-
-
-            vmware_datacenter
-            VMware data center.
-
-
-            vmware_datacenter_folder
-            VMware data center folder.
-
-
-            vmware_tag
-            VMware tag.
-
-
-            vmware_category
-            VMware tag category.
-
-
-            vmware_compute_resource
-            VMware compute resource.
-
-
-            vmware_compute_resource_folder
-            VMware compute resource folder.
-
-
-            aws_ebs_volume
-            AWS EBS volume.
-
-
-            aws_connection
-            AWS connection mediated by a CloudFormation stack.
-
-
-            aws_environment
-            AWS environment specified by an account/region pair.
-
-
-            aws_tag
-            AWS tag.
-
-
-            aws_cmk
-            AWS Customer Master Key used to encrypt data.
-
+            Type is mostly an asset type or the type of Entity. Some examples are
+            "restored_file", "vmware_vm",  etc.
         value:
             A system-generated value assigned to the entity. For example, if the primary
             entity type is "vmware_vm" for a virtual machine, then the value is the name of

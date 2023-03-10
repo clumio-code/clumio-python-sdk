@@ -9,9 +9,11 @@ from clumioapi import configuration
 from clumioapi import sdk_version
 from clumioapi.controllers import base_controller
 from clumioapi.exceptions import clumio_exception
+from clumioapi.models import change_password_response
 from clumioapi.models import change_password_v1_request
 from clumioapi.models import create_user_response_v1
 from clumioapi.models import create_user_v1_request
+from clumioapi.models import delete_user_response_v1
 from clumioapi.models import edit_profile_response_v1
 from clumioapi.models import list_users_response_v1
 from clumioapi.models import read_user_response_v1
@@ -191,7 +193,7 @@ class UsersV1Controller(base_controller.BaseController):
 
         return read_user_response_v1.ReadUserResponseV1.from_dictionary(resp)
 
-    def delete_user(self, user_id: int) -> object:
+    def delete_user(self, user_id: int) -> delete_user_response_v1.DeleteUserResponseV1:
         """Deletes an existing user from Clumio, revoking the user's access to Clumio. A
         deleted user cannot be recovered.
 
@@ -199,7 +201,7 @@ class UsersV1Controller(base_controller.BaseController):
             user_id:
                 The Clumio-assigned ID of the user to delete.
         Returns:
-            object: Response from the API.
+            delete_user_response_v1.DeleteUserResponseV1: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -220,7 +222,7 @@ class UsersV1Controller(base_controller.BaseController):
                 'Error occurred while executing delete_user.', errors
             )
 
-        return resp
+        return delete_user_response_v1.DeleteUserResponseV1.from_dictionary(resp)
 
     def update_user(
         self, user_id: int, body: update_user_v1_request.UpdateUserV1Request = None
@@ -265,7 +267,7 @@ class UsersV1Controller(base_controller.BaseController):
 
     def change_password(
         self, user_id: int, body: change_password_v1_request.ChangePasswordV1Request = None
-    ) -> object:
+    ) -> change_password_response.ChangePasswordResponse:
         """Change the password of the specified user. Users can change their own passwords.
 
         Args:
@@ -274,7 +276,7 @@ class UsersV1Controller(base_controller.BaseController):
             body:
 
         Returns:
-            object: Response from the API.
+            change_password_response.ChangePasswordResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -300,4 +302,4 @@ class UsersV1Controller(base_controller.BaseController):
                 'Error occurred while executing change_password.', errors
             )
 
-        return resp
+        return change_password_response.ChangePasswordResponse.from_dictionary(resp)
