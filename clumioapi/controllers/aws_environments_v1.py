@@ -56,11 +56,9 @@ class AwsEnvironmentsV1Controller(base_controller.BaseController):
                 |                   |                   | :{"$eq":"891106098885"}}             |
                 +-------------------+-------------------+--------------------------------------+
                 | aws_region        | $eq               | The AWS region associated with the   |
-                |                   |                   | environment. This field must be set  |
-                |                   |                   | with account_native_id. For example, |
-                |                   |                   | filter={"aws_region":{"$eq":"us-west |
-                |                   |                   | -2"},"account_native_id":{"$eq":"891 |
-                |                   |                   | 106098888"}}.                        |
+                |                   |                   | environment. For example,            |
+                |                   |                   | filter={"aws_region":{"$eq":"us-     |
+                |                   |                   | west-2"}}.                           |
                 +-------------------+-------------------+--------------------------------------+
                 | connection_status | $eq               | The status of the connection to the  |
                 |                   |                   | environment, which is mediated by a  |

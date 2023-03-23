@@ -21,6 +21,8 @@ class PostProcessAwsConnectionV1Request:
             ClumioEventPubId is the Clumio Event Pub SNS topic ID.
         configuration:
             Configuration represents the AWS connection configuration in json string format
+        intermediate_role_arn:
+            Role arn to be assumed before accessing ClumioRole in customer account
         properties:
             Properties is a key value map meant to be used for passing additional
             information
@@ -42,6 +44,7 @@ class PostProcessAwsConnectionV1Request:
         'aws_region': 'aws_region',
         'clumio_event_pub_id': 'clumio_event_pub_id',
         'configuration': 'configuration',
+        'intermediate_role_arn': 'intermediate_role_arn',
         'properties': 'properties',
         'request_type': 'request_type',
         'role_arn': 'role_arn',
@@ -55,6 +58,7 @@ class PostProcessAwsConnectionV1Request:
         aws_region: str = None,
         clumio_event_pub_id: str = None,
         configuration: str = None,
+        intermediate_role_arn: str = None,
         properties: Mapping[str, str] = None,
         request_type: str = None,
         role_arn: str = None,
@@ -68,6 +72,7 @@ class PostProcessAwsConnectionV1Request:
         self.aws_region: str = aws_region
         self.clumio_event_pub_id: str = clumio_event_pub_id
         self.configuration: str = configuration
+        self.intermediate_role_arn: str = intermediate_role_arn
         self.properties: Mapping[str, str] = properties
         self.request_type: str = request_type
         self.role_arn: str = role_arn
@@ -94,6 +99,7 @@ class PostProcessAwsConnectionV1Request:
         aws_region = dictionary.get('aws_region')
         clumio_event_pub_id = dictionary.get('clumio_event_pub_id')
         configuration = dictionary.get('configuration')
+        intermediate_role_arn = dictionary.get('intermediate_role_arn')
         properties = dictionary.get('properties')
         request_type = dictionary.get('request_type')
         role_arn = dictionary.get('role_arn')
@@ -105,6 +111,7 @@ class PostProcessAwsConnectionV1Request:
             aws_region,
             clumio_event_pub_id,
             configuration,
+            intermediate_role_arn,
             properties,
             request_type,
             role_arn,

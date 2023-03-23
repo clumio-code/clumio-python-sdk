@@ -22,6 +22,7 @@ from clumioapi.controllers import aws_templates_v1
 from clumioapi.controllers import backup_aws_dynamodb_tables_v1
 from clumioapi.controllers import backup_aws_ebs_volumes_v1
 from clumioapi.controllers import backup_aws_ebs_volumes_v2
+from clumioapi.controllers import backup_aws_ec2_instances_v1
 from clumioapi.controllers import backup_aws_rds_resource_database_tables_v1
 from clumioapi.controllers import backup_aws_rds_resource_databases_v1
 from clumioapi.controllers import backup_aws_rds_resources_v1
@@ -127,6 +128,13 @@ class ClumioAPIClient:
         self,
     ) -> backup_aws_ebs_volumes_v1.BackupAwsEbsVolumesV1Controller:
         return backup_aws_ebs_volumes_v1.BackupAwsEbsVolumesV1Controller(self.config)
+
+    @property
+    @functools.lru_cache(1)
+    def backup_aws_ec2_instances_v1(
+        self,
+    ) -> backup_aws_ec2_instances_v1.BackupAwsEc2InstancesV1Controller:
+        return backup_aws_ec2_instances_v1.BackupAwsEc2InstancesV1Controller(self.config)
 
     @property
     @functools.lru_cache(1)

@@ -67,6 +67,14 @@ class AwsConnectionsV1Controller(base_controller.BaseController):
                 |                        |                   |                                 |
                 |                        |                   |                                 |
                 +------------------------+-------------------+---------------------------------+
+                | aws_region             | $in               | Lists the connections in the    |
+                |                        |                   | given regions.                  |
+                |                        |                   |                                 |
+                |                        |                   | {"aws_region":{"$in":"["us-     |
+                |                        |                   | west-2"]"}}                     |
+                |                        |                   |                                 |
+                |                        |                   |                                 |
+                +------------------------+-------------------+---------------------------------+
                 | account_alias          | $contains         | A substring within the account  |
                 |                        |                   | alias (if available) to search  |
                 |                        |                   | for.                            |
