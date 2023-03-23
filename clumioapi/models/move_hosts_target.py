@@ -14,7 +14,7 @@ class MoveHostsTarget:
 
     Attributes:
         group_id:
-            Performs the operation on a host within the specified group id.
+
         subgroup_id:
             Performs the operation on a host within the specified subgroup id.
     """

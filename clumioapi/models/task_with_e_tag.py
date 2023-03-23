@@ -8,11 +8,11 @@ from clumioapi.models import task_links
 from clumioapi.models import task_parent_entity
 from clumioapi.models import task_primary_entity
 
-T = TypeVar('T', bound='UpdateTaskResponse')
+T = TypeVar('T', bound='TaskWithETag')
 
 
-class UpdateTaskResponse:
-    """Implementation of the 'UpdateTaskResponse' model.
+class TaskWithETag:
+    """Implementation of the 'TaskWithETag' model.
 
     Attributes:
         etag:
@@ -125,7 +125,7 @@ class UpdateTaskResponse:
         status: str = None,
         p_type: str = None,
     ) -> None:
-        """Constructor for the UpdateTaskResponse class."""
+        """Constructor for the TaskWithETag class."""
 
         # Initialize members of the class
         self.etag: str = etag

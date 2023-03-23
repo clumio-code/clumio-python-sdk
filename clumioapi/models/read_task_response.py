@@ -15,6 +15,8 @@ class ReadTaskResponse:
     """Implementation of the 'ReadTaskResponse' model.
 
     Attributes:
+        etag:
+            The ETag value.
         links:
             URLs to pages related to the resource.
         category:
@@ -85,13 +87,12 @@ class ReadTaskResponse:
             "completed".
             Refer to the Task Status table for a complete list of task statuses.
         p_type:
-            The task type. Examples of task types include "vm_backup_seeding",
-            "ebs_indexing", and "file_restore".
             Refer to the Task Type table for a complete list of task types.
     """
 
     # Create a mapping from Model property names to API property names
     _names = {
+        'etag': '_etag',
         'links': '_links',
         'category': 'category',
         'created_timestamp': 'created_timestamp',
@@ -109,6 +110,7 @@ class ReadTaskResponse:
 
     def __init__(
         self,
+        etag: str = None,
         links: task_links.TaskLinks = None,
         category: str = None,
         created_timestamp: str = None,
@@ -126,6 +128,7 @@ class ReadTaskResponse:
         """Constructor for the ReadTaskResponse class."""
 
         # Initialize members of the class
+        self.etag: str = etag
         self.links: task_links.TaskLinks = links
         self.category: str = category
         self.created_timestamp: str = created_timestamp
@@ -156,6 +159,7 @@ class ReadTaskResponse:
             return None
 
         # Extract variables from the dictionary
+        etag = dictionary.get('_etag')
         key = '_links'
         links = (
             task_links.TaskLinks.from_dictionary(dictionary.get(key))
@@ -189,6 +193,7 @@ class ReadTaskResponse:
         p_type = dictionary.get('type')
         # Return an object of this model
         return cls(
+            etag,
             links,
             category,
             created_timestamp,

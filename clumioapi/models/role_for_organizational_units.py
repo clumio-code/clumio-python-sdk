@@ -25,11 +25,11 @@ class RoleForOrganizationalUnits:
     # Create a mapping from Model property names to API property names
     _names = {'organizational_unit_ids': 'organizational_unit_ids', 'role_id': 'role_id'}
 
-    def __init__(self, organizational_unit_ids: str = None, role_id: str = None) -> None:
+    def __init__(self, organizational_unit_ids: Sequence[str] = None, role_id: str = None) -> None:
         """Constructor for the RoleForOrganizationalUnits class."""
 
         # Initialize members of the class
-        self.organizational_unit_ids: str = organizational_unit_ids
+        self.organizational_unit_ids: Sequence[str] = organizational_unit_ids
         self.role_id: str = role_id
 
     @classmethod

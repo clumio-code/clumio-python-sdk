@@ -14,7 +14,7 @@ class CreateMssqlHostConnectionCredentialsV1Request:
         endpoint:
             Performs the operation on a host within the specified endpoint.
         group_id:
-            Performs the operation on a host within the specified group.
+
         subgroup_id:
             Performs the operation on a host within the specified subgroup.
     """

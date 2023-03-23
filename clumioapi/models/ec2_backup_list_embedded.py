@@ -4,13 +4,13 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import task_with_e_tag
+from clumioapi.models import ec2_backup
 
-T = TypeVar('T', bound='TaskListEmbedded')
+T = TypeVar('T', bound='EC2BackupListEmbedded')
 
 
-class TaskListEmbedded:
-    """Implementation of the 'TaskListEmbedded' model.
+class EC2BackupListEmbedded:
+    """Implementation of the 'EC2BackupListEmbedded' model.
 
     Embedded responses related to the resource.
 
@@ -22,11 +22,11 @@ class TaskListEmbedded:
     # Create a mapping from Model property names to API property names
     _names = {'items': 'items'}
 
-    def __init__(self, items: Sequence[task_with_e_tag.TaskWithETag] = None) -> None:
-        """Constructor for the TaskListEmbedded class."""
+    def __init__(self, items: Sequence[ec2_backup.EC2Backup] = None) -> None:
+        """Constructor for the EC2BackupListEmbedded class."""
 
         # Initialize members of the class
-        self.items: Sequence[task_with_e_tag.TaskWithETag] = items
+        self.items: Sequence[ec2_backup.EC2Backup] = items
 
     @classmethod
     def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
@@ -48,7 +48,7 @@ class TaskListEmbedded:
         if dictionary.get('items'):
             items = list()
             for value in dictionary.get('items'):
-                items.append(task_with_e_tag.TaskWithETag.from_dictionary(value))
+                items.append(ec2_backup.EC2Backup.from_dictionary(value))
 
         # Return an object of this model
         return cls(items)

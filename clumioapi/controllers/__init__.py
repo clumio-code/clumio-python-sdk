@@ -21,6 +21,7 @@ __all__ = [
     'backup_aws_dynamodb_tables_v1',
     'backup_aws_ebs_volumes_v1',
     'backup_aws_ebs_volumes_v2',
+    'backup_aws_ec2_instances_v1',
     'backup_aws_rds_resource_database_tables_v1',
     'backup_aws_rds_resource_databases_v1',
     'backup_aws_rds_resources_v1',

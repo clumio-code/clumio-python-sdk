@@ -1,3 +1,6 @@
+## 0.11.0
+EC2 backup APIs added.
+
 ## 0.10.0
 New version added for Users, Organizational Units and EBS Backups APIs.
 

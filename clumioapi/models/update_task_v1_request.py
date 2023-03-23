@@ -1,10 +1,15 @@
 #
 # Copyright 2021. Clumio, Inc.
 #
-
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
+from clumioapi.exceptions import clumio_exception
+
 T = TypeVar('T', bound='UpdateTaskV1Request')
+
+StatusValues = [
+    'aborting',
+]
 
 
 class UpdateTaskV1Request:
@@ -24,6 +29,12 @@ class UpdateTaskV1Request:
         """Constructor for the UpdateTaskV1Request class."""
 
         # Initialize members of the class
+
+        if status not in StatusValues:
+            raise clumio_exception.ClumioException(
+                f'Invalid value for status: { status }. Valid values are { StatusValues }.',
+                None,
+            )
         self.status: str = status
 
     @classmethod
