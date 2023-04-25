@@ -1,3 +1,6 @@
+## 0.12.0
+New APIs added for EC2MSSQL.
+
 ## 0.11.0
 EC2 backup APIs added.
 

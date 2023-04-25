@@ -121,6 +121,11 @@ class ProtectionGroupsS3AssetsV1Controller(base_controller.BaseController):
                 |                           |                  | s3 asset. Possible values     |
                 |                           |                  | include user and bucket_rule. |
                 +---------------------------+------------------+-------------------------------+
+                | is_supported              | $eq              | The Clumio supported status   |
+                |                           |                  | for the S3 bucket. For        |
+                |                           |                  | example, filter={"is_supporte |
+                |                           |                  | d":{"$eq":true}}              |
+                +---------------------------+------------------+-------------------------------+
 
         Returns:
             list_protection_group_s3_assets_response.ListProtectionGroupS3AssetsResponse: Response from the API.

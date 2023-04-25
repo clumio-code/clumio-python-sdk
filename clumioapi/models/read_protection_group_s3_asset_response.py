@@ -75,6 +75,8 @@ class ReadProtectionGroupS3AssetResponse:
             Cumulative size of all unexpired objects in each backup (any new or updated
             since
             the last backup) that have been backed up as part of this protection group
+        unsupported_reason:
+            The unsupported reason for the S3 bucket.
     """
 
     # Create a mapping from Model property names to API property names
@@ -102,6 +104,7 @@ class ReadProtectionGroupS3AssetResponse:
         'protection_status': 'protection_status',
         'total_backed_up_object_count': 'total_backed_up_object_count',
         'total_backed_up_size_bytes': 'total_backed_up_size_bytes',
+        'unsupported_reason': 'unsupported_reason',
     }
 
     def __init__(
@@ -129,6 +132,7 @@ class ReadProtectionGroupS3AssetResponse:
         protection_status: str = None,
         total_backed_up_object_count: int = None,
         total_backed_up_size_bytes: int = None,
+        unsupported_reason: str = None,
     ) -> None:
         """Constructor for the ReadProtectionGroupS3AssetResponse class."""
 
@@ -156,6 +160,7 @@ class ReadProtectionGroupS3AssetResponse:
         self.protection_status: str = protection_status
         self.total_backed_up_object_count: int = total_backed_up_object_count
         self.total_backed_up_size_bytes: int = total_backed_up_size_bytes
+        self.unsupported_reason: str = unsupported_reason
 
     @classmethod
     def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
@@ -218,6 +223,7 @@ class ReadProtectionGroupS3AssetResponse:
         protection_status = dictionary.get('protection_status')
         total_backed_up_object_count = dictionary.get('total_backed_up_object_count')
         total_backed_up_size_bytes = dictionary.get('total_backed_up_size_bytes')
+        unsupported_reason = dictionary.get('unsupported_reason')
         # Return an object of this model
         return cls(
             embedded,
@@ -243,4 +249,5 @@ class ReadProtectionGroupS3AssetResponse:
             protection_status,
             total_backed_up_object_count,
             total_backed_up_size_bytes,
+            unsupported_reason,
         )

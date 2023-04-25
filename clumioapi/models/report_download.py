@@ -22,7 +22,7 @@ class ReportDownload:
         filters:
             The filters applied to the report when download was initiated.
         p_id:
-
+            The id of the report that uniquely identifies the report.
         start_timestamp:
             The time when the request was made.
         task_id:

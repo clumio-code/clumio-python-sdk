@@ -53,6 +53,8 @@ class AddBucketToProtectionGroupResponse:
             Cumulative size of all unexpired objects in each backup (any new or updated
             since
             the last backup) that have been backed up as part of this protection group
+        unsupported_reason:
+            The unsupported reason for the S3 bucket.
     """
 
     # Create a mapping from Model property names to API property names
@@ -75,6 +77,7 @@ class AddBucketToProtectionGroupResponse:
         'organizational_unit_id': 'organizational_unit_id',
         'total_backed_up_object_count': 'total_backed_up_object_count',
         'total_backed_up_size_bytes': 'total_backed_up_size_bytes',
+        'unsupported_reason': 'unsupported_reason',
     }
 
     def __init__(
@@ -97,6 +100,7 @@ class AddBucketToProtectionGroupResponse:
         organizational_unit_id: str = None,
         total_backed_up_object_count: int = None,
         total_backed_up_size_bytes: int = None,
+        unsupported_reason: str = None,
     ) -> None:
         """Constructor for the AddBucketToProtectionGroupResponse class."""
 
@@ -119,6 +123,7 @@ class AddBucketToProtectionGroupResponse:
         self.organizational_unit_id: str = organizational_unit_id
         self.total_backed_up_object_count: int = total_backed_up_object_count
         self.total_backed_up_size_bytes: int = total_backed_up_size_bytes
+        self.unsupported_reason: str = unsupported_reason
 
     @classmethod
     def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
@@ -154,6 +159,7 @@ class AddBucketToProtectionGroupResponse:
         organizational_unit_id = dictionary.get('organizational_unit_id')
         total_backed_up_object_count = dictionary.get('total_backed_up_object_count')
         total_backed_up_size_bytes = dictionary.get('total_backed_up_size_bytes')
+        unsupported_reason = dictionary.get('unsupported_reason')
         # Return an object of this model
         return cls(
             account_native_id,
@@ -174,4 +180,5 @@ class AddBucketToProtectionGroupResponse:
             organizational_unit_id,
             total_backed_up_object_count,
             total_backed_up_size_bytes,
+            unsupported_reason,
         )
