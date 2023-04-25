@@ -13,7 +13,8 @@ T = TypeVar('T', bound='ProtectionGroupS3AssetRestoreSource')
 class ProtectionGroupS3AssetRestoreSource:
     """Implementation of the 'ProtectionGroupS3AssetRestoreSource' model.
 
-    The parameters for initiating a protection group S3 asset restore from a backup.
+    The parameters for initiating a protection group S3 asset restoreor creation of
+    an instant access endpoint from a backup.
 
     Attributes:
         backup_id:

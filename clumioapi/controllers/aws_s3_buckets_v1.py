@@ -148,6 +148,16 @@ class AwsS3BucketsV1Controller(base_controller.BaseController):
                 |                        |                  | er={"is_replication_enabled":{"$ |
                 |                        |                  | eq":true}}                       |
                 +------------------------+------------------+----------------------------------+
+                | is_supported           | $eq              | The Clumio supported status for  |
+                |                        |                  | the S3 bucket. For example, filt |
+                |                        |                  | er={"is_supported":{"$eq":true}} |
+                +------------------------+------------------+----------------------------------+
+                | is_active              | $eq              | The Clumio status for the S3     |
+                |                        |                  | bucket - whether its information |
+                |                        |                  | has been updated within the last |
+                |                        |                  | 5 days. For example, filter={"is |
+                |                        |                  | _active":{"$eq":true}}           |
+                +------------------------+------------------+----------------------------------+
 
         Returns:
             list_buckets_response.ListBucketsResponse: Response from the API.

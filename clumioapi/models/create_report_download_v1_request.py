@@ -1,10 +1,18 @@
 #
 # Copyright 2021. Clumio, Inc.
 #
-
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
+from clumioapi.exceptions import clumio_exception
+
 T = TypeVar('T', bound='CreateReportDownloadV1Request')
+
+TypeValues = [
+    'activity',
+    'compliance',
+    'audit',
+    'consumption',
+]
 
 
 class CreateReportDownloadV1Request:
@@ -310,7 +318,6 @@ class CreateReportDownloadV1Request:
 
             For more information about filtering, refer to the
             Filtering section of this guide.
-            in: query
         p_type:
             The report type. Examples of report types include, "activity",
             "compliance", "audit", and "consumption".
@@ -325,6 +332,12 @@ class CreateReportDownloadV1Request:
         # Initialize members of the class
         self.file_name: str = file_name
         self.filter: str = filter
+
+        if p_type not in TypeValues:
+            raise clumio_exception.ClumioException(
+                f'Invalid value for p_type: { p_type }. Valid values are { TypeValues }.',
+                None,
+            )
         self.p_type: str = p_type
 
     @classmethod

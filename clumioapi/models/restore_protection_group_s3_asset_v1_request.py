@@ -15,7 +15,8 @@ class RestoreProtectionGroupS3AssetV1Request:
 
     Attributes:
         source:
-            The parameters for initiating a protection group S3 asset restore from a backup.
+            The parameters for initiating a protection group S3 asset restore
+            or creation of an instant access endpoint from a backup.
         target:
             The destination where the protection group will be restored.
     """

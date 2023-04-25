@@ -7,7 +7,6 @@ from clumioapi import configuration
 from clumioapi.controllers import audit_trails_v1
 from clumioapi.controllers import auto_user_provisioning_rules_v1
 from clumioapi.controllers import auto_user_provisioning_settings_v1
-from clumioapi.controllers import aws_cloudformation_templates_v1
 from clumioapi.controllers import aws_connections_v1
 from clumioapi.controllers import aws_dynamodb_tables_v1
 from clumioapi.controllers import aws_ebs_volumes_v1
@@ -34,6 +33,12 @@ from clumioapi.controllers import backup_protection_groups_v1
 from clumioapi.controllers import backup_vmware_vms_v1
 from clumioapi.controllers import backups_files_v1
 from clumioapi.controllers import consolidated_alerts_v1
+from clumioapi.controllers import ec2_mssql_availability_groups_v1
+from clumioapi.controllers import ec2_mssql_databases_v1
+from clumioapi.controllers import ec2_mssql_failover_cluster_v1
+from clumioapi.controllers import ec2_mssql_failover_clusters_v1
+from clumioapi.controllers import ec2_mssql_hosts_v1
+from clumioapi.controllers import ec2_mssql_instance_v1
 from clumioapi.controllers import general_settings_v2
 from clumioapi.controllers import individual_alerts_v1
 from clumioapi.controllers import management_groups_v1
@@ -211,13 +216,6 @@ class ClumioAPIClient:
 
     @property
     @functools.lru_cache(1)
-    def aws_cloudformation_templates_v1(
-        self,
-    ) -> aws_cloudformation_templates_v1.AwsCloudformationTemplatesV1Controller:
-        return aws_cloudformation_templates_v1.AwsCloudformationTemplatesV1Controller(self.config)
-
-    @property
-    @functools.lru_cache(1)
     def post_process_aws_connection_v1(
         self,
     ) -> post_process_aws_connection_v1.PostProcessAwsConnectionV1Controller:
@@ -252,6 +250,42 @@ class ClumioAPIClient:
     @functools.lru_cache(1)
     def aws_ec2_instances_v1(self) -> aws_ec2_instances_v1.AwsEc2InstancesV1Controller:
         return aws_ec2_instances_v1.AwsEc2InstancesV1Controller(self.config)
+
+    @property
+    @functools.lru_cache(1)
+    def ec2_mssql_availability_groups_v1(
+        self,
+    ) -> ec2_mssql_availability_groups_v1.Ec2MssqlAvailabilityGroupsV1Controller:
+        return ec2_mssql_availability_groups_v1.Ec2MssqlAvailabilityGroupsV1Controller(self.config)
+
+    @property
+    @functools.lru_cache(1)
+    def ec2_mssql_databases_v1(self) -> ec2_mssql_databases_v1.Ec2MssqlDatabasesV1Controller:
+        return ec2_mssql_databases_v1.Ec2MssqlDatabasesV1Controller(self.config)
+
+    @property
+    @functools.lru_cache(1)
+    def ec2_mssql_failover_clusters_v1(
+        self,
+    ) -> ec2_mssql_failover_clusters_v1.Ec2MssqlFailoverClustersV1Controller:
+        return ec2_mssql_failover_clusters_v1.Ec2MssqlFailoverClustersV1Controller(self.config)
+
+    @property
+    @functools.lru_cache(1)
+    def ec2_mssql_failover_cluster_v1(
+        self,
+    ) -> ec2_mssql_failover_cluster_v1.Ec2MssqlFailoverClusterV1Controller:
+        return ec2_mssql_failover_cluster_v1.Ec2MssqlFailoverClusterV1Controller(self.config)
+
+    @property
+    @functools.lru_cache(1)
+    def ec2_mssql_hosts_v1(self) -> ec2_mssql_hosts_v1.Ec2MssqlHostsV1Controller:
+        return ec2_mssql_hosts_v1.Ec2MssqlHostsV1Controller(self.config)
+
+    @property
+    @functools.lru_cache(1)
+    def ec2_mssql_instance_v1(self) -> ec2_mssql_instance_v1.Ec2MssqlInstanceV1Controller:
+        return ec2_mssql_instance_v1.Ec2MssqlInstanceV1Controller(self.config)
 
     @property
     @functools.lru_cache(1)

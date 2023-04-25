@@ -21,6 +21,8 @@ class ReadBucketResponse:
     Attributes:
         embedded:
             Embedded responses related to the resource.
+        etag:
+            The ETag value.
         links:
             URLs to pages related to the resource.
         account_native_id:
@@ -75,6 +77,7 @@ class ReadBucketResponse:
     # Create a mapping from Model property names to API property names
     _names = {
         'embedded': '_embedded',
+        'etag': '_etag',
         'links': '_links',
         'account_native_id': 'account_native_id',
         'aws_region': 'aws_region',
@@ -103,6 +106,7 @@ class ReadBucketResponse:
     def __init__(
         self,
         embedded: object = None,
+        etag: str = None,
         links: bucket_links.BucketLinks = None,
         account_native_id: str = None,
         aws_region: str = None,
@@ -131,6 +135,7 @@ class ReadBucketResponse:
 
         # Initialize members of the class
         self.embedded: object = embedded
+        self.etag: str = etag
         self.links: bucket_links.BucketLinks = links
         self.account_native_id: str = account_native_id
         self.aws_region: str = aws_region
@@ -174,6 +179,7 @@ class ReadBucketResponse:
 
         # Extract variables from the dictionary
         embedded = dictionary.get('_embedded')
+        etag = dictionary.get('_etag')
         key = '_links'
         links = (
             bucket_links.BucketLinks.from_dictionary(dictionary.get(key))
@@ -243,6 +249,7 @@ class ReadBucketResponse:
         # Return an object of this model
         return cls(
             embedded,
+            etag,
             links,
             account_native_id,
             aws_region,
