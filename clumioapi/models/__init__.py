@@ -761,6 +761,7 @@ __all__ = [
     'update_policy_response',
     'update_policy_response_links',
     'update_policy_rule_v1_request',
+    'update_protection_group_assignments',
     'update_protection_group_response',
     'update_protection_group_v1_request',
     'update_rule_response',

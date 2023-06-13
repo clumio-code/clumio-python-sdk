@@ -168,7 +168,7 @@ class UsersV1Controller(base_controller.BaseController):
 
         Args:
             user_id:
-                Performs the operation on the user with the specified ID.
+                The Clumio-assigned ID of the user to be retrieved.
         Returns:
             read_user_response_v1.ReadUserResponseV1: Response from the API.
         Raises:
@@ -199,7 +199,7 @@ class UsersV1Controller(base_controller.BaseController):
 
         Args:
             user_id:
-                The Clumio-assigned ID of the user to delete.
+                The Clumio-assigned ID of the user to be deleted.
         Returns:
             delete_user_response_v1.DeleteUserResponseV1: Response from the API.
         Raises:
@@ -233,7 +233,7 @@ class UsersV1Controller(base_controller.BaseController):
 
         Args:
             user_id:
-                The Clumio-assigned ID of the user to delete.
+                The Clumio-assigned ID of the user to be updated.
             body:
 
         Returns:
