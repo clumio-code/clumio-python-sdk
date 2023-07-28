@@ -3,6 +3,7 @@
 #
 
 import json
+from typing import Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -30,8 +31,11 @@ class VmwareVcenterHostsV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def list_vmware_vcenter_hosts(
-        self, vcenter_id: str, limit: int = None, start: str = None, filter: str = None
-    ) -> list_hosts_response.ListHostsResponse:
+        self, vcenter_id: str, limit: int = None, start: str = None, filter: str = None, **kwargs
+    ) -> Union[
+        list_hosts_response.ListHostsResponse,
+        tuple[requests.Response, Optional[list_hosts_response.ListHostsResponse]],
+    ]:
         """Returns a list of hosts in the specified vCenter server.
 
         Args:
@@ -87,6 +91,7 @@ class VmwareVcenterHostsV1Controller(base_controller.BaseController):
                 datacenter.id
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             list_hosts_response.ListHostsResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -104,18 +109,31 @@ class VmwareVcenterHostsV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_vmware_vcenter_hosts.', errors
             )
 
+        if self.config.raw_response:
+            return resp, list_hosts_response.ListHostsResponse.from_dictionary(resp.json())
         return list_hosts_response.ListHostsResponse.from_dictionary(resp)
 
     def read_vmware_vcenter_host(
-        self, vcenter_id: str, host_id: str
-    ) -> read_host_response.ReadHostResponse:
+        self, vcenter_id: str, host_id: str, **kwargs
+    ) -> Union[
+        read_host_response.ReadHostResponse,
+        tuple[requests.Response, Optional[read_host_response.ReadHostResponse]],
+    ]:
         """Returns a representation of the specified host.
 
         Args:
@@ -124,6 +142,7 @@ class VmwareVcenterHostsV1Controller(base_controller.BaseController):
             host_id:
                 Performs the operation on the host with the specified ID.
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             read_host_response.ReadHostResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -142,11 +161,21 @@ class VmwareVcenterHostsV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_vmware_vcenter_host.', errors
             )
 
+        if self.config.raw_response:
+            return resp, read_host_response.ReadHostResponse.from_dictionary(resp.json())
         return read_host_response.ReadHostResponse.from_dictionary(resp)

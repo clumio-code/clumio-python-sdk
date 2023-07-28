@@ -3,6 +3,7 @@
 #
 
 import json
+from typing import Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -30,8 +31,11 @@ class VmwareVcentersV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def list_vmware_vcenters(
-        self, limit: int = None, start: str = None, embed: str = None
-    ) -> list_vcenters_response.ListVcentersResponse:
+        self, limit: int = None, start: str = None, embed: str = None, **kwargs
+    ) -> Union[
+        list_vcenters_response.ListVcentersResponse,
+        tuple[requests.Response, Optional[list_vcenters_response.ListVcentersResponse]],
+    ]:
         """Returns a list of vCenter servers.
 
         Args:
@@ -55,6 +59,7 @@ class VmwareVcentersV1Controller(base_controller.BaseController):
                 +--------------------------------------+---------------------------------------+
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             list_vcenters_response.ListVcentersResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -70,18 +75,31 @@ class VmwareVcentersV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_vmware_vcenters.', errors
             )
 
+        if self.config.raw_response:
+            return resp, list_vcenters_response.ListVcentersResponse.from_dictionary(resp.json())
         return list_vcenters_response.ListVcentersResponse.from_dictionary(resp)
 
     def read_vmware_vcenter(
-        self, vcenter_id: str, embed: str = None
-    ) -> read_vcenter_response.ReadVcenterResponse:
+        self, vcenter_id: str, embed: str = None, **kwargs
+    ) -> Union[
+        read_vcenter_response.ReadVcenterResponse,
+        tuple[requests.Response, Optional[read_vcenter_response.ReadVcenterResponse]],
+    ]:
         """Returns a representation of the specified vCenter server.
 
         Args:
@@ -102,6 +120,7 @@ class VmwareVcentersV1Controller(base_controller.BaseController):
                 +--------------------------------------+---------------------------------------+
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             read_vcenter_response.ReadVcenterResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -119,11 +138,21 @@ class VmwareVcentersV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_vmware_vcenter.', errors
             )
 
+        if self.config.raw_response:
+            return resp, read_vcenter_response.ReadVcenterResponse.from_dictionary(resp.json())
         return read_vcenter_response.ReadVcenterResponse.from_dictionary(resp)

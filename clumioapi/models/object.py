@@ -23,6 +23,9 @@ class Object:
             Last modified time of the object as an RFC3339 string.
         object_key:
             Object key
+        protection_group_asset_id:
+            The Clumio-assigned ID of a protection group S3 asset,
+            which represents the bucket within the protection group to restore from.
         region:
             region of the backup object
         restore_cookie:
@@ -47,6 +50,7 @@ class Object:
         'last_backup_time': 'last_backup_time',
         'last_modified_time': 'last_modified_time',
         'object_key': 'object_key',
+        'protection_group_asset_id': 'protection_group_asset_id',
         'region': 'region',
         'restore_cookie': 'restore_cookie',
         'size_in_bytes': 'size_in_bytes',
@@ -61,6 +65,7 @@ class Object:
         last_backup_time: str = None,
         last_modified_time: str = None,
         object_key: str = None,
+        protection_group_asset_id: str = None,
         region: str = None,
         restore_cookie: str = None,
         size_in_bytes: int = None,
@@ -75,6 +80,7 @@ class Object:
         self.last_backup_time: str = last_backup_time
         self.last_modified_time: str = last_modified_time
         self.object_key: str = object_key
+        self.protection_group_asset_id: str = protection_group_asset_id
         self.region: str = region
         self.restore_cookie: str = restore_cookie
         self.size_in_bytes: int = size_in_bytes
@@ -102,6 +108,7 @@ class Object:
         last_backup_time = dictionary.get('last_backup_time')
         last_modified_time = dictionary.get('last_modified_time')
         object_key = dictionary.get('object_key')
+        protection_group_asset_id = dictionary.get('protection_group_asset_id')
         region = dictionary.get('region')
         restore_cookie = dictionary.get('restore_cookie')
         size_in_bytes = dictionary.get('size_in_bytes')
@@ -114,6 +121,7 @@ class Object:
             last_backup_time,
             last_modified_time,
             object_key,
+            protection_group_asset_id,
             region,
             restore_cookie,
             size_in_bytes,

@@ -3,6 +3,7 @@
 #
 
 import json
+from typing import Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -33,7 +34,14 @@ class RestoredAwsRdsResourcesV1Controller(base_controller.BaseController):
         self,
         embed: str = None,
         body: restore_aws_rds_resource_v1_request.RestoreAwsRdsResourceV1Request = None,
-    ) -> create_rds_resource_restore_response.CreateRdsResourceRestoreResponse:
+        **kwargs,
+    ) -> Union[
+        create_rds_resource_restore_response.CreateRdsResourceRestoreResponse,
+        tuple[
+            requests.Response,
+            Optional[create_rds_resource_restore_response.CreateRdsResourceRestoreResponse],
+        ],
+    ]:
         """Restores the specified RDS resource backup or snapshot to the specified target
         destination.
 
@@ -53,6 +61,7 @@ class RestoredAwsRdsResourcesV1Controller(base_controller.BaseController):
             body:
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             create_rds_resource_restore_response.CreateRdsResourceRestoreResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -73,13 +82,24 @@ class RestoredAwsRdsResourcesV1Controller(base_controller.BaseController):
                 headers=self.headers,
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
+                raw_response=self.config.raw_response,
+                **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing restore_aws_rds_resource.', errors
             )
 
+        if self.config.raw_response:
+            return (
+                resp,
+                create_rds_resource_restore_response.CreateRdsResourceRestoreResponse.from_dictionary(
+                    resp.json()
+                ),
+            )
         return (
             create_rds_resource_restore_response.CreateRdsResourceRestoreResponse.from_dictionary(
                 resp

@@ -3,6 +3,7 @@
 #
 
 import json
+from typing import Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -38,7 +39,14 @@ class BackupEc2MssqlDatabasesV1Controller(base_controller.BaseController):
         sort: str = None,
         filter: str = None,
         embed: str = None,
-    ) -> list_ec2_mssql_database_backups_response.ListEC2MSSQLDatabaseBackupsResponse:
+        **kwargs,
+    ) -> Union[
+        list_ec2_mssql_database_backups_response.ListEC2MSSQLDatabaseBackupsResponse,
+        tuple[
+            requests.Response,
+            Optional[list_ec2_mssql_database_backups_response.ListEC2MSSQLDatabaseBackupsResponse],
+        ],
+    ]:
         """Retrieve a list of EC2 MSSQL database backups.
 
         Args:
@@ -102,6 +110,7 @@ class BackupEc2MssqlDatabasesV1Controller(base_controller.BaseController):
                 +----------------------+-------------------------------------------------------+
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             list_ec2_mssql_database_backups_response.ListEC2MSSQLDatabaseBackupsResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -123,13 +132,28 @@ class BackupEc2MssqlDatabasesV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_backup_ec2_mssql_databases.', errors
             )
 
+        if self.config.raw_response:
+            return (
+                resp,
+                list_ec2_mssql_database_backups_response.ListEC2MSSQLDatabaseBackupsResponse.from_dictionary(
+                    resp.json()
+                ),
+            )
         return list_ec2_mssql_database_backups_response.ListEC2MSSQLDatabaseBackupsResponse.from_dictionary(
             resp
         )
@@ -138,7 +162,16 @@ class BackupEc2MssqlDatabasesV1Controller(base_controller.BaseController):
         self,
         embed: str = None,
         body: create_backup_ec2_mssql_database_v1_request.CreateBackupEc2MssqlDatabaseV1Request = None,
-    ) -> on_demand_ec2_mssql_database_backup_response.OnDemandEC2MSSQLDatabaseBackupResponse:
+        **kwargs,
+    ) -> Union[
+        on_demand_ec2_mssql_database_backup_response.OnDemandEC2MSSQLDatabaseBackupResponse,
+        tuple[
+            requests.Response,
+            Optional[
+                on_demand_ec2_mssql_database_backup_response.OnDemandEC2MSSQLDatabaseBackupResponse
+            ],
+        ],
+    ]:
         """Performs an on-demand backup for the specified EC2 MSSQL asset.
 
         Args:
@@ -157,6 +190,7 @@ class BackupEc2MssqlDatabasesV1Controller(base_controller.BaseController):
             body:
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             on_demand_ec2_mssql_database_backup_response.OnDemandEC2MSSQLDatabaseBackupResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -177,20 +211,37 @@ class BackupEc2MssqlDatabasesV1Controller(base_controller.BaseController):
                 headers=self.headers,
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
+                raw_response=self.config.raw_response,
+                **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing create_backup_ec2_mssql_database.', errors
             )
 
+        if self.config.raw_response:
+            return (
+                resp,
+                on_demand_ec2_mssql_database_backup_response.OnDemandEC2MSSQLDatabaseBackupResponse.from_dictionary(
+                    resp.json()
+                ),
+            )
         return on_demand_ec2_mssql_database_backup_response.OnDemandEC2MSSQLDatabaseBackupResponse.from_dictionary(
             resp
         )
 
     def read_backup_ec2_mssql_database(
-        self, backup_id: str
-    ) -> read_ec2_mssql_database_backup_response.ReadEC2MSSQLDatabaseBackupResponse:
+        self, backup_id: str, **kwargs
+    ) -> Union[
+        read_ec2_mssql_database_backup_response.ReadEC2MSSQLDatabaseBackupResponse,
+        tuple[
+            requests.Response,
+            Optional[read_ec2_mssql_database_backup_response.ReadEC2MSSQLDatabaseBackupResponse],
+        ],
+    ]:
         """Returns a representation of the specified EC2 MSSQL database backup.
 
         Args:
@@ -200,6 +251,7 @@ class BackupEc2MssqlDatabasesV1Controller(base_controller.BaseController):
                 databases)
                 endpoint to fetch valid values.
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             read_ec2_mssql_database_backup_response.ReadEC2MSSQLDatabaseBackupResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -216,13 +268,28 @@ class BackupEc2MssqlDatabasesV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_backup_ec2_mssql_database.', errors
             )
 
+        if self.config.raw_response:
+            return (
+                resp,
+                read_ec2_mssql_database_backup_response.ReadEC2MSSQLDatabaseBackupResponse.from_dictionary(
+                    resp.json()
+                ),
+            )
         return read_ec2_mssql_database_backup_response.ReadEC2MSSQLDatabaseBackupResponse.from_dictionary(
             resp
         )

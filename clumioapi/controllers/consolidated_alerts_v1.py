@@ -3,6 +3,7 @@
 #
 
 import json
+from typing import Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -32,8 +33,14 @@ class ConsolidatedAlertsV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def list_consolidated_alerts(
-        self, limit: int = None, start: str = None, filter: str = None
-    ) -> list_consolidated_alerts_response.ListConsolidatedAlertsResponse:
+        self, limit: int = None, start: str = None, filter: str = None, **kwargs
+    ) -> Union[
+        list_consolidated_alerts_response.ListConsolidatedAlertsResponse,
+        tuple[
+            requests.Response,
+            Optional[list_consolidated_alerts_response.ListConsolidatedAlertsResponse],
+        ],
+    ]:
         """Returns a list of consolidated alerts.
 
         Args:
@@ -92,6 +99,7 @@ class ConsolidatedAlertsV1Controller(base_controller.BaseController):
                 +-----------------------------+------------------+-----------------------------+
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             list_consolidated_alerts_response.ListConsolidatedAlertsResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -107,26 +115,48 @@ class ConsolidatedAlertsV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_consolidated_alerts.', errors
             )
 
+        if self.config.raw_response:
+            return (
+                resp,
+                list_consolidated_alerts_response.ListConsolidatedAlertsResponse.from_dictionary(
+                    resp.json()
+                ),
+            )
         return list_consolidated_alerts_response.ListConsolidatedAlertsResponse.from_dictionary(
             resp
         )
 
     def read_consolidated_alert(
-        self, id: str
-    ) -> read_consolidated_alert_response.ReadConsolidatedAlertResponse:
+        self, id: str, **kwargs
+    ) -> Union[
+        read_consolidated_alert_response.ReadConsolidatedAlertResponse,
+        tuple[
+            requests.Response,
+            Optional[read_consolidated_alert_response.ReadConsolidatedAlertResponse],
+        ],
+    ]:
         """Returns a representation of the specified consolidated alert.
 
         Args:
             id:
                 Performs the operation on the consolidated alert with the specified ID.
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             read_consolidated_alert_response.ReadConsolidatedAlertResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -141,20 +171,42 @@ class ConsolidatedAlertsV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_consolidated_alert.', errors
             )
 
+        if self.config.raw_response:
+            return (
+                resp,
+                read_consolidated_alert_response.ReadConsolidatedAlertResponse.from_dictionary(
+                    resp.json()
+                ),
+            )
         return read_consolidated_alert_response.ReadConsolidatedAlertResponse.from_dictionary(resp)
 
     def update_consolidated_alert(
         self,
         id: str,
         body: update_consolidated_alert_v1_request.UpdateConsolidatedAlertV1Request = None,
-    ) -> update_consolidated_alert_response.UpdateConsolidatedAlertResponse:
+        **kwargs,
+    ) -> Union[
+        update_consolidated_alert_response.UpdateConsolidatedAlertResponse,
+        tuple[
+            requests.Response,
+            Optional[update_consolidated_alert_response.UpdateConsolidatedAlertResponse],
+        ],
+    ]:
         """Manages the specified consolidated alert. Managing a consolidated alert includes
         clearing the alert and adding notes to the specified consolidated alert.
 
@@ -164,6 +216,7 @@ class ConsolidatedAlertsV1Controller(base_controller.BaseController):
             body:
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             update_consolidated_alert_response.UpdateConsolidatedAlertResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -183,13 +236,24 @@ class ConsolidatedAlertsV1Controller(base_controller.BaseController):
                 headers=self.headers,
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
+                raw_response=self.config.raw_response,
+                **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing update_consolidated_alert.', errors
             )
 
+        if self.config.raw_response:
+            return (
+                resp,
+                update_consolidated_alert_response.UpdateConsolidatedAlertResponse.from_dictionary(
+                    resp.json()
+                ),
+            )
         return update_consolidated_alert_response.UpdateConsolidatedAlertResponse.from_dictionary(
             resp
         )

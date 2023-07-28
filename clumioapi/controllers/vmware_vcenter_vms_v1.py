@@ -3,6 +3,7 @@
 #
 
 import json
+from typing import Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -36,7 +37,11 @@ class VmwareVcenterVmsV1Controller(base_controller.BaseController):
         start: str = None,
         filter: str = None,
         embed: str = None,
-    ) -> list_vms_response.ListVmsResponse:
+        **kwargs,
+    ) -> Union[
+        list_vms_response.ListVmsResponse,
+        tuple[requests.Response, Optional[list_vms_response.ListVmsResponse]],
+    ]:
         """Returns a list of VMs in the specified vCenter server.
 
         Args:
@@ -195,6 +200,7 @@ class VmwareVcenterVmsV1Controller(base_controller.BaseController):
                 +------------------------+-----------------------------------------------------+
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             list_vms_response.ListVmsResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -212,18 +218,31 @@ class VmwareVcenterVmsV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_vmware_vcenter_vms.', errors
             )
 
+        if self.config.raw_response:
+            return resp, list_vms_response.ListVmsResponse.from_dictionary(resp.json())
         return list_vms_response.ListVmsResponse.from_dictionary(resp)
 
     def read_vmware_vcenter_vm(
-        self, vcenter_id: str, vm_id: str, embed: str = None
-    ) -> read_vm_response.ReadVmResponse:
+        self, vcenter_id: str, vm_id: str, embed: str = None, **kwargs
+    ) -> Union[
+        read_vm_response.ReadVmResponse,
+        tuple[requests.Response, Optional[read_vm_response.ReadVmResponse]],
+    ]:
         """Returns a representation of the specified VM.
 
         Args:
@@ -244,6 +263,7 @@ class VmwareVcenterVmsV1Controller(base_controller.BaseController):
                 +------------------------+-----------------------------------------------------+
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             read_vm_response.ReadVmResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -261,11 +281,21 @@ class VmwareVcenterVmsV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_vmware_vcenter_vm.', errors
             )
 
+        if self.config.raw_response:
+            return resp, read_vm_response.ReadVmResponse.from_dictionary(resp.json())
         return read_vm_response.ReadVmResponse.from_dictionary(resp)

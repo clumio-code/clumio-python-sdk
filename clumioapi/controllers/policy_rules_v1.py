@@ -3,6 +3,7 @@
 #
 
 import json
+from typing import Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -41,7 +42,11 @@ class PolicyRulesV1Controller(base_controller.BaseController):
         organizational_unit_id: str = None,
         sort: str = None,
         filter: str = None,
-    ) -> list_rules_response.ListRulesResponse:
+        **kwargs,
+    ) -> Union[
+        list_rules_response.ListRulesResponse,
+        tuple[requests.Response, Optional[list_rules_response.ListRulesResponse]],
+    ]:
         """Returns a list of policy rules.
 
         Args:
@@ -92,6 +97,7 @@ class PolicyRulesV1Controller(base_controller.BaseController):
                 +-------+------------------+---------------------------------------------------+
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             list_rules_response.ListRulesResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -113,18 +119,31 @@ class PolicyRulesV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_policy_rules.', errors
             )
 
+        if self.config.raw_response:
+            return resp, list_rules_response.ListRulesResponse.from_dictionary(resp.json())
         return list_rules_response.ListRulesResponse.from_dictionary(resp)
 
     def create_policy_rule(
-        self, body: create_policy_rule_v1_request.CreatePolicyRuleV1Request = None
-    ) -> create_rule_response.CreateRuleResponse:
+        self, body: create_policy_rule_v1_request.CreatePolicyRuleV1Request = None, **kwargs
+    ) -> Union[
+        create_rule_response.CreateRuleResponse,
+        tuple[requests.Response, Optional[create_rule_response.CreateRuleResponse]],
+    ]:
         """Creates a new policy rule. Policy rules determine how a policy should be
         assigned to assets.
         Additionally, to create a rule in the context of another Organizational Unit,
@@ -135,6 +154,7 @@ class PolicyRulesV1Controller(base_controller.BaseController):
             body:
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             create_rule_response.CreateRuleResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -154,22 +174,34 @@ class PolicyRulesV1Controller(base_controller.BaseController):
                 headers=self.headers,
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
+                raw_response=self.config.raw_response,
+                **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing create_policy_rule.', errors
             )
 
+        if self.config.raw_response:
+            return resp, create_rule_response.CreateRuleResponse.from_dictionary(resp.json())
         return create_rule_response.CreateRuleResponse.from_dictionary(resp)
 
-    def read_policy_rule(self, rule_id: str) -> read_rule_response.ReadRuleResponse:
+    def read_policy_rule(
+        self, rule_id: str, **kwargs
+    ) -> Union[
+        read_rule_response.ReadRuleResponse,
+        tuple[requests.Response, Optional[read_rule_response.ReadRuleResponse]],
+    ]:
         """Returns a representation of the specified policy rule.
 
         Args:
             rule_id:
                 Performs the operation on the rule with the specified ID.
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             read_rule_response.ReadRuleResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -184,18 +216,34 @@ class PolicyRulesV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_policy_rule.', errors
             )
 
+        if self.config.raw_response:
+            return resp, read_rule_response.ReadRuleResponse.from_dictionary(resp.json())
         return read_rule_response.ReadRuleResponse.from_dictionary(resp)
 
     def update_policy_rule(
-        self, rule_id: str, body: update_policy_rule_v1_request.UpdatePolicyRuleV1Request = None
-    ) -> update_rule_response.UpdateRuleResponse:
+        self,
+        rule_id: str,
+        body: update_policy_rule_v1_request.UpdatePolicyRuleV1Request = None,
+        **kwargs,
+    ) -> Union[
+        update_rule_response.UpdateRuleResponse,
+        tuple[requests.Response, Optional[update_rule_response.UpdateRuleResponse]],
+    ]:
         """Updates an existing policy rule.
 
         Args:
@@ -204,6 +252,7 @@ class PolicyRulesV1Controller(base_controller.BaseController):
             body:
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             update_rule_response.UpdateRuleResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -223,18 +272,27 @@ class PolicyRulesV1Controller(base_controller.BaseController):
                 headers=self.headers,
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
+                raw_response=self.config.raw_response,
+                **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing update_policy_rule.', errors
             )
 
+        if self.config.raw_response:
+            return resp, update_rule_response.UpdateRuleResponse.from_dictionary(resp.json())
         return update_rule_response.UpdateRuleResponse.from_dictionary(resp)
 
     def delete_policy_rule(
-        self, rule_id: str, body: object = None
-    ) -> delete_rule_response.DeleteRuleResponse:
+        self, rule_id: str, body: object = None, **kwargs
+    ) -> Union[
+        delete_rule_response.DeleteRuleResponse,
+        tuple[requests.Response, Optional[delete_rule_response.DeleteRuleResponse]],
+    ]:
         """Deletes the specified policy rule.
 
         Args:
@@ -243,6 +301,7 @@ class PolicyRulesV1Controller(base_controller.BaseController):
             body:
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             delete_rule_response.DeleteRuleResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -262,11 +321,17 @@ class PolicyRulesV1Controller(base_controller.BaseController):
                 headers=self.headers,
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
+                raw_response=self.config.raw_response,
+                **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing delete_policy_rule.', errors
             )
 
+        if self.config.raw_response:
+            return resp, delete_rule_response.DeleteRuleResponse.from_dictionary(resp.json())
         return delete_rule_response.DeleteRuleResponse.from_dictionary(resp)

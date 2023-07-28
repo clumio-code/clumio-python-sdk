@@ -3,6 +3,7 @@
 #
 
 import json
+from typing import Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -30,8 +31,11 @@ class VmwareVcenterResourcePoolsV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def list_vmware_vcenter_resource_pools(
-        self, vcenter_id: str, limit: int = None, start: str = None, filter: str = None
-    ) -> list_resource_pools_response.ListResourcePoolsResponse:
+        self, vcenter_id: str, limit: int = None, start: str = None, filter: str = None, **kwargs
+    ) -> Union[
+        list_resource_pools_response.ListResourcePoolsResponse,
+        tuple[requests.Response, Optional[list_resource_pools_response.ListResourcePoolsResponse]],
+    ]:
         """Returns a list of resource pools in the specified vCenter server.
 
         Args:
@@ -90,6 +94,7 @@ class VmwareVcenterResourcePoolsV1Controller(base_controller.BaseController):
                 compute_resource.id
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             list_resource_pools_response.ListResourcePoolsResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -109,18 +114,33 @@ class VmwareVcenterResourcePoolsV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_vmware_vcenter_resource_pools.', errors
             )
 
+        if self.config.raw_response:
+            return resp, list_resource_pools_response.ListResourcePoolsResponse.from_dictionary(
+                resp.json()
+            )
         return list_resource_pools_response.ListResourcePoolsResponse.from_dictionary(resp)
 
     def read_vmware_vcenter_resource_pool(
-        self, vcenter_id: str, resource_pool_id: str
-    ) -> read_resource_pool_response.ReadResourcePoolResponse:
+        self, vcenter_id: str, resource_pool_id: str, **kwargs
+    ) -> Union[
+        read_resource_pool_response.ReadResourcePoolResponse,
+        tuple[requests.Response, Optional[read_resource_pool_response.ReadResourcePoolResponse]],
+    ]:
         """Returns a representation of the specified resource pool.
 
         Args:
@@ -129,6 +149,7 @@ class VmwareVcenterResourcePoolsV1Controller(base_controller.BaseController):
             resource_pool_id:
                 Performs the operation on the resource pool with the specified ID.
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             read_resource_pool_response.ReadResourcePoolResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -145,11 +166,23 @@ class VmwareVcenterResourcePoolsV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_vmware_vcenter_resource_pool.', errors
             )
 
+        if self.config.raw_response:
+            return resp, read_resource_pool_response.ReadResourcePoolResponse.from_dictionary(
+                resp.json()
+            )
         return read_resource_pool_response.ReadResourcePoolResponse.from_dictionary(resp)

@@ -3,6 +3,7 @@
 #
 
 import json
+from typing import Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -32,8 +33,11 @@ class TasksV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def list_tasks(
-        self, limit: int = None, start: str = None, filter: str = None
-    ) -> list_tasks_response.ListTasksResponse:
+        self, limit: int = None, start: str = None, filter: str = None, **kwargs
+    ) -> Union[
+        list_tasks_response.ListTasksResponse,
+        tuple[requests.Response, Optional[list_tasks_response.ListTasksResponse]],
+    ]:
         """Returns a list of tasks. Tasks include scheduled backup and on-demand restore
         related tasks.
 
@@ -196,6 +200,7 @@ class TasksV1Controller(base_controller.BaseController):
                 +----------------------+------------------+------------------------------------+
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             list_tasks_response.ListTasksResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -211,22 +216,38 @@ class TasksV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_tasks.', errors
             )
 
+        if self.config.raw_response:
+            return resp, list_tasks_response.ListTasksResponse.from_dictionary(resp.json())
         return list_tasks_response.ListTasksResponse.from_dictionary(resp)
 
-    def read_task(self, task_id: str) -> read_task_response.ReadTaskResponse:
+    def read_task(
+        self, task_id: str, **kwargs
+    ) -> Union[
+        read_task_response.ReadTaskResponse,
+        tuple[requests.Response, Optional[read_task_response.ReadTaskResponse]],
+    ]:
         """Returns a representation of the specified task.
 
         Args:
             task_id:
                 Performs the operation on the task with the specified ID.
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             read_task_response.ReadTaskResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -241,18 +262,31 @@ class TasksV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_task.', errors
             )
 
+        if self.config.raw_response:
+            return resp, read_task_response.ReadTaskResponse.from_dictionary(resp.json())
         return read_task_response.ReadTaskResponse.from_dictionary(resp)
 
     def update_task(
-        self, task_id: str, body: update_task_v1_request.UpdateTaskV1Request = None
-    ) -> update_task_response.UpdateTaskResponse:
+        self, task_id: str, body: update_task_v1_request.UpdateTaskV1Request = None, **kwargs
+    ) -> Union[
+        update_task_response.UpdateTaskResponse,
+        tuple[requests.Response, Optional[update_task_response.UpdateTaskResponse]],
+    ]:
         """Manages the specified task. Managing a task includes aborting a task that is in
         queue or in progress.
 
@@ -262,6 +296,7 @@ class TasksV1Controller(base_controller.BaseController):
             body:
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             update_task_response.UpdateTaskResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -281,11 +316,17 @@ class TasksV1Controller(base_controller.BaseController):
                 headers=self.headers,
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
+                raw_response=self.config.raw_response,
+                **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing update_task.', errors
             )
 
+        if self.config.raw_response:
+            return resp, update_task_response.UpdateTaskResponse.from_dictionary(resp.json())
         return update_task_response.UpdateTaskResponse.from_dictionary(resp)

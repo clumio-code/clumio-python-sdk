@@ -3,6 +3,7 @@
 #
 
 import json
+from typing import Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -34,10 +35,22 @@ class RestoredRecordsAwsDynamodbTablesV1Controller(base_controller.BaseControlle
         self,
         embed: str = None,
         body: restore_records_aws_dynamodb_table_v1_request.RestoreRecordsAwsDynamodbTableV1Request = None,
-    ) -> (
-        restore_records_response_sync.RestoreRecordsResponseSync
-        | restore_records_response_async.RestoreRecordsResponseAsync
-    ):
+        **kwargs,
+    ) -> Union[
+        Union[
+            restore_records_response_sync.RestoreRecordsResponseSync,
+            restore_records_response_async.RestoreRecordsResponseAsync,
+        ],
+        tuple[
+            requests.Response,
+            Optional[
+                Union[
+                    restore_records_response_sync.RestoreRecordsResponseSync,
+                    restore_records_response_async.RestoreRecordsResponseAsync,
+                ]
+            ],
+        ],
+    ]:
         """Start a DynamoDB backup records retrieval query with the query filters provided
         in user input. If the query preview flag is set in the input then the result
         will be returned to the response otherwise the query will run in background and
@@ -59,7 +72,8 @@ class RestoredRecordsAwsDynamodbTablesV1Controller(base_controller.BaseControlle
             body:
 
         Returns:
-            restore_records_response_sync.RestoreRecordsResponseSync | restore_records_response_async.RestoreRecordsResponseAsync: Response from the API.
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
+            Union[restore_records_response_sync.RestoreRecordsResponseSync, restore_records_response_async.RestoreRecordsResponseAsync]: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -80,18 +94,35 @@ class RestoredRecordsAwsDynamodbTablesV1Controller(base_controller.BaseControlle
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
                 raw_response=True,
+                **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing restore_records_aws_dynamodb_table.', errors
             )
         unmarshalled_dict = json.loads(resp.text)
         if resp.status_code == 200:
+            if self.config.raw_response:
+                return (
+                    resp,
+                    restore_records_response_sync.RestoreRecordsResponseSync.from_dictionary(
+                        unmarshalled_dict
+                    ),
+                )
             return restore_records_response_sync.RestoreRecordsResponseSync.from_dictionary(
                 unmarshalled_dict
             )
         if resp.status_code == 202:
+            if self.config.raw_response:
+                return (
+                    resp,
+                    restore_records_response_async.RestoreRecordsResponseAsync.from_dictionary(
+                        unmarshalled_dict
+                    ),
+                )
             return restore_records_response_async.RestoreRecordsResponseAsync.from_dictionary(
                 unmarshalled_dict
             )

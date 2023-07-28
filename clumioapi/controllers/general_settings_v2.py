@@ -3,6 +3,7 @@
 #
 
 import json
+from typing import Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -30,10 +31,11 @@ class GeneralSettingsV2Controller(base_controller.BaseController):
         if config.custom_headers != None:
             self.headers.update(config.custom_headers)
 
-    def read_general_settings(self):
+    def read_general_settings(self, **kwargs):
         """Retrieves organization-wide setting details, including password and security
         settings.
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             read_general_settings_response_v2.ReadGeneralSettingsResponseV2: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -48,24 +50,48 @@ class GeneralSettingsV2Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_general_settings.', errors
             )
 
+        if self.config.raw_response:
+            return (
+                resp,
+                read_general_settings_response_v2.ReadGeneralSettingsResponseV2.from_dictionary(
+                    resp.json()
+                ),
+            )
         return read_general_settings_response_v2.ReadGeneralSettingsResponseV2.from_dictionary(resp)
 
     def update_general_settings(
-        self, body: update_general_settings_v2_request.UpdateGeneralSettingsV2Request = None
-    ) -> patch_general_settings_response_v2.PatchGeneralSettingsResponseV2:
+        self,
+        body: update_general_settings_v2_request.UpdateGeneralSettingsV2Request = None,
+        **kwargs,
+    ) -> Union[
+        patch_general_settings_response_v2.PatchGeneralSettingsResponseV2,
+        tuple[
+            requests.Response,
+            Optional[patch_general_settings_response_v2.PatchGeneralSettingsResponseV2],
+        ],
+    ]:
         """Updates organization-wide settings, including password and security settings.
 
         Args:
             body:
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             patch_general_settings_response_v2.PatchGeneralSettingsResponseV2: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -85,13 +111,24 @@ class GeneralSettingsV2Controller(base_controller.BaseController):
                 headers=self.headers,
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
+                raw_response=self.config.raw_response,
+                **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing update_general_settings.', errors
             )
 
+        if self.config.raw_response:
+            return (
+                resp,
+                patch_general_settings_response_v2.PatchGeneralSettingsResponseV2.from_dictionary(
+                    resp.json()
+                ),
+            )
         return patch_general_settings_response_v2.PatchGeneralSettingsResponseV2.from_dictionary(
             resp
         )

@@ -3,6 +3,7 @@
 #
 
 import json
+from typing import Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -37,8 +38,14 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def list_protection_groups(
-        self, limit: int = None, start: str = None, filter: str = None
-    ) -> list_protection_groups_response.ListProtectionGroupsResponse:
+        self, limit: int = None, start: str = None, filter: str = None, **kwargs
+    ) -> Union[
+        list_protection_groups_response.ListProtectionGroupsResponse,
+        tuple[
+            requests.Response,
+            Optional[list_protection_groups_response.ListProtectionGroupsResponse],
+        ],
+    ]:
         """Returns a list of protection groups.
 
         Args:
@@ -96,6 +103,7 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
                 +---------------------------+------------------+-------------------------------+
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             list_protection_groups_response.ListProtectionGroupsResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -111,24 +119,45 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_protection_groups.', errors
             )
 
+        if self.config.raw_response:
+            return (
+                resp,
+                list_protection_groups_response.ListProtectionGroupsResponse.from_dictionary(
+                    resp.json()
+                ),
+            )
         return list_protection_groups_response.ListProtectionGroupsResponse.from_dictionary(resp)
 
     def read_protection_group(
-        self, group_id: str
-    ) -> read_protection_group_response.ReadProtectionGroupResponse:
+        self, group_id: str, **kwargs
+    ) -> Union[
+        read_protection_group_response.ReadProtectionGroupResponse,
+        tuple[
+            requests.Response, Optional[read_protection_group_response.ReadProtectionGroupResponse]
+        ],
+    ]:
         """Returns a representation of the specified protection group.
 
         Args:
             group_id:
                 Performs the operation on the ProtectionGroup with the specified ID.
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             read_protection_group_response.ReadProtectionGroupResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -145,18 +174,38 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_protection_group.', errors
             )
 
+        if self.config.raw_response:
+            return resp, read_protection_group_response.ReadProtectionGroupResponse.from_dictionary(
+                resp.json()
+            )
         return read_protection_group_response.ReadProtectionGroupResponse.from_dictionary(resp)
 
     def create_protection_group(
-        self, body: create_protection_group_v1_request.CreateProtectionGroupV1Request = None
-    ) -> create_protection_group_response.CreateProtectionGroupResponse:
+        self,
+        body: create_protection_group_v1_request.CreateProtectionGroupV1Request = None,
+        **kwargs,
+    ) -> Union[
+        create_protection_group_response.CreateProtectionGroupResponse,
+        tuple[
+            requests.Response,
+            Optional[create_protection_group_response.CreateProtectionGroupResponse],
+        ],
+    ]:
         """Creates a new protection group by specifying object filters. Appearance in
         datasources/protection-groups read/listing is asynchronous and may take a few
         seconds to minutes at most. As a result, the protection group won't be
@@ -171,6 +220,7 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
             body:
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             create_protection_group_response.CreateProtectionGroupResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -190,20 +240,38 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
                 headers=self.headers,
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
+                raw_response=self.config.raw_response,
+                **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing create_protection_group.', errors
             )
 
+        if self.config.raw_response:
+            return (
+                resp,
+                create_protection_group_response.CreateProtectionGroupResponse.from_dictionary(
+                    resp.json()
+                ),
+            )
         return create_protection_group_response.CreateProtectionGroupResponse.from_dictionary(resp)
 
     def update_protection_group(
         self,
         group_id: str,
         body: update_protection_group_v1_request.UpdateProtectionGroupV1Request = None,
-    ) -> update_protection_group_response.UpdateProtectionGroupResponse:
+        **kwargs,
+    ) -> Union[
+        update_protection_group_response.UpdateProtectionGroupResponse,
+        tuple[
+            requests.Response,
+            Optional[update_protection_group_response.UpdateProtectionGroupResponse],
+        ],
+    ]:
         """Updates a protection group by modifying object filters. Appearance in
         datasources/protection-groups read/listing is asynchronous and may take a few
         seconds to minutes at most. Must be in the same OU context as the creator of
@@ -216,6 +284,7 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
             body:
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             update_protection_group_response.UpdateProtectionGroupResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -237,16 +306,29 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
                 headers=self.headers,
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
+                raw_response=self.config.raw_response,
+                **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing update_protection_group.', errors
             )
 
+        if self.config.raw_response:
+            return (
+                resp,
+                update_protection_group_response.UpdateProtectionGroupResponse.from_dictionary(
+                    resp.json()
+                ),
+            )
         return update_protection_group_response.UpdateProtectionGroupResponse.from_dictionary(resp)
 
-    def delete_protection_group(self, group_id: str) -> object:
+    def delete_protection_group(
+        self, group_id: str, **kwargs
+    ) -> Union[object, tuple[requests.Response, Optional[object]]]:
         """Marks a protection group as deleted by taking the protection group ID.
         Appearance
         in /datasources/protection-groups read/listing is asynchronous and may take a
@@ -259,6 +341,7 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
             group_id:
                 ID of the protection group to delete
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             object: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -275,20 +358,37 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.delete(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.delete(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing delete_protection_group.', errors
             )
 
+        if self.config.raw_response:
+            return resp, resp.json()
         return resp
 
     def add_bucket_protection_group(
         self,
         group_id: str,
         body: add_bucket_protection_group_v1_request.AddBucketProtectionGroupV1Request = None,
-    ) -> add_bucket_to_protection_group_response.AddBucketToProtectionGroupResponse:
+        **kwargs,
+    ) -> Union[
+        add_bucket_to_protection_group_response.AddBucketToProtectionGroupResponse,
+        tuple[
+            requests.Response,
+            Optional[add_bucket_to_protection_group_response.AddBucketToProtectionGroupResponse],
+        ],
+    ]:
         """Adds a bucket to protection group and creates a child protection group S3 asset.
         Appearance in /datasources/protection-groups/s3-assets read/listing is
         asynchronous
@@ -302,6 +402,7 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
             body:
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             add_bucket_to_protection_group_response.AddBucketToProtectionGroupResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -323,20 +424,39 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
                 headers=self.headers,
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
+                raw_response=self.config.raw_response,
+                **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing add_bucket_protection_group.', errors
             )
 
+        if self.config.raw_response:
+            return (
+                resp,
+                add_bucket_to_protection_group_response.AddBucketToProtectionGroupResponse.from_dictionary(
+                    resp.json()
+                ),
+            )
         return add_bucket_to_protection_group_response.AddBucketToProtectionGroupResponse.from_dictionary(
             resp
         )
 
     def delete_bucket_protection_group(
-        self, group_id: str, bucket_id: str
-    ) -> delete_bucket_from_protection_group_response.DeleteBucketFromProtectionGroupResponse:
+        self, group_id: str, bucket_id: str, **kwargs
+    ) -> Union[
+        delete_bucket_from_protection_group_response.DeleteBucketFromProtectionGroupResponse,
+        tuple[
+            requests.Response,
+            Optional[
+                delete_bucket_from_protection_group_response.DeleteBucketFromProtectionGroupResponse
+            ],
+        ],
+    ]:
         """Deletes a bucket from a protection group and the child protection group S3
         asset.
         Appearance in /datasources/protection-groups/s3-assets read/listing is
@@ -351,6 +471,7 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
             bucket_id:
                 ID of the bucket to delete
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             delete_bucket_from_protection_group_response.DeleteBucketFromProtectionGroupResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -367,13 +488,28 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.delete(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.delete(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing delete_bucket_protection_group.', errors
             )
 
+        if self.config.raw_response:
+            return (
+                resp,
+                delete_bucket_from_protection_group_response.DeleteBucketFromProtectionGroupResponse.from_dictionary(
+                    resp.json()
+                ),
+            )
         return delete_bucket_from_protection_group_response.DeleteBucketFromProtectionGroupResponse.from_dictionary(
             resp
         )

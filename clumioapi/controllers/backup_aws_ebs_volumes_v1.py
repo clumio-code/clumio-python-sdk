@@ -3,6 +3,7 @@
 #
 
 import json
+from typing import Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -32,8 +33,11 @@ class BackupAwsEbsVolumesV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def list_backup_aws_ebs_volumes(
-        self, limit: int = None, start: str = None, sort: str = None, filter: str = None
-    ) -> list_ebs_backups_response_v1.ListEBSBackupsResponseV1:
+        self, limit: int = None, start: str = None, sort: str = None, filter: str = None, **kwargs
+    ) -> Union[
+        list_ebs_backups_response_v1.ListEBSBackupsResponseV1,
+        tuple[requests.Response, Optional[list_ebs_backups_response_v1.ListEBSBackupsResponseV1]],
+    ]:
         """Returns a list of EBS volumes that have been backed up by Clumio. EBS volume
         backups can be restored through the [POST /restores/aws/ebs-
         volumes](#operation/restore-aws-ebs-volume) endpoint.
@@ -83,6 +87,7 @@ class BackupAwsEbsVolumesV1Controller(base_controller.BaseController):
                 +-----------------+------------------+-----------------------------------------+
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             list_ebs_backups_response_v1.ListEBSBackupsResponseV1: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -98,20 +103,39 @@ class BackupAwsEbsVolumesV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_backup_aws_ebs_volumes.', errors
             )
 
+        if self.config.raw_response:
+            return resp, list_ebs_backups_response_v1.ListEBSBackupsResponseV1.from_dictionary(
+                resp.json()
+            )
         return list_ebs_backups_response_v1.ListEBSBackupsResponseV1.from_dictionary(resp)
 
     def create_backup_aws_ebs_volume(
         self,
         embed: str = None,
         body: create_backup_aws_ebs_volume_v1_request.CreateBackupAwsEbsVolumeV1Request = None,
-    ) -> on_demand_ebs_backup_response_v1.OnDemandEBSBackupResponseV1:
+        **kwargs,
+    ) -> Union[
+        on_demand_ebs_backup_response_v1.OnDemandEBSBackupResponseV1,
+        tuple[
+            requests.Response,
+            Optional[on_demand_ebs_backup_response_v1.OnDemandEBSBackupResponseV1],
+        ],
+    ]:
         """Performs an on-demand backup for the specified EBS volume.
 
         Args:
@@ -132,6 +156,7 @@ class BackupAwsEbsVolumesV1Controller(base_controller.BaseController):
             body:
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             on_demand_ebs_backup_response_v1.OnDemandEBSBackupResponseV1: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -152,24 +177,39 @@ class BackupAwsEbsVolumesV1Controller(base_controller.BaseController):
                 headers=self.headers,
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
+                raw_response=self.config.raw_response,
+                **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing create_backup_aws_ebs_volume.', errors
             )
 
+        if self.config.raw_response:
+            return (
+                resp,
+                on_demand_ebs_backup_response_v1.OnDemandEBSBackupResponseV1.from_dictionary(
+                    resp.json()
+                ),
+            )
         return on_demand_ebs_backup_response_v1.OnDemandEBSBackupResponseV1.from_dictionary(resp)
 
     def read_backup_aws_ebs_volume(
-        self, backup_id: str
-    ) -> read_ebs_backup_response_v1.ReadEBSBackupResponseV1:
+        self, backup_id: str, **kwargs
+    ) -> Union[
+        read_ebs_backup_response_v1.ReadEBSBackupResponseV1,
+        tuple[requests.Response, Optional[read_ebs_backup_response_v1.ReadEBSBackupResponseV1]],
+    ]:
         """Returns a representation of the specified EBS volume backup.
 
         Args:
             backup_id:
                 Performs the operation on the backup with the specified ID.
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             read_ebs_backup_response_v1.ReadEBSBackupResponseV1: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -186,11 +226,23 @@ class BackupAwsEbsVolumesV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_backup_aws_ebs_volume.', errors
             )
 
+        if self.config.raw_response:
+            return resp, read_ebs_backup_response_v1.ReadEBSBackupResponseV1.from_dictionary(
+                resp.json()
+            )
         return read_ebs_backup_response_v1.ReadEBSBackupResponseV1.from_dictionary(resp)

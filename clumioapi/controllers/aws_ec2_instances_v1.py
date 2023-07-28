@@ -3,6 +3,7 @@
 #
 
 import json
+from typing import Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -30,8 +31,11 @@ class AwsEc2InstancesV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def list_aws_ec2_instances(
-        self, limit: int = None, start: str = None, filter: str = None, embed: str = None
-    ) -> list_ec2_instances_response.ListEc2InstancesResponse:
+        self, limit: int = None, start: str = None, filter: str = None, embed: str = None, **kwargs
+    ) -> Union[
+        list_ec2_instances_response.ListEc2InstancesResponse,
+        tuple[requests.Response, Optional[list_ec2_instances_response.ListEc2InstancesResponse]],
+    ]:
         """Returns a list of EC2 instances.
 
         Args:
@@ -122,6 +126,7 @@ class AwsEc2InstancesV1Controller(base_controller.BaseController):
                 +------------------------+-----------------------------------------------------+
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             list_ec2_instances_response.ListEc2InstancesResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -137,18 +142,33 @@ class AwsEc2InstancesV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_aws_ec2_instances.', errors
             )
 
+        if self.config.raw_response:
+            return resp, list_ec2_instances_response.ListEc2InstancesResponse.from_dictionary(
+                resp.json()
+            )
         return list_ec2_instances_response.ListEc2InstancesResponse.from_dictionary(resp)
 
     def read_aws_ec2_instance(
-        self, instance_id: str, embed: str = None
-    ) -> read_ec2_instance_response.ReadEc2InstanceResponse:
+        self, instance_id: str, embed: str = None, **kwargs
+    ) -> Union[
+        read_ec2_instance_response.ReadEc2InstanceResponse,
+        tuple[requests.Response, Optional[read_ec2_instance_response.ReadEc2InstanceResponse]],
+    ]:
         """Returns a representation of the specified EC2 instance.
 
         Args:
@@ -168,6 +188,7 @@ class AwsEc2InstancesV1Controller(base_controller.BaseController):
                 +------------------------+-----------------------------------------------------+
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             read_ec2_instance_response.ReadEc2InstanceResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -185,11 +206,23 @@ class AwsEc2InstancesV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_aws_ec2_instance.', errors
             )
 
+        if self.config.raw_response:
+            return resp, read_ec2_instance_response.ReadEc2InstanceResponse.from_dictionary(
+                resp.json()
+            )
         return read_ec2_instance_response.ReadEc2InstanceResponse.from_dictionary(resp)

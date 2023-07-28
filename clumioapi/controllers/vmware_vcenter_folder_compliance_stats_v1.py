@@ -3,6 +3,7 @@
 #
 
 import json
+from typing import Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -29,8 +30,14 @@ class VmwareVcenterFolderComplianceStatsV1Controller(base_controller.BaseControl
             self.headers.update(config.custom_headers)
 
     def read_vmware_vcenter_folder_compliance_stats(
-        self, vcenter_id: str, folder_id: str
-    ) -> read_v_mware_folder_stats_response.ReadVMwareFolderStatsResponse:
+        self, vcenter_id: str, folder_id: str, **kwargs
+    ) -> Union[
+        read_v_mware_folder_stats_response.ReadVMwareFolderStatsResponse,
+        tuple[
+            requests.Response,
+            Optional[read_v_mware_folder_stats_response.ReadVMwareFolderStatsResponse],
+        ],
+    ]:
         """Returns the compliance statistics of VMs under folders and subfolders of the
         specified VMware folder.
 
@@ -40,6 +47,7 @@ class VmwareVcenterFolderComplianceStatsV1Controller(base_controller.BaseControl
             folder_id:
                 Performs the operation on the folder with the specified ID.
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             read_v_mware_folder_stats_response.ReadVMwareFolderStatsResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -56,14 +64,29 @@ class VmwareVcenterFolderComplianceStatsV1Controller(base_controller.BaseControl
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_vmware_vcenter_folder_compliance_stats.',
                 errors,
             )
 
+        if self.config.raw_response:
+            return (
+                resp,
+                read_v_mware_folder_stats_response.ReadVMwareFolderStatsResponse.from_dictionary(
+                    resp.json()
+                ),
+            )
         return read_v_mware_folder_stats_response.ReadVMwareFolderStatsResponse.from_dictionary(
             resp
         )

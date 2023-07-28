@@ -3,6 +3,7 @@
 #
 
 import json
+from typing import Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -37,8 +38,14 @@ class OrganizationalUnitsV2Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def list_organizational_units(
-        self, limit: int = None, start: str = None, filter: str = None
-    ) -> list_organizational_units_response.ListOrganizationalUnitsResponse:
+        self, limit: int = None, start: str = None, filter: str = None, **kwargs
+    ) -> Union[
+        list_organizational_units_response.ListOrganizationalUnitsResponse,
+        tuple[
+            requests.Response,
+            Optional[list_organizational_units_response.ListOrganizationalUnitsResponse],
+        ],
+    ]:
         """Returns a list of organizational units.
 
         Args:
@@ -67,6 +74,7 @@ class OrganizationalUnitsV2Controller(base_controller.BaseController):
                 +-----------+------------------+-----------------------------------------------+
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             list_organizational_units_response.ListOrganizationalUnitsResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -82,13 +90,28 @@ class OrganizationalUnitsV2Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_organizational_units.', errors
             )
 
+        if self.config.raw_response:
+            return (
+                resp,
+                list_organizational_units_response.ListOrganizationalUnitsResponse.from_dictionary(
+                    resp.json()
+                ),
+            )
         return list_organizational_units_response.ListOrganizationalUnitsResponse.from_dictionary(
             resp
         )
@@ -97,10 +120,22 @@ class OrganizationalUnitsV2Controller(base_controller.BaseController):
         self,
         embed: str = None,
         body: create_organizational_unit_v2_request.CreateOrganizationalUnitV2Request = None,
-    ) -> (
-        create_organizational_unit_no_task_response.CreateOrganizationalUnitNoTaskResponse
-        | create_organizational_unit_response.CreateOrganizationalUnitResponse
-    ):
+        **kwargs,
+    ) -> Union[
+        Union[
+            create_organizational_unit_no_task_response.CreateOrganizationalUnitNoTaskResponse,
+            create_organizational_unit_response.CreateOrganizationalUnitResponse,
+        ],
+        tuple[
+            requests.Response,
+            Optional[
+                Union[
+                    create_organizational_unit_no_task_response.CreateOrganizationalUnitNoTaskResponse,
+                    create_organizational_unit_response.CreateOrganizationalUnitResponse,
+                ]
+            ],
+        ],
+    ]:
         """Create a new organizational unit. Adding entities to the OU is an asynchronous
         operation and has a task associated.
         When the request has entities to be added, the response has a task ID which can
@@ -123,7 +158,8 @@ class OrganizationalUnitsV2Controller(base_controller.BaseController):
             body:
 
         Returns:
-            create_organizational_unit_no_task_response.CreateOrganizationalUnitNoTaskResponse | create_organizational_unit_response.CreateOrganizationalUnitResponse: Response from the API.
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
+            Union[create_organizational_unit_no_task_response.CreateOrganizationalUnitNoTaskResponse, create_organizational_unit_response.CreateOrganizationalUnitResponse]: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -144,25 +180,48 @@ class OrganizationalUnitsV2Controller(base_controller.BaseController):
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
                 raw_response=True,
+                **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing create_organizational_unit.', errors
             )
         unmarshalled_dict = json.loads(resp.text)
         if resp.status_code == 200:
+            if self.config.raw_response:
+                return (
+                    resp,
+                    create_organizational_unit_no_task_response.CreateOrganizationalUnitNoTaskResponse.from_dictionary(
+                        unmarshalled_dict
+                    ),
+                )
             return create_organizational_unit_no_task_response.CreateOrganizationalUnitNoTaskResponse.from_dictionary(
                 unmarshalled_dict
             )
         if resp.status_code == 202:
+            if self.config.raw_response:
+                return (
+                    resp,
+                    create_organizational_unit_response.CreateOrganizationalUnitResponse.from_dictionary(
+                        unmarshalled_dict
+                    ),
+                )
             return create_organizational_unit_response.CreateOrganizationalUnitResponse.from_dictionary(
                 unmarshalled_dict
             )
 
     def read_organizational_unit(
-        self, id: str, embed: str = None
-    ) -> read_organizational_unit_response.ReadOrganizationalUnitResponse:
+        self, id: str, embed: str = None, **kwargs
+    ) -> Union[
+        read_organizational_unit_response.ReadOrganizationalUnitResponse,
+        tuple[
+            requests.Response,
+            Optional[read_organizational_unit_response.ReadOrganizationalUnitResponse],
+        ],
+    ]:
         """Returns a representation of the specified organizational unit.
 
         Args:
@@ -181,6 +240,7 @@ class OrganizationalUnitsV2Controller(base_controller.BaseController):
                 +-----------------+------------------------------------------------------------+
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             read_organizational_unit_response.ReadOrganizationalUnitResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -196,20 +256,41 @@ class OrganizationalUnitsV2Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_organizational_unit.', errors
             )
 
+        if self.config.raw_response:
+            return (
+                resp,
+                read_organizational_unit_response.ReadOrganizationalUnitResponse.from_dictionary(
+                    resp.json()
+                ),
+            )
         return read_organizational_unit_response.ReadOrganizationalUnitResponse.from_dictionary(
             resp
         )
 
     def delete_organizational_unit(
-        self, id: str, embed: str = None
-    ) -> delete_organizational_unit_response.DeleteOrganizationalUnitResponse:
+        self, id: str, embed: str = None, **kwargs
+    ) -> Union[
+        delete_organizational_unit_response.DeleteOrganizationalUnitResponse,
+        tuple[
+            requests.Response,
+            Optional[delete_organizational_unit_response.DeleteOrganizationalUnitResponse],
+        ],
+    ]:
         """Delete the specified organizational unit.
 
         Args:
@@ -228,6 +309,7 @@ class OrganizationalUnitsV2Controller(base_controller.BaseController):
                 +-----------------+------------------------------------------------------------+
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             delete_organizational_unit_response.DeleteOrganizationalUnitResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -243,13 +325,28 @@ class OrganizationalUnitsV2Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.delete(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.delete(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing delete_organizational_unit.', errors
             )
 
+        if self.config.raw_response:
+            return (
+                resp,
+                delete_organizational_unit_response.DeleteOrganizationalUnitResponse.from_dictionary(
+                    resp.json()
+                ),
+            )
         return delete_organizational_unit_response.DeleteOrganizationalUnitResponse.from_dictionary(
             resp
         )
@@ -259,17 +356,30 @@ class OrganizationalUnitsV2Controller(base_controller.BaseController):
         id: str,
         embed: str = None,
         body: patch_organizational_unit_v2_request.PatchOrganizationalUnitV2Request = None,
-    ) -> (
-        patch_organizational_unit_no_task_response.PatchOrganizationalUnitNoTaskResponse
-        | patch_organizational_unit_response.PatchOrganizationalUnitResponse
-    ):
+        **kwargs,
+    ) -> Union[
+        Union[
+            patch_organizational_unit_no_task_response.PatchOrganizationalUnitNoTaskResponse,
+            patch_organizational_unit_response.PatchOrganizationalUnitResponse,
+        ],
+        tuple[
+            requests.Response,
+            Optional[
+                Union[
+                    patch_organizational_unit_no_task_response.PatchOrganizationalUnitNoTaskResponse,
+                    patch_organizational_unit_response.PatchOrganizationalUnitResponse,
+                ]
+            ],
+        ],
+    ]:
         """Patch the specified organizational unit.
-        The complete updated attribute(s) of the organizational unit have to be provided
-        in the request.
-        Adding or removing entities from the OU is an asynchronous operation and has a
-        task associated.
-        When the request has entities to be added or removed, the response has a task ID
-        which can be used to track the progress of the operation.
+        The complete updated attribute(s) of the organizational unit must be provided in
+        the request. Adding or removing entities from the OU is an asynchronous
+        operation
+        and has an associated task. When the request has entities to be added or
+        removed,
+        the response contains a task ID that can be used to track the progress of the
+        operation.
 
         Args:
             id:
@@ -289,7 +399,8 @@ class OrganizationalUnitsV2Controller(base_controller.BaseController):
             body:
 
         Returns:
-            patch_organizational_unit_no_task_response.PatchOrganizationalUnitNoTaskResponse | patch_organizational_unit_response.PatchOrganizationalUnitResponse: Response from the API.
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
+            Union[patch_organizational_unit_no_task_response.PatchOrganizationalUnitNoTaskResponse, patch_organizational_unit_response.PatchOrganizationalUnitResponse]: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -310,18 +421,35 @@ class OrganizationalUnitsV2Controller(base_controller.BaseController):
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
                 raw_response=True,
+                **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing patch_organizational_unit.', errors
             )
         unmarshalled_dict = json.loads(resp.text)
         if resp.status_code == 200:
+            if self.config.raw_response:
+                return (
+                    resp,
+                    patch_organizational_unit_no_task_response.PatchOrganizationalUnitNoTaskResponse.from_dictionary(
+                        unmarshalled_dict
+                    ),
+                )
             return patch_organizational_unit_no_task_response.PatchOrganizationalUnitNoTaskResponse.from_dictionary(
                 unmarshalled_dict
             )
         if resp.status_code == 202:
+            if self.config.raw_response:
+                return (
+                    resp,
+                    patch_organizational_unit_response.PatchOrganizationalUnitResponse.from_dictionary(
+                        unmarshalled_dict
+                    ),
+                )
             return (
                 patch_organizational_unit_response.PatchOrganizationalUnitResponse.from_dictionary(
                     unmarshalled_dict

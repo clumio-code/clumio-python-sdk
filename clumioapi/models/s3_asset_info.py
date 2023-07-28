@@ -10,6 +10,8 @@ T = TypeVar('T', bound='S3AssetInfo')
 class S3AssetInfo:
     """Implementation of the 'S3AssetInfo' model.
 
+    S3AssetInfoThe installed information for the S3 feature.
+
     Attributes:
         installed_template_version:
             The current version of the feature.

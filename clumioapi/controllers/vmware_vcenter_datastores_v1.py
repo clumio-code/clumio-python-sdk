@@ -3,6 +3,7 @@
 #
 
 import json
+from typing import Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -30,8 +31,14 @@ class VmwareVcenterDatastoresV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def list_vmware_vcenter_datastores(
-        self, vcenter_id: str, limit: int = None, start: str = None, filter: str = None
-    ) -> list_v_mware_datastores_response.ListVMwareDatastoresResponse:
+        self, vcenter_id: str, limit: int = None, start: str = None, filter: str = None, **kwargs
+    ) -> Union[
+        list_v_mware_datastores_response.ListVMwareDatastoresResponse,
+        tuple[
+            requests.Response,
+            Optional[list_v_mware_datastores_response.ListVMwareDatastoresResponse],
+        ],
+    ]:
         """Returns a list of datastores in the specified vCenter server.
 
 
@@ -123,6 +130,7 @@ class VmwareVcenterDatastoresV1Controller(base_controller.BaseController):
                 compute_resources.id
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             list_v_mware_datastores_response.ListVMwareDatastoresResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -140,18 +148,38 @@ class VmwareVcenterDatastoresV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_vmware_vcenter_datastores.', errors
             )
 
+        if self.config.raw_response:
+            return (
+                resp,
+                list_v_mware_datastores_response.ListVMwareDatastoresResponse.from_dictionary(
+                    resp.json()
+                ),
+            )
         return list_v_mware_datastores_response.ListVMwareDatastoresResponse.from_dictionary(resp)
 
     def read_vmware_vcenter_datastore(
-        self, vcenter_id: str, datastore_id: str
-    ) -> read_v_mware_datastore_response.ReadVMwareDatastoreResponse:
+        self, vcenter_id: str, datastore_id: str, **kwargs
+    ) -> Union[
+        read_v_mware_datastore_response.ReadVMwareDatastoreResponse,
+        tuple[
+            requests.Response, Optional[read_v_mware_datastore_response.ReadVMwareDatastoreResponse]
+        ],
+    ]:
         """Returns a representation of the specified datastore.
 
         Args:
@@ -160,6 +188,7 @@ class VmwareVcenterDatastoresV1Controller(base_controller.BaseController):
             datastore_id:
                 Performs the operation on the datastore with the specified ID.
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             read_v_mware_datastore_response.ReadVMwareDatastoreResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -176,11 +205,26 @@ class VmwareVcenterDatastoresV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_vmware_vcenter_datastore.', errors
             )
 
+        if self.config.raw_response:
+            return (
+                resp,
+                read_v_mware_datastore_response.ReadVMwareDatastoreResponse.from_dictionary(
+                    resp.json()
+                ),
+            )
         return read_v_mware_datastore_response.ReadVMwareDatastoreResponse.from_dictionary(resp)

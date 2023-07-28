@@ -3,6 +3,7 @@
 #
 
 import json
+from typing import Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -35,8 +36,11 @@ class PolicyDefinitionsV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def list_policy_definitions(
-        self, filter: str = None, embed: str = None
-    ) -> list_policies_response.ListPoliciesResponse:
+        self, filter: str = None, embed: str = None, **kwargs
+    ) -> Union[
+        list_policies_response.ListPoliciesResponse,
+        tuple[requests.Response, Optional[list_policies_response.ListPoliciesResponse]],
+    ]:
         """Returns a list of policies and their configurations.
 
         The following table describes the supported policy operations.
@@ -164,6 +168,7 @@ class PolicyDefinitionsV1Controller(base_controller.BaseController):
                 +---------------------------------------+--------------------------------------+
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             list_policies_response.ListPoliciesResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -179,18 +184,33 @@ class PolicyDefinitionsV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_policy_definitions.', errors
             )
 
+        if self.config.raw_response:
+            return resp, list_policies_response.ListPoliciesResponse.from_dictionary(resp.json())
         return list_policies_response.ListPoliciesResponse.from_dictionary(resp)
 
     def create_policy_definition(
-        self, body: create_policy_definition_v1_request.CreatePolicyDefinitionV1Request = None
-    ) -> create_policy_response.CreatePolicyResponse:
+        self,
+        body: create_policy_definition_v1_request.CreatePolicyDefinitionV1Request = None,
+        **kwargs,
+    ) -> Union[
+        create_policy_response.CreatePolicyResponse,
+        tuple[requests.Response, Optional[create_policy_response.CreatePolicyResponse]],
+    ]:
         """Creates a new policy. Creating a new policy involves configuring the backup seed
         settings, backup service level agreement (SLA), and backup window.
 
@@ -198,6 +218,7 @@ class PolicyDefinitionsV1Controller(base_controller.BaseController):
             body:
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             create_policy_response.CreatePolicyResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -217,18 +238,27 @@ class PolicyDefinitionsV1Controller(base_controller.BaseController):
                 headers=self.headers,
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
+                raw_response=self.config.raw_response,
+                **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing create_policy_definition.', errors
             )
 
+        if self.config.raw_response:
+            return resp, create_policy_response.CreatePolicyResponse.from_dictionary(resp.json())
         return create_policy_response.CreatePolicyResponse.from_dictionary(resp)
 
     def read_policy_definition(
-        self, policy_id: str, embed: str = None
-    ) -> read_policy_response.ReadPolicyResponse:
+        self, policy_id: str, embed: str = None, **kwargs
+    ) -> Union[
+        read_policy_response.ReadPolicyResponse,
+        tuple[requests.Response, Optional[read_policy_response.ReadPolicyResponse]],
+    ]:
         """Returns a representation of the specified policy.
 
         Args:
@@ -255,6 +285,7 @@ class PolicyDefinitionsV1Controller(base_controller.BaseController):
                 +---------------------------------------+--------------------------------------+
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             read_policy_response.ReadPolicyResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -272,13 +303,23 @@ class PolicyDefinitionsV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_policy_definition.', errors
             )
 
+        if self.config.raw_response:
+            return resp, read_policy_response.ReadPolicyResponse.from_dictionary(resp.json())
         return read_policy_response.ReadPolicyResponse.from_dictionary(resp)
 
     def update_policy_definition(
@@ -286,7 +327,11 @@ class PolicyDefinitionsV1Controller(base_controller.BaseController):
         policy_id: str,
         embed: str = None,
         body: update_policy_definition_v1_request.UpdatePolicyDefinitionV1Request = None,
-    ) -> update_policy_response.UpdatePolicyResponse:
+        **kwargs,
+    ) -> Union[
+        update_policy_response.UpdatePolicyResponse,
+        tuple[requests.Response, Optional[update_policy_response.UpdatePolicyResponse]],
+    ]:
         """Updates an existing policy by modifying its backup seed setting, backup service
         level agreement (SLA), and backup window. If a policy is updated while a backup
         is in progress, the policy changes will take effect after the backup completes.
@@ -317,6 +362,7 @@ class PolicyDefinitionsV1Controller(base_controller.BaseController):
             body:
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             update_policy_response.UpdatePolicyResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -339,24 +385,34 @@ class PolicyDefinitionsV1Controller(base_controller.BaseController):
                 headers=self.headers,
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
+                raw_response=self.config.raw_response,
+                **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing update_policy_definition.', errors
             )
 
+        if self.config.raw_response:
+            return resp, update_policy_response.UpdatePolicyResponse.from_dictionary(resp.json())
         return update_policy_response.UpdatePolicyResponse.from_dictionary(resp)
 
     def delete_policy_definition(
-        self, policy_id: str
-    ) -> delete_policy_response.DeletePolicyResponse:
+        self, policy_id: str, **kwargs
+    ) -> Union[
+        delete_policy_response.DeletePolicyResponse,
+        tuple[requests.Response, Optional[delete_policy_response.DeletePolicyResponse]],
+    ]:
         """Deletes the specified policy.
 
         Args:
             policy_id:
                 Performs the operation on the policy with the specified ID.
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             delete_policy_response.DeletePolicyResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -373,11 +429,21 @@ class PolicyDefinitionsV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.delete(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.delete(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing delete_policy_definition.', errors
             )
 
+        if self.config.raw_response:
+            return resp, delete_policy_response.DeletePolicyResponse.from_dictionary(resp.json())
         return delete_policy_response.DeletePolicyResponse.from_dictionary(resp)

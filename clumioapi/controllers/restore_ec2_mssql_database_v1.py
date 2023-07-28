@@ -3,6 +3,7 @@
 #
 
 import json
+from typing import Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -33,7 +34,16 @@ class RestoreEc2MssqlDatabaseV1Controller(base_controller.BaseController):
         self,
         embed: str = None,
         body: restore_ec2_mssql_database_v1_request.RestoreEc2MssqlDatabaseV1Request = None,
-    ) -> create_ec2_mssql_database_restore_response.CreateEC2MSSQLDatabaseRestoreResponse:
+        **kwargs,
+    ) -> Union[
+        create_ec2_mssql_database_restore_response.CreateEC2MSSQLDatabaseRestoreResponse,
+        tuple[
+            requests.Response,
+            Optional[
+                create_ec2_mssql_database_restore_response.CreateEC2MSSQLDatabaseRestoreResponse
+            ],
+        ],
+    ]:
         """Restores an EC2 MSSQL database from a given backup or to a specified point in
         time.
 
@@ -53,6 +63,7 @@ class RestoreEc2MssqlDatabaseV1Controller(base_controller.BaseController):
             body:
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             create_ec2_mssql_database_restore_response.CreateEC2MSSQLDatabaseRestoreResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -73,13 +84,24 @@ class RestoreEc2MssqlDatabaseV1Controller(base_controller.BaseController):
                 headers=self.headers,
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
+                raw_response=self.config.raw_response,
+                **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing restore_ec2_mssql_database.', errors
             )
 
+        if self.config.raw_response:
+            return (
+                resp,
+                create_ec2_mssql_database_restore_response.CreateEC2MSSQLDatabaseRestoreResponse.from_dictionary(
+                    resp.json()
+                ),
+            )
         return create_ec2_mssql_database_restore_response.CreateEC2MSSQLDatabaseRestoreResponse.from_dictionary(
             resp
         )

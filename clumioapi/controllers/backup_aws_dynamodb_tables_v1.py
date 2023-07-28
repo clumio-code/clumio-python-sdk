@@ -3,6 +3,7 @@
 #
 
 import json
+from typing import Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -32,8 +33,14 @@ class BackupAwsDynamodbTablesV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def list_backup_aws_dynamodb_tables(
-        self, limit: int = None, start: str = None, sort: str = None, filter: str = None
-    ) -> list_dynamo_db_table_backups_response.ListDynamoDBTableBackupsResponse:
+        self, limit: int = None, start: str = None, sort: str = None, filter: str = None, **kwargs
+    ) -> Union[
+        list_dynamo_db_table_backups_response.ListDynamoDBTableBackupsResponse,
+        tuple[
+            requests.Response,
+            Optional[list_dynamo_db_table_backups_response.ListDynamoDBTableBackupsResponse],
+        ],
+    ]:
         """Retrieves a list of DynamoDB table backups.
 
         Args:
@@ -94,6 +101,7 @@ class BackupAwsDynamodbTablesV1Controller(base_controller.BaseController):
                 +-----------------+------------------+-----------------------------------------+
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             list_dynamo_db_table_backups_response.ListDynamoDBTableBackupsResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -109,13 +117,28 @@ class BackupAwsDynamodbTablesV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_backup_aws_dynamodb_tables.', errors
             )
 
+        if self.config.raw_response:
+            return (
+                resp,
+                list_dynamo_db_table_backups_response.ListDynamoDBTableBackupsResponse.from_dictionary(
+                    resp.json()
+                ),
+            )
         return (
             list_dynamo_db_table_backups_response.ListDynamoDBTableBackupsResponse.from_dictionary(
                 resp
@@ -126,7 +149,14 @@ class BackupAwsDynamodbTablesV1Controller(base_controller.BaseController):
         self,
         embed: str = None,
         body: create_backup_aws_dynamodb_table_v1_request.CreateBackupAwsDynamodbTableV1Request = None,
-    ) -> on_demand_dynamo_db_backup_response.OnDemandDynamoDBBackupResponse:
+        **kwargs,
+    ) -> Union[
+        on_demand_dynamo_db_backup_response.OnDemandDynamoDBBackupResponse,
+        tuple[
+            requests.Response,
+            Optional[on_demand_dynamo_db_backup_response.OnDemandDynamoDBBackupResponse],
+        ],
+    ]:
         """Performs an on-demand backup for the specified DynamoDB table.
 
         Args:
@@ -147,6 +177,7 @@ class BackupAwsDynamodbTablesV1Controller(base_controller.BaseController):
             body:
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             on_demand_dynamo_db_backup_response.OnDemandDynamoDBBackupResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -167,26 +198,44 @@ class BackupAwsDynamodbTablesV1Controller(base_controller.BaseController):
                 headers=self.headers,
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
+                raw_response=self.config.raw_response,
+                **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing create_backup_aws_dynamodb_table.', errors
             )
 
+        if self.config.raw_response:
+            return (
+                resp,
+                on_demand_dynamo_db_backup_response.OnDemandDynamoDBBackupResponse.from_dictionary(
+                    resp.json()
+                ),
+            )
         return on_demand_dynamo_db_backup_response.OnDemandDynamoDBBackupResponse.from_dictionary(
             resp
         )
 
     def read_backup_aws_dynamodb_table(
-        self, backup_id: str
-    ) -> read_dynamo_db_table_backup_response.ReadDynamoDBTableBackupResponse:
+        self, backup_id: str, **kwargs
+    ) -> Union[
+        read_dynamo_db_table_backup_response.ReadDynamoDBTableBackupResponse,
+        tuple[
+            requests.Response,
+            Optional[read_dynamo_db_table_backup_response.ReadDynamoDBTableBackupResponse],
+        ],
+    ]:
         """Returns a representation of the specified DynamoDB table backup.
 
         Args:
             backup_id:
                 Performs the operation on the backup with the specified ID.
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             read_dynamo_db_table_backup_response.ReadDynamoDBTableBackupResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -203,13 +252,28 @@ class BackupAwsDynamodbTablesV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_backup_aws_dynamodb_table.', errors
             )
 
+        if self.config.raw_response:
+            return (
+                resp,
+                read_dynamo_db_table_backup_response.ReadDynamoDBTableBackupResponse.from_dictionary(
+                    resp.json()
+                ),
+            )
         return read_dynamo_db_table_backup_response.ReadDynamoDBTableBackupResponse.from_dictionary(
             resp
         )

@@ -3,6 +3,7 @@
 #
 
 import json
+from typing import Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -35,7 +36,11 @@ class BackupFilesystemDirectoriesV1Controller(base_controller.BaseController):
         directory_id: str,
         limit: int = None,
         start: str = None,
-    ) -> read_directory_response.ReadDirectoryResponse:
+        **kwargs,
+    ) -> Union[
+        read_directory_response.ReadDirectoryResponse,
+        tuple[requests.Response, Optional[read_directory_response.ReadDirectoryResponse]],
+    ]:
         """Browse files in the directory with the specified ID.
 
         Args:
@@ -52,6 +57,7 @@ class BackupFilesystemDirectoriesV1Controller(base_controller.BaseController):
                 get the first page.
                 Other pages can be traversed using HATEOAS links.
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             read_directory_response.ReadDirectoryResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -70,11 +76,21 @@ class BackupFilesystemDirectoriesV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_backup_filesystem_directory.', errors
             )
 
+        if self.config.raw_response:
+            return resp, read_directory_response.ReadDirectoryResponse.from_dictionary(resp.json())
         return read_directory_response.ReadDirectoryResponse.from_dictionary(resp)

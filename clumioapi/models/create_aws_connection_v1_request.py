@@ -25,7 +25,7 @@ class CreateAwsConnectionV1Request:
         aws_region:
             The AWS region associated with the connection. For example, `us-east-1`.
         description:
-            An optional, user-provided description for this connection.
+            The user-provided description for this connection.
         organizational_unit_id:
             The Clumio-assigned ID of the organizational unit associated with the
             AWS environment. If this parameter is not provided, then the value

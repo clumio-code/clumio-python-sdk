@@ -3,6 +3,7 @@
 #
 
 import json
+from typing import Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -36,7 +37,11 @@ class VmwareVcenterTagsV1Controller(base_controller.BaseController):
         start: str = None,
         filter: str = None,
         embed: str = None,
-    ) -> list_tags_response.ListTagsResponse:
+        **kwargs,
+    ) -> Union[
+        list_tags_response.ListTagsResponse,
+        tuple[requests.Response, Optional[list_tags_response.ListTagsResponse]],
+    ]:
         """Returns a list of tags in the specified vCenter server.
 
         Args:
@@ -105,6 +110,7 @@ class VmwareVcenterTagsV1Controller(base_controller.BaseController):
                 +---------------------------------------+--------------------------------------+
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             list_tags_response.ListTagsResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -122,18 +128,31 @@ class VmwareVcenterTagsV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_vmware_vcenter_tags.', errors
             )
 
+        if self.config.raw_response:
+            return resp, list_tags_response.ListTagsResponse.from_dictionary(resp.json())
         return list_tags_response.ListTagsResponse.from_dictionary(resp)
 
     def read_vmware_vcenter_tag(
-        self, vcenter_id: str, tag_id: str, embed: str = None
-    ) -> read_tag_response.ReadTagResponse:
+        self, vcenter_id: str, tag_id: str, embed: str = None, **kwargs
+    ) -> Union[
+        read_tag_response.ReadTagResponse,
+        tuple[requests.Response, Optional[read_tag_response.ReadTagResponse]],
+    ]:
         """Returns a representation of the specified tag.
 
         Args:
@@ -163,6 +182,7 @@ class VmwareVcenterTagsV1Controller(base_controller.BaseController):
                 +---------------------------------------+--------------------------------------+
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             read_tag_response.ReadTagResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -182,11 +202,21 @@ class VmwareVcenterTagsV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_vmware_vcenter_tag.', errors
             )
 
+        if self.config.raw_response:
+            return resp, read_tag_response.ReadTagResponse.from_dictionary(resp.json())
         return read_tag_response.ReadTagResponse.from_dictionary(resp)

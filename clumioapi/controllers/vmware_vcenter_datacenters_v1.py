@@ -3,6 +3,7 @@
 #
 
 import json
+from typing import Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -36,7 +37,11 @@ class VmwareVcenterDatacentersV1Controller(base_controller.BaseController):
         start: str = None,
         filter: str = None,
         _embed: str = None,
-    ) -> list_datacenters_response.ListDatacentersResponse:
+        **kwargs,
+    ) -> Union[
+        list_datacenters_response.ListDatacentersResponse,
+        tuple[requests.Response, Optional[list_datacenters_response.ListDatacentersResponse]],
+    ]:
         """Returns a list of VMware data centers in the specified vCenter server.
 
         Args:
@@ -98,6 +103,7 @@ class VmwareVcenterDatacentersV1Controller(base_controller.BaseController):
                 +---------------------------------------+--------------------------------------+
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             list_datacenters_response.ListDatacentersResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -115,18 +121,33 @@ class VmwareVcenterDatacentersV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_vmware_vcenter_datacenters.', errors
             )
 
+        if self.config.raw_response:
+            return resp, list_datacenters_response.ListDatacentersResponse.from_dictionary(
+                resp.json()
+            )
         return list_datacenters_response.ListDatacentersResponse.from_dictionary(resp)
 
     def read_vmware_vcenter_datacenter(
-        self, vcenter_id: str, datacenter_id: str, embed: str = None
-    ) -> read_datacenter_response.ReadDatacenterResponse:
+        self, vcenter_id: str, datacenter_id: str, embed: str = None, **kwargs
+    ) -> Union[
+        read_datacenter_response.ReadDatacenterResponse,
+        tuple[requests.Response, Optional[read_datacenter_response.ReadDatacenterResponse]],
+    ]:
         """Returns a representation of the specified VMware data center within the
         specified vCenter server.
 
@@ -152,6 +173,7 @@ class VmwareVcenterDatacentersV1Controller(base_controller.BaseController):
                 +---------------------------------------+--------------------------------------+
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             read_datacenter_response.ReadDatacenterResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -169,11 +191,23 @@ class VmwareVcenterDatacentersV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_vmware_vcenter_datacenter.', errors
             )
 
+        if self.config.raw_response:
+            return resp, read_datacenter_response.ReadDatacenterResponse.from_dictionary(
+                resp.json()
+            )
         return read_datacenter_response.ReadDatacenterResponse.from_dictionary(resp)

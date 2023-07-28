@@ -3,6 +3,7 @@
 #
 
 import json
+from typing import Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -30,8 +31,13 @@ class VmwareVcenterCategoriesV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def list_vmware_vcenter_categories(
-        self, vcenter_id: str, limit: int = None, start: str = None, filter: str = None
-    ) -> list_tag_categories2_response.ListTagCategories2Response:
+        self, vcenter_id: str, limit: int = None, start: str = None, filter: str = None, **kwargs
+    ) -> Union[
+        list_tag_categories2_response.ListTagCategories2Response,
+        tuple[
+            requests.Response, Optional[list_tag_categories2_response.ListTagCategories2Response]
+        ],
+    ]:
         """Returns a list of tag categories in the specified vCenter server.
 
         Args:
@@ -56,6 +62,7 @@ class VmwareVcenterCategoriesV1Controller(base_controller.BaseController):
                 +-------+------------------+---------------------------------------------------+
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             list_tag_categories2_response.ListTagCategories2Response: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -73,18 +80,33 @@ class VmwareVcenterCategoriesV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_vmware_vcenter_categories.', errors
             )
 
+        if self.config.raw_response:
+            return resp, list_tag_categories2_response.ListTagCategories2Response.from_dictionary(
+                resp.json()
+            )
         return list_tag_categories2_response.ListTagCategories2Response.from_dictionary(resp)
 
     def read_vmware_vcenter_category(
-        self, vcenter_id: str, category_id: str
-    ) -> read_tag_category2_response.ReadTagCategory2Response:
+        self, vcenter_id: str, category_id: str, **kwargs
+    ) -> Union[
+        read_tag_category2_response.ReadTagCategory2Response,
+        tuple[requests.Response, Optional[read_tag_category2_response.ReadTagCategory2Response]],
+    ]:
         """Returns a representation of the specified tag category.
 
         Args:
@@ -93,6 +115,7 @@ class VmwareVcenterCategoriesV1Controller(base_controller.BaseController):
             category_id:
                 Performs the operation on the tag category with the specified ID.
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             read_tag_category2_response.ReadTagCategory2Response: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -109,11 +132,23 @@ class VmwareVcenterCategoriesV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_vmware_vcenter_category.', errors
             )
 
+        if self.config.raw_response:
+            return resp, read_tag_category2_response.ReadTagCategory2Response.from_dictionary(
+                resp.json()
+            )
         return read_tag_category2_response.ReadTagCategory2Response.from_dictionary(resp)

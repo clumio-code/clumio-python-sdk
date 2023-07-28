@@ -25,17 +25,22 @@ class ConsolidatedConfig:
         asset_types_enabled:
             The asset types supported on the current version of the feature
         dynamodb:
-
+            DynamodbAssetInfo
+            The installed information for the DynamoDB feature.
         ebs:
-
+            EbsAssetInfo
+            The installed information for the EBS feature.
         ec2_mssql:
-
+            EC2MSSQLProtectConfig
+            The installed information for the EC2_MSSQL feature.
         installed_template_version:
             The current version of the feature.
         rds:
-
+            RdsAssetInfo
+            The installed information for the RDS feature.
         s3:
-
+            S3AssetInfo
+            The installed information for the S3 feature.
         warm_tier_protect:
             The configuration of the Clumio Cloud Warm-Tier Protect product for this
             connection.

@@ -3,6 +3,7 @@
 #
 
 import json
+from typing import Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -30,8 +31,11 @@ class ManagementSubgroupsV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def list_management_subgroups(
-        self, group_id: str, limit: int = None, start: str = None
-    ) -> list_subgroups_response.ListSubgroupsResponse:
+        self, group_id: str, limit: int = None, start: str = None, **kwargs
+    ) -> Union[
+        list_subgroups_response.ListSubgroupsResponse,
+        tuple[requests.Response, Optional[list_subgroups_response.ListSubgroupsResponse]],
+    ]:
         """Returns a list of subgroups.
 
         Args:
@@ -44,6 +48,7 @@ class ManagementSubgroupsV1Controller(base_controller.BaseController):
                 get the first page.
                 Other pages can be traversed using HATEOAS links.
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             list_subgroups_response.ListSubgroupsResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -61,18 +66,31 @@ class ManagementSubgroupsV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_management_subgroups.', errors
             )
 
+        if self.config.raw_response:
+            return resp, list_subgroups_response.ListSubgroupsResponse.from_dictionary(resp.json())
         return list_subgroups_response.ListSubgroupsResponse.from_dictionary(resp)
 
     def read_management_subgroup(
-        self, subgroup_id: str, group_id: str
-    ) -> read_subgroup_response.ReadSubgroupResponse:
+        self, subgroup_id: str, group_id: str, **kwargs
+    ) -> Union[
+        read_subgroup_response.ReadSubgroupResponse,
+        tuple[requests.Response, Optional[read_subgroup_response.ReadSubgroupResponse]],
+    ]:
         """Subgroups are used to manage cloud connectors and SQL hosts residing in the same
         vCenter server.
 
@@ -84,6 +102,7 @@ class ManagementSubgroupsV1Controller(base_controller.BaseController):
             group_id:
                 Performs the operation on the subgroup with the specified parent group ID.
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             read_subgroup_response.ReadSubgroupResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -100,11 +119,21 @@ class ManagementSubgroupsV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_management_subgroup.', errors
             )
 
+        if self.config.raw_response:
+            return resp, read_subgroup_response.ReadSubgroupResponse.from_dictionary(resp.json())
         return read_subgroup_response.ReadSubgroupResponse.from_dictionary(resp)

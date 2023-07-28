@@ -3,6 +3,7 @@
 #
 
 import json
+from typing import Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -38,7 +39,14 @@ class BackupMssqlDatabasesV1Controller(base_controller.BaseController):
         sort: str = None,
         filter: str = None,
         embed: str = None,
-    ) -> list_mssql_database_backups_response.ListMssqlDatabaseBackupsResponse:
+        **kwargs,
+    ) -> Union[
+        list_mssql_database_backups_response.ListMssqlDatabaseBackupsResponse,
+        tuple[
+            requests.Response,
+            Optional[list_mssql_database_backups_response.ListMssqlDatabaseBackupsResponse],
+        ],
+    ]:
         """Retrieve a list of MSSQL database backups.
 
         Args:
@@ -107,6 +115,7 @@ class BackupMssqlDatabasesV1Controller(base_controller.BaseController):
                 +--------------------------+---------------------------------------------------+
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             list_mssql_database_backups_response.ListMssqlDatabaseBackupsResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -128,13 +137,28 @@ class BackupMssqlDatabasesV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_backup_mssql_databases.', errors
             )
 
+        if self.config.raw_response:
+            return (
+                resp,
+                list_mssql_database_backups_response.ListMssqlDatabaseBackupsResponse.from_dictionary(
+                    resp.json()
+                ),
+            )
         return (
             list_mssql_database_backups_response.ListMssqlDatabaseBackupsResponse.from_dictionary(
                 resp
@@ -145,7 +169,13 @@ class BackupMssqlDatabasesV1Controller(base_controller.BaseController):
         self,
         embed: str = None,
         body: create_backup_mssql_database_v1_request.CreateBackupMssqlDatabaseV1Request = None,
-    ) -> on_demand_mssql_backup_response.OnDemandMssqlBackupResponse:
+        **kwargs,
+    ) -> Union[
+        on_demand_mssql_backup_response.OnDemandMssqlBackupResponse,
+        tuple[
+            requests.Response, Optional[on_demand_mssql_backup_response.OnDemandMssqlBackupResponse]
+        ],
+    ]:
         """Performs an on-demand backup for the specified MSSQL asset.
 
         Args:
@@ -164,6 +194,7 @@ class BackupMssqlDatabasesV1Controller(base_controller.BaseController):
             body:
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             on_demand_mssql_backup_response.OnDemandMssqlBackupResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -184,24 +215,42 @@ class BackupMssqlDatabasesV1Controller(base_controller.BaseController):
                 headers=self.headers,
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
+                raw_response=self.config.raw_response,
+                **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing create_backup_mssql_database.', errors
             )
 
+        if self.config.raw_response:
+            return (
+                resp,
+                on_demand_mssql_backup_response.OnDemandMssqlBackupResponse.from_dictionary(
+                    resp.json()
+                ),
+            )
         return on_demand_mssql_backup_response.OnDemandMssqlBackupResponse.from_dictionary(resp)
 
     def read_backup_mssql_database(
-        self, backup_id: str
-    ) -> read_mssql_database_backup_response.ReadMssqlDatabaseBackupResponse:
+        self, backup_id: str, **kwargs
+    ) -> Union[
+        read_mssql_database_backup_response.ReadMssqlDatabaseBackupResponse,
+        tuple[
+            requests.Response,
+            Optional[read_mssql_database_backup_response.ReadMssqlDatabaseBackupResponse],
+        ],
+    ]:
         """Returns a representation of the specified MSSQL database backup.
 
         Args:
             backup_id:
                 Performs the operation on the backup with the specified ID.
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             read_mssql_database_backup_response.ReadMssqlDatabaseBackupResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -218,13 +267,28 @@ class BackupMssqlDatabasesV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_backup_mssql_database.', errors
             )
 
+        if self.config.raw_response:
+            return (
+                resp,
+                read_mssql_database_backup_response.ReadMssqlDatabaseBackupResponse.from_dictionary(
+                    resp.json()
+                ),
+            )
         return read_mssql_database_backup_response.ReadMssqlDatabaseBackupResponse.from_dictionary(
             resp
         )

@@ -3,6 +3,7 @@
 #
 
 import json
+from typing import Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -31,8 +32,13 @@ class ReportDownloadsV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def list_report_downloads(
-        self, limit: int = None, start: str = None, filter: str = None
-    ) -> list_report_downloads_response.ListReportDownloadsResponse:
+        self, limit: int = None, start: str = None, filter: str = None, **kwargs
+    ) -> Union[
+        list_report_downloads_response.ListReportDownloadsResponse,
+        tuple[
+            requests.Response, Optional[list_report_downloads_response.ListReportDownloadsResponse]
+        ],
+    ]:
         """Returns a list of unexpired, generated reports.
 
         Args:
@@ -72,6 +78,7 @@ class ReportDownloadsV1Controller(base_controller.BaseController):
                 For more information about filtering, refer to the
                 Filtering section of this guide.
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             list_report_downloads_response.ListReportDownloadsResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -87,18 +94,36 @@ class ReportDownloadsV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_report_downloads.', errors
             )
 
+        if self.config.raw_response:
+            return resp, list_report_downloads_response.ListReportDownloadsResponse.from_dictionary(
+                resp.json()
+            )
         return list_report_downloads_response.ListReportDownloadsResponse.from_dictionary(resp)
 
     def create_report_download(
-        self, body: create_report_download_v1_request.CreateReportDownloadV1Request = None
-    ) -> create_report_download_response.CreateReportDownloadResponse:
+        self, body: create_report_download_v1_request.CreateReportDownloadV1Request = None, **kwargs
+    ) -> Union[
+        create_report_download_response.CreateReportDownloadResponse,
+        tuple[
+            requests.Response,
+            Optional[create_report_download_response.CreateReportDownloadResponse],
+        ],
+    ]:
         """Generates a report of a specified type given certain general conditions such as
         time range and other type-specific filters.
 
@@ -106,6 +131,7 @@ class ReportDownloadsV1Controller(base_controller.BaseController):
             body:
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             create_report_download_response.CreateReportDownloadResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -125,11 +151,22 @@ class ReportDownloadsV1Controller(base_controller.BaseController):
                 headers=self.headers,
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
+                raw_response=self.config.raw_response,
+                **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing create_report_download.', errors
             )
 
+        if self.config.raw_response:
+            return (
+                resp,
+                create_report_download_response.CreateReportDownloadResponse.from_dictionary(
+                    resp.json()
+                ),
+            )
         return create_report_download_response.CreateReportDownloadResponse.from_dictionary(resp)

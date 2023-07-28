@@ -3,6 +3,7 @@
 #
 
 import json
+from typing import Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -29,8 +30,11 @@ class Ec2MssqlFailoverClustersV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def list_ec2_mssql_failover_clusters(
-        self, limit: int = None, start: str = None, filter: str = None, embed: str = None
-    ) -> list_ec2_mssqlfc_is_response.ListEC2MSSQLFCIsResponse:
+        self, limit: int = None, start: str = None, filter: str = None, embed: str = None, **kwargs
+    ) -> Union[
+        list_ec2_mssqlfc_is_response.ListEC2MSSQLFCIsResponse,
+        tuple[requests.Response, Optional[list_ec2_mssqlfc_is_response.ListEC2MSSQLFCIsResponse]],
+    ]:
         """Returns a list of failover clusters.
 
         Args:
@@ -89,6 +93,7 @@ class Ec2MssqlFailoverClustersV1Controller(base_controller.BaseController):
                 +---------------------------------------+--------------------------------------+
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             list_ec2_mssqlfc_is_response.ListEC2MSSQLFCIsResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -104,11 +109,23 @@ class Ec2MssqlFailoverClustersV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_ec2_mssql_failover_clusters.', errors
             )
 
+        if self.config.raw_response:
+            return resp, list_ec2_mssqlfc_is_response.ListEC2MSSQLFCIsResponse.from_dictionary(
+                resp.json()
+            )
         return list_ec2_mssqlfc_is_response.ListEC2MSSQLFCIsResponse.from_dictionary(resp)

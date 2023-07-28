@@ -3,6 +3,7 @@
 #
 
 import json
+from typing import Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -34,8 +35,16 @@ class AutoUserProvisioningRulesV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def list_auto_user_provisioning_rules(
-        self, limit: int = None, start: str = None, filter: str = None
-    ) -> list_auto_user_provisioning_rules_response.ListAutoUserProvisioningRulesResponse:
+        self, limit: int = None, start: str = None, filter: str = None, **kwargs
+    ) -> Union[
+        list_auto_user_provisioning_rules_response.ListAutoUserProvisioningRulesResponse,
+        tuple[
+            requests.Response,
+            Optional[
+                list_auto_user_provisioning_rules_response.ListAutoUserProvisioningRulesResponse
+            ],
+        ],
+    ]:
         """Returns a list of auto user provisioning rules.
 
         Args:
@@ -65,6 +74,7 @@ class AutoUserProvisioningRulesV1Controller(base_controller.BaseController):
                 +------------------------+------------------+----------------------------------+
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             list_auto_user_provisioning_rules_response.ListAutoUserProvisioningRulesResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -80,13 +90,28 @@ class AutoUserProvisioningRulesV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_auto_user_provisioning_rules.', errors
             )
 
+        if self.config.raw_response:
+            return (
+                resp,
+                list_auto_user_provisioning_rules_response.ListAutoUserProvisioningRulesResponse.from_dictionary(
+                    resp.json()
+                ),
+            )
         return list_auto_user_provisioning_rules_response.ListAutoUserProvisioningRulesResponse.from_dictionary(
             resp
         )
@@ -94,7 +119,16 @@ class AutoUserProvisioningRulesV1Controller(base_controller.BaseController):
     def create_auto_user_provisioning_rule(
         self,
         body: create_auto_user_provisioning_rule_v1_request.CreateAutoUserProvisioningRuleV1Request = None,
-    ) -> create_auto_user_provisioning_rule_response.CreateAutoUserProvisioningRuleResponse:
+        **kwargs,
+    ) -> Union[
+        create_auto_user_provisioning_rule_response.CreateAutoUserProvisioningRuleResponse,
+        tuple[
+            requests.Response,
+            Optional[
+                create_auto_user_provisioning_rule_response.CreateAutoUserProvisioningRuleResponse
+            ],
+        ],
+    ]:
         """Creates a new auto user provisioning rule. Auto user provisioning rules
         determine the role and
         organizational units to be assigned to a user subject to the condition.
@@ -103,6 +137,7 @@ class AutoUserProvisioningRulesV1Controller(base_controller.BaseController):
             body:
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             create_auto_user_provisioning_rule_response.CreateAutoUserProvisioningRuleResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -122,26 +157,46 @@ class AutoUserProvisioningRulesV1Controller(base_controller.BaseController):
                 headers=self.headers,
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
+                raw_response=self.config.raw_response,
+                **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing create_auto_user_provisioning_rule.', errors
             )
 
+        if self.config.raw_response:
+            return (
+                resp,
+                create_auto_user_provisioning_rule_response.CreateAutoUserProvisioningRuleResponse.from_dictionary(
+                    resp.json()
+                ),
+            )
         return create_auto_user_provisioning_rule_response.CreateAutoUserProvisioningRuleResponse.from_dictionary(
             resp
         )
 
     def read_auto_user_provisioning_rule(
-        self, rule_id: str
-    ) -> read_auto_user_provisioning_rule_response.ReadAutoUserProvisioningRuleResponse:
+        self, rule_id: str, **kwargs
+    ) -> Union[
+        read_auto_user_provisioning_rule_response.ReadAutoUserProvisioningRuleResponse,
+        tuple[
+            requests.Response,
+            Optional[
+                read_auto_user_provisioning_rule_response.ReadAutoUserProvisioningRuleResponse
+            ],
+        ],
+    ]:
         """Returns a representation of the specified auto user provisioning rule.
 
         Args:
             rule_id:
                 Retrieves the rule with the specified ID.
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             read_auto_user_provisioning_rule_response.ReadAutoUserProvisioningRuleResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -156,13 +211,28 @@ class AutoUserProvisioningRulesV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_auto_user_provisioning_rule.', errors
             )
 
+        if self.config.raw_response:
+            return (
+                resp,
+                read_auto_user_provisioning_rule_response.ReadAutoUserProvisioningRuleResponse.from_dictionary(
+                    resp.json()
+                ),
+            )
         return read_auto_user_provisioning_rule_response.ReadAutoUserProvisioningRuleResponse.from_dictionary(
             resp
         )
@@ -171,7 +241,16 @@ class AutoUserProvisioningRulesV1Controller(base_controller.BaseController):
         self,
         rule_id: str,
         body: update_auto_user_provisioning_rule_v1_request.UpdateAutoUserProvisioningRuleV1Request = None,
-    ) -> update_auto_user_provisioning_rule_response.UpdateAutoUserProvisioningRuleResponse:
+        **kwargs,
+    ) -> Union[
+        update_auto_user_provisioning_rule_response.UpdateAutoUserProvisioningRuleResponse,
+        tuple[
+            requests.Response,
+            Optional[
+                update_auto_user_provisioning_rule_response.UpdateAutoUserProvisioningRuleResponse
+            ],
+        ],
+    ]:
         """Update an existing auto user provisioning rule.
 
         Args:
@@ -180,6 +259,7 @@ class AutoUserProvisioningRulesV1Controller(base_controller.BaseController):
             body:
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             update_auto_user_provisioning_rule_response.UpdateAutoUserProvisioningRuleResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -199,24 +279,38 @@ class AutoUserProvisioningRulesV1Controller(base_controller.BaseController):
                 headers=self.headers,
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
+                raw_response=self.config.raw_response,
+                **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing update_auto_user_provisioning_rule.', errors
             )
 
+        if self.config.raw_response:
+            return (
+                resp,
+                update_auto_user_provisioning_rule_response.UpdateAutoUserProvisioningRuleResponse.from_dictionary(
+                    resp.json()
+                ),
+            )
         return update_auto_user_provisioning_rule_response.UpdateAutoUserProvisioningRuleResponse.from_dictionary(
             resp
         )
 
-    def delete_auto_user_provisioning_rule(self, rule_id: str) -> object:
+    def delete_auto_user_provisioning_rule(
+        self, rule_id: str, **kwargs
+    ) -> Union[object, tuple[requests.Response, Optional[object]]]:
         """Delete the specified auto user provisioning rule.
 
         Args:
             rule_id:
                 Deletes the rule with the specified ID.
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             object: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -231,11 +325,21 @@ class AutoUserProvisioningRulesV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.delete(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.delete(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing delete_auto_user_provisioning_rule.', errors
             )
 
+        if self.config.raw_response:
+            return resp, resp.json()
         return resp

@@ -14,17 +14,28 @@ class SetBucketPropertiesV1Request:
 
     Attributes:
         event_bridge_enabled:
-            True if enabling the bucket for continuous backup, false if disabling
+            If true, enables continuous backup for the given bucket.
+            If false, disables continuous backup for the given bucket.
+        event_bridge_notification_disabled:
+            If true, tries to disable EventBridge notification for the given bucket.
+            This may override the existing bucket notification configuration in the
+            customer's account.
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'event_bridge_enabled': 'event_bridge_enabled'}
+    _names = {
+        'event_bridge_enabled': 'event_bridge_enabled',
+        'event_bridge_notification_disabled': 'event_bridge_notification_disabled',
+    }
 
-    def __init__(self, event_bridge_enabled: bool = None) -> None:
+    def __init__(
+        self, event_bridge_enabled: bool = None, event_bridge_notification_disabled: bool = None
+    ) -> None:
         """Constructor for the SetBucketPropertiesV1Request class."""
 
         # Initialize members of the class
         self.event_bridge_enabled: bool = event_bridge_enabled
+        self.event_bridge_notification_disabled: bool = event_bridge_notification_disabled
 
     @classmethod
     def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
@@ -43,5 +54,6 @@ class SetBucketPropertiesV1Request:
 
         # Extract variables from the dictionary
         event_bridge_enabled = dictionary.get('event_bridge_enabled')
+        event_bridge_notification_disabled = dictionary.get('event_bridge_notification_disabled')
         # Return an object of this model
-        return cls(event_bridge_enabled)
+        return cls(event_bridge_enabled, event_bridge_notification_disabled)

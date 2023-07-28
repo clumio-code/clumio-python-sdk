@@ -40,7 +40,7 @@ class UpdateAWSConnectionResponse:
         created_timestamp:
             The timestamp of when the connection was created.
         description:
-            An optional, user-provided description for this connection.
+            The user-provided description for this connection.
         discover:
             The configuration of the Clumio Discover product for this connection.
             If this connection is not configured for Clumio Discover, then this field has a

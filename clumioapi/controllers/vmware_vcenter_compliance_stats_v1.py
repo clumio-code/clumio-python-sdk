@@ -3,6 +3,7 @@
 #
 
 import json
+from typing import Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -29,8 +30,16 @@ class VmwareVcenterComplianceStatsV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def read_vmware_vcenter_compliance_stats(
-        self, vcenter_id: str
-    ) -> read_v_mware_v_center_protection_stats_response.ReadVMwareVCenterProtectionStatsResponse:
+        self, vcenter_id: str, **kwargs
+    ) -> Union[
+        read_v_mware_v_center_protection_stats_response.ReadVMwareVCenterProtectionStatsResponse,
+        tuple[
+            requests.Response,
+            Optional[
+                read_v_mware_v_center_protection_stats_response.ReadVMwareVCenterProtectionStatsResponse
+            ],
+        ],
+    ]:
         """Returns a representation of the compliance statistics of VMs in the specified
         vCenter server.
 
@@ -38,6 +47,7 @@ class VmwareVcenterComplianceStatsV1Controller(base_controller.BaseController):
             vcenter_id:
                 Performs the operation on the specified vCenter server.
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             read_v_mware_v_center_protection_stats_response.ReadVMwareVCenterProtectionStatsResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -56,13 +66,28 @@ class VmwareVcenterComplianceStatsV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_vmware_vcenter_compliance_stats.', errors
             )
 
+        if self.config.raw_response:
+            return (
+                resp,
+                read_v_mware_v_center_protection_stats_response.ReadVMwareVCenterProtectionStatsResponse.from_dictionary(
+                    resp.json()
+                ),
+            )
         return read_v_mware_v_center_protection_stats_response.ReadVMwareVCenterProtectionStatsResponse.from_dictionary(
             resp
         )

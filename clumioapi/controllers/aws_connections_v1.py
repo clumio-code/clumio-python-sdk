@@ -3,6 +3,7 @@
 #
 
 import json
+from typing import Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -34,8 +35,13 @@ class AwsConnectionsV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def list_aws_connections(
-        self, limit: int = None, start: str = None, filter: str = None
-    ) -> list_aws_connections_response.ListAWSConnectionsResponse:
+        self, limit: int = None, start: str = None, filter: str = None, **kwargs
+    ) -> Union[
+        list_aws_connections_response.ListAWSConnectionsResponse,
+        tuple[
+            requests.Response, Optional[list_aws_connections_response.ListAWSConnectionsResponse]
+        ],
+    ]:
         """Returns a list of AWS Connections
 
         Args:
@@ -127,6 +133,7 @@ class AwsConnectionsV1Controller(base_controller.BaseController):
                 +------------------------+-------------------+---------------------------------+
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             list_aws_connections_response.ListAWSConnectionsResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -142,24 +149,42 @@ class AwsConnectionsV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_aws_connections.', errors
             )
 
+        if self.config.raw_response:
+            return resp, list_aws_connections_response.ListAWSConnectionsResponse.from_dictionary(
+                resp.json()
+            )
         return list_aws_connections_response.ListAWSConnectionsResponse.from_dictionary(resp)
 
     def create_aws_connection(
-        self, body: create_aws_connection_v1_request.CreateAwsConnectionV1Request = None
-    ) -> create_aws_connection_response.CreateAWSConnectionResponse:
+        self, body: create_aws_connection_v1_request.CreateAwsConnectionV1Request = None, **kwargs
+    ) -> Union[
+        create_aws_connection_response.CreateAWSConnectionResponse,
+        tuple[
+            requests.Response, Optional[create_aws_connection_response.CreateAWSConnectionResponse]
+        ],
+    ]:
         """Initiate a new AWS connection.
 
         Args:
             body:
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             create_aws_connection_response.CreateAWSConnectionResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -179,24 +204,36 @@ class AwsConnectionsV1Controller(base_controller.BaseController):
                 headers=self.headers,
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
+                raw_response=self.config.raw_response,
+                **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing create_aws_connection.', errors
             )
 
+        if self.config.raw_response:
+            return resp, create_aws_connection_response.CreateAWSConnectionResponse.from_dictionary(
+                resp.json()
+            )
         return create_aws_connection_response.CreateAWSConnectionResponse.from_dictionary(resp)
 
     def read_aws_connection(
-        self, connection_id: str
-    ) -> read_aws_connection_response.ReadAWSConnectionResponse:
+        self, connection_id: str, **kwargs
+    ) -> Union[
+        read_aws_connection_response.ReadAWSConnectionResponse,
+        tuple[requests.Response, Optional[read_aws_connection_response.ReadAWSConnectionResponse]],
+    ]:
         """Returns a representation of the specified AWS connection.
 
         Args:
             connection_id:
                 Performs the operation on the AWS connection with the specified ID.
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             read_aws_connection_response.ReadAWSConnectionResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -213,22 +250,37 @@ class AwsConnectionsV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_aws_connection.', errors
             )
 
+        if self.config.raw_response:
+            return resp, read_aws_connection_response.ReadAWSConnectionResponse.from_dictionary(
+                resp.json()
+            )
         return read_aws_connection_response.ReadAWSConnectionResponse.from_dictionary(resp)
 
-    def delete_aws_connection(self, connection_id: str) -> object:
+    def delete_aws_connection(
+        self, connection_id: str, **kwargs
+    ) -> Union[object, tuple[requests.Response, Optional[object]]]:
         """Delete the specified AWS connection.
 
         Args:
             connection_id:
                 Performs the operation on the AWS connection with the specified ID.
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             object: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -245,20 +297,36 @@ class AwsConnectionsV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.delete(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.delete(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing delete_aws_connection.', errors
             )
 
+        if self.config.raw_response:
+            return resp, resp.json()
         return resp
 
     def update_aws_connection(
         self,
         connection_id: str,
         body: update_aws_connection_v1_request.UpdateAwsConnectionV1Request = None,
-    ) -> update_aws_connection_response.UpdateAWSConnectionResponse:
+        **kwargs,
+    ) -> Union[
+        update_aws_connection_response.UpdateAWSConnectionResponse,
+        tuple[
+            requests.Response, Optional[update_aws_connection_response.UpdateAWSConnectionResponse]
+        ],
+    ]:
         """Returns a new template url for the specified configuration.
 
         Args:
@@ -267,6 +335,7 @@ class AwsConnectionsV1Controller(base_controller.BaseController):
             body:
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             update_aws_connection_response.UpdateAWSConnectionResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -288,11 +357,19 @@ class AwsConnectionsV1Controller(base_controller.BaseController):
                 headers=self.headers,
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
+                raw_response=self.config.raw_response,
+                **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing update_aws_connection.', errors
             )
 
+        if self.config.raw_response:
+            return resp, update_aws_connection_response.UpdateAWSConnectionResponse.from_dictionary(
+                resp.json()
+            )
         return update_aws_connection_response.UpdateAWSConnectionResponse.from_dictionary(resp)

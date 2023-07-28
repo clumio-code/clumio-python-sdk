@@ -17,7 +17,8 @@ class WarmTierProtectConfig:
 
     Attributes:
         dynamodb:
-
+            DynamodbAssetInfo
+            The installed information for the DynamoDB feature.
         installed_template_version:
             The current version of the feature.
     """

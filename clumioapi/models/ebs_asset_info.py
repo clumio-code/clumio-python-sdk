@@ -10,6 +10,8 @@ T = TypeVar('T', bound='EbsAssetInfo')
 class EbsAssetInfo:
     """Implementation of the 'EbsAssetInfo' model.
 
+    EbsAssetInfoThe installed information for the EBS feature.
+
     Attributes:
         installed_template_version:
             The current version of the feature.

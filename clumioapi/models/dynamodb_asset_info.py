@@ -10,6 +10,8 @@ T = TypeVar('T', bound='DynamodbAssetInfo')
 class DynamodbAssetInfo:
     """Implementation of the 'DynamodbAssetInfo' model.
 
+    DynamodbAssetInfoThe installed information for the DynamoDB feature.
+
     Attributes:
         installed_template_version:
             The current version of the feature.

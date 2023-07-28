@@ -3,6 +3,7 @@
 #
 
 import json
+from typing import Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -36,7 +37,11 @@ class VmwareVcenterFoldersV1Controller(base_controller.BaseController):
         start: str = None,
         filter: str = None,
         embed: str = None,
-    ) -> list_folders_response.ListFoldersResponse:
+        **kwargs,
+    ) -> Union[
+        list_folders_response.ListFoldersResponse,
+        tuple[requests.Response, Optional[list_folders_response.ListFoldersResponse]],
+    ]:
         """Returns a list of VMware folders in the specified vCenter server.
 
         The following table lists the supported Clumio folder types:
@@ -137,6 +142,7 @@ class VmwareVcenterFoldersV1Controller(base_controller.BaseController):
                 +---------------------------------------+--------------------------------------+
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             list_folders_response.ListFoldersResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -154,18 +160,31 @@ class VmwareVcenterFoldersV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_vmware_vcenter_folders.', errors
             )
 
+        if self.config.raw_response:
+            return resp, list_folders_response.ListFoldersResponse.from_dictionary(resp.json())
         return list_folders_response.ListFoldersResponse.from_dictionary(resp)
 
     def read_vmware_vcenter_folder(
-        self, vcenter_id: str, folder_id: str, embed: str = None
-    ) -> read_folder_response.ReadFolderResponse:
+        self, vcenter_id: str, folder_id: str, embed: str = None, **kwargs
+    ) -> Union[
+        read_folder_response.ReadFolderResponse,
+        tuple[requests.Response, Optional[read_folder_response.ReadFolderResponse]],
+    ]:
         """Returns a representation of the specified VMware folder.
 
         Args:
@@ -189,6 +208,7 @@ class VmwareVcenterFoldersV1Controller(base_controller.BaseController):
                 +---------------------------------------+--------------------------------------+
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             read_folder_response.ReadFolderResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -208,11 +228,21 @@ class VmwareVcenterFoldersV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_vmware_vcenter_folder.', errors
             )
 
+        if self.config.raw_response:
+            return resp, read_folder_response.ReadFolderResponse.from_dictionary(resp.json())
         return read_folder_response.ReadFolderResponse.from_dictionary(resp)

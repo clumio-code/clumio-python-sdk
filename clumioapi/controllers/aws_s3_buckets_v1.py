@@ -3,6 +3,7 @@
 #
 
 import json
+from typing import Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -32,8 +33,11 @@ class AwsS3BucketsV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def list_aws_s3_buckets(
-        self, limit: int = None, start: str = None, filter: str = None
-    ) -> list_buckets_response.ListBucketsResponse:
+        self, limit: int = None, start: str = None, filter: str = None, **kwargs
+    ) -> Union[
+        list_buckets_response.ListBucketsResponse,
+        tuple[requests.Response, Optional[list_buckets_response.ListBucketsResponse]],
+    ]:
         """Returns a list of S3 buckets.
 
         Args:
@@ -160,6 +164,7 @@ class AwsS3BucketsV1Controller(base_controller.BaseController):
                 +------------------------+------------------+----------------------------------+
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             list_buckets_response.ListBucketsResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -175,22 +180,38 @@ class AwsS3BucketsV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_aws_s3_buckets.', errors
             )
 
+        if self.config.raw_response:
+            return resp, list_buckets_response.ListBucketsResponse.from_dictionary(resp.json())
         return list_buckets_response.ListBucketsResponse.from_dictionary(resp)
 
-    def read_aws_s3_bucket(self, bucket_id: str) -> read_bucket_response.ReadBucketResponse:
+    def read_aws_s3_bucket(
+        self, bucket_id: str, **kwargs
+    ) -> Union[
+        read_bucket_response.ReadBucketResponse,
+        tuple[requests.Response, Optional[read_bucket_response.ReadBucketResponse]],
+    ]:
         """Returns a representation of the specified S3 bucket.
 
         Args:
             bucket_id:
                 Performs the operation on the Bucket with the specified ID.
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             read_bucket_response.ReadBucketResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -207,20 +228,36 @@ class AwsS3BucketsV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_aws_s3_bucket.', errors
             )
 
+        if self.config.raw_response:
+            return resp, read_bucket_response.ReadBucketResponse.from_dictionary(resp.json())
         return read_bucket_response.ReadBucketResponse.from_dictionary(resp)
 
     def set_bucket_properties(
         self,
         bucket_id: str,
         body: set_bucket_properties_v1_request.SetBucketPropertiesV1Request = None,
-    ) -> set_bucket_properties_response.SetBucketPropertiesResponse:
+        **kwargs,
+    ) -> Union[
+        set_bucket_properties_response.SetBucketPropertiesResponse,
+        tuple[
+            requests.Response, Optional[set_bucket_properties_response.SetBucketPropertiesResponse]
+        ],
+    ]:
         """Idempotent call to set properties on an S3 bucket to enable flows like S3
         continuous backup.
 
@@ -230,6 +267,7 @@ class AwsS3BucketsV1Controller(base_controller.BaseController):
             body:
                 The set of properties that are being updated for the given bucket.
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             set_bucket_properties_response.SetBucketPropertiesResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -251,11 +289,19 @@ class AwsS3BucketsV1Controller(base_controller.BaseController):
                 headers=self.headers,
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
+                raw_response=self.config.raw_response,
+                **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing set_bucket_properties.', errors
             )
 
+        if self.config.raw_response:
+            return resp, set_bucket_properties_response.SetBucketPropertiesResponse.from_dictionary(
+                resp.json()
+            )
         return set_bucket_properties_response.SetBucketPropertiesResponse.from_dictionary(resp)

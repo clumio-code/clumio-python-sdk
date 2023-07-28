@@ -3,6 +3,7 @@
 #
 
 import json
+from typing import Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -33,7 +34,14 @@ class RestoredAwsDynamodbTablesV1Controller(base_controller.BaseController):
         self,
         embed: str = None,
         body: restore_aws_dynamodb_table_v1_request.RestoreAwsDynamodbTableV1Request = None,
-    ) -> restore_dynamo_db_table_response.RestoreDynamoDBTableResponse:
+        **kwargs,
+    ) -> Union[
+        restore_dynamo_db_table_response.RestoreDynamoDBTableResponse,
+        tuple[
+            requests.Response,
+            Optional[restore_dynamo_db_table_response.RestoreDynamoDBTableResponse],
+        ],
+    ]:
         """Restores the specified DynamoDB table backup to the specified target
         destination.
 
@@ -53,6 +61,7 @@ class RestoredAwsDynamodbTablesV1Controller(base_controller.BaseController):
             body:
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             restore_dynamo_db_table_response.RestoreDynamoDBTableResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -73,11 +82,22 @@ class RestoredAwsDynamodbTablesV1Controller(base_controller.BaseController):
                 headers=self.headers,
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
+                raw_response=self.config.raw_response,
+                **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing restore_aws_dynamodb_table.', errors
             )
 
+        if self.config.raw_response:
+            return (
+                resp,
+                restore_dynamo_db_table_response.RestoreDynamoDBTableResponse.from_dictionary(
+                    resp.json()
+                ),
+            )
         return restore_dynamo_db_table_response.RestoreDynamoDBTableResponse.from_dictionary(resp)

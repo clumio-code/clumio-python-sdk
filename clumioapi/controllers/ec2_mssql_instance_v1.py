@@ -3,6 +3,7 @@
 #
 
 import json
+from typing import Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -30,8 +31,14 @@ class Ec2MssqlInstanceV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def list_ec2_mssql_instances(
-        self, limit: int = None, start: str = None, filter: str = None
-    ) -> list_ec2_mssql_instances_response.ListEC2MSSQLInstancesResponse:
+        self, limit: int = None, start: str = None, filter: str = None, **kwargs
+    ) -> Union[
+        list_ec2_mssql_instances_response.ListEC2MSSQLInstancesResponse,
+        tuple[
+            requests.Response,
+            Optional[list_ec2_mssql_instances_response.ListEC2MSSQLInstancesResponse],
+        ],
+    ]:
         """Returns a list of Instances
 
         Args:
@@ -73,6 +80,7 @@ class Ec2MssqlInstanceV1Controller(base_controller.BaseController):
                 +---------------------------+------------------+-------------------------------+
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             list_ec2_mssql_instances_response.ListEC2MSSQLInstancesResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -88,24 +96,46 @@ class Ec2MssqlInstanceV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_ec2_mssql_instances.', errors
             )
 
+        if self.config.raw_response:
+            return (
+                resp,
+                list_ec2_mssql_instances_response.ListEC2MSSQLInstancesResponse.from_dictionary(
+                    resp.json()
+                ),
+            )
         return list_ec2_mssql_instances_response.ListEC2MSSQLInstancesResponse.from_dictionary(resp)
 
     def read_ec2_mssql_instance(
-        self, instance_id: str
-    ) -> read_ec2_mssql_instance_response.ReadEC2MSSQLInstanceResponse:
+        self, instance_id: str, **kwargs
+    ) -> Union[
+        read_ec2_mssql_instance_response.ReadEC2MSSQLInstanceResponse,
+        tuple[
+            requests.Response,
+            Optional[read_ec2_mssql_instance_response.ReadEC2MSSQLInstanceResponse],
+        ],
+    ]:
         """Returns a representation of the specified instance.
 
         Args:
             instance_id:
                 Performs the operation on the instance with the specified ID.
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             read_ec2_mssql_instance_response.ReadEC2MSSQLInstanceResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -122,11 +152,26 @@ class Ec2MssqlInstanceV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_ec2_mssql_instance.', errors
             )
 
+        if self.config.raw_response:
+            return (
+                resp,
+                read_ec2_mssql_instance_response.ReadEC2MSSQLInstanceResponse.from_dictionary(
+                    resp.json()
+                ),
+            )
         return read_ec2_mssql_instance_response.ReadEC2MSSQLInstanceResponse.from_dictionary(resp)

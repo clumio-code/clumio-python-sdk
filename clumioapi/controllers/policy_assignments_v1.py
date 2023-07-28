@@ -3,6 +3,7 @@
 #
 
 import json
+from typing import Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -30,8 +31,11 @@ class PolicyAssignmentsV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def set_policy_assignments(
-        self, body: set_policy_assignments_v1_request.SetPolicyAssignmentsV1Request = None
-    ) -> set_assignments_response.SetAssignmentsResponse:
+        self, body: set_policy_assignments_v1_request.SetPolicyAssignmentsV1Request = None, **kwargs
+    ) -> Union[
+        set_assignments_response.SetAssignmentsResponse,
+        tuple[requests.Response, Optional[set_assignments_response.SetAssignmentsResponse]],
+    ]:
         """Assign (or unassign) policies on up to 100 entities. This endpoint returns a
         task
         ID and queues a task in the background to execute the request. Use the task ID
@@ -42,6 +46,7 @@ class PolicyAssignmentsV1Controller(base_controller.BaseController):
             body:
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             set_assignments_response.SetAssignmentsResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -61,11 +66,19 @@ class PolicyAssignmentsV1Controller(base_controller.BaseController):
                 headers=self.headers,
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
+                raw_response=self.config.raw_response,
+                **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing set_policy_assignments.', errors
             )
 
+        if self.config.raw_response:
+            return resp, set_assignments_response.SetAssignmentsResponse.from_dictionary(
+                resp.json()
+            )
         return set_assignments_response.SetAssignmentsResponse.from_dictionary(resp)

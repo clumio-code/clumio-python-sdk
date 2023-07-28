@@ -3,6 +3,7 @@
 #
 
 import json
+from typing import Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -40,7 +41,11 @@ class AwsEnvironmentTagsV1Controller(base_controller.BaseController):
         start: str = None,
         filter: str = None,
         embed: str = None,
-    ) -> list_aws_tags_response.ListAwsTagsResponse:
+        **kwargs,
+    ) -> Union[
+        list_aws_tags_response.ListAwsTagsResponse,
+        tuple[requests.Response, Optional[list_aws_tags_response.ListAwsTagsResponse]],
+    ]:
         """Returns a list of AWS tags in the specified environment.
 
         Args:
@@ -128,6 +133,7 @@ class AwsEnvironmentTagsV1Controller(base_controller.BaseController):
                 +---------------------------------------+--------------------------------------+
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             list_aws_tags_response.ListAwsTagsResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -153,18 +159,31 @@ class AwsEnvironmentTagsV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_aws_environment_tags.', errors
             )
 
+        if self.config.raw_response:
+            return resp, list_aws_tags_response.ListAwsTagsResponse.from_dictionary(resp.json())
         return list_aws_tags_response.ListAwsTagsResponse.from_dictionary(resp)
 
     def read_aws_environment_tag(
-        self, environment_id: str, tag_id: str, embed: str = None
-    ) -> read_aws_tag_response.ReadAwsTagResponse:
+        self, environment_id: str, tag_id: str, embed: str = None, **kwargs
+    ) -> Union[
+        read_aws_tag_response.ReadAwsTagResponse,
+        tuple[requests.Response, Optional[read_aws_tag_response.ReadAwsTagResponse]],
+    ]:
         """Returns a representation of the specified AWS tag in the specified environment.
 
         Args:
@@ -199,6 +218,7 @@ class AwsEnvironmentTagsV1Controller(base_controller.BaseController):
                 +---------------------------------------+--------------------------------------+
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             read_aws_tag_response.ReadAwsTagResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -218,18 +238,34 @@ class AwsEnvironmentTagsV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_aws_environment_tag.', errors
             )
 
+        if self.config.raw_response:
+            return resp, read_aws_tag_response.ReadAwsTagResponse.from_dictionary(resp.json())
         return read_aws_tag_response.ReadAwsTagResponse.from_dictionary(resp)
 
     def read_aws_environment_tag_ebs_volumes_compliance_stats(
-        self, environment_id: str, tag_id: str
-    ) -> read_ebs_tag_compliance_stats_response.ReadEbsTagComplianceStatsResponse:
+        self, environment_id: str, tag_id: str, **kwargs
+    ) -> Union[
+        read_ebs_tag_compliance_stats_response.ReadEbsTagComplianceStatsResponse,
+        tuple[
+            requests.Response,
+            Optional[read_ebs_tag_compliance_stats_response.ReadEbsTagComplianceStatsResponse],
+        ],
+    ]:
         """Returns the specified AWS tag's EBS compliance statistics.
 
         Args:
@@ -238,6 +274,7 @@ class AwsEnvironmentTagsV1Controller(base_controller.BaseController):
             tag_id:
                 Performs the operation on the AWS tag with the specified ID.
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             read_ebs_tag_compliance_stats_response.ReadEbsTagComplianceStatsResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -254,14 +291,29 @@ class AwsEnvironmentTagsV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_aws_environment_tag_ebs_volumes_compliance_stats.',
                 errors,
             )
 
+        if self.config.raw_response:
+            return (
+                resp,
+                read_ebs_tag_compliance_stats_response.ReadEbsTagComplianceStatsResponse.from_dictionary(
+                    resp.json()
+                ),
+            )
         return read_ebs_tag_compliance_stats_response.ReadEbsTagComplianceStatsResponse.from_dictionary(
             resp
         )
