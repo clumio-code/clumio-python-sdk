@@ -3,6 +3,7 @@
 #
 
 import json
+from typing import Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -30,8 +31,11 @@ class MssqlAvailabilityGroupsV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def list_mssql_availability_groups(
-        self, limit: int = None, start: str = None, filter: str = None
-    ) -> list_mssql_a_gs_response.ListMssqlAGsResponse:
+        self, limit: int = None, start: str = None, filter: str = None, **kwargs
+    ) -> Union[
+        list_mssql_a_gs_response.ListMssqlAGsResponse,
+        tuple[requests.Response, Optional[list_mssql_a_gs_response.ListMssqlAGsResponse]],
+    ]:
         """Returns a list of Availability Groups.
 
         Args:
@@ -75,6 +79,7 @@ class MssqlAvailabilityGroupsV1Controller(base_controller.BaseController):
                 +---------------------------+------------------+-------------------------------+
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             list_mssql_a_gs_response.ListMssqlAGsResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -90,24 +95,38 @@ class MssqlAvailabilityGroupsV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_mssql_availability_groups.', errors
             )
 
+        if self.config.raw_response:
+            return resp, list_mssql_a_gs_response.ListMssqlAGsResponse.from_dictionary(resp.json())
         return list_mssql_a_gs_response.ListMssqlAGsResponse.from_dictionary(resp)
 
     def read_mssql_availability_group(
-        self, availability_group_id: str
-    ) -> read_mssql_ag_response.ReadMssqlAGResponse:
+        self, availability_group_id: str, **kwargs
+    ) -> Union[
+        read_mssql_ag_response.ReadMssqlAGResponse,
+        tuple[requests.Response, Optional[read_mssql_ag_response.ReadMssqlAGResponse]],
+    ]:
         """Returns a representation of the specified availability group.
 
         Args:
             availability_group_id:
                 Performs the operation on the ag with the specified ID.
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             read_mssql_ag_response.ReadMssqlAGResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -126,11 +145,21 @@ class MssqlAvailabilityGroupsV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_mssql_availability_group.', errors
             )
 
+        if self.config.raw_response:
+            return resp, read_mssql_ag_response.ReadMssqlAGResponse.from_dictionary(resp.json())
         return read_mssql_ag_response.ReadMssqlAGResponse.from_dictionary(resp)

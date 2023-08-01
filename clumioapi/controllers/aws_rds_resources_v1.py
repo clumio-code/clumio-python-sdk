@@ -3,6 +3,7 @@
 #
 
 import json
+from typing import Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -30,8 +31,11 @@ class AwsRdsResourcesV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def list_aws_rds_resources(
-        self, limit: int = None, start: str = None, filter: str = None, embed: str = None
-    ) -> list_rds_resources_response.ListRdsResourcesResponse:
+        self, limit: int = None, start: str = None, filter: str = None, embed: str = None, **kwargs
+    ) -> Union[
+        list_rds_resources_response.ListRdsResourcesResponse,
+        tuple[requests.Response, Optional[list_rds_resources_response.ListRdsResourcesResponse]],
+    ]:
         """Retrieve a list of RDS resources.
 
         Args:
@@ -145,6 +149,7 @@ class AwsRdsResourcesV1Controller(base_controller.BaseController):
                 +------------------------+-----------------------------------------------------+
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             list_rds_resources_response.ListRdsResourcesResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -160,18 +165,33 @@ class AwsRdsResourcesV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_aws_rds_resources.', errors
             )
 
+        if self.config.raw_response:
+            return resp, list_rds_resources_response.ListRdsResourcesResponse.from_dictionary(
+                resp.json()
+            )
         return list_rds_resources_response.ListRdsResourcesResponse.from_dictionary(resp)
 
     def read_aws_rds_resource(
-        self, resource_id: str, embed: str = None
-    ) -> read_rds_resource_response.ReadRdsResourceResponse:
+        self, resource_id: str, embed: str = None, **kwargs
+    ) -> Union[
+        read_rds_resource_response.ReadRdsResourceResponse,
+        tuple[requests.Response, Optional[read_rds_resource_response.ReadRdsResourceResponse]],
+    ]:
         """Returns a representation of the specified RDS resource.
 
         Args:
@@ -190,6 +210,7 @@ class AwsRdsResourcesV1Controller(base_controller.BaseController):
                 +------------------------+-----------------------------------------------------+
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             read_rds_resource_response.ReadRdsResourceResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -207,11 +228,23 @@ class AwsRdsResourcesV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_aws_rds_resource.', errors
             )
 
+        if self.config.raw_response:
+            return resp, read_rds_resource_response.ReadRdsResourceResponse.from_dictionary(
+                resp.json()
+            )
         return read_rds_resource_response.ReadRdsResourceResponse.from_dictionary(resp)

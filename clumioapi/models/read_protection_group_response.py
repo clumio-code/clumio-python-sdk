@@ -39,11 +39,6 @@ class ReadProtectionGroupResponse:
             +---------+----------------+---------------------------------------------------+
         compliance_stats:
             The compliance statistics of workloads associated with this entity.
-        compliance_status:
-            The compliance status of the protected protection group. Possible values include
-            "compliant" and "noncompliant". If the table is not protected, then this field
-            has
-            a value of `null`.
         created_timestamp:
             Creation time of the protection group in RFC-3339 format.
         description:
@@ -97,7 +92,6 @@ class ReadProtectionGroupResponse:
         'bucket_count': 'bucket_count',
         'bucket_rule': 'bucket_rule',
         'compliance_stats': 'compliance_stats',
-        'compliance_status': 'compliance_status',
         'created_timestamp': 'created_timestamp',
         'description': 'description',
         'p_id': 'id',
@@ -123,7 +117,6 @@ class ReadProtectionGroupResponse:
         bucket_count: int = None,
         bucket_rule: str = None,
         compliance_stats: protection_compliance_stats_with_seeding.ProtectionComplianceStatsWithSeeding = None,
-        compliance_status: str = None,
         created_timestamp: str = None,
         description: str = None,
         p_id: str = None,
@@ -151,7 +144,6 @@ class ReadProtectionGroupResponse:
         self.compliance_stats: protection_compliance_stats_with_seeding.ProtectionComplianceStatsWithSeeding = (
             compliance_stats
         )
-        self.compliance_status: str = compliance_status
         self.created_timestamp: str = created_timestamp
         self.description: str = description
         self.p_id: str = p_id
@@ -210,7 +202,6 @@ class ReadProtectionGroupResponse:
             else None
         )
 
-        compliance_status = dictionary.get('compliance_status')
         created_timestamp = dictionary.get('created_timestamp')
         description = dictionary.get('description')
         p_id = dictionary.get('id')
@@ -246,7 +237,6 @@ class ReadProtectionGroupResponse:
             bucket_count,
             bucket_rule,
             compliance_stats,
-            compliance_status,
             created_timestamp,
             description,
             p_id,

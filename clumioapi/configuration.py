@@ -30,6 +30,7 @@ class Configuration:
         api_token: str = None,
         client: rest3client.RESTclient = None,
         hostname: str = None,
+        raw_response: bool = False,
         organizational_unit_context: str = '',
         custom_headers: Mapping[str, str] = None,
     ) -> None:
@@ -44,5 +45,6 @@ class Configuration:
                 errors=None,
             )
         self.client = client
+        self.raw_response = raw_response
         self.organizational_unit_context = organizational_unit_context
         self.custom_headers = custom_headers

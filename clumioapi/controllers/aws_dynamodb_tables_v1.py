@@ -3,6 +3,7 @@
 #
 
 import json
+from typing import Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -30,8 +31,11 @@ class AwsDynamodbTablesV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def list_aws_dynamodb_tables(
-        self, limit: int = None, start: str = None, filter: str = None, embed: str = None
-    ) -> list_dynamo_db_table_response.ListDynamoDBTableResponse:
+        self, limit: int = None, start: str = None, filter: str = None, embed: str = None, **kwargs
+    ) -> Union[
+        list_dynamo_db_table_response.ListDynamoDBTableResponse,
+        tuple[requests.Response, Optional[list_dynamo_db_table_response.ListDynamoDBTableResponse]],
+    ]:
         """Retrieve a list of DynamoDB tables.
 
         Args:
@@ -139,6 +143,7 @@ class AwsDynamodbTablesV1Controller(base_controller.BaseController):
                 +------------------------+-----------------------------------------------------+
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             list_dynamo_db_table_response.ListDynamoDBTableResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -154,18 +159,33 @@ class AwsDynamodbTablesV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_aws_dynamodb_tables.', errors
             )
 
+        if self.config.raw_response:
+            return resp, list_dynamo_db_table_response.ListDynamoDBTableResponse.from_dictionary(
+                resp.json()
+            )
         return list_dynamo_db_table_response.ListDynamoDBTableResponse.from_dictionary(resp)
 
     def read_aws_dynamodb_table(
-        self, table_id: str, embed: str = None
-    ) -> read_dynamo_db_table_response.ReadDynamoDBTableResponse:
+        self, table_id: str, embed: str = None, **kwargs
+    ) -> Union[
+        read_dynamo_db_table_response.ReadDynamoDBTableResponse,
+        tuple[requests.Response, Optional[read_dynamo_db_table_response.ReadDynamoDBTableResponse]],
+    ]:
         """Returns a representation of specified DynamoDB table.
 
         Args:
@@ -185,6 +205,7 @@ class AwsDynamodbTablesV1Controller(base_controller.BaseController):
                 +------------------------+-----------------------------------------------------+
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             read_dynamo_db_table_response.ReadDynamoDBTableResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -202,11 +223,23 @@ class AwsDynamodbTablesV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_aws_dynamodb_table.', errors
             )
 
+        if self.config.raw_response:
+            return resp, read_dynamo_db_table_response.ReadDynamoDBTableResponse.from_dictionary(
+                resp.json()
+            )
         return read_dynamo_db_table_response.ReadDynamoDBTableResponse.from_dictionary(resp)

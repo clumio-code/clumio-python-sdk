@@ -3,6 +3,7 @@
 #
 
 import json
+from typing import Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -33,7 +34,11 @@ class RestoredAwsEc2InstancesV1Controller(base_controller.BaseController):
         self,
         embed: str = None,
         body: restore_aws_ec2_instance_v1_request.RestoreAwsEc2InstanceV1Request = None,
-    ) -> restore_ec2_response.RestoreEC2Response:
+        **kwargs,
+    ) -> Union[
+        restore_ec2_response.RestoreEC2Response,
+        tuple[requests.Response, Optional[restore_ec2_response.RestoreEC2Response]],
+    ]:
         """Restores the specified EC2 instance backup to the specified target destination.
 
         Args:
@@ -52,6 +57,7 @@ class RestoredAwsEc2InstancesV1Controller(base_controller.BaseController):
             body:
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             restore_ec2_response.RestoreEC2Response: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -72,11 +78,17 @@ class RestoredAwsEc2InstancesV1Controller(base_controller.BaseController):
                 headers=self.headers,
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
+                raw_response=self.config.raw_response,
+                **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing restore_aws_ec2_instance.', errors
             )
 
+        if self.config.raw_response:
+            return resp, restore_ec2_response.RestoreEC2Response.from_dictionary(resp.json())
         return restore_ec2_response.RestoreEC2Response.from_dictionary(resp)

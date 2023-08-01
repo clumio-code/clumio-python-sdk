@@ -3,6 +3,7 @@
 #
 
 import json
+from typing import Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -39,7 +40,14 @@ class RestoredProtectionGroupsV1Controller(base_controller.BaseController):
         self,
         embed: str = None,
         body: restore_protection_group_v1_request.RestoreProtectionGroupV1Request = None,
-    ) -> restore_protection_group_response.RestoreProtectionGroupResponse:
+        **kwargs,
+    ) -> Union[
+        restore_protection_group_response.RestoreProtectionGroupResponse,
+        tuple[
+            requests.Response,
+            Optional[restore_protection_group_response.RestoreProtectionGroupResponse],
+        ],
+    ]:
         """Restores the specified protection group backup to the specified target
         destination.
 
@@ -59,6 +67,7 @@ class RestoredProtectionGroupsV1Controller(base_controller.BaseController):
             body:
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             restore_protection_group_response.RestoreProtectionGroupResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -79,13 +88,24 @@ class RestoredProtectionGroupsV1Controller(base_controller.BaseController):
                 headers=self.headers,
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
+                raw_response=self.config.raw_response,
+                **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing restore_protection_group.', errors
             )
 
+        if self.config.raw_response:
+            return (
+                resp,
+                restore_protection_group_response.RestoreProtectionGroupResponse.from_dictionary(
+                    resp.json()
+                ),
+            )
         return restore_protection_group_response.RestoreProtectionGroupResponse.from_dictionary(
             resp
         )
@@ -94,10 +114,22 @@ class RestoredProtectionGroupsV1Controller(base_controller.BaseController):
         self,
         protection_group_id: str,
         body: preview_protection_group_v1_request.PreviewProtectionGroupV1Request = None,
-    ) -> (
-        preview_protection_group_sync_response.PreviewProtectionGroupSyncResponse
-        | preview_protection_group_async_response.PreviewProtectionGroupAsyncResponse
-    ):
+        **kwargs,
+    ) -> Union[
+        Union[
+            preview_protection_group_sync_response.PreviewProtectionGroupSyncResponse,
+            preview_protection_group_async_response.PreviewProtectionGroupAsyncResponse,
+        ],
+        tuple[
+            requests.Response,
+            Optional[
+                Union[
+                    preview_protection_group_sync_response.PreviewProtectionGroupSyncResponse,
+                    preview_protection_group_async_response.PreviewProtectionGroupAsyncResponse,
+                ]
+            ],
+        ],
+    ]:
         """Preview a protection group restore.
 
         Args:
@@ -106,7 +138,8 @@ class RestoredProtectionGroupsV1Controller(base_controller.BaseController):
             body:
 
         Returns:
-            preview_protection_group_sync_response.PreviewProtectionGroupSyncResponse | preview_protection_group_async_response.PreviewProtectionGroupAsyncResponse: Response from the API.
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
+            Union[preview_protection_group_sync_response.PreviewProtectionGroupSyncResponse, preview_protection_group_async_response.PreviewProtectionGroupAsyncResponse]: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
                 This exception includes the HTTP response code, an error
@@ -130,25 +163,50 @@ class RestoredProtectionGroupsV1Controller(base_controller.BaseController):
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
                 raw_response=True,
+                **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing preview_protection_group.', errors
             )
         unmarshalled_dict = json.loads(resp.text)
         if resp.status_code == 200:
+            if self.config.raw_response:
+                return (
+                    resp,
+                    preview_protection_group_sync_response.PreviewProtectionGroupSyncResponse.from_dictionary(
+                        unmarshalled_dict
+                    ),
+                )
             return preview_protection_group_sync_response.PreviewProtectionGroupSyncResponse.from_dictionary(
                 unmarshalled_dict
             )
         if resp.status_code == 202:
+            if self.config.raw_response:
+                return (
+                    resp,
+                    preview_protection_group_async_response.PreviewProtectionGroupAsyncResponse.from_dictionary(
+                        unmarshalled_dict
+                    ),
+                )
             return preview_protection_group_async_response.PreviewProtectionGroupAsyncResponse.from_dictionary(
                 unmarshalled_dict
             )
 
     def preview_details_protection_group(
-        self, protection_group_id: str, preview_id: str
-    ) -> preview_details_protection_group_response.PreviewDetailsProtectionGroupResponse:
+        self, protection_group_id: str, preview_id: str, **kwargs
+    ) -> Union[
+        preview_details_protection_group_response.PreviewDetailsProtectionGroupResponse,
+        tuple[
+            requests.Response,
+            Optional[
+                preview_details_protection_group_response.PreviewDetailsProtectionGroupResponse
+            ],
+        ],
+    ]:
         """Details for protection group bucket restore preview
 
         Args:
@@ -157,6 +215,7 @@ class RestoredProtectionGroupsV1Controller(base_controller.BaseController):
             preview_id:
                 Performs the operation on the Preview with the specified ID.
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             preview_details_protection_group_response.PreviewDetailsProtectionGroupResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -173,13 +232,28 @@ class RestoredProtectionGroupsV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing preview_details_protection_group.', errors
             )
 
+        if self.config.raw_response:
+            return (
+                resp,
+                preview_details_protection_group_response.PreviewDetailsProtectionGroupResponse.from_dictionary(
+                    resp.json()
+                ),
+            )
         return preview_details_protection_group_response.PreviewDetailsProtectionGroupResponse.from_dictionary(
             resp
         )
@@ -189,7 +263,11 @@ class RestoredProtectionGroupsV1Controller(base_controller.BaseController):
         protection_group_id: str,
         embed: str = None,
         body: restore_protection_group_s3_objects_v1_request.RestoreProtectionGroupS3ObjectsV1Request = None,
-    ) -> restore_objects_response.RestoreObjectsResponse:
+        **kwargs,
+    ) -> Union[
+        restore_objects_response.RestoreObjectsResponse,
+        tuple[requests.Response, Optional[restore_objects_response.RestoreObjectsResponse]],
+    ]:
         """Restores the specified list of S3 objects to the specified target destination.
 
         Args:
@@ -210,6 +288,7 @@ class RestoredProtectionGroupsV1Controller(base_controller.BaseController):
             body:
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             restore_objects_response.RestoreObjectsResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -234,11 +313,19 @@ class RestoredProtectionGroupsV1Controller(base_controller.BaseController):
                 headers=self.headers,
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
+                raw_response=self.config.raw_response,
+                **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing restore_protection_group_s3_objects.', errors
             )
 
+        if self.config.raw_response:
+            return resp, restore_objects_response.RestoreObjectsResponse.from_dictionary(
+                resp.json()
+            )
         return restore_objects_response.RestoreObjectsResponse.from_dictionary(resp)

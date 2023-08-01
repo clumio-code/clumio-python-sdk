@@ -3,6 +3,7 @@
 #
 
 import json
+from typing import Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -30,8 +31,13 @@ class AwsEnvironmentsV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def list_aws_environments(
-        self, limit: int = None, start: str = None, filter: str = None, embed: str = None
-    ) -> list_aws_environments_response.ListAWSEnvironmentsResponse:
+        self, limit: int = None, start: str = None, filter: str = None, embed: str = None, **kwargs
+    ) -> Union[
+        list_aws_environments_response.ListAWSEnvironmentsResponse,
+        tuple[
+            requests.Response, Optional[list_aws_environments_response.ListAWSEnvironmentsResponse]
+        ],
+    ]:
         """Returns a list of AWS environments.
 
         Args:
@@ -116,6 +122,7 @@ class AwsEnvironmentsV1Controller(base_controller.BaseController):
                 +---------------------------------------+--------------------------------------+
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             list_aws_environments_response.ListAWSEnvironmentsResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -131,18 +138,35 @@ class AwsEnvironmentsV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_aws_environments.', errors
             )
 
+        if self.config.raw_response:
+            return resp, list_aws_environments_response.ListAWSEnvironmentsResponse.from_dictionary(
+                resp.json()
+            )
         return list_aws_environments_response.ListAWSEnvironmentsResponse.from_dictionary(resp)
 
     def read_aws_environment(
-        self, environment_id: str, embed: str = None
-    ) -> read_aws_environment_response.ReadAWSEnvironmentResponse:
+        self, environment_id: str, embed: str = None, **kwargs
+    ) -> Union[
+        read_aws_environment_response.ReadAWSEnvironmentResponse,
+        tuple[
+            requests.Response, Optional[read_aws_environment_response.ReadAWSEnvironmentResponse]
+        ],
+    ]:
         """Returns a representation of the specified AWS environment.
 
         Args:
@@ -188,6 +212,7 @@ class AwsEnvironmentsV1Controller(base_controller.BaseController):
                 +---------------------------------------+--------------------------------------+
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             read_aws_environment_response.ReadAWSEnvironmentResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -205,11 +230,23 @@ class AwsEnvironmentsV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_aws_environment.', errors
             )
 
+        if self.config.raw_response:
+            return resp, read_aws_environment_response.ReadAWSEnvironmentResponse.from_dictionary(
+                resp.json()
+            )
         return read_aws_environment_response.ReadAWSEnvironmentResponse.from_dictionary(resp)

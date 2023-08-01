@@ -3,6 +3,7 @@
 #
 
 import json
+from typing import Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -10,6 +11,7 @@ from clumioapi import sdk_version
 from clumioapi.controllers import base_controller
 from clumioapi.exceptions import clumio_exception
 from clumioapi.models import list_protection_group_s3_assets_response
+from clumioapi.models import read_protection_group_s3_asset_continuous_backup_stats_response
 from clumioapi.models import read_protection_group_s3_asset_response
 import requests
 
@@ -30,8 +32,14 @@ class ProtectionGroupsS3AssetsV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def list_protection_group_s3_assets(
-        self, limit: int = None, start: str = None, filter: str = None
-    ) -> list_protection_group_s3_assets_response.ListProtectionGroupS3AssetsResponse:
+        self, limit: int = None, start: str = None, filter: str = None, **kwargs
+    ) -> Union[
+        list_protection_group_s3_assets_response.ListProtectionGroupS3AssetsResponse,
+        tuple[
+            requests.Response,
+            Optional[list_protection_group_s3_assets_response.ListProtectionGroupS3AssetsResponse],
+        ],
+    ]:
         """Returns a list of protection group S3 assets.
 
         Args:
@@ -128,6 +136,7 @@ class ProtectionGroupsS3AssetsV1Controller(base_controller.BaseController):
                 +---------------------------+------------------+-------------------------------+
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             list_protection_group_s3_assets_response.ListProtectionGroupS3AssetsResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -143,26 +152,48 @@ class ProtectionGroupsS3AssetsV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_protection_group_s3_assets.', errors
             )
 
+        if self.config.raw_response:
+            return (
+                resp,
+                list_protection_group_s3_assets_response.ListProtectionGroupS3AssetsResponse.from_dictionary(
+                    resp.json()
+                ),
+            )
         return list_protection_group_s3_assets_response.ListProtectionGroupS3AssetsResponse.from_dictionary(
             resp
         )
 
     def read_protection_group_s3_asset(
-        self, protection_group_s3_asset_id: str
-    ) -> read_protection_group_s3_asset_response.ReadProtectionGroupS3AssetResponse:
+        self, protection_group_s3_asset_id: str, **kwargs
+    ) -> Union[
+        read_protection_group_s3_asset_response.ReadProtectionGroupS3AssetResponse,
+        tuple[
+            requests.Response,
+            Optional[read_protection_group_s3_asset_response.ReadProtectionGroupS3AssetResponse],
+        ],
+    ]:
         """Returns a representation of the specified protection group S3 asset.
 
         Args:
             protection_group_s3_asset_id:
                 Performs the operation on the protection group S3 asset with the specified ID.
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             read_protection_group_s3_asset_response.ReadProtectionGroupS3AssetResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -179,13 +210,116 @@ class ProtectionGroupsS3AssetsV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_protection_group_s3_asset.', errors
             )
 
+        if self.config.raw_response:
+            return (
+                resp,
+                read_protection_group_s3_asset_response.ReadProtectionGroupS3AssetResponse.from_dictionary(
+                    resp.json()
+                ),
+            )
         return read_protection_group_s3_asset_response.ReadProtectionGroupS3AssetResponse.from_dictionary(
+            resp
+        )
+
+    def read_protection_group_s3_asset_continuous_backup_stats(
+        self,
+        protection_group_s3_asset_id: str,
+        bucket_name: str = None,
+        bucket_id: str = None,
+        begin_timestamp: str = None,
+        end_timestamp: str = None,
+        interval: str = None,
+        **kwargs,
+    ) -> Union[
+        read_protection_group_s3_asset_continuous_backup_stats_response.ReadProtectionGroupS3AssetContinuousBackupStatsResponse,
+        tuple[
+            requests.Response,
+            Optional[
+                read_protection_group_s3_asset_continuous_backup_stats_response.ReadProtectionGroupS3AssetContinuousBackupStatsResponse
+            ],
+        ],
+    ]:
+        """Returns continuous backup statistics of the specified protection group S3 asset.
+
+        Args:
+            protection_group_s3_asset_id:
+                Performs the operation on the protection group S3 asset with the specified ID.
+            bucket_name:
+                The name of the source bucket.
+            bucket_id:
+                The Clumio-assigned ID of the source bucket.
+            begin_timestamp:
+                The beginning time of start_time filter in RFC-3339 format.
+            end_timestamp:
+                The end time of start_time filter in RFC-3339 format.
+            interval:
+                The interval for bins represented as time duration.
+                'm', 'h' and 'd' refers to minutes, hours, and days respectively.
+                A series of aggregated statistics for each interval will be returned as `bins`
+                in the response.
+        Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
+            read_protection_group_s3_asset_continuous_backup_stats_response.ReadProtectionGroupS3AssetContinuousBackupStatsResponse: Response from the API.
+        Raises:
+            ClumioException: An error occured while executing the API.
+                This exception includes the HTTP response code, an error
+                message, and the HTTP body that was received in the request.
+        """
+
+        # Prepare query URL
+        _url_path = f'{self.config.base_path}/datasources/protection-groups/s3-assets/{protection_group_s3_asset_id}/continuous-backup-stats'
+        _url_path = api_helper.append_url_with_template_parameters(
+            _url_path, {'protection_group_s3_asset_id': protection_group_s3_asset_id}
+        )
+        _query_parameters = {}
+        _query_parameters = {
+            'bucket_name': bucket_name,
+            'bucket_id': bucket_id,
+            'begin_timestamp': begin_timestamp,
+            'end_timestamp': end_timestamp,
+            'interval': interval,
+        }
+
+        # Execute request
+        try:
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
+        except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
+            errors = self.client.get_error_message(http_error.response)
+            raise clumio_exception.ClumioException(
+                'Error occurred while executing read_protection_group_s3_asset_continuous_backup_stats.',
+                errors,
+            )
+
+        if self.config.raw_response:
+            return (
+                resp,
+                read_protection_group_s3_asset_continuous_backup_stats_response.ReadProtectionGroupS3AssetContinuousBackupStatsResponse.from_dictionary(
+                    resp.json()
+                ),
+            )
+        return read_protection_group_s3_asset_continuous_backup_stats_response.ReadProtectionGroupS3AssetContinuousBackupStatsResponse.from_dictionary(
             resp
         )

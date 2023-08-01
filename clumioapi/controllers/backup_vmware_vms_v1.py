@@ -3,6 +3,7 @@
 #
 
 import json
+from typing import Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -32,8 +33,11 @@ class BackupVmwareVmsV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def list_backup_vmware_vms(
-        self, limit: int = None, start: str = None, sort: str = None, filter: str = None
-    ) -> list_vm_backups_response.ListVMBackupsResponse:
+        self, limit: int = None, start: str = None, sort: str = None, filter: str = None, **kwargs
+    ) -> Union[
+        list_vm_backups_response.ListVMBackupsResponse,
+        tuple[requests.Response, Optional[list_vm_backups_response.ListVMBackupsResponse]],
+    ]:
         """Returns a list of VMware virtual machines (VMs) that have been backed up by
         Clumio. VM backups can be restored through the [POST
         /restores/vmware/vms](#operation/restore-vmware-vm) endpoint.
@@ -92,6 +96,7 @@ class BackupVmwareVmsV1Controller(base_controller.BaseController):
                 +-----------------+------------------+-----------------------------------------+
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             list_vm_backups_response.ListVMBackupsResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -107,24 +112,40 @@ class BackupVmwareVmsV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_backup_vmware_vms.', errors
             )
 
+        if self.config.raw_response:
+            return resp, list_vm_backups_response.ListVMBackupsResponse.from_dictionary(resp.json())
         return list_vm_backups_response.ListVMBackupsResponse.from_dictionary(resp)
 
     def create_backup_vmware_vm(
-        self, body: create_backup_vmware_vm_v1_request.CreateBackupVmwareVmV1Request = None
-    ) -> on_demand_vm_backup_response.OnDemandVMBackupResponse:
+        self,
+        body: create_backup_vmware_vm_v1_request.CreateBackupVmwareVmV1Request = None,
+        **kwargs,
+    ) -> Union[
+        on_demand_vm_backup_response.OnDemandVMBackupResponse,
+        tuple[requests.Response, Optional[on_demand_vm_backup_response.OnDemandVMBackupResponse]],
+    ]:
         """Performs an on-demand backup for the specified VM.
 
         Args:
             body:
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             on_demand_vm_backup_response.OnDemandVMBackupResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -144,22 +165,36 @@ class BackupVmwareVmsV1Controller(base_controller.BaseController):
                 headers=self.headers,
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
+                raw_response=self.config.raw_response,
+                **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing create_backup_vmware_vm.', errors
             )
 
+        if self.config.raw_response:
+            return resp, on_demand_vm_backup_response.OnDemandVMBackupResponse.from_dictionary(
+                resp.json()
+            )
         return on_demand_vm_backup_response.OnDemandVMBackupResponse.from_dictionary(resp)
 
-    def read_backup_vmware_vm(self, backup_id: int) -> read_vm_backup_response.ReadVMBackupResponse:
+    def read_backup_vmware_vm(
+        self, backup_id: int, **kwargs
+    ) -> Union[
+        read_vm_backup_response.ReadVMBackupResponse,
+        tuple[requests.Response, Optional[read_vm_backup_response.ReadVMBackupResponse]],
+    ]:
         """Returns a representation of the specified VM backup.
 
         Args:
             backup_id:
                 Performs the operation on the backup with the specified ID.
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             read_vm_backup_response.ReadVMBackupResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -176,11 +211,21 @@ class BackupVmwareVmsV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_backup_vmware_vm.', errors
             )
 
+        if self.config.raw_response:
+            return resp, read_vm_backup_response.ReadVMBackupResponse.from_dictionary(resp.json())
         return read_vm_backup_response.ReadVMBackupResponse.from_dictionary(resp)

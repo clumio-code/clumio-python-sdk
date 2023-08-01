@@ -3,6 +3,7 @@
 #
 
 import json
+from typing import Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -30,8 +31,13 @@ class MssqlInstanceV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def list_mssql_instance(
-        self, limit: int = None, start: str = None, filter: str = None
-    ) -> list_mssql_instances_response.ListMssqlInstancesResponse:
+        self, limit: int = None, start: str = None, filter: str = None, **kwargs
+    ) -> Union[
+        list_mssql_instances_response.ListMssqlInstancesResponse,
+        tuple[
+            requests.Response, Optional[list_mssql_instances_response.ListMssqlInstancesResponse]
+        ],
+    ]:
         """Returns a list of Instances
 
         Args:
@@ -78,6 +84,7 @@ class MssqlInstanceV1Controller(base_controller.BaseController):
                 +---------------------------+------------------+-------------------------------+
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             list_mssql_instances_response.ListMssqlInstancesResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -93,24 +100,40 @@ class MssqlInstanceV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_mssql_instance.', errors
             )
 
+        if self.config.raw_response:
+            return resp, list_mssql_instances_response.ListMssqlInstancesResponse.from_dictionary(
+                resp.json()
+            )
         return list_mssql_instances_response.ListMssqlInstancesResponse.from_dictionary(resp)
 
     def read_mssql_instance(
-        self, instance_id: str
-    ) -> read_mssql_instance_response.ReadMssqlInstanceResponse:
+        self, instance_id: str, **kwargs
+    ) -> Union[
+        read_mssql_instance_response.ReadMssqlInstanceResponse,
+        tuple[requests.Response, Optional[read_mssql_instance_response.ReadMssqlInstanceResponse]],
+    ]:
         """Returns a representation of the specified instance.
 
         Args:
             instance_id:
                 Performs the operation on the instance with the specified ID.
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             read_mssql_instance_response.ReadMssqlInstanceResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -127,11 +150,23 @@ class MssqlInstanceV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_mssql_instance.', errors
             )
 
+        if self.config.raw_response:
+            return resp, read_mssql_instance_response.ReadMssqlInstanceResponse.from_dictionary(
+                resp.json()
+            )
         return read_mssql_instance_response.ReadMssqlInstanceResponse.from_dictionary(resp)

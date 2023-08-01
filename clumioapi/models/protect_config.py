@@ -21,11 +21,13 @@ class ProtectConfig:
         asset_types_enabled:
             The asset types supported on the current version of the feature
         ebs:
-
+            EbsAssetInfo
+            The installed information for the EBS feature.
         installed_template_version:
             The current version of the feature.
         rds:
-
+            RdsAssetInfo
+            The installed information for the RDS feature.
     """
 
     # Create a mapping from Model property names to API property names

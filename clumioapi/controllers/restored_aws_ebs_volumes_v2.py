@@ -3,6 +3,7 @@
 #
 
 import json
+from typing import Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -33,7 +34,11 @@ class RestoredAwsEbsVolumesV2Controller(base_controller.BaseController):
         self,
         embed: str = None,
         body: restore_aws_ebs_volume_v2_request.RestoreAwsEbsVolumeV2Request = None,
-    ) -> restore_ebs_response.RestoreEBSResponse:
+        **kwargs,
+    ) -> Union[
+        restore_ebs_response.RestoreEBSResponse,
+        tuple[requests.Response, Optional[restore_ebs_response.RestoreEBSResponse]],
+    ]:
         """Restores the specified source EBS volume backup to the specified target
         destination. The source EBS volume must be one that was backup up by Clumio.
 
@@ -53,6 +58,7 @@ class RestoredAwsEbsVolumesV2Controller(base_controller.BaseController):
             body:
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             restore_ebs_response.RestoreEBSResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -73,11 +79,17 @@ class RestoredAwsEbsVolumesV2Controller(base_controller.BaseController):
                 headers=self.headers,
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
+                raw_response=self.config.raw_response,
+                **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing restore_aws_ebs_volume.', errors
             )
 
+        if self.config.raw_response:
+            return resp, restore_ebs_response.RestoreEBSResponse.from_dictionary(resp.json())
         return restore_ebs_response.RestoreEBSResponse.from_dictionary(resp)

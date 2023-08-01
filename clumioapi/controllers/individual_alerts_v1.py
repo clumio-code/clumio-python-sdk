@@ -3,6 +3,7 @@
 #
 
 import json
+from typing import Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -38,7 +39,11 @@ class IndividualAlertsV1Controller(base_controller.BaseController):
         sort: str = None,
         filter: str = None,
         embed: str = None,
-    ) -> list_alerts_response.ListAlertsResponse:
+        **kwargs,
+    ) -> Union[
+        list_alerts_response.ListAlertsResponse,
+        tuple[requests.Response, Optional[list_alerts_response.ListAlertsResponse]],
+    ]:
         """Returns a list of individual alerts.
 
         Each alert is associated with a cause, which represents the issue that generated
@@ -228,6 +233,7 @@ class IndividualAlertsV1Controller(base_controller.BaseController):
                 +-------------------------+----------------------------------------------------+
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             list_alerts_response.ListAlertsResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -249,18 +255,31 @@ class IndividualAlertsV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_individual_alerts.', errors
             )
 
+        if self.config.raw_response:
+            return resp, list_alerts_response.ListAlertsResponse.from_dictionary(resp.json())
         return list_alerts_response.ListAlertsResponse.from_dictionary(resp)
 
     def read_individual_alert(
-        self, individual_alert_id: str, embed: str = None
-    ) -> read_alert_response.ReadAlertResponse:
+        self, individual_alert_id: str, embed: str = None, **kwargs
+    ) -> Union[
+        read_alert_response.ReadAlertResponse,
+        tuple[requests.Response, Optional[read_alert_response.ReadAlertResponse]],
+    ]:
         """Returns a representation of the specified individual alert.
 
         Args:
@@ -280,6 +299,7 @@ class IndividualAlertsV1Controller(base_controller.BaseController):
                 +-------------------------+----------------------------------------------------+
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             read_alert_response.ReadAlertResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -297,13 +317,23 @@ class IndividualAlertsV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_individual_alert.', errors
             )
 
+        if self.config.raw_response:
+            return resp, read_alert_response.ReadAlertResponse.from_dictionary(resp.json())
         return read_alert_response.ReadAlertResponse.from_dictionary(resp)
 
     def update_individual_alert(
@@ -311,7 +341,11 @@ class IndividualAlertsV1Controller(base_controller.BaseController):
         individual_alert_id: str,
         embed: str = None,
         body: update_individual_alert_v1_request.UpdateIndividualAlertV1Request = None,
-    ) -> update_alert_response.UpdateAlertResponse:
+        **kwargs,
+    ) -> Union[
+        update_alert_response.UpdateAlertResponse,
+        tuple[requests.Response, Optional[update_alert_response.UpdateAlertResponse]],
+    ]:
         """Manages an existing individual alert. Managing an individual alert includes
         clearing the alert and adding notes to the specified alert.
 
@@ -334,6 +368,7 @@ class IndividualAlertsV1Controller(base_controller.BaseController):
             body:
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             update_alert_response.UpdateAlertResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -356,11 +391,17 @@ class IndividualAlertsV1Controller(base_controller.BaseController):
                 headers=self.headers,
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
+                raw_response=self.config.raw_response,
+                **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing update_individual_alert.', errors
             )
 
+        if self.config.raw_response:
+            return resp, update_alert_response.UpdateAlertResponse.from_dictionary(resp.json())
         return update_alert_response.UpdateAlertResponse.from_dictionary(resp)

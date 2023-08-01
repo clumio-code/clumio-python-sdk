@@ -3,6 +3,7 @@
 #
 
 import json
+from typing import Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -31,8 +32,14 @@ class Ec2MssqlDatabasesV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def list_ec2_mssql_databases(
-        self, limit: int = None, start: str = None, filter: str = None, embed: str = None
-    ) -> list_ec2_mssql_databases_response.ListEC2MSSQLDatabasesResponse:
+        self, limit: int = None, start: str = None, filter: str = None, embed: str = None, **kwargs
+    ) -> Union[
+        list_ec2_mssql_databases_response.ListEC2MSSQLDatabasesResponse,
+        tuple[
+            requests.Response,
+            Optional[list_ec2_mssql_databases_response.ListEC2MSSQLDatabasesResponse],
+        ],
+    ]:
         """Returns a list of Databases
 
         Args:
@@ -117,6 +124,7 @@ class Ec2MssqlDatabasesV1Controller(base_controller.BaseController):
                 +------------------------+-----------------------------------------------------+
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             list_ec2_mssql_databases_response.ListEC2MSSQLDatabasesResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -132,24 +140,46 @@ class Ec2MssqlDatabasesV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_ec2_mssql_databases.', errors
             )
 
+        if self.config.raw_response:
+            return (
+                resp,
+                list_ec2_mssql_databases_response.ListEC2MSSQLDatabasesResponse.from_dictionary(
+                    resp.json()
+                ),
+            )
         return list_ec2_mssql_databases_response.ListEC2MSSQLDatabasesResponse.from_dictionary(resp)
 
     def read_ec2_mssql_database(
-        self, database_id: str
-    ) -> read_ec2_mssql_database_response.ReadEC2MSSQLDatabaseResponse:
+        self, database_id: str, **kwargs
+    ) -> Union[
+        read_ec2_mssql_database_response.ReadEC2MSSQLDatabaseResponse,
+        tuple[
+            requests.Response,
+            Optional[read_ec2_mssql_database_response.ReadEC2MSSQLDatabaseResponse],
+        ],
+    ]:
         """Returns a representation of the specified database.
 
         Args:
             database_id:
                 Performs the operation on a database within the specified database id.
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             read_ec2_mssql_database_response.ReadEC2MSSQLDatabaseResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -166,18 +196,41 @@ class Ec2MssqlDatabasesV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_ec2_mssql_database.', errors
             )
 
+        if self.config.raw_response:
+            return (
+                resp,
+                read_ec2_mssql_database_response.ReadEC2MSSQLDatabaseResponse.from_dictionary(
+                    resp.json()
+                ),
+            )
         return read_ec2_mssql_database_response.ReadEC2MSSQLDatabaseResponse.from_dictionary(resp)
 
     def list_ec2_mssql_database_pitr_intervals(
-        self, database_id: str, limit: int = None, start: str = None, filter: str = None
-    ) -> list_ec2_mssql_database_pitr_intervals_response.ListEC2MssqlDatabasePitrIntervalsResponse:
+        self, database_id: str, limit: int = None, start: str = None, filter: str = None, **kwargs
+    ) -> Union[
+        list_ec2_mssql_database_pitr_intervals_response.ListEC2MssqlDatabasePitrIntervalsResponse,
+        tuple[
+            requests.Response,
+            Optional[
+                list_ec2_mssql_database_pitr_intervals_response.ListEC2MssqlDatabasePitrIntervalsResponse
+            ],
+        ],
+    ]:
         """Returns a list of time intervals (start timestamp and end timestamp) in which
         the MSSQL database can be restored.
 
@@ -205,6 +258,7 @@ class Ec2MssqlDatabasesV1Controller(base_controller.BaseController):
                 +-----------+------------------+-----------------------------------------------+
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             list_ec2_mssql_database_pitr_intervals_response.ListEC2MssqlDatabasePitrIntervalsResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -222,13 +276,28 @@ class Ec2MssqlDatabasesV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_ec2_mssql_database_pitr_intervals.', errors
             )
 
+        if self.config.raw_response:
+            return (
+                resp,
+                list_ec2_mssql_database_pitr_intervals_response.ListEC2MssqlDatabasePitrIntervalsResponse.from_dictionary(
+                    resp.json()
+                ),
+            )
         return list_ec2_mssql_database_pitr_intervals_response.ListEC2MssqlDatabasePitrIntervalsResponse.from_dictionary(
             resp
         )

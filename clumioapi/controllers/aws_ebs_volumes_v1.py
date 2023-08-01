@@ -3,6 +3,7 @@
 #
 
 import json
+from typing import Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -30,8 +31,11 @@ class AwsEbsVolumesV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def list_aws_ebs_volumes(
-        self, limit: int = None, start: str = None, filter: str = None, embed: str = None
-    ) -> list_ebs_volumes_response.ListEbsVolumesResponse:
+        self, limit: int = None, start: str = None, filter: str = None, embed: str = None, **kwargs
+    ) -> Union[
+        list_ebs_volumes_response.ListEbsVolumesResponse,
+        tuple[requests.Response, Optional[list_ebs_volumes_response.ListEbsVolumesResponse]],
+    ]:
         """Returns a list of EBS volumes.
 
         Args:
@@ -124,6 +128,7 @@ class AwsEbsVolumesV1Controller(base_controller.BaseController):
                 +------------------------+-----------------------------------------------------+
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             list_ebs_volumes_response.ListEbsVolumesResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -139,18 +144,33 @@ class AwsEbsVolumesV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_aws_ebs_volumes.', errors
             )
 
+        if self.config.raw_response:
+            return resp, list_ebs_volumes_response.ListEbsVolumesResponse.from_dictionary(
+                resp.json()
+            )
         return list_ebs_volumes_response.ListEbsVolumesResponse.from_dictionary(resp)
 
     def read_aws_ebs_volume(
-        self, volume_id: str, embed: str = None
-    ) -> read_ebs_volume_response.ReadEbsVolumeResponse:
+        self, volume_id: str, embed: str = None, **kwargs
+    ) -> Union[
+        read_ebs_volume_response.ReadEbsVolumeResponse,
+        tuple[requests.Response, Optional[read_ebs_volume_response.ReadEbsVolumeResponse]],
+    ]:
         """Returns a representation of the specified EBS volume.
 
         Args:
@@ -170,6 +190,7 @@ class AwsEbsVolumesV1Controller(base_controller.BaseController):
                 +------------------------+-----------------------------------------------------+
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             read_ebs_volume_response.ReadEbsVolumeResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -187,11 +208,21 @@ class AwsEbsVolumesV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_aws_ebs_volume.', errors
             )
 
+        if self.config.raw_response:
+            return resp, read_ebs_volume_response.ReadEbsVolumeResponse.from_dictionary(resp.json())
         return read_ebs_volume_response.ReadEbsVolumeResponse.from_dictionary(resp)

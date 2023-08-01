@@ -3,6 +3,7 @@
 #
 
 import json
+from typing import Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -30,8 +31,11 @@ class Ec2MssqlAvailabilityGroupsV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def list_ec2_mssql_availability_groups(
-        self, limit: int = None, start: str = None, filter: str = None
-    ) -> list_ec2_mssql_a_gs_response.ListEC2MssqlAGsResponse:
+        self, limit: int = None, start: str = None, filter: str = None, **kwargs
+    ) -> Union[
+        list_ec2_mssql_a_gs_response.ListEC2MssqlAGsResponse,
+        tuple[requests.Response, Optional[list_ec2_mssql_a_gs_response.ListEC2MssqlAGsResponse]],
+    ]:
         """Returns a list of Availability Groups.
 
         Args:
@@ -73,6 +77,7 @@ class Ec2MssqlAvailabilityGroupsV1Controller(base_controller.BaseController):
                 +---------------------------+------------------+-------------------------------+
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             list_ec2_mssql_a_gs_response.ListEC2MssqlAGsResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -88,24 +93,40 @@ class Ec2MssqlAvailabilityGroupsV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_ec2_mssql_availability_groups.', errors
             )
 
+        if self.config.raw_response:
+            return resp, list_ec2_mssql_a_gs_response.ListEC2MssqlAGsResponse.from_dictionary(
+                resp.json()
+            )
         return list_ec2_mssql_a_gs_response.ListEC2MssqlAGsResponse.from_dictionary(resp)
 
     def read_ec2_mssql_availability_group(
-        self, availability_group_id: str
-    ) -> read_ec2_mssql_ag_response.ReadEC2MssqlAGResponse:
+        self, availability_group_id: str, **kwargs
+    ) -> Union[
+        read_ec2_mssql_ag_response.ReadEC2MssqlAGResponse,
+        tuple[requests.Response, Optional[read_ec2_mssql_ag_response.ReadEC2MssqlAGResponse]],
+    ]:
         """Returns a representation of the specified availability group.
 
         Args:
             availability_group_id:
                 Performs the operation on the ag with the specified ID.
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             read_ec2_mssql_ag_response.ReadEC2MssqlAGResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -122,11 +143,23 @@ class Ec2MssqlAvailabilityGroupsV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_ec2_mssql_availability_group.', errors
             )
 
+        if self.config.raw_response:
+            return resp, read_ec2_mssql_ag_response.ReadEC2MssqlAGResponse.from_dictionary(
+                resp.json()
+            )
         return read_ec2_mssql_ag_response.ReadEC2MssqlAGResponse.from_dictionary(resp)

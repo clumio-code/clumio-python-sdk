@@ -3,6 +3,7 @@
 #
 
 import json
+from typing import Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -30,8 +31,14 @@ class Ec2MssqlHostsV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def list_ec2_mssql_hosts(
-        self, limit: int = None, start: str = None, filter: str = None, embed: str = None
-    ) -> list_ec2_mssql_inv_hosts_response.ListEC2MSSQLInvHostsResponse:
+        self, limit: int = None, start: str = None, filter: str = None, embed: str = None, **kwargs
+    ) -> Union[
+        list_ec2_mssql_inv_hosts_response.ListEC2MSSQLInvHostsResponse,
+        tuple[
+            requests.Response,
+            Optional[list_ec2_mssql_inv_hosts_response.ListEC2MSSQLInvHostsResponse],
+        ],
+    ]:
         """Returns a list of EC2 MSSQL hosts
 
         Args:
@@ -83,6 +90,7 @@ class Ec2MssqlHostsV1Controller(base_controller.BaseController):
                 For more information about embedded links, refer to the
                 Embedding Referenced Resources section of this guide.
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             list_ec2_mssql_inv_hosts_response.ListEC2MSSQLInvHostsResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -98,24 +106,46 @@ class Ec2MssqlHostsV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_ec2_mssql_hosts.', errors
             )
 
+        if self.config.raw_response:
+            return (
+                resp,
+                list_ec2_mssql_inv_hosts_response.ListEC2MSSQLInvHostsResponse.from_dictionary(
+                    resp.json()
+                ),
+            )
         return list_ec2_mssql_inv_hosts_response.ListEC2MSSQLInvHostsResponse.from_dictionary(resp)
 
     def read_ec2_mssql_host(
-        self, host_id: str
-    ) -> read_ec2_mssql_inv_host_response.ReadEC2MSSQLInvHostResponse:
+        self, host_id: str, **kwargs
+    ) -> Union[
+        read_ec2_mssql_inv_host_response.ReadEC2MSSQLInvHostResponse,
+        tuple[
+            requests.Response,
+            Optional[read_ec2_mssql_inv_host_response.ReadEC2MSSQLInvHostResponse],
+        ],
+    ]:
         """Returns a representation of the specified host.
 
         Args:
             host_id:
                 Performs the operation on a host within the specified host id.
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             read_ec2_mssql_inv_host_response.ReadEC2MSSQLInvHostResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -130,11 +160,26 @@ class Ec2MssqlHostsV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_ec2_mssql_host.', errors
             )
 
+        if self.config.raw_response:
+            return (
+                resp,
+                read_ec2_mssql_inv_host_response.ReadEC2MSSQLInvHostResponse.from_dictionary(
+                    resp.json()
+                ),
+            )
         return read_ec2_mssql_inv_host_response.ReadEC2MSSQLInvHostResponse.from_dictionary(resp)

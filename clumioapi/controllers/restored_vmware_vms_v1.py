@@ -3,6 +3,7 @@
 #
 
 import json
+from typing import Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -30,8 +31,11 @@ class RestoredVmwareVmsV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def restore_vmware_vm(
-        self, body: restore_vmware_vm_v1_request.RestoreVmwareVmV1Request = None
-    ) -> restore_v_mware_vm_response.RestoreVMwareVMResponse:
+        self, body: restore_vmware_vm_v1_request.RestoreVmwareVmV1Request = None, **kwargs
+    ) -> Union[
+        restore_v_mware_vm_response.RestoreVMwareVMResponse,
+        tuple[requests.Response, Optional[restore_v_mware_vm_response.RestoreVMwareVMResponse]],
+    ]:
         """Restores the specified source VM backup to the specified target destination. The
         source VM must be one that was backed up by Clumio.
 
@@ -39,6 +43,7 @@ class RestoredVmwareVmsV1Controller(base_controller.BaseController):
             body:
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             restore_v_mware_vm_response.RestoreVMwareVMResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -58,11 +63,19 @@ class RestoredVmwareVmsV1Controller(base_controller.BaseController):
                 headers=self.headers,
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
+                raw_response=self.config.raw_response,
+                **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing restore_vmware_vm.', errors
             )
 
+        if self.config.raw_response:
+            return resp, restore_v_mware_vm_response.RestoreVMwareVMResponse.from_dictionary(
+                resp.json()
+            )
         return restore_v_mware_vm_response.RestoreVMwareVMResponse.from_dictionary(resp)

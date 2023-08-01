@@ -3,6 +3,7 @@
 #
 
 import json
+from typing import Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -38,7 +39,14 @@ class BackupAwsRdsResourceDatabaseTablesV1Controller(base_controller.BaseControl
         limit: int = None,
         start: str = None,
         filter: str = None,
-    ) -> list_rds_database_tables_response.ListRDSDatabaseTablesResponse:
+        **kwargs,
+    ) -> Union[
+        list_rds_database_tables_response.ListRDSDatabaseTablesResponse,
+        tuple[
+            requests.Response,
+            Optional[list_rds_database_tables_response.ListRDSDatabaseTablesResponse],
+        ],
+    ]:
         """Returns a list of RDS tables from the specified RDS backup.
 
         Args:
@@ -65,6 +73,7 @@ class BackupAwsRdsResourceDatabaseTablesV1Controller(base_controller.BaseControl
                 +-------+------------------+---------------------------+
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             list_rds_database_tables_response.ListRDSDatabaseTablesResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -87,19 +96,40 @@ class BackupAwsRdsResourceDatabaseTablesV1Controller(base_controller.BaseControl
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_backup_aws_rds_resource_database_tables.',
                 errors,
             )
 
+        if self.config.raw_response:
+            return (
+                resp,
+                list_rds_database_tables_response.ListRDSDatabaseTablesResponse.from_dictionary(
+                    resp.json()
+                ),
+            )
         return list_rds_database_tables_response.ListRDSDatabaseTablesResponse.from_dictionary(resp)
 
     def read_backup_aws_rds_resource_database_table(
-        self, backup_id: str, database_name: str, table_id: str, embed: str = None
-    ) -> read_rds_database_table_response.ReadRDSDatabaseTableResponse:
+        self, backup_id: str, database_name: str, table_id: str, embed: str = None, **kwargs
+    ) -> Union[
+        read_rds_database_table_response.ReadRDSDatabaseTableResponse,
+        tuple[
+            requests.Response,
+            Optional[read_rds_database_table_response.ReadRDSDatabaseTableResponse],
+        ],
+    ]:
         """Returns a representation of the specified table from an RDS backup.
 
         Args:
@@ -124,6 +154,7 @@ class BackupAwsRdsResourceDatabaseTablesV1Controller(base_controller.BaseControl
                 +---------------------------------------+--------------------------------------+
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             read_rds_database_table_response.ReadRDSDatabaseTableResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -142,19 +173,40 @@ class BackupAwsRdsResourceDatabaseTablesV1Controller(base_controller.BaseControl
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_backup_aws_rds_resource_database_table.',
                 errors,
             )
 
+        if self.config.raw_response:
+            return (
+                resp,
+                read_rds_database_table_response.ReadRDSDatabaseTableResponse.from_dictionary(
+                    resp.json()
+                ),
+            )
         return read_rds_database_table_response.ReadRDSDatabaseTableResponse.from_dictionary(resp)
 
     def read_backup_aws_rds_resource_database_table_columns(
-        self, backup_id: str, database_name: str, table_id: str
-    ) -> read_rds_database_table_columns_response.ReadRDSDatabaseTableColumnsResponse:
+        self, backup_id: str, database_name: str, table_id: str, **kwargs
+    ) -> Union[
+        read_rds_database_table_columns_response.ReadRDSDatabaseTableColumnsResponse,
+        tuple[
+            requests.Response,
+            Optional[read_rds_database_table_columns_response.ReadRDSDatabaseTableColumnsResponse],
+        ],
+    ]:
         """Returns a list of columns within the specified table.
 
         Args:
@@ -165,6 +217,7 @@ class BackupAwsRdsResourceDatabaseTablesV1Controller(base_controller.BaseControl
             table_id:
                 Performs the operation on the RDS database table with the specified ID.
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             read_rds_database_table_columns_response.ReadRDSDatabaseTableColumnsResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -182,14 +235,29 @@ class BackupAwsRdsResourceDatabaseTablesV1Controller(base_controller.BaseControl
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_backup_aws_rds_resource_database_table_columns.',
                 errors,
             )
 
+        if self.config.raw_response:
+            return (
+                resp,
+                read_rds_database_table_columns_response.ReadRDSDatabaseTableColumnsResponse.from_dictionary(
+                    resp.json()
+                ),
+            )
         return read_rds_database_table_columns_response.ReadRDSDatabaseTableColumnsResponse.from_dictionary(
             resp
         )

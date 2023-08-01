@@ -3,6 +3,7 @@
 #
 
 import json
+from typing import Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -30,8 +31,11 @@ class BackupsFilesV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def list_files(
-        self, limit: int = None, start: str = None, filter: str = None
-    ) -> file_search_response.FileSearchResponse:
+        self, limit: int = None, start: str = None, filter: str = None, **kwargs
+    ) -> Union[
+        file_search_response.FileSearchResponse,
+        tuple[requests.Response, Optional[file_search_response.FileSearchResponse]],
+    ]:
         """Retrieve the list of files whose name matches a given regex pattern.
 
         Args:
@@ -65,6 +69,7 @@ class BackupsFilesV1Controller(base_controller.BaseController):
                 +------------+------------------+----------------------------------------------+
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             file_search_response.FileSearchResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -80,18 +85,31 @@ class BackupsFilesV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_files.', errors
             )
 
+        if self.config.raw_response:
+            return resp, file_search_response.FileSearchResponse.from_dictionary(resp.json())
         return file_search_response.FileSearchResponse.from_dictionary(resp)
 
     def list_file_versions(
-        self, search_result_id: str, limit: int = None, start: str = None
-    ) -> file_list_response.FileListResponse:
+        self, search_result_id: str, limit: int = None, start: str = None, **kwargs
+    ) -> Union[
+        file_list_response.FileListResponse,
+        tuple[requests.Response, Optional[file_list_response.FileListResponse]],
+    ]:
         """Retrieve the list of versions of the file.
 
         Args:
@@ -104,6 +122,7 @@ class BackupsFilesV1Controller(base_controller.BaseController):
                 get the first page.
                 Other pages can be traversed using HATEOAS links.
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             file_list_response.FileListResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -121,11 +140,21 @@ class BackupsFilesV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_file_versions.', errors
             )
 
+        if self.config.raw_response:
+            return resp, file_list_response.FileListResponse.from_dictionary(resp.json())
         return file_list_response.FileListResponse.from_dictionary(resp)

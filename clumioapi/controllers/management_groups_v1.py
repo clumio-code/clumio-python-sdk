@@ -3,6 +3,7 @@
 #
 
 import json
+from typing import Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -32,8 +33,14 @@ class ManagementGroupsV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def list_management_groups(
-        self, limit: int = None, start: str = None
-    ) -> list_management_groups_response.ListManagementGroupsResponse:
+        self, limit: int = None, start: str = None, **kwargs
+    ) -> Union[
+        list_management_groups_response.ListManagementGroupsResponse,
+        tuple[
+            requests.Response,
+            Optional[list_management_groups_response.ListManagementGroupsResponse],
+        ],
+    ]:
         """Returns a list of management groups.
 
         Args:
@@ -44,6 +51,7 @@ class ManagementGroupsV1Controller(base_controller.BaseController):
                 get the first page.
                 Other pages can be traversed using HATEOAS links.
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             list_management_groups_response.ListManagementGroupsResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -59,18 +67,38 @@ class ManagementGroupsV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_management_groups.', errors
             )
 
+        if self.config.raw_response:
+            return (
+                resp,
+                list_management_groups_response.ListManagementGroupsResponse.from_dictionary(
+                    resp.json()
+                ),
+            )
         return list_management_groups_response.ListManagementGroupsResponse.from_dictionary(resp)
 
     def read_management_group(
-        self, group_id: str
-    ) -> read_management_group_response.ReadManagementGroupResponse:
+        self, group_id: str, **kwargs
+    ) -> Union[
+        read_management_group_response.ReadManagementGroupResponse,
+        tuple[
+            requests.Response, Optional[read_management_group_response.ReadManagementGroupResponse]
+        ],
+    ]:
         """Returns a representation of the specified management group. Management groups
         are used to
         manage the SQL hosts and cloud connectors deployed in vCenter servers.
@@ -81,6 +109,7 @@ class ManagementGroupsV1Controller(base_controller.BaseController):
             group_id:
                 Performs the operation on the management group with the specified ID.
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             read_management_group_response.ReadManagementGroupResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -97,20 +126,39 @@ class ManagementGroupsV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_management_group.', errors
             )
 
+        if self.config.raw_response:
+            return resp, read_management_group_response.ReadManagementGroupResponse.from_dictionary(
+                resp.json()
+            )
         return read_management_group_response.ReadManagementGroupResponse.from_dictionary(resp)
 
     def update_management_group(
         self,
         group_id: str,
         body: update_management_group_v1_request.UpdateManagementGroupV1Request = None,
-    ) -> update_management_group_response.UpdateManagementGroupResponse:
+        **kwargs,
+    ) -> Union[
+        update_management_group_response.UpdateManagementGroupResponse,
+        tuple[
+            requests.Response,
+            Optional[update_management_group_response.UpdateManagementGroupResponse],
+        ],
+    ]:
         """Update the specified management group.
 
         Args:
@@ -119,6 +167,7 @@ class ManagementGroupsV1Controller(base_controller.BaseController):
             body:
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             update_management_group_response.UpdateManagementGroupResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -140,11 +189,22 @@ class ManagementGroupsV1Controller(base_controller.BaseController):
                 headers=self.headers,
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
+                raw_response=self.config.raw_response,
+                **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing update_management_group.', errors
             )
 
+        if self.config.raw_response:
+            return (
+                resp,
+                update_management_group_response.UpdateManagementGroupResponse.from_dictionary(
+                    resp.json()
+                ),
+            )
         return update_management_group_response.UpdateManagementGroupResponse.from_dictionary(resp)

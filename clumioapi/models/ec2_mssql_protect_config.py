@@ -10,6 +10,8 @@ T = TypeVar('T', bound='EC2MSSQLProtectConfig')
 class EC2MSSQLProtectConfig:
     """Implementation of the 'EC2MSSQLProtectConfig' model.
 
+    EC2MSSQLProtectConfigThe installed information for the EC2_MSSQL feature.
+
     Attributes:
         installed_template_version:
             The current version of the feature.

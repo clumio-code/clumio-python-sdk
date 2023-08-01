@@ -3,6 +3,7 @@
 #
 
 import json
+from typing import Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -29,8 +30,10 @@ class PostProcessAwsConnectionV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def post_process_aws_connection(
-        self, body: post_process_aws_connection_v1_request.PostProcessAwsConnectionV1Request = None
-    ) -> object:
+        self,
+        body: post_process_aws_connection_v1_request.PostProcessAwsConnectionV1Request = None,
+        **kwargs,
+    ) -> Union[object, tuple[requests.Response, Optional[object]]]:
         """Performs post-processing after AWS Connection Create, Update or Delete. This API
         should only be invoked by the Clumio Terraform provider and should not be
         invoked manually.
@@ -39,6 +42,7 @@ class PostProcessAwsConnectionV1Controller(base_controller.BaseController):
             body:
                 The body of the request.
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             object: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -58,11 +62,17 @@ class PostProcessAwsConnectionV1Controller(base_controller.BaseController):
                 headers=self.headers,
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
+                raw_response=self.config.raw_response,
+                **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing post_process_aws_connection.', errors
             )
 
+        if self.config.raw_response:
+            return resp, resp.json()
         return resp

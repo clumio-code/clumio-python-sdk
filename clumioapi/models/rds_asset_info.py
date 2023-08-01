@@ -10,6 +10,8 @@ T = TypeVar('T', bound='RdsAssetInfo')
 class RdsAssetInfo:
     """Implementation of the 'RdsAssetInfo' model.
 
+    RdsAssetInfoThe installed information for the RDS feature.
+
     Attributes:
         installed_template_version:
             The current version of the feature.

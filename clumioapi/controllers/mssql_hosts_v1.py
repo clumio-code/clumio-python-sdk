@@ -3,6 +3,7 @@
 #
 
 import json
+from typing import Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -40,8 +41,16 @@ class MssqlHostsV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def list_mssql_host_connections(
-        self, current_count: int = None, filter: str = None, limit: int = None, start: str = None
-    ) -> list_hcm_hosts_response.ListHcmHostsResponse:
+        self,
+        current_count: int = None,
+        filter: str = None,
+        limit: int = None,
+        start: str = None,
+        **kwargs,
+    ) -> Union[
+        list_hcm_hosts_response.ListHcmHostsResponse,
+        tuple[requests.Response, Optional[list_hcm_hosts_response.ListHcmHostsResponse]],
+    ]:
         """Returns a list of hosts
 
         Args:
@@ -79,6 +88,7 @@ class MssqlHostsV1Controller(base_controller.BaseController):
                 get the first page.
                 Other pages can be traversed using HATEOAS links.
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             list_hcm_hosts_response.ListHcmHostsResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -99,25 +109,40 @@ class MssqlHostsV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_mssql_host_connections.', errors
             )
 
+        if self.config.raw_response:
+            return resp, list_hcm_hosts_response.ListHcmHostsResponse.from_dictionary(resp.json())
         return list_hcm_hosts_response.ListHcmHostsResponse.from_dictionary(resp)
 
     def create_mssql_host_connections(
         self,
         body: create_mssql_host_connections_v1_request.CreateMssqlHostConnectionsV1Request = None,
-    ) -> create_hcm_host_response.CreateHcmHostResponse:
+        **kwargs,
+    ) -> Union[
+        create_hcm_host_response.CreateHcmHostResponse,
+        tuple[requests.Response, Optional[create_hcm_host_response.CreateHcmHostResponse]],
+    ]:
         """Create a MSSQL Connection.
 
         Args:
             body:
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             create_hcm_host_response.CreateHcmHostResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -137,20 +162,30 @@ class MssqlHostsV1Controller(base_controller.BaseController):
                 headers=self.headers,
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
+                raw_response=self.config.raw_response,
+                **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing create_mssql_host_connections.', errors
             )
 
+        if self.config.raw_response:
+            return resp, create_hcm_host_response.CreateHcmHostResponse.from_dictionary(resp.json())
         return create_hcm_host_response.CreateHcmHostResponse.from_dictionary(resp)
 
     def delete_mssql_host_connections(
         self,
         embed: str = None,
         body: delete_mssql_host_connections_v1_request.DeleteMssqlHostConnectionsV1Request = None,
-    ) -> delete_hcm_host_response.DeleteHcmHostResponse:
+        **kwargs,
+    ) -> Union[
+        delete_hcm_host_response.DeleteHcmHostResponse,
+        tuple[requests.Response, Optional[delete_hcm_host_response.DeleteHcmHostResponse]],
+    ]:
         """Delete the specified MSSQL host.
 
         Args:
@@ -169,6 +204,7 @@ class MssqlHostsV1Controller(base_controller.BaseController):
             body:
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             delete_hcm_host_response.DeleteHcmHostResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -189,20 +225,30 @@ class MssqlHostsV1Controller(base_controller.BaseController):
                 headers=self.headers,
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
+                raw_response=self.config.raw_response,
+                **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing delete_mssql_host_connections.', errors
             )
 
+        if self.config.raw_response:
+            return resp, delete_hcm_host_response.DeleteHcmHostResponse.from_dictionary(resp.json())
         return delete_hcm_host_response.DeleteHcmHostResponse.from_dictionary(resp)
 
     def move_mssql_host_connections(
         self,
         embed: str = None,
         body: move_mssql_host_connections_v1_request.MoveMssqlHostConnectionsV1Request = None,
-    ) -> move_hcm_hosts_response.MoveHcmHostsResponse:
+        **kwargs,
+    ) -> Union[
+        move_hcm_hosts_response.MoveHcmHostsResponse,
+        tuple[requests.Response, Optional[move_hcm_hosts_response.MoveHcmHostsResponse]],
+    ]:
         """Move the specified MSSQL hosts from a source Sub-Group to a destination Sub-
         Group.
 
@@ -222,6 +268,7 @@ class MssqlHostsV1Controller(base_controller.BaseController):
             body:
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             move_hcm_hosts_response.MoveHcmHostsResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -242,25 +289,39 @@ class MssqlHostsV1Controller(base_controller.BaseController):
                 headers=self.headers,
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
+                raw_response=self.config.raw_response,
+                **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing move_mssql_host_connections.', errors
             )
 
+        if self.config.raw_response:
+            return resp, move_hcm_hosts_response.MoveHcmHostsResponse.from_dictionary(resp.json())
         return move_hcm_hosts_response.MoveHcmHostsResponse.from_dictionary(resp)
 
     def create_mssql_host_connection_credentials(
         self,
         body: create_mssql_host_connection_credentials_v1_request.CreateMssqlHostConnectionCredentialsV1Request = None,
-    ) -> create_host_ec_credentials_response.CreateHostECCredentialsResponse:
+        **kwargs,
+    ) -> Union[
+        create_host_ec_credentials_response.CreateHostECCredentialsResponse,
+        tuple[
+            requests.Response,
+            Optional[create_host_ec_credentials_response.CreateHostECCredentialsResponse],
+        ],
+    ]:
         """Create Edge Connector Credentials for the specified MSSQL host.
 
         Args:
             body:
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             create_host_ec_credentials_response.CreateHostECCredentialsResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -280,26 +341,41 @@ class MssqlHostsV1Controller(base_controller.BaseController):
                 headers=self.headers,
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
+                raw_response=self.config.raw_response,
+                **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing create_mssql_host_connection_credentials.', errors
             )
 
+        if self.config.raw_response:
+            return (
+                resp,
+                create_host_ec_credentials_response.CreateHostECCredentialsResponse.from_dictionary(
+                    resp.json()
+                ),
+            )
         return create_host_ec_credentials_response.CreateHostECCredentialsResponse.from_dictionary(
             resp
         )
 
     def read_mssql_host_connections(
-        self, host_id: str
-    ) -> read_hcm_host_response.ReadHcmHostResponse:
+        self, host_id: str, **kwargs
+    ) -> Union[
+        read_hcm_host_response.ReadHcmHostResponse,
+        tuple[requests.Response, Optional[read_hcm_host_response.ReadHcmHostResponse]],
+    ]:
         """Returns a representation of the specified host.
 
         Args:
             host_id:
                 Performs the operation on a host within the specified host id.
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             read_hcm_host_response.ReadHcmHostResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -314,18 +390,31 @@ class MssqlHostsV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_mssql_host_connections.', errors
             )
 
+        if self.config.raw_response:
+            return resp, read_hcm_host_response.ReadHcmHostResponse.from_dictionary(resp.json())
         return read_hcm_host_response.ReadHcmHostResponse.from_dictionary(resp)
 
     def list_mssql_hosts(
-        self, limit: int = None, start: str = None, filter: str = None, embed: str = None
-    ) -> list_mssql_hosts_response.ListMssqlHostsResponse:
+        self, limit: int = None, start: str = None, filter: str = None, embed: str = None, **kwargs
+    ) -> Union[
+        list_mssql_hosts_response.ListMssqlHostsResponse,
+        tuple[requests.Response, Optional[list_mssql_hosts_response.ListMssqlHostsResponse]],
+    ]:
         """Returns a list of hosts
 
         Args:
@@ -404,6 +493,7 @@ class MssqlHostsV1Controller(base_controller.BaseController):
                 For more information about embedded links, refer to the
                 Embedding Referenced Resources section of this guide.
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             list_mssql_hosts_response.ListMssqlHostsResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -419,22 +509,40 @@ class MssqlHostsV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_mssql_hosts.', errors
             )
 
+        if self.config.raw_response:
+            return resp, list_mssql_hosts_response.ListMssqlHostsResponse.from_dictionary(
+                resp.json()
+            )
         return list_mssql_hosts_response.ListMssqlHostsResponse.from_dictionary(resp)
 
-    def read_mssql_hosts(self, host_id: str) -> read_mssql_host_response.ReadMssqlHostResponse:
+    def read_mssql_hosts(
+        self, host_id: str, **kwargs
+    ) -> Union[
+        read_mssql_host_response.ReadMssqlHostResponse,
+        tuple[requests.Response, Optional[read_mssql_host_response.ReadMssqlHostResponse]],
+    ]:
         """Returns a representation of the specified host.
 
         Args:
             host_id:
                 Performs the operation on a host within the specified host id.
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             read_mssql_host_response.ReadMssqlHostResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -449,11 +557,21 @@ class MssqlHostsV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(_url_path, headers=self.headers, params=_query_parameters)
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_mssql_hosts.', errors
             )
 
+        if self.config.raw_response:
+            return resp, read_mssql_host_response.ReadMssqlHostResponse.from_dictionary(resp.json())
         return read_mssql_host_response.ReadMssqlHostResponse.from_dictionary(resp)

@@ -3,6 +3,7 @@
 #
 
 import json
+from typing import Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -33,7 +34,14 @@ class RestoredMssqlDatabasesV1Controller(base_controller.BaseController):
         self,
         embed: str = None,
         body: restore_mssql_database_v1_request.RestoreMssqlDatabaseV1Request = None,
-    ) -> create_mssql_database_restore_response.CreateMssqlDatabaseRestoreResponse:
+        **kwargs,
+    ) -> Union[
+        create_mssql_database_restore_response.CreateMssqlDatabaseRestoreResponse,
+        tuple[
+            requests.Response,
+            Optional[create_mssql_database_restore_response.CreateMssqlDatabaseRestoreResponse],
+        ],
+    ]:
         """Creates a restored MSSQL database from a given backup or to a specified point in
         time.
 
@@ -53,6 +61,7 @@ class RestoredMssqlDatabasesV1Controller(base_controller.BaseController):
             body:
 
         Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
             create_mssql_database_restore_response.CreateMssqlDatabaseRestoreResponse: Response from the API.
         Raises:
             ClumioException: An error occured while executing the API.
@@ -73,13 +82,24 @@ class RestoredMssqlDatabasesV1Controller(base_controller.BaseController):
                 headers=self.headers,
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
+                raw_response=self.config.raw_response,
+                **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing restore_mssql_database.', errors
             )
 
+        if self.config.raw_response:
+            return (
+                resp,
+                create_mssql_database_restore_response.CreateMssqlDatabaseRestoreResponse.from_dictionary(
+                    resp.json()
+                ),
+            )
         return create_mssql_database_restore_response.CreateMssqlDatabaseRestoreResponse.from_dictionary(
             resp
         )

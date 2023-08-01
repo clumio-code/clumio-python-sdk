@@ -1,3 +1,6 @@
+## 0.13.0
+New API added for S3 data source.
+
 ## 0.12.0
 New APIs added for EC2MSSQL.
 
