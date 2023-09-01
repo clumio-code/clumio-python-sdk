@@ -47,6 +47,9 @@ class ReadAWSConnectionResponse:
             The configuration of the Clumio Discover product for this connection.
             If this connection is not configured for Clumio Discover, then this field has a
             value of `null`.
+        external_id:
+            Clumio assigned external ID of the connection or of the associated connection
+            group.
         p_id:
             The Clumio-assigned ID of the connection.
         namespace:
@@ -63,8 +66,9 @@ class ReadAWSConnectionResponse:
             has a
             value of `null`.
         protect_asset_types_enabled:
-            The asset types enabled for protect.
+            The asset types for which Clumio protect is enabled.
             Valid values are any of ["EBS", "RDS", "DynamoDB", "EC2MSSQL", "S3"].
+            If an empty list is provided, all assets are selected for protection.
         services_enabled:
             The services to be enabled for this configuration. Valid values are
             ["discover"], ["discover", "protect"]. This is only set when the
@@ -97,6 +101,7 @@ class ReadAWSConnectionResponse:
         'created_timestamp': 'created_timestamp',
         'description': 'description',
         'discover': 'discover',
+        'external_id': 'external_id',
         'p_id': 'id',
         'namespace': 'namespace',
         'organizational_unit_id': 'organizational_unit_id',
@@ -122,6 +127,7 @@ class ReadAWSConnectionResponse:
         created_timestamp: str = None,
         description: str = None,
         discover: discover_config.DiscoverConfig = None,
+        external_id: str = None,
         p_id: str = None,
         namespace: str = None,
         organizational_unit_id: str = None,
@@ -147,6 +153,7 @@ class ReadAWSConnectionResponse:
         self.created_timestamp: str = created_timestamp
         self.description: str = description
         self.discover: discover_config.DiscoverConfig = discover
+        self.external_id: str = external_id
         self.p_id: str = p_id
         self.namespace: str = namespace
         self.organizational_unit_id: str = organizational_unit_id
@@ -203,6 +210,7 @@ class ReadAWSConnectionResponse:
             else None
         )
 
+        external_id = dictionary.get('external_id')
         p_id = dictionary.get('id')
         namespace = dictionary.get('namespace')
         organizational_unit_id = dictionary.get('organizational_unit_id')
@@ -232,6 +240,7 @@ class ReadAWSConnectionResponse:
             created_timestamp,
             description,
             discover,
+            external_id,
             p_id,
             namespace,
             organizational_unit_id,

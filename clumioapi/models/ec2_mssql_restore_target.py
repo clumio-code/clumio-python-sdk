@@ -33,7 +33,8 @@ class EC2MSSQLRestoreTarget:
             `C:\\Programe Files\\clumio\restored-log-files\\`. If this field is empty, we
             will restore log files into the same location as the source database.
         restore_as_new_database:
-            The boolean value represent if restore is database as a new database.
+            The boolean value representing if the database has to be restored as new
+            database.
     """
 
     # Create a mapping from Model property names to API property names

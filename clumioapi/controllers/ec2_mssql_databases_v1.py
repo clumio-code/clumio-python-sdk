@@ -101,6 +101,11 @@ class Ec2MssqlDatabasesV1Controller(base_controller.BaseController):
                 | type                      | $eq              | Filter Database whose type is |
                 |                           |                  | equal to the given string.    |
                 +---------------------------+------------------+-------------------------------+
+                | account_ids               | $in              | Filter databases which belong |
+                |                           |                  | to any one or more of the     |
+                |                           |                  | accounts in the list of       |
+                |                           |                  | account_ids.                  |
+                +---------------------------+------------------+-------------------------------+
 
             embed:
                 Embeds the details of an associated resource. Set the parameter to one of the

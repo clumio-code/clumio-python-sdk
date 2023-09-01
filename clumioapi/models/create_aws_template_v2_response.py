@@ -20,6 +20,8 @@ class CreateAWSTemplateV2Response:
             The latest available URL for the template.
         config:
             The configuration of the given template
+        deployable_cloudformation_url:
+            The latest available URL for the deployable template.
         terraform_url:
             The latest available URL for the terraform template.
     """
@@ -29,6 +31,7 @@ class CreateAWSTemplateV2Response:
         'links': '_links',
         'cloudformation_url': 'cloudformation_url',
         'config': 'config',
+        'deployable_cloudformation_url': 'deployable_cloudformation_url',
         'terraform_url': 'terraform_url',
     }
 
@@ -37,6 +40,7 @@ class CreateAWSTemplateV2Response:
         links: template_links.TemplateLinks = None,
         cloudformation_url: str = None,
         config: template_configuration_v2.TemplateConfigurationV2 = None,
+        deployable_cloudformation_url: str = None,
         terraform_url: str = None,
     ) -> None:
         """Constructor for the CreateAWSTemplateV2Response class."""
@@ -45,6 +49,7 @@ class CreateAWSTemplateV2Response:
         self.links: template_links.TemplateLinks = links
         self.cloudformation_url: str = cloudformation_url
         self.config: template_configuration_v2.TemplateConfigurationV2 = config
+        self.deployable_cloudformation_url: str = deployable_cloudformation_url
         self.terraform_url: str = terraform_url
 
     @classmethod
@@ -78,6 +83,7 @@ class CreateAWSTemplateV2Response:
             else None
         )
 
+        deployable_cloudformation_url = dictionary.get('deployable_cloudformation_url')
         terraform_url = dictionary.get('terraform_url')
         # Return an object of this model
-        return cls(links, cloudformation_url, config, terraform_url)
+        return cls(links, cloudformation_url, config, deployable_cloudformation_url, terraform_url)

@@ -1,12 +1,17 @@
 #
 # Copyright 2021. Clumio, Inc.
 #
-
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
+from clumioapi.exceptions import clumio_exception
 from clumioapi.models import on_demand_setting
 
 T = TypeVar('T', bound='CreateBackupMssqlDatabaseV1Request')
+
+TypeValues = [
+    'mssql_database_backup',
+    'mssql_log_backup',
+]
 
 
 class CreateBackupMssqlDatabaseV1Request:
@@ -36,6 +41,12 @@ class CreateBackupMssqlDatabaseV1Request:
         # Initialize members of the class
         self.asset_id: str = asset_id
         self.settings: on_demand_setting.OnDemandSetting = settings
+
+        if p_type not in TypeValues:
+            raise clumio_exception.ClumioException(
+                f'Invalid value for p_type: { p_type }. Valid values are { TypeValues }.',
+                None,
+            )
         self.p_type: str = p_type
 
     @classmethod

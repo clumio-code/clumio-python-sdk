@@ -27,6 +27,8 @@ class PolicyOperationInput:
         advanced_settings:
             Additional operation-specific policy settings. For operation types which do not
             support additional settings, this field is `null`.
+        backup_aws_region:
+            The region in which to store backup data for this policy operation.
         backup_window:
             The start and end times of the customized backup window. Use of `backup_window`
             is deprecated, use `backup_window_tz` instead.
@@ -47,6 +49,7 @@ class PolicyOperationInput:
     _names = {
         'action_setting': 'action_setting',
         'advanced_settings': 'advanced_settings',
+        'backup_aws_region': 'backup_aws_region',
         'backup_window': 'backup_window',
         'backup_window_tz': 'backup_window_tz',
         'slas': 'slas',
@@ -57,6 +60,7 @@ class PolicyOperationInput:
         self,
         action_setting: str = None,
         advanced_settings: policy_advanced_settings.PolicyAdvancedSettings = None,
+        backup_aws_region: str = None,
         backup_window: backup_window.BackupWindow = None,
         backup_window_tz: backup_window.BackupWindow = None,
         slas: Sequence[backup_sla.BackupSLA] = None,
@@ -67,6 +71,7 @@ class PolicyOperationInput:
         # Initialize members of the class
         self.action_setting: str = action_setting
         self.advanced_settings: policy_advanced_settings.PolicyAdvancedSettings = advanced_settings
+        self.backup_aws_region: str = backup_aws_region
         self.backup_window: backup_window.BackupWindow = backup_window
         self.backup_window_tz: backup_window.BackupWindow = backup_window_tz
         self.slas: Sequence[backup_sla.BackupSLA] = slas
@@ -96,6 +101,7 @@ class PolicyOperationInput:
             else None
         )
 
+        backup_aws_region = dictionary.get('backup_aws_region')
         key = 'backup_window'
         p_backup_window = (
             backup_window.BackupWindow.from_dictionary(dictionary.get(key))
@@ -119,5 +125,11 @@ class PolicyOperationInput:
         p_type = dictionary.get('type')
         # Return an object of this model
         return cls(
-            action_setting, advanced_settings, p_backup_window, backup_window_tz, slas, p_type
+            action_setting,
+            advanced_settings,
+            backup_aws_region,
+            p_backup_window,
+            backup_window_tz,
+            slas,
+            p_type,
         )

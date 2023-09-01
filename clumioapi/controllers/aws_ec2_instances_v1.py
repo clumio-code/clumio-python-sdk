@@ -56,6 +56,17 @@ class AwsEc2InstancesV1Controller(base_controller.BaseController):
                 | environment_id            | $eq              | The Clumio-assigned ID of the |
                 |                           |                  | AWS environment.              |
                 +---------------------------+------------------+-------------------------------+
+                | name                      | $contains, $eq   | The AWS-assigned name of this |
+                |                           |                  | resource to conditionalize    |
+                |                           |                  | on. For example, filter={"nam |
+                |                           |                  | e":{"$contains":"dev"}}       |
+                |                           |                  | retrieves all EC2 instances   |
+                |                           |                  | with "dev" in their name.     |
+                |                           |                  | filter={"name":{"$eq":"dev"}} |
+                |                           |                  | retrieves only EC2 instances  |
+                |                           |                  | with names that exactly match |
+                |                           |                  | "dev"                         |
+                +---------------------------+------------------+-------------------------------+
                 | instance_native_id        | $eq              | The AWS-assigned ID of the    |
                 |                           |                  | EC2 instance. For example, fi |
                 |                           |                  | lter={"instance_native_id":{" |

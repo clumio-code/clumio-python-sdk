@@ -27,6 +27,8 @@ class ProtectionGroupBucket:
             Whether this bucket was added to this protection group by the user
         aws_region:
             The AWS region associated with the DynamoDB table.
+        backup_target_aws_region:
+            The backup target AWS region associated with the protection group S3 asset.
         bucket_id:
             The Clumio-assigned ID of the bucket
         bucket_name:
@@ -53,8 +55,6 @@ class ProtectionGroupBucket:
             Time of the last backup in RFC-3339 format.
         last_continuous_backup_timestamp:
             Time of the last successful continuous backup in RFC-3339 format.
-        last_discover_sync_timestamp:
-            Time of the last discover sync in RFC-3339 format.
         organizational_unit_id:
             The Clumio-assigned ID of the organizational unit associated with the protection
             group.
@@ -87,6 +87,7 @@ class ProtectionGroupBucket:
         'added_by_bucket_rule': 'added_by_bucket_rule',
         'added_by_user': 'added_by_user',
         'aws_region': 'aws_region',
+        'backup_target_aws_region': 'backup_target_aws_region',
         'bucket_id': 'bucket_id',
         'bucket_name': 'bucket_name',
         'compliance_status': 'compliance_status',
@@ -98,7 +99,6 @@ class ProtectionGroupBucket:
         'is_deleted': 'is_deleted',
         'last_backup_timestamp': 'last_backup_timestamp',
         'last_continuous_backup_timestamp': 'last_continuous_backup_timestamp',
-        'last_discover_sync_timestamp': 'last_discover_sync_timestamp',
         'organizational_unit_id': 'organizational_unit_id',
         'protection_info': 'protection_info',
         'protection_status': 'protection_status',
@@ -115,6 +115,7 @@ class ProtectionGroupBucket:
         added_by_bucket_rule: bool = None,
         added_by_user: bool = None,
         aws_region: str = None,
+        backup_target_aws_region: str = None,
         bucket_id: str = None,
         bucket_name: str = None,
         compliance_status: str = None,
@@ -126,7 +127,6 @@ class ProtectionGroupBucket:
         is_deleted: bool = None,
         last_backup_timestamp: str = None,
         last_continuous_backup_timestamp: str = None,
-        last_discover_sync_timestamp: str = None,
         organizational_unit_id: str = None,
         protection_info: protection_info_with_rule.ProtectionInfoWithRule = None,
         protection_status: str = None,
@@ -143,6 +143,7 @@ class ProtectionGroupBucket:
         self.added_by_bucket_rule: bool = added_by_bucket_rule
         self.added_by_user: bool = added_by_user
         self.aws_region: str = aws_region
+        self.backup_target_aws_region: str = backup_target_aws_region
         self.bucket_id: str = bucket_id
         self.bucket_name: str = bucket_name
         self.compliance_status: str = compliance_status
@@ -154,7 +155,6 @@ class ProtectionGroupBucket:
         self.is_deleted: bool = is_deleted
         self.last_backup_timestamp: str = last_backup_timestamp
         self.last_continuous_backup_timestamp: str = last_continuous_backup_timestamp
-        self.last_discover_sync_timestamp: str = last_discover_sync_timestamp
         self.organizational_unit_id: str = organizational_unit_id
         self.protection_info: protection_info_with_rule.ProtectionInfoWithRule = protection_info
         self.protection_status: str = protection_status
@@ -200,6 +200,7 @@ class ProtectionGroupBucket:
         added_by_bucket_rule = dictionary.get('added_by_bucket_rule')
         added_by_user = dictionary.get('added_by_user')
         aws_region = dictionary.get('aws_region')
+        backup_target_aws_region = dictionary.get('backup_target_aws_region')
         bucket_id = dictionary.get('bucket_id')
         bucket_name = dictionary.get('bucket_name')
         compliance_status = dictionary.get('compliance_status')
@@ -211,7 +212,6 @@ class ProtectionGroupBucket:
         is_deleted = dictionary.get('is_deleted')
         last_backup_timestamp = dictionary.get('last_backup_timestamp')
         last_continuous_backup_timestamp = dictionary.get('last_continuous_backup_timestamp')
-        last_discover_sync_timestamp = dictionary.get('last_discover_sync_timestamp')
         organizational_unit_id = dictionary.get('organizational_unit_id')
         key = 'protection_info'
         protection_info = (
@@ -232,6 +232,7 @@ class ProtectionGroupBucket:
             added_by_bucket_rule,
             added_by_user,
             aws_region,
+            backup_target_aws_region,
             bucket_id,
             bucket_name,
             compliance_status,
@@ -243,7 +244,6 @@ class ProtectionGroupBucket:
             is_deleted,
             last_backup_timestamp,
             last_continuous_backup_timestamp,
-            last_discover_sync_timestamp,
             organizational_unit_id,
             protection_info,
             protection_status,

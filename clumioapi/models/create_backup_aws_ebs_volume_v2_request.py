@@ -1,12 +1,18 @@
 #
 # Copyright 2021. Clumio, Inc.
 #
-
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
+from clumioapi.exceptions import clumio_exception
 from clumioapi.models import on_demand_setting
 
 T = TypeVar('T', bound='CreateBackupAwsEbsVolumeV2Request')
+
+TypeValues = [
+    '',
+    'clumio_backup',
+    'aws_snapshot',
+]
 
 
 class CreateBackupAwsEbsVolumeV2Request:
@@ -35,6 +41,12 @@ class CreateBackupAwsEbsVolumeV2Request:
 
         # Initialize members of the class
         self.settings: on_demand_setting.OnDemandSetting = settings
+
+        if p_type not in TypeValues:
+            raise clumio_exception.ClumioException(
+                f'Invalid value for p_type: { p_type }. Valid values are { TypeValues }.',
+                None,
+            )
         self.p_type: str = p_type
         self.volume_id: str = volume_id
 

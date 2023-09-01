@@ -21,6 +21,9 @@ class ReadProtectionGroupResponse:
             Embedded responses related to the resource.
         links:
             URLs to pages related to the resource.
+        backup_target_aws_region:
+            The backup target AWS region associated with the protection group, empty if
+            in-region or not configured.
         bucket_count:
             Number of buckets
         bucket_rule:
@@ -45,12 +48,14 @@ class ReadProtectionGroupResponse:
             The user-assigned description of the protection group.
         p_id:
             The Clumio-assigned ID of the protection group.
+        is_backup_target_region_configured:
+            Whether the protection group already has a backup target configured by a policy,
+            or
+            is open to be protected by an in-region or out-of-region S3 policy.
         last_backup_timestamp:
             Time of the last backup in RFC-3339 format.
         last_continuous_backup_timestamp:
             Time of the last successful continuous backup in RFC-3339 format.
-        last_discover_sync_timestamp:
-            Time of the last discover sync in RFC-3339 format.
         modified_timestamp:
             Modified time of the protection group in RFC-3339 format.
         name:
@@ -89,15 +94,16 @@ class ReadProtectionGroupResponse:
     _names = {
         'embedded': '_embedded',
         'links': '_links',
+        'backup_target_aws_region': 'backup_target_aws_region',
         'bucket_count': 'bucket_count',
         'bucket_rule': 'bucket_rule',
         'compliance_stats': 'compliance_stats',
         'created_timestamp': 'created_timestamp',
         'description': 'description',
         'p_id': 'id',
+        'is_backup_target_region_configured': 'is_backup_target_region_configured',
         'last_backup_timestamp': 'last_backup_timestamp',
         'last_continuous_backup_timestamp': 'last_continuous_backup_timestamp',
-        'last_discover_sync_timestamp': 'last_discover_sync_timestamp',
         'modified_timestamp': 'modified_timestamp',
         'name': 'name',
         'object_filter': 'object_filter',
@@ -114,15 +120,16 @@ class ReadProtectionGroupResponse:
         self,
         embedded: protection_group_embedded.ProtectionGroupEmbedded = None,
         links: protection_group_links.ProtectionGroupLinks = None,
+        backup_target_aws_region: str = None,
         bucket_count: int = None,
         bucket_rule: str = None,
         compliance_stats: protection_compliance_stats_with_seeding.ProtectionComplianceStatsWithSeeding = None,
         created_timestamp: str = None,
         description: str = None,
         p_id: str = None,
+        is_backup_target_region_configured: bool = None,
         last_backup_timestamp: str = None,
         last_continuous_backup_timestamp: str = None,
-        last_discover_sync_timestamp: str = None,
         modified_timestamp: str = None,
         name: str = None,
         object_filter: object_filter.ObjectFilter = None,
@@ -139,6 +146,7 @@ class ReadProtectionGroupResponse:
         # Initialize members of the class
         self.embedded: protection_group_embedded.ProtectionGroupEmbedded = embedded
         self.links: protection_group_links.ProtectionGroupLinks = links
+        self.backup_target_aws_region: str = backup_target_aws_region
         self.bucket_count: int = bucket_count
         self.bucket_rule: str = bucket_rule
         self.compliance_stats: protection_compliance_stats_with_seeding.ProtectionComplianceStatsWithSeeding = (
@@ -147,9 +155,9 @@ class ReadProtectionGroupResponse:
         self.created_timestamp: str = created_timestamp
         self.description: str = description
         self.p_id: str = p_id
+        self.is_backup_target_region_configured: bool = is_backup_target_region_configured
         self.last_backup_timestamp: str = last_backup_timestamp
         self.last_continuous_backup_timestamp: str = last_continuous_backup_timestamp
-        self.last_discover_sync_timestamp: str = last_discover_sync_timestamp
         self.modified_timestamp: str = modified_timestamp
         self.name: str = name
         self.object_filter: object_filter.ObjectFilter = object_filter
@@ -191,6 +199,7 @@ class ReadProtectionGroupResponse:
             else None
         )
 
+        backup_target_aws_region = dictionary.get('backup_target_aws_region')
         bucket_count = dictionary.get('bucket_count')
         bucket_rule = dictionary.get('bucket_rule')
         key = 'compliance_stats'
@@ -205,9 +214,9 @@ class ReadProtectionGroupResponse:
         created_timestamp = dictionary.get('created_timestamp')
         description = dictionary.get('description')
         p_id = dictionary.get('id')
+        is_backup_target_region_configured = dictionary.get('is_backup_target_region_configured')
         last_backup_timestamp = dictionary.get('last_backup_timestamp')
         last_continuous_backup_timestamp = dictionary.get('last_continuous_backup_timestamp')
-        last_discover_sync_timestamp = dictionary.get('last_discover_sync_timestamp')
         modified_timestamp = dictionary.get('modified_timestamp')
         name = dictionary.get('name')
         key = 'object_filter'
@@ -234,15 +243,16 @@ class ReadProtectionGroupResponse:
         return cls(
             embedded,
             links,
+            backup_target_aws_region,
             bucket_count,
             bucket_rule,
             compliance_stats,
             created_timestamp,
             description,
             p_id,
+            is_backup_target_region_configured,
             last_backup_timestamp,
             last_continuous_backup_timestamp,
-            last_discover_sync_timestamp,
             modified_timestamp,
             name,
             p_object_filter,

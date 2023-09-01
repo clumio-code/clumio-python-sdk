@@ -15,6 +15,8 @@ class ProtectionGroupS3AssetBackup:
     Attributes:
         links:
             URLs to pages related to the resource.
+        aws_region:
+            The AWS region in which the instance backup resides. For example, `us-west-2`.
         backed_up_object_count:
             The number of objects in the protection group S3 asset that were successfully
             backed up.
@@ -50,6 +52,7 @@ class ProtectionGroupS3AssetBackup:
     # Create a mapping from Model property names to API property names
     _names = {
         'links': '_links',
+        'aws_region': 'aws_region',
         'backed_up_object_count': 'backed_up_object_count',
         'backed_up_size_bytes': 'backed_up_size_bytes',
         'bucket_id': 'bucket_id',
@@ -68,6 +71,7 @@ class ProtectionGroupS3AssetBackup:
     def __init__(
         self,
         links: protection_group_s3_asset_backup_links.ProtectionGroupS3AssetBackupLinks = None,
+        aws_region: str = None,
         backed_up_object_count: int = None,
         backed_up_size_bytes: int = None,
         bucket_id: str = None,
@@ -86,6 +90,7 @@ class ProtectionGroupS3AssetBackup:
 
         # Initialize members of the class
         self.links: protection_group_s3_asset_backup_links.ProtectionGroupS3AssetBackupLinks = links
+        self.aws_region: str = aws_region
         self.backed_up_object_count: int = backed_up_object_count
         self.backed_up_size_bytes: int = backed_up_size_bytes
         self.bucket_id: str = bucket_id
@@ -125,6 +130,7 @@ class ProtectionGroupS3AssetBackup:
             else None
         )
 
+        aws_region = dictionary.get('aws_region')
         backed_up_object_count = dictionary.get('backed_up_object_count')
         backed_up_size_bytes = dictionary.get('backed_up_size_bytes')
         bucket_id = dictionary.get('bucket_id')
@@ -141,6 +147,7 @@ class ProtectionGroupS3AssetBackup:
         # Return an object of this model
         return cls(
             links,
+            aws_region,
             backed_up_object_count,
             backed_up_size_bytes,
             bucket_id,
