@@ -56,10 +56,16 @@ class AwsEbsVolumesV1Controller(base_controller.BaseController):
                 | environment_id            | $eq              | The Clumio-assigned ID of the |
                 |                           |                  | AWS environment.              |
                 +---------------------------+------------------+-------------------------------+
-                | volume_native_id          | $eq              | The AWS-assigned ID of the    |
-                |                           |                  | EBS volume. For example, filt |
-                |                           |                  | er={"volume_native_id":{"$eq" |
-                |                           |                  | :"vol-06aa02a849fe376d9"}}    |
+                | volume_native_id          | $eq, $contains   | The AWS-assigned ID of the    |
+                |                           |                  | EBS volume.                   |
+                |                           |                  | For example, filter={"volume_ |
+                |                           |                  | native_id":{"$eq":"vol-       |
+                |                           |                  | 06aa02a849fe376d9"}} or filte |
+                |                           |                  | r={"volume_native_id":{"$cont |
+                |                           |                  | ains":"02a849"}}              |
+                |                           |                  | Both filter operations cannot |
+                |                           |                  | be used simultaneously.       |
+                |                           |                  |                               |
                 +---------------------------+------------------+-------------------------------+
                 | account_native_id         | $eq              | The AWS-assigned ID of the    |
                 |                           |                  | AWS account. For example, fil |
@@ -107,11 +113,13 @@ class AwsEbsVolumesV1Controller(base_controller.BaseController):
                 |                           |                  | all of them must be applied   |
                 |                           |                  | to the same EBS volume.       |
                 +---------------------------+------------------+-------------------------------+
-                | is_deleted                | $eq              | The deletion status of the    |
+                | is_deleted                | $eq,$in          | The deletion status of the    |
                 |                           |                  | EBS volume. Set to "true" to  |
                 |                           |                  | retrieve deleted EBS volumes. |
                 |                           |                  | For example, filter={"is_dele |
-                |                           |                  | ted":{"$eq":true}}            |
+                |                           |                  | ted":{"$eq":true}} filter={"i |
+                |                           |                  | s_deleted":{"$in":["true","fa |
+                |                           |                  | lse"]}}                       |
                 +---------------------------+------------------+-------------------------------+
 
             embed:

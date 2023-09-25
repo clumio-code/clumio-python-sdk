@@ -80,11 +80,12 @@ class AwsS3BucketsV1Controller(base_controller.BaseController):
                 |                        |                  | filter={"aws_region":{"$eq":"us- |
                 |                        |                  | east-1"}}                        |
                 +------------------------+------------------+----------------------------------+
-                | is_deleted             | $eq              | The deletion status of the       |
+                | is_deleted             | $eq,$in          | The deletion status of the       |
                 |                        |                  | bucket. Set to "true" to         |
                 |                        |                  | retrieve deleted buckets. For    |
                 |                        |                  | example, filter={"is_deleted":{" |
-                |                        |                  | $eq":true}}                      |
+                |                        |                  | $eq":true}} filter={"is_deleted" |
+                |                        |                  | :{"$in":["true","false"]}}       |
                 +------------------------+------------------+----------------------------------+
                 | tags.id                | $all             | The Clumio-assigned ID(s) of AWS |
                 |                        |                  | tag(s) applied to this resource. |

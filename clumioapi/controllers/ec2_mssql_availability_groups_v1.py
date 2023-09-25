@@ -75,6 +75,10 @@ class Ec2MssqlAvailabilityGroupsV1Controller(base_controller.BaseController):
                 | host_id                   | $eq              | The Clumio-assigned ID of the |
                 |                           |                  | host id.                      |
                 +---------------------------+------------------+-------------------------------+
+                | account_ids               | $in              | Filter AG which belong to any |
+                |                           |                  | one or more of the accounts   |
+                |                           |                  | in the list of account_ids.   |
+                +---------------------------+------------------+-------------------------------+
 
         Returns:
             requests.Response: Raw Response from the API if config.raw_response is set to True.

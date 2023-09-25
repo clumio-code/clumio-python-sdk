@@ -20,7 +20,8 @@ class OnDemandSetting:
             Additional operation-specific policy settings. For operation types which do not
             support additional settings, this field is `null`.
         backup_aws_region:
-            Specifies the destination vault for AWS backups.
+            The region in which this backup is stored. This might be used for cross-region
+            backup.
         retention_duration:
             The retention time for this SLA. For example, to retain the backup for 1 month,
             set `unit="months"` and `value=1`.

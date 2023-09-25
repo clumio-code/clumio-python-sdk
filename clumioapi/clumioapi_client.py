@@ -65,6 +65,7 @@ from clumioapi.controllers import restored_aws_ec2_instances_v1
 from clumioapi.controllers import restored_aws_rds_resources_v1
 from clumioapi.controllers import restored_files_v1
 from clumioapi.controllers import restored_mssql_databases_v1
+from clumioapi.controllers import restored_protection_group_instant_access_endpoints_v1
 from clumioapi.controllers import restored_protection_group_s3_assets_v1
 from clumioapi.controllers import restored_protection_groups_v1
 from clumioapi.controllers import restored_records_aws_dynamodb_tables_v1
@@ -574,6 +575,17 @@ class ClumioAPIClient:
         self,
     ) -> restored_protection_groups_v1.RestoredProtectionGroupsV1Controller:
         return restored_protection_groups_v1.RestoredProtectionGroupsV1Controller(self.config)
+
+    @property
+    @functools.lru_cache(1)
+    def restored_protection_group_instant_access_endpoints_v1(
+        self,
+    ) -> (
+        restored_protection_group_instant_access_endpoints_v1.RestoredProtectionGroupInstantAccessEndpointsV1Controller
+    ):
+        return restored_protection_group_instant_access_endpoints_v1.RestoredProtectionGroupInstantAccessEndpointsV1Controller(
+            self.config
+        )
 
     @property
     @functools.lru_cache(1)

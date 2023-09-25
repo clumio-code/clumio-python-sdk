@@ -63,12 +63,14 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
                 +---------------------------+------------------+-------------------------------+
                 |           Field           | Filter Condition |          Description          |
                 +===========================+==================+===============================+
-                | is_deleted                | $eq              | The deletion status of the    |
+                | is_deleted                | $eq,$in          | The deletion status of the    |
                 |                           |                  | protection group. Set to      |
                 |                           |                  | "true" to retrieve deleted    |
                 |                           |                  | protection group. For         |
                 |                           |                  | example, filter={"is_deleted" |
-                |                           |                  | :{"$eq":true}}                |
+                |                           |                  | :{"$eq":true}} filter={"is_de |
+                |                           |                  | leted":{"$in":["true","false" |
+                |                           |                  | ]}}                           |
                 +---------------------------+------------------+-------------------------------+
                 | name                      | $contains, $eq   | The AWS-assigned name of this |
                 |                           |                  | resource, can use either the  |

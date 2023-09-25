@@ -27,9 +27,9 @@ class ReadAWSConnectionResponse:
         aws_region:
             The AWS region associated with the connection. For example, `us-east-1`.
         clumio_aws_account_id:
-            AWS AccountId of Clumio Control Plane
+            AWS account ID of the Clumio control plane.
         clumio_aws_region:
-            AWS Region of Clumio Control Plane
+            AWS region of the Clumio control plane
         config:
             The consolidated configuration of the Clumio Cloud Protect and Clumio Cloud
             Discover products for this connection.
@@ -41,12 +41,17 @@ class ReadAWSConnectionResponse:
             "connected", and "unlinked".
         created_timestamp:
             The timestamp of when the connection was created.
+        data_plane_account_id:
+            AWS account ID of the data plane for the connection.
         description:
             The user-provided description for this connection.
         discover:
             The configuration of the Clumio Discover product for this connection.
             If this connection is not configured for Clumio Discover, then this field has a
             value of `null`.
+        external_id:
+            Clumio assigned external ID of the connection or of the associated connection
+            group.
         p_id:
             The Clumio-assigned ID of the connection.
         namespace:
@@ -63,8 +68,9 @@ class ReadAWSConnectionResponse:
             has a
             value of `null`.
         protect_asset_types_enabled:
-            The asset types enabled for protect.
+            The asset types for which Clumio protect is enabled.
             Valid values are any of ["EBS", "RDS", "DynamoDB", "EC2MSSQL", "S3"].
+            If an empty list is provided, all assets are selected for protection.
         services_enabled:
             The services to be enabled for this configuration. Valid values are
             ["discover"], ["discover", "protect"]. This is only set when the
@@ -95,8 +101,10 @@ class ReadAWSConnectionResponse:
         'config': 'config',
         'connection_status': 'connection_status',
         'created_timestamp': 'created_timestamp',
+        'data_plane_account_id': 'data_plane_account_id',
         'description': 'description',
         'discover': 'discover',
+        'external_id': 'external_id',
         'p_id': 'id',
         'namespace': 'namespace',
         'organizational_unit_id': 'organizational_unit_id',
@@ -120,8 +128,10 @@ class ReadAWSConnectionResponse:
         config: consolidated_config.ConsolidatedConfig = None,
         connection_status: str = None,
         created_timestamp: str = None,
+        data_plane_account_id: str = None,
         description: str = None,
         discover: discover_config.DiscoverConfig = None,
+        external_id: str = None,
         p_id: str = None,
         namespace: str = None,
         organizational_unit_id: str = None,
@@ -145,8 +155,10 @@ class ReadAWSConnectionResponse:
         self.config: consolidated_config.ConsolidatedConfig = config
         self.connection_status: str = connection_status
         self.created_timestamp: str = created_timestamp
+        self.data_plane_account_id: str = data_plane_account_id
         self.description: str = description
         self.discover: discover_config.DiscoverConfig = discover
+        self.external_id: str = external_id
         self.p_id: str = p_id
         self.namespace: str = namespace
         self.organizational_unit_id: str = organizational_unit_id
@@ -195,6 +207,7 @@ class ReadAWSConnectionResponse:
 
         connection_status = dictionary.get('connection_status')
         created_timestamp = dictionary.get('created_timestamp')
+        data_plane_account_id = dictionary.get('data_plane_account_id')
         description = dictionary.get('description')
         key = 'discover'
         discover = (
@@ -203,6 +216,7 @@ class ReadAWSConnectionResponse:
             else None
         )
 
+        external_id = dictionary.get('external_id')
         p_id = dictionary.get('id')
         namespace = dictionary.get('namespace')
         organizational_unit_id = dictionary.get('organizational_unit_id')
@@ -230,8 +244,10 @@ class ReadAWSConnectionResponse:
             config,
             connection_status,
             created_timestamp,
+            data_plane_account_id,
             description,
             discover,
+            external_id,
             p_id,
             namespace,
             organizational_unit_id,

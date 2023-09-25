@@ -122,10 +122,12 @@ class AwsDynamodbTablesV1Controller(base_controller.BaseController):
                 |                           |                  | non_compliant.                |
                 |                           |                  |                               |
                 +---------------------------+------------------+-------------------------------+
-                | is_deleted                | $eq              | The deletion status of this   |
+                | is_deleted                | $eq,$in          | The deletion status of this   |
                 |                           |                  | resource. If not specified,   |
                 |                           |                  | retrieves only active         |
-                |                           |                  | DynamoDB tables.              |
+                |                           |                  | DynamoDB tables. filter={"is_ |
+                |                           |                  | deleted":{"$in":["true","fals |
+                |                           |                  | e"]}}                         |
                 +---------------------------+------------------+-------------------------------+
 
             embed:

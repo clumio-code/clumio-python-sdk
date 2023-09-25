@@ -64,6 +64,7 @@ __all__ = [
     'restored_aws_rds_resources_v1',
     'restored_files_v1',
     'restored_mssql_databases_v1',
+    'restored_protection_group_instant_access_endpoints_v1',
     'restored_protection_group_s3_assets_v1',
     'restored_protection_groups_v1',
     'restored_records_aws_dynamodb_tables_v1',
