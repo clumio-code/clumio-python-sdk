@@ -128,10 +128,11 @@ class AwsRdsResourcesV1Controller(base_controller.BaseController):
                 |                           |                  | non_compliant.                |
                 |                           |                  |                               |
                 +---------------------------+------------------+-------------------------------+
-                | is_deleted                | $eq              | The deletion status of this   |
+                | is_deleted                | $eq,$in          | The deletion status of this   |
                 |                           |                  | resource. If not specified,   |
                 |                           |                  | retrieves only active RDS     |
-                |                           |                  | resources.                    |
+                |                           |                  | resources. filter={"is_delete |
+                |                           |                  | d":{"$in":["true","false"]}}  |
                 +---------------------------+------------------+-------------------------------+
 
             embed:

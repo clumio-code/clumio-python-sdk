@@ -91,10 +91,12 @@ class ProtectionGroupsS3AssetsV1Controller(base_controller.BaseController):
                 | environment_id            | $eq              | The Clumio-assigned ID of the |
                 |                           |                  | AWS environment.              |
                 +---------------------------+------------------+-------------------------------+
-                | is_deleted                | $eq              | The deletion status of this   |
+                | is_deleted                | $eq,$in          | The deletion status of this   |
                 |                           |                  | resource. If not specified,   |
                 |                           |                  | retrieves only active         |
-                |                           |                  | protection group buckets.     |
+                |                           |                  | protection group buckets. fil |
+                |                           |                  | ter={"is_deleted":{"$in":["tr |
+                |                           |                  | ue","false"]}}                |
                 +---------------------------+------------------+-------------------------------+
                 | protection_group_id       | $eq              | The Clumio-assigned ID of the |
                 |                           |                  | protection group of this      |

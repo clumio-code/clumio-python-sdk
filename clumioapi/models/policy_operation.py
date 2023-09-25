@@ -27,6 +27,9 @@ class PolicyOperation:
         advanced_settings:
             Additional operation-specific policy settings. For operation types which do not
             support additional settings, this field is `null`.
+        backup_aws_region:
+            The region in which this backup is stored. This might be used for cross-region
+            backup.
         backup_window:
             The start and end times of the customized backup window. Use of `backup_window`
             is deprecated, use `backup_window_tz` instead.
@@ -51,6 +54,7 @@ class PolicyOperation:
     _names = {
         'action_setting': 'action_setting',
         'advanced_settings': 'advanced_settings',
+        'backup_aws_region': 'backup_aws_region',
         'backup_window': 'backup_window',
         'backup_window_tz': 'backup_window_tz',
         'next_start_time': 'next_start_time',
@@ -63,6 +67,7 @@ class PolicyOperation:
         self,
         action_setting: str = None,
         advanced_settings: policy_advanced_settings.PolicyAdvancedSettings = None,
+        backup_aws_region: str = None,
         backup_window: backup_window.BackupWindow = None,
         backup_window_tz: backup_window.BackupWindow = None,
         next_start_time: int = None,
@@ -75,6 +80,7 @@ class PolicyOperation:
         # Initialize members of the class
         self.action_setting: str = action_setting
         self.advanced_settings: policy_advanced_settings.PolicyAdvancedSettings = advanced_settings
+        self.backup_aws_region: str = backup_aws_region
         self.backup_window: backup_window.BackupWindow = backup_window
         self.backup_window_tz: backup_window.BackupWindow = backup_window_tz
         self.next_start_time: int = next_start_time
@@ -106,6 +112,7 @@ class PolicyOperation:
             else None
         )
 
+        backup_aws_region = dictionary.get('backup_aws_region')
         key = 'backup_window'
         p_backup_window = (
             backup_window.BackupWindow.from_dictionary(dictionary.get(key))
@@ -133,6 +140,7 @@ class PolicyOperation:
         return cls(
             action_setting,
             advanced_settings,
+            backup_aws_region,
             p_backup_window,
             backup_window_tz,
             next_start_time,

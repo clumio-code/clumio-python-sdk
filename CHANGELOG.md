@@ -1,3 +1,6 @@
+## 0.14.0
+New APIs added for Protection Group Instance Access Endpoints and updates to request and response parameters for S3 and Connection APIs.
+
 ## 0.13.0
 New API added for S3 data source.
 

@@ -56,10 +56,27 @@ class AwsEc2InstancesV1Controller(base_controller.BaseController):
                 | environment_id            | $eq              | The Clumio-assigned ID of the |
                 |                           |                  | AWS environment.              |
                 +---------------------------+------------------+-------------------------------+
-                | instance_native_id        | $eq              | The AWS-assigned ID of the    |
-                |                           |                  | EC2 instance. For example, fi |
-                |                           |                  | lter={"instance_native_id":{" |
-                |                           |                  | $eq":"i-07aa02a849fe376d0"}}  |
+                | name                      | $contains, $eq   | The AWS-assigned name of this |
+                |                           |                  | resource to conditionalize    |
+                |                           |                  | on. For example, filter={"nam |
+                |                           |                  | e":{"$contains":"dev"}}       |
+                |                           |                  | retrieves all EC2 instances   |
+                |                           |                  | with "dev" in their name.     |
+                |                           |                  | filter={"name":{"$eq":"dev"}} |
+                |                           |                  | retrieves only EC2 instances  |
+                |                           |                  | with names that exactly match |
+                |                           |                  | "dev"                         |
+                +---------------------------+------------------+-------------------------------+
+                | instance_native_id        | $eq, $contains   | The AWS-assigned ID of the    |
+                |                           |                  | EC2 instance.                 |
+                |                           |                  | For example, filter={"instanc |
+                |                           |                  | e_native_id":{"$eq":"i-       |
+                |                           |                  | 07aa02a849fe376d0"}} or filte |
+                |                           |                  | r={"instance_native_id":{"$co |
+                |                           |                  | ntains":"2a849fe37"}}         |
+                |                           |                  | Both filter operations cannot |
+                |                           |                  | be used simultaneously.       |
+                |                           |                  |                               |
                 +---------------------------+------------------+-------------------------------+
                 | account_native_id         | $eq              | The AWS-assigned ID of the    |
                 |                           |                  | AWS account. For example, fil |
@@ -99,12 +116,14 @@ class AwsEc2InstancesV1Controller(base_controller.BaseController):
                 |                           |                  | all of them must be applied   |
                 |                           |                  | to the same EC2 instance.     |
                 +---------------------------+------------------+-------------------------------+
-                | is_deleted                | $eq              | The deletion status of the    |
+                | is_deleted                | $eq,$in          | The deletion status of the    |
                 |                           |                  | EC2 instance. Default value   |
                 |                           |                  | is "false". Set to "true" to  |
                 |                           |                  | retrieve deleted EC2          |
                 |                           |                  | instance. For example, filter |
                 |                           |                  | ={"is_deleted":{"$eq":true}}  |
+                |                           |                  | filter={"is_deleted":{"$in":[ |
+                |                           |                  | "true","false"]}}             |
                 +---------------------------+------------------+-------------------------------+
                 | availability_zone         | $eq              | The AWS availability zone.    |
                 |                           |                  | For example, filter={"availab |
