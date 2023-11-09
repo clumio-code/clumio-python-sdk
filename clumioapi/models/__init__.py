@@ -1,5 +1,5 @@
 #
-# Copyright 2021. Clumio, Inc.
+# Copyright 2023. Clumio, Inc.
 #
 
 __all__ = [
@@ -54,10 +54,18 @@ __all__ = [
     'bucket_links',
     'bucket_list_embedded',
     'bucket_list_links',
+    'categorised_resources',
     'change_password_response',
     'change_password_v1_request',
     'change_password_v2_request',
     'cloud_connector_count_by_status',
+    'clumio_role_resource',
+    'clumio_rule_resource',
+    'clumio_ssm_document_inputs',
+    'clumio_ssm_document_parameter_value',
+    'clumio_ssm_document_resource',
+    'clumio_ssm_document_step',
+    'clumio_topic_resource',
     'compliance_stats_deprecated',
     'compute_resource_embedded',
     'compute_resource_id_model',
@@ -132,6 +140,7 @@ __all__ = [
     'datacenter_with_e_tag',
     'delete_bucket_from_protection_group_response',
     'delete_hcm_host_response',
+    'delete_host_response_links',
     'delete_mssql_host_connections_v1_request',
     'delete_organizational_unit_response',
     'delete_policy_response',
@@ -215,6 +224,7 @@ __all__ = [
     'ec2_mssql_database_list_embedded',
     'ec2_mssql_database_list_links',
     'ec2_mssql_database_pitr_interval',
+    'ec2_mssql_database_pitr_interval_links',
     'ec2_mssql_database_pitr_interval_list_embedded',
     'ec2_mssql_database_pitr_interval_list_links',
     'ec2_mssql_instance',
@@ -231,6 +241,7 @@ __all__ = [
     'ec2_mssql_restore_from_backup_options',
     'ec2_mssql_restore_source',
     'ec2_mssql_restore_target',
+    'ec2_mssql_restore_to_aag_options',
     'ec2_mssql_template_info',
     'ec2_mssqlag',
     'ec2_mssqlag_embedded',
@@ -466,6 +477,7 @@ __all__ = [
     'permission_model',
     'policy',
     'policy_advanced_settings',
+    'policy_details',
     'policy_embedded',
     'policy_links',
     'policy_list_embedded',
@@ -530,6 +542,7 @@ __all__ = [
     'rds_backup_database',
     'rds_backup_database_list_embedded',
     'rds_backup_database_list_links',
+    'rds_config_sync_advanced_setting',
     'rds_database_backup',
     'rds_database_backup_links',
     'rds_database_backup_list_embedded',
@@ -542,6 +555,7 @@ __all__ = [
     'rds_database_table_list_embedded',
     'rds_database_table_list_links',
     'rds_instance_model',
+    'rds_logical_backup_advanced_setting',
     'rds_logical_preview_query_result',
     'rds_resource',
     'rds_resource_embedded',

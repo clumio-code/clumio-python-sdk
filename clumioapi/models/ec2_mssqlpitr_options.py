@@ -1,5 +1,5 @@
 #
-# Copyright 2021. Clumio, Inc.
+# Copyright 2023. Clumio, Inc.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -10,7 +10,7 @@ T = TypeVar('T', bound='EC2MSSQLPITROptions')
 class EC2MSSQLPITROptions:
     """Implementation of the 'EC2MSSQLPITROptions' model.
 
-    A database and a point-in-time to be restored.
+    A database backup at a specific point-in-time to be restored.
 
     Attributes:
         database_id:

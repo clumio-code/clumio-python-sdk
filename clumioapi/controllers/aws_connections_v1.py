@@ -1,5 +1,5 @@
 #
-# Copyright 2021. Clumio, Inc.
+# Copyright 2023. Clumio, Inc.
 #
 
 import json
@@ -222,7 +222,7 @@ class AwsConnectionsV1Controller(base_controller.BaseController):
         return create_aws_connection_response.CreateAWSConnectionResponse.from_dictionary(resp)
 
     def read_aws_connection(
-        self, connection_id: str, **kwargs
+        self, connection_id: str, return_external_id: str = None, **kwargs
     ) -> Union[
         read_aws_connection_response.ReadAWSConnectionResponse,
         tuple[requests.Response, Optional[read_aws_connection_response.ReadAWSConnectionResponse]],
@@ -232,6 +232,8 @@ class AwsConnectionsV1Controller(base_controller.BaseController):
         Args:
             connection_id:
                 Performs the operation on the AWS connection with the specified ID.
+            return_external_id:
+                Returns external id along with the connection details
         Returns:
             requests.Response: Raw Response from the API if config.raw_response is set to True.
             read_aws_connection_response.ReadAWSConnectionResponse: Response from the API.
@@ -247,6 +249,7 @@ class AwsConnectionsV1Controller(base_controller.BaseController):
             _url_path, {'connection_id': connection_id}
         )
         _query_parameters = {}
+        _query_parameters = {'return_external_id': return_external_id}
 
         # Execute request
         try:

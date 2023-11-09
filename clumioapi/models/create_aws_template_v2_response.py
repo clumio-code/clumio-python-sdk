@@ -1,9 +1,10 @@
 #
-# Copyright 2021. Clumio, Inc.
+# Copyright 2023. Clumio, Inc.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
+from clumioapi.models import categorised_resources
 from clumioapi.models import template_configuration_v2
 from clumioapi.models import template_links
 
@@ -22,6 +23,9 @@ class CreateAWSTemplateV2Response:
             The configuration of the given template
         deployable_cloudformation_url:
             The latest available URL for the deployable template.
+        resources:
+            Categorised Resources, based on the generated template, to be created manually
+            by the user
         terraform_url:
             The latest available URL for the terraform template.
     """
@@ -32,6 +36,7 @@ class CreateAWSTemplateV2Response:
         'cloudformation_url': 'cloudformation_url',
         'config': 'config',
         'deployable_cloudformation_url': 'deployable_cloudformation_url',
+        'resources': 'resources',
         'terraform_url': 'terraform_url',
     }
 
@@ -41,6 +46,7 @@ class CreateAWSTemplateV2Response:
         cloudformation_url: str = None,
         config: template_configuration_v2.TemplateConfigurationV2 = None,
         deployable_cloudformation_url: str = None,
+        resources: categorised_resources.CategorisedResources = None,
         terraform_url: str = None,
     ) -> None:
         """Constructor for the CreateAWSTemplateV2Response class."""
@@ -50,6 +56,7 @@ class CreateAWSTemplateV2Response:
         self.cloudformation_url: str = cloudformation_url
         self.config: template_configuration_v2.TemplateConfigurationV2 = config
         self.deployable_cloudformation_url: str = deployable_cloudformation_url
+        self.resources: categorised_resources.CategorisedResources = resources
         self.terraform_url: str = terraform_url
 
     @classmethod
@@ -84,6 +91,20 @@ class CreateAWSTemplateV2Response:
         )
 
         deployable_cloudformation_url = dictionary.get('deployable_cloudformation_url')
+        key = 'resources'
+        resources = (
+            categorised_resources.CategorisedResources.from_dictionary(dictionary.get(key))
+            if dictionary.get(key)
+            else None
+        )
+
         terraform_url = dictionary.get('terraform_url')
         # Return an object of this model
-        return cls(links, cloudformation_url, config, deployable_cloudformation_url, terraform_url)
+        return cls(
+            links,
+            cloudformation_url,
+            config,
+            deployable_cloudformation_url,
+            resources,
+            terraform_url,
+        )

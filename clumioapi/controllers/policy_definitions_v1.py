@@ -1,5 +1,5 @@
 #
-# Copyright 2021. Clumio, Inc.
+# Copyright 2023. Clumio, Inc.
 #
 
 import json
@@ -84,6 +84,8 @@ class PolicyDefinitionsV1Controller(base_controller.BaseController):
         | microsoft365_onedrive_backup     | Microsoft365 onedrive backup.             |
         +----------------------------------+-------------------------------------------+
         | microsoft365_share_point_backup  | Microsoft365 site backup.                 |
+        +----------------------------------+-------------------------------------------+
+        | microsoft365_teams_backup        | Microsoft365 team backup.                 |
         +----------------------------------+-------------------------------------------+
         | mssql_database_backup            | VMC MSSQL database backup stored in       |
         |                                  | Clumio.                                   |

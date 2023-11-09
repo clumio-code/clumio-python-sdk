@@ -1,5 +1,5 @@
 #
-# Copyright 2021. Clumio, Inc.
+# Copyright 2023. Clumio, Inc.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -16,7 +16,7 @@ class CreateMssqlHostConnectionsV1Request:
         group_id:
 
         organizational_unit_id:
-            The Clumio-assigned ID of the organizational unit associated with the Host.
+            The Clumio-assigned ID of the organizational unit associated with the host.
         subgroup_id:
             Performs the operation on a host within the specified management subgroup.
     """

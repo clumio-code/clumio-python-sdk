@@ -1,5 +1,5 @@
 #
-# Copyright 2021. Clumio, Inc.
+# Copyright 2023. Clumio, Inc.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -13,7 +13,7 @@ T = TypeVar('T', bound='EstimateCostS3InstantAccessEndpointAsyncResponseLinks')
 class EstimateCostS3InstantAccessEndpointAsyncResponseLinks:
     """Implementation of the 'EstimateCostS3InstantAccessEndpointAsyncResponseLinks' model.
 
-    EstimateCostS3InstantAccessEndpointAsyncResponseLinks
+    URLs to pages related to the resource.
 
     Attributes:
         p_self:

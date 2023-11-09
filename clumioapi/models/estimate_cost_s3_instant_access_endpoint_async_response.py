@@ -1,5 +1,5 @@
 #
-# Copyright 2021. Clumio, Inc.
+# Copyright 2023. Clumio, Inc.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -16,7 +16,7 @@ class EstimateCostS3InstantAccessEndpointAsyncResponse:
 
     Attributes:
         links:
-            EstimateCostS3InstantAccessEndpointAsyncResponseLinks
+            URLs to pages related to the resource.
         estimate_id:
             The identifier for the requested estimate which is used to fetch results.
         task_id:

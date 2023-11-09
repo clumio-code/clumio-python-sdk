@@ -1,5 +1,5 @@
 #
-# Copyright 2021. Clumio, Inc.
+# Copyright 2023. Clumio, Inc.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -11,6 +11,8 @@ from clumioapi.models import ec2_mssql_log_backup_advanced_setting
 from clumioapi.models import mssql_database_backup_advanced_setting
 from clumioapi.models import mssql_log_backup_advanced_setting
 from clumioapi.models import protection_group_backup_advanced_setting
+from clumioapi.models import rds_config_sync_advanced_setting
+from clumioapi.models import rds_logical_backup_advanced_setting
 
 T = TypeVar('T', bound='PolicyAdvancedSettings')
 
@@ -26,6 +28,11 @@ class PolicyAdvancedSettings:
             Advanced settings for EBS backup.
         aws_ec2_instance_backup:
             Advanced settings for EC2 backup.
+        aws_rds_config_sync:
+            Advanced settings for RDS PITR configuration sync.
+        aws_rds_resource_granular_backup:
+            Settings for determining if a RDS policy is created with standard or frozen
+            tier.
         ec2_mssql_database_backup:
             Additional policy configuration settings for the `ec2_mssql_database_backup`
             operation. If this operation is not of type `ec2_mssql_database_backup`, then
@@ -52,6 +59,8 @@ class PolicyAdvancedSettings:
     _names = {
         'aws_ebs_volume_backup': 'aws_ebs_volume_backup',
         'aws_ec2_instance_backup': 'aws_ec2_instance_backup',
+        'aws_rds_config_sync': 'aws_rds_config_sync',
+        'aws_rds_resource_granular_backup': 'aws_rds_resource_granular_backup',
         'ec2_mssql_database_backup': 'ec2_mssql_database_backup',
         'ec2_mssql_log_backup': 'ec2_mssql_log_backup',
         'mssql_database_backup': 'mssql_database_backup',
@@ -63,6 +72,8 @@ class PolicyAdvancedSettings:
         self,
         aws_ebs_volume_backup: ebs_backup_advanced_setting.EBSBackupAdvancedSetting = None,
         aws_ec2_instance_backup: ec2_backup_advanced_setting.EC2BackupAdvancedSetting = None,
+        aws_rds_config_sync: rds_config_sync_advanced_setting.RDSConfigSyncAdvancedSetting = None,
+        aws_rds_resource_granular_backup: rds_logical_backup_advanced_setting.RDSLogicalBackupAdvancedSetting = None,
         ec2_mssql_database_backup: ec2_mssql_database_backup_advanced_setting.EC2MSSQLDatabaseBackupAdvancedSetting = None,
         ec2_mssql_log_backup: ec2_mssql_log_backup_advanced_setting.EC2MSSQLLogBackupAdvancedSetting = None,
         mssql_database_backup: mssql_database_backup_advanced_setting.MSSQLDatabaseBackupAdvancedSetting = None,
@@ -77,6 +88,12 @@ class PolicyAdvancedSettings:
         )
         self.aws_ec2_instance_backup: ec2_backup_advanced_setting.EC2BackupAdvancedSetting = (
             aws_ec2_instance_backup
+        )
+        self.aws_rds_config_sync: rds_config_sync_advanced_setting.RDSConfigSyncAdvancedSetting = (
+            aws_rds_config_sync
+        )
+        self.aws_rds_resource_granular_backup: rds_logical_backup_advanced_setting.RDSLogicalBackupAdvancedSetting = (
+            aws_rds_resource_granular_backup
         )
         self.ec2_mssql_database_backup: ec2_mssql_database_backup_advanced_setting.EC2MSSQLDatabaseBackupAdvancedSetting = (
             ec2_mssql_database_backup
@@ -122,6 +139,24 @@ class PolicyAdvancedSettings:
         key = 'aws_ec2_instance_backup'
         aws_ec2_instance_backup = (
             ec2_backup_advanced_setting.EC2BackupAdvancedSetting.from_dictionary(
+                dictionary.get(key)
+            )
+            if dictionary.get(key)
+            else None
+        )
+
+        key = 'aws_rds_config_sync'
+        aws_rds_config_sync = (
+            rds_config_sync_advanced_setting.RDSConfigSyncAdvancedSetting.from_dictionary(
+                dictionary.get(key)
+            )
+            if dictionary.get(key)
+            else None
+        )
+
+        key = 'aws_rds_resource_granular_backup'
+        aws_rds_resource_granular_backup = (
+            rds_logical_backup_advanced_setting.RDSLogicalBackupAdvancedSetting.from_dictionary(
                 dictionary.get(key)
             )
             if dictionary.get(key)
@@ -177,6 +212,8 @@ class PolicyAdvancedSettings:
         return cls(
             aws_ebs_volume_backup,
             aws_ec2_instance_backup,
+            aws_rds_config_sync,
+            aws_rds_resource_granular_backup,
             ec2_mssql_database_backup,
             ec2_mssql_log_backup,
             mssql_database_backup,

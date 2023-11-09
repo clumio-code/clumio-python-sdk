@@ -1,5 +1,5 @@
 #
-# Copyright 2021. Clumio, Inc.
+# Copyright 2023. Clumio, Inc.
 #
 
 import json
@@ -55,6 +55,17 @@ class AwsEbsVolumesV1Controller(base_controller.BaseController):
                 +===========================+==================+===============================+
                 | environment_id            | $eq              | The Clumio-assigned ID of the |
                 |                           |                  | AWS environment.              |
+                +---------------------------+------------------+-------------------------------+
+                | name                      | $contains, $eq   | The AWS-assigned name of this |
+                |                           |                  | resource to conditionalize    |
+                |                           |                  | on. For example, filter={"nam |
+                |                           |                  | e":{"$contains":"dev"}}       |
+                |                           |                  | retrieves all EBS volumes     |
+                |                           |                  | with "dev" in their name.     |
+                |                           |                  | filter={"name":{"$eq":"dev"}} |
+                |                           |                  | retrieves only EBS volumes    |
+                |                           |                  | with names that exactly match |
+                |                           |                  | "dev".                        |
                 +---------------------------+------------------+-------------------------------+
                 | volume_native_id          | $eq, $contains   | The AWS-assigned ID of the    |
                 |                           |                  | EBS volume.                   |

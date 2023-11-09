@@ -1,5 +1,5 @@
 #
-# Copyright 2021. Clumio, Inc.
+# Copyright 2023. Clumio, Inc.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -17,6 +17,7 @@ class RestoreEc2MssqlDatabaseV1Request:
         source:
             The EC2 MSSQL database backup to be restored. Only one of `backup` or `pitr`
             should be set.
+            `pitr` A database backup at a specific point in time to be restored.
         target:
             The configuration of the EC2 MSSQL database to which the data has to be
             restored.

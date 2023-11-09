@@ -1,5 +1,5 @@
 #
-# Copyright 2021. Clumio, Inc.
+# Copyright 2023. Clumio, Inc.
 #
 
 import json
@@ -79,6 +79,10 @@ class MssqlHostsV1Controller(base_controller.BaseController):
                 +-------------+------------------+---------------------------------------------+
                 | status      | $in              | Filter hosts whose connection status is in  |
                 |             |                  | the given list of status                    |
+                +-------------+------------------+---------------------------------------------+
+                | ip_address  | $begins_with     | Filter hosts that begin with the given      |
+                |             |                  | substring in their IP endpoint (IP          |
+                |             |                  | address).                                   |
                 +-------------+------------------+---------------------------------------------+
 
             limit:
