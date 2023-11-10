@@ -1,5 +1,5 @@
 #
-# Copyright 2021. Clumio, Inc.
+# Copyright 2023. Clumio, Inc.
 #
 
 import json
@@ -46,7 +46,7 @@ class RestoredProtectionGroupInstantAccessEndpointsV1Controller(base_controller.
             self.headers.update(config.custom_headers)
 
     def list_protection_group_instant_access_endpoints(
-        self, filter: str = None, **kwargs
+        self, limit: int = None, start: str = None, filter: str = None, **kwargs
     ) -> Union[
         list_s3_instant_access_endpoints_response.ListS3InstantAccessEndpointsResponse,
         tuple[
@@ -59,10 +59,12 @@ class RestoredProtectionGroupInstantAccessEndpointsV1Controller(base_controller.
         """Lists S3 instant access endpoints depending on the filters present in the body.
 
         Args:
+            limit:
+                Limits the size of the response on each page to the specified number of items.
+            start:
+                Sets the page number used to browse the collection.
+                Pages are indexed starting from 1 (i.e., `start=1`).
             filter:
-                TODO: Add pagination params when supported
-                restapiutils.ListIndexPaginationQueryParams
-
                 Narrows down the results to only the items that satisfy the filter criteria. The
                 following table lists
                 the supported filter fields for this resource and the filter conditions that can
@@ -97,7 +99,7 @@ class RestoredProtectionGroupInstantAccessEndpointsV1Controller(base_controller.
         _url_path = f'{self.config.base_path}/restores/protection-groups/instant-access-endpoints'
 
         _query_parameters = {}
-        _query_parameters = {'filter': filter}
+        _query_parameters = {'limit': limit, 'start': start, 'filter': filter}
 
         # Execute request
         try:

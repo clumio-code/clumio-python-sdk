@@ -1,5 +1,5 @@
 #
-# Copyright 2021. Clumio, Inc.
+# Copyright 2023. Clumio, Inc.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -9,6 +9,8 @@ T = TypeVar('T', bound='S3InstantAccessEndpointRole')
 
 class S3InstantAccessEndpointRole:
     """Implementation of the 'S3InstantAccessEndpointRole' model.
+
+    IAM role which is allowed access to the OLAP endpoint.
 
     Attributes:
         alias:

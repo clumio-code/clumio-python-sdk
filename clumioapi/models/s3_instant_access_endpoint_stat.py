@@ -1,5 +1,5 @@
 #
-# Copyright 2021. Clumio, Inc.
+# Copyright 2023. Clumio, Inc.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -10,7 +10,8 @@ T = TypeVar('T', bound='S3InstantAccessEndpointStat')
 class S3InstantAccessEndpointStat:
     """Implementation of the 'S3InstantAccessEndpointStat' model.
 
-    S3InstantAccessEndpointStat swagger: model S3InstantAccessEndpointStat
+    S3InstantAccessEndpointStatStatistical metric related to the instant access
+    endpoint.S3InstantAccessEndpointStat swagger: model S3InstantAccessEndpointStat
 
     Attributes:
         count:

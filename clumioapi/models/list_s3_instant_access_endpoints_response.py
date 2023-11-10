@@ -1,5 +1,5 @@
 #
-# Copyright 2021. Clumio, Inc.
+# Copyright 2023. Clumio, Inc.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -18,15 +18,30 @@ class ListS3InstantAccessEndpointsResponse:
             Embedded responses related to the resource.
         links:
             URLs to pages related to the resource.
+        current_count:
+            The number of items listed on the current page.
+        limit:
+            The maximum number of items displayed per page in the response.
+        start:
+            The page token used to get this response.
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'embedded': '_embedded', 'links': '_links'}
+    _names = {
+        'embedded': '_embedded',
+        'links': '_links',
+        'current_count': 'current_count',
+        'limit': 'limit',
+        'start': 'start',
+    }
 
     def __init__(
         self,
         embedded: s3_instant_access_endpoint_list_embedded.S3InstantAccessEndpointListEmbedded = None,
         links: s3_instant_access_endpoint_list_links.S3InstantAccessEndpointListLinks = None,
+        current_count: int = None,
+        limit: int = None,
+        start: str = None,
     ) -> None:
         """Constructor for the ListS3InstantAccessEndpointsResponse class."""
 
@@ -35,6 +50,9 @@ class ListS3InstantAccessEndpointsResponse:
             embedded
         )
         self.links: s3_instant_access_endpoint_list_links.S3InstantAccessEndpointListLinks = links
+        self.current_count: int = current_count
+        self.limit: int = limit
+        self.start: str = start
 
     @classmethod
     def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
@@ -70,5 +88,8 @@ class ListS3InstantAccessEndpointsResponse:
             else None
         )
 
+        current_count = dictionary.get('current_count')
+        limit = dictionary.get('limit')
+        start = dictionary.get('start')
         # Return an object of this model
-        return cls(embedded, links)
+        return cls(embedded, links, current_count, limit, start)

@@ -1,5 +1,5 @@
 #
-# Copyright 2021. Clumio, Inc.
+# Copyright 2023. Clumio, Inc.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -66,9 +66,8 @@ class CreateAWSConnectionResponse:
             has a
             value of `null`.
         protect_asset_types_enabled:
-            The asset types for which Clumio protect is enabled.
+            The asset types enabled for protect.
             Valid values are any of ["EBS", "RDS", "DynamoDB", "EC2MSSQL", "S3"].
-            If an empty list is provided, all assets are selected for protection.
         services_enabled:
             The services to be enabled for this configuration. Valid values are
             ["discover"], ["discover", "protect"]. This is only set when the

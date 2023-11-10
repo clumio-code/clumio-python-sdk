@@ -1,5 +1,5 @@
 #
-# Copyright 2021. Clumio, Inc.
+# Copyright 2023. Clumio, Inc.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -19,7 +19,7 @@ class MoveHcmHostsResponse:
         links:
             URLs to pages related to the resource.
         task_id:
-            TaskID for MoveHostsReq
+            Clumio assigned TaskID for moving the hosts.
     """
 
     # Create a mapping from Model property names to API property names

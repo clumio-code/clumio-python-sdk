@@ -1,8 +1,10 @@
 #
-# Copyright 2021. Clumio, Inc.
+# Copyright 2023. Clumio, Inc.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+
+from clumioapi.models import ec2_mssql_database_pitr_interval_links
 
 T = TypeVar('T', bound='EC2MssqlDatabasePitrInterval')
 
@@ -11,6 +13,10 @@ class EC2MssqlDatabasePitrInterval:
     """Implementation of the 'EC2MssqlDatabasePitrInterval' model.
 
     Attributes:
+        embedded:
+            Embedded responses related to the resource.
+        links:
+            URLs to pages related to the resource.
         end_timestamp:
             End timestamp of the interval. Represented in RFC-3339 format.
         start_timestamp:
@@ -18,12 +24,25 @@ class EC2MssqlDatabasePitrInterval:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'end_timestamp': 'end_timestamp', 'start_timestamp': 'start_timestamp'}
+    _names = {
+        'embedded': '_embedded',
+        'links': '_links',
+        'end_timestamp': 'end_timestamp',
+        'start_timestamp': 'start_timestamp',
+    }
 
-    def __init__(self, end_timestamp: str = None, start_timestamp: str = None) -> None:
+    def __init__(
+        self,
+        embedded: object = None,
+        links: ec2_mssql_database_pitr_interval_links.EC2MssqlDatabasePitrIntervalLinks = None,
+        end_timestamp: str = None,
+        start_timestamp: str = None,
+    ) -> None:
         """Constructor for the EC2MssqlDatabasePitrInterval class."""
 
         # Initialize members of the class
+        self.embedded: object = embedded
+        self.links: ec2_mssql_database_pitr_interval_links.EC2MssqlDatabasePitrIntervalLinks = links
         self.end_timestamp: str = end_timestamp
         self.start_timestamp: str = start_timestamp
 
@@ -43,7 +62,17 @@ class EC2MssqlDatabasePitrInterval:
             return None
 
         # Extract variables from the dictionary
+        embedded = dictionary.get('_embedded')
+        key = '_links'
+        links = (
+            ec2_mssql_database_pitr_interval_links.EC2MssqlDatabasePitrIntervalLinks.from_dictionary(
+                dictionary.get(key)
+            )
+            if dictionary.get(key)
+            else None
+        )
+
         end_timestamp = dictionary.get('end_timestamp')
         start_timestamp = dictionary.get('start_timestamp')
         # Return an object of this model
-        return cls(end_timestamp, start_timestamp)
+        return cls(embedded, links, end_timestamp, start_timestamp)

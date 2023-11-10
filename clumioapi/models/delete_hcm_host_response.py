@@ -1,10 +1,10 @@
 #
-# Copyright 2021. Clumio, Inc.
+# Copyright 2023. Clumio, Inc.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import read_task_hateoas_links
+from clumioapi.models import delete_host_response_links
 from clumioapi.models import read_task_hateoas_outer_embedded
 
 T = TypeVar('T', bound='DeleteHcmHostResponse')
@@ -17,7 +17,8 @@ class DeleteHcmHostResponse:
         embedded:
             Embedded responses related to the resource.
         links:
-            URLs to pages related to the resource.
+            DeleteHostResponseLinks describes the Links response for the delete host
+            response
         task_id:
             TaskID for DeleteHostsReq
     """
@@ -28,14 +29,14 @@ class DeleteHcmHostResponse:
     def __init__(
         self,
         embedded: read_task_hateoas_outer_embedded.ReadTaskHateoasOuterEmbedded = None,
-        links: read_task_hateoas_links.ReadTaskHateoasLinks = None,
+        links: delete_host_response_links.DeleteHostResponseLinks = None,
         task_id: str = None,
     ) -> None:
         """Constructor for the DeleteHcmHostResponse class."""
 
         # Initialize members of the class
         self.embedded: read_task_hateoas_outer_embedded.ReadTaskHateoasOuterEmbedded = embedded
-        self.links: read_task_hateoas_links.ReadTaskHateoasLinks = links
+        self.links: delete_host_response_links.DeleteHostResponseLinks = links
         self.task_id: str = task_id
 
     @classmethod
@@ -65,7 +66,7 @@ class DeleteHcmHostResponse:
 
         key = '_links'
         links = (
-            read_task_hateoas_links.ReadTaskHateoasLinks.from_dictionary(dictionary.get(key))
+            delete_host_response_links.DeleteHostResponseLinks.from_dictionary(dictionary.get(key))
             if dictionary.get(key)
             else None
         )

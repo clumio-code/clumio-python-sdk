@@ -1,5 +1,5 @@
 #
-# Copyright 2021. Clumio, Inc.
+# Copyright 2023. Clumio, Inc.
 #
 
 import json
@@ -77,7 +77,7 @@ class ProtectionGroupsS3AssetsV1Controller(base_controller.BaseController):
                 |                           |                  | protection group s3 assets    |
                 |                           |                  | within this S3 bucket.        |
                 +---------------------------+------------------+-------------------------------+
-                | bucket_name               | $eq              | The AWS-assigned ID or name   |
+                | bucket_name               | $eq,$contains    | The AWS-assigned ID or name   |
                 |                           |                  | of the bucket. Retrieves the  |
                 |                           |                  | protection group s3 assets    |
                 |                           |                  | within this S3 bucket.        |

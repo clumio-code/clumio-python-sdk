@@ -1,5 +1,5 @@
 #
-# Copyright 2021. Clumio, Inc.
+# Copyright 2023. Clumio, Inc.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -16,7 +16,7 @@ class EstimateCostS3InstantAccessEndpointSyncResponse:
 
     Attributes:
         links:
-            EstimateCostS3InstantAccessEndpointSyncResponseLinks
+            URLs to pages related to the resource.
         estimated_cost:
             The estimated cost for instant access endpoint.
         total_object_count:
