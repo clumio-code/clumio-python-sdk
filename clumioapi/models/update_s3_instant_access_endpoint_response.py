@@ -21,6 +21,8 @@ class UpdateS3InstantAccessEndpointResponse:
         aws_account_id:
             The AWS-assigned ID of the account associated with the S3 instant access
             endpoint.
+        backup_region:
+            The AWS region of the S3 instant access endpoint and its source backup.
         bucket_name:
             The name of source bucket.
         created_timestamp:
@@ -45,7 +47,7 @@ class UpdateS3InstantAccessEndpointResponse:
         protection_group_s3_asset_id:
             The Clumio-assigned ID of the bucket protection group.
         region:
-            The AWS region of the S3 instant access endpoint.
+            The AWS region of the source bucket.
         restore_timestamp:
             The time at which the backup was restored from this endpoint in RFC-3339 format.
         updated_timestamp:
@@ -57,6 +59,7 @@ class UpdateS3InstantAccessEndpointResponse:
         'embedded': '_embedded',
         'links': '_links',
         'aws_account_id': 'aws_account_id',
+        'backup_region': 'backup_region',
         'bucket_name': 'bucket_name',
         'created_timestamp': 'created_timestamp',
         'endpoint_status': 'endpoint_status',
@@ -77,6 +80,7 @@ class UpdateS3InstantAccessEndpointResponse:
         embedded: s3_instant_access_endpoint_embedded.S3InstantAccessEndpointEmbedded = None,
         links: s3_instant_access_endpoint_links.S3InstantAccessEndpointLinks = None,
         aws_account_id: str = None,
+        backup_region: str = None,
         bucket_name: str = None,
         created_timestamp: str = None,
         endpoint_status: str = None,
@@ -99,6 +103,7 @@ class UpdateS3InstantAccessEndpointResponse:
         )
         self.links: s3_instant_access_endpoint_links.S3InstantAccessEndpointLinks = links
         self.aws_account_id: str = aws_account_id
+        self.backup_region: str = backup_region
         self.bucket_name: str = bucket_name
         self.created_timestamp: str = created_timestamp
         self.endpoint_status: str = endpoint_status
@@ -148,6 +153,7 @@ class UpdateS3InstantAccessEndpointResponse:
         )
 
         aws_account_id = dictionary.get('aws_account_id')
+        backup_region = dictionary.get('backup_region')
         bucket_name = dictionary.get('bucket_name')
         created_timestamp = dictionary.get('created_timestamp')
         endpoint_status = dictionary.get('endpoint_status')
@@ -166,6 +172,7 @@ class UpdateS3InstantAccessEndpointResponse:
             embedded,
             links,
             aws_account_id,
+            backup_region,
             bucket_name,
             created_timestamp,
             endpoint_status,
