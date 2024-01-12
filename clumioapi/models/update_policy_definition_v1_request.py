@@ -25,7 +25,9 @@ class UpdatePolicyDefinitionV1Request:
         organizational_unit_id:
             The Clumio-assigned ID of the organizational unit associated with the policy.
         timezone:
-            The timezone for the policy.
+            The timezone for the policy. The timezone must be a valid location name from the
+            IANA Time Zone database.
+            For instance, "America/New_York", "US/Central", "UTC".
     """
 
     # Create a mapping from Model property names to API property names

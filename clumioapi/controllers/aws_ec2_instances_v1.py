@@ -90,13 +90,13 @@ class AwsEc2InstancesV1Controller(base_controller.BaseController):
                 |                           |                  | pliance_status":{"$eq":"non_c |
                 |                           |                  | ompliant"}}                   |
                 +---------------------------+------------------+-------------------------------+
-                | protection_status         | $eq              | The protection status of the  |
+                | protection_status         | $in              | The protection status of the  |
                 |                           |                  | EC2 instance. Possible values |
                 |                           |                  | include "protected",          |
                 |                           |                  | "unprotected", and            |
                 |                           |                  | "unsupported". For example, f |
                 |                           |                  | ilter={"protection_status":{" |
-                |                           |                  | $eq":"protected"}}            |
+                |                           |                  | $in":["protected"]}}          |
                 +---------------------------+------------------+-------------------------------+
                 | protection_info.policy_id | $eq              | The Clumio-assigned ID of the |
                 |                           |                  | policy protecting this        |

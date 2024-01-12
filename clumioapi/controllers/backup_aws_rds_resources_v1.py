@@ -75,7 +75,7 @@ class BackupAwsRdsResourcesV1Controller(base_controller.BaseController):
                 +-----------------+------------------+-----------------------------------------+
                 |      Field      | Filter Condition |               Description               |
                 +=================+==================+=========================================+
-                | database_id     | $eq              | Filter database backups whose database  |
+                | resource_id     | $eq              | Filter database backups whose database  |
                 |                 |                  | ID equal the specified string.          |
                 +-----------------+------------------+-----------------------------------------+
                 | start_timestamp | $lte, $gt        | Filter database backups whose start     |
