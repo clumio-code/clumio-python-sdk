@@ -34,9 +34,9 @@ class PreviewProtectionGroupS3AssetSyncResponse:
         """Constructor for the PreviewProtectionGroupS3AssetSyncResponse class."""
 
         # Initialize members of the class
-        self.links: preview_protection_group_s3_asset_sync_links.PreviewProtectionGroupS3AssetSyncLinks = (
-            links
-        )
+        self.links: (
+            preview_protection_group_s3_asset_sync_links.PreviewProtectionGroupS3AssetSyncLinks
+        ) = links
         self.objects: Sequence[object.Object] = objects
 
     @classmethod

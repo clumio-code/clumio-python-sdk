@@ -60,12 +60,12 @@ class ListProtectionGroupS3AssetBackupsResponse:
         """Constructor for the ListProtectionGroupS3AssetBackupsResponse class."""
 
         # Initialize members of the class
-        self.embedded: protection_group_s3_asset_backup_list_embedded.ProtectionGroupS3AssetBackupListEmbedded = (
-            embedded
-        )
-        self.links: protection_group_s3_asset_backup_list_links.ProtectionGroupS3AssetBackupListLinks = (
-            links
-        )
+        self.embedded: (
+            protection_group_s3_asset_backup_list_embedded.ProtectionGroupS3AssetBackupListEmbedded
+        ) = embedded
+        self.links: (
+            protection_group_s3_asset_backup_list_links.ProtectionGroupS3AssetBackupListLinks
+        ) = links
         self.current_count: int = current_count
         self.filter_applied: str = filter_applied
         self.limit: int = limit

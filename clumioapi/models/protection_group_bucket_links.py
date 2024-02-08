@@ -51,9 +51,9 @@ class ProtectionGroupBucketLinks:
             delete_bucket_protection_group
         )
         self.read_organizational_unit: hateoas_link.HateoasLink = read_organizational_unit
-        self.read_policy_definition: read_policy_definition_hateoas_link.ReadPolicyDefinitionHateoasLink = (
-            read_policy_definition
-        )
+        self.read_policy_definition: (
+            read_policy_definition_hateoas_link.ReadPolicyDefinitionHateoasLink
+        ) = read_policy_definition
 
     @classmethod
     def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:

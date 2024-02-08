@@ -39,9 +39,9 @@ class PreviewProtectionGroupS3AssetAsyncResponse:
         """Constructor for the PreviewProtectionGroupS3AssetAsyncResponse class."""
 
         # Initialize members of the class
-        self.links: preview_protection_group_s3_asset_async_links.PreviewProtectionGroupS3AssetAsyncLinks = (
-            links
-        )
+        self.links: (
+            preview_protection_group_s3_asset_async_links.PreviewProtectionGroupS3AssetAsyncLinks
+        ) = links
         self.preview_id: str = preview_id
         self.task_id: str = task_id
 

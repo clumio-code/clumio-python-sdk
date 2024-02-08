@@ -42,9 +42,9 @@ class UpdateUserV2Request:
         """Constructor for the UpdateUserV2Request class."""
 
         # Initialize members of the class
-        self.access_control_configuration_updates: entity_group_assignment_updates.EntityGroupAssignmentUpdates = (
-            access_control_configuration_updates
-        )
+        self.access_control_configuration_updates: (
+            entity_group_assignment_updates.EntityGroupAssignmentUpdates
+        ) = access_control_configuration_updates
         self.full_name: str = full_name
         self.is_enabled: bool = is_enabled
 

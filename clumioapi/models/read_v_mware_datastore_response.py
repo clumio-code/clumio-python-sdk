@@ -80,15 +80,15 @@ class ReadVMwareDatastoreResponse:
         # Initialize members of the class
         self.etag: str = etag
         self.links: v_mware_datastore_links.VMwareDatastoreLinks = links
-        self.compute_resources: Sequence[
-            compute_resource_id_model.ComputeResourceIDModel
-        ] = compute_resources
-        self.datacenter: v_mware_v_center_datastore_datacenter_model.VMwareVCenterDatastoreDatacenterModel = (
-            datacenter
+        self.compute_resources: Sequence[compute_resource_id_model.ComputeResourceIDModel] = (
+            compute_resources
         )
-        self.datastore_folder: v_mware_v_center_datastore_folder_model.VMwareVCenterDatastoreFolderModel = (
-            datastore_folder
-        )
+        self.datacenter: (
+            v_mware_v_center_datastore_datacenter_model.VMwareVCenterDatastoreDatacenterModel
+        ) = datacenter
+        self.datastore_folder: (
+            v_mware_v_center_datastore_folder_model.VMwareVCenterDatastoreFolderModel
+        ) = datastore_folder
         self.datastore_type: str = datastore_type
         self.hosts: Sequence[host_id_model.HostIDModel] = hosts
         self.p_id: str = p_id

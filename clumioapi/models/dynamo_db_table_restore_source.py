@@ -35,12 +35,12 @@ class DynamoDBTableRestoreSource:
         """Constructor for the DynamoDBTableRestoreSource class."""
 
         # Initialize members of the class
-        self.continuous_backup: dynamo_db_restore_source_pitr_options.DynamoDBRestoreSourcePitrOptions = (
-            continuous_backup
-        )
-        self.securevault_backup: dynamo_db_restore_source_backup_options.DynamoDBRestoreSourceBackupOptions = (
-            securevault_backup
-        )
+        self.continuous_backup: (
+            dynamo_db_restore_source_pitr_options.DynamoDBRestoreSourcePitrOptions
+        ) = continuous_backup
+        self.securevault_backup: (
+            dynamo_db_restore_source_backup_options.DynamoDBRestoreSourceBackupOptions
+        ) = securevault_backup
 
     @classmethod
     def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:

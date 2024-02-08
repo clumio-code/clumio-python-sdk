@@ -53,12 +53,12 @@ class ListEC2MssqlDatabasePitrIntervalsResponse:
         """Constructor for the ListEC2MssqlDatabasePitrIntervalsResponse class."""
 
         # Initialize members of the class
-        self.embedded: ec2_mssql_database_pitr_interval_list_embedded.EC2MssqlDatabasePitrIntervalListEmbedded = (
-            embedded
-        )
-        self.links: ec2_mssql_database_pitr_interval_list_links.EC2MssqlDatabasePitrIntervalListLinks = (
-            links
-        )
+        self.embedded: (
+            ec2_mssql_database_pitr_interval_list_embedded.EC2MssqlDatabasePitrIntervalListEmbedded
+        ) = embedded
+        self.links: (
+            ec2_mssql_database_pitr_interval_list_links.EC2MssqlDatabasePitrIntervalListLinks
+        ) = links
         self.current_count: int = current_count
         self.filter_applied: str = filter_applied
         self.limit: int = limit

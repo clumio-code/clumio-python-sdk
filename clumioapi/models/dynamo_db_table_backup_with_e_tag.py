@@ -151,15 +151,15 @@ class DynamoDBTableBackupWithETag:
         self.aws_region: str = aws_region
         self.billing_mode: str = billing_mode
         self.expiration_timestamp: str = expiration_timestamp
-        self.global_secondary_indexes: Sequence[
-            global_secondary_index.GlobalSecondaryIndex
-        ] = global_secondary_indexes
+        self.global_secondary_indexes: Sequence[global_secondary_index.GlobalSecondaryIndex] = (
+            global_secondary_indexes
+        )
         self.global_table_version: str = global_table_version
         self.p_id: str = p_id
         self.item_count: int = item_count
-        self.local_secondary_indexes: Sequence[
-            local_secondary_index.LocalSecondaryIndex
-        ] = local_secondary_indexes
+        self.local_secondary_indexes: Sequence[local_secondary_index.LocalSecondaryIndex] = (
+            local_secondary_indexes
+        )
         self.provisioned_throughput: provisioned_throughput.ProvisionedThroughput = (
             provisioned_throughput
         )

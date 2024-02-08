@@ -51,9 +51,9 @@ class ReplicaDescription:
             replica_global_secondary_index_description.ReplicaGlobalSecondaryIndexDescription
         ] = global_secondary_indexes
         self.kms_master_key_id: str = kms_master_key_id
-        self.provisioned_throughput_override: provisioned_throughput_override.ProvisionedThroughputOverride = (
-            provisioned_throughput_override
-        )
+        self.provisioned_throughput_override: (
+            provisioned_throughput_override.ProvisionedThroughputOverride
+        ) = provisioned_throughput_override
         self.region_name: str = region_name
 
     @classmethod

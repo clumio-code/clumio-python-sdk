@@ -37,9 +37,9 @@ class CreateEC2MSSQLDatabaseRestoreResponse:
 
         # Initialize members of the class
         self.embedded: read_task_hateoas_outer_embedded.ReadTaskHateoasOuterEmbedded = embedded
-        self.links: create_ec2_mssql_database_restore_response_links.CreateEC2MSSQLDatabaseRestoreResponseLinks = (
-            links
-        )
+        self.links: (
+            create_ec2_mssql_database_restore_response_links.CreateEC2MSSQLDatabaseRestoreResponseLinks
+        ) = links
         self.task_id: str = task_id
 
     @classmethod

@@ -222,9 +222,7 @@ class RestoredFilesV1Controller(base_controller.BaseController):
             )
         return download_shared_file_response.DownloadSharedFileResponse.from_dictionary(resp)
 
-    def generate_restored_file_passcode(
-        self, restored_file_id: str, **kwargs
-    ) -> Union[
+    def generate_restored_file_passcode(self, restored_file_id: str, **kwargs) -> Union[
         generate_restored_file_passcode_response.GenerateRestoredFilePasscodeResponse,
         tuple[
             requests.Response,

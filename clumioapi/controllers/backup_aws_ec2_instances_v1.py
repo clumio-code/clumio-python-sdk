@@ -191,9 +191,7 @@ class BackupAwsEc2InstancesV1Controller(base_controller.BaseController):
             )
         return on_demand_ec2_backup_response.OnDemandEC2BackupResponse.from_dictionary(resp)
 
-    def read_backup_aws_ec2_instance(
-        self, backup_id: str, **kwargs
-    ) -> Union[
+    def read_backup_aws_ec2_instance(self, backup_id: str, **kwargs) -> Union[
         read_ec2_backup_response.ReadEC2BackupResponse,
         tuple[requests.Response, Optional[read_ec2_backup_response.ReadEC2BackupResponse]],
     ]:

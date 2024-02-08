@@ -118,9 +118,7 @@ class Ec2MssqlAvailabilityGroupsV1Controller(base_controller.BaseController):
             )
         return list_ec2_mssql_a_gs_response.ListEC2MssqlAGsResponse.from_dictionary(resp)
 
-    def read_ec2_mssql_availability_group(
-        self, availability_group_id: str, **kwargs
-    ) -> Union[
+    def read_ec2_mssql_availability_group(self, availability_group_id: str, **kwargs) -> Union[
         read_ec2_mssql_ag_response.ReadEC2MssqlAGResponse,
         tuple[requests.Response, Optional[read_ec2_mssql_ag_response.ReadEC2MssqlAGResponse]],
     ]:

@@ -220,9 +220,7 @@ class BackupAwsDynamodbTablesV1Controller(base_controller.BaseController):
             resp
         )
 
-    def read_backup_aws_dynamodb_table(
-        self, backup_id: str, **kwargs
-    ) -> Union[
+    def read_backup_aws_dynamodb_table(self, backup_id: str, **kwargs) -> Union[
         read_dynamo_db_table_backup_response.ReadDynamoDBTableBackupResponse,
         tuple[
             requests.Response,

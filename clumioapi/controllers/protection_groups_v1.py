@@ -145,9 +145,7 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
             )
         return list_protection_groups_response.ListProtectionGroupsResponse.from_dictionary(resp)
 
-    def read_protection_group(
-        self, group_id: str, **kwargs
-    ) -> Union[
+    def read_protection_group(self, group_id: str, **kwargs) -> Union[
         read_protection_group_response.ReadProtectionGroupResponse,
         tuple[
             requests.Response, Optional[read_protection_group_response.ReadProtectionGroupResponse]
@@ -448,9 +446,7 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
             resp
         )
 
-    def delete_bucket_protection_group(
-        self, group_id: str, bucket_id: str, **kwargs
-    ) -> Union[
+    def delete_bucket_protection_group(self, group_id: str, bucket_id: str, **kwargs) -> Union[
         delete_bucket_from_protection_group_response.DeleteBucketFromProtectionGroupResponse,
         tuple[
             requests.Response,

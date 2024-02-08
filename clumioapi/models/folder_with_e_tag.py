@@ -100,9 +100,9 @@ class FolderWithETag:
         self.embedded: folder_embedded.FolderEmbedded = embedded
         self.etag: str = etag
         self.links: folder_links.FolderLinks = links
-        self.datacenter: v_mware_v_center_folder_datacenter_model.VMwareVCenterFolderDatacenterModel = (
-            datacenter
-        )
+        self.datacenter: (
+            v_mware_v_center_folder_datacenter_model.VMwareVCenterFolderDatacenterModel
+        ) = datacenter
         self.descendant_folder_count: int = descendant_folder_count
         self.has_child_folders: bool = has_child_folders
         self.p_id: str = p_id

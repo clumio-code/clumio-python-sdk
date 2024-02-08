@@ -114,9 +114,7 @@ class MssqlAvailabilityGroupsV1Controller(base_controller.BaseController):
             return resp, list_mssql_a_gs_response.ListMssqlAGsResponse.from_dictionary(resp.json())
         return list_mssql_a_gs_response.ListMssqlAGsResponse.from_dictionary(resp)
 
-    def read_mssql_availability_group(
-        self, availability_group_id: str, **kwargs
-    ) -> Union[
+    def read_mssql_availability_group(self, availability_group_id: str, **kwargs) -> Union[
         read_mssql_ag_response.ReadMssqlAGResponse,
         tuple[requests.Response, Optional[read_mssql_ag_response.ReadMssqlAGResponse]],
     ]:

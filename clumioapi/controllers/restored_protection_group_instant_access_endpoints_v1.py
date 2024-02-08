@@ -337,9 +337,7 @@ class RestoredProtectionGroupInstantAccessEndpointsV1Controller(base_controller.
             resp
         )
 
-    def read_protection_group_instant_access_endpoint(
-        self, endpoint_id: str, **kwargs
-    ) -> Union[
+    def read_protection_group_instant_access_endpoint(self, endpoint_id: str, **kwargs) -> Union[
         read_s3_instant_access_endpoint_response.ReadS3InstantAccessEndpointResponse,
         tuple[
             requests.Response,

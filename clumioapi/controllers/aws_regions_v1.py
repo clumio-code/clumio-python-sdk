@@ -29,9 +29,7 @@ class AwsRegionsV1Controller(base_controller.BaseController):
         if config.custom_headers != None:
             self.headers.update(config.custom_headers)
 
-    def list_connection_aws_regions(
-        self, limit: int = None, start: str = None, **kwargs
-    ) -> Union[
+    def list_connection_aws_regions(self, limit: int = None, start: str = None, **kwargs) -> Union[
         list_aws_regions_response.ListAWSRegionsResponse,
         tuple[requests.Response, Optional[list_aws_regions_response.ListAWSRegionsResponse]],
     ]:

@@ -60,9 +60,9 @@ class ProtectionGroupLinks:
             delete_bucket_protection_group
         )
         self.read_organizational_unit: hateoas_link.HateoasLink = read_organizational_unit
-        self.read_policy_definition: read_policy_definition_hateoas_link.ReadPolicyDefinitionHateoasLink = (
-            read_policy_definition
-        )
+        self.read_policy_definition: (
+            read_policy_definition_hateoas_link.ReadPolicyDefinitionHateoasLink
+        ) = read_policy_definition
         self.update_protection_group: hateoas_link.HateoasLink = update_protection_group
 
     @classmethod

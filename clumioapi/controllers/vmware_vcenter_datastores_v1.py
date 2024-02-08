@@ -172,9 +172,7 @@ class VmwareVcenterDatastoresV1Controller(base_controller.BaseController):
             )
         return list_v_mware_datastores_response.ListVMwareDatastoresResponse.from_dictionary(resp)
 
-    def read_vmware_vcenter_datastore(
-        self, vcenter_id: str, datastore_id: str, **kwargs
-    ) -> Union[
+    def read_vmware_vcenter_datastore(self, vcenter_id: str, datastore_id: str, **kwargs) -> Union[
         read_v_mware_datastore_response.ReadVMwareDatastoreResponse,
         tuple[
             requests.Response, Optional[read_v_mware_datastore_response.ReadVMwareDatastoreResponse]

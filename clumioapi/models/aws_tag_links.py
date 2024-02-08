@@ -59,9 +59,9 @@ class AwsTagLinks:
         self.read_aws_environment_tag_ebs_volumes_compliance_stats: hateoas_link.HateoasLink = (
             read_aws_environment_tag_ebs_volumes_compliance_stats
         )
-        self.read_policy_definition: read_policy_definition_hateoas_link.ReadPolicyDefinitionHateoasLink = (
-            read_policy_definition
-        )
+        self.read_policy_definition: (
+            read_policy_definition_hateoas_link.ReadPolicyDefinitionHateoasLink
+        ) = read_policy_definition
         self.unprotect_entities: unprotect_entities_hateoas_link.UnprotectEntitiesHateoasLink = (
             unprotect_entities
         )

@@ -32,9 +32,7 @@ class ManagementGroupsV1Controller(base_controller.BaseController):
         if config.custom_headers != None:
             self.headers.update(config.custom_headers)
 
-    def list_management_groups(
-        self, limit: int = None, start: str = None, **kwargs
-    ) -> Union[
+    def list_management_groups(self, limit: int = None, start: str = None, **kwargs) -> Union[
         list_management_groups_response.ListManagementGroupsResponse,
         tuple[
             requests.Response,
@@ -91,9 +89,7 @@ class ManagementGroupsV1Controller(base_controller.BaseController):
             )
         return list_management_groups_response.ListManagementGroupsResponse.from_dictionary(resp)
 
-    def read_management_group(
-        self, group_id: str, **kwargs
-    ) -> Union[
+    def read_management_group(self, group_id: str, **kwargs) -> Union[
         read_management_group_response.ReadManagementGroupResponse,
         tuple[
             requests.Response, Optional[read_management_group_response.ReadManagementGroupResponse]

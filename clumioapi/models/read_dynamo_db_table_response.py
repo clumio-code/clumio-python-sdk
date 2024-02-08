@@ -236,9 +236,9 @@ class ReadDynamoDBTableResponse:
             earliest_continuous_snapshot_restorable_timestamp
         )
         self.environment_id: str = environment_id
-        self.global_secondary_indexes: Sequence[
-            global_secondary_index.GlobalSecondaryIndex
-        ] = global_secondary_indexes
+        self.global_secondary_indexes: Sequence[global_secondary_index.GlobalSecondaryIndex] = (
+            global_secondary_indexes
+        )
         self.global_table_version: str = global_table_version
         self.has_direct_assignment: bool = has_direct_assignment
         self.p_id: str = p_id
@@ -249,9 +249,9 @@ class ReadDynamoDBTableResponse:
         self.latest_continuous_snapshot_restorable_timestamp: str = (
             latest_continuous_snapshot_restorable_timestamp
         )
-        self.local_secondary_indexes: Sequence[
-            local_secondary_index.LocalSecondaryIndex
-        ] = local_secondary_indexes
+        self.local_secondary_indexes: Sequence[local_secondary_index.LocalSecondaryIndex] = (
+            local_secondary_indexes
+        )
         self.name: str = name
         self.organizational_unit_id: str = organizational_unit_id
         self.protection_info: protection_info_with_rule.ProtectionInfoWithRule = protection_info

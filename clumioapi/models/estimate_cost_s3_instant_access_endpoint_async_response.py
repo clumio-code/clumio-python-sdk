@@ -38,9 +38,9 @@ class EstimateCostS3InstantAccessEndpointAsyncResponse:
         """Constructor for the EstimateCostS3InstantAccessEndpointAsyncResponse class."""
 
         # Initialize members of the class
-        self.links: estimate_cost_s3_instant_access_endpoint_async_response_links.EstimateCostS3InstantAccessEndpointAsyncResponseLinks = (
-            links
-        )
+        self.links: (
+            estimate_cost_s3_instant_access_endpoint_async_response_links.EstimateCostS3InstantAccessEndpointAsyncResponseLinks
+        ) = links
         self.estimate_id: str = estimate_id
         self.task_id: str = task_id
 

@@ -57,9 +57,9 @@ class DynamoDBTableLinks:
         self.list_backup_aws_dynamodb_tables: hateoas_link.HateoasLink = (
             list_backup_aws_dynamodb_tables
         )
-        self.read_policy_definition: read_policy_definition_hateoas_link.ReadPolicyDefinitionHateoasLink = (
-            read_policy_definition
-        )
+        self.read_policy_definition: (
+            read_policy_definition_hateoas_link.ReadPolicyDefinitionHateoasLink
+        ) = read_policy_definition
         self.restore_aws_dynamodb_table: hateoas_link.HateoasLink = restore_aws_dynamodb_table
 
     @classmethod

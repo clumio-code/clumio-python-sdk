@@ -54,7 +54,7 @@ class ReportDownloadsV1Controller(base_controller.BaseController):
                 +=================+==================+=========================================+
                 | start_timestamp | $gte, $lt        | Start timestamp denotes the time filter |
                 |                 |                  | for listing CSV report downloads.       |
-                |                 |                  | $gte and $lt accept RFC-3999            |
+                |                 |                  | $gte and $lt accept RFC-3339            |
                 |                 |                  | timestamps. For example,                |
                 |                 |                  |                                         |
                 |                 |                  | "filter":"{"start_timestamp":{"$gt":"20 |

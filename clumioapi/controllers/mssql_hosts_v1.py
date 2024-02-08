@@ -367,9 +367,7 @@ class MssqlHostsV1Controller(base_controller.BaseController):
             resp
         )
 
-    def read_mssql_host_connections(
-        self, host_id: str, **kwargs
-    ) -> Union[
+    def read_mssql_host_connections(self, host_id: str, **kwargs) -> Union[
         read_hcm_host_response.ReadHcmHostResponse,
         tuple[requests.Response, Optional[read_hcm_host_response.ReadHcmHostResponse]],
     ]:
@@ -534,9 +532,7 @@ class MssqlHostsV1Controller(base_controller.BaseController):
             )
         return list_mssql_hosts_response.ListMssqlHostsResponse.from_dictionary(resp)
 
-    def read_mssql_hosts(
-        self, host_id: str, **kwargs
-    ) -> Union[
+    def read_mssql_hosts(self, host_id: str, **kwargs) -> Union[
         read_mssql_host_response.ReadMssqlHostResponse,
         tuple[requests.Response, Optional[read_mssql_host_response.ReadMssqlHostResponse]],
     ]:

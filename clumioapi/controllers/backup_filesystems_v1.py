@@ -86,9 +86,7 @@ class BackupFilesystemsV1Controller(base_controller.BaseController):
             )
         return list_file_systems_response.ListFileSystemsResponse.from_dictionary(resp)
 
-    def read_filesystem(
-        self, filesystem_id: str, backup_id: str, **kwargs
-    ) -> Union[
+    def read_filesystem(self, filesystem_id: str, backup_id: str, **kwargs) -> Union[
         read_file_system_response.ReadFileSystemResponse,
         tuple[requests.Response, Optional[read_file_system_response.ReadFileSystemResponse]],
     ]:

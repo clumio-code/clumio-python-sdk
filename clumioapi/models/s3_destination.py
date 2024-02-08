@@ -62,9 +62,9 @@ class S3Destination:
         """Constructor for the S3Destination class."""
 
         # Initialize members of the class
-        self.access_control_translation: s3_access_control_translation.S3AccessControlTranslation = (
-            access_control_translation
-        )
+        self.access_control_translation: (
+            s3_access_control_translation.S3AccessControlTranslation
+        ) = access_control_translation
         self.account: str = account
         self.bucket: str = bucket
         self.encryption_configuration: s3_encryption_configuration.S3EncryptionConfiguration = (

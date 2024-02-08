@@ -32,9 +32,9 @@ class RestoreProtectionGroupS3AssetV1Request:
         """Constructor for the RestoreProtectionGroupS3AssetV1Request class."""
 
         # Initialize members of the class
-        self.source: protection_group_s3_asset_restore_source.ProtectionGroupS3AssetRestoreSource = (
-            source
-        )
+        self.source: (
+            protection_group_s3_asset_restore_source.ProtectionGroupS3AssetRestoreSource
+        ) = source
         self.target: protection_group_restore_target.ProtectionGroupRestoreTarget = target
 
     @classmethod

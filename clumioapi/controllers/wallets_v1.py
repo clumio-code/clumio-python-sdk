@@ -33,9 +33,7 @@ class WalletsV1Controller(base_controller.BaseController):
         if config.custom_headers != None:
             self.headers.update(config.custom_headers)
 
-    def list_wallets(
-        self, limit: int = None, start: str = None, **kwargs
-    ) -> Union[
+    def list_wallets(self, limit: int = None, start: str = None, **kwargs) -> Union[
         list_wallets_response.ListWalletsResponse,
         tuple[requests.Response, Optional[list_wallets_response.ListWalletsResponse]],
     ]:
@@ -131,9 +129,7 @@ class WalletsV1Controller(base_controller.BaseController):
             return resp, create_wallet_response.CreateWalletResponse.from_dictionary(resp.json())
         return create_wallet_response.CreateWalletResponse.from_dictionary(resp)
 
-    def read_wallet(
-        self, wallet_id: str, **kwargs
-    ) -> Union[
+    def read_wallet(self, wallet_id: str, **kwargs) -> Union[
         read_wallet_response.ReadWalletResponse,
         tuple[requests.Response, Optional[read_wallet_response.ReadWalletResponse]],
     ]:
@@ -224,9 +220,7 @@ class WalletsV1Controller(base_controller.BaseController):
             return resp, resp.json()
         return resp
 
-    def refresh_wallet(
-        self, wallet_id: str, **kwargs
-    ) -> Union[
+    def refresh_wallet(self, wallet_id: str, **kwargs) -> Union[
         refresh_wallet_response.RefreshWalletResponse,
         tuple[requests.Response, Optional[refresh_wallet_response.RefreshWalletResponse]],
     ]:

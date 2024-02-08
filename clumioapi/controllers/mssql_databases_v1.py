@@ -163,9 +163,7 @@ class MssqlDatabasesV1Controller(base_controller.BaseController):
             )
         return list_mssql_databases_response.ListMssqlDatabasesResponse.from_dictionary(resp)
 
-    def read_mssql_databases(
-        self, database_id: str, **kwargs
-    ) -> Union[
+    def read_mssql_databases(self, database_id: str, **kwargs) -> Union[
         read_mssql_database_response.ReadMssqlDatabaseResponse,
         tuple[requests.Response, Optional[read_mssql_database_response.ReadMssqlDatabaseResponse]],
     ]:

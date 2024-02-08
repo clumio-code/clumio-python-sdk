@@ -37,9 +37,9 @@ class S3ServerSideEncryptionRule:
         """Constructor for the S3ServerSideEncryptionRule class."""
 
         # Initialize members of the class
-        self.apply_server_side_encryption_by_default: s3_server_side_encryption_by_default.S3ServerSideEncryptionByDefault = (
-            apply_server_side_encryption_by_default
-        )
+        self.apply_server_side_encryption_by_default: (
+            s3_server_side_encryption_by_default.S3ServerSideEncryptionByDefault
+        ) = apply_server_side_encryption_by_default
         self.bucket_key_enabled: bool = bucket_key_enabled
 
     @classmethod

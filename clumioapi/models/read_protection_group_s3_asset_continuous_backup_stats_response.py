@@ -37,15 +37,15 @@ class ReadProtectionGroupS3AssetContinuousBackupStatsResponse:
         """Constructor for the ReadProtectionGroupS3AssetContinuousBackupStatsResponse class."""
 
         # Initialize members of the class
-        self.links: protection_group_bucket_continuous_backup_stats_links.ProtectionGroupBucketContinuousBackupStatsLinks = (
-            links
-        )
+        self.links: (
+            protection_group_bucket_continuous_backup_stats_links.ProtectionGroupBucketContinuousBackupStatsLinks
+        ) = links
         self.bins: Sequence[
             protection_group_bucket_continuous_backup_stats.ProtectionGroupBucketContinuousBackupStats
         ] = bins
-        self.total_stats: protection_group_bucket_continuous_backup_stats.ProtectionGroupBucketContinuousBackupStats = (
-            total_stats
-        )
+        self.total_stats: (
+            protection_group_bucket_continuous_backup_stats.ProtectionGroupBucketContinuousBackupStats
+        ) = total_stats
 
     @classmethod
     def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:

@@ -86,12 +86,12 @@ class ReadComputeResourceResponse:
         self.embedded: compute_resource_embedded.ComputeResourceEmbedded = embedded
         self.etag: str = etag
         self.links: compute_resource_links.ComputeResourceLinks = links
-        self.compute_resource_folder: v_mware_v_center_compute_resource_folder_model.VMwareVCenterComputeResourceFolderModel = (
-            compute_resource_folder
-        )
-        self.datacenter: v_mware_v_center_compute_resource_datacenter_model.VMwareVCenterComputeResourceDatacenterModel = (
-            datacenter
-        )
+        self.compute_resource_folder: (
+            v_mware_v_center_compute_resource_folder_model.VMwareVCenterComputeResourceFolderModel
+        ) = compute_resource_folder
+        self.datacenter: (
+            v_mware_v_center_compute_resource_datacenter_model.VMwareVCenterComputeResourceDatacenterModel
+        ) = datacenter
         self.p_id: str = p_id
         self.is_cluster: bool = is_cluster
         self.is_drs_enabled: bool = is_drs_enabled

@@ -184,9 +184,7 @@ class AwsEbsVolumesV1Controller(base_controller.BaseController):
             )
         return list_ebs_volumes_response.ListEbsVolumesResponse.from_dictionary(resp)
 
-    def read_aws_ebs_volume(
-        self, volume_id: str, embed: str = None, **kwargs
-    ) -> Union[
+    def read_aws_ebs_volume(self, volume_id: str, embed: str = None, **kwargs) -> Union[
         read_ebs_volume_response.ReadEbsVolumeResponse,
         tuple[requests.Response, Optional[read_ebs_volume_response.ReadEbsVolumeResponse]],
     ]:

@@ -32,7 +32,7 @@ class CreateReportDownloadV1Request:
             |                   |                  |                   | Compliance        |
             |                   |                  |                   | reports.          |
             |                   |                  |                   | $gte and $lt      |
-            |                   |                  |                   | accept RFC-3999   |
+            |                   |                  |                   | accept RFC-3339   |
             |                   |                  |                   | timestamps and    |
             |                   |                  |                   | $eq accepts a     |
             |                   |                  |                   | unix timestamp    |
@@ -63,7 +63,7 @@ class CreateReportDownloadV1Request:
             |                   |                  |                   | for Activity      |
             |                   |                  |                   | reports.          |
             |                   |                  |                   | $gte and $lt      |
-            |                   |                  |                   | accept RFC-3999   |
+            |                   |                  |                   | accept RFC-3339   |
             |                   |                  |                   | timestamps and    |
             |                   |                  |                   | $eq accepts a     |
             |                   |                  |                   | unix timestamp    |
@@ -94,7 +94,7 @@ class CreateReportDownloadV1Request:
             |                   |                  |                   | for Consumption   |
             |                   |                  |                   | reports.          |
             |                   |                  |                   | $gte and $lte     |
-            |                   |                  |                   | accept RFC-3999   |
+            |                   |                  |                   | accept RFC-3339   |
             |                   |                  |                   | timestamps and    |
             |                   |                  |                   | $eq accepts a     |
             |                   |                  |                   | duration in       |
