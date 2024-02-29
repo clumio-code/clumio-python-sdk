@@ -63,9 +63,9 @@ class EC2MSSQLDatabaseLinks:
         )
         self.read_aws_ec2_instance: hateoas_link.HateoasLink = read_aws_ec2_instance
         self.read_aws_environment: hateoas_link.HateoasLink = read_aws_environment
-        self.read_policy_definition: read_policy_definition_hateoas_link.ReadPolicyDefinitionHateoasLink = (
-            read_policy_definition
-        )
+        self.read_policy_definition: (
+            read_policy_definition_hateoas_link.ReadPolicyDefinitionHateoasLink
+        ) = read_policy_definition
 
     @classmethod
     def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:

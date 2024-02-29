@@ -169,9 +169,7 @@ class Ec2MssqlDatabasesV1Controller(base_controller.BaseController):
             )
         return list_ec2_mssql_databases_response.ListEC2MSSQLDatabasesResponse.from_dictionary(resp)
 
-    def read_ec2_mssql_database(
-        self, database_id: str, **kwargs
-    ) -> Union[
+    def read_ec2_mssql_database(self, database_id: str, **kwargs) -> Union[
         read_ec2_mssql_database_response.ReadEC2MSSQLDatabaseResponse,
         tuple[
             requests.Response,

@@ -45,9 +45,9 @@ class ProtectionGroupS3AssetRestoreSource:
         # Initialize members of the class
         self.backup_id: str = backup_id
         self.object_filters: source_object_filters.SourceObjectFilters = object_filters
-        self.pitr: protection_group_s3_asset_restore_source_pitr_options.ProtectionGroupS3AssetRestoreSourcePitrOptions = (
-            pitr
-        )
+        self.pitr: (
+            protection_group_s3_asset_restore_source_pitr_options.ProtectionGroupS3AssetRestoreSourcePitrOptions
+        ) = pitr
 
     @classmethod
     def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:

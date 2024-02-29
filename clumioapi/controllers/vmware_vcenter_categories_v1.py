@@ -101,9 +101,7 @@ class VmwareVcenterCategoriesV1Controller(base_controller.BaseController):
             )
         return list_tag_categories2_response.ListTagCategories2Response.from_dictionary(resp)
 
-    def read_vmware_vcenter_category(
-        self, vcenter_id: str, category_id: str, **kwargs
-    ) -> Union[
+    def read_vmware_vcenter_category(self, vcenter_id: str, category_id: str, **kwargs) -> Union[
         read_tag_category2_response.ReadTagCategory2Response,
         tuple[requests.Response, Optional[read_tag_category2_response.ReadTagCategory2Response]],
     ]:

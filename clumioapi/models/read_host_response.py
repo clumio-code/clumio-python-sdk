@@ -84,9 +84,9 @@ class ReadHostResponse:
         # Initialize members of the class
         self.etag: str = etag
         self.links: host_links.HostLinks = links
-        self.compute_resource: v_mware_v_center_host_compute_resource_model.VMwareVCenterHostComputeResourceModel = (
-            compute_resource
-        )
+        self.compute_resource: (
+            v_mware_v_center_host_compute_resource_model.VMwareVCenterHostComputeResourceModel
+        ) = compute_resource
         self.connection_state: str = connection_state
         self.datacenter: v_mware_v_center_host_datacenter_model.VMwareVCenterHostDatacenterModel = (
             datacenter

@@ -35,9 +35,9 @@ class PreviewProtectionGroupS3AssetDetailsResponse:
 
         # Initialize members of the class
         self.etag: str = etag
-        self.links: preview_protection_group_s3_asset_details_links.PreviewProtectionGroupS3AssetDetailsLinks = (
-            links
-        )
+        self.links: (
+            preview_protection_group_s3_asset_details_links.PreviewProtectionGroupS3AssetDetailsLinks
+        ) = links
         self.objects: Sequence[object.Object] = objects
 
     @classmethod

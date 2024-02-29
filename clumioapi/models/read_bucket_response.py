@@ -139,9 +139,9 @@ class ReadBucketResponse:
         self.links: bucket_links.BucketLinks = links
         self.account_native_id: str = account_native_id
         self.aws_region: str = aws_region
-        self.bucket_size_bytes_breakdown: s3_buckets_inventory_summary_bucket_size_breakdown.S3BucketsInventorySummaryBucketSizeBreakdown = (
-            bucket_size_bytes_breakdown
-        )
+        self.bucket_size_bytes_breakdown: (
+            s3_buckets_inventory_summary_bucket_size_breakdown.S3BucketsInventorySummaryBucketSizeBreakdown
+        ) = bucket_size_bytes_breakdown
         self.cloudwatch_metrics: s3_cloudwatch_metrics.S3CloudwatchMetrics = cloudwatch_metrics
         self.creation_timestamp: str = creation_timestamp
         self.encryption_setting: s3_encryption_output.S3EncryptionOutput = encryption_setting

@@ -235,9 +235,7 @@ class BackupMssqlDatabasesV1Controller(base_controller.BaseController):
             )
         return on_demand_mssql_backup_response.OnDemandMssqlBackupResponse.from_dictionary(resp)
 
-    def read_backup_mssql_database(
-        self, backup_id: str, **kwargs
-    ) -> Union[
+    def read_backup_mssql_database(self, backup_id: str, **kwargs) -> Union[
         read_mssql_database_backup_response.ReadMssqlDatabaseBackupResponse,
         tuple[
             requests.Response,

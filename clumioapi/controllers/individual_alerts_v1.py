@@ -274,9 +274,7 @@ class IndividualAlertsV1Controller(base_controller.BaseController):
             return resp, list_alerts_response.ListAlertsResponse.from_dictionary(resp.json())
         return list_alerts_response.ListAlertsResponse.from_dictionary(resp)
 
-    def read_individual_alert(
-        self, individual_alert_id: str, embed: str = None, **kwargs
-    ) -> Union[
+    def read_individual_alert(self, individual_alert_id: str, embed: str = None, **kwargs) -> Union[
         read_alert_response.ReadAlertResponse,
         tuple[requests.Response, Optional[read_alert_response.ReadAlertResponse]],
     ]:

@@ -189,9 +189,7 @@ class PolicyRulesV1Controller(base_controller.BaseController):
             return resp, create_rule_response.CreateRuleResponse.from_dictionary(resp.json())
         return create_rule_response.CreateRuleResponse.from_dictionary(resp)
 
-    def read_policy_rule(
-        self, rule_id: str, **kwargs
-    ) -> Union[
+    def read_policy_rule(self, rule_id: str, **kwargs) -> Union[
         read_rule_response.ReadRuleResponse,
         tuple[requests.Response, Optional[read_rule_response.ReadRuleResponse]],
     ]:
@@ -287,9 +285,7 @@ class PolicyRulesV1Controller(base_controller.BaseController):
             return resp, update_rule_response.UpdateRuleResponse.from_dictionary(resp.json())
         return update_rule_response.UpdateRuleResponse.from_dictionary(resp)
 
-    def delete_policy_rule(
-        self, rule_id: str, body: object = None, **kwargs
-    ) -> Union[
+    def delete_policy_rule(self, rule_id: str, body: object = None, **kwargs) -> Union[
         delete_rule_response.DeleteRuleResponse,
         tuple[requests.Response, Optional[delete_rule_response.DeleteRuleResponse]],
     ]:

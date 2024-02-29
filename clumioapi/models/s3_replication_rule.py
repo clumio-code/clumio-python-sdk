@@ -70,9 +70,9 @@ class S3ReplicationRule:
             delete_marker_replication
         )
         self.destination: s3_destination.S3Destination = destination
-        self.existing_object_replication: s3_existing_object_replication.S3ExistingObjectReplication = (
-            existing_object_replication
-        )
+        self.existing_object_replication: (
+            s3_existing_object_replication.S3ExistingObjectReplication
+        ) = existing_object_replication
         self.filter: s3_replication_rule_filter.S3ReplicationRuleFilter = filter
         self.p_id: str = p_id
         self.priority: int = priority

@@ -90,13 +90,13 @@ class AwsEc2InstancesV1Controller(base_controller.BaseController):
                 |                           |                  | pliance_status":{"$eq":"non_c |
                 |                           |                  | ompliant"}}                   |
                 +---------------------------+------------------+-------------------------------+
-                | protection_status         | $eq              | The protection status of the  |
+                | protection_status         | $in              | The protection status of the  |
                 |                           |                  | EC2 instance. Possible values |
                 |                           |                  | include "protected",          |
                 |                           |                  | "unprotected", and            |
                 |                           |                  | "unsupported". For example, f |
                 |                           |                  | ilter={"protection_status":{" |
-                |                           |                  | $eq":"protected"}}            |
+                |                           |                  | $in":["protected"]}}          |
                 +---------------------------+------------------+-------------------------------+
                 | protection_info.policy_id | $eq              | The Clumio-assigned ID of the |
                 |                           |                  | policy protecting this        |
@@ -182,9 +182,7 @@ class AwsEc2InstancesV1Controller(base_controller.BaseController):
             )
         return list_ec2_instances_response.ListEc2InstancesResponse.from_dictionary(resp)
 
-    def read_aws_ec2_instance(
-        self, instance_id: str, embed: str = None, **kwargs
-    ) -> Union[
+    def read_aws_ec2_instance(self, instance_id: str, embed: str = None, **kwargs) -> Union[
         read_ec2_instance_response.ReadEc2InstanceResponse,
         tuple[requests.Response, Optional[read_ec2_instance_response.ReadEc2InstanceResponse]],
     ]:

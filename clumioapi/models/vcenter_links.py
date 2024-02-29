@@ -38,9 +38,9 @@ class VcenterLinks:
 
         # Initialize members of the class
         self.p_self: hateoas_self_link.HateoasSelfLink = p_self
-        self.read_vmware_vcenter_compliance_stats: read_v_center_object_protection_stats_hateoas_link.ReadVCenterObjectProtectionStatsHateoasLink = (
-            read_vmware_vcenter_compliance_stats
-        )
+        self.read_vmware_vcenter_compliance_stats: (
+            read_v_center_object_protection_stats_hateoas_link.ReadVCenterObjectProtectionStatsHateoasLink
+        ) = read_vmware_vcenter_compliance_stats
 
     @classmethod
     def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:

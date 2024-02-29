@@ -94,9 +94,7 @@ class VmwareVcentersV1Controller(base_controller.BaseController):
             return resp, list_vcenters_response.ListVcentersResponse.from_dictionary(resp.json())
         return list_vcenters_response.ListVcentersResponse.from_dictionary(resp)
 
-    def read_vmware_vcenter(
-        self, vcenter_id: str, embed: str = None, **kwargs
-    ) -> Union[
+    def read_vmware_vcenter(self, vcenter_id: str, embed: str = None, **kwargs) -> Union[
         read_vcenter_response.ReadVcenterResponse,
         tuple[requests.Response, Optional[read_vcenter_response.ReadVcenterResponse]],
     ]:

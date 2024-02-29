@@ -19,9 +19,9 @@ class PolicyOperation:
             Determines whether the protection policy should take action now or during the
             specified backup window.
             If set to `immediate`, Clumio starts the backup process right away. If set to
-            `backup_window_tz`, Clumio starts the backup process when the backup window
+            `window`, Clumio starts the backup process when the backup window
             (`backup_window_tz`) opens.
-            If set to `backup_window_tz` and `operation in ("aws_rds_resource_aws_snapshot",
+            If set to `window` and `operation in ("aws_rds_resource_aws_snapshot",
             "mssql_log_backup", "ec2_mssql_log_backup")`,
             the backup window will not be determined by Clumio's backup window.
         advanced_settings:

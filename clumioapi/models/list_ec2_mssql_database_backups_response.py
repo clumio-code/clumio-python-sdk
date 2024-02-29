@@ -60,9 +60,9 @@ class ListEC2MSSQLDatabaseBackupsResponse:
         """Constructor for the ListEC2MSSQLDatabaseBackupsResponse class."""
 
         # Initialize members of the class
-        self.embedded: ec2_mssql_database_backup_list_embedded.EC2MSSQLDatabaseBackupListEmbedded = (
-            embedded
-        )
+        self.embedded: (
+            ec2_mssql_database_backup_list_embedded.EC2MSSQLDatabaseBackupListEmbedded
+        ) = embedded
         self.links: ec2_mssql_database_backup_list_links.EC2MSSQLDatabaseBackupListLinks = links
         self.current_count: int = current_count
         self.filter_applied: str = filter_applied

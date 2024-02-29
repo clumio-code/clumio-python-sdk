@@ -182,9 +182,7 @@ class AwsDynamodbTablesV1Controller(base_controller.BaseController):
             )
         return list_dynamo_db_table_response.ListDynamoDBTableResponse.from_dictionary(resp)
 
-    def read_aws_dynamodb_table(
-        self, table_id: str, embed: str = None, **kwargs
-    ) -> Union[
+    def read_aws_dynamodb_table(self, table_id: str, embed: str = None, **kwargs) -> Union[
         read_dynamo_db_table_response.ReadDynamoDBTableResponse,
         tuple[requests.Response, Optional[read_dynamo_db_table_response.ReadDynamoDBTableResponse]],
     ]:

@@ -34,12 +34,12 @@ class ListComputeResourcesResponse:
         """Constructor for the ListComputeResourcesResponse class."""
 
         # Initialize members of the class
-        self.computeResourceFolders: Sequence[
-            v_center_folder.VCenterFolder
-        ] = computeResourceFolders
-        self.computeResources: Sequence[
-            v_center_compute_resource.VCenterComputeResource
-        ] = computeResources
+        self.computeResourceFolders: Sequence[v_center_folder.VCenterFolder] = (
+            computeResourceFolders
+        )
+        self.computeResources: Sequence[v_center_compute_resource.VCenterComputeResource] = (
+            computeResources
+        )
 
     @classmethod
     def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:

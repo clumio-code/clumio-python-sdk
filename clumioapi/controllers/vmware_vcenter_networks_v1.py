@@ -131,9 +131,7 @@ class VmwareVcenterNetworksV1Controller(base_controller.BaseController):
             resp
         )
 
-    def read_vmware_vcenter_network(
-        self, vcenter_id: str, network_id: str, **kwargs
-    ) -> Union[
+    def read_vmware_vcenter_network(self, vcenter_id: str, network_id: str, **kwargs) -> Union[
         read_v_mware_v_center_network_response.ReadVMwareVCenterNetworkResponse,
         tuple[
             requests.Response,

@@ -243,9 +243,7 @@ class BackupProtectionGroupsV1Controller(base_controller.BaseController):
             resp
         )
 
-    def read_backup_protection_group_s3_asset(
-        self, backup_id: str, **kwargs
-    ) -> Union[
+    def read_backup_protection_group_s3_asset(self, backup_id: str, **kwargs) -> Union[
         read_protection_group_s3_asset_backup_response.ReadProtectionGroupS3AssetBackupResponse,
         tuple[
             requests.Response,
@@ -303,9 +301,7 @@ class BackupProtectionGroupsV1Controller(base_controller.BaseController):
             resp
         )
 
-    def read_backup_protection_group(
-        self, backup_id: str, **kwargs
-    ) -> Union[
+    def read_backup_protection_group(self, backup_id: str, **kwargs) -> Union[
         read_protection_group_backup_response.ReadProtectionGroupBackupResponse,
         tuple[
             requests.Response,

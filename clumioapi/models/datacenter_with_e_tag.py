@@ -109,9 +109,9 @@ class DatacenterWithETag:
         self.organizational_unit_id: str = organizational_unit_id
         self.protection_info: protection_info.ProtectionInfo = protection_info
         self.protection_status: str = protection_status
-        self.root_compute_resource_folder: v_mware_root_compute_resource_folder_id_model.VMwareRootComputeResourceFolderIDModel = (
-            root_compute_resource_folder
-        )
+        self.root_compute_resource_folder: (
+            v_mware_root_compute_resource_folder_id_model.VMwareRootComputeResourceFolderIDModel
+        ) = root_compute_resource_folder
         self.root_vm_folder: v_mware_root_vm_folder_id_model.VMwareRootVMFolderIDModel = (
             root_vm_folder
         )

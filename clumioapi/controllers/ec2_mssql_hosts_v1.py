@@ -130,9 +130,7 @@ class Ec2MssqlHostsV1Controller(base_controller.BaseController):
             )
         return list_ec2_mssql_inv_hosts_response.ListEC2MSSQLInvHostsResponse.from_dictionary(resp)
 
-    def read_ec2_mssql_host(
-        self, host_id: str, **kwargs
-    ) -> Union[
+    def read_ec2_mssql_host(self, host_id: str, **kwargs) -> Union[
         read_ec2_mssql_inv_host_response.ReadEC2MSSQLInvHostResponse,
         tuple[
             requests.Response,

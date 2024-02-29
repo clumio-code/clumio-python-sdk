@@ -187,9 +187,7 @@ class AwsRdsResourcesV1Controller(base_controller.BaseController):
             )
         return list_rds_resources_response.ListRdsResourcesResponse.from_dictionary(resp)
 
-    def read_aws_rds_resource(
-        self, resource_id: str, embed: str = None, **kwargs
-    ) -> Union[
+    def read_aws_rds_resource(self, resource_id: str, embed: str = None, **kwargs) -> Union[
         read_rds_resource_response.ReadRdsResourceResponse,
         tuple[requests.Response, Optional[read_rds_resource_response.ReadRdsResourceResponse]],
     ]:

@@ -213,9 +213,7 @@ class OrganizationalUnitsV2Controller(base_controller.BaseController):
                 unmarshalled_dict
             )
 
-    def read_organizational_unit(
-        self, id: str, embed: str = None, **kwargs
-    ) -> Union[
+    def read_organizational_unit(self, id: str, embed: str = None, **kwargs) -> Union[
         read_organizational_unit_response.ReadOrganizationalUnitResponse,
         tuple[
             requests.Response,
@@ -282,9 +280,7 @@ class OrganizationalUnitsV2Controller(base_controller.BaseController):
             resp
         )
 
-    def delete_organizational_unit(
-        self, id: str, embed: str = None, **kwargs
-    ) -> Union[
+    def delete_organizational_unit(self, id: str, embed: str = None, **kwargs) -> Union[
         delete_organizational_unit_response.DeleteOrganizationalUnitResponse,
         tuple[
             requests.Response,

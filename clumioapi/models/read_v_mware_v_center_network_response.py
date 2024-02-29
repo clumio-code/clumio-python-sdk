@@ -58,15 +58,15 @@ class ReadVMwareVCenterNetworkResponse:
         # Initialize members of the class
         self.etag: str = etag
         self.links: v_mware_v_center_network_links.VMwareVCenterNetworkLinks = links
-        self.datacenter: v_mware_v_center_network_datacenter_model.VMwareVCenterNetworkDatacenterModel = (
-            datacenter
-        )
+        self.datacenter: (
+            v_mware_v_center_network_datacenter_model.VMwareVCenterNetworkDatacenterModel
+        ) = datacenter
         self.p_id: str = p_id
         self.is_supported: bool = is_supported
         self.name: str = name
-        self.network_folder: v_mware_v_center_network_folder_model.VMwareVCenterNetworkFolderModel = (
-            network_folder
-        )
+        self.network_folder: (
+            v_mware_v_center_network_folder_model.VMwareVCenterNetworkFolderModel
+        ) = network_folder
 
     @classmethod
     def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:

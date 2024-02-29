@@ -61,9 +61,9 @@ class ReadVMwareComputeResourceStatsResponse:
 
         # Initialize members of the class
         self.etag: str = etag
-        self.links: v_mware_compute_resource_compliance_stats_links.VMwareComputeResourceComplianceStatsLinks = (
-            links
-        )
+        self.links: (
+            v_mware_compute_resource_compliance_stats_links.VMwareComputeResourceComplianceStatsLinks
+        ) = links
         self.compliant_count: int = compliant_count
         self.deactivated_count: int = deactivated_count
         self.has_seeding_entities: bool = has_seeding_entities

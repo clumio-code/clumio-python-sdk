@@ -182,9 +182,7 @@ class BackupVmwareVmsV1Controller(base_controller.BaseController):
             )
         return on_demand_vm_backup_response.OnDemandVMBackupResponse.from_dictionary(resp)
 
-    def read_backup_vmware_vm(
-        self, backup_id: int, **kwargs
-    ) -> Union[
+    def read_backup_vmware_vm(self, backup_id: int, **kwargs) -> Union[
         read_vm_backup_response.ReadVMBackupResponse,
         tuple[requests.Response, Optional[read_vm_backup_response.ReadVMBackupResponse]],
     ]:

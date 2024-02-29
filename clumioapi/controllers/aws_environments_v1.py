@@ -159,9 +159,7 @@ class AwsEnvironmentsV1Controller(base_controller.BaseController):
             )
         return list_aws_environments_response.ListAWSEnvironmentsResponse.from_dictionary(resp)
 
-    def read_aws_environment(
-        self, environment_id: str, embed: str = None, **kwargs
-    ) -> Union[
+    def read_aws_environment(self, environment_id: str, embed: str = None, **kwargs) -> Union[
         read_aws_environment_response.ReadAWSEnvironmentResponse,
         tuple[
             requests.Response, Optional[read_aws_environment_response.ReadAWSEnvironmentResponse]

@@ -40,12 +40,12 @@ class CreateS3InstantAccessEndpointResponse:
         """Constructor for the CreateS3InstantAccessEndpointResponse class."""
 
         # Initialize members of the class
-        self.embedded: create_s3_instant_access_endpoint_response_embedded.CreateS3InstantAccessEndpointResponseEmbedded = (
-            embedded
-        )
-        self.links: create_s3_instant_access_endpoint_response_links.CreateS3InstantAccessEndpointResponseLinks = (
-            links
-        )
+        self.embedded: (
+            create_s3_instant_access_endpoint_response_embedded.CreateS3InstantAccessEndpointResponseEmbedded
+        ) = embedded
+        self.links: (
+            create_s3_instant_access_endpoint_response_links.CreateS3InstantAccessEndpointResponseLinks
+        ) = links
         self.p_id: str = p_id
         self.task_id: str = task_id
 

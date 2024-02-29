@@ -233,9 +233,7 @@ class BackupEc2MssqlDatabasesV1Controller(base_controller.BaseController):
             resp
         )
 
-    def read_backup_ec2_mssql_database(
-        self, backup_id: str, **kwargs
-    ) -> Union[
+    def read_backup_ec2_mssql_database(self, backup_id: str, **kwargs) -> Union[
         read_ec2_mssql_database_backup_response.ReadEC2MSSQLDatabaseBackupResponse,
         tuple[
             requests.Response,

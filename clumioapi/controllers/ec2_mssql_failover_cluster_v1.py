@@ -29,9 +29,7 @@ class Ec2MssqlFailoverClusterV1Controller(base_controller.BaseController):
         if config.custom_headers != None:
             self.headers.update(config.custom_headers)
 
-    def read_ec2_mssql_failover_cluster(
-        self, failover_cluster_id: str, **kwargs
-    ) -> Union[
+    def read_ec2_mssql_failover_cluster(self, failover_cluster_id: str, **kwargs) -> Union[
         read_ec2_mssqlfci_response.ReadEC2MSSQLFCIResponse,
         tuple[requests.Response, Optional[read_ec2_mssqlfci_response.ReadEC2MSSQLFCIResponse]],
     ]:

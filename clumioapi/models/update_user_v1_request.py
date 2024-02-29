@@ -51,9 +51,9 @@ class UpdateUserV1Request:
         self.assigned_role: str = assigned_role
         self.full_name: str = full_name
         self.is_enabled: bool = is_enabled
-        self.organizational_unit_assignment_updates: entity_group_assignment_updates_v1.EntityGroupAssignmentUpdatesV1 = (
-            organizational_unit_assignment_updates
-        )
+        self.organizational_unit_assignment_updates: (
+            entity_group_assignment_updates_v1.EntityGroupAssignmentUpdatesV1
+        ) = organizational_unit_assignment_updates
 
     @classmethod
     def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:

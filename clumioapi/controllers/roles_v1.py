@@ -70,9 +70,7 @@ class RolesV1Controller(base_controller.BaseController):
             return resp, list_roles_response.ListRolesResponse.from_dictionary(resp.json())
         return list_roles_response.ListRolesResponse.from_dictionary(resp)
 
-    def read_role(
-        self, role_id: str, **kwargs
-    ) -> Union[
+    def read_role(self, role_id: str, **kwargs) -> Union[
         read_role_response.ReadRoleResponse,
         tuple[requests.Response, Optional[read_role_response.ReadRoleResponse]],
     ]:

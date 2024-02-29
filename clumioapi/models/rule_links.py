@@ -48,9 +48,9 @@ class RuleLinks:
         # Initialize members of the class
         self.p_self: hateoas_self_link.HateoasSelfLink = p_self
         self.delete_policy_rule: hateoas_link.HateoasLink = delete_policy_rule
-        self.read_policy_definition: read_policy_definition_hateoas_link.ReadPolicyDefinitionHateoasLink = (
-            read_policy_definition
-        )
+        self.read_policy_definition: (
+            read_policy_definition_hateoas_link.ReadPolicyDefinitionHateoasLink
+        ) = read_policy_definition
         self.update_policy_rule: hateoas_link.HateoasLink = update_policy_rule
 
     @classmethod

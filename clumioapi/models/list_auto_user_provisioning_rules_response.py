@@ -46,9 +46,9 @@ class ListAutoUserProvisioningRulesResponse:
         """Constructor for the ListAutoUserProvisioningRulesResponse class."""
 
         # Initialize members of the class
-        self.embedded: auto_user_provisioning_rule_list_embedded.AutoUserProvisioningRuleListEmbedded = (
-            embedded
-        )
+        self.embedded: (
+            auto_user_provisioning_rule_list_embedded.AutoUserProvisioningRuleListEmbedded
+        ) = embedded
         self.links: auto_user_provisioning_rule_list_links.AutoUserProvisioningRuleListLinks = links
         self.current_count: int = current_count
         self.limit: int = limit

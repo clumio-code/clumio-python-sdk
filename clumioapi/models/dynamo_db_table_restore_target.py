@@ -125,13 +125,13 @@ class DynamoDBTableRestoreTarget:
         # Initialize members of the class
         self.billing_mode: str = billing_mode
         self.environment_id: str = environment_id
-        self.global_secondary_indexes: Sequence[
-            global_secondary_index.GlobalSecondaryIndex
-        ] = global_secondary_indexes
+        self.global_secondary_indexes: Sequence[global_secondary_index.GlobalSecondaryIndex] = (
+            global_secondary_indexes
+        )
         self.global_table_version: str = global_table_version
-        self.local_secondary_indexes: Sequence[
-            local_secondary_index.LocalSecondaryIndex
-        ] = local_secondary_indexes
+        self.local_secondary_indexes: Sequence[local_secondary_index.LocalSecondaryIndex] = (
+            local_secondary_indexes
+        )
         self.provisioned_throughput: provisioned_throughput.ProvisionedThroughput = (
             provisioned_throughput
         )

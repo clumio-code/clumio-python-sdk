@@ -37,9 +37,9 @@ class ReplicaGlobalSecondaryIndexDescription:
 
         # Initialize members of the class
         self.index_name: str = index_name
-        self.provisioned_throughput_override: provisioned_throughput_override.ProvisionedThroughputOverride = (
-            provisioned_throughput_override
-        )
+        self.provisioned_throughput_override: (
+            provisioned_throughput_override.ProvisionedThroughputOverride
+        ) = provisioned_throughput_override
 
     @classmethod
     def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:

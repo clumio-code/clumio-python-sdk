@@ -56,9 +56,9 @@ class Subgroup:
 
         # Initialize members of the class
         self.links: subgroup_links.SubgroupLinks = links
-        self.cloud_connector_count_by_status: cloud_connector_count_by_status.CloudConnectorCountByStatus = (
-            cloud_connector_count_by_status
-        )
+        self.cloud_connector_count_by_status: (
+            cloud_connector_count_by_status.CloudConnectorCountByStatus
+        ) = cloud_connector_count_by_status
         self.cloud_connector_status: str = cloud_connector_status
         self.group_id: str = group_id
         self.p_id: str = p_id
