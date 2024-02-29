@@ -37,9 +37,9 @@ class CreateRdsResourceRestoreResponse:
 
         # Initialize members of the class
         self.embedded: read_task_hateoas_outer_embedded.ReadTaskHateoasOuterEmbedded = embedded
-        self.links: create_rds_database_restore_response_links.CreateRdsDatabaseRestoreResponseLinks = (
-            links
-        )
+        self.links: (
+            create_rds_database_restore_response_links.CreateRdsDatabaseRestoreResponseLinks
+        ) = links
         self.task_id: str = task_id
 
     @classmethod

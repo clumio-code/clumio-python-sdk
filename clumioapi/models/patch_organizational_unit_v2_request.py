@@ -56,9 +56,9 @@ class PatchOrganizationalUnitV2Request:
         self.description: str = description
         self.entities: update_entities.UpdateEntities = entities
         self.name: str = name
-        self.protection_groups: update_protection_group_assignments.UpdateProtectionGroupAssignments = (
-            protection_groups
-        )
+        self.protection_groups: (
+            update_protection_group_assignments.UpdateProtectionGroupAssignments
+        ) = protection_groups
         self.users: update_user_assignments_with_role.UpdateUserAssignmentsWithRole = users
 
     @classmethod

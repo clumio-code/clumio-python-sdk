@@ -254,9 +254,7 @@ class UsersV2Controller(base_controller.BaseController):
             return resp, edit_profile_response.EditProfileResponse.from_dictionary(resp.json())
         return edit_profile_response.EditProfileResponse.from_dictionary(resp)
 
-    def read_user(
-        self, user_id: int, **kwargs
-    ) -> Union[
+    def read_user(self, user_id: int, **kwargs) -> Union[
         read_user_response.ReadUserResponse,
         tuple[requests.Response, Optional[read_user_response.ReadUserResponse]],
     ]:

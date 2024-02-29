@@ -46,9 +46,9 @@ class EC2MSSQLAGLinks:
         self.get_mssql_ec2_availability_group_stats: hateoas_link.HateoasLink = (
             get_mssql_ec2_availability_group_stats
         )
-        self.read_policy_definition: read_policy_definition_hateoas_link.ReadPolicyDefinitionHateoasLink = (
-            read_policy_definition
-        )
+        self.read_policy_definition: (
+            read_policy_definition_hateoas_link.ReadPolicyDefinitionHateoasLink
+        ) = read_policy_definition
 
     @classmethod
     def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:

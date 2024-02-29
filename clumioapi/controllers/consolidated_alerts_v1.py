@@ -141,9 +141,7 @@ class ConsolidatedAlertsV1Controller(base_controller.BaseController):
             resp
         )
 
-    def read_consolidated_alert(
-        self, id: str, **kwargs
-    ) -> Union[
+    def read_consolidated_alert(self, id: str, **kwargs) -> Union[
         read_consolidated_alert_response.ReadConsolidatedAlertResponse,
         tuple[
             requests.Response,

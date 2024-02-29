@@ -1,3 +1,6 @@
+## 0.16.0
+Updates to Policy, Protection Group and S3 Instant access APIs.
+
 ## 0.15.0
 Updates to AWS Connection API and Policy API parameters.
 

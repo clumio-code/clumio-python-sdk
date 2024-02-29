@@ -191,9 +191,7 @@ class BackupAwsEbsVolumesV2Controller(base_controller.BaseController):
             )
         return on_demand_ebs_backup_response.OnDemandEBSBackupResponse.from_dictionary(resp)
 
-    def read_backup_aws_ebs_volume(
-        self, backup_id: str, **kwargs
-    ) -> Union[
+    def read_backup_aws_ebs_volume(self, backup_id: str, **kwargs) -> Union[
         read_ebs_backup_response.ReadEBSBackupResponse,
         tuple[requests.Response, Optional[read_ebs_backup_response.ReadEBSBackupResponse]],
     ]:

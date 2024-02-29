@@ -152,9 +152,9 @@ class Vm:
         self.links: vm_links.VmLinks = links
         self.compliance_status: str = compliance_status
         self.compute_resource: vm_compute_resource_model.VMComputeResourceModel = compute_resource
-        self.compute_resource_folder: vm_compute_resource_folder_model.VMComputeResourceFolderModel = (
-            compute_resource_folder
-        )
+        self.compute_resource_folder: (
+            vm_compute_resource_folder_model.VMComputeResourceFolderModel
+        ) = compute_resource_folder
         self.datacenter: vm_datacenter_model.VMDatacenterModel = datacenter
         self.datacenter_folder: vm_datacenter_folder_model.VMDatacenterFolderModel = (
             datacenter_folder

@@ -53,9 +53,9 @@ class ListMssqlDatabasePitrIntervalsResponse:
         """Constructor for the ListMssqlDatabasePitrIntervalsResponse class."""
 
         # Initialize members of the class
-        self.embedded: mssql_database_pitr_interval_list_embedded.MssqlDatabasePitrIntervalListEmbedded = (
-            embedded
-        )
+        self.embedded: (
+            mssql_database_pitr_interval_list_embedded.MssqlDatabasePitrIntervalListEmbedded
+        ) = embedded
         self.links: mssql_database_pitr_interval_list_links.MssqlDatabasePitrIntervalListLinks = (
             links
         )

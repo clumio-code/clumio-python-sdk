@@ -56,9 +56,9 @@ class CategorisedResources:
         self.policies: Mapping[str, policy_details.PolicyDetails] = policies
         self.roles: Mapping[str, clumio_role_resource.ClumioRoleResource] = roles
         self.rules: Mapping[str, clumio_rule_resource.ClumioRuleResource] = rules
-        self.ssm_documents: Mapping[
-            str, clumio_ssm_document_resource.ClumioSsmDocumentResource
-        ] = ssm_documents
+        self.ssm_documents: Mapping[str, clumio_ssm_document_resource.ClumioSsmDocumentResource] = (
+            ssm_documents
+        )
         self.topics: Mapping[str, clumio_topic_resource.ClumioTopicResource] = topics
 
     @classmethod

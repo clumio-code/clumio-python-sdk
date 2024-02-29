@@ -52,6 +52,11 @@ class ReadProtectionGroupResponse:
             Whether the protection group already has a backup target configured by a policy,
             or
             is open to be protected by an in-region or out-of-region S3 policy.
+        is_deleted:
+            Determines whether the protection group is active or has been deleted. Deleted
+            protection
+            groups may be purged after some time once there are no active backups associated
+            with it.
         last_backup_timestamp:
             Time of the last backup in RFC-3339 format.
         last_continuous_backup_timestamp:
@@ -102,6 +107,7 @@ class ReadProtectionGroupResponse:
         'description': 'description',
         'p_id': 'id',
         'is_backup_target_region_configured': 'is_backup_target_region_configured',
+        'is_deleted': 'is_deleted',
         'last_backup_timestamp': 'last_backup_timestamp',
         'last_continuous_backup_timestamp': 'last_continuous_backup_timestamp',
         'modified_timestamp': 'modified_timestamp',
@@ -128,6 +134,7 @@ class ReadProtectionGroupResponse:
         description: str = None,
         p_id: str = None,
         is_backup_target_region_configured: bool = None,
+        is_deleted: bool = None,
         last_backup_timestamp: str = None,
         last_continuous_backup_timestamp: str = None,
         modified_timestamp: str = None,
@@ -149,13 +156,14 @@ class ReadProtectionGroupResponse:
         self.backup_target_aws_region: str = backup_target_aws_region
         self.bucket_count: int = bucket_count
         self.bucket_rule: str = bucket_rule
-        self.compliance_stats: protection_compliance_stats_with_seeding.ProtectionComplianceStatsWithSeeding = (
-            compliance_stats
-        )
+        self.compliance_stats: (
+            protection_compliance_stats_with_seeding.ProtectionComplianceStatsWithSeeding
+        ) = compliance_stats
         self.created_timestamp: str = created_timestamp
         self.description: str = description
         self.p_id: str = p_id
         self.is_backup_target_region_configured: bool = is_backup_target_region_configured
+        self.is_deleted: bool = is_deleted
         self.last_backup_timestamp: str = last_backup_timestamp
         self.last_continuous_backup_timestamp: str = last_continuous_backup_timestamp
         self.modified_timestamp: str = modified_timestamp
@@ -215,6 +223,7 @@ class ReadProtectionGroupResponse:
         description = dictionary.get('description')
         p_id = dictionary.get('id')
         is_backup_target_region_configured = dictionary.get('is_backup_target_region_configured')
+        is_deleted = dictionary.get('is_deleted')
         last_backup_timestamp = dictionary.get('last_backup_timestamp')
         last_continuous_backup_timestamp = dictionary.get('last_continuous_backup_timestamp')
         modified_timestamp = dictionary.get('modified_timestamp')
@@ -251,6 +260,7 @@ class ReadProtectionGroupResponse:
             description,
             p_id,
             is_backup_target_region_configured,
+            is_deleted,
             last_backup_timestamp,
             last_continuous_backup_timestamp,
             modified_timestamp,

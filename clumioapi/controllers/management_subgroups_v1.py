@@ -85,9 +85,7 @@ class ManagementSubgroupsV1Controller(base_controller.BaseController):
             return resp, list_subgroups_response.ListSubgroupsResponse.from_dictionary(resp.json())
         return list_subgroups_response.ListSubgroupsResponse.from_dictionary(resp)
 
-    def read_management_subgroup(
-        self, subgroup_id: str, group_id: str, **kwargs
-    ) -> Union[
+    def read_management_subgroup(self, subgroup_id: str, group_id: str, **kwargs) -> Union[
         read_subgroup_response.ReadSubgroupResponse,
         tuple[requests.Response, Optional[read_subgroup_response.ReadSubgroupResponse]],
     ]:

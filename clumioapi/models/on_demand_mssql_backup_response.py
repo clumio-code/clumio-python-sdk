@@ -35,9 +35,9 @@ class OnDemandMssqlBackupResponse:
 
         # Initialize members of the class
         self.embedded: read_task_hateoas_outer_embedded.ReadTaskHateoasOuterEmbedded = embedded
-        self.links: create_on_demand_mssql_database_backup_response_links.CreateOnDemandMSSQLDatabaseBackupResponseLinks = (
-            links
-        )
+        self.links: (
+            create_on_demand_mssql_database_backup_response_links.CreateOnDemandMSSQLDatabaseBackupResponseLinks
+        ) = links
         self.task_id: str = task_id
 
     @classmethod

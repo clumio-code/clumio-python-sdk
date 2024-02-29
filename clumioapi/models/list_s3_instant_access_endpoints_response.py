@@ -46,9 +46,9 @@ class ListS3InstantAccessEndpointsResponse:
         """Constructor for the ListS3InstantAccessEndpointsResponse class."""
 
         # Initialize members of the class
-        self.embedded: s3_instant_access_endpoint_list_embedded.S3InstantAccessEndpointListEmbedded = (
-            embedded
-        )
+        self.embedded: (
+            s3_instant_access_endpoint_list_embedded.S3InstantAccessEndpointListEmbedded
+        ) = embedded
         self.links: s3_instant_access_endpoint_list_links.S3InstantAccessEndpointListLinks = links
         self.current_count: int = current_count
         self.limit: int = limit

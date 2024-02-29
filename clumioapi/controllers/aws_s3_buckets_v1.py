@@ -200,9 +200,7 @@ class AwsS3BucketsV1Controller(base_controller.BaseController):
             return resp, list_buckets_response.ListBucketsResponse.from_dictionary(resp.json())
         return list_buckets_response.ListBucketsResponse.from_dictionary(resp)
 
-    def read_aws_s3_bucket(
-        self, bucket_id: str, **kwargs
-    ) -> Union[
+    def read_aws_s3_bucket(self, bucket_id: str, **kwargs) -> Union[
         read_bucket_response.ReadBucketResponse,
         tuple[requests.Response, Optional[read_bucket_response.ReadBucketResponse]],
     ]:

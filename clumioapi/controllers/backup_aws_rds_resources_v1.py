@@ -75,7 +75,7 @@ class BackupAwsRdsResourcesV1Controller(base_controller.BaseController):
                 +-----------------+------------------+-----------------------------------------+
                 |      Field      | Filter Condition |               Description               |
                 +=================+==================+=========================================+
-                | database_id     | $eq              | Filter database backups whose database  |
+                | resource_id     | $eq              | Filter database backups whose database  |
                 |                 |                  | ID equal the specified string.          |
                 +-----------------+------------------+-----------------------------------------+
                 | start_timestamp | $lte, $gt        | Filter database backups whose start     |
@@ -126,9 +126,7 @@ class BackupAwsRdsResourcesV1Controller(base_controller.BaseController):
             resp
         )
 
-    def read_backup_aws_rds_resource(
-        self, backup_id: str, **kwargs
-    ) -> Union[
+    def read_backup_aws_rds_resource(self, backup_id: str, **kwargs) -> Union[
         read_rds_database_backup_response.ReadRdsDatabaseBackupResponse,
         tuple[
             requests.Response,

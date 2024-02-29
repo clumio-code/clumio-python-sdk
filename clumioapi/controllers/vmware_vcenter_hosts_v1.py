@@ -128,9 +128,7 @@ class VmwareVcenterHostsV1Controller(base_controller.BaseController):
             return resp, list_hosts_response.ListHostsResponse.from_dictionary(resp.json())
         return list_hosts_response.ListHostsResponse.from_dictionary(resp)
 
-    def read_vmware_vcenter_host(
-        self, vcenter_id: str, host_id: str, **kwargs
-    ) -> Union[
+    def read_vmware_vcenter_host(self, vcenter_id: str, host_id: str, **kwargs) -> Union[
         read_host_response.ReadHostResponse,
         tuple[requests.Response, Optional[read_host_response.ReadHostResponse]],
     ]:

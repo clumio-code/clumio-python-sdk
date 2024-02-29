@@ -62,12 +62,12 @@ class ComputeResourceLinks:
         self.protect_entities: protect_entities_hateoas_link.ProtectEntitiesHateoasLink = (
             protect_entities
         )
-        self.read_policy_definition: read_policy_definition_hateoas_link.ReadPolicyDefinitionHateoasLink = (
-            read_policy_definition
-        )
-        self.read_vmware_vcenter_compute_resource_compliance_stats: read_v_center_object_protection_stats_hateoas_link.ReadVCenterObjectProtectionStatsHateoasLink = (
-            read_vmware_vcenter_compute_resource_compliance_stats
-        )
+        self.read_policy_definition: (
+            read_policy_definition_hateoas_link.ReadPolicyDefinitionHateoasLink
+        ) = read_policy_definition
+        self.read_vmware_vcenter_compute_resource_compliance_stats: (
+            read_v_center_object_protection_stats_hateoas_link.ReadVCenterObjectProtectionStatsHateoasLink
+        ) = read_vmware_vcenter_compute_resource_compliance_stats
         self.read_vmware_vcenter_compute_resource_connection_stats: hateoas_link.HateoasLink = (
             read_vmware_vcenter_compute_resource_connection_stats
         )

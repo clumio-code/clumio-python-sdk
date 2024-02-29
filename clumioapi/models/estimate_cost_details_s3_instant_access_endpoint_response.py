@@ -46,9 +46,9 @@ class EstimateCostDetailsS3InstantAccessEndpointResponse:
 
         # Initialize members of the class
         self.etag: str = etag
-        self.links: estimate_cost_details_s3_instant_access_endpoint_response_links.EstimateCostDetailsS3InstantAccessEndpointResponseLinks = (
-            links
-        )
+        self.links: (
+            estimate_cost_details_s3_instant_access_endpoint_response_links.EstimateCostDetailsS3InstantAccessEndpointResponseLinks
+        ) = links
         self.estimated_cost: float = estimated_cost
         self.total_object_count: int = total_object_count
         self.total_object_size: int = total_object_size

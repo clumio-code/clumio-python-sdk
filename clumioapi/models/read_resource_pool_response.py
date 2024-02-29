@@ -68,9 +68,9 @@ class ReadResourcePoolResponse:
         # Initialize members of the class
         self.etag: str = etag
         self.links: resource_pool_links.ResourcePoolLinks = links
-        self.compute_resource: v_mware_resource_pool_compute_resource_model.VMwareResourcePoolComputeResourceModel = (
-            compute_resource
-        )
+        self.compute_resource: (
+            v_mware_resource_pool_compute_resource_model.VMwareResourcePoolComputeResourceModel
+        ) = compute_resource
         self.datacenter: resource_pool_datacenter_model.ResourcePoolDatacenterModel = datacenter
         self.p_id: str = p_id
         self.is_root: bool = is_root

@@ -29,9 +29,9 @@ class S3EncryptionOutput:
         """Constructor for the S3EncryptionOutput class."""
 
         # Initialize members of the class
-        self.server_side_encryption_configuration: s3_server_side_encryption_configuration.S3ServerSideEncryptionConfiguration = (
-            server_side_encryption_configuration
-        )
+        self.server_side_encryption_configuration: (
+            s3_server_side_encryption_configuration.S3ServerSideEncryptionConfiguration
+        ) = server_side_encryption_configuration
 
     @classmethod
     def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:

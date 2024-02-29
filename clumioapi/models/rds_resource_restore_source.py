@@ -34,12 +34,12 @@ class RdsResourceRestoreSource:
         """Constructor for the RdsResourceRestoreSource class."""
 
         # Initialize members of the class
-        self.backup: rds_resource_restore_source_air_gap_options.RdsResourceRestoreSourceAirGapOptions = (
-            backup
-        )
-        self.snapshot: rds_resource_restore_source_pitr_options.RdsResourceRestoreSourcePitrOptions = (
-            snapshot
-        )
+        self.backup: (
+            rds_resource_restore_source_air_gap_options.RdsResourceRestoreSourceAirGapOptions
+        ) = backup
+        self.snapshot: (
+            rds_resource_restore_source_pitr_options.RdsResourceRestoreSourcePitrOptions
+        ) = snapshot
 
     @classmethod
     def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:

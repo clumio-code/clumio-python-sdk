@@ -179,9 +179,7 @@ class AutoUserProvisioningRulesV1Controller(base_controller.BaseController):
             resp
         )
 
-    def read_auto_user_provisioning_rule(
-        self, rule_id: str, **kwargs
-    ) -> Union[
+    def read_auto_user_provisioning_rule(self, rule_id: str, **kwargs) -> Union[
         read_auto_user_provisioning_rule_response.ReadAutoUserProvisioningRuleResponse,
         tuple[
             requests.Response,

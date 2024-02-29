@@ -39,9 +39,9 @@ class OnDemandEC2MSSQLDatabaseBackupResponse:
 
         # Initialize members of the class
         self.embedded: read_task_hateoas_outer_embedded.ReadTaskHateoasOuterEmbedded = embedded
-        self.links: create_on_demand_ec2_mssql_database_backup_response_links.CreateOnDemandEC2MSSQLDatabaseBackupResponseLinks = (
-            links
-        )
+        self.links: (
+            create_on_demand_ec2_mssql_database_backup_response_links.CreateOnDemandEC2MSSQLDatabaseBackupResponseLinks
+        ) = links
         self.p_self: hateoas_self_link.HateoasSelfLink = p_self
         self.task_id: str = task_id
 

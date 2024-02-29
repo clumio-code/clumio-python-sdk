@@ -29,9 +29,7 @@ class VmwareVcenterComplianceStatsV1Controller(base_controller.BaseController):
         if config.custom_headers != None:
             self.headers.update(config.custom_headers)
 
-    def read_vmware_vcenter_compliance_stats(
-        self, vcenter_id: str, **kwargs
-    ) -> Union[
+    def read_vmware_vcenter_compliance_stats(self, vcenter_id: str, **kwargs) -> Union[
         read_v_mware_v_center_protection_stats_response.ReadVMwareVCenterProtectionStatsResponse,
         tuple[
             requests.Response,

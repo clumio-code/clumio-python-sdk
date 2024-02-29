@@ -54,9 +54,9 @@ class ProtectionGroupRestoreSource:
         # Initialize members of the class
         self.backup_id: str = backup_id
         self.object_filters: source_object_filters.SourceObjectFilters = object_filters
-        self.pitr: protection_group_restore_source_pitr_options.ProtectionGroupRestoreSourcePitrOptions = (
-            pitr
-        )
+        self.pitr: (
+            protection_group_restore_source_pitr_options.ProtectionGroupRestoreSourcePitrOptions
+        ) = pitr
         self.protection_group_s3_asset_ids: Sequence[str] = protection_group_s3_asset_ids
 
     @classmethod

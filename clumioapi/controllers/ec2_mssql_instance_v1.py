@@ -120,9 +120,7 @@ class Ec2MssqlInstanceV1Controller(base_controller.BaseController):
             )
         return list_ec2_mssql_instances_response.ListEC2MSSQLInstancesResponse.from_dictionary(resp)
 
-    def read_ec2_mssql_instance(
-        self, instance_id: str, **kwargs
-    ) -> Union[
+    def read_ec2_mssql_instance(self, instance_id: str, **kwargs) -> Union[
         read_ec2_mssql_instance_response.ReadEC2MSSQLInstanceResponse,
         tuple[
             requests.Response,

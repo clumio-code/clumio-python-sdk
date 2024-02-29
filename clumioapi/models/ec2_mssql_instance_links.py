@@ -35,9 +35,9 @@ class EC2MSSQLInstanceLinks:
 
         # Initialize members of the class
         self.p_self: hateoas_self_link.HateoasSelfLink = p_self
-        self.read_policy_definition: read_policy_definition_hateoas_link.ReadPolicyDefinitionHateoasLink = (
-            read_policy_definition
-        )
+        self.read_policy_definition: (
+            read_policy_definition_hateoas_link.ReadPolicyDefinitionHateoasLink
+        ) = read_policy_definition
 
     @classmethod
     def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:

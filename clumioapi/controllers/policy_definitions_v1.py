@@ -35,9 +35,7 @@ class PolicyDefinitionsV1Controller(base_controller.BaseController):
         if config.custom_headers != None:
             self.headers.update(config.custom_headers)
 
-    def list_policy_definitions(
-        self, filter: str = None, embed: str = None, **kwargs
-    ) -> Union[
+    def list_policy_definitions(self, filter: str = None, embed: str = None, **kwargs) -> Union[
         list_policies_response.ListPoliciesResponse,
         tuple[requests.Response, Optional[list_policies_response.ListPoliciesResponse]],
     ]:
@@ -255,9 +253,7 @@ class PolicyDefinitionsV1Controller(base_controller.BaseController):
             return resp, create_policy_response.CreatePolicyResponse.from_dictionary(resp.json())
         return create_policy_response.CreatePolicyResponse.from_dictionary(resp)
 
-    def read_policy_definition(
-        self, policy_id: str, embed: str = None, **kwargs
-    ) -> Union[
+    def read_policy_definition(self, policy_id: str, embed: str = None, **kwargs) -> Union[
         read_policy_response.ReadPolicyResponse,
         tuple[requests.Response, Optional[read_policy_response.ReadPolicyResponse]],
     ]:
@@ -402,9 +398,7 @@ class PolicyDefinitionsV1Controller(base_controller.BaseController):
             return resp, update_policy_response.UpdatePolicyResponse.from_dictionary(resp.json())
         return update_policy_response.UpdatePolicyResponse.from_dictionary(resp)
 
-    def delete_policy_definition(
-        self, policy_id: str, **kwargs
-    ) -> Union[
+    def delete_policy_definition(self, policy_id: str, **kwargs) -> Union[
         delete_policy_response.DeletePolicyResponse,
         tuple[requests.Response, Optional[delete_policy_response.DeletePolicyResponse]],
     ]:

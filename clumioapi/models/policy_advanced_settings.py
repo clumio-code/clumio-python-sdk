@@ -92,24 +92,24 @@ class PolicyAdvancedSettings:
         self.aws_rds_config_sync: rds_config_sync_advanced_setting.RDSConfigSyncAdvancedSetting = (
             aws_rds_config_sync
         )
-        self.aws_rds_resource_granular_backup: rds_logical_backup_advanced_setting.RDSLogicalBackupAdvancedSetting = (
-            aws_rds_resource_granular_backup
-        )
-        self.ec2_mssql_database_backup: ec2_mssql_database_backup_advanced_setting.EC2MSSQLDatabaseBackupAdvancedSetting = (
-            ec2_mssql_database_backup
-        )
-        self.ec2_mssql_log_backup: ec2_mssql_log_backup_advanced_setting.EC2MSSQLLogBackupAdvancedSetting = (
-            ec2_mssql_log_backup
-        )
-        self.mssql_database_backup: mssql_database_backup_advanced_setting.MSSQLDatabaseBackupAdvancedSetting = (
-            mssql_database_backup
-        )
+        self.aws_rds_resource_granular_backup: (
+            rds_logical_backup_advanced_setting.RDSLogicalBackupAdvancedSetting
+        ) = aws_rds_resource_granular_backup
+        self.ec2_mssql_database_backup: (
+            ec2_mssql_database_backup_advanced_setting.EC2MSSQLDatabaseBackupAdvancedSetting
+        ) = ec2_mssql_database_backup
+        self.ec2_mssql_log_backup: (
+            ec2_mssql_log_backup_advanced_setting.EC2MSSQLLogBackupAdvancedSetting
+        ) = ec2_mssql_log_backup
+        self.mssql_database_backup: (
+            mssql_database_backup_advanced_setting.MSSQLDatabaseBackupAdvancedSetting
+        ) = mssql_database_backup
         self.mssql_log_backup: mssql_log_backup_advanced_setting.MSSQLLogBackupAdvancedSetting = (
             mssql_log_backup
         )
-        self.protection_group_backup: protection_group_backup_advanced_setting.ProtectionGroupBackupAdvancedSetting = (
-            protection_group_backup
-        )
+        self.protection_group_backup: (
+            protection_group_backup_advanced_setting.ProtectionGroupBackupAdvancedSetting
+        ) = protection_group_backup
 
     @classmethod
     def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:

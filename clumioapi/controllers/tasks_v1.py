@@ -235,9 +235,7 @@ class TasksV1Controller(base_controller.BaseController):
             return resp, list_tasks_response.ListTasksResponse.from_dictionary(resp.json())
         return list_tasks_response.ListTasksResponse.from_dictionary(resp)
 
-    def read_task(
-        self, task_id: str, **kwargs
-    ) -> Union[
+    def read_task(self, task_id: str, **kwargs) -> Union[
         read_task_response.ReadTaskResponse,
         tuple[requests.Response, Optional[read_task_response.ReadTaskResponse]],
     ]:

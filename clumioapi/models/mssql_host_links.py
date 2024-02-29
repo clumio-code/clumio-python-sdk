@@ -67,9 +67,9 @@ class MssqlHostLinks:
         )
         self.read_management_group: hateoas_link.HateoasLink = read_management_group
         self.read_management_subgroup: hateoas_link.HateoasLink = read_management_subgroup
-        self.read_policy_definition: read_policy_definition_hateoas_link.ReadPolicyDefinitionHateoasLink = (
-            read_policy_definition
-        )
+        self.read_policy_definition: (
+            read_policy_definition_hateoas_link.ReadPolicyDefinitionHateoasLink
+        ) = read_policy_definition
         self.unprotect_entities: unprotect_entities_hateoas_link.UnprotectEntitiesHateoasLink = (
             unprotect_entities
         )

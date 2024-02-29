@@ -198,9 +198,7 @@ class UsersV1Controller(base_controller.BaseController):
             return resp, edit_profile_response_v1.EditProfileResponseV1.from_dictionary(resp.json())
         return edit_profile_response_v1.EditProfileResponseV1.from_dictionary(resp)
 
-    def read_user(
-        self, user_id: int, **kwargs
-    ) -> Union[
+    def read_user(self, user_id: int, **kwargs) -> Union[
         read_user_response_v1.ReadUserResponseV1,
         tuple[requests.Response, Optional[read_user_response_v1.ReadUserResponseV1]],
     ]:
@@ -244,9 +242,7 @@ class UsersV1Controller(base_controller.BaseController):
             return resp, read_user_response_v1.ReadUserResponseV1.from_dictionary(resp.json())
         return read_user_response_v1.ReadUserResponseV1.from_dictionary(resp)
 
-    def delete_user(
-        self, user_id: int, **kwargs
-    ) -> Union[
+    def delete_user(self, user_id: int, **kwargs) -> Union[
         delete_user_response_v1.DeleteUserResponseV1,
         tuple[requests.Response, Optional[delete_user_response_v1.DeleteUserResponseV1]],
     ]:

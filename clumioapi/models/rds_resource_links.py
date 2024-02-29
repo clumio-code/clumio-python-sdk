@@ -53,9 +53,9 @@ class RdsResourceLinks:
         self.p_self: hateoas_self_link.HateoasSelfLink = p_self
         self.list_backup_aws_rds_resources: hateoas_link.HateoasLink = list_backup_aws_rds_resources
         self.list_rds_restored_records: hateoas_link.HateoasLink = list_rds_restored_records
-        self.read_policy_definition: read_policy_definition_hateoas_link.ReadPolicyDefinitionHateoasLink = (
-            read_policy_definition
-        )
+        self.read_policy_definition: (
+            read_policy_definition_hateoas_link.ReadPolicyDefinitionHateoasLink
+        ) = read_policy_definition
         self.restore_aws_rds_resource: hateoas_link.HateoasLink = restore_aws_rds_resource
 
     @classmethod

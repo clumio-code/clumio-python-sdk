@@ -121,9 +121,7 @@ class MssqlInstanceV1Controller(base_controller.BaseController):
             )
         return list_mssql_instances_response.ListMssqlInstancesResponse.from_dictionary(resp)
 
-    def read_mssql_instance(
-        self, instance_id: str, **kwargs
-    ) -> Union[
+    def read_mssql_instance(self, instance_id: str, **kwargs) -> Union[
         read_mssql_instance_response.ReadMssqlInstanceResponse,
         tuple[requests.Response, Optional[read_mssql_instance_response.ReadMssqlInstanceResponse]],
     ]:

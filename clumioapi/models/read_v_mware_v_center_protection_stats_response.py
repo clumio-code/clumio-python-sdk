@@ -56,9 +56,9 @@ class ReadVMwareVCenterProtectionStatsResponse:
         """Constructor for the ReadVMwareVCenterProtectionStatsResponse class."""
 
         # Initialize members of the class
-        self.links: read_v_mware_v_center_protection_stats_links.ReadVMwareVCenterProtectionStatsLinks = (
-            links
-        )
+        self.links: (
+            read_v_mware_v_center_protection_stats_links.ReadVMwareVCenterProtectionStatsLinks
+        ) = links
         self.compliant_count: int = compliant_count
         self.deactivated_count: int = deactivated_count
         self.has_seeding_entities: bool = has_seeding_entities

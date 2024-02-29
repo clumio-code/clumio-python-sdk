@@ -180,9 +180,7 @@ class ProtectionGroupsS3AssetsV1Controller(base_controller.BaseController):
             resp
         )
 
-    def read_protection_group_s3_asset(
-        self, protection_group_s3_asset_id: str, **kwargs
-    ) -> Union[
+    def read_protection_group_s3_asset(self, protection_group_s3_asset_id: str, **kwargs) -> Union[
         read_protection_group_s3_asset_response.ReadProtectionGroupS3AssetResponse,
         tuple[
             requests.Response,

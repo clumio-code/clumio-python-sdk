@@ -29,9 +29,9 @@ class VMwareVCenterNetworkListEmbedded:
         """Constructor for the VMwareVCenterNetworkListEmbedded class."""
 
         # Initialize members of the class
-        self.items: Sequence[
-            v_mware_v_center_network_with_e_tag.VMwareVCenterNetworkWithETag
-        ] = items
+        self.items: Sequence[v_mware_v_center_network_with_e_tag.VMwareVCenterNetworkWithETag] = (
+            items
+        )
 
     @classmethod
     def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
