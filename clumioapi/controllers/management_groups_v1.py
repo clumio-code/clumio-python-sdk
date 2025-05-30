@@ -58,7 +58,7 @@ class ManagementGroupsV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/management-groups'
+        _url_path = '/management-groups'
 
         _query_parameters = {}
         _query_parameters = {'limit': limit, 'start': start}
@@ -114,7 +114,7 @@ class ManagementGroupsV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/management-groups/{group_id}'
+        _url_path = '/management-groups/{group_id}'
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'group_id': group_id}
         )
@@ -172,7 +172,7 @@ class ManagementGroupsV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/management-groups/{group_id}'
+        _url_path = '/management-groups/{group_id}'
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'group_id': group_id}
         )

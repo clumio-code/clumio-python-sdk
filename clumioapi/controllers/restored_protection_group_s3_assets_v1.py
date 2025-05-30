@@ -76,7 +76,7 @@ class RestoredProtectionGroupS3AssetsV1Controller(base_controller.BaseController
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/restores/protection-groups/s3-assets'
+        _url_path = '/restores/protection-groups/s3-assets'
 
         _query_parameters = {}
         _query_parameters = {'embed': embed}
@@ -147,7 +147,7 @@ class RestoredProtectionGroupS3AssetsV1Controller(base_controller.BaseController
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/restores/protection-groups/s3-assets/{protection_group_s3_asset_id}/previews'
+        _url_path = '/restores/protection-groups/s3-assets/{protection_group_s3_asset_id}/previews'
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'protection_group_s3_asset_id': protection_group_s3_asset_id}
         )
@@ -222,7 +222,7 @@ class RestoredProtectionGroupS3AssetsV1Controller(base_controller.BaseController
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/restores/protection-groups/s3-assets/{protection_group_s3_asset_id}/previews/{preview_id}'
+        _url_path = '/restores/protection-groups/s3-assets/{protection_group_s3_asset_id}/previews/{preview_id}'
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path,
             {

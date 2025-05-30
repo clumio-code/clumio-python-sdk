@@ -138,7 +138,7 @@ class Ec2MssqlDatabasesV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/datasources/aws/ec2-mssql/databases'
+        _url_path = '/datasources/aws/ec2-mssql/databases'
 
         _query_parameters = {}
         _query_parameters = {'limit': limit, 'start': start, 'filter': filter, 'embed': embed}
@@ -191,7 +191,7 @@ class Ec2MssqlDatabasesV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/datasources/aws/ec2-mssql/databases/{database_id}'
+        _url_path = '/datasources/aws/ec2-mssql/databases/{database_id}'
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'database_id': database_id}
         )
@@ -270,7 +270,7 @@ class Ec2MssqlDatabasesV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/datasources/aws/ec2-mssql/databases/{database_id}/pitr-intervals'
+        _url_path = '/datasources/aws/ec2-mssql/databases/{database_id}/pitr-intervals'
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'database_id': database_id}
         )

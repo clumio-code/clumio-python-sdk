@@ -45,7 +45,7 @@ class RolesV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/roles'
+        _url_path = '/roles'
 
         _query_parameters = {}
 
@@ -89,7 +89,7 @@ class RolesV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/roles/{role_id}'
+        _url_path = '/roles/{role_id}'
         _url_path = api_helper.append_url_with_template_parameters(_url_path, {'role_id': role_id})
         _query_parameters = {}
 

@@ -70,7 +70,7 @@ class BackupAwsRdsResourceDatabasesV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/backups/aws/rds-resources/{backup_id}/databases'
+        _url_path = '/backups/aws/rds-resources/{backup_id}/databases'
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'backup_id': backup_id}
         )

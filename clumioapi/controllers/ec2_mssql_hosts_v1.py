@@ -99,7 +99,7 @@ class Ec2MssqlHostsV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/datasources/aws/ec2-mssql/hosts'
+        _url_path = '/datasources/aws/ec2-mssql/hosts'
 
         _query_parameters = {}
         _query_parameters = {'limit': limit, 'start': start, 'filter': filter, 'embed': embed}
@@ -152,7 +152,7 @@ class Ec2MssqlHostsV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/datasources/aws/ec2-mssql/hosts/{host_id}'
+        _url_path = '/datasources/aws/ec2-mssql/hosts/{host_id}'
         _url_path = api_helper.append_url_with_template_parameters(_url_path, {'host_id': host_id})
         _query_parameters = {}
 

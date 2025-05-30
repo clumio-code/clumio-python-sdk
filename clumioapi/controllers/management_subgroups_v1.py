@@ -57,7 +57,7 @@ class ManagementSubgroupsV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/management-groups/{group_id}/subgroups'
+        _url_path = '/management-groups/{group_id}/subgroups'
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'group_id': group_id}
         )
@@ -109,7 +109,7 @@ class ManagementSubgroupsV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/management-groups/{group_id}/subgroups/{subgroup_id}'
+        _url_path = '/management-groups/{group_id}/subgroups/{subgroup_id}'
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'subgroup_id': subgroup_id, 'group_id': group_id}
         )

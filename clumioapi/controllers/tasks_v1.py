@@ -209,7 +209,7 @@ class TasksV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/tasks'
+        _url_path = '/tasks'
 
         _query_parameters = {}
         _query_parameters = {'limit': limit, 'start': start, 'filter': filter}
@@ -254,7 +254,7 @@ class TasksV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/tasks/{task_id}'
+        _url_path = '/tasks/{task_id}'
         _url_path = api_helper.append_url_with_template_parameters(_url_path, {'task_id': task_id})
         _query_parameters = {}
 
@@ -303,7 +303,7 @@ class TasksV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/tasks/{task_id}'
+        _url_path = '/tasks/{task_id}'
         _url_path = api_helper.append_url_with_template_parameters(_url_path, {'task_id': task_id})
         _query_parameters = {}
 

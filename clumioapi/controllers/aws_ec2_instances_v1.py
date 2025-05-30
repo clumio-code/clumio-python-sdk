@@ -154,7 +154,7 @@ class AwsEc2InstancesV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/datasources/aws/ec2-instances'
+        _url_path = '/datasources/aws/ec2-instances'
 
         _query_parameters = {}
         _query_parameters = {'limit': limit, 'start': start, 'filter': filter, 'embed': embed}
@@ -214,7 +214,7 @@ class AwsEc2InstancesV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/datasources/aws/ec2-instances/{instance_id}'
+        _url_path = '/datasources/aws/ec2-instances/{instance_id}'
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'instance_id': instance_id}
         )

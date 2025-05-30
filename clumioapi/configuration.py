@@ -23,7 +23,6 @@ class Configuration:
 
     # The base Uri for API calls
     hostname: str = 'api.clumio.com'
-    base_path: str = '/api'
 
     def __init__(
         self,

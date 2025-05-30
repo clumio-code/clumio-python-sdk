@@ -96,7 +96,7 @@ class BackupAwsEc2InstancesV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/backups/aws/ec2-instances'
+        _url_path = '/backups/aws/ec2-instances'
 
         _query_parameters = {}
         _query_parameters = {'limit': limit, 'start': start, 'sort': sort, 'filter': filter}
@@ -162,7 +162,7 @@ class BackupAwsEc2InstancesV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/backups/aws/ec2-instances'
+        _url_path = '/backups/aws/ec2-instances'
 
         _query_parameters = {}
         _query_parameters = {'embed': embed}
@@ -210,7 +210,7 @@ class BackupAwsEc2InstancesV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/backups/aws/ec2-instances/{backup_id}'
+        _url_path = '/backups/aws/ec2-instances/{backup_id}'
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'backup_id': backup_id}
         )

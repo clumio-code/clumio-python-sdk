@@ -68,7 +68,7 @@ class VmwareVcentersV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/datasources/vmware/vcenters'
+        _url_path = '/datasources/vmware/vcenters'
 
         _query_parameters = {}
         _query_parameters = {'limit': limit, 'start': start, 'embed': embed}
@@ -127,7 +127,7 @@ class VmwareVcentersV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/datasources/vmware/vcenters/{vcenter_id}'
+        _url_path = '/datasources/vmware/vcenters/{vcenter_id}'
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'vcenter_id': vcenter_id}
         )

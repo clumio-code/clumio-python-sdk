@@ -81,7 +81,7 @@ class RestoredRecordsAwsDynamodbTablesV1Controller(base_controller.BaseControlle
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/restores/aws/dynamodb-tables/records'
+        _url_path = '/restores/aws/dynamodb-tables/records'
 
         _query_parameters = {}
         _query_parameters = {'embed': embed}

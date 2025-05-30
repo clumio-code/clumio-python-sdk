@@ -51,7 +51,7 @@ class PostProcessAwsConnectionV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/connections/aws/post-process'
+        _url_path = '/connections/aws/post-process'
 
         _query_parameters = {}
 

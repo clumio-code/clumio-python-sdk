@@ -110,7 +110,7 @@ class BackupAwsDynamodbTablesV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/backups/aws/dynamodb-tables'
+        _url_path = '/backups/aws/dynamodb-tables'
 
         _query_parameters = {}
         _query_parameters = {'limit': limit, 'start': start, 'sort': sort, 'filter': filter}
@@ -186,7 +186,7 @@ class BackupAwsDynamodbTablesV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/backups/aws/dynamodb-tables'
+        _url_path = '/backups/aws/dynamodb-tables'
 
         _query_parameters = {}
         _query_parameters = {'embed': embed}
@@ -242,7 +242,7 @@ class BackupAwsDynamodbTablesV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/backups/aws/dynamodb-tables/{backup_id}'
+        _url_path = '/backups/aws/dynamodb-tables/{backup_id}'
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'backup_id': backup_id}
         )

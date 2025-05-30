@@ -82,7 +82,7 @@ class UsersV2Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/users'
+        _url_path = '/users'
 
         _query_parameters = {}
         _query_parameters = {'limit': limit, 'start': start, 'filter': filter}
@@ -131,7 +131,7 @@ class UsersV2Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/users'
+        _url_path = '/users'
 
         _query_parameters = {}
 
@@ -179,7 +179,7 @@ class UsersV2Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/users/_change_password'
+        _url_path = '/users/_change_password'
 
         _query_parameters = {}
 
@@ -228,7 +228,7 @@ class UsersV2Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/users/my-profile'
+        _url_path = '/users/my-profile'
 
         _query_parameters = {}
 
@@ -273,7 +273,7 @@ class UsersV2Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/users/{user_id}'
+        _url_path = '/users/{user_id}'
         _url_path = api_helper.append_url_with_template_parameters(_url_path, {'user_id': user_id})
         _query_parameters = {}
 
@@ -317,7 +317,7 @@ class UsersV2Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/users/{user_id}'
+        _url_path = '/users/{user_id}'
         _url_path = api_helper.append_url_with_template_parameters(_url_path, {'user_id': user_id})
         _query_parameters = {}
 
@@ -367,7 +367,7 @@ class UsersV2Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/users/{user_id}'
+        _url_path = '/users/{user_id}'
         _url_path = api_helper.append_url_with_template_parameters(_url_path, {'user_id': user_id})
         _query_parameters = {}
 

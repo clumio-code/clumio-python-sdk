@@ -154,7 +154,7 @@ class VmwareVcenterComputeResourcesV1Controller(base_controller.BaseController):
 
         # Prepare query URL
         _url_path = (
-            f'{self.config.base_path}/datasources/vmware/vcenters/{vcenter_id}/compute-resources'
+            '/datasources/vmware/vcenters/{vcenter_id}/compute-resources'
         )
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'vcenter_id': vcenter_id}
@@ -230,7 +230,7 @@ class VmwareVcenterComputeResourcesV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/datasources/vmware/vcenters/{vcenter_id}/compute-resources/{compute_resource_id}'
+        _url_path = '/datasources/vmware/vcenters/{vcenter_id}/compute-resources/{compute_resource_id}'
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'vcenter_id': vcenter_id, 'compute_resource_id': compute_resource_id}
         )

@@ -81,7 +81,7 @@ class RestoredFilesV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/restores/files'
+        _url_path = '/restores/files'
 
         _query_parameters = {}
         _query_parameters = {'limit': limit, 'start': start, 'filter': filter}
@@ -143,7 +143,7 @@ class RestoredFilesV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/restores/files'
+        _url_path = '/restores/files'
 
         _query_parameters = {}
         _query_parameters = {'embed': embed}
@@ -194,7 +194,7 @@ class RestoredFilesV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/restores/files/_download'
+        _url_path = '/restores/files/_download'
 
         _query_parameters = {}
 
@@ -249,7 +249,7 @@ class RestoredFilesV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/restores/files/{restored_file_id}/_generate_passcode'
+        _url_path = '/restores/files/{restored_file_id}/_generate_passcode'
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'restored_file_id': restored_file_id}
         )
@@ -322,7 +322,7 @@ class RestoredFilesV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/restores/files/{restored_file_id}/_share'
+        _url_path = '/restores/files/{restored_file_id}/_share'
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'restored_file_id': restored_file_id}
         )

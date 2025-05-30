@@ -56,7 +56,7 @@ class VmwareVcenterFolderComplianceStatsV1Controller(base_controller.BaseControl
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/datasources/vmware/vcenters/{vcenter_id}/folders/{folder_id}/stats/compliance'
+        _url_path = '/datasources/vmware/vcenters/{vcenter_id}/folders/{folder_id}/stats/compliance'
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'vcenter_id': vcenter_id, 'folder_id': folder_id}
         )

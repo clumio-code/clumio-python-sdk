@@ -159,7 +159,7 @@ class AwsRdsResourcesV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/datasources/aws/rds-resources'
+        _url_path = '/datasources/aws/rds-resources'
 
         _query_parameters = {}
         _query_parameters = {'limit': limit, 'start': start, 'filter': filter, 'embed': embed}
@@ -218,7 +218,7 @@ class AwsRdsResourcesV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/datasources/aws/rds-resources/{resource_id}'
+        _url_path = '/datasources/aws/rds-resources/{resource_id}'
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'resource_id': resource_id}
         )

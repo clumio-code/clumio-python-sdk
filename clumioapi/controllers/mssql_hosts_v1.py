@@ -101,7 +101,7 @@ class MssqlHostsV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/connections/mssql/hosts'
+        _url_path = '/connections/mssql/hosts'
 
         _query_parameters = {}
         _query_parameters = {
@@ -155,7 +155,7 @@ class MssqlHostsV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/connections/mssql/hosts'
+        _url_path = '/connections/mssql/hosts'
 
         _query_parameters = {}
 
@@ -217,7 +217,7 @@ class MssqlHostsV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/connections/mssql/hosts'
+        _url_path = '/connections/mssql/hosts'
 
         _query_parameters = {}
         _query_parameters = {'embed': embed}
@@ -281,7 +281,7 @@ class MssqlHostsV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/connections/mssql/hosts'
+        _url_path = '/connections/mssql/hosts'
 
         _query_parameters = {}
         _query_parameters = {'embed': embed}
@@ -334,7 +334,7 @@ class MssqlHostsV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/connections/mssql/hosts/eccredentials'
+        _url_path = '/connections/mssql/hosts/eccredentials'
 
         _query_parameters = {}
 
@@ -386,7 +386,7 @@ class MssqlHostsV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/connections/mssql/hosts/{host_id}'
+        _url_path = '/connections/mssql/hosts/{host_id}'
         _url_path = api_helper.append_url_with_template_parameters(_url_path, {'host_id': host_id})
         _query_parameters = {}
 
@@ -504,7 +504,7 @@ class MssqlHostsV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/datasources/mssql/hosts'
+        _url_path = '/datasources/mssql/hosts'
 
         _query_parameters = {}
         _query_parameters = {'limit': limit, 'start': start, 'filter': filter, 'embed': embed}
@@ -551,7 +551,7 @@ class MssqlHostsV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/datasources/mssql/hosts/{host_id}'
+        _url_path = '/datasources/mssql/hosts/{host_id}'
         _url_path = api_helper.append_url_with_template_parameters(_url_path, {'host_id': host_id})
         _query_parameters = {}
 

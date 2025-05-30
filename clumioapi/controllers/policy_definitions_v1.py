@@ -177,7 +177,7 @@ class PolicyDefinitionsV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/policies/definitions'
+        _url_path = '/policies/definitions'
 
         _query_parameters = {}
         _query_parameters = {'filter': filter, 'embed': embed}
@@ -227,7 +227,7 @@ class PolicyDefinitionsV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/policies/definitions'
+        _url_path = '/policies/definitions'
 
         _query_parameters = {}
 
@@ -292,7 +292,7 @@ class PolicyDefinitionsV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/policies/definitions/{policy_id}'
+        _url_path = '/policies/definitions/{policy_id}'
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'policy_id': policy_id}
         )
@@ -369,7 +369,7 @@ class PolicyDefinitionsV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/policies/definitions/{policy_id}'
+        _url_path = '/policies/definitions/{policy_id}'
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'policy_id': policy_id}
         )
@@ -417,7 +417,7 @@ class PolicyDefinitionsV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/policies/definitions/{policy_id}'
+        _url_path = '/policies/definitions/{policy_id}'
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'policy_id': policy_id}
         )
