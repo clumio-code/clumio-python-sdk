@@ -52,7 +52,7 @@ class RestoredVmwareVmsV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/restores/vmware/vms'
+        _url_path = '/restores/vmware/vms'
 
         _query_parameters = {}
 

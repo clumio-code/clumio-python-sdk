@@ -66,7 +66,7 @@ class RestoredAwsEc2InstancesV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/restores/aws/ec2-instances'
+        _url_path = '/restores/aws/ec2-instances'
 
         _query_parameters = {}
         _query_parameters = {'embed': embed}

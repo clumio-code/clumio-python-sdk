@@ -82,7 +82,7 @@ class BackupAwsRdsResourceDatabaseTablesV1Controller(base_controller.BaseControl
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/backups/aws/rds-resources/{backup_id}/databases/{database_name}/tables'
+        _url_path = '/backups/aws/rds-resources/{backup_id}/databases/{database_name}/tables'
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'backup_id': backup_id, 'database_name': database_name}
         )
@@ -163,7 +163,7 @@ class BackupAwsRdsResourceDatabaseTablesV1Controller(base_controller.BaseControl
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/backups/aws/rds-resources/{backup_id}/databases/{database_name}/tables/{table_id}'
+        _url_path = '/backups/aws/rds-resources/{backup_id}/databases/{database_name}/tables/{table_id}'
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path,
             {'backup_id': backup_id, 'database_name': database_name, 'table_id': table_id},
@@ -226,7 +226,7 @@ class BackupAwsRdsResourceDatabaseTablesV1Controller(base_controller.BaseControl
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/backups/aws/rds-resources/{backup_id}/databases/{database_name}/tables/{table_id}/columns'
+        _url_path = '/backups/aws/rds-resources/{backup_id}/databases/{database_name}/tables/{table_id}/columns'
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path,
             {'backup_id': backup_id, 'database_name': database_name, 'table_id': table_id},

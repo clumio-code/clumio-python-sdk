@@ -83,7 +83,7 @@ class OrganizationalUnitsV2Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/organizational-units'
+        _url_path = '/organizational-units'
 
         _query_parameters = {}
         _query_parameters = {'limit': limit, 'start': start, 'filter': filter}
@@ -167,7 +167,7 @@ class OrganizationalUnitsV2Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/organizational-units'
+        _url_path = '/organizational-units'
 
         _query_parameters = {}
         _query_parameters = {'embed': embed}
@@ -247,7 +247,7 @@ class OrganizationalUnitsV2Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/organizational-units/{id}'
+        _url_path = '/organizational-units/{id}'
         _url_path = api_helper.append_url_with_template_parameters(_url_path, {'id': id})
         _query_parameters = {}
         _query_parameters = {'embed': embed}
@@ -314,7 +314,7 @@ class OrganizationalUnitsV2Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/organizational-units/{id}'
+        _url_path = '/organizational-units/{id}'
         _url_path = api_helper.append_url_with_template_parameters(_url_path, {'id': id})
         _query_parameters = {}
         _query_parameters = {'embed': embed}
@@ -404,7 +404,7 @@ class OrganizationalUnitsV2Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/organizational-units/{id}'
+        _url_path = '/organizational-units/{id}'
         _url_path = api_helper.append_url_with_template_parameters(_url_path, {'id': id})
         _query_parameters = {}
         _query_parameters = {'embed': embed}

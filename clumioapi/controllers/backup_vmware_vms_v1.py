@@ -105,7 +105,7 @@ class BackupVmwareVmsV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/backups/vmware/vms'
+        _url_path = '/backups/vmware/vms'
 
         _query_parameters = {}
         _query_parameters = {'limit': limit, 'start': start, 'sort': sort, 'filter': filter}
@@ -154,7 +154,7 @@ class BackupVmwareVmsV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/backups/vmware/vms'
+        _url_path = '/backups/vmware/vms'
 
         _query_parameters = {}
 
@@ -201,7 +201,7 @@ class BackupVmwareVmsV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/backups/vmware/vms/{backup_id}'
+        _url_path = '/backups/vmware/vms/{backup_id}'
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'backup_id': backup_id}
         )

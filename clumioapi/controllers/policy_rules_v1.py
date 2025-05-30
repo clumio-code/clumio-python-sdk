@@ -106,7 +106,7 @@ class PolicyRulesV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/policies/rules'
+        _url_path = '/policies/rules'
 
         _query_parameters = {}
         _query_parameters = {
@@ -163,7 +163,7 @@ class PolicyRulesV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/policies/rules'
+        _url_path = '/policies/rules'
 
         _query_parameters = {}
 
@@ -208,7 +208,7 @@ class PolicyRulesV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/policies/rules/{rule_id}'
+        _url_path = '/policies/rules/{rule_id}'
         _url_path = api_helper.append_url_with_template_parameters(_url_path, {'rule_id': rule_id})
         _query_parameters = {}
 
@@ -259,7 +259,7 @@ class PolicyRulesV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/policies/rules/{rule_id}'
+        _url_path = '/policies/rules/{rule_id}'
         _url_path = api_helper.append_url_with_template_parameters(_url_path, {'rule_id': rule_id})
         _query_parameters = {}
 
@@ -306,7 +306,7 @@ class PolicyRulesV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/policies/rules/{rule_id}'
+        _url_path = '/policies/rules/{rule_id}'
         _url_path = api_helper.append_url_with_template_parameters(_url_path, {'rule_id': rule_id})
         _query_parameters = {}
 

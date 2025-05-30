@@ -242,7 +242,7 @@ class IndividualAlertsV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/alerts/individual'
+        _url_path = '/alerts/individual'
 
         _query_parameters = {}
         _query_parameters = {
@@ -306,7 +306,7 @@ class IndividualAlertsV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/alerts/individual/{individual_alert_id}'
+        _url_path = '/alerts/individual/{individual_alert_id}'
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'individual_alert_id': individual_alert_id}
         )
@@ -375,7 +375,7 @@ class IndividualAlertsV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/alerts/individual/{individual_alert_id}'
+        _url_path = '/alerts/individual/{individual_alert_id}'
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'individual_alert_id': individual_alert_id}
         )

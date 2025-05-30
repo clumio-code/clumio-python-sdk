@@ -107,7 +107,7 @@ class Ec2MssqlFailoverClustersV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/datasources/aws/ec2-mssql/failover-clusters'
+        _url_path = '/datasources/aws/ec2-mssql/failover-clusters'
 
         _query_parameters = {}
         _query_parameters = {'limit': limit, 'start': start, 'filter': filter, 'embed': embed}

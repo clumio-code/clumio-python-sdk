@@ -142,7 +142,7 @@ class AwsEnvironmentTagsV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/datasources/aws/environments/{environment_id}/tags'
+        _url_path = '/datasources/aws/environments/{environment_id}/tags'
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'environment_id': environment_id}
         )
@@ -228,7 +228,7 @@ class AwsEnvironmentTagsV1Controller(base_controller.BaseController):
 
         # Prepare query URL
         _url_path = (
-            f'{self.config.base_path}/datasources/aws/environments/{environment_id}/tags/{tag_id}'
+            '/datasources/aws/environments/{environment_id}/tags/{tag_id}'
         )
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'environment_id': environment_id, 'tag_id': tag_id}
@@ -283,7 +283,7 @@ class AwsEnvironmentTagsV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/datasources/aws/environments/{environment_id}/tags/{tag_id}/stats/compliance/ebs-volumes'
+        _url_path = '/datasources/aws/environments/{environment_id}/tags/{tag_id}/stats/compliance/ebs-volumes'
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'environment_id': environment_id, 'tag_id': tag_id}
         )

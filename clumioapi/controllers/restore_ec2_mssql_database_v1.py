@@ -72,7 +72,7 @@ class RestoreEc2MssqlDatabaseV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/restores/aws/ec2-mssql/databases'
+        _url_path = '/restores/aws/ec2-mssql/databases'
 
         _query_parameters = {}
         _query_parameters = {'embed': embed}

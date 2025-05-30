@@ -56,7 +56,7 @@ class BackupFilesystemsV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/backups/{backup_id}/filesystems'
+        _url_path = '/backups/{backup_id}/filesystems'
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'backup_id': backup_id}
         )
@@ -107,7 +107,7 @@ class BackupFilesystemsV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/backups/{backup_id}/filesystems/{filesystem_id}'
+        _url_path = '/backups/{backup_id}/filesystems/{filesystem_id}'
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'filesystem_id': filesystem_id, 'backup_id': backup_id}
         )

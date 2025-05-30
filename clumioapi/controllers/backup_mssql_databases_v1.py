@@ -124,7 +124,7 @@ class BackupMssqlDatabasesV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/backups/mssql/databases'
+        _url_path = '/backups/mssql/databases'
 
         _query_parameters = {}
         _query_parameters = {
@@ -203,7 +203,7 @@ class BackupMssqlDatabasesV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/backups/mssql/databases'
+        _url_path = '/backups/mssql/databases'
 
         _query_parameters = {}
         _query_parameters = {'embed': embed}
@@ -257,7 +257,7 @@ class BackupMssqlDatabasesV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/backups/mssql/databases/{backup_id}'
+        _url_path = '/backups/mssql/databases/{backup_id}'
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'backup_id': backup_id}
         )

@@ -104,7 +104,7 @@ class VmwareVcenterResourcePoolsV1Controller(base_controller.BaseController):
 
         # Prepare query URL
         _url_path = (
-            f'{self.config.base_path}/datasources/vmware/vcenters/{vcenter_id}/resource-pools'
+            '/datasources/vmware/vcenters/{vcenter_id}/resource-pools'
         )
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'vcenter_id': vcenter_id}
@@ -158,7 +158,7 @@ class VmwareVcenterResourcePoolsV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/datasources/vmware/vcenters/{vcenter_id}/resource-pools/{resource_pool_id}'
+        _url_path = '/datasources/vmware/vcenters/{vcenter_id}/resource-pools/{resource_pool_id}'
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'vcenter_id': vcenter_id, 'resource_pool_id': resource_pool_id}
         )

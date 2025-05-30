@@ -96,7 +96,7 @@ class VmwareVcenterNetworksV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/datasources/vmware/vcenters/{vcenter_id}/networks'
+        _url_path = '/datasources/vmware/vcenters/{vcenter_id}/networks'
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'vcenter_id': vcenter_id}
         )
@@ -155,7 +155,7 @@ class VmwareVcenterNetworksV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/datasources/vmware/vcenters/{vcenter_id}/networks/{network_id}'
+        _url_path = '/datasources/vmware/vcenters/{vcenter_id}/networks/{network_id}'
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'vcenter_id': vcenter_id, 'network_id': network_id}
         )

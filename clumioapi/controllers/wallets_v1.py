@@ -56,7 +56,7 @@ class WalletsV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/wallets'
+        _url_path = '/wallets'
 
         _query_parameters = {}
         _query_parameters = {'limit': limit, 'start': start}
@@ -103,7 +103,7 @@ class WalletsV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/wallets'
+        _url_path = '/wallets'
 
         _query_parameters = {}
 
@@ -148,7 +148,7 @@ class WalletsV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/wallets/{wallet_id}'
+        _url_path = '/wallets/{wallet_id}'
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'wallet_id': wallet_id}
         )
@@ -193,7 +193,7 @@ class WalletsV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/wallets/{wallet_id}'
+        _url_path = '/wallets/{wallet_id}'
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'wallet_id': wallet_id}
         )
@@ -240,7 +240,7 @@ class WalletsV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/wallets/{wallet_id}/_refresh'
+        _url_path = '/wallets/{wallet_id}/_refresh'
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'wallet_id': wallet_id}
         )

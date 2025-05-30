@@ -83,7 +83,7 @@ class AutoUserProvisioningRulesV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/settings/auto-user-provisioning/rules'
+        _url_path = '/settings/auto-user-provisioning/rules'
 
         _query_parameters = {}
         _query_parameters = {'limit': limit, 'start': start, 'filter': filter}
@@ -146,7 +146,7 @@ class AutoUserProvisioningRulesV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/settings/auto-user-provisioning/rules'
+        _url_path = '/settings/auto-user-provisioning/rules'
 
         _query_parameters = {}
 
@@ -203,7 +203,7 @@ class AutoUserProvisioningRulesV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/settings/auto-user-provisioning/rules/{rule_id}'
+        _url_path = '/settings/auto-user-provisioning/rules/{rule_id}'
         _url_path = api_helper.append_url_with_template_parameters(_url_path, {'rule_id': rule_id})
         _query_parameters = {}
 
@@ -266,7 +266,7 @@ class AutoUserProvisioningRulesV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/settings/auto-user-provisioning/rules/{rule_id}'
+        _url_path = '/settings/auto-user-provisioning/rules/{rule_id}'
         _url_path = api_helper.append_url_with_template_parameters(_url_path, {'rule_id': rule_id})
         _query_parameters = {}
 
@@ -317,7 +317,7 @@ class AutoUserProvisioningRulesV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/settings/auto-user-provisioning/rules/{rule_id}'
+        _url_path = '/settings/auto-user-provisioning/rules/{rule_id}'
         _url_path = api_helper.append_url_with_template_parameters(_url_path, {'rule_id': rule_id})
         _query_parameters = {}
 

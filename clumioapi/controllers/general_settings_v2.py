@@ -44,7 +44,7 @@ class GeneralSettingsV2Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/settings/general'
+        _url_path = '/settings/general'
 
         _query_parameters = {}
 
@@ -100,7 +100,7 @@ class GeneralSettingsV2Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/settings/general'
+        _url_path = '/settings/general'
 
         _query_parameters = {}
 

@@ -51,7 +51,7 @@ class RestoredAwsEbsVolumesV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/restores/aws/ebs-volumes'
+        _url_path = '/restores/aws/ebs-volumes'
 
         _query_parameters = {}
 

@@ -43,7 +43,7 @@ class AutoUserProvisioningSettingsV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/settings/auto-user-provisioning'
+        _url_path = '/settings/auto-user-provisioning'
 
         _query_parameters = {}
 
@@ -103,7 +103,7 @@ class AutoUserProvisioningSettingsV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/settings/auto-user-provisioning'
+        _url_path = '/settings/auto-user-provisioning'
 
         _query_parameters = {}
 

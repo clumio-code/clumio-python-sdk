@@ -96,7 +96,7 @@ class RestoredProtectionGroupInstantAccessEndpointsV1Controller(base_controller.
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/restores/protection-groups/instant-access-endpoints'
+        _url_path = '/restores/protection-groups/instant-access-endpoints'
 
         _query_parameters = {}
         _query_parameters = {'limit': limit, 'start': start, 'filter': filter}
@@ -160,7 +160,7 @@ class RestoredProtectionGroupInstantAccessEndpointsV1Controller(base_controller.
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/restores/protection-groups/instant-access-endpoints'
+        _url_path = '/restores/protection-groups/instant-access-endpoints'
 
         _query_parameters = {}
 
@@ -229,7 +229,7 @@ class RestoredProtectionGroupInstantAccessEndpointsV1Controller(base_controller.
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/restores/protection-groups/instant-access-endpoints/cost-estimates'
+        _url_path = '/restores/protection-groups/instant-access-endpoints/cost-estimates'
 
         _query_parameters = {}
 
@@ -302,7 +302,7 @@ class RestoredProtectionGroupInstantAccessEndpointsV1Controller(base_controller.
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/restores/protection-groups/instant-access-endpoints/cost-estimates/{estimate_id}'
+        _url_path = '/restores/protection-groups/instant-access-endpoints/cost-estimates/{estimate_id}'
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'estimate_id': estimate_id}
         )
@@ -359,7 +359,7 @@ class RestoredProtectionGroupInstantAccessEndpointsV1Controller(base_controller.
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/restores/protection-groups/instant-access-endpoints/{endpoint_id}'
+        _url_path = '/restores/protection-groups/instant-access-endpoints/{endpoint_id}'
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'endpoint_id': endpoint_id}
         )
@@ -425,7 +425,7 @@ class RestoredProtectionGroupInstantAccessEndpointsV1Controller(base_controller.
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/restores/protection-groups/instant-access-endpoints/{endpoint_id}'
+        _url_path = '/restores/protection-groups/instant-access-endpoints/{endpoint_id}'
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'endpoint_id': endpoint_id}
         )
@@ -479,7 +479,7 @@ class RestoredProtectionGroupInstantAccessEndpointsV1Controller(base_controller.
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/restores/protection-groups/instant-access-endpoints/{endpoint_id}'
+        _url_path = '/restores/protection-groups/instant-access-endpoints/{endpoint_id}'
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'endpoint_id': endpoint_id}
         )
@@ -533,7 +533,7 @@ class RestoredProtectionGroupInstantAccessEndpointsV1Controller(base_controller.
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/restores/protection-groups/instant-access-endpoints/{endpoint_id}/_get_uri'
+        _url_path = '/restores/protection-groups/instant-access-endpoints/{endpoint_id}/_get_uri'
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'endpoint_id': endpoint_id}
         )
@@ -599,7 +599,7 @@ class RestoredProtectionGroupInstantAccessEndpointsV1Controller(base_controller.
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/restores/protection-groups/instant-access-endpoints/{endpoint_id}/roles'
+        _url_path = '/restores/protection-groups/instant-access-endpoints/{endpoint_id}/roles'
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'endpoint_id': endpoint_id}
         )
@@ -663,7 +663,7 @@ class RestoredProtectionGroupInstantAccessEndpointsV1Controller(base_controller.
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/restores/protection-groups/instant-access-endpoints/{endpoint_id}/roles/permissions'
+        _url_path = '/restores/protection-groups/instant-access-endpoints/{endpoint_id}/roles/permissions'
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'endpoint_id': endpoint_id}
         )
@@ -734,7 +734,7 @@ class RestoredProtectionGroupInstantAccessEndpointsV1Controller(base_controller.
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/restores/protection-groups/instant-access-endpoints/{endpoint_id}/roles/{role_id}'
+        _url_path = '/restores/protection-groups/instant-access-endpoints/{endpoint_id}/roles/{role_id}'
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'endpoint_id': endpoint_id, 'role_id': role_id}
         )
@@ -799,7 +799,7 @@ class RestoredProtectionGroupInstantAccessEndpointsV1Controller(base_controller.
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/restores/protection-groups/instant-access-endpoints/{endpoint_id}/roles/{role_id}'
+        _url_path = '/restores/protection-groups/instant-access-endpoints/{endpoint_id}/roles/{role_id}'
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'endpoint_id': endpoint_id, 'role_id': role_id}
         )

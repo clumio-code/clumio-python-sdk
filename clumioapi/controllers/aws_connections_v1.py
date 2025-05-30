@@ -142,7 +142,7 @@ class AwsConnectionsV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/connections/aws'
+        _url_path = '/connections/aws'
 
         _query_parameters = {}
         _query_parameters = {'limit': limit, 'start': start, 'filter': filter}
@@ -193,7 +193,7 @@ class AwsConnectionsV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/connections/aws'
+        _url_path = '/connections/aws'
 
         _query_parameters = {}
 
@@ -244,7 +244,7 @@ class AwsConnectionsV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/connections/aws/{connection_id}'
+        _url_path = '/connections/aws/{connection_id}'
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'connection_id': connection_id}
         )
@@ -292,7 +292,7 @@ class AwsConnectionsV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/connections/aws/{connection_id}'
+        _url_path = '/connections/aws/{connection_id}'
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'connection_id': connection_id}
         )
@@ -347,7 +347,7 @@ class AwsConnectionsV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/connections/aws/{connection_id}'
+        _url_path = '/connections/aws/{connection_id}'
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'connection_id': connection_id}
         )

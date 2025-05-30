@@ -88,7 +88,7 @@ class MssqlAvailabilityGroupsV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/datasources/mssql/availability-groups'
+        _url_path = '/datasources/mssql/availability-groups'
 
         _query_parameters = {}
         _query_parameters = {'limit': limit, 'start': start, 'filter': filter}
@@ -134,7 +134,7 @@ class MssqlAvailabilityGroupsV1Controller(base_controller.BaseController):
 
         # Prepare query URL
         _url_path = (
-            f'{self.config.base_path}/datasources/mssql/availability-groups/{availability_group_id}'
+            '/datasources/mssql/availability-groups/{availability_group_id}'
         )
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'availability_group_id': availability_group_id}

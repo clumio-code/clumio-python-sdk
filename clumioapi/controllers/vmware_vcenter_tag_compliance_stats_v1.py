@@ -54,7 +54,7 @@ class VmwareVcenterTagComplianceStatsV1Controller(base_controller.BaseController
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/datasources/vmware/vcenters/{vcenter_id}/tags/{tag_id}/stats/compliance'
+        _url_path = '/datasources/vmware/vcenters/{vcenter_id}/tags/{tag_id}/stats/compliance'
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'vcenter_id': vcenter_id, 'tag_id': tag_id}
         )

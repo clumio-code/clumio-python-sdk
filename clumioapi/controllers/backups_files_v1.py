@@ -78,7 +78,7 @@ class BackupsFilesV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/backups/files/search'
+        _url_path = '/backups/files/search'
 
         _query_parameters = {}
         _query_parameters = {'limit': limit, 'start': start, 'filter': filter}
@@ -131,7 +131,7 @@ class BackupsFilesV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/backups/files/search/{search_result_id}/versions'
+        _url_path = '/backups/files/search/{search_result_id}/versions'
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'search_result_id': search_result_id}
         )

@@ -114,7 +114,7 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/datasources/protection-groups'
+        _url_path = '/datasources/protection-groups'
 
         _query_parameters = {}
         _query_parameters = {'limit': limit, 'start': start, 'filter': filter}
@@ -166,7 +166,7 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/datasources/protection-groups/{group_id}'
+        _url_path = '/datasources/protection-groups/{group_id}'
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'group_id': group_id}
         )
@@ -229,7 +229,7 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/protection-groups'
+        _url_path = '/protection-groups'
 
         _query_parameters = {}
 
@@ -293,7 +293,7 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/protection-groups/{group_id}'
+        _url_path = '/protection-groups/{group_id}'
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'group_id': group_id}
         )
@@ -350,7 +350,7 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/protection-groups/{group_id}'
+        _url_path = '/protection-groups/{group_id}'
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'group_id': group_id}
         )
@@ -411,7 +411,7 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/protection-groups/{group_id}/buckets'
+        _url_path = '/protection-groups/{group_id}/buckets'
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'group_id': group_id}
         )
@@ -478,7 +478,7 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/protection-groups/{group_id}/buckets/{bucket_id}'
+        _url_path = '/protection-groups/{group_id}/buckets/{bucket_id}'
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'group_id': group_id, 'bucket_id': bucket_id}
         )

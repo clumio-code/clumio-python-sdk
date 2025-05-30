@@ -43,7 +43,7 @@ class AwsCloudformationTemplatesV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/connections/aws/cloudformation-templates'
+        _url_path = '/connections/aws/cloudformation-templates'
 
         _query_parameters = {}
 
@@ -77,7 +77,7 @@ class AwsCloudformationTemplatesV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = f'{self.config.base_path}/connections/aws/cloudformation-templates'
+        _url_path = '/connections/aws/cloudformation-templates'
 
         _query_parameters = {}
 
