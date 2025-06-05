@@ -12,11 +12,11 @@ else:
 
 setup(
     name='clumioapi',
-    version='0.16.0',
+    version='0.16.1',
     description='Python SDK for Clumio REST API',
     long_description=long_description,
     long_description_content_type='text/markdown',
-    author='Clumio Inc.',
+    author='Clumio Inc. A Commvault Company',
     author_email='support@clumio.com',
     url='https://clumio.com',
     classfiers=[
