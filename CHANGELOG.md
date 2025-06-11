@@ -1,3 +1,6 @@
+## 0.16.2
+Fixed AwsTag key.
+
 ## 0.16.1
 remove /api URI pre-fix which is not supported any more.
 Updated examples.
