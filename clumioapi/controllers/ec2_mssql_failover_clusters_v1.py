@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
@@ -30,7 +30,13 @@ class Ec2MssqlFailoverClustersV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def list_ec2_mssql_failover_clusters(
-        self, limit: int = None, start: str = None, filter: str = None, embed: str = None, **kwargs
+        self,
+        limit: int = None,
+        start: str = None,
+        filter: str = None,
+        embed: str = None,
+        lookback_days: int = None,
+        **kwargs,
     ) -> Union[
         list_ec2_mssqlfc_is_response.ListEC2MSSQLFCIsResponse,
         tuple[requests.Response, Optional[list_ec2_mssqlfc_is_response.ListEC2MSSQLFCIsResponse]],
@@ -96,7 +102,14 @@ class Ec2MssqlFailoverClustersV1Controller(base_controller.BaseController):
                 |                                       | embed=get-ec2-mssql-failover-        |
                 |                                       | cluster-hosts-info.                  |
                 +---------------------------------------+--------------------------------------+
+                | get-ec2-mssql-stats-backup-status     | Embeds the backup statistics for     |
+                |                                       | each resource into the response. For |
+                |                                       | example, embed=get-ec2-mssql-stats-  |
+                |                                       | backup-status                        |
+                +---------------------------------------+--------------------------------------+
 
+            lookback_days:
+                Calculate backup status for the last `lookback_days` days.
         Returns:
             requests.Response: Raw Response from the API if config.raw_response is set to True.
             list_ec2_mssqlfc_is_response.ListEC2MSSQLFCIsResponse: Response from the API.
@@ -110,7 +123,13 @@ class Ec2MssqlFailoverClustersV1Controller(base_controller.BaseController):
         _url_path = '/datasources/aws/ec2-mssql/failover-clusters'
 
         _query_parameters = {}
-        _query_parameters = {'limit': limit, 'start': start, 'filter': filter, 'embed': embed}
+        _query_parameters = {
+            'limit': limit,
+            'start': start,
+            'filter': filter,
+            'embed': embed,
+            'lookback_days': lookback_days,
+        }
 
         # Execute request
         try:

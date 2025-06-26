@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
@@ -76,11 +76,16 @@ class BackupAwsRdsResourcesV1Controller(base_controller.BaseController):
                 |      Field      | Filter Condition |               Description               |
                 +=================+==================+=========================================+
                 | resource_id     | $eq              | Filter database backups whose database  |
-                |                 |                  | ID equal the specified string.          |
+                |                 |                  | ID equal the specified string. For      |
+                |                 |                  | example, filter={"resource_id":{"$eq":" |
+                |                 |                  | fdba79ed-502b-11fb-9bdc-83d528bd52dc"}} |
                 +-----------------+------------------+-----------------------------------------+
                 | start_timestamp | $lte, $gt        | Filter database backups whose start     |
                 |                 |                  | timestamp is "less than or equal to" or |
                 |                 |                  | "greater than" a given timestamp.       |
+                |                 |                  | Represented in RFC-3339 format. For     |
+                |                 |                  | example, filter={"start_timestamp":{"$l |
+                |                 |                  | te":"1985-04-12T23:20:50Z"}}            |
                 +-----------------+------------------+-----------------------------------------+
 
         Returns:

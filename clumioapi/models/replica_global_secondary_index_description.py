@@ -1,9 +1,10 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
+from clumioapi.models import on_demand_throughput_override
 from clumioapi.models import provisioned_throughput_override
 
 T = TypeVar('T', bound='ReplicaGlobalSecondaryIndexDescription')
@@ -17,6 +18,9 @@ class ReplicaGlobalSecondaryIndexDescription:
     Attributes:
         index_name:
             The name of the global secondary index.
+        on_demand_throughput_override:
+            Replica-specific ondemand throughput settings. If not specified, uses the source
+            table's ondemand throughput settings.
         provisioned_throughput_override:
             Replica-specific provisioned throughput settings. If not specified, uses the
             source table's provisioned throughput settings.
@@ -25,18 +29,23 @@ class ReplicaGlobalSecondaryIndexDescription:
     # Create a mapping from Model property names to API property names
     _names = {
         'index_name': 'index_name',
+        'on_demand_throughput_override': 'on_demand_throughput_override',
         'provisioned_throughput_override': 'provisioned_throughput_override',
     }
 
     def __init__(
         self,
         index_name: str = None,
+        on_demand_throughput_override: on_demand_throughput_override.OnDemandThroughputOverride = None,
         provisioned_throughput_override: provisioned_throughput_override.ProvisionedThroughputOverride = None,
     ) -> None:
         """Constructor for the ReplicaGlobalSecondaryIndexDescription class."""
 
         # Initialize members of the class
         self.index_name: str = index_name
+        self.on_demand_throughput_override: (
+            on_demand_throughput_override.OnDemandThroughputOverride
+        ) = on_demand_throughput_override
         self.provisioned_throughput_override: (
             provisioned_throughput_override.ProvisionedThroughputOverride
         ) = provisioned_throughput_override
@@ -58,6 +67,15 @@ class ReplicaGlobalSecondaryIndexDescription:
 
         # Extract variables from the dictionary
         index_name = dictionary.get('index_name')
+        key = 'on_demand_throughput_override'
+        p_on_demand_throughput_override = (
+            on_demand_throughput_override.OnDemandThroughputOverride.from_dictionary(
+                dictionary.get(key)
+            )
+            if dictionary.get(key)
+            else None
+        )
+
         key = 'provisioned_throughput_override'
         p_provisioned_throughput_override = (
             provisioned_throughput_override.ProvisionedThroughputOverride.from_dictionary(
@@ -68,4 +86,4 @@ class ReplicaGlobalSecondaryIndexDescription:
         )
 
         # Return an object of this model
-        return cls(index_name, p_provisioned_throughput_override)
+        return cls(index_name, p_on_demand_throughput_override, p_provisioned_throughput_override)

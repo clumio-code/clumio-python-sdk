@@ -1,9 +1,10 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
+from clumioapi.models import backup_tier_stat
 from clumioapi.models import object_filter
 from clumioapi.models import protection_group_version_links
 
@@ -21,22 +22,57 @@ class CreateProtectionGroupResponse:
         backup_target_aws_region:
             The backup target AWS region associated with the protection group, empty if
             in-region or not configured.
+        backup_tier_stats:
+            TotalBackedUpSizeBytes, TotalBackedUpObjectCount for each backup tier
         bucket_count:
             Number of buckets
         bucket_rule:
             The following table describes the possible conditions for a bucket to be
             automatically added to a protection group.
+            Denotes the properties to conditionalize on. For `$eq`, `$not_eq`, `$contains`
+            and `$not_contains` a single element is provided: `{'$eq':{'key':'Environment',
+            'value':'Prod'}}`. For all other other operations, a list is provided:
+            `{'$in':[{'key':'Environment','value':'Prod'}, {'key':'Hello',
+            'value':'World'}]}`.
 
-            +---------+----------------+---------------------------------------------------+
-            |  Field  | Rule Condition |                    Description                    |
-            +=========+================+===================================================+
-            | aws_tag | $eq            | Denotes the AWS tag(s) to conditionalize on       |
-            |         |                |                                                   |
-            |         |                | {"aws_tag":{"$eq":{"key":"Environment",           |
-            |         |                | "value":"Prod"}}}                                 |
-            |         |                |                                                   |
-            |         |                |                                                   |
-            +---------+----------------+---------------------------------------------------+
+            +-------------------+-----------------------------+----------------------------+
+            |       Field       |       Rule Condition        |        Description         |
+            +===================+=============================+============================+
+            | aws_tag           | $eq, $not_eq, $contains,    | Supports filtering by AWS  |
+            |                   | $not_contains, $all,        | tag(s) using the following |
+            |                   | $not_all, $in, $not_in      | operators. For example,    |
+            |                   |                             |                            |
+            |                   |                             | {"aws_tag":{"$eq":{"key":" |
+            |                   |                             | Environment",              |
+            |                   |                             | "value":"Prod"}}}          |
+            |                   |                             |                            |
+            |                   |                             |                            |
+            +-------------------+-----------------------------+----------------------------+
+            | account_native_id | $eq, $in                    |                            |
+            |                   |                             | This will be deprecated    |
+            |                   |                             | and use                    |
+            |                   |                             | aws_account_native_id      |
+            |                   |                             | instead.                   |
+            |                   |                             | Supports filtering by AWS  |
+            |                   |                             | account(s) using the       |
+            |                   |                             | following operators. For   |
+            |                   |                             | example,                   |
+            |                   |                             |                            |
+            |                   |                             | {"account_native_id":{"$in |
+            |                   |                             | ":["111111111111"]}}       |
+            |                   |                             |                            |
+            |                   |                             |                            |
+            +-------------------+-----------------------------+----------------------------+
+            | aws_region        | $eq, $in                    | Supports filtering by AWS  |
+            |                   |                             | region(s) using the        |
+            |                   |                             | following operators. For   |
+            |                   |                             | example,                   |
+            |                   |                             |                            |
+            |                   |                             | {"aws_region":{"$eq":"us-  |
+            |                   |                             | west-2"}}                  |
+            |                   |                             |                            |
+            |                   |                             |                            |
+            +-------------------+-----------------------------+----------------------------+
         created_timestamp:
             Creation time of the protection group in RFC-3339 format.
         description:
@@ -84,6 +120,7 @@ class CreateProtectionGroupResponse:
         'embedded': '_embedded',
         'links': '_links',
         'backup_target_aws_region': 'backup_target_aws_region',
+        'backup_tier_stats': 'backup_tier_stats',
         'bucket_count': 'bucket_count',
         'bucket_rule': 'bucket_rule',
         'created_timestamp': 'created_timestamp',
@@ -107,6 +144,7 @@ class CreateProtectionGroupResponse:
         embedded: object = None,
         links: protection_group_version_links.ProtectionGroupVersionLinks = None,
         backup_target_aws_region: str = None,
+        backup_tier_stats: Sequence[backup_tier_stat.BackupTierStat] = None,
         bucket_count: int = None,
         bucket_rule: str = None,
         created_timestamp: str = None,
@@ -130,6 +168,7 @@ class CreateProtectionGroupResponse:
         self.embedded: object = embedded
         self.links: protection_group_version_links.ProtectionGroupVersionLinks = links
         self.backup_target_aws_region: str = backup_target_aws_region
+        self.backup_tier_stats: Sequence[backup_tier_stat.BackupTierStat] = backup_tier_stats
         self.bucket_count: int = bucket_count
         self.bucket_rule: str = bucket_rule
         self.created_timestamp: str = created_timestamp
@@ -174,6 +213,12 @@ class CreateProtectionGroupResponse:
         )
 
         backup_target_aws_region = dictionary.get('backup_target_aws_region')
+        backup_tier_stats = None
+        if dictionary.get('backup_tier_stats'):
+            backup_tier_stats = list()
+            for value in dictionary.get('backup_tier_stats'):
+                backup_tier_stats.append(backup_tier_stat.BackupTierStat.from_dictionary(value))
+
         bucket_count = dictionary.get('bucket_count')
         bucket_rule = dictionary.get('bucket_rule')
         created_timestamp = dictionary.get('created_timestamp')
@@ -201,6 +246,7 @@ class CreateProtectionGroupResponse:
             embedded,
             links,
             backup_target_aws_region,
+            backup_tier_stats,
             bucket_count,
             bucket_rule,
             created_timestamp,

@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -44,6 +44,10 @@ class PolicyOperation:
             The service level agreement (SLA) for the policy. A policy can include one or
             more SLAs. For example, a policy can retain daily backups for a month each, and
             monthly backups for a year each.
+        timezone:
+            The timezone for the operation. The timezone must be a valid location name from
+            the IANA Time Zone database.
+            For instance, "America/New_York", "US/Central", "UTC".
         p_type:
             The operation to be performed for this SLA set. Each SLA set corresponds to one
             and only one operation.
@@ -60,6 +64,7 @@ class PolicyOperation:
         'next_start_time': 'next_start_time',
         'previous_start_time': 'previous_start_time',
         'slas': 'slas',
+        'timezone': 'timezone',
         'p_type': 'type',
     }
 
@@ -73,6 +78,7 @@ class PolicyOperation:
         next_start_time: int = None,
         previous_start_time: int = None,
         slas: Sequence[backup_sla.BackupSLA] = None,
+        timezone: str = None,
         p_type: str = None,
     ) -> None:
         """Constructor for the PolicyOperation class."""
@@ -86,6 +92,7 @@ class PolicyOperation:
         self.next_start_time: int = next_start_time
         self.previous_start_time: int = previous_start_time
         self.slas: Sequence[backup_sla.BackupSLA] = slas
+        self.timezone: str = timezone
         self.p_type: str = p_type
 
     @classmethod
@@ -135,6 +142,7 @@ class PolicyOperation:
             for value in dictionary.get('slas'):
                 slas.append(backup_sla.BackupSLA.from_dictionary(value))
 
+        timezone = dictionary.get('timezone')
         p_type = dictionary.get('type')
         # Return an object of this model
         return cls(
@@ -146,5 +154,6 @@ class PolicyOperation:
             next_start_time,
             previous_start_time,
             slas,
+            timezone,
             p_type,
         )

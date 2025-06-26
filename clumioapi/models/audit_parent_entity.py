@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -11,20 +11,17 @@ class AuditParentEntity:
     """Implementation of the 'AuditParentEntity' model.
 
     The parent object of the primary entity associated with or affected by the
-    audit.If the primary entity is not a vmware entity, this field will have a value
-    of nullFor example, "vmware_vcenter" is the parent entity of primary entity
-    "vmware_vm".
+    audit.
 
     Attributes:
         p_id:
             A system-generated ID assigned to this entity.
         p_type:
             Type is mostly an asset type or the type of Entity. Some examples are
-            "restored_file", "vmware_vm",  etc.
+            "restored_file", "aws_ebs_volume",  etc.
         value:
             A system-generated value assigned to the entity. For example, if the primary
-            entity type is "vmware_vm" for a virtual machine, then the value is the name of
-            the VM.
+            entity type is "aws_ebs_volume", then the value is the name of the EBS.
     """
 
     # Create a mapping from Model property names to API property names

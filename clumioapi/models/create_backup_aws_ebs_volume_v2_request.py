@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
@@ -9,7 +9,6 @@ from clumioapi.models import on_demand_setting
 T = TypeVar('T', bound='CreateBackupAwsEbsVolumeV2Request')
 
 TypeValues = [
-    '',
     'clumio_backup',
     'aws_snapshot',
 ]

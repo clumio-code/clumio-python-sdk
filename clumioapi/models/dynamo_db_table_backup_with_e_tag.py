@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -11,6 +11,7 @@ from clumioapi.models import local_secondary_index
 from clumioapi.models import provisioned_throughput
 from clumioapi.models import replica_description
 from clumioapi.models import sse_specification
+from clumioapi.models import stream_specification
 
 T = TypeVar('T', bound='DynamoDBTableBackupWithETag')
 
@@ -35,6 +36,20 @@ class DynamoDBTableBackupWithETag:
             is defaulted to the
             configuration of source table if both 'billing_mode' and
             'provisioned_throughput' are empty or `null`.
+        contributor_insights_status:
+            Indicates whether DynamoDB Contributor Insights is enabled (true) or disabled
+            (false)
+            on the table.
+            For [POST /restores/aws/dynamodb](#operation/restore-aws-dynamodb-table), this
+            is defaulted to the
+            value set in backup if `null`.
+        deletion_protection_enabled:
+            Indicates whether DynamoDB Deletion Protection is enabled (true) or disabled
+            (false)
+            on the table.
+            For [POST /restores/aws/dynamodb](#operation/restore-aws-dynamodb-table), this
+            is defaulted to the
+            value set in backup if `null`.
         expiration_timestamp:
             The timestamp of when this backup expires. Represented in RFC-3339 format.
         global_secondary_indexes:
@@ -62,6 +77,13 @@ class DynamoDBTableBackupWithETag:
             local_secondary_indexes can be specified.
             The restored table will not have any local secondary indexes if this is
             specified empty or `null`.
+        pitr_status:
+            Indicates whether DynamoDB Continuous Backup (PITR) is enabled (true) or
+            disabled (false)
+            on the table.
+            For [POST /restores/aws/dynamodb](#operation/restore-aws-dynamodb-table), this
+            is defaulted to the
+            value set in backup if `null`.
         provisioned_throughput:
             Represents the provisioned throughput settings for a DynamoDB table.
         replicas:
@@ -77,6 +99,9 @@ class DynamoDBTableBackupWithETag:
             Represents the server-side encryption settings for a table.
         start_timestamp:
             The timestamp of when this backup started. Represented in RFC-3339 format.
+        stream_specification:
+            Represents the DynamoDB Streams configuration for a table in DynamoDB.
+            and the data type (`S` for string, `N` for number, `B` for binary).
         table_class:
             The table class of the DynamoDB table. Possible values are STANDARD or
             STANDARD_INFREQUENT_ACCESS.
@@ -100,17 +125,21 @@ class DynamoDBTableBackupWithETag:
         'account_native_id': 'account_native_id',
         'aws_region': 'aws_region',
         'billing_mode': 'billing_mode',
+        'contributor_insights_status': 'contributor_insights_status',
+        'deletion_protection_enabled': 'deletion_protection_enabled',
         'expiration_timestamp': 'expiration_timestamp',
         'global_secondary_indexes': 'global_secondary_indexes',
         'global_table_version': 'global_table_version',
         'p_id': 'id',
         'item_count': 'item_count',
         'local_secondary_indexes': 'local_secondary_indexes',
+        'pitr_status': 'pitr_status',
         'provisioned_throughput': 'provisioned_throughput',
         'replicas': 'replicas',
         'size': 'size',
         'sse_specification': 'sse_specification',
         'start_timestamp': 'start_timestamp',
+        'stream_specification': 'stream_specification',
         'table_class': 'table_class',
         'table_id': 'table_id',
         'table_name': 'table_name',
@@ -125,17 +154,21 @@ class DynamoDBTableBackupWithETag:
         account_native_id: str = None,
         aws_region: str = None,
         billing_mode: str = None,
+        contributor_insights_status: bool = None,
+        deletion_protection_enabled: bool = None,
         expiration_timestamp: str = None,
         global_secondary_indexes: Sequence[global_secondary_index.GlobalSecondaryIndex] = None,
         global_table_version: str = None,
         p_id: str = None,
         item_count: int = None,
         local_secondary_indexes: Sequence[local_secondary_index.LocalSecondaryIndex] = None,
+        pitr_status: bool = None,
         provisioned_throughput: provisioned_throughput.ProvisionedThroughput = None,
         replicas: Sequence[replica_description.ReplicaDescription] = None,
         size: int = None,
         sse_specification: sse_specification.SSESpecification = None,
         start_timestamp: str = None,
+        stream_specification: stream_specification.StreamSpecification = None,
         table_class: str = None,
         table_id: str = None,
         table_name: str = None,
@@ -150,6 +183,8 @@ class DynamoDBTableBackupWithETag:
         self.account_native_id: str = account_native_id
         self.aws_region: str = aws_region
         self.billing_mode: str = billing_mode
+        self.contributor_insights_status: bool = contributor_insights_status
+        self.deletion_protection_enabled: bool = deletion_protection_enabled
         self.expiration_timestamp: str = expiration_timestamp
         self.global_secondary_indexes: Sequence[global_secondary_index.GlobalSecondaryIndex] = (
             global_secondary_indexes
@@ -160,6 +195,7 @@ class DynamoDBTableBackupWithETag:
         self.local_secondary_indexes: Sequence[local_secondary_index.LocalSecondaryIndex] = (
             local_secondary_indexes
         )
+        self.pitr_status: bool = pitr_status
         self.provisioned_throughput: provisioned_throughput.ProvisionedThroughput = (
             provisioned_throughput
         )
@@ -167,6 +203,7 @@ class DynamoDBTableBackupWithETag:
         self.size: int = size
         self.sse_specification: sse_specification.SSESpecification = sse_specification
         self.start_timestamp: str = start_timestamp
+        self.stream_specification: stream_specification.StreamSpecification = stream_specification
         self.table_class: str = table_class
         self.table_id: str = table_id
         self.table_name: str = table_name
@@ -202,6 +239,8 @@ class DynamoDBTableBackupWithETag:
         account_native_id = dictionary.get('account_native_id')
         aws_region = dictionary.get('aws_region')
         billing_mode = dictionary.get('billing_mode')
+        contributor_insights_status = dictionary.get('contributor_insights_status')
+        deletion_protection_enabled = dictionary.get('deletion_protection_enabled')
         expiration_timestamp = dictionary.get('expiration_timestamp')
         global_secondary_indexes = None
         if dictionary.get('global_secondary_indexes'):
@@ -222,6 +261,7 @@ class DynamoDBTableBackupWithETag:
                     local_secondary_index.LocalSecondaryIndex.from_dictionary(value)
                 )
 
+        pitr_status = dictionary.get('pitr_status')
         key = 'provisioned_throughput'
         p_provisioned_throughput = (
             provisioned_throughput.ProvisionedThroughput.from_dictionary(dictionary.get(key))
@@ -244,6 +284,13 @@ class DynamoDBTableBackupWithETag:
         )
 
         start_timestamp = dictionary.get('start_timestamp')
+        key = 'stream_specification'
+        p_stream_specification = (
+            stream_specification.StreamSpecification.from_dictionary(dictionary.get(key))
+            if dictionary.get(key)
+            else None
+        )
+
         table_class = dictionary.get('table_class')
         table_id = dictionary.get('table_id')
         table_name = dictionary.get('table_name')
@@ -261,17 +308,21 @@ class DynamoDBTableBackupWithETag:
             account_native_id,
             aws_region,
             billing_mode,
+            contributor_insights_status,
+            deletion_protection_enabled,
             expiration_timestamp,
             global_secondary_indexes,
             global_table_version,
             p_id,
             item_count,
             local_secondary_indexes,
+            pitr_status,
             p_provisioned_throughput,
             replicas,
             size,
             p_sse_specification,
             start_timestamp,
+            p_stream_specification,
             table_class,
             table_id,
             table_name,

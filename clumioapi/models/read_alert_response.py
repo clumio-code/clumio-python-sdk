@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -47,7 +47,7 @@ class ReadAlertResponse:
             "aws_ebs_volume".
         primary_entity:
             The primary object associated with or affected by the alert. Examples of primary
-            entities include "aws_connection", "aws_ebs_volume" and "vmware_vm".
+            entities include "aws_connection", "aws_ebs_volume".
         raised_count:
             The number of times the alert has recurred for this primary entity.
         raised_timestamp:

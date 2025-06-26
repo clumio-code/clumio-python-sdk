@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -35,7 +35,9 @@ class RdsResourceRestoreTarget:
             https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Limits.html#RDS_Limi
             ts.Constraints
         option_group_name:
-            Option group name to be added to the restored RDS resource
+            Option group name to be added to the restored RDS resource.
+        parameter_group_name:
+            The name of the parameter group to be associated with the restored RDS resource.
         security_group_native_ids:
             The AWS-assigned IDs of the security groups to be associated with the restored
             RDS resource.
@@ -54,6 +56,7 @@ class RdsResourceRestoreTarget:
         'kms_key_native_id': 'kms_key_native_id',
         'name': 'name',
         'option_group_name': 'option_group_name',
+        'parameter_group_name': 'parameter_group_name',
         'security_group_native_ids': 'security_group_native_ids',
         'subnet_group_name': 'subnet_group_name',
         'tags': 'tags',
@@ -67,6 +70,7 @@ class RdsResourceRestoreTarget:
         kms_key_native_id: str = None,
         name: str = None,
         option_group_name: str = None,
+        parameter_group_name: str = None,
         security_group_native_ids: Sequence[str] = None,
         subnet_group_name: str = None,
         tags: Sequence[aws_tag_common_model.AwsTagCommonModel] = None,
@@ -80,6 +84,7 @@ class RdsResourceRestoreTarget:
         self.kms_key_native_id: str = kms_key_native_id
         self.name: str = name
         self.option_group_name: str = option_group_name
+        self.parameter_group_name: str = parameter_group_name
         self.security_group_native_ids: Sequence[str] = security_group_native_ids
         self.subnet_group_name: str = subnet_group_name
         self.tags: Sequence[aws_tag_common_model.AwsTagCommonModel] = tags
@@ -106,6 +111,7 @@ class RdsResourceRestoreTarget:
         kms_key_native_id = dictionary.get('kms_key_native_id')
         name = dictionary.get('name')
         option_group_name = dictionary.get('option_group_name')
+        parameter_group_name = dictionary.get('parameter_group_name')
         security_group_native_ids = dictionary.get('security_group_native_ids')
         subnet_group_name = dictionary.get('subnet_group_name')
         tags = None
@@ -122,6 +128,7 @@ class RdsResourceRestoreTarget:
             kms_key_native_id,
             name,
             option_group_name,
+            parameter_group_name,
             security_group_native_ids,
             subnet_group_name,
             tags,

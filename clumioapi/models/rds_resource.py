@@ -1,10 +1,11 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
 from clumioapi.models import aws_tag_model
+from clumioapi.models import backup_status_info
 from clumioapi.models import protection_info_with_rule
 from clumioapi.models import rds_resource_embedded
 from clumioapi.models import rds_resource_links
@@ -27,11 +28,8 @@ class RdsResource:
             west-2a`.
         aws_region:
             The AWS region associated with this resource.
-        compliance_status:
-            The compliance status of the protected RDS resource. Possible values include
-            `compliant` and `noncompliant`. If the resource is not protected, then this
-            field has
-            a value of `null`.
+        backup_status_info:
+            The backup status information applied to this resource.
         deletion_timestamp:
             The timestamp of when the RDS resource was deleted. Represented in RFC-3339
             format.
@@ -130,7 +128,7 @@ class RdsResource:
         'account_native_id': 'account_native_id',
         'aws_azs': 'aws_azs',
         'aws_region': 'aws_region',
-        'compliance_status': 'compliance_status',
+        'backup_status_info': 'backup_status_info',
         'deletion_timestamp': 'deletion_timestamp',
         'direct_assignment_policy_id': 'direct_assignment_policy_id',
         'earliest_aws_snapshot_restorable_timestamp': 'earliest_aws_snapshot_restorable_timestamp',
@@ -169,7 +167,7 @@ class RdsResource:
         account_native_id: str = None,
         aws_azs: Sequence[str] = None,
         aws_region: str = None,
-        compliance_status: str = None,
+        backup_status_info: backup_status_info.BackupStatusInfo = None,
         deletion_timestamp: str = None,
         direct_assignment_policy_id: str = None,
         earliest_aws_snapshot_restorable_timestamp: str = None,
@@ -208,7 +206,7 @@ class RdsResource:
         self.account_native_id: str = account_native_id
         self.aws_azs: Sequence[str] = aws_azs
         self.aws_region: str = aws_region
-        self.compliance_status: str = compliance_status
+        self.backup_status_info: backup_status_info.BackupStatusInfo = backup_status_info
         self.deletion_timestamp: str = deletion_timestamp
         self.direct_assignment_policy_id: str = direct_assignment_policy_id
         self.earliest_aws_snapshot_restorable_timestamp: str = (
@@ -276,7 +274,13 @@ class RdsResource:
         account_native_id = dictionary.get('account_native_id')
         aws_azs = dictionary.get('aws_azs')
         aws_region = dictionary.get('aws_region')
-        compliance_status = dictionary.get('compliance_status')
+        key = 'backup_status_info'
+        p_backup_status_info = (
+            backup_status_info.BackupStatusInfo.from_dictionary(dictionary.get(key))
+            if dictionary.get(key)
+            else None
+        )
+
         deletion_timestamp = dictionary.get('deletion_timestamp')
         direct_assignment_policy_id = dictionary.get('direct_assignment_policy_id')
         earliest_aws_snapshot_restorable_timestamp = dictionary.get(
@@ -328,7 +332,7 @@ class RdsResource:
             account_native_id,
             aws_azs,
             aws_region,
-            compliance_status,
+            p_backup_status_info,
             deletion_timestamp,
             direct_assignment_policy_id,
             earliest_aws_snapshot_restorable_timestamp,

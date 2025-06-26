@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
@@ -100,11 +100,10 @@ class AwsConnectionsV1Controller(base_controller.BaseController):
                 |                        |                   |                                 |
                 +------------------------+-------------------+---------------------------------+
                 | connection_status      | $eq, $in          | The status of the connection to |
-                |                        |                   | the environment, which is       |
-                |                        |                   | mediated by a CloudFormation    |
-                |                        |                   | stack. Possible values include  |
-                |                        |                   | "connecting", "connected",      |
-                |                        |                   | "unlinked". For example,        |
+                |                        |                   | the environment. Possible       |
+                |                        |                   | values include "connecting",    |
+                |                        |                   | "connected", "unlinked". For    |
+                |                        |                   | example,                        |
                 |                        |                   | filter={"connection_status":{"$ |
                 |                        |                   | eq":"connected"}}               |
                 |                        |                   | filter={"connection_status":{"$ |

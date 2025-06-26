@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -23,6 +23,8 @@ class ProtectionGroupLinks:
             A resource-specific HATEOAS link.
         delete_bucket_protection_group:
             A resource-specific HATEOAS link.
+        list_backup_protection_groups:
+            A resource-specific HATEOAS link.
         read_organizational_unit:
             A resource-specific HATEOAS link.
         read_policy_definition:
@@ -37,6 +39,7 @@ class ProtectionGroupLinks:
         'p_self': '_self',
         'add_bucket_protection_group': 'add-bucket-protection-group',
         'delete_bucket_protection_group': 'delete-bucket-protection-group',
+        'list_backup_protection_groups': 'list-backup-protection-groups',
         'read_organizational_unit': 'read-organizational-unit',
         'read_policy_definition': 'read-policy-definition',
         'update_protection_group': 'update-protection-group',
@@ -47,6 +50,7 @@ class ProtectionGroupLinks:
         p_self: hateoas_self_link.HateoasSelfLink = None,
         add_bucket_protection_group: hateoas_link.HateoasLink = None,
         delete_bucket_protection_group: hateoas_link.HateoasLink = None,
+        list_backup_protection_groups: hateoas_link.HateoasLink = None,
         read_organizational_unit: hateoas_link.HateoasLink = None,
         read_policy_definition: read_policy_definition_hateoas_link.ReadPolicyDefinitionHateoasLink = None,
         update_protection_group: hateoas_link.HateoasLink = None,
@@ -59,6 +63,7 @@ class ProtectionGroupLinks:
         self.delete_bucket_protection_group: hateoas_link.HateoasLink = (
             delete_bucket_protection_group
         )
+        self.list_backup_protection_groups: hateoas_link.HateoasLink = list_backup_protection_groups
         self.read_organizational_unit: hateoas_link.HateoasLink = read_organizational_unit
         self.read_policy_definition: (
             read_policy_definition_hateoas_link.ReadPolicyDefinitionHateoasLink
@@ -102,6 +107,13 @@ class ProtectionGroupLinks:
             else None
         )
 
+        key = 'list-backup-protection-groups'
+        list_backup_protection_groups = (
+            hateoas_link.HateoasLink.from_dictionary(dictionary.get(key))
+            if dictionary.get(key)
+            else None
+        )
+
         key = 'read-organizational-unit'
         read_organizational_unit = (
             hateoas_link.HateoasLink.from_dictionary(dictionary.get(key))
@@ -130,6 +142,7 @@ class ProtectionGroupLinks:
             p_self,
             add_bucket_protection_group,
             delete_bucket_protection_group,
+            list_backup_protection_groups,
             read_organizational_unit,
             read_policy_definition,
             update_protection_group,

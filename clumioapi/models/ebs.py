@@ -1,10 +1,11 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
 from clumioapi.models import aws_tag_model
+from clumioapi.models import backup_status_info
 from clumioapi.models import ebs_volume_embedded
 from clumioapi.models import ebs_volume_links
 from clumioapi.models import protection_info_with_rule
@@ -27,11 +28,8 @@ class EBS:
             `us-west-2a`.
         aws_region:
             The AWS region associated with the EBS volume.
-        compliance_status:
-            The compliance status of the protected EBS volume. Possible values include
-            "compliant" and "noncompliant". If the volume is not protected, then this field
-            has
-            a value of `null`.
+        backup_status_info:
+            The backup status information applied to this resource.
         deletion_timestamp:
             The timestamp of when the volume was deleted. Represented in RFC-3339 format. If
             this volume has not been deleted, then this field has a value of `null`.
@@ -103,7 +101,7 @@ class EBS:
         'account_native_id': 'account_native_id',
         'aws_az': 'aws_az',
         'aws_region': 'aws_region',
-        'compliance_status': 'compliance_status',
+        'backup_status_info': 'backup_status_info',
         'deletion_timestamp': 'deletion_timestamp',
         'direct_assignment_policy_id': 'direct_assignment_policy_id',
         'environment_id': 'environment_id',
@@ -134,7 +132,7 @@ class EBS:
         account_native_id: str = None,
         aws_az: str = None,
         aws_region: str = None,
-        compliance_status: str = None,
+        backup_status_info: backup_status_info.BackupStatusInfo = None,
         deletion_timestamp: str = None,
         direct_assignment_policy_id: str = None,
         environment_id: str = None,
@@ -165,7 +163,7 @@ class EBS:
         self.account_native_id: str = account_native_id
         self.aws_az: str = aws_az
         self.aws_region: str = aws_region
-        self.compliance_status: str = compliance_status
+        self.backup_status_info: backup_status_info.BackupStatusInfo = backup_status_info
         self.deletion_timestamp: str = deletion_timestamp
         self.direct_assignment_policy_id: str = direct_assignment_policy_id
         self.environment_id: str = environment_id
@@ -221,7 +219,13 @@ class EBS:
         account_native_id = dictionary.get('account_native_id')
         aws_az = dictionary.get('aws_az')
         aws_region = dictionary.get('aws_region')
-        compliance_status = dictionary.get('compliance_status')
+        key = 'backup_status_info'
+        p_backup_status_info = (
+            backup_status_info.BackupStatusInfo.from_dictionary(dictionary.get(key))
+            if dictionary.get(key)
+            else None
+        )
+
         deletion_timestamp = dictionary.get('deletion_timestamp')
         direct_assignment_policy_id = dictionary.get('direct_assignment_policy_id')
         environment_id = dictionary.get('environment_id')
@@ -261,7 +265,7 @@ class EBS:
             account_native_id,
             aws_az,
             aws_region,
-            compliance_status,
+            p_backup_status_info,
             deletion_timestamp,
             direct_assignment_policy_id,
             environment_id,

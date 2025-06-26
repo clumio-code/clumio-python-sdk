@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -109,10 +109,10 @@ class AwsTag:
         key = dictionary.get('key')
         key_id = dictionary.get('key_id')
         organizational_unit_id = dictionary.get('organizational_unit_id')
-        p_key = 'protection_info'
+        key = 'protection_info'
         p_protection_info = (
-            protection_info.ProtectionInfo.from_dictionary(dictionary.get(p_key))
-            if dictionary.get(p_key)
+            protection_info.ProtectionInfo.from_dictionary(dictionary.get(key))
+            if dictionary.get(key)
             else None
         )
 

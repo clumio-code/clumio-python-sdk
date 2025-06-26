@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -69,8 +69,7 @@ class UpdateTaskResponse:
         is_abortable:
             Determines whether or not this task can be aborted.
             A task can be aborted if its status is either "queued" or "in_progress".
-            Tasks of certain types including
-            "vmware_vm_backup_indexing" and "aws_ebs_volume_backup_indexing" cannot be
+            Tasks of certain types including "aws_ebs_volume_backup_indexing" cannot be
             aborted.
         parent_entity:
             The parent entity associated with the task.

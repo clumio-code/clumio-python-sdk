@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -16,7 +16,7 @@ class ProtectionGroupBackupAdvancedSetting:
 
     Attributes:
         backup_tier:
-            Backup tier to store the backup in. Valid values are: `cold`, `frozen`
+            Backup tier to store the backup in. Valid values are: `standard`, `archive`
     """
 
     # Create a mapping from Model property names to API property names

@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -22,25 +22,11 @@ class ProtectionInfoWithRule:
             If protection was not inherited, then this field has a value of `null`.
             Entities from which protection can be inherited include the following:
 
-            +--------------------------------+---------------------------------+
-            |     Inheriting Entity Type     |             Details             |
-            +================================+=================================+
-            | aws_tag                        | AWS tag.                        |
-            +--------------------------------+---------------------------------+
-            | vmware_vm_folder               | VMware VM folder.               |
-            +--------------------------------+---------------------------------+
-            | vmware_datacenter              | VMware data center.             |
-            +--------------------------------+---------------------------------+
-            | vmware_datacenter_folder       | VMware data center folder.      |
-            +--------------------------------+---------------------------------+
-            | vmware_tag                     | VMware tag.                     |
-            +--------------------------------+---------------------------------+
-            | vmware_category                | VMware tag category.            |
-            +--------------------------------+---------------------------------+
-            | vmware_compute_resource        | VMware compute resource.        |
-            +--------------------------------+---------------------------------+
-            | vmware_compute_resource_folder | VMware compute resource folder. |
-            +--------------------------------+---------------------------------+
+            +------------------------+----------+
+            | Inheriting Entity Type | Details  |
+            +========================+==========+
+            | aws_tag                | AWS tag. |
+            +------------------------+----------+
         policy_id:
             A system-generated ID assigned to the policy protecting this resource.
     """

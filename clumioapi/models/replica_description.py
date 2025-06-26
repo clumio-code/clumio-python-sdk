@@ -1,9 +1,10 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
+from clumioapi.models import on_demand_throughput_override
 from clumioapi.models import provisioned_throughput_override
 from clumioapi.models import replica_global_secondary_index_description
 
@@ -20,19 +21,29 @@ class ReplicaDescription:
             The replica-specific global secondary index settings.
         kms_master_key_id:
             The AWS KMS key of the replica that will be used for AWS KMS encryption.
+        on_demand_throughput_override:
+            Replica-specific ondemand throughput settings. If not specified, uses the source
+            table's ondemand throughput settings.
         provisioned_throughput_override:
             Replica-specific provisioned throughput settings. If not specified, uses the
             source table's provisioned throughput settings.
         region_name:
             The name of the Region.
+        replica_table_class:
+            Replica-specific table class summary.
+            Possible values are `STANDARD` or `STANDARD_INFREQUENT_ACCESS`. This is
+            defaulted to the
+            `STANDARD` storage class if empty.
     """
 
     # Create a mapping from Model property names to API property names
     _names = {
         'global_secondary_indexes': 'global_secondary_indexes',
         'kms_master_key_id': 'kms_master_key_id',
+        'on_demand_throughput_override': 'on_demand_throughput_override',
         'provisioned_throughput_override': 'provisioned_throughput_override',
         'region_name': 'region_name',
+        'replica_table_class': 'replica_table_class',
     }
 
     def __init__(
@@ -41,8 +52,10 @@ class ReplicaDescription:
             replica_global_secondary_index_description.ReplicaGlobalSecondaryIndexDescription
         ] = None,
         kms_master_key_id: str = None,
+        on_demand_throughput_override: on_demand_throughput_override.OnDemandThroughputOverride = None,
         provisioned_throughput_override: provisioned_throughput_override.ProvisionedThroughputOverride = None,
         region_name: str = None,
+        replica_table_class: str = None,
     ) -> None:
         """Constructor for the ReplicaDescription class."""
 
@@ -51,10 +64,14 @@ class ReplicaDescription:
             replica_global_secondary_index_description.ReplicaGlobalSecondaryIndexDescription
         ] = global_secondary_indexes
         self.kms_master_key_id: str = kms_master_key_id
+        self.on_demand_throughput_override: (
+            on_demand_throughput_override.OnDemandThroughputOverride
+        ) = on_demand_throughput_override
         self.provisioned_throughput_override: (
             provisioned_throughput_override.ProvisionedThroughputOverride
         ) = provisioned_throughput_override
         self.region_name: str = region_name
+        self.replica_table_class: str = replica_table_class
 
     @classmethod
     def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
@@ -83,6 +100,15 @@ class ReplicaDescription:
                 )
 
         kms_master_key_id = dictionary.get('kms_master_key_id')
+        key = 'on_demand_throughput_override'
+        p_on_demand_throughput_override = (
+            on_demand_throughput_override.OnDemandThroughputOverride.from_dictionary(
+                dictionary.get(key)
+            )
+            if dictionary.get(key)
+            else None
+        )
+
         key = 'provisioned_throughput_override'
         p_provisioned_throughput_override = (
             provisioned_throughput_override.ProvisionedThroughputOverride.from_dictionary(
@@ -93,10 +119,13 @@ class ReplicaDescription:
         )
 
         region_name = dictionary.get('region_name')
+        replica_table_class = dictionary.get('replica_table_class')
         # Return an object of this model
         return cls(
             global_secondary_indexes,
             kms_master_key_id,
+            p_on_demand_throughput_override,
             p_provisioned_throughput_override,
             region_name,
+            replica_table_class,
         )

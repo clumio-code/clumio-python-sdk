@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
@@ -189,9 +189,9 @@ class AuditTrailsV1Controller(base_controller.BaseController):
                 |                        |                  | The value(s) or name(s)          |
                 |                        |                  | associated with the parent       |
                 |                        |                  | entities affected by             |
-                |                        |                  | the compliance event. For        |
-                |                        |                  | example, the parent entity value |
-                |                        |                  | associated with                  |
+                |                        |                  | the event. For example, the      |
+                |                        |                  | parent entity value associated   |
+                |                        |                  | with                             |
                 |                        |                  | primary entity type              |
                 |                        |                  | "aws_ebs_volume" is              |
                 |                        |                  | "891106093485/us-west-2"         |
@@ -199,8 +199,8 @@ class AuditTrailsV1Controller(base_controller.BaseController):
                 |                        |                  | the name of the AWS Account      |
                 |                        |                  | Region. For example,             |
                 |                        |                  |                                  |
-                |                        |                  | filter={"primary_entity.value":{ |
-                |                        |                  | "$in":["891106093485/us-         |
+                |                        |                  | filter={"parent_entity.value":{" |
+                |                        |                  | $in":["891106093485/us-          |
                 |                        |                  | west-2"]}}                       |
                 |                        |                  |                                  |
                 |                        |                  |                                  |
@@ -210,7 +210,7 @@ class AuditTrailsV1Controller(base_controller.BaseController):
                 |                        |                  | parent entities which are        |
                 |                        |                  | associated with the              |
                 |                        |                  | primary entity affected by the   |
-                |                        |                  | compliance event. For example,   |
+                |                        |                  | event. For example,              |
                 |                        |                  |                                  |
                 |                        |                  | filter={"parent_entity.id":{"$in |
                 |                        |                  | ":["9c2934fc-                    |

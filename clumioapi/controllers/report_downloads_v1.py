@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
@@ -66,11 +66,10 @@ class ReportDownloadsV1Controller(base_controller.BaseController):
                 |                 |                  | Filter report downloaded records whose  |
                 |                 |                  | type is one of the given values. The    |
                 |                 |                  | possible values are: "activity",        |
-                |                 |                  | "compliance", "audit", and              |
-                |                 |                  | "consumption".                          |
+                |                 |                  | "audit", and "consumption".             |
                 |                 |                  |                                         |
-                |                 |                  | filter={"report_type":{"$in":["complian |
-                |                 |                  | ce"]}}                                  |
+                |                 |                  | filter={"report_type":{"$in":["activity |
+                |                 |                  | "]}}                                    |
                 |                 |                  |                                         |
                 |                 |                  |                                         |
                 +-----------------+------------------+-----------------------------------------+

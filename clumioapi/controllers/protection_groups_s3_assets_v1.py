@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
@@ -10,6 +10,7 @@ from clumioapi import configuration
 from clumioapi import sdk_version
 from clumioapi.controllers import base_controller
 from clumioapi.exceptions import clumio_exception
+from clumioapi.models import list_protection_group_s3_asset_pitr_intervals_response
 from clumioapi.models import list_protection_group_s3_assets_response
 from clumioapi.models import read_protection_group_s3_asset_continuous_backup_stats_response
 from clumioapi.models import read_protection_group_s3_asset_response
@@ -32,7 +33,12 @@ class ProtectionGroupsS3AssetsV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def list_protection_group_s3_assets(
-        self, limit: int = None, start: str = None, filter: str = None, **kwargs
+        self,
+        limit: int = None,
+        start: str = None,
+        filter: str = None,
+        lookback_days: int = None,
+        **kwargs,
     ) -> Union[
         list_protection_group_s3_assets_response.ListProtectionGroupS3AssetsResponse,
         tuple[
@@ -82,12 +88,6 @@ class ProtectionGroupsS3AssetsV1Controller(base_controller.BaseController):
                 |                           |                  | protection group s3 assets    |
                 |                           |                  | within this S3 bucket.        |
                 +---------------------------+------------------+-------------------------------+
-                | compliance_status         | $eq, $in         | The compliance status of this |
-                |                           |                  | resource. Possible values     |
-                |                           |                  | include compliant and         |
-                |                           |                  | non_compliant.                |
-                |                           |                  |                               |
-                +---------------------------+------------------+-------------------------------+
                 | environment_id            | $eq              | The Clumio-assigned ID of the |
                 |                           |                  | AWS environment.              |
                 +---------------------------+------------------+-------------------------------+
@@ -112,10 +112,15 @@ class ProtectionGroupsS3AssetsV1Controller(base_controller.BaseController):
                 |                           |                  | resource. Possible values     |
                 |                           |                  | include protected,            |
                 |                           |                  | unprotected, and unsupported. |
-                |                           |                  | If the compliance_status      |
-                |                           |                  | filter parameter is set, this |
-                |                           |                  | parameter value cannot        |
-                |                           |                  | include "unprotected".        |
+                +---------------------------+------------------+-------------------------------+
+                | deactivated               | $eq              | Filter assets protected by a  |
+                |                           |                  | deactivated policy.           |
+                +---------------------------+------------------+-------------------------------+
+                | backup_status             | $in              | The backup status of this     |
+                |                           |                  | resource. Possible values     |
+                |                           |                  | include success,              |
+                |                           |                  | partial_success, failure and  |
+                |                           |                  | no_backup.                    |
                 +---------------------------+------------------+-------------------------------+
                 | organizational_unit_id    | $in              | Denotes the organizational    |
                 |                           |                  | unit IDs that can own the     |
@@ -137,6 +142,8 @@ class ProtectionGroupsS3AssetsV1Controller(base_controller.BaseController):
                 |                           |                  | d":{"$eq":true}}              |
                 +---------------------------+------------------+-------------------------------+
 
+            lookback_days:
+                Calculate backup status for the last `lookback_days` days.
         Returns:
             requests.Response: Raw Response from the API if config.raw_response is set to True.
             list_protection_group_s3_assets_response.ListProtectionGroupS3AssetsResponse: Response from the API.
@@ -150,7 +157,12 @@ class ProtectionGroupsS3AssetsV1Controller(base_controller.BaseController):
         _url_path = '/datasources/protection-groups/s3-assets'
 
         _query_parameters = {}
-        _query_parameters = {'limit': limit, 'start': start, 'filter': filter}
+        _query_parameters = {
+            'limit': limit,
+            'start': start,
+            'filter': filter,
+            'lookback_days': lookback_days,
+        }
 
         # Execute request
         try:
@@ -180,7 +192,9 @@ class ProtectionGroupsS3AssetsV1Controller(base_controller.BaseController):
             resp
         )
 
-    def read_protection_group_s3_asset(self, protection_group_s3_asset_id: str, **kwargs) -> Union[
+    def read_protection_group_s3_asset(
+        self, protection_group_s3_asset_id: str, lookback_days: int = None, **kwargs
+    ) -> Union[
         read_protection_group_s3_asset_response.ReadProtectionGroupS3AssetResponse,
         tuple[
             requests.Response,
@@ -192,6 +206,8 @@ class ProtectionGroupsS3AssetsV1Controller(base_controller.BaseController):
         Args:
             protection_group_s3_asset_id:
                 Performs the operation on the protection group S3 asset with the specified ID.
+            lookback_days:
+                Calculate backup status for the last `lookback_days` days.
         Returns:
             requests.Response: Raw Response from the API if config.raw_response is set to True.
             read_protection_group_s3_asset_response.ReadProtectionGroupS3AssetResponse: Response from the API.
@@ -207,6 +223,7 @@ class ProtectionGroupsS3AssetsV1Controller(base_controller.BaseController):
             _url_path, {'protection_group_s3_asset_id': protection_group_s3_asset_id}
         )
         _query_parameters = {}
+        _query_parameters = {'lookback_days': lookback_days}
 
         # Execute request
         try:
@@ -321,5 +338,95 @@ class ProtectionGroupsS3AssetsV1Controller(base_controller.BaseController):
                 ),
             )
         return read_protection_group_s3_asset_continuous_backup_stats_response.ReadProtectionGroupS3AssetContinuousBackupStatsResponse.from_dictionary(
+            resp
+        )
+
+    def list_protection_group_s3_asset_pitr_intervals(
+        self,
+        protection_group_s3_asset_id: str,
+        limit: int = None,
+        start: str = None,
+        filter: str = None,
+        **kwargs,
+    ) -> Union[
+        list_protection_group_s3_asset_pitr_intervals_response.ListProtectionGroupS3AssetPitrIntervalsResponse,
+        tuple[
+            requests.Response,
+            Optional[
+                list_protection_group_s3_asset_pitr_intervals_response.ListProtectionGroupS3AssetPitrIntervalsResponse
+            ],
+        ],
+    ]:
+        """Returns a list of time intervals (start timestamp and end timestamp) in which
+        the protection group S3 asset can be restored.
+
+        Args:
+            protection_group_s3_asset_id:
+                Performs the operation on the protection group S3 asset with the specified ID.
+            limit:
+                Limits the size of the response on each page to the specified number of items.
+            start:
+                Sets the page token used to browse the collection. Leave this parameter empty to
+                get the first page.
+                Other pages can be traversed using HATEOAS links.
+            filter:
+                Narrows down the results to only the items that satisfy the filter criteria. The
+                following table lists
+                the supported filter fields for this resource and the filter conditions that can
+                be applied on those fields:
+
+                +-----------+------------------+-----------------------------------------------+
+                |   Field   | Filter Condition |                  Description                  |
+                +===========+==================+===============================================+
+                | timestamp | $lte, $gte       | Filter pitr intervals whose range is "less    |
+                |           |                  | than or equal to" or                          |
+                |           |                  | "greater than or equal to" a given timestamp. |
+                +-----------+------------------+-----------------------------------------------+
+
+        Returns:
+            requests.Response: Raw Response from the API if config.raw_response is set to True.
+            list_protection_group_s3_asset_pitr_intervals_response.ListProtectionGroupS3AssetPitrIntervalsResponse: Response from the API.
+        Raises:
+            ClumioException: An error occured while executing the API.
+                This exception includes the HTTP response code, an error
+                message, and the HTTP body that was received in the request.
+        """
+
+        # Prepare query URL
+        _url_path = (
+            '/datasources/protection-groups/s3-assets/{protection_group_s3_asset_id}/pitr-intervals'
+        )
+        _url_path = api_helper.append_url_with_template_parameters(
+            _url_path, {'protection_group_s3_asset_id': protection_group_s3_asset_id}
+        )
+        _query_parameters = {}
+        _query_parameters = {'limit': limit, 'start': start, 'filter': filter}
+
+        # Execute request
+        try:
+            resp = self.client.get(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                raw_response=self.config.raw_response,
+                **kwargs,
+            )
+        except requests.exceptions.HTTPError as http_error:
+            if self.config.raw_response:
+                return http_error.response, None
+            errors = self.client.get_error_message(http_error.response)
+            raise clumio_exception.ClumioException(
+                'Error occurred while executing list_protection_group_s3_asset_pitr_intervals.',
+                errors,
+            )
+
+        if self.config.raw_response:
+            return (
+                resp,
+                list_protection_group_s3_asset_pitr_intervals_response.ListProtectionGroupS3AssetPitrIntervalsResponse.from_dictionary(
+                    resp.json()
+                ),
+            )
+        return list_protection_group_s3_asset_pitr_intervals_response.ListProtectionGroupS3AssetPitrIntervalsResponse.from_dictionary(
             resp
         )

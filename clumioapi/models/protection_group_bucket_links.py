@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -21,6 +21,8 @@ class ProtectionGroupBucketLinks:
             The HATEOAS link to this resource.
         delete_bucket_protection_group:
             A resource-specific HATEOAS link.
+        list_backup_protection_group_s3_assets:
+            A resource-specific HATEOAS link.
         read_organizational_unit:
             A resource-specific HATEOAS link.
         read_policy_definition:
@@ -32,6 +34,7 @@ class ProtectionGroupBucketLinks:
     _names = {
         'p_self': '_self',
         'delete_bucket_protection_group': 'delete-bucket-protection-group',
+        'list_backup_protection_group_s3_assets': 'list-backup-protection-group-s3-assets',
         'read_organizational_unit': 'read-organizational-unit',
         'read_policy_definition': 'read-policy-definition',
     }
@@ -40,6 +43,7 @@ class ProtectionGroupBucketLinks:
         self,
         p_self: hateoas_self_link.HateoasSelfLink = None,
         delete_bucket_protection_group: hateoas_link.HateoasLink = None,
+        list_backup_protection_group_s3_assets: hateoas_link.HateoasLink = None,
         read_organizational_unit: hateoas_link.HateoasLink = None,
         read_policy_definition: read_policy_definition_hateoas_link.ReadPolicyDefinitionHateoasLink = None,
     ) -> None:
@@ -49,6 +53,9 @@ class ProtectionGroupBucketLinks:
         self.p_self: hateoas_self_link.HateoasSelfLink = p_self
         self.delete_bucket_protection_group: hateoas_link.HateoasLink = (
             delete_bucket_protection_group
+        )
+        self.list_backup_protection_group_s3_assets: hateoas_link.HateoasLink = (
+            list_backup_protection_group_s3_assets
         )
         self.read_organizational_unit: hateoas_link.HateoasLink = read_organizational_unit
         self.read_policy_definition: (
@@ -85,6 +92,13 @@ class ProtectionGroupBucketLinks:
             else None
         )
 
+        key = 'list-backup-protection-group-s3-assets'
+        list_backup_protection_group_s3_assets = (
+            hateoas_link.HateoasLink.from_dictionary(dictionary.get(key))
+            if dictionary.get(key)
+            else None
+        )
+
         key = 'read-organizational-unit'
         read_organizational_unit = (
             hateoas_link.HateoasLink.from_dictionary(dictionary.get(key))
@@ -103,5 +117,9 @@ class ProtectionGroupBucketLinks:
 
         # Return an object of this model
         return cls(
-            p_self, delete_bucket_protection_group, read_organizational_unit, read_policy_definition
+            p_self,
+            delete_bucket_protection_group,
+            list_backup_protection_group_s3_assets,
+            read_organizational_unit,
+            read_policy_definition,
         )

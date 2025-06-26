@@ -1,10 +1,11 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
 from clumioapi.models import event_rules
+from clumioapi.models import service_instance_profiles
 from clumioapi.models import service_roles
 
 T = TypeVar('T', bound='Resources')
@@ -25,6 +26,8 @@ class Resources:
             ARN of the support role which will be used by the Clumio support team.
         event_rules:
 
+        service_instance_profiles:
+
         service_roles:
 
     """
@@ -35,6 +38,7 @@ class Resources:
         'clumio_iam_role_arn': 'clumio_iam_role_arn',
         'clumio_support_role_arn': 'clumio_support_role_arn',
         'event_rules': 'event_rules',
+        'service_instance_profiles': 'service_instance_profiles',
         'service_roles': 'service_roles',
     }
 
@@ -44,6 +48,7 @@ class Resources:
         clumio_iam_role_arn: str = None,
         clumio_support_role_arn: str = None,
         event_rules: event_rules.EventRules = None,
+        service_instance_profiles: service_instance_profiles.ServiceInstanceProfiles = None,
         service_roles: service_roles.ServiceRoles = None,
     ) -> None:
         """Constructor for the Resources class."""
@@ -53,6 +58,9 @@ class Resources:
         self.clumio_iam_role_arn: str = clumio_iam_role_arn
         self.clumio_support_role_arn: str = clumio_support_role_arn
         self.event_rules: event_rules.EventRules = event_rules
+        self.service_instance_profiles: service_instance_profiles.ServiceInstanceProfiles = (
+            service_instance_profiles
+        )
         self.service_roles: service_roles.ServiceRoles = service_roles
 
     @classmethod
@@ -81,6 +89,13 @@ class Resources:
             else None
         )
 
+        key = 'service_instance_profiles'
+        p_service_instance_profiles = (
+            service_instance_profiles.ServiceInstanceProfiles.from_dictionary(dictionary.get(key))
+            if dictionary.get(key)
+            else None
+        )
+
         key = 'service_roles'
         p_service_roles = (
             service_roles.ServiceRoles.from_dictionary(dictionary.get(key))
@@ -94,5 +109,6 @@ class Resources:
             clumio_iam_role_arn,
             clumio_support_role_arn,
             p_event_rules,
+            p_service_instance_profiles,
             p_service_roles,
         )

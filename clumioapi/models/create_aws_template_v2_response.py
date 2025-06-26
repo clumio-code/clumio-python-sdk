@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -23,6 +23,8 @@ class CreateAWSTemplateV2Response:
             The configuration of the given template
         deployable_cloudformation_url:
             The latest available URL for the deployable template.
+        group_token:
+            swagger: ignore
         resources:
             Categorised Resources, based on the generated template, to be created manually
             by the user
@@ -36,6 +38,7 @@ class CreateAWSTemplateV2Response:
         'cloudformation_url': 'cloudformation_url',
         'config': 'config',
         'deployable_cloudformation_url': 'deployable_cloudformation_url',
+        'group_token': 'group_token',
         'resources': 'resources',
         'terraform_url': 'terraform_url',
     }
@@ -46,6 +49,7 @@ class CreateAWSTemplateV2Response:
         cloudformation_url: str = None,
         config: template_configuration_v2.TemplateConfigurationV2 = None,
         deployable_cloudformation_url: str = None,
+        group_token: str = None,
         resources: categorised_resources.CategorisedResources = None,
         terraform_url: str = None,
     ) -> None:
@@ -56,6 +60,7 @@ class CreateAWSTemplateV2Response:
         self.cloudformation_url: str = cloudformation_url
         self.config: template_configuration_v2.TemplateConfigurationV2 = config
         self.deployable_cloudformation_url: str = deployable_cloudformation_url
+        self.group_token: str = group_token
         self.resources: categorised_resources.CategorisedResources = resources
         self.terraform_url: str = terraform_url
 
@@ -91,6 +96,7 @@ class CreateAWSTemplateV2Response:
         )
 
         deployable_cloudformation_url = dictionary.get('deployable_cloudformation_url')
+        group_token = dictionary.get('group_token')
         key = 'resources'
         resources = (
             categorised_resources.CategorisedResources.from_dictionary(dictionary.get(key))
@@ -105,6 +111,7 @@ class CreateAWSTemplateV2Response:
             cloudformation_url,
             config,
             deployable_cloudformation_url,
+            group_token,
             resources,
             terraform_url,
         )

@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
@@ -32,7 +32,13 @@ class Ec2MssqlDatabasesV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def list_ec2_mssql_databases(
-        self, limit: int = None, start: str = None, filter: str = None, embed: str = None, **kwargs
+        self,
+        limit: int = None,
+        start: str = None,
+        filter: str = None,
+        embed: str = None,
+        lookback_days: int = None,
+        **kwargs,
     ) -> Union[
         list_ec2_mssql_databases_response.ListEC2MSSQLDatabasesResponse,
         tuple[
@@ -57,48 +63,54 @@ class Ec2MssqlDatabasesV1Controller(base_controller.BaseController):
                 +---------------------------+------------------+-------------------------------+
                 |           Field           | Filter Condition |          Description          |
                 +===========================+==================+===============================+
-                | name                      | $contains        | Filter Database where given   |
+                | name                      | $contains        | Filter database where given   |
                 |                           |                  | string is a substring of the  |
                 |                           |                  | name.                         |
                 +---------------------------+------------------+-------------------------------+
                 | environment_id            | $eq              | The Clumio-assigned ID of the |
                 |                           |                  | AWS environment.              |
                 +---------------------------+------------------+-------------------------------+
-                | protection_info.policy_id | $eq              | Filter Database whose         |
+                | protection_info.policy_id | $eq              | Filter database whose         |
                 |                           |                  | policy_id is equal to the     |
                 |                           |                  | given string.                 |
                 +---------------------------+------------------+-------------------------------+
-                | protection_status         | $eq              | Filter Database whose         |
+                | protection_status         | $eq              | Filter database whose         |
                 |                           |                  | protection_status is equal to |
                 |                           |                  | the given string.             |
                 +---------------------------+------------------+-------------------------------+
-                | compliance_status         | $in              | Filter Database whose         |
-                |                           |                  | compliance_status is in the   |
-                |                           |                  | given array of string.        |
+                | backup_status             | $in              | The backup status of this     |
+                |                           |                  | resource. Possible values     |
+                |                           |                  | include success,              |
+                |                           |                  | partial_success, failure and  |
+                |                           |                  | no_backup.                    |
                 +---------------------------+------------------+-------------------------------+
-                | instance_id               | $eq              | Filter Database whose         |
+                | deactivated               | $eq              | Filter database which is      |
+                |                           |                  | protected by deactivated      |
+                |                           |                  | policy or not.                |
+                +---------------------------+------------------+-------------------------------+
+                | instance_id               | $eq              | Filter database whose         |
                 |                           |                  | instance ID is equal to the   |
                 |                           |                  | given string.                 |
                 +---------------------------+------------------+-------------------------------+
-                | host_id                   | $eq              | Filter Database whose host ID |
+                | host_id                   | $eq              | Filter database whose host ID |
                 |                           |                  | is equal to the given string. |
                 +---------------------------+------------------+-------------------------------+
-                | availability_group_id     | $eq              | Filter Database whose         |
+                | availability_group_id     | $eq              | Filter database whose         |
                 |                           |                  | availability group ID is      |
                 |                           |                  | equal to the given string.    |
                 +---------------------------+------------------+-------------------------------+
-                | failover_cluster_id       | $eq              | Filter Database whose         |
+                | failover_cluster_id       | $eq              | Filter database whose         |
                 |                           |                  | failover cluster ID is equal  |
                 |                           |                  | to the given string.          |
                 +---------------------------+------------------+-------------------------------+
-                | status                    | $eq              | Filter Database whose status  |
+                | status                    | $eq              | Filter database whose status  |
                 |                           |                  | is equal to the given string. |
                 +---------------------------+------------------+-------------------------------+
-                | recovery_model            | $in              | Filter Database whose         |
+                | recovery_model            | $in              | Filter database whose         |
                 |                           |                  | recovery_model is in the      |
                 |                           |                  | given array of string         |
                 +---------------------------+------------------+-------------------------------+
-                | type                      | $eq              | Filter Database whose type is |
+                | type                      | $eq              | Filter database whose type is |
                 |                           |                  | equal to the given string.    |
                 +---------------------------+------------------+-------------------------------+
                 | account_ids               | $in              | Filter databases which belong |
@@ -128,6 +140,8 @@ class Ec2MssqlDatabasesV1Controller(base_controller.BaseController):
                 |                        | response. For example, embed=read-aws-ec2-instance  |
                 +------------------------+-----------------------------------------------------+
 
+            lookback_days:
+                Calculate backup status for the last `lookback_days` days.
         Returns:
             requests.Response: Raw Response from the API if config.raw_response is set to True.
             list_ec2_mssql_databases_response.ListEC2MSSQLDatabasesResponse: Response from the API.
@@ -141,7 +155,13 @@ class Ec2MssqlDatabasesV1Controller(base_controller.BaseController):
         _url_path = '/datasources/aws/ec2-mssql/databases'
 
         _query_parameters = {}
-        _query_parameters = {'limit': limit, 'start': start, 'filter': filter, 'embed': embed}
+        _query_parameters = {
+            'limit': limit,
+            'start': start,
+            'filter': filter,
+            'embed': embed,
+            'lookback_days': lookback_days,
+        }
 
         # Execute request
         try:
@@ -169,7 +189,9 @@ class Ec2MssqlDatabasesV1Controller(base_controller.BaseController):
             )
         return list_ec2_mssql_databases_response.ListEC2MSSQLDatabasesResponse.from_dictionary(resp)
 
-    def read_ec2_mssql_database(self, database_id: str, **kwargs) -> Union[
+    def read_ec2_mssql_database(
+        self, database_id: str, lookback_days: int = None, **kwargs
+    ) -> Union[
         read_ec2_mssql_database_response.ReadEC2MSSQLDatabaseResponse,
         tuple[
             requests.Response,
@@ -181,6 +203,8 @@ class Ec2MssqlDatabasesV1Controller(base_controller.BaseController):
         Args:
             database_id:
                 Performs the operation on a database within the specified database id.
+            lookback_days:
+                Calculate backup status for the last `lookback_days` days.
         Returns:
             requests.Response: Raw Response from the API if config.raw_response is set to True.
             read_ec2_mssql_database_response.ReadEC2MSSQLDatabaseResponse: Response from the API.
@@ -196,6 +220,7 @@ class Ec2MssqlDatabasesV1Controller(base_controller.BaseController):
             _url_path, {'database_id': database_id}
         )
         _query_parameters = {}
+        _query_parameters = {'lookback_days': lookback_days}
 
         # Execute request
         try:

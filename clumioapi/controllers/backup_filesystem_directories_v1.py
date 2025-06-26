@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
@@ -66,7 +66,9 @@ class BackupFilesystemDirectoriesV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = '/backups/{backup_id}/filesystems/{filesystem_id}/directories/{directory_id}/browse'
+        _url_path = (
+            '/backups/{backup_id}/filesystems/{filesystem_id}/directories/{directory_id}/browse'
+        )
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path,
             {'backup_id': backup_id, 'filesystem_id': filesystem_id, 'directory_id': directory_id},

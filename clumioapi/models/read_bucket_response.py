@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -51,6 +51,8 @@ class ReadBucketResponse:
             The Replication enablement state for the S3 bucket.
         is_versioning_enabled:
             The Versioning enablement state for the S3 bucket.
+        last_backtrack_sync_timestamp:
+            Time of the last S3 Backtrack sync in RFC-3339 format.
         last_backup_timestamp:
             Time of the last backup in RFC-3339 format.
         last_continuous_backup_timestamp:
@@ -91,6 +93,7 @@ class ReadBucketResponse:
         'is_encryption_enabled': 'is_encryption_enabled',
         'is_replication_enabled': 'is_replication_enabled',
         'is_versioning_enabled': 'is_versioning_enabled',
+        'last_backtrack_sync_timestamp': 'last_backtrack_sync_timestamp',
         'last_backup_timestamp': 'last_backup_timestamp',
         'last_continuous_backup_timestamp': 'last_continuous_backup_timestamp',
         'name': 'name',
@@ -120,6 +123,7 @@ class ReadBucketResponse:
         is_encryption_enabled: bool = None,
         is_replication_enabled: bool = None,
         is_versioning_enabled: bool = None,
+        last_backtrack_sync_timestamp: str = None,
         last_backup_timestamp: str = None,
         last_continuous_backup_timestamp: str = None,
         name: str = None,
@@ -151,6 +155,7 @@ class ReadBucketResponse:
         self.is_encryption_enabled: bool = is_encryption_enabled
         self.is_replication_enabled: bool = is_replication_enabled
         self.is_versioning_enabled: bool = is_versioning_enabled
+        self.last_backtrack_sync_timestamp: str = last_backtrack_sync_timestamp
         self.last_backup_timestamp: str = last_backup_timestamp
         self.last_continuous_backup_timestamp: str = last_continuous_backup_timestamp
         self.name: str = name
@@ -219,6 +224,7 @@ class ReadBucketResponse:
         is_encryption_enabled = dictionary.get('is_encryption_enabled')
         is_replication_enabled = dictionary.get('is_replication_enabled')
         is_versioning_enabled = dictionary.get('is_versioning_enabled')
+        last_backtrack_sync_timestamp = dictionary.get('last_backtrack_sync_timestamp')
         last_backup_timestamp = dictionary.get('last_backup_timestamp')
         last_continuous_backup_timestamp = dictionary.get('last_continuous_backup_timestamp')
         name = dictionary.get('name')
@@ -263,6 +269,7 @@ class ReadBucketResponse:
             is_encryption_enabled,
             is_replication_enabled,
             is_versioning_enabled,
+            last_backtrack_sync_timestamp,
             last_backup_timestamp,
             last_continuous_backup_timestamp,
             name,

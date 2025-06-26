@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -11,7 +11,7 @@ class OrganizationalUnitPrimaryEntity:
     """Implementation of the 'OrganizationalUnitPrimaryEntity' model.
 
     The primary object associated with the organizational unit. Examples of primary
-    entities include "aws_environment" and "vmware_vm".
+    entities include "aws_environment".
 
     Attributes:
         p_id:

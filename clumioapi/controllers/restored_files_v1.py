@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
@@ -63,7 +63,7 @@ class RestoredFilesV1Controller(base_controller.BaseController):
                 | asset_type | $eq              | Required. The type of the asset within which |
                 |            |                  | to search for files. Possible values include |
                 |            |                  | aws_ebs_volume,                              |
-                |            |                  | aws_ec2_instance, vmware_vm and              |
+                |            |                  | aws_ec2_instance, aws_ec2_instance and       |
                 |            |                  | aws_dynamodb_table.                          |
                 +------------+------------------+----------------------------------------------+
                 | asset_id   | $eq              | Required. The Clumio-assigned ID of the      |

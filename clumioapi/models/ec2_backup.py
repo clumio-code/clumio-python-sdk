@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -72,6 +72,8 @@ class EC2Backup:
             migration backups. Represented in RFC-3339 format.
         network_interfaces:
             The network interfaces attached to the instance.
+        public_ip_address:
+            The public IP v4 address of the instance if one was assigned.
         size:
             The size of the instance backup. This is the sum of all the EBS volumes attached
             to the EC2 measured in gigabytes (GB).
@@ -112,6 +114,7 @@ class EC2Backup:
         'key_pair_native_id': 'key_pair_native_id',
         'migration_timestamp': 'migration_timestamp',
         'network_interfaces': 'network_interfaces',
+        'public_ip_address': 'public_ip_address',
         'size': 'size',
         'start_timestamp': 'start_timestamp',
         'subnet_native_id': 'subnet_native_id',
@@ -148,6 +151,7 @@ class EC2Backup:
         key_pair_native_id: str = None,
         migration_timestamp: str = None,
         network_interfaces: Sequence[network_interface.NetworkInterface] = None,
+        public_ip_address: str = None,
         size: int = None,
         start_timestamp: str = None,
         subnet_native_id: str = None,
@@ -186,6 +190,7 @@ class EC2Backup:
         self.key_pair_native_id: str = key_pair_native_id
         self.migration_timestamp: str = migration_timestamp
         self.network_interfaces: Sequence[network_interface.NetworkInterface] = network_interfaces
+        self.public_ip_address: str = public_ip_address
         self.size: int = size
         self.start_timestamp: str = start_timestamp
         self.subnet_native_id: str = subnet_native_id
@@ -272,6 +277,7 @@ class EC2Backup:
             for value in dictionary.get('network_interfaces'):
                 network_interfaces.append(network_interface.NetworkInterface.from_dictionary(value))
 
+        public_ip_address = dictionary.get('public_ip_address')
         size = dictionary.get('size')
         start_timestamp = dictionary.get('start_timestamp')
         subnet_native_id = dictionary.get('subnet_native_id')
@@ -307,6 +313,7 @@ class EC2Backup:
             key_pair_native_id,
             migration_timestamp,
             network_interfaces,
+            public_ip_address,
             size,
             start_timestamp,
             subnet_native_id,

@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -23,8 +23,6 @@ class M365GroupingCriteria:
             |     Entity Type     |        Details         |
             +=====================+========================+
             | microsoft365_domain | Microsoft 365 account. |
-            +---------------------+------------------------+
-            | microsoft365_group  | Microsoft 365 group.   |
             +---------------------+------------------------+
     """
 

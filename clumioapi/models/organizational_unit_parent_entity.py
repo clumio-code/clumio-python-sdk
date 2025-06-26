@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -10,10 +10,8 @@ T = TypeVar('T', bound='OrganizationalUnitParentEntity')
 class OrganizationalUnitParentEntity:
     """Implementation of the 'OrganizationalUnitParentEntity' model.
 
-    The parent object of the primary entity associated with the organizational unit.
-    For example, "vmware_vcenter" is the parent entity of primary entity
-    "vmware_vm_folder".The parent object is necessary for VMware entities and can be
-    omitted for other data sources.
+    The parent object of the primary entity associated with the organizational
+    unit.The parent object is optional and can be omitted.
 
     Attributes:
         p_id:

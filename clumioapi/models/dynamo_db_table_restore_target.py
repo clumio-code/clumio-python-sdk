@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -10,6 +10,7 @@ from clumioapi.models import local_secondary_index
 from clumioapi.models import provisioned_throughput
 from clumioapi.models import replica_description
 from clumioapi.models import sse_specification
+from clumioapi.models import stream_specification
 
 T = TypeVar('T', bound='DynamoDBTableRestoreTarget')
 
@@ -33,6 +34,20 @@ class DynamoDBTableRestoreTarget:
             is defaulted to the
             configuration of source table if both 'billing_mode' and
             'provisioned_throughput' are empty or `null`.
+        contributor_insights_status:
+            Indicates whether DynamoDB Contributor Insights is enabled (true) or disabled
+            (false)
+            on the table.
+            For [POST /restores/aws/dynamodb](#operation/restore-aws-dynamodb-table), this
+            is defaulted to the
+            value set in backup if `null`.
+        deletion_protection_enabled:
+            Indicates whether DynamoDB Deletion Protection is enabled (true) or disabled
+            (false)
+            on the table.
+            For [POST /restores/aws/dynamodb](#operation/restore-aws-dynamodb-table), this
+            is defaulted to the
+            value set in backup if `null`.
         environment_id:
             The Clumio-assigned ID of the AWS environment to be used as the restore
             destination.
@@ -60,6 +75,13 @@ class DynamoDBTableRestoreTarget:
             local_secondary_indexes can be specified.
             The restored table will not have any local secondary indexes if this is
             specified empty or `null`.
+        pitr_status:
+            Indicates whether DynamoDB Continuous Backup (PITR) is enabled (true) or
+            disabled (false)
+            on the table.
+            For [POST /restores/aws/dynamodb](#operation/restore-aws-dynamodb-table), this
+            is defaulted to the
+            value set in backup if `null`.
         provisioned_throughput:
             Represents the provisioned throughput settings for a DynamoDB table.
         replicas:
@@ -71,6 +93,9 @@ class DynamoDBTableRestoreTarget:
             release.
         sse_specification:
             Represents the server-side encryption settings for a table.
+        stream_specification:
+            Represents the DynamoDB Streams configuration for a table in DynamoDB.
+            and the data type (`S` for string, `N` for number, `B` for binary).
         table_class:
             The table class of the DynamoDB table. Possible values are STANDARD or
             STANDARD_INFREQUENT_ACCESS.
@@ -94,13 +119,17 @@ class DynamoDBTableRestoreTarget:
     # Create a mapping from Model property names to API property names
     _names = {
         'billing_mode': 'billing_mode',
+        'contributor_insights_status': 'contributor_insights_status',
+        'deletion_protection_enabled': 'deletion_protection_enabled',
         'environment_id': 'environment_id',
         'global_secondary_indexes': 'global_secondary_indexes',
         'global_table_version': 'global_table_version',
         'local_secondary_indexes': 'local_secondary_indexes',
+        'pitr_status': 'pitr_status',
         'provisioned_throughput': 'provisioned_throughput',
         'replicas': 'replicas',
         'sse_specification': 'sse_specification',
+        'stream_specification': 'stream_specification',
         'table_class': 'table_class',
         'table_name': 'table_name',
         'tags': 'tags',
@@ -109,13 +138,17 @@ class DynamoDBTableRestoreTarget:
     def __init__(
         self,
         billing_mode: str = None,
+        contributor_insights_status: bool = None,
+        deletion_protection_enabled: bool = None,
         environment_id: str = None,
         global_secondary_indexes: Sequence[global_secondary_index.GlobalSecondaryIndex] = None,
         global_table_version: str = None,
         local_secondary_indexes: Sequence[local_secondary_index.LocalSecondaryIndex] = None,
+        pitr_status: bool = None,
         provisioned_throughput: provisioned_throughput.ProvisionedThroughput = None,
         replicas: Sequence[replica_description.ReplicaDescription] = None,
         sse_specification: sse_specification.SSESpecification = None,
+        stream_specification: stream_specification.StreamSpecification = None,
         table_class: str = None,
         table_name: str = None,
         tags: Sequence[aws_tag_common_model.AwsTagCommonModel] = None,
@@ -124,6 +157,8 @@ class DynamoDBTableRestoreTarget:
 
         # Initialize members of the class
         self.billing_mode: str = billing_mode
+        self.contributor_insights_status: bool = contributor_insights_status
+        self.deletion_protection_enabled: bool = deletion_protection_enabled
         self.environment_id: str = environment_id
         self.global_secondary_indexes: Sequence[global_secondary_index.GlobalSecondaryIndex] = (
             global_secondary_indexes
@@ -132,11 +167,13 @@ class DynamoDBTableRestoreTarget:
         self.local_secondary_indexes: Sequence[local_secondary_index.LocalSecondaryIndex] = (
             local_secondary_indexes
         )
+        self.pitr_status: bool = pitr_status
         self.provisioned_throughput: provisioned_throughput.ProvisionedThroughput = (
             provisioned_throughput
         )
         self.replicas: Sequence[replica_description.ReplicaDescription] = replicas
         self.sse_specification: sse_specification.SSESpecification = sse_specification
+        self.stream_specification: stream_specification.StreamSpecification = stream_specification
         self.table_class: str = table_class
         self.table_name: str = table_name
         self.tags: Sequence[aws_tag_common_model.AwsTagCommonModel] = tags
@@ -158,6 +195,8 @@ class DynamoDBTableRestoreTarget:
 
         # Extract variables from the dictionary
         billing_mode = dictionary.get('billing_mode')
+        contributor_insights_status = dictionary.get('contributor_insights_status')
+        deletion_protection_enabled = dictionary.get('deletion_protection_enabled')
         environment_id = dictionary.get('environment_id')
         global_secondary_indexes = None
         if dictionary.get('global_secondary_indexes'):
@@ -176,6 +215,7 @@ class DynamoDBTableRestoreTarget:
                     local_secondary_index.LocalSecondaryIndex.from_dictionary(value)
                 )
 
+        pitr_status = dictionary.get('pitr_status')
         key = 'provisioned_throughput'
         p_provisioned_throughput = (
             provisioned_throughput.ProvisionedThroughput.from_dictionary(dictionary.get(key))
@@ -196,6 +236,13 @@ class DynamoDBTableRestoreTarget:
             else None
         )
 
+        key = 'stream_specification'
+        p_stream_specification = (
+            stream_specification.StreamSpecification.from_dictionary(dictionary.get(key))
+            if dictionary.get(key)
+            else None
+        )
+
         table_class = dictionary.get('table_class')
         table_name = dictionary.get('table_name')
         tags = None
@@ -207,13 +254,17 @@ class DynamoDBTableRestoreTarget:
         # Return an object of this model
         return cls(
             billing_mode,
+            contributor_insights_status,
+            deletion_protection_enabled,
             environment_id,
             global_secondary_indexes,
             global_table_version,
             local_secondary_indexes,
+            pitr_status,
             p_provisioned_throughput,
             replicas,
             p_sse_specification,
+            p_stream_specification,
             table_class,
             table_name,
             tags,

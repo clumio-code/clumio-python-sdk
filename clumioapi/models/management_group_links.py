@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -18,30 +18,22 @@ class ManagementGroupLinks:
     Attributes:
         p_self:
             The HATEOAS link to this resource.
-        list_management_subgroups:
-            A resource-specific HATEOAS link.
         update_management_group:
             A resource-specific HATEOAS link.
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
-        'p_self': '_self',
-        'list_management_subgroups': 'list-management-subgroups',
-        'update_management_group': 'update-management-group',
-    }
+    _names = {'p_self': '_self', 'update_management_group': 'update-management-group'}
 
     def __init__(
         self,
         p_self: hateoas_self_link.HateoasSelfLink = None,
-        list_management_subgroups: hateoas_link.HateoasLink = None,
         update_management_group: hateoas_link.HateoasLink = None,
     ) -> None:
         """Constructor for the ManagementGroupLinks class."""
 
         # Initialize members of the class
         self.p_self: hateoas_self_link.HateoasSelfLink = p_self
-        self.list_management_subgroups: hateoas_link.HateoasLink = list_management_subgroups
         self.update_management_group: hateoas_link.HateoasLink = update_management_group
 
     @classmethod
@@ -67,13 +59,6 @@ class ManagementGroupLinks:
             else None
         )
 
-        key = 'list-management-subgroups'
-        list_management_subgroups = (
-            hateoas_link.HateoasLink.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
-
         key = 'update-management-group'
         update_management_group = (
             hateoas_link.HateoasLink.from_dictionary(dictionary.get(key))
@@ -82,4 +67,4 @@ class ManagementGroupLinks:
         )
 
         # Return an object of this model
-        return cls(p_self, list_management_subgroups, update_management_group)
+        return cls(p_self, update_management_group)

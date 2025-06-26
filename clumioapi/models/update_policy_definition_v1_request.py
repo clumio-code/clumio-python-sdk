@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -25,10 +25,11 @@ class UpdatePolicyDefinitionV1Request:
         organizational_unit_id:
             The Clumio-assigned ID of the organizational unit associated with the policy.
         timezone:
-            The timezone for the policy. The timezone must be a valid location name from the
-            IANA Time Zone database.
+            The policy-level timezone is deprecated, as the operation-level timezone should
+            be used instead.
+            The timezone must be a valid location name from the IANA Time Zone database.
             For instance, "America/New_York", "US/Central", "UTC".
-            deprecated: true
+            Deprecated: true
     """
 
     # Create a mapping from Model property names to API property names
