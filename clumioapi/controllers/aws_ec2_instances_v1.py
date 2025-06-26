@@ -31,7 +31,13 @@ class AwsEc2InstancesV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def list_aws_ec2_instances(
-        self, limit: int = None, start: str = None, filter: str = None, embed: str = None, **kwargs
+        self,
+        limit: int = None,
+        start: str = None,
+        filter: str = None,
+        embed: str = None,
+        lookback_days: int = None,
+        **kwargs,
     ) -> Union[
         list_ec2_instances_response.ListEc2InstancesResponse,
         tuple[requests.Response, Optional[list_ec2_instances_response.ListEc2InstancesResponse]],
@@ -83,12 +89,11 @@ class AwsEc2InstancesV1Controller(base_controller.BaseController):
                 |                           |                  | ter={"account_native_id":{"$e |
                 |                           |                  | q":"789901323485"}}           |
                 +---------------------------+------------------+-------------------------------+
-                | compliance_status         | $eq, in          | The compliance status of the  |
-                |                           |                  | EC2 instance. Possible values |
-                |                           |                  | include "compliant" and       |
-                |                           |                  | "non_compliant". filter={"com |
-                |                           |                  | pliance_status":{"$eq":"non_c |
-                |                           |                  | ompliant"}}                   |
+                | aws_region                | $eq              | The AWS region of a given     |
+                |                           |                  | account to which this         |
+                |                           |                  | resource belongs. For         |
+                |                           |                  | example, filter={"aws_region" |
+                |                           |                  | :{"$eq":"us-east-1"}}         |
                 +---------------------------+------------------+-------------------------------+
                 | protection_status         | $in              | The protection status of the  |
                 |                           |                  | EC2 instance. Possible values |
@@ -97,6 +102,15 @@ class AwsEc2InstancesV1Controller(base_controller.BaseController):
                 |                           |                  | "unsupported". For example, f |
                 |                           |                  | ilter={"protection_status":{" |
                 |                           |                  | $in":["protected"]}}          |
+                +---------------------------+------------------+-------------------------------+
+                | backup_status             | $in              | The backup status of this     |
+                |                           |                  | resource. Possible values     |
+                |                           |                  | include success,              |
+                |                           |                  | partial_success, failure and  |
+                |                           |                  | no_backup.                    |
+                +---------------------------+------------------+-------------------------------+
+                | deactivated               | $eq              | Filter assets protected by a  |
+                |                           |                  | deactivated policy.           |
                 +---------------------------+------------------+-------------------------------+
                 | protection_info.policy_id | $eq              | The Clumio-assigned ID of the |
                 |                           |                  | policy protecting this        |
@@ -116,7 +130,7 @@ class AwsEc2InstancesV1Controller(base_controller.BaseController):
                 |                           |                  | all of them must be applied   |
                 |                           |                  | to the same EC2 instance.     |
                 +---------------------------+------------------+-------------------------------+
-                | is_deleted                | $eq,$in          | The deletion status of the    |
+                | is_deleted                | $eq, $in         | The deletion status of the    |
                 |                           |                  | EC2 instance. Default value   |
                 |                           |                  | is "false". Set to "true" to  |
                 |                           |                  | retrieve deleted EC2          |
@@ -144,6 +158,8 @@ class AwsEc2InstancesV1Controller(base_controller.BaseController):
                 |                        | embed=read-policy-definition                        |
                 +------------------------+-----------------------------------------------------+
 
+            lookback_days:
+                Calculate backup status for the last `lookback_days` days.
         Returns:
             requests.Response: Raw Response from the API if config.raw_response is set to True.
             list_ec2_instances_response.ListEc2InstancesResponse: Response from the API.
@@ -157,7 +173,13 @@ class AwsEc2InstancesV1Controller(base_controller.BaseController):
         _url_path = '/datasources/aws/ec2-instances'
 
         _query_parameters = {}
-        _query_parameters = {'limit': limit, 'start': start, 'filter': filter, 'embed': embed}
+        _query_parameters = {
+            'limit': limit,
+            'start': start,
+            'filter': filter,
+            'embed': embed,
+            'lookback_days': lookback_days,
+        }
 
         # Execute request
         try:
@@ -182,7 +204,9 @@ class AwsEc2InstancesV1Controller(base_controller.BaseController):
             )
         return list_ec2_instances_response.ListEc2InstancesResponse.from_dictionary(resp)
 
-    def read_aws_ec2_instance(self, instance_id: str, embed: str = None, **kwargs) -> Union[
+    def read_aws_ec2_instance(
+        self, instance_id: str, lookback_days: int = None, embed: str = None, **kwargs
+    ) -> Union[
         read_ec2_instance_response.ReadEc2InstanceResponse,
         tuple[requests.Response, Optional[read_ec2_instance_response.ReadEc2InstanceResponse]],
     ]:
@@ -191,6 +215,8 @@ class AwsEc2InstancesV1Controller(base_controller.BaseController):
         Args:
             instance_id:
                 Performs the operation on the EC2 instance with the specified ID.
+            lookback_days:
+                Calculate backup status for the last `lookback_days` days.
             embed:
                 Embeds the details of an associated resource. Set the parameter to one of the
                 following embeddable links to include additional details associated with the
@@ -219,7 +245,7 @@ class AwsEc2InstancesV1Controller(base_controller.BaseController):
             _url_path, {'instance_id': instance_id}
         )
         _query_parameters = {}
-        _query_parameters = {'embed': embed}
+        _query_parameters = {'lookback_days': lookback_days, 'embed': embed}
 
         # Execute request
         try:

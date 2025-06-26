@@ -31,7 +31,13 @@ class AwsEbsVolumesV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def list_aws_ebs_volumes(
-        self, limit: int = None, start: str = None, filter: str = None, embed: str = None, **kwargs
+        self,
+        limit: int = None,
+        start: str = None,
+        filter: str = None,
+        embed: str = None,
+        lookback_days: int = None,
+        **kwargs,
     ) -> Union[
         list_ebs_volumes_response.ListEbsVolumesResponse,
         tuple[requests.Response, Optional[list_ebs_volumes_response.ListEbsVolumesResponse]],
@@ -83,19 +89,6 @@ class AwsEbsVolumesV1Controller(base_controller.BaseController):
                 |                           |                  | ter={"account_native_id":{"$e |
                 |                           |                  | q":"789901323485"}}           |
                 +---------------------------+------------------+-------------------------------+
-                | compliance_status         | $eq, in          | The compliance status of the  |
-                |                           |                  | EBS volume. This parameter    |
-                |                           |                  | cannot be set if the          |
-                |                           |                  | protection_status filter      |
-                |                           |                  | parameter is set to           |
-                |                           |                  | "unsupported" or              |
-                |                           |                  | "unprotected". For example, f |
-                |                           |                  | ilter={"compliance_status":{" |
-                |                           |                  | $eq":"non_compliant"}} Refer  |
-                |                           |                  | to the Compliance Status      |
-                |                           |                  | table for a complete list of  |
-                |                           |                  | compliance statuses.          |
-                +---------------------------+------------------+-------------------------------+
                 | protection_status         | $eq, $in         | The protection status of the  |
                 |                           |                  | EBS volume. For example, filt |
                 |                           |                  | er={"protection_status":{"$eq |
@@ -105,6 +98,15 @@ class AwsEbsVolumesV1Controller(base_controller.BaseController):
                 |                           |                  | Protection Status table for a |
                 |                           |                  | complete list of protection   |
                 |                           |                  | statuses.                     |
+                +---------------------------+------------------+-------------------------------+
+                | deactivated               | $eq              | Filter assets protected by a  |
+                |                           |                  | deactivated policy.           |
+                +---------------------------+------------------+-------------------------------+
+                | backup_status             | $in              | The backup status of this     |
+                |                           |                  | resource. Possible values     |
+                |                           |                  | include success,              |
+                |                           |                  | partial_success, failure and  |
+                |                           |                  | no_backup.                    |
                 +---------------------------+------------------+-------------------------------+
                 | protection_info.policy_id | $eq              | The Clumio-assigned ID of the |
                 |                           |                  | policy protecting this        |
@@ -146,6 +148,8 @@ class AwsEbsVolumesV1Controller(base_controller.BaseController):
                 |                        | policy-definition                                   |
                 +------------------------+-----------------------------------------------------+
 
+            lookback_days:
+                Calculate backup status for the last `lookback_days` days.
         Returns:
             requests.Response: Raw Response from the API if config.raw_response is set to True.
             list_ebs_volumes_response.ListEbsVolumesResponse: Response from the API.
@@ -159,7 +163,13 @@ class AwsEbsVolumesV1Controller(base_controller.BaseController):
         _url_path = '/datasources/aws/ebs-volumes'
 
         _query_parameters = {}
-        _query_parameters = {'limit': limit, 'start': start, 'filter': filter, 'embed': embed}
+        _query_parameters = {
+            'limit': limit,
+            'start': start,
+            'filter': filter,
+            'embed': embed,
+            'lookback_days': lookback_days,
+        }
 
         # Execute request
         try:
@@ -184,7 +194,9 @@ class AwsEbsVolumesV1Controller(base_controller.BaseController):
             )
         return list_ebs_volumes_response.ListEbsVolumesResponse.from_dictionary(resp)
 
-    def read_aws_ebs_volume(self, volume_id: str, embed: str = None, **kwargs) -> Union[
+    def read_aws_ebs_volume(
+        self, volume_id: str, lookback_days: int = None, embed: str = None, **kwargs
+    ) -> Union[
         read_ebs_volume_response.ReadEbsVolumeResponse,
         tuple[requests.Response, Optional[read_ebs_volume_response.ReadEbsVolumeResponse]],
     ]:
@@ -193,6 +205,8 @@ class AwsEbsVolumesV1Controller(base_controller.BaseController):
         Args:
             volume_id:
                 Performs the operation on the EBS Volume with the specified ID.
+            lookback_days:
+                Calculate backup status for the last `lookback_days` days.
             embed:
                 Embeds the details of an associated resource. Set the parameter to one of the
                 following embeddable links to include additional details associated with the
@@ -221,7 +235,7 @@ class AwsEbsVolumesV1Controller(base_controller.BaseController):
             _url_path, {'volume_id': volume_id}
         )
         _query_parameters = {}
-        _query_parameters = {'embed': embed}
+        _query_parameters = {'lookback_days': lookback_days, 'embed': embed}
 
         # Execute request
         try:

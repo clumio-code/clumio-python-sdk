@@ -16,10 +16,12 @@ class SetBucketPropertiesV1Request:
         event_bridge_enabled:
             If true, enables continuous backup for the given bucket.
             If false, disables continuous backup for the given bucket.
+            If not set, does not update EventBridge.
         event_bridge_notification_disabled:
             If true, tries to disable EventBridge notification for the given bucket.
-            This may override the existing bucket notification configuration in the
-            customer's account.
+            It may override the existing bucket notification configuration in the customer's
+            account.
+            This takes effect only when `event_bridge_enabled` is set to `false`.
     """
 
     # Create a mapping from Model property names to API property names

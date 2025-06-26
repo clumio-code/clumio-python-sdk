@@ -13,6 +13,8 @@ class EC2MSSQLInstanceEmbedded:
     Embedded responses related to the resource.
 
     Attributes:
+        get_ec2_mssql_instance_backup_status_stats:
+            Stats pertaining to the backup status of the EC2 MSSQL Instance.
         get_ec2_mssql_instance_stats:
             Stats pertaining to the EC2 MSSQL Instance.
         read_policy_definition:
@@ -23,16 +25,23 @@ class EC2MSSQLInstanceEmbedded:
 
     # Create a mapping from Model property names to API property names
     _names = {
+        'get_ec2_mssql_instance_backup_status_stats': 'get-ec2-mssql-instance-backup-status-stats',
         'get_ec2_mssql_instance_stats': 'get-ec2-mssql-instance-stats',
         'read_policy_definition': 'read-policy-definition',
     }
 
     def __init__(
-        self, get_ec2_mssql_instance_stats: object = None, read_policy_definition: object = None
+        self,
+        get_ec2_mssql_instance_backup_status_stats: object = None,
+        get_ec2_mssql_instance_stats: object = None,
+        read_policy_definition: object = None,
     ) -> None:
         """Constructor for the EC2MSSQLInstanceEmbedded class."""
 
         # Initialize members of the class
+        self.get_ec2_mssql_instance_backup_status_stats: object = (
+            get_ec2_mssql_instance_backup_status_stats
+        )
         self.get_ec2_mssql_instance_stats: object = get_ec2_mssql_instance_stats
         self.read_policy_definition: object = read_policy_definition
 
@@ -52,7 +61,14 @@ class EC2MSSQLInstanceEmbedded:
             return None
 
         # Extract variables from the dictionary
+        get_ec2_mssql_instance_backup_status_stats = dictionary.get(
+            'get-ec2-mssql-instance-backup-status-stats'
+        )
         get_ec2_mssql_instance_stats = dictionary.get('get-ec2-mssql-instance-stats')
         read_policy_definition = dictionary.get('read-policy-definition')
         # Return an object of this model
-        return cls(get_ec2_mssql_instance_stats, read_policy_definition)
+        return cls(
+            get_ec2_mssql_instance_backup_status_stats,
+            get_ec2_mssql_instance_stats,
+            read_policy_definition,
+        )

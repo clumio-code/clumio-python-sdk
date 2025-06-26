@@ -19,6 +19,8 @@ class PostProcessKmsV1Request:
             The AWS region associated with the connection. For example, `us-east-1`.
         created_multi_region_cmk:
             Whether the CMK was created or an existing CMK was used.
+        intermediate_role_arn:
+            Role arn to be assumed before accessing ClumioRole in customer account.
         multi_region_cmk_key_id:
             The multi-region CMK Key ID.
         request_type:
@@ -41,6 +43,7 @@ class PostProcessKmsV1Request:
         'account_native_id': 'account_native_id',
         'aws_region': 'aws_region',
         'created_multi_region_cmk': 'created_multi_region_cmk',
+        'intermediate_role_arn': 'intermediate_role_arn',
         'multi_region_cmk_key_id': 'multi_region_cmk_key_id',
         'request_type': 'request_type',
         'role_arn': 'role_arn',
@@ -55,6 +58,7 @@ class PostProcessKmsV1Request:
         account_native_id: str = None,
         aws_region: str = None,
         created_multi_region_cmk: bool = None,
+        intermediate_role_arn: str = None,
         multi_region_cmk_key_id: str = None,
         request_type: str = None,
         role_arn: str = None,
@@ -69,6 +73,7 @@ class PostProcessKmsV1Request:
         self.account_native_id: str = account_native_id
         self.aws_region: str = aws_region
         self.created_multi_region_cmk: bool = created_multi_region_cmk
+        self.intermediate_role_arn: str = intermediate_role_arn
         self.multi_region_cmk_key_id: str = multi_region_cmk_key_id
         self.request_type: str = request_type
         self.role_arn: str = role_arn
@@ -96,6 +101,7 @@ class PostProcessKmsV1Request:
         account_native_id = dictionary.get('account_native_id')
         aws_region = dictionary.get('aws_region')
         created_multi_region_cmk = dictionary.get('created_multi_region_cmk')
+        intermediate_role_arn = dictionary.get('intermediate_role_arn')
         multi_region_cmk_key_id = dictionary.get('multi_region_cmk_key_id')
         request_type = dictionary.get('request_type')
         role_arn = dictionary.get('role_arn')
@@ -108,6 +114,7 @@ class PostProcessKmsV1Request:
             account_native_id,
             aws_region,
             created_multi_region_cmk,
+            intermediate_role_arn,
             multi_region_cmk_key_id,
             request_type,
             role_arn,

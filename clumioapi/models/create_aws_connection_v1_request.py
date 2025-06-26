@@ -1,19 +1,10 @@
 #
 # Copyright 2023. Clumio, Inc.
 #
+
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.exceptions import clumio_exception
-
 T = TypeVar('T', bound='CreateAwsConnectionV1Request')
-
-ProtectAssetTypesEnabledValues = [
-    'EBS',
-    'RDS',
-    'DynamoDB',
-    'EC2MSSQL',
-    'S3',
-]
 
 
 class CreateAwsConnectionV1Request:
@@ -34,7 +25,11 @@ class CreateAwsConnectionV1Request:
             Organizational-Units documentation.
         protect_asset_types_enabled:
             The asset types enabled for protect.
-            Valid values are any of ["EBS", "RDS", "DynamoDB", "EC2MSSQL", "S3"].
+            Valid values are any of ["EC2/EBS", "RDS", "DynamoDB", "EC2MSSQL", "S3", "EBS"].
+
+            NOTE -
+            1. EC2/EBS is required for EC2MSSQL.
+            2. EBS as a value is deprecated in favor of EC2/EBS.
         services_enabled:
             The services to be enabled for this configuration. Valid values are
             ["discover"], ["discover", "protect"]. This is only set when the
@@ -69,13 +64,6 @@ class CreateAwsConnectionV1Request:
         self.aws_region: str = aws_region
         self.description: str = description
         self.organizational_unit_id: str = organizational_unit_id
-
-        for enum_value in protect_asset_types_enabled:
-            if enum_value not in ProtectAssetTypesEnabledValues:
-                raise clumio_exception.ClumioException(
-                    f'Invalid value for protect_asset_types_enabled: {enum_value}. Valid values are { ProtectAssetTypesEnabledValues }.',
-                    None,
-                )
         self.protect_asset_types_enabled: Sequence[str] = protect_asset_types_enabled
         self.services_enabled: Sequence[str] = services_enabled
 

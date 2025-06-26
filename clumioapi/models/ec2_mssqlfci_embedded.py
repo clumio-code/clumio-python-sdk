@@ -13,6 +13,9 @@ class EC2MSSQLFCIEmbedded:
     Embedded responses related to the resource.
 
     Attributes:
+        get_ec2_mssql_failover_cluster_backup_status_stats:
+            FCIBackupStatusStats contain information about the backup status of the
+            databases in the cluster
         get_ec2_mssql_failover_cluster_hosts_info:
             ConnectedHostsInfo contains information about the hosts associated with the
             cluster
@@ -26,6 +29,7 @@ class EC2MSSQLFCIEmbedded:
 
     # Create a mapping from Model property names to API property names
     _names = {
+        'get_ec2_mssql_failover_cluster_backup_status_stats': 'get-ec2-mssql-failover-cluster-backup-status-stats',
         'get_ec2_mssql_failover_cluster_hosts_info': 'get-ec2-mssql-failover-cluster-hosts-info',
         'get_ec2_mssql_failover_cluster_stats': 'get-ec2-mssql-failover-cluster-stats',
         'read_policy_definition': 'read-policy-definition',
@@ -33,6 +37,7 @@ class EC2MSSQLFCIEmbedded:
 
     def __init__(
         self,
+        get_ec2_mssql_failover_cluster_backup_status_stats: object = None,
         get_ec2_mssql_failover_cluster_hosts_info: object = None,
         get_ec2_mssql_failover_cluster_stats: object = None,
         read_policy_definition: object = None,
@@ -40,6 +45,9 @@ class EC2MSSQLFCIEmbedded:
         """Constructor for the EC2MSSQLFCIEmbedded class."""
 
         # Initialize members of the class
+        self.get_ec2_mssql_failover_cluster_backup_status_stats: object = (
+            get_ec2_mssql_failover_cluster_backup_status_stats
+        )
         self.get_ec2_mssql_failover_cluster_hosts_info: object = (
             get_ec2_mssql_failover_cluster_hosts_info
         )
@@ -62,6 +70,9 @@ class EC2MSSQLFCIEmbedded:
             return None
 
         # Extract variables from the dictionary
+        get_ec2_mssql_failover_cluster_backup_status_stats = dictionary.get(
+            'get-ec2-mssql-failover-cluster-backup-status-stats'
+        )
         get_ec2_mssql_failover_cluster_hosts_info = dictionary.get(
             'get-ec2-mssql-failover-cluster-hosts-info'
         )
@@ -71,6 +82,7 @@ class EC2MSSQLFCIEmbedded:
         read_policy_definition = dictionary.get('read-policy-definition')
         # Return an object of this model
         return cls(
+            get_ec2_mssql_failover_cluster_backup_status_stats,
             get_ec2_mssql_failover_cluster_hosts_info,
             get_ec2_mssql_failover_cluster_stats,
             read_policy_definition,

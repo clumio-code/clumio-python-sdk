@@ -18,13 +18,10 @@ class EntityModel:
     Attributes:
         parent_entity:
             The parent object of the primary entity associated with the organizational unit.
-            For example, "vmware_vcenter" is the parent entity of primary entity
-            "vmware_vm_folder".
-            The parent object is necessary for VMware entities and can be omitted for other
-            data sources.
+            The parent object is optional and can be omitted.
         primary_entity:
             The primary object associated with the organizational unit. Examples of primary
-            entities include "aws_environment" and "vmware_vm".
+            entities include "aws_environment".
     """
 
     # Create a mapping from Model property names to API property names

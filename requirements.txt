@@ -1,6 +1,21 @@
-requests>=2.27.1
-jsonpickle>=2.2.0
-cachecontrol==0.12.11
-python-dateutil>=2.8.2
-urllib3>=1.26.9
-rest3client>=0.5.0
+Jinja2>=3.1.4
+beautifulsoup4>=4.12.3
+html-table-extractor>=1.4.1
+texttable>=1.7.0
+PyGithub>=2.6.1
+# Black is the uncompromising Python code formatter.
+black>=24.4.2
+# pyupgrade updates our code to newer syntax.
+pyupgrade>=3.16.0
+# isort keeps our python imports organized.
+isort>=5.13.2
+# unify is used to quote our code consistently
+unify>=0.5
+# trim removes trailing whitespace from our code.
+trim>=0.3
+# sphinx is used to generate Python SDK documentation
+Sphinx>=7.3.7
+# sphinx-autodoc-typehints generates documentation from the type hints in python code
+sphinx-autodoc-typehints>=2.2.2
+# material theme for sphinx documentation
+sphinx-material>=0.0.36

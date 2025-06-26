@@ -74,6 +74,7 @@ class AwsTemplatesV1Controller(base_controller.BaseController):
 
     def create_connection_template(
         self,
+        return_group_token: bool = None,
         body: create_connection_template_v1_request.CreateConnectionTemplateV1Request = None,
         **kwargs,
     ) -> Union[
@@ -86,6 +87,8 @@ class AwsTemplatesV1Controller(base_controller.BaseController):
         to a given configuration of asset types.
 
         Args:
+            return_group_token:
+                If passed as true, then the API will return grouping token for the template.
             body:
 
         Returns:
@@ -101,6 +104,7 @@ class AwsTemplatesV1Controller(base_controller.BaseController):
         _url_path = '/connections/aws/templates'
 
         _query_parameters = {}
+        _query_parameters = {'return_group_token': return_group_token}
 
         # Execute request
         try:

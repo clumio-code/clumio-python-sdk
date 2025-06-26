@@ -4,6 +4,7 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
+from clumioapi.models import backup_status_info
 from clumioapi.models import ec2_mssql_database_embedded
 from clumioapi.models import ec2_mssql_database_links
 from clumioapi.models import protection_info
@@ -30,13 +31,8 @@ class ReadEC2MSSQLDatabaseResponse:
             a standalone database.
         aws_region:
             The AWS region associated with the EC2 instance the database resides in.
-        compliance_status:
-            The policy compliance status of the resource. If the database is not protected,
-            then this field has a value of `null`. Refer to
-
-            the Compliance Status table
-
-            for a complete list of compliance statuses.
+        backup_status_info:
+            The backup status information applied to this resource.
         environment_id:
             The Clumio-assigned ID of the AWS environment associated with the EC2 MSSQL
             database.
@@ -108,7 +104,7 @@ class ReadEC2MSSQLDatabaseResponse:
         'availability_group_id': 'availability_group_id',
         'availability_group_name': 'availability_group_name',
         'aws_region': 'aws_region',
-        'compliance_status': 'compliance_status',
+        'backup_status_info': 'backup_status_info',
         'environment_id': 'environment_id',
         'failover_cluster_id': 'failover_cluster_id',
         'failover_cluster_name': 'failover_cluster_name',
@@ -141,7 +137,7 @@ class ReadEC2MSSQLDatabaseResponse:
         availability_group_id: str = None,
         availability_group_name: str = None,
         aws_region: str = None,
-        compliance_status: str = None,
+        backup_status_info: backup_status_info.BackupStatusInfo = None,
         environment_id: str = None,
         failover_cluster_id: str = None,
         failover_cluster_name: str = None,
@@ -174,7 +170,7 @@ class ReadEC2MSSQLDatabaseResponse:
         self.availability_group_id: str = availability_group_id
         self.availability_group_name: str = availability_group_name
         self.aws_region: str = aws_region
-        self.compliance_status: str = compliance_status
+        self.backup_status_info: backup_status_info.BackupStatusInfo = backup_status_info
         self.environment_id: str = environment_id
         self.failover_cluster_id: str = failover_cluster_id
         self.failover_cluster_name: str = failover_cluster_name
@@ -238,7 +234,13 @@ class ReadEC2MSSQLDatabaseResponse:
         availability_group_id = dictionary.get('availability_group_id')
         availability_group_name = dictionary.get('availability_group_name')
         aws_region = dictionary.get('aws_region')
-        compliance_status = dictionary.get('compliance_status')
+        key = 'backup_status_info'
+        p_backup_status_info = (
+            backup_status_info.BackupStatusInfo.from_dictionary(dictionary.get(key))
+            if dictionary.get(key)
+            else None
+        )
+
         environment_id = dictionary.get('environment_id')
         failover_cluster_id = dictionary.get('failover_cluster_id')
         failover_cluster_name = dictionary.get('failover_cluster_name')
@@ -279,7 +281,7 @@ class ReadEC2MSSQLDatabaseResponse:
             availability_group_id,
             availability_group_name,
             aws_region,
-            compliance_status,
+            p_backup_status_info,
             environment_id,
             failover_cluster_id,
             failover_cluster_name,

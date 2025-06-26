@@ -10,12 +10,12 @@ T = TypeVar('T', bound='RDSLogicalBackupAdvancedSetting')
 class RDSLogicalBackupAdvancedSetting:
     """Implementation of the 'RDSLogicalBackupAdvancedSetting' model.
 
-    Settings for determining if a RDS policy is created with standard or frozen
+    Settings for determining if a RDS policy is created with standard or archive
     tier.
 
     Attributes:
         backup_tier:
-            Backup tier to store the backup in. Valid values are: `standard`, `frozen`
+            Backup tier to store the backup in. Valid values are: `standard`, `archive`
     """
 
     # Create a mapping from Model property names to API property names

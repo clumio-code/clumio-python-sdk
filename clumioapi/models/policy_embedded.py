@@ -14,31 +14,21 @@ class PolicyEmbedded:
     resource,as defined by the embeddable link specified.
 
     Attributes:
-        read_policy_aws_ebs_volumes_compliance_stats:
-            Embeds the EBS compliance statistics into the response.
-        read_policy_vmware_vms_compliance_stats:
-            Embeds the VM compliance statisticss into the response.
+        read_policy_aws_ebs_volumes_protection_stats:
+            Embeds the EBS protection statistics into the response.
     """
 
     # Create a mapping from Model property names to API property names
     _names = {
-        'read_policy_aws_ebs_volumes_compliance_stats': 'read-policy-aws-ebs-volumes-compliance-stats',
-        'read_policy_vmware_vms_compliance_stats': 'read-policy-vmware-vms-compliance-stats',
+        'read_policy_aws_ebs_volumes_protection_stats': 'read-policy-aws-ebs-volumes-protection-stats'
     }
 
-    def __init__(
-        self,
-        read_policy_aws_ebs_volumes_compliance_stats: object = None,
-        read_policy_vmware_vms_compliance_stats: object = None,
-    ) -> None:
+    def __init__(self, read_policy_aws_ebs_volumes_protection_stats: object = None) -> None:
         """Constructor for the PolicyEmbedded class."""
 
         # Initialize members of the class
-        self.read_policy_aws_ebs_volumes_compliance_stats: object = (
-            read_policy_aws_ebs_volumes_compliance_stats
-        )
-        self.read_policy_vmware_vms_compliance_stats: object = (
-            read_policy_vmware_vms_compliance_stats
+        self.read_policy_aws_ebs_volumes_protection_stats: object = (
+            read_policy_aws_ebs_volumes_protection_stats
         )
 
     @classmethod
@@ -57,13 +47,8 @@ class PolicyEmbedded:
             return None
 
         # Extract variables from the dictionary
-        read_policy_aws_ebs_volumes_compliance_stats = dictionary.get(
-            'read-policy-aws-ebs-volumes-compliance-stats'
-        )
-        read_policy_vmware_vms_compliance_stats = dictionary.get(
-            'read-policy-vmware-vms-compliance-stats'
+        read_policy_aws_ebs_volumes_protection_stats = dictionary.get(
+            'read-policy-aws-ebs-volumes-protection-stats'
         )
         # Return an object of this model
-        return cls(
-            read_policy_aws_ebs_volumes_compliance_stats, read_policy_vmware_vms_compliance_stats
-        )
+        return cls(read_policy_aws_ebs_volumes_protection_stats)

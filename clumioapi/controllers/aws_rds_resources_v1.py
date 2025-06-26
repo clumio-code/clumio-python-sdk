@@ -31,7 +31,13 @@ class AwsRdsResourcesV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def list_aws_rds_resources(
-        self, limit: int = None, start: str = None, filter: str = None, embed: str = None, **kwargs
+        self,
+        limit: int = None,
+        start: str = None,
+        filter: str = None,
+        embed: str = None,
+        lookback_days: int = None,
+        **kwargs,
     ) -> Union[
         list_rds_resources_response.ListRdsResourcesResponse,
         tuple[requests.Response, Optional[list_rds_resources_response.ListRdsResourcesResponse]],
@@ -116,17 +122,15 @@ class AwsRdsResourcesV1Controller(base_controller.BaseController):
                 |                           |                  | resource. Possible values     |
                 |                           |                  | include protected,            |
                 |                           |                  | unprotected, and unsupported. |
-                |                           |                  | If the compliance_status      |
-                |                           |                  | filter parameter is set, this |
-                |                           |                  | parameter value cannot        |
-                |                           |                  | include "unprotected".        |
                 +---------------------------+------------------+-------------------------------+
-                | compliance_status         | $eq,in           |                               |
-                |                           |                  | The compliance status of this |
+                | deactivated               | $eq              | Filter assets protected by a  |
+                |                           |                  | deactivated policy.           |
+                +---------------------------+------------------+-------------------------------+
+                | backup_status             | $in              | The backup status of this     |
                 |                           |                  | resource. Possible values     |
-                |                           |                  | include compliant and         |
-                |                           |                  | non_compliant.                |
-                |                           |                  |                               |
+                |                           |                  | include success,              |
+                |                           |                  | partial_success, failure and  |
+                |                           |                  | no_backup.                    |
                 +---------------------------+------------------+-------------------------------+
                 | is_deleted                | $eq,$in          | The deletion status of this   |
                 |                           |                  | resource. If not specified,   |
@@ -149,6 +153,8 @@ class AwsRdsResourcesV1Controller(base_controller.BaseController):
                 |                        | policy-definition                                   |
                 +------------------------+-----------------------------------------------------+
 
+            lookback_days:
+                Calculate backup status for the last `lookback_days` days.
         Returns:
             requests.Response: Raw Response from the API if config.raw_response is set to True.
             list_rds_resources_response.ListRdsResourcesResponse: Response from the API.
@@ -162,7 +168,13 @@ class AwsRdsResourcesV1Controller(base_controller.BaseController):
         _url_path = '/datasources/aws/rds-resources'
 
         _query_parameters = {}
-        _query_parameters = {'limit': limit, 'start': start, 'filter': filter, 'embed': embed}
+        _query_parameters = {
+            'limit': limit,
+            'start': start,
+            'filter': filter,
+            'embed': embed,
+            'lookback_days': lookback_days,
+        }
 
         # Execute request
         try:
@@ -187,7 +199,9 @@ class AwsRdsResourcesV1Controller(base_controller.BaseController):
             )
         return list_rds_resources_response.ListRdsResourcesResponse.from_dictionary(resp)
 
-    def read_aws_rds_resource(self, resource_id: str, embed: str = None, **kwargs) -> Union[
+    def read_aws_rds_resource(
+        self, resource_id: str, lookback_days: int = None, embed: str = None, **kwargs
+    ) -> Union[
         read_rds_resource_response.ReadRdsResourceResponse,
         tuple[requests.Response, Optional[read_rds_resource_response.ReadRdsResourceResponse]],
     ]:
@@ -196,6 +210,8 @@ class AwsRdsResourcesV1Controller(base_controller.BaseController):
         Args:
             resource_id:
                 The Clumio-assigned ID of the resource.
+            lookback_days:
+                Calculate backup status for the last `lookback_days` days.
             embed:
                 Embeds the details of an associated resource. Set the parameter to one of the
                 following embeddable links to include additional details associated with the
@@ -223,7 +239,7 @@ class AwsRdsResourcesV1Controller(base_controller.BaseController):
             _url_path, {'resource_id': resource_id}
         )
         _query_parameters = {}
-        _query_parameters = {'embed': embed}
+        _query_parameters = {'lookback_days': lookback_days, 'embed': embed}
 
         # Execute request
         try:

@@ -11,7 +11,7 @@ class OrganizationalUnitPrimaryEntity:
     """Implementation of the 'OrganizationalUnitPrimaryEntity' model.
 
     The primary object associated with the organizational unit. Examples of primary
-    entities include "aws_environment" and "vmware_vm".
+    entities include "aws_environment".
 
     Attributes:
         p_id:

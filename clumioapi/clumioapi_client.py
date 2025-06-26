@@ -7,6 +7,7 @@ from clumioapi import configuration
 from clumioapi.controllers import audit_trails_v1
 from clumioapi.controllers import auto_user_provisioning_rules_v1
 from clumioapi.controllers import auto_user_provisioning_settings_v1
+from clumioapi.controllers import aws_connection_groups_v1
 from clumioapi.controllers import aws_connections_v1
 from clumioapi.controllers import aws_dynamodb_tables_v1
 from clumioapi.controllers import aws_ebs_volumes_v1
@@ -28,9 +29,7 @@ from clumioapi.controllers import backup_aws_rds_resources_v1
 from clumioapi.controllers import backup_ec2_mssql_databases_v1
 from clumioapi.controllers import backup_filesystem_directories_v1
 from clumioapi.controllers import backup_filesystems_v1
-from clumioapi.controllers import backup_mssql_databases_v1
 from clumioapi.controllers import backup_protection_groups_v1
-from clumioapi.controllers import backup_vmware_vms_v1
 from clumioapi.controllers import backups_files_v1
 from clumioapi.controllers import consolidated_alerts_v1
 from clumioapi.controllers import ec2_mssql_availability_groups_v1
@@ -42,11 +41,6 @@ from clumioapi.controllers import ec2_mssql_instance_v1
 from clumioapi.controllers import general_settings_v2
 from clumioapi.controllers import individual_alerts_v1
 from clumioapi.controllers import management_groups_v1
-from clumioapi.controllers import management_subgroups_v1
-from clumioapi.controllers import mssql_availability_groups_v1
-from clumioapi.controllers import mssql_databases_v1
-from clumioapi.controllers import mssql_hosts_v1
-from clumioapi.controllers import mssql_instance_v1
 from clumioapi.controllers import organizational_units_v1
 from clumioapi.controllers import organizational_units_v2
 from clumioapi.controllers import policy_assignments_v1
@@ -56,6 +50,8 @@ from clumioapi.controllers import post_process_aws_connection_v1
 from clumioapi.controllers import post_process_kms_v1
 from clumioapi.controllers import protection_groups_s3_assets_v1
 from clumioapi.controllers import protection_groups_v1
+from clumioapi.controllers import report_compliance_runs_v1
+from clumioapi.controllers import report_compliance_v1
 from clumioapi.controllers import report_downloads_v1
 from clumioapi.controllers import restore_ec2_mssql_database_v1
 from clumioapi.controllers import restored_aws_dynamodb_tables_v1
@@ -63,33 +59,16 @@ from clumioapi.controllers import restored_aws_ebs_volumes_v1
 from clumioapi.controllers import restored_aws_ebs_volumes_v2
 from clumioapi.controllers import restored_aws_ec2_instances_v1
 from clumioapi.controllers import restored_aws_rds_resources_v1
+from clumioapi.controllers import restored_aws_s3_buckets_v1
 from clumioapi.controllers import restored_files_v1
-from clumioapi.controllers import restored_mssql_databases_v1
 from clumioapi.controllers import restored_protection_group_instant_access_endpoints_v1
 from clumioapi.controllers import restored_protection_group_s3_assets_v1
 from clumioapi.controllers import restored_protection_groups_v1
 from clumioapi.controllers import restored_records_aws_dynamodb_tables_v1
-from clumioapi.controllers import restored_vmware_vms_v1
 from clumioapi.controllers import roles_v1
 from clumioapi.controllers import tasks_v1
 from clumioapi.controllers import users_v1
 from clumioapi.controllers import users_v2
-from clumioapi.controllers import vmware_vcenter_categories_v1
-from clumioapi.controllers import vmware_vcenter_compliance_stats_v1
-from clumioapi.controllers import vmware_vcenter_compute_resource_compliance_stats_v1
-from clumioapi.controllers import vmware_vcenter_compute_resources_v1
-from clumioapi.controllers import vmware_vcenter_datacenter_compliance_stats_v1
-from clumioapi.controllers import vmware_vcenter_datacenters_v1
-from clumioapi.controllers import vmware_vcenter_datastores_v1
-from clumioapi.controllers import vmware_vcenter_folder_compliance_stats_v1
-from clumioapi.controllers import vmware_vcenter_folders_v1
-from clumioapi.controllers import vmware_vcenter_hosts_v1
-from clumioapi.controllers import vmware_vcenter_networks_v1
-from clumioapi.controllers import vmware_vcenter_resource_pools_v1
-from clumioapi.controllers import vmware_vcenter_tag_compliance_stats_v1
-from clumioapi.controllers import vmware_vcenter_tags_v1
-from clumioapi.controllers import vmware_vcenter_vms_v1
-from clumioapi.controllers import vmware_vcenters_v1
 from clumioapi.controllers import wallets_v1
 
 
@@ -181,22 +160,10 @@ class ClumioAPIClient:
 
     @property
     @functools.lru_cache(1)
-    def backup_mssql_databases_v1(
-        self,
-    ) -> backup_mssql_databases_v1.BackupMssqlDatabasesV1Controller:
-        return backup_mssql_databases_v1.BackupMssqlDatabasesV1Controller(self.config)
-
-    @property
-    @functools.lru_cache(1)
     def backup_protection_groups_v1(
         self,
     ) -> backup_protection_groups_v1.BackupProtectionGroupsV1Controller:
         return backup_protection_groups_v1.BackupProtectionGroupsV1Controller(self.config)
-
-    @property
-    @functools.lru_cache(1)
-    def backup_vmware_vms_v1(self) -> backup_vmware_vms_v1.BackupVmwareVmsV1Controller:
-        return backup_vmware_vms_v1.BackupVmwareVmsV1Controller(self.config)
 
     @property
     @functools.lru_cache(1)
@@ -217,6 +184,11 @@ class ClumioAPIClient:
 
     @property
     @functools.lru_cache(1)
+    def aws_connection_groups_v1(self) -> aws_connection_groups_v1.AwsConnectionGroupsV1Controller:
+        return aws_connection_groups_v1.AwsConnectionGroupsV1Controller(self.config)
+
+    @property
+    @functools.lru_cache(1)
     def post_process_aws_connection_v1(
         self,
     ) -> post_process_aws_connection_v1.PostProcessAwsConnectionV1Controller:
@@ -231,11 +203,6 @@ class ClumioAPIClient:
     @functools.lru_cache(1)
     def aws_templates_v1(self) -> aws_templates_v1.AwsTemplatesV1Controller:
         return aws_templates_v1.AwsTemplatesV1Controller(self.config)
-
-    @property
-    @functools.lru_cache(1)
-    def mssql_hosts_v1(self) -> mssql_hosts_v1.MssqlHostsV1Controller:
-        return mssql_hosts_v1.MssqlHostsV1Controller(self.config)
 
     @property
     @functools.lru_cache(1)
@@ -310,23 +277,6 @@ class ClumioAPIClient:
 
     @property
     @functools.lru_cache(1)
-    def mssql_availability_groups_v1(
-        self,
-    ) -> mssql_availability_groups_v1.MssqlAvailabilityGroupsV1Controller:
-        return mssql_availability_groups_v1.MssqlAvailabilityGroupsV1Controller(self.config)
-
-    @property
-    @functools.lru_cache(1)
-    def mssql_databases_v1(self) -> mssql_databases_v1.MssqlDatabasesV1Controller:
-        return mssql_databases_v1.MssqlDatabasesV1Controller(self.config)
-
-    @property
-    @functools.lru_cache(1)
-    def mssql_instance_v1(self) -> mssql_instance_v1.MssqlInstanceV1Controller:
-        return mssql_instance_v1.MssqlInstanceV1Controller(self.config)
-
-    @property
-    @functools.lru_cache(1)
     def protection_groups_v1(self) -> protection_groups_v1.ProtectionGroupsV1Controller:
         return protection_groups_v1.ProtectionGroupsV1Controller(self.config)
 
@@ -339,133 +289,8 @@ class ClumioAPIClient:
 
     @property
     @functools.lru_cache(1)
-    def vmware_vcenters_v1(self) -> vmware_vcenters_v1.VmwareVcentersV1Controller:
-        return vmware_vcenters_v1.VmwareVcentersV1Controller(self.config)
-
-    @property
-    @functools.lru_cache(1)
-    def vmware_vcenter_categories_v1(
-        self,
-    ) -> vmware_vcenter_categories_v1.VmwareVcenterCategoriesV1Controller:
-        return vmware_vcenter_categories_v1.VmwareVcenterCategoriesV1Controller(self.config)
-
-    @property
-    @functools.lru_cache(1)
-    def vmware_vcenter_compute_resources_v1(
-        self,
-    ) -> vmware_vcenter_compute_resources_v1.VmwareVcenterComputeResourcesV1Controller:
-        return vmware_vcenter_compute_resources_v1.VmwareVcenterComputeResourcesV1Controller(
-            self.config
-        )
-
-    @property
-    @functools.lru_cache(1)
-    def vmware_vcenter_compute_resource_compliance_stats_v1(
-        self,
-    ) -> (
-        vmware_vcenter_compute_resource_compliance_stats_v1.VmwareVcenterComputeResourceComplianceStatsV1Controller
-    ):
-        return vmware_vcenter_compute_resource_compliance_stats_v1.VmwareVcenterComputeResourceComplianceStatsV1Controller(
-            self.config
-        )
-
-    @property
-    @functools.lru_cache(1)
-    def vmware_vcenter_datacenters_v1(
-        self,
-    ) -> vmware_vcenter_datacenters_v1.VmwareVcenterDatacentersV1Controller:
-        return vmware_vcenter_datacenters_v1.VmwareVcenterDatacentersV1Controller(self.config)
-
-    @property
-    @functools.lru_cache(1)
-    def vmware_vcenter_datacenter_compliance_stats_v1(
-        self,
-    ) -> (
-        vmware_vcenter_datacenter_compliance_stats_v1.VmwareVcenterDatacenterComplianceStatsV1Controller
-    ):
-        return vmware_vcenter_datacenter_compliance_stats_v1.VmwareVcenterDatacenterComplianceStatsV1Controller(
-            self.config
-        )
-
-    @property
-    @functools.lru_cache(1)
-    def vmware_vcenter_datastores_v1(
-        self,
-    ) -> vmware_vcenter_datastores_v1.VmwareVcenterDatastoresV1Controller:
-        return vmware_vcenter_datastores_v1.VmwareVcenterDatastoresV1Controller(self.config)
-
-    @property
-    @functools.lru_cache(1)
-    def vmware_vcenter_folders_v1(
-        self,
-    ) -> vmware_vcenter_folders_v1.VmwareVcenterFoldersV1Controller:
-        return vmware_vcenter_folders_v1.VmwareVcenterFoldersV1Controller(self.config)
-
-    @property
-    @functools.lru_cache(1)
-    def vmware_vcenter_folder_compliance_stats_v1(
-        self,
-    ) -> vmware_vcenter_folder_compliance_stats_v1.VmwareVcenterFolderComplianceStatsV1Controller:
-        return vmware_vcenter_folder_compliance_stats_v1.VmwareVcenterFolderComplianceStatsV1Controller(
-            self.config
-        )
-
-    @property
-    @functools.lru_cache(1)
-    def vmware_vcenter_hosts_v1(self) -> vmware_vcenter_hosts_v1.VmwareVcenterHostsV1Controller:
-        return vmware_vcenter_hosts_v1.VmwareVcenterHostsV1Controller(self.config)
-
-    @property
-    @functools.lru_cache(1)
-    def vmware_vcenter_networks_v1(
-        self,
-    ) -> vmware_vcenter_networks_v1.VmwareVcenterNetworksV1Controller:
-        return vmware_vcenter_networks_v1.VmwareVcenterNetworksV1Controller(self.config)
-
-    @property
-    @functools.lru_cache(1)
-    def vmware_vcenter_resource_pools_v1(
-        self,
-    ) -> vmware_vcenter_resource_pools_v1.VmwareVcenterResourcePoolsV1Controller:
-        return vmware_vcenter_resource_pools_v1.VmwareVcenterResourcePoolsV1Controller(self.config)
-
-    @property
-    @functools.lru_cache(1)
-    def vmware_vcenter_compliance_stats_v1(
-        self,
-    ) -> vmware_vcenter_compliance_stats_v1.VmwareVcenterComplianceStatsV1Controller:
-        return vmware_vcenter_compliance_stats_v1.VmwareVcenterComplianceStatsV1Controller(
-            self.config
-        )
-
-    @property
-    @functools.lru_cache(1)
-    def vmware_vcenter_tags_v1(self) -> vmware_vcenter_tags_v1.VmwareVcenterTagsV1Controller:
-        return vmware_vcenter_tags_v1.VmwareVcenterTagsV1Controller(self.config)
-
-    @property
-    @functools.lru_cache(1)
-    def vmware_vcenter_tag_compliance_stats_v1(
-        self,
-    ) -> vmware_vcenter_tag_compliance_stats_v1.VmwareVcenterTagComplianceStatsV1Controller:
-        return vmware_vcenter_tag_compliance_stats_v1.VmwareVcenterTagComplianceStatsV1Controller(
-            self.config
-        )
-
-    @property
-    @functools.lru_cache(1)
-    def vmware_vcenter_vms_v1(self) -> vmware_vcenter_vms_v1.VmwareVcenterVmsV1Controller:
-        return vmware_vcenter_vms_v1.VmwareVcenterVmsV1Controller(self.config)
-
-    @property
-    @functools.lru_cache(1)
     def management_groups_v1(self) -> management_groups_v1.ManagementGroupsV1Controller:
         return management_groups_v1.ManagementGroupsV1Controller(self.config)
-
-    @property
-    @functools.lru_cache(1)
-    def management_subgroups_v1(self) -> management_subgroups_v1.ManagementSubgroupsV1Controller:
-        return management_subgroups_v1.ManagementSubgroupsV1Controller(self.config)
 
     @property
     @functools.lru_cache(1)
@@ -491,6 +316,18 @@ class ClumioAPIClient:
     @functools.lru_cache(1)
     def policy_rules_v1(self) -> policy_rules_v1.PolicyRulesV1Controller:
         return policy_rules_v1.PolicyRulesV1Controller(self.config)
+
+    @property
+    @functools.lru_cache(1)
+    def report_compliance_v1(self) -> report_compliance_v1.ReportComplianceV1Controller:
+        return report_compliance_v1.ReportComplianceV1Controller(self.config)
+
+    @property
+    @functools.lru_cache(1)
+    def report_compliance_runs_v1(
+        self,
+    ) -> report_compliance_runs_v1.ReportComplianceRunsV1Controller:
+        return report_compliance_runs_v1.ReportComplianceRunsV1Controller(self.config)
 
     @property
     @functools.lru_cache(1)
@@ -559,15 +396,15 @@ class ClumioAPIClient:
 
     @property
     @functools.lru_cache(1)
-    def restored_files_v1(self) -> restored_files_v1.RestoredFilesV1Controller:
-        return restored_files_v1.RestoredFilesV1Controller(self.config)
+    def restored_aws_s3_buckets_v1(
+        self,
+    ) -> restored_aws_s3_buckets_v1.RestoredAwsS3BucketsV1Controller:
+        return restored_aws_s3_buckets_v1.RestoredAwsS3BucketsV1Controller(self.config)
 
     @property
     @functools.lru_cache(1)
-    def restored_mssql_databases_v1(
-        self,
-    ) -> restored_mssql_databases_v1.RestoredMssqlDatabasesV1Controller:
-        return restored_mssql_databases_v1.RestoredMssqlDatabasesV1Controller(self.config)
+    def restored_files_v1(self) -> restored_files_v1.RestoredFilesV1Controller:
+        return restored_files_v1.RestoredFilesV1Controller(self.config)
 
     @property
     @functools.lru_cache(1)
@@ -595,11 +432,6 @@ class ClumioAPIClient:
         return restored_protection_group_s3_assets_v1.RestoredProtectionGroupS3AssetsV1Controller(
             self.config
         )
-
-    @property
-    @functools.lru_cache(1)
-    def restored_vmware_vms_v1(self) -> restored_vmware_vms_v1.RestoredVmwareVmsV1Controller:
-        return restored_vmware_vms_v1.RestoredVmwareVmsV1Controller(self.config)
 
     @property
     @functools.lru_cache(1)

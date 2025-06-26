@@ -17,6 +17,13 @@ class GlobalSecondaryIndex:
     Represents the properties of a global secondary index.
 
     Attributes:
+        contributor_insights_status:
+            Indicates whether DynamoDB Contributor Insights is enabled (true) or disabled
+            (false)
+            on the index.
+            For [POST /restores/aws/dynamodb](#operation/restore-aws-dynamodb-table), this
+            is defaulted to the
+            value set in backup if `null`.
         index_name:
             The name of the global secondary index.
         key_schema:
@@ -34,6 +41,7 @@ class GlobalSecondaryIndex:
 
     # Create a mapping from Model property names to API property names
     _names = {
+        'contributor_insights_status': 'contributor_insights_status',
         'index_name': 'index_name',
         'key_schema': 'key_schema',
         'projection': 'projection',
@@ -42,6 +50,7 @@ class GlobalSecondaryIndex:
 
     def __init__(
         self,
+        contributor_insights_status: bool = None,
         index_name: str = None,
         key_schema: Sequence[key_schema_element.KeySchemaElement] = None,
         projection: projection.Projection = None,
@@ -50,6 +59,7 @@ class GlobalSecondaryIndex:
         """Constructor for the GlobalSecondaryIndex class."""
 
         # Initialize members of the class
+        self.contributor_insights_status: bool = contributor_insights_status
         self.index_name: str = index_name
         self.key_schema: Sequence[key_schema_element.KeySchemaElement] = key_schema
         self.projection: projection.Projection = projection
@@ -73,6 +83,7 @@ class GlobalSecondaryIndex:
             return None
 
         # Extract variables from the dictionary
+        contributor_insights_status = dictionary.get('contributor_insights_status')
         index_name = dictionary.get('index_name')
         key_schema = None
         if dictionary.get('key_schema'):
@@ -95,4 +106,10 @@ class GlobalSecondaryIndex:
         )
 
         # Return an object of this model
-        return cls(index_name, key_schema, p_projection, p_provisioned_throughput)
+        return cls(
+            contributor_insights_status,
+            index_name,
+            key_schema,
+            p_projection,
+            p_provisioned_throughput,
+        )

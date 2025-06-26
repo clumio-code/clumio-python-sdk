@@ -9,7 +9,6 @@ from clumioapi.models import on_demand_setting
 T = TypeVar('T', bound='CreateBackupAwsDynamodbTableV1Request')
 
 TypeValues = [
-    '',
     'clumio_backup',
     'aws_snapshot',
 ]

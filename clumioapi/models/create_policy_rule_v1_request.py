@@ -48,10 +48,10 @@ class CreatePolicyRuleV1Request:
             |                       |                           |                          |
             |                       |                           |                          |
             +-----------------------+---------------------------+--------------------------+
-            | aws_tag               | $eq, $in, $all, $contains | Denotes the AWS tag(s)   |
-            |                       |                           | to conditionalize on.    |
-            |                       |                           | Max 100 tags allowed in  |
-            |                       |                           | each rule                |
+            | aws_tag               | $eq, $in, $all,           | Denotes the AWS tag(s)   |
+            |                       | $contains, $not_eq,       | to conditionalize on.    |
+            |                       | $not_in, $not_all,        | Max 100 tags allowed in  |
+            |                       | $not_contains             | each rule                |
             |                       |                           | and tag key can be upto  |
             |                       |                           | 128 characters and value |
             |                       |                           | can be upto 256          |
@@ -79,6 +79,30 @@ class CreatePolicyRuleV1Request:
             |                       |                           | {"aws_tag":{"$contains": |
             |                       |                           | {"key":"Environment",    |
             |                       |                           | "value":"Prod"}}}        |
+            |                       |                           |                          |
+            |                       |                           |                          |
+            |                       |                           | {"aws_tag":{"$not_eq":{" |
+            |                       |                           | key":"Environment",      |
+            |                       |                           | "value":"Prod"}}}        |
+            |                       |                           |                          |
+            |                       |                           |                          |
+            |                       |                           | {"aws_tag":{"$not_in":[{ |
+            |                       |                           | "key":"Environment",     |
+            |                       |                           | "value":"Prod"},         |
+            |                       |                           | {"key":"Hello",          |
+            |                       |                           | "value":"World"}]}}      |
+            |                       |                           |                          |
+            |                       |                           |                          |
+            |                       |                           | {"aws_tag":{"$not_all":[ |
+            |                       |                           | {"key":"Environment",    |
+            |                       |                           | "value":"Prod"},         |
+            |                       |                           | {"key":"Hello",          |
+            |                       |                           | "value":"World"}]}}      |
+            |                       |                           |                          |
+            |                       |                           |                          |
+            |                       |                           | {"aws_tag":{"$not_contai |
+            |                       |                           | ns":{"key":"Environment" |
+            |                       |                           | , "value":"Prod"}}}      |
             |                       |                           |                          |
             |                       |                           |                          |
             +-----------------------+---------------------------+--------------------------+

@@ -1,19 +1,10 @@
 #
 # Copyright 2023. Clumio, Inc.
 #
+
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.exceptions import clumio_exception
-
 T = TypeVar('T', bound='CreateConnectionTemplateV1Request')
-
-AssetTypesEnabledValues = [
-    'EBS',
-    'RDS',
-    'DynamoDB',
-    'EC2MSSQL',
-    'S3',
-]
 
 
 class CreateConnectionTemplateV1Request:
@@ -21,8 +12,13 @@ class CreateConnectionTemplateV1Request:
 
     Attributes:
         asset_types_enabled:
-            The asset types for which the template is to be generated. Possible
-            asset types are ["EBS", "RDS", "DynamoDB", "EC2MSSQL", "S3"].
+            The asset types for which the template is to be generated.
+            Valid values are any of ["EC2/EBS", "RDS", "DynamoDB", "EC2MSSQL", "S3", "EBS",
+            "Iceberg"].
+
+            NOTE -
+            1. EC2/EBS is required for EC2MSSQL.
+            2. EBS as a value is deprecated in favor of EC2/EBS.
         aws_account_id:
             Account ID for the AWS environment to be connected
             Mandatory to pass a 12 digit string if show_manual_resources is set to true
@@ -51,13 +47,6 @@ class CreateConnectionTemplateV1Request:
         """Constructor for the CreateConnectionTemplateV1Request class."""
 
         # Initialize members of the class
-
-        for enum_value in asset_types_enabled:
-            if enum_value not in AssetTypesEnabledValues:
-                raise clumio_exception.ClumioException(
-                    f'Invalid value for asset_types_enabled: {enum_value}. Valid values are { AssetTypesEnabledValues }.',
-                    None,
-                )
         self.asset_types_enabled: Sequence[str] = asset_types_enabled
         self.aws_account_id: str = aws_account_id
         self.aws_region: str = aws_region

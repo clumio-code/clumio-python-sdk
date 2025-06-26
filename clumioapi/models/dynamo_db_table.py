@@ -5,6 +5,7 @@
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
 from clumioapi.models import aws_tag_model
+from clumioapi.models import backup_status_info
 from clumioapi.models import dynamo_db_keys
 from clumioapi.models import dynamo_db_table_embedded
 from clumioapi.models import dynamo_db_table_links
@@ -14,6 +15,7 @@ from clumioapi.models import protection_info_with_rule
 from clumioapi.models import provisioned_throughput
 from clumioapi.models import replica_description
 from clumioapi.models import sse_specification
+from clumioapi.models import stream_specification
 
 T = TypeVar('T', bound='DynamoDBTable')
 
@@ -30,6 +32,8 @@ class DynamoDBTable:
             The AWS-assigned ID of the account associated with the DynamoDB table.
         aws_region:
             The AWS region associated with the DynamoDB table.
+        backup_status_info:
+            The backup status information applied to this resource.
         billing_mode:
             The billing mode of the DynamoDB table. Possible values are PROVISIONED or
             PAY_PER_REQUEST.
@@ -37,11 +41,20 @@ class DynamoDBTable:
             is defaulted to the
             configuration of source table if both 'billing_mode' and
             'provisioned_throughput' are empty or `null`.
-        compliance_status:
-            The compliance status of the protected DynamoDB table. Possible values include
-            "compliant" and "noncompliant". If the table is not protected, then this field
-            has
-            a value of `null`.
+        contributor_insights_status:
+            Indicates whether DynamoDB Contributor Insights is enabled (true) or disabled
+            (false)
+            on the table.
+            For [POST /restores/aws/dynamodb](#operation/restore-aws-dynamodb-table), this
+            is defaulted to the
+            value set in backup if `null`.
+        deletion_protection_enabled:
+            Indicates whether DynamoDB Deletion Protection is enabled (true) or disabled
+            (false)
+            on the table.
+            For [POST /restores/aws/dynamodb](#operation/restore-aws-dynamodb-table), this
+            is defaulted to the
+            value set in backup if `null`.
         deletion_timestamp:
             The timestamp of when the table was deleted. Represented in RFC-3339 format.
             If this table has not been deleted, then this field has a value of `null`.
@@ -101,6 +114,13 @@ class DynamoDBTable:
         organizational_unit_id:
             The Clumio-assigned ID of the organizational unit associated with the DynamoDB
             table.
+        pitr_status:
+            Indicates whether DynamoDB Continuous Backup (PITR) is enabled (true) or
+            disabled (false)
+            on the table.
+            For [POST /restores/aws/dynamodb](#operation/restore-aws-dynamodb-table), this
+            is defaulted to the
+            value set in backup if `null`.
         protection_info:
             The protection policy applied to this resource. If the resource is not
             protected, then this field has a value of `null`.
@@ -123,6 +143,9 @@ class DynamoDBTable:
             The size of the DynamoDB table. Measured in bytes (B).
         sse_specification:
             Represents the server-side encryption settings for a table.
+        stream_specification:
+            Represents the DynamoDB Streams configuration for a table in DynamoDB.
+            and the data type (`S` for string, `N` for number, `B` for binary).
         table_arn:
             The AWS-assigned ARN of the DynamoDB table.
         table_class:
@@ -150,8 +173,10 @@ class DynamoDBTable:
         'links': '_links',
         'account_native_id': 'account_native_id',
         'aws_region': 'aws_region',
+        'backup_status_info': 'backup_status_info',
         'billing_mode': 'billing_mode',
-        'compliance_status': 'compliance_status',
+        'contributor_insights_status': 'contributor_insights_status',
+        'deletion_protection_enabled': 'deletion_protection_enabled',
         'deletion_timestamp': 'deletion_timestamp',
         'direct_assignment_policy_id': 'direct_assignment_policy_id',
         'earliest_continuous_snapshot_restorable_timestamp': 'earliest_continuous_snapshot_restorable_timestamp',
@@ -168,12 +193,14 @@ class DynamoDBTable:
         'local_secondary_indexes': 'local_secondary_indexes',
         'name': 'name',
         'organizational_unit_id': 'organizational_unit_id',
+        'pitr_status': 'pitr_status',
         'protection_info': 'protection_info',
         'protection_status': 'protection_status',
         'provisioned_throughput': 'provisioned_throughput',
         'replicas': 'replicas',
         'size': 'size',
         'sse_specification': 'sse_specification',
+        'stream_specification': 'stream_specification',
         'table_arn': 'table_arn',
         'table_class': 'table_class',
         'table_keys': 'table_keys',
@@ -189,8 +216,10 @@ class DynamoDBTable:
         links: dynamo_db_table_links.DynamoDBTableLinks = None,
         account_native_id: str = None,
         aws_region: str = None,
+        backup_status_info: backup_status_info.BackupStatusInfo = None,
         billing_mode: str = None,
-        compliance_status: str = None,
+        contributor_insights_status: bool = None,
+        deletion_protection_enabled: bool = None,
         deletion_timestamp: str = None,
         direct_assignment_policy_id: str = None,
         earliest_continuous_snapshot_restorable_timestamp: str = None,
@@ -207,12 +236,14 @@ class DynamoDBTable:
         local_secondary_indexes: Sequence[local_secondary_index.LocalSecondaryIndex] = None,
         name: str = None,
         organizational_unit_id: str = None,
+        pitr_status: bool = None,
         protection_info: protection_info_with_rule.ProtectionInfoWithRule = None,
         protection_status: str = None,
         provisioned_throughput: provisioned_throughput.ProvisionedThroughput = None,
         replicas: Sequence[replica_description.ReplicaDescription] = None,
         size: int = None,
         sse_specification: sse_specification.SSESpecification = None,
+        stream_specification: stream_specification.StreamSpecification = None,
         table_arn: str = None,
         table_class: str = None,
         table_keys: dynamo_db_keys.DynamoDBKeys = None,
@@ -228,8 +259,10 @@ class DynamoDBTable:
         self.links: dynamo_db_table_links.DynamoDBTableLinks = links
         self.account_native_id: str = account_native_id
         self.aws_region: str = aws_region
+        self.backup_status_info: backup_status_info.BackupStatusInfo = backup_status_info
         self.billing_mode: str = billing_mode
-        self.compliance_status: str = compliance_status
+        self.contributor_insights_status: bool = contributor_insights_status
+        self.deletion_protection_enabled: bool = deletion_protection_enabled
         self.deletion_timestamp: str = deletion_timestamp
         self.direct_assignment_policy_id: str = direct_assignment_policy_id
         self.earliest_continuous_snapshot_restorable_timestamp: str = (
@@ -254,6 +287,7 @@ class DynamoDBTable:
         )
         self.name: str = name
         self.organizational_unit_id: str = organizational_unit_id
+        self.pitr_status: bool = pitr_status
         self.protection_info: protection_info_with_rule.ProtectionInfoWithRule = protection_info
         self.protection_status: str = protection_status
         self.provisioned_throughput: provisioned_throughput.ProvisionedThroughput = (
@@ -262,6 +296,7 @@ class DynamoDBTable:
         self.replicas: Sequence[replica_description.ReplicaDescription] = replicas
         self.size: int = size
         self.sse_specification: sse_specification.SSESpecification = sse_specification
+        self.stream_specification: stream_specification.StreamSpecification = stream_specification
         self.table_arn: str = table_arn
         self.table_class: str = table_class
         self.table_keys: dynamo_db_keys.DynamoDBKeys = table_keys
@@ -302,8 +337,16 @@ class DynamoDBTable:
 
         account_native_id = dictionary.get('account_native_id')
         aws_region = dictionary.get('aws_region')
+        key = 'backup_status_info'
+        p_backup_status_info = (
+            backup_status_info.BackupStatusInfo.from_dictionary(dictionary.get(key))
+            if dictionary.get(key)
+            else None
+        )
+
         billing_mode = dictionary.get('billing_mode')
-        compliance_status = dictionary.get('compliance_status')
+        contributor_insights_status = dictionary.get('contributor_insights_status')
+        deletion_protection_enabled = dictionary.get('deletion_protection_enabled')
         deletion_timestamp = dictionary.get('deletion_timestamp')
         direct_assignment_policy_id = dictionary.get('direct_assignment_policy_id')
         earliest_continuous_snapshot_restorable_timestamp = dictionary.get(
@@ -338,6 +381,7 @@ class DynamoDBTable:
 
         name = dictionary.get('name')
         organizational_unit_id = dictionary.get('organizational_unit_id')
+        pitr_status = dictionary.get('pitr_status')
         key = 'protection_info'
         protection_info = (
             protection_info_with_rule.ProtectionInfoWithRule.from_dictionary(dictionary.get(key))
@@ -367,6 +411,13 @@ class DynamoDBTable:
             else None
         )
 
+        key = 'stream_specification'
+        p_stream_specification = (
+            stream_specification.StreamSpecification.from_dictionary(dictionary.get(key))
+            if dictionary.get(key)
+            else None
+        )
+
         table_arn = dictionary.get('table_arn')
         table_class = dictionary.get('table_class')
         key = 'table_keys'
@@ -391,8 +442,10 @@ class DynamoDBTable:
             links,
             account_native_id,
             aws_region,
+            p_backup_status_info,
             billing_mode,
-            compliance_status,
+            contributor_insights_status,
+            deletion_protection_enabled,
             deletion_timestamp,
             direct_assignment_policy_id,
             earliest_continuous_snapshot_restorable_timestamp,
@@ -409,12 +462,14 @@ class DynamoDBTable:
             local_secondary_indexes,
             name,
             organizational_unit_id,
+            pitr_status,
             protection_info,
             protection_status,
             p_provisioned_throughput,
             replicas,
             size,
             p_sse_specification,
+            p_stream_specification,
             table_arn,
             table_class,
             table_keys,

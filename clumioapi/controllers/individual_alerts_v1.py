@@ -191,7 +191,6 @@ class IndividualAlertsV1Controller(base_controller.BaseController):
                 |                             |                  | Examples of primary entity  |
                 |                             |                  | types include               |
                 |                             |                  | "aws_ebs_volume",           |
-                |                             |                  | "vmware_vm",                |
                 |                             |                  | "aws_environment". For      |
                 |                             |                  | example, filter={"primary_e |
                 |                             |                  | ntity.type":{"$eq":"aws_ebs |

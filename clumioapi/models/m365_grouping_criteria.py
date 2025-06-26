@@ -24,8 +24,6 @@ class M365GroupingCriteria:
             +=====================+========================+
             | microsoft365_domain | Microsoft 365 account. |
             +---------------------+------------------------+
-            | microsoft365_group  | Microsoft 365 group.   |
-            +---------------------+------------------------+
     """
 
     # Create a mapping from Model property names to API property names

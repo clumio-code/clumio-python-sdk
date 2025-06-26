@@ -4,6 +4,8 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
+from clumioapi.models import backup_tier_stat
+
 T = TypeVar('T', bound='DeleteBucketFromProtectionGroupResponse')
 
 
@@ -21,6 +23,8 @@ class DeleteBucketFromProtectionGroupResponse:
             The AWS region associated with the DynamoDB table.
         backup_target_aws_region:
             The backup target AWS region associated with the protection group S3 asset.
+        backup_tier_stats:
+            TotalBackedUpSizeBytes, TotalBackedUpObjectCount for each backup tier
         bucket_id:
             The Clumio-assigned ID of the bucket
         bucket_name:
@@ -64,6 +68,7 @@ class DeleteBucketFromProtectionGroupResponse:
         'added_by_user': 'added_by_user',
         'aws_region': 'aws_region',
         'backup_target_aws_region': 'backup_target_aws_region',
+        'backup_tier_stats': 'backup_tier_stats',
         'bucket_id': 'bucket_id',
         'bucket_name': 'bucket_name',
         'created_timestamp': 'created_timestamp',
@@ -87,6 +92,7 @@ class DeleteBucketFromProtectionGroupResponse:
         added_by_user: bool = None,
         aws_region: str = None,
         backup_target_aws_region: str = None,
+        backup_tier_stats: Sequence[backup_tier_stat.BackupTierStat] = None,
         bucket_id: str = None,
         bucket_name: str = None,
         created_timestamp: str = None,
@@ -110,6 +116,7 @@ class DeleteBucketFromProtectionGroupResponse:
         self.added_by_user: bool = added_by_user
         self.aws_region: str = aws_region
         self.backup_target_aws_region: str = backup_target_aws_region
+        self.backup_tier_stats: Sequence[backup_tier_stat.BackupTierStat] = backup_tier_stats
         self.bucket_id: str = bucket_id
         self.bucket_name: str = bucket_name
         self.created_timestamp: str = created_timestamp
@@ -146,6 +153,12 @@ class DeleteBucketFromProtectionGroupResponse:
         added_by_user = dictionary.get('added_by_user')
         aws_region = dictionary.get('aws_region')
         backup_target_aws_region = dictionary.get('backup_target_aws_region')
+        backup_tier_stats = None
+        if dictionary.get('backup_tier_stats'):
+            backup_tier_stats = list()
+            for value in dictionary.get('backup_tier_stats'):
+                backup_tier_stats.append(backup_tier_stat.BackupTierStat.from_dictionary(value))
+
         bucket_id = dictionary.get('bucket_id')
         bucket_name = dictionary.get('bucket_name')
         created_timestamp = dictionary.get('created_timestamp')
@@ -167,6 +180,7 @@ class DeleteBucketFromProtectionGroupResponse:
             added_by_user,
             aws_region,
             backup_target_aws_region,
+            backup_tier_stats,
             bucket_id,
             bucket_name,
             created_timestamp,

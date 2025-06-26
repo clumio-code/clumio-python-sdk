@@ -5,6 +5,7 @@
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
 from clumioapi.models import aws_tag_model
+from clumioapi.models import backup_status_info
 from clumioapi.models import ec2_instance_embedded
 from clumioapi.models import ec2_instance_links
 from clumioapi.models import protection_info_with_rule
@@ -29,16 +30,17 @@ class EC2:
             Determines whether the EC2 instance has been deleted. If `true`, the instance
             has
             been deleted.
-        compliance_status:
-            The compliance status of the protected EC2 instance. Possible values include
-            "compliant" and "noncompliant". If the instance is not protected, then this
-            field
-            has a value of `null`.
+        backup_status_info:
+            The backup status information applied to this resource.
         deletion_timestamp:
             The timestamp of when the instance was deleted. Represented in RFC-3339 format.
             If this instance has not been deleted, then this field has a value of `null`.
         direct_assignment_policy_id:
             The Clumio-assigned ID of the policy directly assigned to the entity.
+        ena_support:
+            EnaSupport indicates whether the Elastic Network Adapter (ENA) is enabled for
+            the
+            instance.
         environment_id:
             The Clumio-assigned ID of the AWS environment associated with the EC2 instance.
         has_direct_assignment:
@@ -100,9 +102,10 @@ class EC2:
         'account_native_id': 'account_native_id',
         'aws_az': 'aws_az',
         'aws_region': 'aws_region',
-        'compliance_status': 'compliance_status',
+        'backup_status_info': 'backup_status_info',
         'deletion_timestamp': 'deletion_timestamp',
         'direct_assignment_policy_id': 'direct_assignment_policy_id',
+        'ena_support': 'ena_support',
         'environment_id': 'environment_id',
         'has_direct_assignment': 'has_direct_assignment',
         'p_id': 'id',
@@ -130,9 +133,10 @@ class EC2:
         account_native_id: str = None,
         aws_az: str = None,
         aws_region: str = None,
-        compliance_status: str = None,
+        backup_status_info: backup_status_info.BackupStatusInfo = None,
         deletion_timestamp: str = None,
         direct_assignment_policy_id: str = None,
+        ena_support: bool = None,
         environment_id: str = None,
         has_direct_assignment: bool = None,
         p_id: str = None,
@@ -160,9 +164,10 @@ class EC2:
         self.account_native_id: str = account_native_id
         self.aws_az: str = aws_az
         self.aws_region: str = aws_region
-        self.compliance_status: str = compliance_status
+        self.backup_status_info: backup_status_info.BackupStatusInfo = backup_status_info
         self.deletion_timestamp: str = deletion_timestamp
         self.direct_assignment_policy_id: str = direct_assignment_policy_id
+        self.ena_support: bool = ena_support
         self.environment_id: str = environment_id
         self.has_direct_assignment: bool = has_direct_assignment
         self.p_id: str = p_id
@@ -215,9 +220,16 @@ class EC2:
         account_native_id = dictionary.get('account_native_id')
         aws_az = dictionary.get('aws_az')
         aws_region = dictionary.get('aws_region')
-        compliance_status = dictionary.get('compliance_status')
+        key = 'backup_status_info'
+        p_backup_status_info = (
+            backup_status_info.BackupStatusInfo.from_dictionary(dictionary.get(key))
+            if dictionary.get(key)
+            else None
+        )
+
         deletion_timestamp = dictionary.get('deletion_timestamp')
         direct_assignment_policy_id = dictionary.get('direct_assignment_policy_id')
+        ena_support = dictionary.get('ena_support')
         environment_id = dictionary.get('environment_id')
         has_direct_assignment = dictionary.get('has_direct_assignment')
         p_id = dictionary.get('id')
@@ -254,9 +266,10 @@ class EC2:
             account_native_id,
             aws_az,
             aws_region,
-            compliance_status,
+            p_backup_status_info,
             deletion_timestamp,
             direct_assignment_policy_id,
+            ena_support,
             environment_id,
             has_direct_assignment,
             p_id,

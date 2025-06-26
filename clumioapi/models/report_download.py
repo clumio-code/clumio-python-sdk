@@ -29,7 +29,7 @@ class ReportDownload:
             The Clumio-assigned ID of the task which generated the restored file.
         p_type:
             The type of report this CSV Download is associated with.
-            The possible values include "activity" and "compliance".
+            The possible values: ["activity"].
     """
 
     # Create a mapping from Model property names to API property names

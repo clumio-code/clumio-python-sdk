@@ -56,8 +56,8 @@ class BackupsFilesV1Controller(base_controller.BaseController):
                 +============+==================+==============================================+
                 | asset_type | $eq              | Required. The type of the asset within which |
                 |            |                  | to search for files. Possible values include |
-                |            |                  | aws_ebs_volume,                              |
-                |            |                  | aws_ec2_instance, and vmware_vm.             |
+                |            |                  | aws_ebs_volume and                           |
+                |            |                  | aws_ec2_instance.                            |
                 +------------+------------------+----------------------------------------------+
                 | asset_id   | $eq              | Required. The Clumio-assigned ID of the      |
                 |            |                  | asset                                        |

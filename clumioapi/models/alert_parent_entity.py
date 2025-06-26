@@ -19,11 +19,10 @@ class AlertParentEntity:
             A system-generated ID assigned to this entity.
         p_type:
             Type is mostly an asset type or the type of Entity. Some examples are
-            "restored_file", "vmware_vm",  etc.
+            "restored_file", "aws_ebs_volume",  etc.
         value:
             A system-generated value assigned to the entity. For example, if the primary
-            entity type is "vmware_vm" for a virtual machine, then the value is the name of
-            the VM.
+            entity type is "aws_ebs_volume", then the value is the name of the EBS.
     """
 
     # Create a mapping from Model property names to API property names

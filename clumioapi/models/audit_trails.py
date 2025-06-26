@@ -143,13 +143,10 @@ class AuditTrails:
         parent_entity:
             The parent object of the primary entity associated with or affected by the
             audit.
-            If the primary entity is not a vmware entity, this field will have a value of
-            null
-            For example, "vmware_vcenter" is the parent entity of primary entity
-            "vmware_vm".
         primary_entity:
             The primary object associated with the audit event. Examples of primary entities
-            include "aws_connection", "aws_ebs_volume" and "vmware_vm". In some cases like
+            include "aws_connection", "aws_ebs_volume" and "aws_ec2_instance". In some cases
+            like
             global settings, the primary entity may be null.
         status:
             The status of the performed action. 'success', 'failure', 'partial_success'

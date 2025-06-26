@@ -9,7 +9,6 @@ from clumioapi.models import on_demand_setting
 T = TypeVar('T', bound='CreateBackupAwsEbsVolumeV2Request')
 
 TypeValues = [
-    '',
     'clumio_backup',
     'aws_snapshot',
 ]

@@ -23,7 +23,7 @@ class AwsTagLinks:
             The HATEOAS link to this resource.
         protect_entities:
             A HATEOAS link to protect the entities.
-        read_aws_environment_tag_ebs_volumes_compliance_stats:
+        read_aws_environment_tag_ebs_volumes_protection_stats:
             A resource-specific HATEOAS link.
         read_policy_definition:
             A HATEOAS link to the policy protecting this resource. Will be omitted for
@@ -36,7 +36,7 @@ class AwsTagLinks:
     _names = {
         'p_self': '_self',
         'protect_entities': 'protect-entities',
-        'read_aws_environment_tag_ebs_volumes_compliance_stats': 'read-aws-environment-tag-ebs-volumes-compliance-stats',
+        'read_aws_environment_tag_ebs_volumes_protection_stats': 'read-aws-environment-tag-ebs-volumes-protection-stats',
         'read_policy_definition': 'read-policy-definition',
         'unprotect_entities': 'unprotect-entities',
     }
@@ -45,7 +45,7 @@ class AwsTagLinks:
         self,
         p_self: hateoas_self_link.HateoasSelfLink = None,
         protect_entities: protect_entities_hateoas_link.ProtectEntitiesHateoasLink = None,
-        read_aws_environment_tag_ebs_volumes_compliance_stats: hateoas_link.HateoasLink = None,
+        read_aws_environment_tag_ebs_volumes_protection_stats: hateoas_link.HateoasLink = None,
         read_policy_definition: read_policy_definition_hateoas_link.ReadPolicyDefinitionHateoasLink = None,
         unprotect_entities: unprotect_entities_hateoas_link.UnprotectEntitiesHateoasLink = None,
     ) -> None:
@@ -56,8 +56,8 @@ class AwsTagLinks:
         self.protect_entities: protect_entities_hateoas_link.ProtectEntitiesHateoasLink = (
             protect_entities
         )
-        self.read_aws_environment_tag_ebs_volumes_compliance_stats: hateoas_link.HateoasLink = (
-            read_aws_environment_tag_ebs_volumes_compliance_stats
+        self.read_aws_environment_tag_ebs_volumes_protection_stats: hateoas_link.HateoasLink = (
+            read_aws_environment_tag_ebs_volumes_protection_stats
         )
         self.read_policy_definition: (
             read_policy_definition_hateoas_link.ReadPolicyDefinitionHateoasLink
@@ -98,8 +98,8 @@ class AwsTagLinks:
             else None
         )
 
-        key = 'read-aws-environment-tag-ebs-volumes-compliance-stats'
-        read_aws_environment_tag_ebs_volumes_compliance_stats = (
+        key = 'read-aws-environment-tag-ebs-volumes-protection-stats'
+        read_aws_environment_tag_ebs_volumes_protection_stats = (
             hateoas_link.HateoasLink.from_dictionary(dictionary.get(key))
             if dictionary.get(key)
             else None
@@ -127,7 +127,7 @@ class AwsTagLinks:
         return cls(
             p_self,
             protect_entities,
-            read_aws_environment_tag_ebs_volumes_compliance_stats,
+            read_aws_environment_tag_ebs_volumes_protection_stats,
             read_policy_definition,
             unprotect_entities,
         )

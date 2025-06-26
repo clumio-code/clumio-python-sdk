@@ -19,8 +19,6 @@ class ReadEC2MSSQLFCIResponse:
             Embedded responses related to the resource.
         links:
             URLs to pages related to the resource.
-        compliance_status:
-            ComplianceStatus of the resource
         p_id:
             The Clumio-assigned ID of the failover cluster.
         name:
@@ -40,7 +38,6 @@ class ReadEC2MSSQLFCIResponse:
     _names = {
         'embedded': '_embedded',
         'links': '_links',
-        'compliance_status': 'compliance_status',
         'p_id': 'id',
         'name': 'name',
         'organizational_unit_id': 'organizational_unit_id',
@@ -53,7 +50,6 @@ class ReadEC2MSSQLFCIResponse:
         self,
         embedded: ec2_mssqlfci_embedded.EC2MSSQLFCIEmbedded = None,
         links: ec2_mssqlfci_links.EC2MSSQLFCILinks = None,
-        compliance_status: str = None,
         p_id: str = None,
         name: str = None,
         organizational_unit_id: str = None,
@@ -66,7 +62,6 @@ class ReadEC2MSSQLFCIResponse:
         # Initialize members of the class
         self.embedded: ec2_mssqlfci_embedded.EC2MSSQLFCIEmbedded = embedded
         self.links: ec2_mssqlfci_links.EC2MSSQLFCILinks = links
-        self.compliance_status: str = compliance_status
         self.p_id: str = p_id
         self.name: str = name
         self.organizational_unit_id: str = organizational_unit_id
@@ -104,7 +99,6 @@ class ReadEC2MSSQLFCIResponse:
             else None
         )
 
-        compliance_status = dictionary.get('compliance_status')
         p_id = dictionary.get('id')
         name = dictionary.get('name')
         organizational_unit_id = dictionary.get('organizational_unit_id')
@@ -121,7 +115,6 @@ class ReadEC2MSSQLFCIResponse:
         return cls(
             embedded,
             links,
-            compliance_status,
             p_id,
             name,
             organizational_unit_id,

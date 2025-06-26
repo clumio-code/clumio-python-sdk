@@ -16,6 +16,11 @@ class UpdateAwsConnectionV1Request:
         asset_types_enabled:
             Asset types enabled with the given resource ARNs.
             This field is only applicable to manually configured connections.
+            Valid values are any of ["EC2/EBS", "RDS", "DynamoDB", "EC2MSSQL", "S3", "EBS"].
+
+            NOTE -
+            1. EC2/EBS is required for EC2MSSQL.
+            2. EBS as a value is deprecated in favor of EC2/EBS.
         description:
             An optional, user-provided description for this connection.
         resources:

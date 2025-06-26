@@ -40,6 +40,10 @@ class PolicyOperationInput:
             The service level agreement (SLA) for the policy. A policy can include one or
             more SLAs. For example, a policy can retain daily backups for a month each, and
             monthly backups for a year each.
+        timezone:
+            The timezone for the operation. The timezone must be a valid location name from
+            the IANA Time Zone database.
+            For instance, "America/New_York", "US/Central", "UTC".
         p_type:
             The operation to be performed for this SLA set. Each SLA set corresponds to one
             and only one operation.
@@ -54,6 +58,7 @@ class PolicyOperationInput:
         'backup_window': 'backup_window',
         'backup_window_tz': 'backup_window_tz',
         'slas': 'slas',
+        'timezone': 'timezone',
         'p_type': 'type',
     }
 
@@ -65,6 +70,7 @@ class PolicyOperationInput:
         backup_window: backup_window.BackupWindow = None,
         backup_window_tz: backup_window.BackupWindow = None,
         slas: Sequence[backup_sla.BackupSLA] = None,
+        timezone: str = None,
         p_type: str = None,
     ) -> None:
         """Constructor for the PolicyOperationInput class."""
@@ -76,6 +82,7 @@ class PolicyOperationInput:
         self.backup_window: backup_window.BackupWindow = backup_window
         self.backup_window_tz: backup_window.BackupWindow = backup_window_tz
         self.slas: Sequence[backup_sla.BackupSLA] = slas
+        self.timezone: str = timezone
         self.p_type: str = p_type
 
     @classmethod
@@ -123,6 +130,7 @@ class PolicyOperationInput:
             for value in dictionary.get('slas'):
                 slas.append(backup_sla.BackupSLA.from_dictionary(value))
 
+        timezone = dictionary.get('timezone')
         p_type = dictionary.get('type')
         # Return an object of this model
         return cls(
@@ -132,5 +140,6 @@ class PolicyOperationInput:
             p_backup_window,
             backup_window_tz,
             slas,
+            timezone,
             p_type,
         )

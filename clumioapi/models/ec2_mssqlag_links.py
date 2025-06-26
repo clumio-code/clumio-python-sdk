@@ -19,6 +19,8 @@ class EC2MSSQLAGLinks:
     Attributes:
         p_self:
             The HATEOAS link to this resource.
+        get_mssql_ec2_availability_group_backup_status_stats:
+            A resource-specific HATEOAS link.
         get_mssql_ec2_availability_group_stats:
             A resource-specific HATEOAS link.
         read_policy_definition:
@@ -29,6 +31,7 @@ class EC2MSSQLAGLinks:
     # Create a mapping from Model property names to API property names
     _names = {
         'p_self': '_self',
+        'get_mssql_ec2_availability_group_backup_status_stats': 'get-mssql-ec2-availability-group-backup-status-stats',
         'get_mssql_ec2_availability_group_stats': 'get-mssql-ec2-availability-group-stats',
         'read_policy_definition': 'read-policy-definition',
     }
@@ -36,6 +39,7 @@ class EC2MSSQLAGLinks:
     def __init__(
         self,
         p_self: hateoas_self_link.HateoasSelfLink = None,
+        get_mssql_ec2_availability_group_backup_status_stats: hateoas_link.HateoasLink = None,
         get_mssql_ec2_availability_group_stats: hateoas_link.HateoasLink = None,
         read_policy_definition: read_policy_definition_hateoas_link.ReadPolicyDefinitionHateoasLink = None,
     ) -> None:
@@ -43,6 +47,9 @@ class EC2MSSQLAGLinks:
 
         # Initialize members of the class
         self.p_self: hateoas_self_link.HateoasSelfLink = p_self
+        self.get_mssql_ec2_availability_group_backup_status_stats: hateoas_link.HateoasLink = (
+            get_mssql_ec2_availability_group_backup_status_stats
+        )
         self.get_mssql_ec2_availability_group_stats: hateoas_link.HateoasLink = (
             get_mssql_ec2_availability_group_stats
         )
@@ -73,6 +80,13 @@ class EC2MSSQLAGLinks:
             else None
         )
 
+        key = 'get-mssql-ec2-availability-group-backup-status-stats'
+        get_mssql_ec2_availability_group_backup_status_stats = (
+            hateoas_link.HateoasLink.from_dictionary(dictionary.get(key))
+            if dictionary.get(key)
+            else None
+        )
+
         key = 'get-mssql-ec2-availability-group-stats'
         get_mssql_ec2_availability_group_stats = (
             hateoas_link.HateoasLink.from_dictionary(dictionary.get(key))
@@ -90,4 +104,9 @@ class EC2MSSQLAGLinks:
         )
 
         # Return an object of this model
-        return cls(p_self, get_mssql_ec2_availability_group_stats, read_policy_definition)
+        return cls(
+            p_self,
+            get_mssql_ec2_availability_group_backup_status_stats,
+            get_mssql_ec2_availability_group_stats,
+            read_policy_definition,
+        )

@@ -4,6 +4,8 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
+from clumioapi.models import backup_status_info
+from clumioapi.models import backup_tier_stat
 from clumioapi.models import protection_group_bucket_embedded
 from clumioapi.models import protection_group_bucket_links
 from clumioapi.models import protection_info_with_rule
@@ -27,19 +29,22 @@ class ProtectionGroupBucket:
             Whether this bucket was added to this protection group by the user
         aws_region:
             The AWS region associated with the DynamoDB table.
+        backup_status_info:
+            The backup status information applied to this resource.
         backup_target_aws_region:
             The backup target AWS region associated with the protection group S3 asset.
+        backup_tier_stats:
+            TotalBackedUpSizeBytes, TotalBackedUpObjectCount for each backup tier
         bucket_id:
             The Clumio-assigned ID of the bucket
         bucket_name:
             The name of the bucket
-        compliance_status:
-            The compliance status of the protected protection group. Possible values include
-            "compliant" and "noncompliant". If the table is not protected, then this field
-            has
-            a value of `null`.
         created_timestamp:
             Creation time of the protection group in RFC-3339 format.
+        earliest_available_backup_timestamp:
+            Timestamp of the earliest protection group backup which has not expired yet.
+            Represented in
+            RFC-3339 format. Only available for Read API.
         environment_id:
             The Clumio-assigned ID of the AWS environment associated with the protection
             group.
@@ -87,11 +92,13 @@ class ProtectionGroupBucket:
         'added_by_bucket_rule': 'added_by_bucket_rule',
         'added_by_user': 'added_by_user',
         'aws_region': 'aws_region',
+        'backup_status_info': 'backup_status_info',
         'backup_target_aws_region': 'backup_target_aws_region',
+        'backup_tier_stats': 'backup_tier_stats',
         'bucket_id': 'bucket_id',
         'bucket_name': 'bucket_name',
-        'compliance_status': 'compliance_status',
         'created_timestamp': 'created_timestamp',
+        'earliest_available_backup_timestamp': 'earliest_available_backup_timestamp',
         'environment_id': 'environment_id',
         'group_id': 'group_id',
         'group_name': 'group_name',
@@ -115,11 +122,13 @@ class ProtectionGroupBucket:
         added_by_bucket_rule: bool = None,
         added_by_user: bool = None,
         aws_region: str = None,
+        backup_status_info: backup_status_info.BackupStatusInfo = None,
         backup_target_aws_region: str = None,
+        backup_tier_stats: Sequence[backup_tier_stat.BackupTierStat] = None,
         bucket_id: str = None,
         bucket_name: str = None,
-        compliance_status: str = None,
         created_timestamp: str = None,
+        earliest_available_backup_timestamp: str = None,
         environment_id: str = None,
         group_id: str = None,
         group_name: str = None,
@@ -143,11 +152,13 @@ class ProtectionGroupBucket:
         self.added_by_bucket_rule: bool = added_by_bucket_rule
         self.added_by_user: bool = added_by_user
         self.aws_region: str = aws_region
+        self.backup_status_info: backup_status_info.BackupStatusInfo = backup_status_info
         self.backup_target_aws_region: str = backup_target_aws_region
+        self.backup_tier_stats: Sequence[backup_tier_stat.BackupTierStat] = backup_tier_stats
         self.bucket_id: str = bucket_id
         self.bucket_name: str = bucket_name
-        self.compliance_status: str = compliance_status
         self.created_timestamp: str = created_timestamp
+        self.earliest_available_backup_timestamp: str = earliest_available_backup_timestamp
         self.environment_id: str = environment_id
         self.group_id: str = group_id
         self.group_name: str = group_name
@@ -200,11 +211,24 @@ class ProtectionGroupBucket:
         added_by_bucket_rule = dictionary.get('added_by_bucket_rule')
         added_by_user = dictionary.get('added_by_user')
         aws_region = dictionary.get('aws_region')
+        key = 'backup_status_info'
+        p_backup_status_info = (
+            backup_status_info.BackupStatusInfo.from_dictionary(dictionary.get(key))
+            if dictionary.get(key)
+            else None
+        )
+
         backup_target_aws_region = dictionary.get('backup_target_aws_region')
+        backup_tier_stats = None
+        if dictionary.get('backup_tier_stats'):
+            backup_tier_stats = list()
+            for value in dictionary.get('backup_tier_stats'):
+                backup_tier_stats.append(backup_tier_stat.BackupTierStat.from_dictionary(value))
+
         bucket_id = dictionary.get('bucket_id')
         bucket_name = dictionary.get('bucket_name')
-        compliance_status = dictionary.get('compliance_status')
         created_timestamp = dictionary.get('created_timestamp')
+        earliest_available_backup_timestamp = dictionary.get('earliest_available_backup_timestamp')
         environment_id = dictionary.get('environment_id')
         group_id = dictionary.get('group_id')
         group_name = dictionary.get('group_name')
@@ -232,11 +256,13 @@ class ProtectionGroupBucket:
             added_by_bucket_rule,
             added_by_user,
             aws_region,
+            p_backup_status_info,
             backup_target_aws_region,
+            backup_tier_stats,
             bucket_id,
             bucket_name,
-            compliance_status,
             created_timestamp,
+            earliest_available_backup_timestamp,
             environment_id,
             group_id,
             group_name,

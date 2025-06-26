@@ -147,9 +147,7 @@ class RestoredProtectionGroupsV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = (
-            '/restores/protection-groups/{protection_group_id}/previews'
-        )
+        _url_path = '/restores/protection-groups/{protection_group_id}/previews'
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'protection_group_id': protection_group_id}
         )
@@ -297,9 +295,7 @@ class RestoredProtectionGroupsV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = (
-            '/restores/protection-groups/{protection_group_id}/s3-objects'
-        )
+        _url_path = '/restores/protection-groups/{protection_group_id}/s3-objects'
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'protection_group_id': protection_group_id}
         )
