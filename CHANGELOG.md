@@ -1,3 +1,6 @@
+## 0.16.3
+Added lookback_days support.
+
 ## 0.16.2
 Fixed AwsTag key.
 

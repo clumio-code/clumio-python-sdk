@@ -2,7 +2,6 @@
 # Copyright 2023. Clumio, Inc.
 #
 
-import json
 from typing import Optional, Union
 
 from clumioapi import api_helper
@@ -31,7 +30,12 @@ class AwsEc2InstancesV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def list_aws_ec2_instances(
-        self, limit: int = None, start: str = None, filter: str = None, embed: str = None, **kwargs
+        self,
+        limit: int = None,
+        start: str = None,
+        filter: str = None,
+        lookback_days: int = None,
+        embed: str = None, **kwargs
     ) -> Union[
         list_ec2_instances_response.ListEc2InstancesResponse,
         tuple[requests.Response, Optional[list_ec2_instances_response.ListEc2InstancesResponse]],
@@ -131,6 +135,9 @@ class AwsEc2InstancesV1Controller(base_controller.BaseController):
                 |                           |                  | east-1a"}}                    |
                 +---------------------------+------------------+-------------------------------+
 
+            lookback_days:
+                Calculate backup status for the last lookback_days days.
+
             embed:
                 Embeds the details of each associated resource. Set the parameter to one of the
                 following embeddable links to include additional details associated with each
@@ -148,7 +155,7 @@ class AwsEc2InstancesV1Controller(base_controller.BaseController):
             requests.Response: Raw Response from the API if config.raw_response is set to True.
             list_ec2_instances_response.ListEc2InstancesResponse: Response from the API.
         Raises:
-            ClumioException: An error occured while executing the API.
+            ClumioException: An error occurred while executing the API.
                 This exception includes the HTTP response code, an error
                 message, and the HTTP body that was received in the request.
         """
@@ -156,8 +163,13 @@ class AwsEc2InstancesV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/datasources/aws/ec2-instances'
 
-        _query_parameters = {}
-        _query_parameters = {'limit': limit, 'start': start, 'filter': filter, 'embed': embed}
+        _query_parameters = {
+            'limit': limit,
+            'start': start,
+            'filter': filter,
+            'embed': embed,
+            'lookback_days': lookback_days,
+        }
 
         # Execute request
         try:
