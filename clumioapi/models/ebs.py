@@ -1,10 +1,11 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
 from clumioapi.models import aws_tag_model
+from clumioapi.models import backup_status_info as backup_status_info_
 from clumioapi.models import ebs_volume_embedded
 from clumioapi.models import ebs_volume_links
 from clumioapi.models import protection_info_with_rule
@@ -27,11 +28,8 @@ class EBS:
             `us-west-2a`.
         aws_region:
             The AWS region associated with the EBS volume.
-        compliance_status:
-            The compliance status of the protected EBS volume. Possible values include
-            "compliant" and "noncompliant". If the volume is not protected, then this field
-            has
-            a value of `null`.
+        backup_status_info:
+            The backup status information applied to this resource.
         deletion_timestamp:
             The timestamp of when the volume was deleted. Represented in RFC-3339 format. If
             this volume has not been deleted, then this field has a value of `null`.
@@ -103,7 +101,7 @@ class EBS:
         'account_native_id': 'account_native_id',
         'aws_az': 'aws_az',
         'aws_region': 'aws_region',
-        'compliance_status': 'compliance_status',
+        'backup_status_info': 'backup_status_info',
         'deletion_timestamp': 'deletion_timestamp',
         'direct_assignment_policy_id': 'direct_assignment_policy_id',
         'environment_id': 'environment_id',
@@ -134,7 +132,7 @@ class EBS:
         account_native_id: str = None,
         aws_az: str = None,
         aws_region: str = None,
-        compliance_status: str = None,
+        backup_status_info: backup_status_info_.BackupStatusInfo = None,
         deletion_timestamp: str = None,
         direct_assignment_policy_id: str = None,
         environment_id: str = None,
@@ -165,7 +163,7 @@ class EBS:
         self.account_native_id: str = account_native_id
         self.aws_az: str = aws_az
         self.aws_region: str = aws_region
-        self.compliance_status: str = compliance_status
+        self.backup_status_info: backup_status_info_.BackupStatusInfo = backup_status_info
         self.deletion_timestamp: str = deletion_timestamp
         self.direct_assignment_policy_id: str = direct_assignment_policy_id
         self.environment_id: str = environment_id
@@ -205,82 +203,89 @@ class EBS:
 
         # Extract variables from the dictionary
         key = '_embedded'
-        embedded = (
+        val_embedded = (
             ebs_volume_embedded.EbsVolumeEmbedded.from_dictionary(dictionary.get(key))
             if dictionary.get(key)
             else None
         )
 
         key = '_links'
-        links = (
+        val_links = (
             ebs_volume_links.EbsVolumeLinks.from_dictionary(dictionary.get(key))
             if dictionary.get(key)
             else None
         )
 
-        account_native_id = dictionary.get('account_native_id')
-        aws_az = dictionary.get('aws_az')
-        aws_region = dictionary.get('aws_region')
-        compliance_status = dictionary.get('compliance_status')
-        deletion_timestamp = dictionary.get('deletion_timestamp')
-        direct_assignment_policy_id = dictionary.get('direct_assignment_policy_id')
-        environment_id = dictionary.get('environment_id')
-        has_direct_assignment = dictionary.get('has_direct_assignment')
-        p_id = dictionary.get('id')
-        iops = dictionary.get('iops')
-        is_deleted = dictionary.get('is_deleted')
-        is_encrypted = dictionary.get('is_encrypted')
-        is_supported = dictionary.get('is_supported')
-        kms_key_native_id = dictionary.get('kms_key_native_id')
-        last_backup_timestamp = dictionary.get('last_backup_timestamp')
-        last_snapshot_timestamp = dictionary.get('last_snapshot_timestamp')
-        name = dictionary.get('name')
-        organizational_unit_id = dictionary.get('organizational_unit_id')
+        val_account_native_id = dictionary.get('account_native_id')
+        val_aws_az = dictionary.get('aws_az')
+        val_aws_region = dictionary.get('aws_region')
+        key = 'backup_status_info'
+        val_backup_status_info = (
+            backup_status_info_.BackupStatusInfo.from_dictionary(dictionary.get(key))
+            if dictionary.get(key)
+            else None
+        )
+
+        val_deletion_timestamp = dictionary.get('deletion_timestamp')
+        val_direct_assignment_policy_id = dictionary.get('direct_assignment_policy_id')
+        val_environment_id = dictionary.get('environment_id')
+        val_has_direct_assignment = dictionary.get('has_direct_assignment')
+        val_p_id = dictionary.get('id')
+        val_iops = dictionary.get('iops')
+        val_is_deleted = dictionary.get('is_deleted')
+        val_is_encrypted = dictionary.get('is_encrypted')
+        val_is_supported = dictionary.get('is_supported')
+        val_kms_key_native_id = dictionary.get('kms_key_native_id')
+        val_last_backup_timestamp = dictionary.get('last_backup_timestamp')
+        val_last_snapshot_timestamp = dictionary.get('last_snapshot_timestamp')
+        val_name = dictionary.get('name')
+        val_organizational_unit_id = dictionary.get('organizational_unit_id')
         key = 'protection_info'
-        protection_info = (
+        val_protection_info = (
             protection_info_with_rule.ProtectionInfoWithRule.from_dictionary(dictionary.get(key))
             if dictionary.get(key)
             else None
         )
 
-        protection_status = dictionary.get('protection_status')
-        size = dictionary.get('size')
-        tags = None
-        if dictionary.get('tags'):
-            tags = list()
-            for value in dictionary.get('tags'):
-                tags.append(aws_tag_model.AwsTagModel.from_dictionary(value))
+        val_protection_status = dictionary.get('protection_status')
+        val_size = dictionary.get('size')
 
-        p_type = dictionary.get('type')
-        unsupported_reason = dictionary.get('unsupported_reason')
-        volume_native_id = dictionary.get('volume_native_id')
+        val_tags = None
+        if dictionary.get('tags'):
+            val_tags = list()
+            for value in dictionary.get('tags'):
+                val_tags.append(aws_tag_model.AwsTagModel.from_dictionary(value))
+
+        val_p_type = dictionary.get('type')
+        val_unsupported_reason = dictionary.get('unsupported_reason')
+        val_volume_native_id = dictionary.get('volume_native_id')
         # Return an object of this model
         return cls(
-            embedded,
-            links,
-            account_native_id,
-            aws_az,
-            aws_region,
-            compliance_status,
-            deletion_timestamp,
-            direct_assignment_policy_id,
-            environment_id,
-            has_direct_assignment,
-            p_id,
-            iops,
-            is_deleted,
-            is_encrypted,
-            is_supported,
-            kms_key_native_id,
-            last_backup_timestamp,
-            last_snapshot_timestamp,
-            name,
-            organizational_unit_id,
-            protection_info,
-            protection_status,
-            size,
-            tags,
-            p_type,
-            unsupported_reason,
-            volume_native_id,
+            val_embedded,
+            val_links,
+            val_account_native_id,
+            val_aws_az,
+            val_aws_region,
+            val_backup_status_info,
+            val_deletion_timestamp,
+            val_direct_assignment_policy_id,
+            val_environment_id,
+            val_has_direct_assignment,
+            val_p_id,
+            val_iops,
+            val_is_deleted,
+            val_is_encrypted,
+            val_is_supported,
+            val_kms_key_native_id,
+            val_last_backup_timestamp,
+            val_last_snapshot_timestamp,
+            val_name,
+            val_organizational_unit_id,
+            val_protection_info,
+            val_protection_status,
+            val_size,
+            val_tags,
+            val_p_type,
+            val_unsupported_reason,
+            val_volume_native_id,
         )
