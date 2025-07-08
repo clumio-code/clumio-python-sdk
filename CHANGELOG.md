@@ -1,3 +1,6 @@
+## 0.16.4
+Added missing PG models.
+
 ## 0.16.3
 Updated controllers and models for DYNAMODB, EBS, EC2, PG, and RDS.
 
