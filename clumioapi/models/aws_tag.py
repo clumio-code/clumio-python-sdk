@@ -1,12 +1,12 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
 from clumioapi.models import aws_tag_embedded
 from clumioapi.models import aws_tag_links
-from clumioapi.models import protection_info
+from clumioapi.models import protection_info as protection_info_
 
 T = TypeVar('T', bound='AwsTag')
 
@@ -58,7 +58,7 @@ class AwsTag:
         key: str = None,
         key_id: str = None,
         organizational_unit_id: str = None,
-        protection_info: protection_info.ProtectionInfo = None,
+        protection_info: protection_info_.ProtectionInfo = None,
         protection_status: str = None,
         value: str = None,
     ) -> None:
@@ -71,7 +71,7 @@ class AwsTag:
         self.key: str = key
         self.key_id: str = key_id
         self.organizational_unit_id: str = organizational_unit_id
-        self.protection_info: protection_info.ProtectionInfo = protection_info
+        self.protection_info: protection_info_.ProtectionInfo = protection_info
         self.protection_status: str = protection_status
         self.value: str = value
 
@@ -92,41 +92,41 @@ class AwsTag:
 
         # Extract variables from the dictionary
         key = '_embedded'
-        embedded = (
+        val_embedded = (
             aws_tag_embedded.AwsTagEmbedded.from_dictionary(dictionary.get(key))
             if dictionary.get(key)
             else None
         )
 
         key = '_links'
-        links = (
+        val_links = (
             aws_tag_links.AwsTagLinks.from_dictionary(dictionary.get(key))
             if dictionary.get(key)
             else None
         )
 
-        p_id = dictionary.get('id')
-        key = dictionary.get('key')
-        key_id = dictionary.get('key_id')
-        organizational_unit_id = dictionary.get('organizational_unit_id')
-        p_key = 'protection_info'
-        p_protection_info = (
-            protection_info.ProtectionInfo.from_dictionary(dictionary.get(p_key))
-            if dictionary.get(p_key)
+        val_p_id = dictionary.get('id')
+        val_key = dictionary.get('key')
+        val_key_id = dictionary.get('key_id')
+        val_organizational_unit_id = dictionary.get('organizational_unit_id')
+        key = 'protection_info'
+        val_protection_info = (
+            protection_info_.ProtectionInfo.from_dictionary(dictionary.get(key))
+            if dictionary.get(key)
             else None
         )
 
-        protection_status = dictionary.get('protection_status')
-        value = dictionary.get('value')
+        val_protection_status = dictionary.get('protection_status')
+        val_value = dictionary.get('value')
         # Return an object of this model
         return cls(
-            embedded,
-            links,
-            p_id,
-            key,
-            key_id,
-            organizational_unit_id,
-            p_protection_info,
-            protection_status,
-            value,
+            val_embedded,
+            val_links,
+            val_p_id,
+            val_key,
+            val_key_id,
+            val_organizational_unit_id,
+            val_protection_info,
+            val_protection_status,
+            val_value,
         )

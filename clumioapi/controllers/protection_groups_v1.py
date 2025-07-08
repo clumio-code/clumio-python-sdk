@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
@@ -38,7 +38,12 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def list_protection_groups(
-        self, limit: int = None, start: str = None, filter: str = None, **kwargs
+        self,
+        limit: int = None,
+        start: str = None,
+        filter: str = None,
+        lookback_days: int = None,
+        **kwargs,
     ) -> Union[
         list_protection_groups_response.ListProtectionGroupsResponse,
         tuple[
@@ -89,10 +94,9 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
                 |                           |                  | resource. Possible values     |
                 |                           |                  | include protected,            |
                 |                           |                  | unprotected, and unsupported. |
-                |                           |                  | If the compliance_status      |
-                |                           |                  | filter parameter is set, this |
-                |                           |                  | parameter value cannot        |
-                |                           |                  | include "unprotected".        |
+                +---------------------------+------------------+-------------------------------+
+                | deactivated               | $eq              | Filter assets protected by a  |
+                |                           |                  | deactivated policy.           |
                 +---------------------------+------------------+-------------------------------+
                 | organizational_unit_id    | $in              | Denotes the organizational    |
                 |                           |                  | unit IDs that can own the     |
@@ -104,6 +108,8 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
                 |                           |                  | 11ea-bb9f-b2e1c9a040ad"]}}    |
                 +---------------------------+------------------+-------------------------------+
 
+            lookback_days:
+                Calculate backup status for the last `lookback_days` days.
         Returns:
             requests.Response: Raw Response from the API if config.raw_response is set to True.
             list_protection_groups_response.ListProtectionGroupsResponse: Response from the API.
@@ -117,7 +123,12 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
         _url_path = '/datasources/protection-groups'
 
         _query_parameters = {}
-        _query_parameters = {'limit': limit, 'start': start, 'filter': filter}
+        _query_parameters = {
+            'limit': limit,
+            'start': start,
+            'filter': filter,
+            'lookback_days': lookback_days,
+        }
 
         # Execute request
         try:
@@ -145,7 +156,7 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
             )
         return list_protection_groups_response.ListProtectionGroupsResponse.from_dictionary(resp)
 
-    def read_protection_group(self, group_id: str, **kwargs) -> Union[
+    def read_protection_group(self, group_id: str, lookback_days: int = None, **kwargs) -> Union[
         read_protection_group_response.ReadProtectionGroupResponse,
         tuple[
             requests.Response, Optional[read_protection_group_response.ReadProtectionGroupResponse]
@@ -156,6 +167,8 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
         Args:
             group_id:
                 Performs the operation on the ProtectionGroup with the specified ID.
+            lookback_days:
+                Calculate backup status for the last `lookback_days` days.
         Returns:
             requests.Response: Raw Response from the API if config.raw_response is set to True.
             read_protection_group_response.ReadProtectionGroupResponse: Response from the API.
@@ -171,6 +184,7 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
             _url_path, {'group_id': group_id}
         )
         _query_parameters = {}
+        _query_parameters = {'lookback_days': lookback_days}
 
         # Execute request
         try:

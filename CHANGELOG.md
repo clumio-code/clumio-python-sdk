@@ -1,3 +1,6 @@
+## 0.16.3
+Updated controllers and models for DYNAMODB, EBS, EC2, PG, and RDS.
+
 ## 0.16.2
 Fixed AwsTag key.
 

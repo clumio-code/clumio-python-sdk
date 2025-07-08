@@ -1,10 +1,11 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
 from clumioapi.models import aws_tag_model
+from clumioapi.models import backup_status_info as backup_status_info_
 from clumioapi.models import ec2_instance_embedded
 from clumioapi.models import ec2_instance_links
 from clumioapi.models import protection_info_with_rule
@@ -29,16 +30,17 @@ class EC2:
             Determines whether the EC2 instance has been deleted. If `true`, the instance
             has
             been deleted.
-        compliance_status:
-            The compliance status of the protected EC2 instance. Possible values include
-            "compliant" and "noncompliant". If the instance is not protected, then this
-            field
-            has a value of `null`.
+        backup_status_info:
+            The backup status information applied to this resource.
         deletion_timestamp:
             The timestamp of when the instance was deleted. Represented in RFC-3339 format.
             If this instance has not been deleted, then this field has a value of `null`.
         direct_assignment_policy_id:
             The Clumio-assigned ID of the policy directly assigned to the entity.
+        ena_support:
+            EnaSupport indicates whether the Elastic Network Adapter (ENA) is enabled for
+            the
+            instance.
         environment_id:
             The Clumio-assigned ID of the AWS environment associated with the EC2 instance.
         has_direct_assignment:
@@ -100,9 +102,10 @@ class EC2:
         'account_native_id': 'account_native_id',
         'aws_az': 'aws_az',
         'aws_region': 'aws_region',
-        'compliance_status': 'compliance_status',
+        'backup_status_info': 'backup_status_info',
         'deletion_timestamp': 'deletion_timestamp',
         'direct_assignment_policy_id': 'direct_assignment_policy_id',
+        'ena_support': 'ena_support',
         'environment_id': 'environment_id',
         'has_direct_assignment': 'has_direct_assignment',
         'p_id': 'id',
@@ -130,9 +133,10 @@ class EC2:
         account_native_id: str = None,
         aws_az: str = None,
         aws_region: str = None,
-        compliance_status: str = None,
+        backup_status_info: backup_status_info_.BackupStatusInfo = None,
         deletion_timestamp: str = None,
         direct_assignment_policy_id: str = None,
+        ena_support: bool = None,
         environment_id: str = None,
         has_direct_assignment: bool = None,
         p_id: str = None,
@@ -160,9 +164,10 @@ class EC2:
         self.account_native_id: str = account_native_id
         self.aws_az: str = aws_az
         self.aws_region: str = aws_region
-        self.compliance_status: str = compliance_status
+        self.backup_status_info: backup_status_info_.BackupStatusInfo = backup_status_info
         self.deletion_timestamp: str = deletion_timestamp
         self.direct_assignment_policy_id: str = direct_assignment_policy_id
+        self.ena_support: bool = ena_support
         self.environment_id: str = environment_id
         self.has_direct_assignment: bool = has_direct_assignment
         self.p_id: str = p_id
@@ -199,80 +204,89 @@ class EC2:
 
         # Extract variables from the dictionary
         key = '_embedded'
-        embedded = (
+        val_embedded = (
             ec2_instance_embedded.Ec2InstanceEmbedded.from_dictionary(dictionary.get(key))
             if dictionary.get(key)
             else None
         )
 
         key = '_links'
-        links = (
+        val_links = (
             ec2_instance_links.Ec2InstanceLinks.from_dictionary(dictionary.get(key))
             if dictionary.get(key)
             else None
         )
 
-        account_native_id = dictionary.get('account_native_id')
-        aws_az = dictionary.get('aws_az')
-        aws_region = dictionary.get('aws_region')
-        compliance_status = dictionary.get('compliance_status')
-        deletion_timestamp = dictionary.get('deletion_timestamp')
-        direct_assignment_policy_id = dictionary.get('direct_assignment_policy_id')
-        environment_id = dictionary.get('environment_id')
-        has_direct_assignment = dictionary.get('has_direct_assignment')
-        p_id = dictionary.get('id')
-        instance_native_id = dictionary.get('instance_native_id')
-        is_deleted = dictionary.get('is_deleted')
-        is_supported = dictionary.get('is_supported')
-        last_backup_timestamp = dictionary.get('last_backup_timestamp')
-        last_snapshot_timestamp = dictionary.get('last_snapshot_timestamp')
-        name = dictionary.get('name')
-        organizational_unit_id = dictionary.get('organizational_unit_id')
+        val_account_native_id = dictionary.get('account_native_id')
+        val_aws_az = dictionary.get('aws_az')
+        val_aws_region = dictionary.get('aws_region')
+        key = 'backup_status_info'
+        val_backup_status_info = (
+            backup_status_info_.BackupStatusInfo.from_dictionary(dictionary.get(key))
+            if dictionary.get(key)
+            else None
+        )
+
+        val_deletion_timestamp = dictionary.get('deletion_timestamp')
+        val_direct_assignment_policy_id = dictionary.get('direct_assignment_policy_id')
+        val_ena_support = dictionary.get('ena_support')
+        val_environment_id = dictionary.get('environment_id')
+        val_has_direct_assignment = dictionary.get('has_direct_assignment')
+        val_p_id = dictionary.get('id')
+        val_instance_native_id = dictionary.get('instance_native_id')
+        val_is_deleted = dictionary.get('is_deleted')
+        val_is_supported = dictionary.get('is_supported')
+        val_last_backup_timestamp = dictionary.get('last_backup_timestamp')
+        val_last_snapshot_timestamp = dictionary.get('last_snapshot_timestamp')
+        val_name = dictionary.get('name')
+        val_organizational_unit_id = dictionary.get('organizational_unit_id')
         key = 'protection_info'
-        protection_info = (
+        val_protection_info = (
             protection_info_with_rule.ProtectionInfoWithRule.from_dictionary(dictionary.get(key))
             if dictionary.get(key)
             else None
         )
 
-        protection_status = dictionary.get('protection_status')
-        state = dictionary.get('state')
-        subnet_id = dictionary.get('subnet_id')
-        tags = None
-        if dictionary.get('tags'):
-            tags = list()
-            for value in dictionary.get('tags'):
-                tags.append(aws_tag_model.AwsTagModel.from_dictionary(value))
+        val_protection_status = dictionary.get('protection_status')
+        val_state = dictionary.get('state')
+        val_subnet_id = dictionary.get('subnet_id')
 
-        p_type = dictionary.get('type')
-        unsupported_reason = dictionary.get('unsupported_reason')
-        vpc_id = dictionary.get('vpc_id')
+        val_tags = None
+        if dictionary.get('tags'):
+            val_tags = list()
+            for value in dictionary.get('tags'):
+                val_tags.append(aws_tag_model.AwsTagModel.from_dictionary(value))
+
+        val_p_type = dictionary.get('type')
+        val_unsupported_reason = dictionary.get('unsupported_reason')
+        val_vpc_id = dictionary.get('vpc_id')
         # Return an object of this model
         return cls(
-            embedded,
-            links,
-            account_native_id,
-            aws_az,
-            aws_region,
-            compliance_status,
-            deletion_timestamp,
-            direct_assignment_policy_id,
-            environment_id,
-            has_direct_assignment,
-            p_id,
-            instance_native_id,
-            is_deleted,
-            is_supported,
-            last_backup_timestamp,
-            last_snapshot_timestamp,
-            name,
-            organizational_unit_id,
-            protection_info,
-            protection_status,
-            state,
-            subnet_id,
-            tags,
-            p_type,
-            unsupported_reason,
-            vpc_id,
+            val_embedded,
+            val_links,
+            val_account_native_id,
+            val_aws_az,
+            val_aws_region,
+            val_backup_status_info,
+            val_deletion_timestamp,
+            val_direct_assignment_policy_id,
+            val_ena_support,
+            val_environment_id,
+            val_has_direct_assignment,
+            val_p_id,
+            val_instance_native_id,
+            val_is_deleted,
+            val_is_supported,
+            val_last_backup_timestamp,
+            val_last_snapshot_timestamp,
+            val_name,
+            val_organizational_unit_id,
+            val_protection_info,
+            val_protection_status,
+            val_state,
+            val_subnet_id,
+            val_tags,
+            val_p_type,
+            val_unsupported_reason,
+            val_vpc_id,
         )
