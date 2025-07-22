@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -24,20 +24,14 @@ class S3InstantAccessEndpointRole:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'alias': 'alias',
         'arn': 'arn',
         'p_id': 'id',
         'last_modified_timestamp': 'last_modified_timestamp',
     }
 
-    def __init__(
-        self,
-        alias: str = None,
-        arn: str = None,
-        p_id: str = None,
-        last_modified_timestamp: str = None,
-    ) -> None:
+    def __init__(self, alias: str, arn: str, p_id: str, last_modified_timestamp: str) -> None:
         """Constructor for the S3InstantAccessEndpointRole class."""
 
         # Initialize members of the class
@@ -47,7 +41,7 @@ class S3InstantAccessEndpointRole:
         self.last_modified_timestamp: str = last_modified_timestamp
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -58,13 +52,24 @@ class S3InstantAccessEndpointRole:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        alias = dictionary.get('alias')
-        arn = dictionary.get('arn')
-        p_id = dictionary.get('id')
-        last_modified_timestamp = dictionary.get('last_modified_timestamp')
+        val = dictionary['alias']
+        val_alias = val
+
+        val = dictionary['arn']
+        val_arn = val
+
+        val = dictionary['id']
+        val_p_id = val
+
+        val = dictionary['last_modified_timestamp']
+        val_last_modified_timestamp = val
+
         # Return an object of this model
-        return cls(alias, arn, p_id, last_modified_timestamp)
+        return cls(
+            val_alias,  # type: ignore
+            val_arn,  # type: ignore
+            val_p_id,  # type: ignore
+            val_last_modified_timestamp,  # type: ignore
+        )

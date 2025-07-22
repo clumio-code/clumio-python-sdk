@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -44,7 +44,7 @@ class Object:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'bucket': 'bucket',
         'etag': 'etag',
         'last_backup_time': 'last_backup_time',
@@ -60,17 +60,17 @@ class Object:
 
     def __init__(
         self,
-        bucket: str = None,
-        etag: str = None,
-        last_backup_time: str = None,
-        last_modified_time: str = None,
-        object_key: str = None,
-        protection_group_asset_id: str = None,
-        region: str = None,
-        restore_cookie: str = None,
-        size_in_bytes: int = None,
-        storage_class: str = None,
-        version_id: str = None,
+        bucket: str,
+        etag: str,
+        last_backup_time: str,
+        last_modified_time: str,
+        object_key: str,
+        protection_group_asset_id: str,
+        region: str,
+        restore_cookie: str,
+        size_in_bytes: int,
+        storage_class: str,
+        version_id: str,
     ) -> None:
         """Constructor for the Object class."""
 
@@ -88,7 +88,7 @@ class Object:
         self.version_id: str = version_id
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -99,32 +99,52 @@ class Object:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        bucket = dictionary.get('bucket')
-        etag = dictionary.get('etag')
-        last_backup_time = dictionary.get('last_backup_time')
-        last_modified_time = dictionary.get('last_modified_time')
-        object_key = dictionary.get('object_key')
-        protection_group_asset_id = dictionary.get('protection_group_asset_id')
-        region = dictionary.get('region')
-        restore_cookie = dictionary.get('restore_cookie')
-        size_in_bytes = dictionary.get('size_in_bytes')
-        storage_class = dictionary.get('storage_class')
-        version_id = dictionary.get('version_id')
+        val = dictionary['bucket']
+        val_bucket = val
+
+        val = dictionary['etag']
+        val_etag = val
+
+        val = dictionary['last_backup_time']
+        val_last_backup_time = val
+
+        val = dictionary['last_modified_time']
+        val_last_modified_time = val
+
+        val = dictionary['object_key']
+        val_object_key = val
+
+        val = dictionary['protection_group_asset_id']
+        val_protection_group_asset_id = val
+
+        val = dictionary['region']
+        val_region = val
+
+        val = dictionary['restore_cookie']
+        val_restore_cookie = val
+
+        val = dictionary['size_in_bytes']
+        val_size_in_bytes = val
+
+        val = dictionary['storage_class']
+        val_storage_class = val
+
+        val = dictionary['version_id']
+        val_version_id = val
+
         # Return an object of this model
         return cls(
-            bucket,
-            etag,
-            last_backup_time,
-            last_modified_time,
-            object_key,
-            protection_group_asset_id,
-            region,
-            restore_cookie,
-            size_in_bytes,
-            storage_class,
-            version_id,
+            val_bucket,  # type: ignore
+            val_etag,  # type: ignore
+            val_last_backup_time,  # type: ignore
+            val_last_modified_time,  # type: ignore
+            val_object_key,  # type: ignore
+            val_protection_group_asset_id,  # type: ignore
+            val_region,  # type: ignore
+            val_restore_cookie,  # type: ignore
+            val_size_in_bytes,  # type: ignore
+            val_storage_class,  # type: ignore
+            val_version_id,  # type: ignore
         )

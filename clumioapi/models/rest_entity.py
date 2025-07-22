@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -15,17 +15,16 @@ class RestEntity:
             A system-generated ID assigned to this entity.
         p_type:
             Type is mostly an asset type or the type of Entity. Some examples are
-            "restored_file", "vmware_vm",  etc.
+            "restored_file", "aws_ebs_volume",  etc.
         value:
             A system-generated value assigned to the entity. For example, if the primary
-            entity type is "vmware_vm" for a virtual machine, then the value is the name of
-            the VM.
+            entity type is "aws_ebs_volume", then the value is the name of the EBS.
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'p_id': 'id', 'p_type': 'type', 'value': 'value'}
+    _names: dict[str, str] = {'p_id': 'id', 'p_type': 'type', 'value': 'value'}
 
-    def __init__(self, p_id: str = None, p_type: str = None, value: str = None) -> None:
+    def __init__(self, p_id: str, p_type: str, value: str) -> None:
         """Constructor for the RestEntity class."""
 
         # Initialize members of the class
@@ -34,7 +33,7 @@ class RestEntity:
         self.value: str = value
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -45,12 +44,20 @@ class RestEntity:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        p_id = dictionary.get('id')
-        p_type = dictionary.get('type')
-        value = dictionary.get('value')
+        val = dictionary['id']
+        val_p_id = val
+
+        val = dictionary['type']
+        val_p_type = val
+
+        val = dictionary['value']
+        val_value = val
+
         # Return an object of this model
-        return cls(p_id, p_type, value)
+        return cls(
+            val_p_id,  # type: ignore
+            val_p_type,  # type: ignore
+            val_value,  # type: ignore
+        )

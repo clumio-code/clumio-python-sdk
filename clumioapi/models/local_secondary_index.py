@@ -1,11 +1,11 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import key_schema_element
-from clumioapi.models import projection
+from clumioapi.models import key_schema_element as key_schema_element_
+from clumioapi.models import projection as projection_
 
 T = TypeVar('T', bound='LocalSecondaryIndex')
 
@@ -29,23 +29,27 @@ class LocalSecondaryIndex:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'index_name': 'index_name', 'key_schema': 'key_schema', 'projection': 'projection'}
+    _names: dict[str, str] = {
+        'index_name': 'index_name',
+        'key_schema': 'key_schema',
+        'projection': 'projection',
+    }
 
     def __init__(
         self,
-        index_name: str = None,
-        key_schema: Sequence[key_schema_element.KeySchemaElement] = None,
-        projection: projection.Projection = None,
+        index_name: str,
+        key_schema: Sequence[key_schema_element_.KeySchemaElement],
+        projection: projection_.Projection,
     ) -> None:
         """Constructor for the LocalSecondaryIndex class."""
 
         # Initialize members of the class
         self.index_name: str = index_name
-        self.key_schema: Sequence[key_schema_element.KeySchemaElement] = key_schema
-        self.projection: projection.Projection = projection
+        self.key_schema: Sequence[key_schema_element_.KeySchemaElement] = key_schema
+        self.projection: projection_.Projection = projection
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -56,23 +60,25 @@ class LocalSecondaryIndex:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        index_name = dictionary.get('index_name')
-        key_schema = None
-        if dictionary.get('key_schema'):
-            key_schema = list()
-            for value in dictionary.get('key_schema'):
-                key_schema.append(key_schema_element.KeySchemaElement.from_dictionary(value))
+        val = dictionary['index_name']
+        val_index_name = val
 
-        key = 'projection'
-        p_projection = (
-            projection.Projection.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['key_schema']
+
+        val_key_schema = None
+        if val:
+            val_key_schema = list()
+            for value in val:
+                val_key_schema.append(key_schema_element_.KeySchemaElement.from_dictionary(value))
+
+        val = dictionary['projection']
+        val_projection = projection_.Projection.from_dictionary(val)
 
         # Return an object of this model
-        return cls(index_name, key_schema, p_projection)
+        return cls(
+            val_index_name,  # type: ignore
+            val_key_schema,  # type: ignore
+            val_projection,  # type: ignore
+        )

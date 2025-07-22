@@ -1,10 +1,10 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import policy_operation_input
+from clumioapi.models import policy_operation_input as policy_operation_input_
 
 T = TypeVar('T', bound='UpdatePolicyDefinitionV1Request')
 
@@ -25,14 +25,15 @@ class UpdatePolicyDefinitionV1Request:
         organizational_unit_id:
             The Clumio-assigned ID of the organizational unit associated with the policy.
         timezone:
-            The timezone for the policy. The timezone must be a valid location name from the
-            IANA Time Zone database.
+            The policy-level timezone is deprecated, as the operation-level timezone should
+            be used instead.
+            The timezone must be a valid location name from the IANA Time Zone database.
             For instance, "America/New_York", "US/Central", "UTC".
-            deprecated: true
+            Deprecated: true
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'activation_status': 'activation_status',
         'name': 'name',
         'operations': 'operations',
@@ -42,23 +43,23 @@ class UpdatePolicyDefinitionV1Request:
 
     def __init__(
         self,
-        activation_status: str = None,
-        name: str = None,
-        operations: Sequence[policy_operation_input.PolicyOperationInput] = None,
-        organizational_unit_id: str = None,
-        timezone: str = None,
+        activation_status: str,
+        name: str,
+        operations: Sequence[policy_operation_input_.PolicyOperationInput],
+        organizational_unit_id: str,
+        timezone: str,
     ) -> None:
         """Constructor for the UpdatePolicyDefinitionV1Request class."""
 
         # Initialize members of the class
         self.activation_status: str = activation_status
         self.name: str = name
-        self.operations: Sequence[policy_operation_input.PolicyOperationInput] = operations
+        self.operations: Sequence[policy_operation_input_.PolicyOperationInput] = operations
         self.organizational_unit_id: str = organizational_unit_id
         self.timezone: str = timezone
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -69,21 +70,35 @@ class UpdatePolicyDefinitionV1Request:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        activation_status = dictionary.get('activation_status')
-        name = dictionary.get('name')
-        operations = None
-        if dictionary.get('operations'):
-            operations = list()
-            for value in dictionary.get('operations'):
-                operations.append(
-                    policy_operation_input.PolicyOperationInput.from_dictionary(value)
+        val = dictionary['activation_status']
+        val_activation_status = val
+
+        val = dictionary['name']
+        val_name = val
+
+        val = dictionary['operations']
+
+        val_operations = None
+        if val:
+            val_operations = list()
+            for value in val:
+                val_operations.append(
+                    policy_operation_input_.PolicyOperationInput.from_dictionary(value)
                 )
 
-        organizational_unit_id = dictionary.get('organizational_unit_id')
-        timezone = dictionary.get('timezone')
+        val = dictionary['organizational_unit_id']
+        val_organizational_unit_id = val
+
+        val = dictionary['timezone']
+        val_timezone = val
+
         # Return an object of this model
-        return cls(activation_status, name, operations, organizational_unit_id, timezone)
+        return cls(
+            val_activation_status,  # type: ignore
+            val_name,  # type: ignore
+            val_operations,  # type: ignore
+            val_organizational_unit_id,  # type: ignore
+            val_timezone,  # type: ignore
+        )

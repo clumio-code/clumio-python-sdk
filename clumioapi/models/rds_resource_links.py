@@ -1,12 +1,13 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import hateoas_link
-from clumioapi.models import hateoas_self_link
-from clumioapi.models import read_policy_definition_hateoas_link
+from clumioapi.models import hateoas_link as hateoas_link_
+from clumioapi.models import hateoas_self_link as hateoas_self_link_
+from clumioapi.models import \
+    read_policy_definition_hateoas_link as read_policy_definition_hateoas_link_
 
 T = TypeVar('T', bound='RdsResourceLinks')
 
@@ -31,7 +32,7 @@ class RdsResourceLinks:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'p_self': '_self',
         'list_backup_aws_rds_resources': 'list-backup-aws-rds-resources',
         'list_rds_restored_records': 'list-rds-restored-records',
@@ -41,25 +42,27 @@ class RdsResourceLinks:
 
     def __init__(
         self,
-        p_self: hateoas_self_link.HateoasSelfLink = None,
-        list_backup_aws_rds_resources: hateoas_link.HateoasLink = None,
-        list_rds_restored_records: hateoas_link.HateoasLink = None,
-        read_policy_definition: read_policy_definition_hateoas_link.ReadPolicyDefinitionHateoasLink = None,
-        restore_aws_rds_resource: hateoas_link.HateoasLink = None,
+        p_self: hateoas_self_link_.HateoasSelfLink,
+        list_backup_aws_rds_resources: hateoas_link_.HateoasLink,
+        list_rds_restored_records: hateoas_link_.HateoasLink,
+        read_policy_definition: read_policy_definition_hateoas_link_.ReadPolicyDefinitionHateoasLink,
+        restore_aws_rds_resource: hateoas_link_.HateoasLink,
     ) -> None:
         """Constructor for the RdsResourceLinks class."""
 
         # Initialize members of the class
-        self.p_self: hateoas_self_link.HateoasSelfLink = p_self
-        self.list_backup_aws_rds_resources: hateoas_link.HateoasLink = list_backup_aws_rds_resources
-        self.list_rds_restored_records: hateoas_link.HateoasLink = list_rds_restored_records
+        self.p_self: hateoas_self_link_.HateoasSelfLink = p_self
+        self.list_backup_aws_rds_resources: hateoas_link_.HateoasLink = (
+            list_backup_aws_rds_resources
+        )
+        self.list_rds_restored_records: hateoas_link_.HateoasLink = list_rds_restored_records
         self.read_policy_definition: (
-            read_policy_definition_hateoas_link.ReadPolicyDefinitionHateoasLink
+            read_policy_definition_hateoas_link_.ReadPolicyDefinitionHateoasLink
         ) = read_policy_definition
-        self.restore_aws_rds_resource: hateoas_link.HateoasLink = restore_aws_rds_resource
+        self.restore_aws_rds_resource: hateoas_link_.HateoasLink = restore_aws_rds_resource
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -70,52 +73,32 @@ class RdsResourceLinks:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        key = '_self'
-        p_self = (
-            hateoas_self_link.HateoasSelfLink.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['_self']
+        val_p_self = hateoas_self_link_.HateoasSelfLink.from_dictionary(val)
 
-        key = 'list-backup-aws-rds-resources'
-        list_backup_aws_rds_resources = (
-            hateoas_link.HateoasLink.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['list-backup-aws-rds-resources']
+        val_list_backup_aws_rds_resources = hateoas_link_.HateoasLink.from_dictionary(val)
 
-        key = 'list-rds-restored-records'
-        list_rds_restored_records = (
-            hateoas_link.HateoasLink.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['list-rds-restored-records']
+        val_list_rds_restored_records = hateoas_link_.HateoasLink.from_dictionary(val)
 
-        key = 'read-policy-definition'
-        read_policy_definition = (
-            read_policy_definition_hateoas_link.ReadPolicyDefinitionHateoasLink.from_dictionary(
-                dictionary.get(key)
+        val = dictionary['read-policy-definition']
+        val_read_policy_definition = (
+            read_policy_definition_hateoas_link_.ReadPolicyDefinitionHateoasLink.from_dictionary(
+                val
             )
-            if dictionary.get(key)
-            else None
         )
 
-        key = 'restore-aws-rds-resource'
-        restore_aws_rds_resource = (
-            hateoas_link.HateoasLink.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['restore-aws-rds-resource']
+        val_restore_aws_rds_resource = hateoas_link_.HateoasLink.from_dictionary(val)
 
         # Return an object of this model
         return cls(
-            p_self,
-            list_backup_aws_rds_resources,
-            list_rds_restored_records,
-            read_policy_definition,
-            restore_aws_rds_resource,
+            val_p_self,  # type: ignore
+            val_list_backup_aws_rds_resources,  # type: ignore
+            val_list_rds_restored_records,  # type: ignore
+            val_read_policy_definition,  # type: ignore
+            val_restore_aws_rds_resource,  # type: ignore
         )

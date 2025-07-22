@@ -1,9 +1,9 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -34,9 +34,7 @@ class AwsConnectionsV1Controller(base_controller.BaseController):
         if config.custom_headers != None:
             self.headers.update(config.custom_headers)
 
-    def list_aws_connections(
-        self, limit: int = None, start: str = None, filter: str = None, **kwargs
-    ) -> Union[
+    def list_aws_connections(self, limit: int, start: str, filter: str, **kwargs) -> Union[
         list_aws_connections_response.ListAWSConnectionsResponse,
         tuple[
             requests.Response, Optional[list_aws_connections_response.ListAWSConnectionsResponse]
@@ -100,11 +98,10 @@ class AwsConnectionsV1Controller(base_controller.BaseController):
                 |                        |                   |                                 |
                 +------------------------+-------------------+---------------------------------+
                 | connection_status      | $eq, $in          | The status of the connection to |
-                |                        |                   | the environment, which is       |
-                |                        |                   | mediated by a CloudFormation    |
-                |                        |                   | stack. Possible values include  |
-                |                        |                   | "connecting", "connected",      |
-                |                        |                   | "unlinked". For example,        |
+                |                        |                   | the environment. Possible       |
+                |                        |                   | values include "connecting",    |
+                |                        |                   | "connected", "unlinked". For    |
+                |                        |                   | example,                        |
                 |                        |                   | filter={"connection_status":{"$ |
                 |                        |                   | eq":"connected"}}               |
                 |                        |                   | filter={"connection_status":{"$ |
@@ -144,12 +141,12 @@ class AwsConnectionsV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/connections/aws'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'limit': limit, 'start': start, 'filter': filter}
 
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -168,10 +165,10 @@ class AwsConnectionsV1Controller(base_controller.BaseController):
             return resp, list_aws_connections_response.ListAWSConnectionsResponse.from_dictionary(
                 resp.json()
             )
-        return list_aws_connections_response.ListAWSConnectionsResponse.from_dictionary(resp)
+        return list_aws_connections_response.ListAWSConnectionsResponse.from_dictionary(resp.json())
 
     def create_aws_connection(
-        self, body: create_aws_connection_v1_request.CreateAwsConnectionV1Request = None, **kwargs
+        self, body: create_aws_connection_v1_request.CreateAwsConnectionV1Request, **kwargs
     ) -> Union[
         create_aws_connection_response.CreateAWSConnectionResponse,
         tuple[
@@ -195,11 +192,11 @@ class AwsConnectionsV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/connections/aws'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
         # Execute request
         try:
-            resp = self.client.post(
+            resp: requests.Response = self.client.post(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -219,11 +216,11 @@ class AwsConnectionsV1Controller(base_controller.BaseController):
             return resp, create_aws_connection_response.CreateAWSConnectionResponse.from_dictionary(
                 resp.json()
             )
-        return create_aws_connection_response.CreateAWSConnectionResponse.from_dictionary(resp)
+        return create_aws_connection_response.CreateAWSConnectionResponse.from_dictionary(
+            resp.json()
+        )
 
-    def read_aws_connection(
-        self, connection_id: str, return_external_id: str = None, **kwargs
-    ) -> Union[
+    def read_aws_connection(self, connection_id: str, return_external_id: str, **kwargs) -> Union[
         read_aws_connection_response.ReadAWSConnectionResponse,
         tuple[requests.Response, Optional[read_aws_connection_response.ReadAWSConnectionResponse]],
     ]:
@@ -248,12 +245,12 @@ class AwsConnectionsV1Controller(base_controller.BaseController):
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'connection_id': connection_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'return_external_id': return_external_id}
 
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -272,7 +269,7 @@ class AwsConnectionsV1Controller(base_controller.BaseController):
             return resp, read_aws_connection_response.ReadAWSConnectionResponse.from_dictionary(
                 resp.json()
             )
-        return read_aws_connection_response.ReadAWSConnectionResponse.from_dictionary(resp)
+        return read_aws_connection_response.ReadAWSConnectionResponse.from_dictionary(resp.json())
 
     def delete_aws_connection(
         self, connection_id: str, **kwargs
@@ -296,11 +293,11 @@ class AwsConnectionsV1Controller(base_controller.BaseController):
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'connection_id': connection_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
         # Execute request
         try:
-            resp = self.client.delete(
+            resp: requests.Response = self.client.delete(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -322,7 +319,7 @@ class AwsConnectionsV1Controller(base_controller.BaseController):
     def update_aws_connection(
         self,
         connection_id: str,
-        body: update_aws_connection_v1_request.UpdateAwsConnectionV1Request = None,
+        body: update_aws_connection_v1_request.UpdateAwsConnectionV1Request,
         **kwargs,
     ) -> Union[
         update_aws_connection_response.UpdateAWSConnectionResponse,
@@ -351,11 +348,11 @@ class AwsConnectionsV1Controller(base_controller.BaseController):
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'connection_id': connection_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
         # Execute request
         try:
-            resp = self.client.patch(
+            resp: requests.Response = self.client.patch(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -375,4 +372,6 @@ class AwsConnectionsV1Controller(base_controller.BaseController):
             return resp, update_aws_connection_response.UpdateAWSConnectionResponse.from_dictionary(
                 resp.json()
             )
-        return update_aws_connection_response.UpdateAWSConnectionResponse.from_dictionary(resp)
+        return update_aws_connection_response.UpdateAWSConnectionResponse.from_dictionary(
+            resp.json()
+        )

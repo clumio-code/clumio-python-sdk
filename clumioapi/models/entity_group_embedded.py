@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -19,16 +19,16 @@ class EntityGroupEmbedded:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'read_task': 'read-task'}
+    _names: dict[str, str] = {'read_task': 'read-task'}
 
-    def __init__(self, read_task: object = None) -> None:
+    def __init__(self, read_task: object) -> None:
         """Constructor for the EntityGroupEmbedded class."""
 
         # Initialize members of the class
         self.read_task: object = read_task
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -39,10 +39,12 @@ class EntityGroupEmbedded:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        read_task = dictionary.get('read-task')
+        val = dictionary['read-task']
+        val_read_task = val
+
         # Return an object of this model
-        return cls(read_task)
+        return cls(
+            val_read_task,  # type: ignore
+        )

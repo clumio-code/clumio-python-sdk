@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -25,7 +25,7 @@ class ClumioRuleResource:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'description': 'description',
         'event_pattern': 'event_pattern',
         'steps': 'steps',
@@ -33,11 +33,7 @@ class ClumioRuleResource:
     }
 
     def __init__(
-        self,
-        description: str = None,
-        event_pattern: object = None,
-        steps: str = None,
-        targets: Sequence[object] = None,
+        self, description: str, event_pattern: object, steps: str, targets: Sequence[object]
     ) -> None:
         """Constructor for the ClumioRuleResource class."""
 
@@ -48,7 +44,7 @@ class ClumioRuleResource:
         self.targets: Sequence[object] = targets
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -59,13 +55,24 @@ class ClumioRuleResource:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        description = dictionary.get('description')
-        event_pattern = dictionary.get('event_pattern')
-        steps = dictionary.get('steps')
-        targets = dictionary.get('targets')
+        val = dictionary['description']
+        val_description = val
+
+        val = dictionary['event_pattern']
+        val_event_pattern = val
+
+        val = dictionary['steps']
+        val_steps = val
+
+        val = dictionary['targets']
+        val_targets = val
+
         # Return an object of this model
-        return cls(description, event_pattern, steps, targets)
+        return cls(
+            val_description,  # type: ignore
+            val_event_pattern,  # type: ignore
+            val_steps,  # type: ignore
+            val_targets,  # type: ignore
+        )

@@ -1,10 +1,10 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import assign_policy_action
+from clumioapi.models import assign_policy_action as assign_policy_action_
 
 T = TypeVar('T', bound='RuleAction')
 
@@ -20,16 +20,16 @@ class RuleAction:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'assign_policy': 'assign_policy'}
+    _names: dict[str, str] = {'assign_policy': 'assign_policy'}
 
-    def __init__(self, assign_policy: assign_policy_action.AssignPolicyAction = None) -> None:
+    def __init__(self, assign_policy: assign_policy_action_.AssignPolicyAction) -> None:
         """Constructor for the RuleAction class."""
 
         # Initialize members of the class
-        self.assign_policy: assign_policy_action.AssignPolicyAction = assign_policy
+        self.assign_policy: assign_policy_action_.AssignPolicyAction = assign_policy
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -40,16 +40,12 @@ class RuleAction:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        key = 'assign_policy'
-        assign_policy = (
-            assign_policy_action.AssignPolicyAction.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['assign_policy']
+        val_assign_policy = assign_policy_action_.AssignPolicyAction.from_dictionary(val)
 
         # Return an object of this model
-        return cls(assign_policy)
+        return cls(
+            val_assign_policy,  # type: ignore
+        )

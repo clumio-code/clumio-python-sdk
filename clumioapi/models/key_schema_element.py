@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -23,9 +23,9 @@ class KeySchemaElement:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'attribute_name': 'attribute_name', 'key_type': 'key_type'}
+    _names: dict[str, str] = {'attribute_name': 'attribute_name', 'key_type': 'key_type'}
 
-    def __init__(self, attribute_name: str = None, key_type: str = None) -> None:
+    def __init__(self, attribute_name: str, key_type: str) -> None:
         """Constructor for the KeySchemaElement class."""
 
         # Initialize members of the class
@@ -33,7 +33,7 @@ class KeySchemaElement:
         self.key_type: str = key_type
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -44,11 +44,16 @@ class KeySchemaElement:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        attribute_name = dictionary.get('attribute_name')
-        key_type = dictionary.get('key_type')
+        val = dictionary['attribute_name']
+        val_attribute_name = val
+
+        val = dictionary['key_type']
+        val_key_type = val
+
         # Return an object of this model
-        return cls(attribute_name, key_type)
+        return cls(
+            val_attribute_name,  # type: ignore
+            val_key_type,  # type: ignore
+        )

@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -20,11 +20,13 @@ class ConnectionRegion:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'p_id': 'id', 'is_data_plane_region': 'is_data_plane_region', 'name': 'name'}
+    _names: dict[str, str] = {
+        'p_id': 'id',
+        'is_data_plane_region': 'is_data_plane_region',
+        'name': 'name',
+    }
 
-    def __init__(
-        self, p_id: str = None, is_data_plane_region: bool = None, name: str = None
-    ) -> None:
+    def __init__(self, p_id: str, is_data_plane_region: bool, name: str) -> None:
         """Constructor for the ConnectionRegion class."""
 
         # Initialize members of the class
@@ -33,7 +35,7 @@ class ConnectionRegion:
         self.name: str = name
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -44,12 +46,20 @@ class ConnectionRegion:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        p_id = dictionary.get('id')
-        is_data_plane_region = dictionary.get('is_data_plane_region')
-        name = dictionary.get('name')
+        val = dictionary['id']
+        val_p_id = val
+
+        val = dictionary['is_data_plane_region']
+        val_is_data_plane_region = val
+
+        val = dictionary['name']
+        val_name = val
+
         # Return an object of this model
-        return cls(p_id, is_data_plane_region, name)
+        return cls(
+            val_p_id,  # type: ignore
+            val_is_data_plane_region,  # type: ignore
+            val_name,  # type: ignore
+        )

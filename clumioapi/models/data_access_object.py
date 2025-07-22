@@ -1,11 +1,12 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import direct_download_data_access_object
-from clumioapi.models import email_download_data_access_object
+from clumioapi.models import \
+    direct_download_data_access_object as direct_download_data_access_object_
+from clumioapi.models import email_download_data_access_object as email_download_data_access_object_
 
 T = TypeVar('T', bound='DataAccessObject')
 
@@ -31,23 +32,23 @@ class DataAccessObject:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'direct_download': 'direct_download', 'email': 'email'}
+    _names: dict[str, str] = {'direct_download': 'direct_download', 'email': 'email'}
 
     def __init__(
         self,
-        direct_download: direct_download_data_access_object.DirectDownloadDataAccessObject = None,
-        email: email_download_data_access_object.EmailDownloadDataAccessObject = None,
+        direct_download: direct_download_data_access_object_.DirectDownloadDataAccessObject,
+        email: email_download_data_access_object_.EmailDownloadDataAccessObject,
     ) -> None:
         """Constructor for the DataAccessObject class."""
 
         # Initialize members of the class
-        self.direct_download: direct_download_data_access_object.DirectDownloadDataAccessObject = (
+        self.direct_download: direct_download_data_access_object_.DirectDownloadDataAccessObject = (
             direct_download
         )
-        self.email: email_download_data_access_object.EmailDownloadDataAccessObject = email
+        self.email: email_download_data_access_object_.EmailDownloadDataAccessObject = email
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -58,27 +59,20 @@ class DataAccessObject:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        key = 'direct_download'
-        direct_download = (
-            direct_download_data_access_object.DirectDownloadDataAccessObject.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
+        val = dictionary['direct_download']
+        val_direct_download = (
+            direct_download_data_access_object_.DirectDownloadDataAccessObject.from_dictionary(val)
         )
 
-        key = 'email'
-        email = (
-            email_download_data_access_object.EmailDownloadDataAccessObject.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
+        val = dictionary['email']
+        val_email = (
+            email_download_data_access_object_.EmailDownloadDataAccessObject.from_dictionary(val)
         )
 
         # Return an object of this model
-        return cls(direct_download, email)
+        return cls(
+            val_direct_download,  # type: ignore
+            val_email,  # type: ignore
+        )

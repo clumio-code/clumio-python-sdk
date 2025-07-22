@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -22,9 +22,12 @@ class S3ServerSideEncryptionByDefault:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'kms_master_key_id': 'kms_master_key_id', 'sse_algorithm': 'sse_algorithm'}
+    _names: dict[str, str] = {
+        'kms_master_key_id': 'kms_master_key_id',
+        'sse_algorithm': 'sse_algorithm',
+    }
 
-    def __init__(self, kms_master_key_id: str = None, sse_algorithm: str = None) -> None:
+    def __init__(self, kms_master_key_id: str, sse_algorithm: str) -> None:
         """Constructor for the S3ServerSideEncryptionByDefault class."""
 
         # Initialize members of the class
@@ -32,7 +35,7 @@ class S3ServerSideEncryptionByDefault:
         self.sse_algorithm: str = sse_algorithm
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -43,11 +46,16 @@ class S3ServerSideEncryptionByDefault:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        kms_master_key_id = dictionary.get('kms_master_key_id')
-        sse_algorithm = dictionary.get('sse_algorithm')
+        val = dictionary['kms_master_key_id']
+        val_kms_master_key_id = val
+
+        val = dictionary['sse_algorithm']
+        val_sse_algorithm = val
+
         # Return an object of this model
-        return cls(kms_master_key_id, sse_algorithm)
+        return cls(
+            val_kms_master_key_id,  # type: ignore
+            val_sse_algorithm,  # type: ignore
+        )

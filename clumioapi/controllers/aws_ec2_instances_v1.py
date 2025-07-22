@@ -3,7 +3,7 @@
 #
 
 import json
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -31,13 +31,7 @@ class AwsEc2InstancesV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def list_aws_ec2_instances(
-        self,
-        limit: int = None,
-        start: str = None,
-        filter: str = None,
-        embed: str = None,
-        lookback_days: int = None,
-        **kwargs,
+        self, limit: int, start: str, filter: str, embed: str, lookback_days: int, **kwargs
     ) -> Union[
         list_ec2_instances_response.ListEc2InstancesResponse,
         tuple[requests.Response, Optional[list_ec2_instances_response.ListEc2InstancesResponse]],
@@ -172,7 +166,7 @@ class AwsEc2InstancesV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/datasources/aws/ec2-instances'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {
             'limit': limit,
             'start': start,
@@ -183,7 +177,7 @@ class AwsEc2InstancesV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -202,10 +196,10 @@ class AwsEc2InstancesV1Controller(base_controller.BaseController):
             return resp, list_ec2_instances_response.ListEc2InstancesResponse.from_dictionary(
                 resp.json()
             )
-        return list_ec2_instances_response.ListEc2InstancesResponse.from_dictionary(resp)
+        return list_ec2_instances_response.ListEc2InstancesResponse.from_dictionary(resp.json())
 
     def read_aws_ec2_instance(
-        self, instance_id: str, lookback_days: int = None, embed: str = None, **kwargs
+        self, instance_id: str, lookback_days: int, embed: str, **kwargs
     ) -> Union[
         read_ec2_instance_response.ReadEc2InstanceResponse,
         tuple[requests.Response, Optional[read_ec2_instance_response.ReadEc2InstanceResponse]],
@@ -244,12 +238,12 @@ class AwsEc2InstancesV1Controller(base_controller.BaseController):
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'instance_id': instance_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'lookback_days': lookback_days, 'embed': embed}
 
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -268,4 +262,4 @@ class AwsEc2InstancesV1Controller(base_controller.BaseController):
             return resp, read_ec2_instance_response.ReadEc2InstanceResponse.from_dictionary(
                 resp.json()
             )
-        return read_ec2_instance_response.ReadEc2InstanceResponse.from_dictionary(resp)
+        return read_ec2_instance_response.ReadEc2InstanceResponse.from_dictionary(resp.json())

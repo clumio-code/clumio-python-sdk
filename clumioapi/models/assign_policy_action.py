@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -18,16 +18,16 @@ class AssignPolicyAction:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'policy_id': 'policy_id'}
+    _names: dict[str, str] = {'policy_id': 'policy_id'}
 
-    def __init__(self, policy_id: str = None) -> None:
+    def __init__(self, policy_id: str) -> None:
         """Constructor for the AssignPolicyAction class."""
 
         # Initialize members of the class
         self.policy_id: str = policy_id
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -38,10 +38,12 @@ class AssignPolicyAction:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        policy_id = dictionary.get('policy_id')
+        val = dictionary['policy_id']
+        val_policy_id = val
+
         # Return an object of this model
-        return cls(policy_id)
+        return cls(
+            val_policy_id,  # type: ignore
+        )

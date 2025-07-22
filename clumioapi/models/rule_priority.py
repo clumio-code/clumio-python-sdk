@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -18,16 +18,16 @@ class RulePriority:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'before_rule_id': 'before_rule_id'}
+    _names: dict[str, str] = {'before_rule_id': 'before_rule_id'}
 
-    def __init__(self, before_rule_id: str = None) -> None:
+    def __init__(self, before_rule_id: str) -> None:
         """Constructor for the RulePriority class."""
 
         # Initialize members of the class
         self.before_rule_id: str = before_rule_id
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -38,10 +38,12 @@ class RulePriority:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        before_rule_id = dictionary.get('before_rule_id')
+        val = dictionary['before_rule_id']
+        val_before_rule_id = val
+
         # Return an object of this model
-        return cls(before_rule_id)
+        return cls(
+            val_before_rule_id,  # type: ignore
+        )

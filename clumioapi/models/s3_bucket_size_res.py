@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -107,7 +107,7 @@ class S3BucketSizeRes:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'deep_archive_object_overhead': 'deep_archive_object_overhead',
         'deep_archive_object_overhead_retrieved_time': 'deep_archive_object_overhead_retrieved_time',
         'deep_archive_s3_object_overhead': 'deep_archive_s3_object_overhead',
@@ -154,48 +154,48 @@ class S3BucketSizeRes:
 
     def __init__(
         self,
-        deep_archive_object_overhead: int = None,
-        deep_archive_object_overhead_retrieved_time: str = None,
-        deep_archive_s3_object_overhead: int = None,
-        deep_archive_s3_object_overhead_retrieved_time: str = None,
-        deep_archive_staging_storage: int = None,
-        deep_archive_staging_storage_retrieved_time: str = None,
-        deep_archive_storage: int = None,
-        deep_archive_storage_retrieved_time: str = None,
-        glacier_instant_retrieval_storage: int = None,
-        glacier_instant_retrieval_storage_retrieved_time: str = None,
-        glacier_object_overhead: int = None,
-        glacier_object_overhead_retrieved_time: str = None,
-        glacier_s3_object_overhead: int = None,
-        glacier_s3_object_overhead_retrieved_time: str = None,
-        glacier_staging_storage: int = None,
-        glacier_staging_storage_retrieved_time: str = None,
-        glacier_storage: int = None,
-        glacier_storage_retrieved_time: str = None,
-        intelligent_tiering_aa_storage: int = None,
-        intelligent_tiering_aa_storage_retrieved_time: str = None,
-        intelligent_tiering_aia_storage: int = None,
-        intelligent_tiering_aia_storage_retrieved_time: str = None,
-        intelligent_tiering_daa_storage: int = None,
-        intelligent_tiering_daa_storage_retrieved_time: str = None,
-        intelligent_tiering_fa_storage: int = None,
-        intelligent_tiering_fa_storage_retrieved_time: str = None,
-        intelligent_tiering_ia_storage: int = None,
-        intelligent_tiering_ia_storage_retrieved_time: str = None,
-        one_zone_ia_size_overhead: int = None,
-        one_zone_ia_size_overhead_retrieved_time: str = None,
-        one_zone_ia_storage: int = None,
-        one_zone_ia_storage_retrieved_time: str = None,
-        reduced_redundancy_storage: int = None,
-        reduced_redundancy_storage_retrieved_time: str = None,
-        standard_ia_object_overhead: int = None,
-        standard_ia_object_overhead_retrieved_time: str = None,
-        standard_ia_size_overhead: int = None,
-        standard_ia_size_overhead_retrieved_time: str = None,
-        standard_ia_storage: int = None,
-        standard_ia_storage_retrieved_time: str = None,
-        standard_storage: int = None,
-        standard_storage_retrieved_time: str = None,
+        deep_archive_object_overhead: int,
+        deep_archive_object_overhead_retrieved_time: str,
+        deep_archive_s3_object_overhead: int,
+        deep_archive_s3_object_overhead_retrieved_time: str,
+        deep_archive_staging_storage: int,
+        deep_archive_staging_storage_retrieved_time: str,
+        deep_archive_storage: int,
+        deep_archive_storage_retrieved_time: str,
+        glacier_instant_retrieval_storage: int,
+        glacier_instant_retrieval_storage_retrieved_time: str,
+        glacier_object_overhead: int,
+        glacier_object_overhead_retrieved_time: str,
+        glacier_s3_object_overhead: int,
+        glacier_s3_object_overhead_retrieved_time: str,
+        glacier_staging_storage: int,
+        glacier_staging_storage_retrieved_time: str,
+        glacier_storage: int,
+        glacier_storage_retrieved_time: str,
+        intelligent_tiering_aa_storage: int,
+        intelligent_tiering_aa_storage_retrieved_time: str,
+        intelligent_tiering_aia_storage: int,
+        intelligent_tiering_aia_storage_retrieved_time: str,
+        intelligent_tiering_daa_storage: int,
+        intelligent_tiering_daa_storage_retrieved_time: str,
+        intelligent_tiering_fa_storage: int,
+        intelligent_tiering_fa_storage_retrieved_time: str,
+        intelligent_tiering_ia_storage: int,
+        intelligent_tiering_ia_storage_retrieved_time: str,
+        one_zone_ia_size_overhead: int,
+        one_zone_ia_size_overhead_retrieved_time: str,
+        one_zone_ia_storage: int,
+        one_zone_ia_storage_retrieved_time: str,
+        reduced_redundancy_storage: int,
+        reduced_redundancy_storage_retrieved_time: str,
+        standard_ia_object_overhead: int,
+        standard_ia_object_overhead_retrieved_time: str,
+        standard_ia_size_overhead: int,
+        standard_ia_size_overhead_retrieved_time: str,
+        standard_ia_storage: int,
+        standard_ia_storage_retrieved_time: str,
+        standard_storage: int,
+        standard_storage_retrieved_time: str,
     ) -> None:
         """Constructor for the S3BucketSizeRes class."""
 
@@ -272,7 +272,7 @@ class S3BucketSizeRes:
         self.standard_storage_retrieved_time: str = standard_storage_retrieved_time
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -283,126 +283,176 @@ class S3BucketSizeRes:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        deep_archive_object_overhead = dictionary.get('deep_archive_object_overhead')
-        deep_archive_object_overhead_retrieved_time = dictionary.get(
-            'deep_archive_object_overhead_retrieved_time'
-        )
-        deep_archive_s3_object_overhead = dictionary.get('deep_archive_s3_object_overhead')
-        deep_archive_s3_object_overhead_retrieved_time = dictionary.get(
-            'deep_archive_s3_object_overhead_retrieved_time'
-        )
-        deep_archive_staging_storage = dictionary.get('deep_archive_staging_storage')
-        deep_archive_staging_storage_retrieved_time = dictionary.get(
-            'deep_archive_staging_storage_retrieved_time'
-        )
-        deep_archive_storage = dictionary.get('deep_archive_storage')
-        deep_archive_storage_retrieved_time = dictionary.get('deep_archive_storage_retrieved_time')
-        glacier_instant_retrieval_storage = dictionary.get('glacier_instant_retrieval_storage')
-        glacier_instant_retrieval_storage_retrieved_time = dictionary.get(
-            'glacier_instant_retrieval_storage_retrieved_time'
-        )
-        glacier_object_overhead = dictionary.get('glacier_object_overhead')
-        glacier_object_overhead_retrieved_time = dictionary.get(
-            'glacier_object_overhead_retrieved_time'
-        )
-        glacier_s3_object_overhead = dictionary.get('glacier_s3_object_overhead')
-        glacier_s3_object_overhead_retrieved_time = dictionary.get(
-            'glacier_s3_object_overhead_retrieved_time'
-        )
-        glacier_staging_storage = dictionary.get('glacier_staging_storage')
-        glacier_staging_storage_retrieved_time = dictionary.get(
-            'glacier_staging_storage_retrieved_time'
-        )
-        glacier_storage = dictionary.get('glacier_storage')
-        glacier_storage_retrieved_time = dictionary.get('glacier_storage_retrieved_time')
-        intelligent_tiering_aa_storage = dictionary.get('intelligent_tiering_aa_storage')
-        intelligent_tiering_aa_storage_retrieved_time = dictionary.get(
-            'intelligent_tiering_aa_storage_retrieved_time'
-        )
-        intelligent_tiering_aia_storage = dictionary.get('intelligent_tiering_aia_storage')
-        intelligent_tiering_aia_storage_retrieved_time = dictionary.get(
-            'intelligent_tiering_aia_storage_retrieved_time'
-        )
-        intelligent_tiering_daa_storage = dictionary.get('intelligent_tiering_daa_storage')
-        intelligent_tiering_daa_storage_retrieved_time = dictionary.get(
-            'intelligent_tiering_daa_storage_retrieved_time'
-        )
-        intelligent_tiering_fa_storage = dictionary.get('intelligent_tiering_fa_storage')
-        intelligent_tiering_fa_storage_retrieved_time = dictionary.get(
-            'intelligent_tiering_fa_storage_retrieved_time'
-        )
-        intelligent_tiering_ia_storage = dictionary.get('intelligent_tiering_ia_storage')
-        intelligent_tiering_ia_storage_retrieved_time = dictionary.get(
-            'intelligent_tiering_ia_storage_retrieved_time'
-        )
-        one_zone_ia_size_overhead = dictionary.get('one_zone_ia_size_overhead')
-        one_zone_ia_size_overhead_retrieved_time = dictionary.get(
-            'one_zone_ia_size_overhead_retrieved_time'
-        )
-        one_zone_ia_storage = dictionary.get('one_zone_ia_storage')
-        one_zone_ia_storage_retrieved_time = dictionary.get('one_zone_ia_storage_retrieved_time')
-        reduced_redundancy_storage = dictionary.get('reduced_redundancy_storage')
-        reduced_redundancy_storage_retrieved_time = dictionary.get(
-            'reduced_redundancy_storage_retrieved_time'
-        )
-        standard_ia_object_overhead = dictionary.get('standard_ia_object_overhead')
-        standard_ia_object_overhead_retrieved_time = dictionary.get(
-            'standard_ia_object_overhead_retrieved_time'
-        )
-        standard_ia_size_overhead = dictionary.get('standard_ia_size_overhead')
-        standard_ia_size_overhead_retrieved_time = dictionary.get(
-            'standard_ia_size_overhead_retrieved_time'
-        )
-        standard_ia_storage = dictionary.get('standard_ia_storage')
-        standard_ia_storage_retrieved_time = dictionary.get('standard_ia_storage_retrieved_time')
-        standard_storage = dictionary.get('standard_storage')
-        standard_storage_retrieved_time = dictionary.get('standard_storage_retrieved_time')
+        val = dictionary['deep_archive_object_overhead']
+        val_deep_archive_object_overhead = val
+
+        val = dictionary['deep_archive_object_overhead_retrieved_time']
+        val_deep_archive_object_overhead_retrieved_time = val
+
+        val = dictionary['deep_archive_s3_object_overhead']
+        val_deep_archive_s3_object_overhead = val
+
+        val = dictionary['deep_archive_s3_object_overhead_retrieved_time']
+        val_deep_archive_s3_object_overhead_retrieved_time = val
+
+        val = dictionary['deep_archive_staging_storage']
+        val_deep_archive_staging_storage = val
+
+        val = dictionary['deep_archive_staging_storage_retrieved_time']
+        val_deep_archive_staging_storage_retrieved_time = val
+
+        val = dictionary['deep_archive_storage']
+        val_deep_archive_storage = val
+
+        val = dictionary['deep_archive_storage_retrieved_time']
+        val_deep_archive_storage_retrieved_time = val
+
+        val = dictionary['glacier_instant_retrieval_storage']
+        val_glacier_instant_retrieval_storage = val
+
+        val = dictionary['glacier_instant_retrieval_storage_retrieved_time']
+        val_glacier_instant_retrieval_storage_retrieved_time = val
+
+        val = dictionary['glacier_object_overhead']
+        val_glacier_object_overhead = val
+
+        val = dictionary['glacier_object_overhead_retrieved_time']
+        val_glacier_object_overhead_retrieved_time = val
+
+        val = dictionary['glacier_s3_object_overhead']
+        val_glacier_s3_object_overhead = val
+
+        val = dictionary['glacier_s3_object_overhead_retrieved_time']
+        val_glacier_s3_object_overhead_retrieved_time = val
+
+        val = dictionary['glacier_staging_storage']
+        val_glacier_staging_storage = val
+
+        val = dictionary['glacier_staging_storage_retrieved_time']
+        val_glacier_staging_storage_retrieved_time = val
+
+        val = dictionary['glacier_storage']
+        val_glacier_storage = val
+
+        val = dictionary['glacier_storage_retrieved_time']
+        val_glacier_storage_retrieved_time = val
+
+        val = dictionary['intelligent_tiering_aa_storage']
+        val_intelligent_tiering_aa_storage = val
+
+        val = dictionary['intelligent_tiering_aa_storage_retrieved_time']
+        val_intelligent_tiering_aa_storage_retrieved_time = val
+
+        val = dictionary['intelligent_tiering_aia_storage']
+        val_intelligent_tiering_aia_storage = val
+
+        val = dictionary['intelligent_tiering_aia_storage_retrieved_time']
+        val_intelligent_tiering_aia_storage_retrieved_time = val
+
+        val = dictionary['intelligent_tiering_daa_storage']
+        val_intelligent_tiering_daa_storage = val
+
+        val = dictionary['intelligent_tiering_daa_storage_retrieved_time']
+        val_intelligent_tiering_daa_storage_retrieved_time = val
+
+        val = dictionary['intelligent_tiering_fa_storage']
+        val_intelligent_tiering_fa_storage = val
+
+        val = dictionary['intelligent_tiering_fa_storage_retrieved_time']
+        val_intelligent_tiering_fa_storage_retrieved_time = val
+
+        val = dictionary['intelligent_tiering_ia_storage']
+        val_intelligent_tiering_ia_storage = val
+
+        val = dictionary['intelligent_tiering_ia_storage_retrieved_time']
+        val_intelligent_tiering_ia_storage_retrieved_time = val
+
+        val = dictionary['one_zone_ia_size_overhead']
+        val_one_zone_ia_size_overhead = val
+
+        val = dictionary['one_zone_ia_size_overhead_retrieved_time']
+        val_one_zone_ia_size_overhead_retrieved_time = val
+
+        val = dictionary['one_zone_ia_storage']
+        val_one_zone_ia_storage = val
+
+        val = dictionary['one_zone_ia_storage_retrieved_time']
+        val_one_zone_ia_storage_retrieved_time = val
+
+        val = dictionary['reduced_redundancy_storage']
+        val_reduced_redundancy_storage = val
+
+        val = dictionary['reduced_redundancy_storage_retrieved_time']
+        val_reduced_redundancy_storage_retrieved_time = val
+
+        val = dictionary['standard_ia_object_overhead']
+        val_standard_ia_object_overhead = val
+
+        val = dictionary['standard_ia_object_overhead_retrieved_time']
+        val_standard_ia_object_overhead_retrieved_time = val
+
+        val = dictionary['standard_ia_size_overhead']
+        val_standard_ia_size_overhead = val
+
+        val = dictionary['standard_ia_size_overhead_retrieved_time']
+        val_standard_ia_size_overhead_retrieved_time = val
+
+        val = dictionary['standard_ia_storage']
+        val_standard_ia_storage = val
+
+        val = dictionary['standard_ia_storage_retrieved_time']
+        val_standard_ia_storage_retrieved_time = val
+
+        val = dictionary['standard_storage']
+        val_standard_storage = val
+
+        val = dictionary['standard_storage_retrieved_time']
+        val_standard_storage_retrieved_time = val
+
         # Return an object of this model
         return cls(
-            deep_archive_object_overhead,
-            deep_archive_object_overhead_retrieved_time,
-            deep_archive_s3_object_overhead,
-            deep_archive_s3_object_overhead_retrieved_time,
-            deep_archive_staging_storage,
-            deep_archive_staging_storage_retrieved_time,
-            deep_archive_storage,
-            deep_archive_storage_retrieved_time,
-            glacier_instant_retrieval_storage,
-            glacier_instant_retrieval_storage_retrieved_time,
-            glacier_object_overhead,
-            glacier_object_overhead_retrieved_time,
-            glacier_s3_object_overhead,
-            glacier_s3_object_overhead_retrieved_time,
-            glacier_staging_storage,
-            glacier_staging_storage_retrieved_time,
-            glacier_storage,
-            glacier_storage_retrieved_time,
-            intelligent_tiering_aa_storage,
-            intelligent_tiering_aa_storage_retrieved_time,
-            intelligent_tiering_aia_storage,
-            intelligent_tiering_aia_storage_retrieved_time,
-            intelligent_tiering_daa_storage,
-            intelligent_tiering_daa_storage_retrieved_time,
-            intelligent_tiering_fa_storage,
-            intelligent_tiering_fa_storage_retrieved_time,
-            intelligent_tiering_ia_storage,
-            intelligent_tiering_ia_storage_retrieved_time,
-            one_zone_ia_size_overhead,
-            one_zone_ia_size_overhead_retrieved_time,
-            one_zone_ia_storage,
-            one_zone_ia_storage_retrieved_time,
-            reduced_redundancy_storage,
-            reduced_redundancy_storage_retrieved_time,
-            standard_ia_object_overhead,
-            standard_ia_object_overhead_retrieved_time,
-            standard_ia_size_overhead,
-            standard_ia_size_overhead_retrieved_time,
-            standard_ia_storage,
-            standard_ia_storage_retrieved_time,
-            standard_storage,
-            standard_storage_retrieved_time,
+            val_deep_archive_object_overhead,  # type: ignore
+            val_deep_archive_object_overhead_retrieved_time,  # type: ignore
+            val_deep_archive_s3_object_overhead,  # type: ignore
+            val_deep_archive_s3_object_overhead_retrieved_time,  # type: ignore
+            val_deep_archive_staging_storage,  # type: ignore
+            val_deep_archive_staging_storage_retrieved_time,  # type: ignore
+            val_deep_archive_storage,  # type: ignore
+            val_deep_archive_storage_retrieved_time,  # type: ignore
+            val_glacier_instant_retrieval_storage,  # type: ignore
+            val_glacier_instant_retrieval_storage_retrieved_time,  # type: ignore
+            val_glacier_object_overhead,  # type: ignore
+            val_glacier_object_overhead_retrieved_time,  # type: ignore
+            val_glacier_s3_object_overhead,  # type: ignore
+            val_glacier_s3_object_overhead_retrieved_time,  # type: ignore
+            val_glacier_staging_storage,  # type: ignore
+            val_glacier_staging_storage_retrieved_time,  # type: ignore
+            val_glacier_storage,  # type: ignore
+            val_glacier_storage_retrieved_time,  # type: ignore
+            val_intelligent_tiering_aa_storage,  # type: ignore
+            val_intelligent_tiering_aa_storage_retrieved_time,  # type: ignore
+            val_intelligent_tiering_aia_storage,  # type: ignore
+            val_intelligent_tiering_aia_storage_retrieved_time,  # type: ignore
+            val_intelligent_tiering_daa_storage,  # type: ignore
+            val_intelligent_tiering_daa_storage_retrieved_time,  # type: ignore
+            val_intelligent_tiering_fa_storage,  # type: ignore
+            val_intelligent_tiering_fa_storage_retrieved_time,  # type: ignore
+            val_intelligent_tiering_ia_storage,  # type: ignore
+            val_intelligent_tiering_ia_storage_retrieved_time,  # type: ignore
+            val_one_zone_ia_size_overhead,  # type: ignore
+            val_one_zone_ia_size_overhead_retrieved_time,  # type: ignore
+            val_one_zone_ia_storage,  # type: ignore
+            val_one_zone_ia_storage_retrieved_time,  # type: ignore
+            val_reduced_redundancy_storage,  # type: ignore
+            val_reduced_redundancy_storage_retrieved_time,  # type: ignore
+            val_standard_ia_object_overhead,  # type: ignore
+            val_standard_ia_object_overhead_retrieved_time,  # type: ignore
+            val_standard_ia_size_overhead,  # type: ignore
+            val_standard_ia_size_overhead_retrieved_time,  # type: ignore
+            val_standard_ia_storage,  # type: ignore
+            val_standard_ia_storage_retrieved_time,  # type: ignore
+            val_standard_storage,  # type: ignore
+            val_standard_storage_retrieved_time,  # type: ignore
         )

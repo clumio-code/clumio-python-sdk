@@ -1,11 +1,11 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import hateoas_link
-from clumioapi.models import hateoas_self_link
+from clumioapi.models import hateoas_link as hateoas_link_
+from clumioapi.models import hateoas_self_link as hateoas_self_link_
 
 T = TypeVar('T', bound='RDSDatabaseTableLinks')
 
@@ -23,26 +23,26 @@ class RDSDatabaseTableLinks:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'p_self': '_self',
         'read_backup_aws_rds_resource_database_table_columns': 'read-backup-aws-rds-resource-database-table-columns',
     }
 
     def __init__(
         self,
-        p_self: hateoas_self_link.HateoasSelfLink = None,
-        read_backup_aws_rds_resource_database_table_columns: hateoas_link.HateoasLink = None,
+        p_self: hateoas_self_link_.HateoasSelfLink,
+        read_backup_aws_rds_resource_database_table_columns: hateoas_link_.HateoasLink,
     ) -> None:
         """Constructor for the RDSDatabaseTableLinks class."""
 
         # Initialize members of the class
-        self.p_self: hateoas_self_link.HateoasSelfLink = p_self
-        self.read_backup_aws_rds_resource_database_table_columns: hateoas_link.HateoasLink = (
+        self.p_self: hateoas_self_link_.HateoasSelfLink = p_self
+        self.read_backup_aws_rds_resource_database_table_columns: hateoas_link_.HateoasLink = (
             read_backup_aws_rds_resource_database_table_columns
         )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -53,23 +53,18 @@ class RDSDatabaseTableLinks:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        key = '_self'
-        p_self = (
-            hateoas_self_link.HateoasSelfLink.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['_self']
+        val_p_self = hateoas_self_link_.HateoasSelfLink.from_dictionary(val)
 
-        key = 'read-backup-aws-rds-resource-database-table-columns'
-        read_backup_aws_rds_resource_database_table_columns = (
-            hateoas_link.HateoasLink.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
+        val = dictionary['read-backup-aws-rds-resource-database-table-columns']
+        val_read_backup_aws_rds_resource_database_table_columns = (
+            hateoas_link_.HateoasLink.from_dictionary(val)
         )
 
         # Return an object of this model
-        return cls(p_self, read_backup_aws_rds_resource_database_table_columns)
+        return cls(
+            val_p_self,  # type: ignore
+            val_read_backup_aws_rds_resource_database_table_columns,  # type: ignore
+        )

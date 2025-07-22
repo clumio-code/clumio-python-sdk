@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -41,7 +41,7 @@ class SourceObjectFilters:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'etag': 'etag',
         'latest_version_only': 'latest_version_only',
         'max_object_size_bytes': 'max_object_size_bytes',
@@ -56,16 +56,16 @@ class SourceObjectFilters:
 
     def __init__(
         self,
-        etag: str = None,
-        latest_version_only: bool = None,
-        max_object_size_bytes: int = None,
-        min_object_size_bytes: int = None,
-        object_key_contains: str = None,
-        object_key_matches: str = None,
-        object_key_prefix: str = None,
-        object_key_suffix: str = None,
-        storage_classes: Sequence[str] = None,
-        version_id: str = None,
+        etag: str,
+        latest_version_only: bool,
+        max_object_size_bytes: int,
+        min_object_size_bytes: int,
+        object_key_contains: str,
+        object_key_matches: str,
+        object_key_prefix: str,
+        object_key_suffix: str,
+        storage_classes: Sequence[str],
+        version_id: str,
     ) -> None:
         """Constructor for the SourceObjectFilters class."""
 
@@ -82,7 +82,7 @@ class SourceObjectFilters:
         self.version_id: str = version_id
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -93,30 +93,48 @@ class SourceObjectFilters:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        etag = dictionary.get('etag')
-        latest_version_only = dictionary.get('latest_version_only')
-        max_object_size_bytes = dictionary.get('max_object_size_bytes')
-        min_object_size_bytes = dictionary.get('min_object_size_bytes')
-        object_key_contains = dictionary.get('object_key_contains')
-        object_key_matches = dictionary.get('object_key_matches')
-        object_key_prefix = dictionary.get('object_key_prefix')
-        object_key_suffix = dictionary.get('object_key_suffix')
-        storage_classes = dictionary.get('storage_classes')
-        version_id = dictionary.get('version_id')
+        val = dictionary['etag']
+        val_etag = val
+
+        val = dictionary['latest_version_only']
+        val_latest_version_only = val
+
+        val = dictionary['max_object_size_bytes']
+        val_max_object_size_bytes = val
+
+        val = dictionary['min_object_size_bytes']
+        val_min_object_size_bytes = val
+
+        val = dictionary['object_key_contains']
+        val_object_key_contains = val
+
+        val = dictionary['object_key_matches']
+        val_object_key_matches = val
+
+        val = dictionary['object_key_prefix']
+        val_object_key_prefix = val
+
+        val = dictionary['object_key_suffix']
+        val_object_key_suffix = val
+
+        val = dictionary['storage_classes']
+        val_storage_classes = val
+
+        val = dictionary['version_id']
+        val_version_id = val
+
         # Return an object of this model
         return cls(
-            etag,
-            latest_version_only,
-            max_object_size_bytes,
-            min_object_size_bytes,
-            object_key_contains,
-            object_key_matches,
-            object_key_prefix,
-            object_key_suffix,
-            storage_classes,
-            version_id,
+            val_etag,  # type: ignore
+            val_latest_version_only,  # type: ignore
+            val_max_object_size_bytes,  # type: ignore
+            val_min_object_size_bytes,  # type: ignore
+            val_object_key_contains,  # type: ignore
+            val_object_key_matches,  # type: ignore
+            val_object_key_prefix,  # type: ignore
+            val_object_key_suffix,  # type: ignore
+            val_storage_classes,  # type: ignore
+            val_version_id,  # type: ignore
         )

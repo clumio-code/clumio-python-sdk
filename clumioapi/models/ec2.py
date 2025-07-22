@@ -4,11 +4,11 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import aws_tag_model
+from clumioapi.models import aws_tag_model as aws_tag_model_
 from clumioapi.models import backup_status_info as backup_status_info_
-from clumioapi.models import ec2_instance_embedded
-from clumioapi.models import ec2_instance_links
-from clumioapi.models import protection_info_with_rule
+from clumioapi.models import ec2_instance_embedded as ec2_instance_embedded_
+from clumioapi.models import ec2_instance_links as ec2_instance_links_
+from clumioapi.models import protection_info_with_rule as protection_info_with_rule_
 
 T = TypeVar('T', bound='EC2')
 
@@ -96,7 +96,7 @@ class EC2:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'embedded': '_embedded',
         'links': '_links',
         'account_native_id': 'account_native_id',
@@ -128,39 +128,39 @@ class EC2:
 
     def __init__(
         self,
-        embedded: ec2_instance_embedded.Ec2InstanceEmbedded = None,
-        links: ec2_instance_links.Ec2InstanceLinks = None,
-        account_native_id: str = None,
-        aws_az: str = None,
-        aws_region: str = None,
-        backup_status_info: backup_status_info_.BackupStatusInfo = None,
-        deletion_timestamp: str = None,
-        direct_assignment_policy_id: str = None,
-        ena_support: bool = None,
-        environment_id: str = None,
-        has_direct_assignment: bool = None,
-        p_id: str = None,
-        instance_native_id: str = None,
-        is_deleted: bool = None,
-        is_supported: bool = None,
-        last_backup_timestamp: str = None,
-        last_snapshot_timestamp: str = None,
-        name: str = None,
-        organizational_unit_id: str = None,
-        protection_info: protection_info_with_rule.ProtectionInfoWithRule = None,
-        protection_status: str = None,
-        state: str = None,
-        subnet_id: str = None,
-        tags: Sequence[aws_tag_model.AwsTagModel] = None,
-        p_type: str = None,
-        unsupported_reason: str = None,
-        vpc_id: str = None,
+        embedded: ec2_instance_embedded_.Ec2InstanceEmbedded,
+        links: ec2_instance_links_.Ec2InstanceLinks,
+        account_native_id: str,
+        aws_az: str,
+        aws_region: str,
+        backup_status_info: backup_status_info_.BackupStatusInfo,
+        deletion_timestamp: str,
+        direct_assignment_policy_id: str,
+        ena_support: bool,
+        environment_id: str,
+        has_direct_assignment: bool,
+        p_id: str,
+        instance_native_id: str,
+        is_deleted: bool,
+        is_supported: bool,
+        last_backup_timestamp: str,
+        last_snapshot_timestamp: str,
+        name: str,
+        organizational_unit_id: str,
+        protection_info: protection_info_with_rule_.ProtectionInfoWithRule,
+        protection_status: str,
+        state: str,
+        subnet_id: str,
+        tags: Sequence[aws_tag_model_.AwsTagModel],
+        p_type: str,
+        unsupported_reason: str,
+        vpc_id: str,
     ) -> None:
         """Constructor for the EC2 class."""
 
         # Initialize members of the class
-        self.embedded: ec2_instance_embedded.Ec2InstanceEmbedded = embedded
-        self.links: ec2_instance_links.Ec2InstanceLinks = links
+        self.embedded: ec2_instance_embedded_.Ec2InstanceEmbedded = embedded
+        self.links: ec2_instance_links_.Ec2InstanceLinks = links
         self.account_native_id: str = account_native_id
         self.aws_az: str = aws_az
         self.aws_region: str = aws_region
@@ -178,17 +178,17 @@ class EC2:
         self.last_snapshot_timestamp: str = last_snapshot_timestamp
         self.name: str = name
         self.organizational_unit_id: str = organizational_unit_id
-        self.protection_info: protection_info_with_rule.ProtectionInfoWithRule = protection_info
+        self.protection_info: protection_info_with_rule_.ProtectionInfoWithRule = protection_info
         self.protection_status: str = protection_status
         self.state: str = state
         self.subnet_id: str = subnet_id
-        self.tags: Sequence[aws_tag_model.AwsTagModel] = tags
+        self.tags: Sequence[aws_tag_model_.AwsTagModel] = tags
         self.p_type: str = p_type
         self.unsupported_reason: str = unsupported_reason
         self.vpc_id: str = vpc_id
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -199,94 +199,121 @@ class EC2:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        key = '_embedded'
-        val_embedded = (
-            ec2_instance_embedded.Ec2InstanceEmbedded.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['_embedded']
+        val_embedded = ec2_instance_embedded_.Ec2InstanceEmbedded.from_dictionary(val)
 
-        key = '_links'
-        val_links = (
-            ec2_instance_links.Ec2InstanceLinks.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['_links']
+        val_links = ec2_instance_links_.Ec2InstanceLinks.from_dictionary(val)
 
-        val_account_native_id = dictionary.get('account_native_id')
-        val_aws_az = dictionary.get('aws_az')
-        val_aws_region = dictionary.get('aws_region')
-        key = 'backup_status_info'
-        val_backup_status_info = (
-            backup_status_info_.BackupStatusInfo.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['account_native_id']
+        val_account_native_id = val
 
-        val_deletion_timestamp = dictionary.get('deletion_timestamp')
-        val_direct_assignment_policy_id = dictionary.get('direct_assignment_policy_id')
-        val_ena_support = dictionary.get('ena_support')
-        val_environment_id = dictionary.get('environment_id')
-        val_has_direct_assignment = dictionary.get('has_direct_assignment')
-        val_p_id = dictionary.get('id')
-        val_instance_native_id = dictionary.get('instance_native_id')
-        val_is_deleted = dictionary.get('is_deleted')
-        val_is_supported = dictionary.get('is_supported')
-        val_last_backup_timestamp = dictionary.get('last_backup_timestamp')
-        val_last_snapshot_timestamp = dictionary.get('last_snapshot_timestamp')
-        val_name = dictionary.get('name')
-        val_organizational_unit_id = dictionary.get('organizational_unit_id')
-        key = 'protection_info'
-        val_protection_info = (
-            protection_info_with_rule.ProtectionInfoWithRule.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['aws_az']
+        val_aws_az = val
 
-        val_protection_status = dictionary.get('protection_status')
-        val_state = dictionary.get('state')
-        val_subnet_id = dictionary.get('subnet_id')
+        val = dictionary['aws_region']
+        val_aws_region = val
+
+        val = dictionary['backup_status_info']
+        val_backup_status_info = backup_status_info_.BackupStatusInfo.from_dictionary(val)
+
+        val = dictionary['deletion_timestamp']
+        val_deletion_timestamp = val
+
+        val = dictionary['direct_assignment_policy_id']
+        val_direct_assignment_policy_id = val
+
+        val = dictionary['ena_support']
+        val_ena_support = val
+
+        val = dictionary['environment_id']
+        val_environment_id = val
+
+        val = dictionary['has_direct_assignment']
+        val_has_direct_assignment = val
+
+        val = dictionary['id']
+        val_p_id = val
+
+        val = dictionary['instance_native_id']
+        val_instance_native_id = val
+
+        val = dictionary['is_deleted']
+        val_is_deleted = val
+
+        val = dictionary['is_supported']
+        val_is_supported = val
+
+        val = dictionary['last_backup_timestamp']
+        val_last_backup_timestamp = val
+
+        val = dictionary['last_snapshot_timestamp']
+        val_last_snapshot_timestamp = val
+
+        val = dictionary['name']
+        val_name = val
+
+        val = dictionary['organizational_unit_id']
+        val_organizational_unit_id = val
+
+        val = dictionary['protection_info']
+        val_protection_info = protection_info_with_rule_.ProtectionInfoWithRule.from_dictionary(val)
+
+        val = dictionary['protection_status']
+        val_protection_status = val
+
+        val = dictionary['state']
+        val_state = val
+
+        val = dictionary['subnet_id']
+        val_subnet_id = val
+
+        val = dictionary['tags']
 
         val_tags = None
-        if dictionary.get('tags'):
+        if val:
             val_tags = list()
-            for value in dictionary.get('tags'):
-                val_tags.append(aws_tag_model.AwsTagModel.from_dictionary(value))
+            for value in val:
+                val_tags.append(aws_tag_model_.AwsTagModel.from_dictionary(value))
 
-        val_p_type = dictionary.get('type')
-        val_unsupported_reason = dictionary.get('unsupported_reason')
-        val_vpc_id = dictionary.get('vpc_id')
+        val = dictionary['type']
+        val_p_type = val
+
+        val = dictionary['unsupported_reason']
+        val_unsupported_reason = val
+
+        val = dictionary['vpc_id']
+        val_vpc_id = val
+
         # Return an object of this model
         return cls(
-            val_embedded,
-            val_links,
-            val_account_native_id,
-            val_aws_az,
-            val_aws_region,
-            val_backup_status_info,
-            val_deletion_timestamp,
-            val_direct_assignment_policy_id,
-            val_ena_support,
-            val_environment_id,
-            val_has_direct_assignment,
-            val_p_id,
-            val_instance_native_id,
-            val_is_deleted,
-            val_is_supported,
-            val_last_backup_timestamp,
-            val_last_snapshot_timestamp,
-            val_name,
-            val_organizational_unit_id,
-            val_protection_info,
-            val_protection_status,
-            val_state,
-            val_subnet_id,
-            val_tags,
-            val_p_type,
-            val_unsupported_reason,
-            val_vpc_id,
+            val_embedded,  # type: ignore
+            val_links,  # type: ignore
+            val_account_native_id,  # type: ignore
+            val_aws_az,  # type: ignore
+            val_aws_region,  # type: ignore
+            val_backup_status_info,  # type: ignore
+            val_deletion_timestamp,  # type: ignore
+            val_direct_assignment_policy_id,  # type: ignore
+            val_ena_support,  # type: ignore
+            val_environment_id,  # type: ignore
+            val_has_direct_assignment,  # type: ignore
+            val_p_id,  # type: ignore
+            val_instance_native_id,  # type: ignore
+            val_is_deleted,  # type: ignore
+            val_is_supported,  # type: ignore
+            val_last_backup_timestamp,  # type: ignore
+            val_last_snapshot_timestamp,  # type: ignore
+            val_name,  # type: ignore
+            val_organizational_unit_id,  # type: ignore
+            val_protection_info,  # type: ignore
+            val_protection_status,  # type: ignore
+            val_state,  # type: ignore
+            val_subnet_id,  # type: ignore
+            val_tags,  # type: ignore
+            val_p_type,  # type: ignore
+            val_unsupported_reason,  # type: ignore
+            val_vpc_id,  # type: ignore
         )

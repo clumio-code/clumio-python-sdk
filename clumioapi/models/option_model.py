@@ -1,10 +1,10 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import option_setting
+from clumioapi.models import option_setting as option_setting_
 
 T = TypeVar('T', bound='OptionModel')
 
@@ -30,7 +30,7 @@ class OptionModel:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'is_permanent': 'is_permanent',
         'is_persistent': 'is_persistent',
         'is_required_for_restore': 'is_required_for_restore',
@@ -41,12 +41,12 @@ class OptionModel:
 
     def __init__(
         self,
-        is_permanent: bool = None,
-        is_persistent: bool = None,
-        is_required_for_restore: bool = None,
-        name: str = None,
-        option_setting: Sequence[option_setting.OptionSetting] = None,
-        option_version: str = None,
+        is_permanent: bool,
+        is_persistent: bool,
+        is_required_for_restore: bool,
+        name: str,
+        option_setting: Sequence[option_setting_.OptionSetting],
+        option_version: str,
     ) -> None:
         """Constructor for the OptionModel class."""
 
@@ -55,11 +55,11 @@ class OptionModel:
         self.is_persistent: bool = is_persistent
         self.is_required_for_restore: bool = is_required_for_restore
         self.name: str = name
-        self.option_setting: Sequence[option_setting.OptionSetting] = option_setting
+        self.option_setting: Sequence[option_setting_.OptionSetting] = option_setting
         self.option_version: str = option_version
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -70,27 +70,37 @@ class OptionModel:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        is_permanent = dictionary.get('is_permanent')
-        is_persistent = dictionary.get('is_persistent')
-        is_required_for_restore = dictionary.get('is_required_for_restore')
-        name = dictionary.get('name')
-        p_option_setting = None
-        if dictionary.get('option_setting'):
-            p_option_setting = list()
-            for value in dictionary.get('option_setting'):
-                p_option_setting.append(option_setting.OptionSetting.from_dictionary(value))
+        val = dictionary['is_permanent']
+        val_is_permanent = val
 
-        option_version = dictionary.get('option_version')
+        val = dictionary['is_persistent']
+        val_is_persistent = val
+
+        val = dictionary['is_required_for_restore']
+        val_is_required_for_restore = val
+
+        val = dictionary['name']
+        val_name = val
+
+        val = dictionary['option_setting']
+
+        val_option_setting = None
+        if val:
+            val_option_setting = list()
+            for value in val:
+                val_option_setting.append(option_setting_.OptionSetting.from_dictionary(value))
+
+        val = dictionary['option_version']
+        val_option_version = val
+
         # Return an object of this model
         return cls(
-            is_permanent,
-            is_persistent,
-            is_required_for_restore,
-            name,
-            p_option_setting,
-            option_version,
+            val_is_permanent,  # type: ignore
+            val_is_persistent,  # type: ignore
+            val_is_required_for_restore,  # type: ignore
+            val_name,  # type: ignore
+            val_option_setting,  # type: ignore
+            val_option_version,  # type: ignore
         )

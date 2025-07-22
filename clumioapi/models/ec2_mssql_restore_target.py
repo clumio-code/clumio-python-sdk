@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -38,7 +38,7 @@ class EC2MSSQLRestoreTarget:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'data_files_path': 'data_files_path',
         'database_name': 'database_name',
         'final_database_state': 'final_database_state',
@@ -49,12 +49,12 @@ class EC2MSSQLRestoreTarget:
 
     def __init__(
         self,
-        data_files_path: str = None,
-        database_name: str = None,
-        final_database_state: str = None,
-        instance_id: str = None,
-        log_files_path: str = None,
-        restore_as_new_database: bool = None,
+        data_files_path: str,
+        database_name: str,
+        final_database_state: str,
+        instance_id: str,
+        log_files_path: str,
+        restore_as_new_database: bool,
     ) -> None:
         """Constructor for the EC2MSSQLRestoreTarget class."""
 
@@ -67,7 +67,7 @@ class EC2MSSQLRestoreTarget:
         self.restore_as_new_database: bool = restore_as_new_database
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -78,22 +78,32 @@ class EC2MSSQLRestoreTarget:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        data_files_path = dictionary.get('data_files_path')
-        database_name = dictionary.get('database_name')
-        final_database_state = dictionary.get('final_database_state')
-        instance_id = dictionary.get('instance_id')
-        log_files_path = dictionary.get('log_files_path')
-        restore_as_new_database = dictionary.get('restore_as_new_database')
+        val = dictionary['data_files_path']
+        val_data_files_path = val
+
+        val = dictionary['database_name']
+        val_database_name = val
+
+        val = dictionary['final_database_state']
+        val_final_database_state = val
+
+        val = dictionary['instance_id']
+        val_instance_id = val
+
+        val = dictionary['log_files_path']
+        val_log_files_path = val
+
+        val = dictionary['restore_as_new_database']
+        val_restore_as_new_database = val
+
         # Return an object of this model
         return cls(
-            data_files_path,
-            database_name,
-            final_database_state,
-            instance_id,
-            log_files_path,
-            restore_as_new_database,
+            val_data_files_path,  # type: ignore
+            val_database_name,  # type: ignore
+            val_final_database_state,  # type: ignore
+            val_instance_id,  # type: ignore
+            val_log_files_path,  # type: ignore
+            val_restore_as_new_database,  # type: ignore
         )

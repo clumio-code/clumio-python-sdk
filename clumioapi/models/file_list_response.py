@@ -1,11 +1,11 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import file_versions_list_embedded
-from clumioapi.models import file_versions_list_links
+from clumioapi.models import file_versions_list_embedded as file_versions_list_embedded_
+from clumioapi.models import file_versions_list_links as file_versions_list_links_
 
 T = TypeVar('T', bound='FileListResponse')
 
@@ -27,7 +27,7 @@ class FileListResponse:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'embedded': '_embedded',
         'links': '_links',
         'current_count': 'current_count',
@@ -37,23 +37,23 @@ class FileListResponse:
 
     def __init__(
         self,
-        embedded: file_versions_list_embedded.FileVersionsListEmbedded = None,
-        links: file_versions_list_links.FileVersionsListLinks = None,
-        current_count: int = None,
-        limit: int = None,
-        start: str = None,
+        embedded: file_versions_list_embedded_.FileVersionsListEmbedded,
+        links: file_versions_list_links_.FileVersionsListLinks,
+        current_count: int,
+        limit: int,
+        start: str,
     ) -> None:
         """Constructor for the FileListResponse class."""
 
         # Initialize members of the class
-        self.embedded: file_versions_list_embedded.FileVersionsListEmbedded = embedded
-        self.links: file_versions_list_links.FileVersionsListLinks = links
+        self.embedded: file_versions_list_embedded_.FileVersionsListEmbedded = embedded
+        self.links: file_versions_list_links_.FileVersionsListLinks = links
         self.current_count: int = current_count
         self.limit: int = limit
         self.start: str = start
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -64,28 +64,28 @@ class FileListResponse:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        key = '_embedded'
-        embedded = (
-            file_versions_list_embedded.FileVersionsListEmbedded.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['_embedded']
+        val_embedded = file_versions_list_embedded_.FileVersionsListEmbedded.from_dictionary(val)
 
-        key = '_links'
-        links = (
-            file_versions_list_links.FileVersionsListLinks.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['_links']
+        val_links = file_versions_list_links_.FileVersionsListLinks.from_dictionary(val)
 
-        current_count = dictionary.get('current_count')
-        limit = dictionary.get('limit')
-        start = dictionary.get('start')
+        val = dictionary['current_count']
+        val_current_count = val
+
+        val = dictionary['limit']
+        val_limit = val
+
+        val = dictionary['start']
+        val_start = val
+
         # Return an object of this model
-        return cls(embedded, links, current_count, limit, start)
+        return cls(
+            val_embedded,  # type: ignore
+            val_links,  # type: ignore
+            val_current_count,  # type: ignore
+            val_limit,  # type: ignore
+            val_start,  # type: ignore
+        )

@@ -1,11 +1,11 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import ec2_mssql_restore_source
-from clumioapi.models import ec2_mssql_restore_target
+from clumioapi.models import ec2_mssql_restore_source as ec2_mssql_restore_source_
+from clumioapi.models import ec2_mssql_restore_target as ec2_mssql_restore_target_
 
 T = TypeVar('T', bound='RestoreEc2MssqlDatabaseV1Request')
 
@@ -24,21 +24,21 @@ class RestoreEc2MssqlDatabaseV1Request:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'source': 'source', 'target': 'target'}
+    _names: dict[str, str] = {'source': 'source', 'target': 'target'}
 
     def __init__(
         self,
-        source: ec2_mssql_restore_source.EC2MSSQLRestoreSource = None,
-        target: ec2_mssql_restore_target.EC2MSSQLRestoreTarget = None,
+        source: ec2_mssql_restore_source_.EC2MSSQLRestoreSource,
+        target: ec2_mssql_restore_target_.EC2MSSQLRestoreTarget,
     ) -> None:
         """Constructor for the RestoreEc2MssqlDatabaseV1Request class."""
 
         # Initialize members of the class
-        self.source: ec2_mssql_restore_source.EC2MSSQLRestoreSource = source
-        self.target: ec2_mssql_restore_target.EC2MSSQLRestoreTarget = target
+        self.source: ec2_mssql_restore_source_.EC2MSSQLRestoreSource = source
+        self.target: ec2_mssql_restore_target_.EC2MSSQLRestoreTarget = target
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -49,23 +49,16 @@ class RestoreEc2MssqlDatabaseV1Request:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        key = 'source'
-        source = (
-            ec2_mssql_restore_source.EC2MSSQLRestoreSource.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['source']
+        val_source = ec2_mssql_restore_source_.EC2MSSQLRestoreSource.from_dictionary(val)
 
-        key = 'target'
-        target = (
-            ec2_mssql_restore_target.EC2MSSQLRestoreTarget.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['target']
+        val_target = ec2_mssql_restore_target_.EC2MSSQLRestoreTarget.from_dictionary(val)
 
         # Return an object of this model
-        return cls(source, target)
+        return cls(
+            val_source,  # type: ignore
+            val_target,  # type: ignore
+        )

@@ -1,10 +1,10 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import source_object_filters
+from clumioapi.models import source_object_filters as source_object_filters_
 
 T = TypeVar('T', bound='PreviewProtectionGroupV1Request')
 
@@ -45,7 +45,7 @@ class PreviewProtectionGroupV1Request:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'backup_id': 'backup_id',
         'is_sync_preview': 'is_sync_preview',
         'object_filters': 'object_filters',
@@ -56,25 +56,25 @@ class PreviewProtectionGroupV1Request:
 
     def __init__(
         self,
-        backup_id: str = None,
-        is_sync_preview: bool = None,
-        object_filters: source_object_filters.SourceObjectFilters = None,
-        pitr_end_timestamp: str = None,
-        pitr_start_timestamp: str = None,
-        protection_group_s3_asset_ids: Sequence[str] = None,
+        backup_id: str,
+        is_sync_preview: bool,
+        object_filters: source_object_filters_.SourceObjectFilters,
+        pitr_end_timestamp: str,
+        pitr_start_timestamp: str,
+        protection_group_s3_asset_ids: Sequence[str],
     ) -> None:
         """Constructor for the PreviewProtectionGroupV1Request class."""
 
         # Initialize members of the class
         self.backup_id: str = backup_id
         self.is_sync_preview: bool = is_sync_preview
-        self.object_filters: source_object_filters.SourceObjectFilters = object_filters
+        self.object_filters: source_object_filters_.SourceObjectFilters = object_filters
         self.pitr_end_timestamp: str = pitr_end_timestamp
         self.pitr_start_timestamp: str = pitr_start_timestamp
         self.protection_group_s3_asset_ids: Sequence[str] = protection_group_s3_asset_ids
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -85,28 +85,32 @@ class PreviewProtectionGroupV1Request:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        backup_id = dictionary.get('backup_id')
-        is_sync_preview = dictionary.get('is_sync_preview')
-        key = 'object_filters'
-        object_filters = (
-            source_object_filters.SourceObjectFilters.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['backup_id']
+        val_backup_id = val
 
-        pitr_end_timestamp = dictionary.get('pitr_end_timestamp')
-        pitr_start_timestamp = dictionary.get('pitr_start_timestamp')
-        protection_group_s3_asset_ids = dictionary.get('protection_group_s3_asset_ids')
+        val = dictionary['is_sync_preview']
+        val_is_sync_preview = val
+
+        val = dictionary['object_filters']
+        val_object_filters = source_object_filters_.SourceObjectFilters.from_dictionary(val)
+
+        val = dictionary['pitr_end_timestamp']
+        val_pitr_end_timestamp = val
+
+        val = dictionary['pitr_start_timestamp']
+        val_pitr_start_timestamp = val
+
+        val = dictionary['protection_group_s3_asset_ids']
+        val_protection_group_s3_asset_ids = val
+
         # Return an object of this model
         return cls(
-            backup_id,
-            is_sync_preview,
-            object_filters,
-            pitr_end_timestamp,
-            pitr_start_timestamp,
-            protection_group_s3_asset_ids,
+            val_backup_id,  # type: ignore
+            val_is_sync_preview,  # type: ignore
+            val_object_filters,  # type: ignore
+            val_pitr_end_timestamp,  # type: ignore
+            val_pitr_start_timestamp,  # type: ignore
+            val_protection_group_s3_asset_ids,  # type: ignore
         )

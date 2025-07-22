@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -20,7 +20,7 @@ class MssqlServiceRoles:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'ec2_instance_profile_role_arn': 'ec2_instance_profile_role_arn',
         'ec2_ssm_instance_profile_arn': 'ec2_ssm_instance_profile_arn',
         'ssm_notification_role_arn': 'ssm_notification_role_arn',
@@ -28,9 +28,9 @@ class MssqlServiceRoles:
 
     def __init__(
         self,
-        ec2_instance_profile_role_arn: str = None,
-        ec2_ssm_instance_profile_arn: str = None,
-        ssm_notification_role_arn: str = None,
+        ec2_instance_profile_role_arn: str,
+        ec2_ssm_instance_profile_arn: str,
+        ssm_notification_role_arn: str,
     ) -> None:
         """Constructor for the MssqlServiceRoles class."""
 
@@ -40,7 +40,7 @@ class MssqlServiceRoles:
         self.ssm_notification_role_arn: str = ssm_notification_role_arn
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -51,14 +51,20 @@ class MssqlServiceRoles:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        ec2_instance_profile_role_arn = dictionary.get('ec2_instance_profile_role_arn')
-        ec2_ssm_instance_profile_arn = dictionary.get('ec2_ssm_instance_profile_arn')
-        ssm_notification_role_arn = dictionary.get('ssm_notification_role_arn')
+        val = dictionary['ec2_instance_profile_role_arn']
+        val_ec2_instance_profile_role_arn = val
+
+        val = dictionary['ec2_ssm_instance_profile_arn']
+        val_ec2_ssm_instance_profile_arn = val
+
+        val = dictionary['ssm_notification_role_arn']
+        val_ssm_notification_role_arn = val
+
         # Return an object of this model
         return cls(
-            ec2_instance_profile_role_arn, ec2_ssm_instance_profile_arn, ssm_notification_role_arn
+            val_ec2_instance_profile_role_arn,  # type: ignore
+            val_ec2_ssm_instance_profile_arn,  # type: ignore
+            val_ssm_notification_role_arn,  # type: ignore
         )

@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -29,7 +29,7 @@ class InstanceStoreBlockDeviceMapping:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'encryption': 'encryption',
         'is_nvme': 'is_nvme',
         'name': 'name',
@@ -39,13 +39,7 @@ class InstanceStoreBlockDeviceMapping:
     }
 
     def __init__(
-        self,
-        encryption: str = None,
-        is_nvme: bool = None,
-        name: str = None,
-        size: int = None,
-        p_type: str = None,
-        virtual_name: str = None,
+        self, encryption: str, is_nvme: bool, name: str, size: int, p_type: str, virtual_name: str
     ) -> None:
         """Constructor for the InstanceStoreBlockDeviceMapping class."""
 
@@ -58,7 +52,7 @@ class InstanceStoreBlockDeviceMapping:
         self.virtual_name: str = virtual_name
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -69,15 +63,32 @@ class InstanceStoreBlockDeviceMapping:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        encryption = dictionary.get('encryption')
-        is_nvme = dictionary.get('is_nvme')
-        name = dictionary.get('name')
-        size = dictionary.get('size')
-        p_type = dictionary.get('type')
-        virtual_name = dictionary.get('virtual_name')
+        val = dictionary['encryption']
+        val_encryption = val
+
+        val = dictionary['is_nvme']
+        val_is_nvme = val
+
+        val = dictionary['name']
+        val_name = val
+
+        val = dictionary['size']
+        val_size = val
+
+        val = dictionary['type']
+        val_p_type = val
+
+        val = dictionary['virtual_name']
+        val_virtual_name = val
+
         # Return an object of this model
-        return cls(encryption, is_nvme, name, size, p_type, virtual_name)
+        return cls(
+            val_encryption,  # type: ignore
+            val_is_nvme,  # type: ignore
+            val_name,  # type: ignore
+            val_size,  # type: ignore
+            val_p_type,  # type: ignore
+            val_virtual_name,  # type: ignore
+        )

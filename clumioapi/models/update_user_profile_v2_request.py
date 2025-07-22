@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -17,16 +17,16 @@ class UpdateUserProfileV2Request:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'full_name': 'full_name'}
+    _names: dict[str, str] = {'full_name': 'full_name'}
 
-    def __init__(self, full_name: str = None) -> None:
+    def __init__(self, full_name: str) -> None:
         """Constructor for the UpdateUserProfileV2Request class."""
 
         # Initialize members of the class
         self.full_name: str = full_name
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -37,10 +37,12 @@ class UpdateUserProfileV2Request:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        full_name = dictionary.get('full_name')
+        val = dictionary['full_name']
+        val_full_name = val
+
         # Return an object of this model
-        return cls(full_name)
+        return cls(
+            val_full_name,  # type: ignore
+        )

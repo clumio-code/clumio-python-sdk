@@ -1,12 +1,13 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import hateoas_link
-from clumioapi.models import hateoas_self_link
-from clumioapi.models import read_policy_definition_hateoas_link
+from clumioapi.models import hateoas_link as hateoas_link_
+from clumioapi.models import hateoas_self_link as hateoas_self_link_
+from clumioapi.models import \
+    read_policy_definition_hateoas_link as read_policy_definition_hateoas_link_
 
 T = TypeVar('T', bound='RuleLinks')
 
@@ -29,7 +30,7 @@ class RuleLinks:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'p_self': '_self',
         'delete_policy_rule': 'delete-policy-rule',
         'read_policy_definition': 'read-policy-definition',
@@ -38,23 +39,23 @@ class RuleLinks:
 
     def __init__(
         self,
-        p_self: hateoas_self_link.HateoasSelfLink = None,
-        delete_policy_rule: hateoas_link.HateoasLink = None,
-        read_policy_definition: read_policy_definition_hateoas_link.ReadPolicyDefinitionHateoasLink = None,
-        update_policy_rule: hateoas_link.HateoasLink = None,
+        p_self: hateoas_self_link_.HateoasSelfLink,
+        delete_policy_rule: hateoas_link_.HateoasLink,
+        read_policy_definition: read_policy_definition_hateoas_link_.ReadPolicyDefinitionHateoasLink,
+        update_policy_rule: hateoas_link_.HateoasLink,
     ) -> None:
         """Constructor for the RuleLinks class."""
 
         # Initialize members of the class
-        self.p_self: hateoas_self_link.HateoasSelfLink = p_self
-        self.delete_policy_rule: hateoas_link.HateoasLink = delete_policy_rule
+        self.p_self: hateoas_self_link_.HateoasSelfLink = p_self
+        self.delete_policy_rule: hateoas_link_.HateoasLink = delete_policy_rule
         self.read_policy_definition: (
-            read_policy_definition_hateoas_link.ReadPolicyDefinitionHateoasLink
+            read_policy_definition_hateoas_link_.ReadPolicyDefinitionHateoasLink
         ) = read_policy_definition
-        self.update_policy_rule: hateoas_link.HateoasLink = update_policy_rule
+        self.update_policy_rule: hateoas_link_.HateoasLink = update_policy_rule
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -65,39 +66,28 @@ class RuleLinks:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        key = '_self'
-        p_self = (
-            hateoas_self_link.HateoasSelfLink.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['_self']
+        val_p_self = hateoas_self_link_.HateoasSelfLink.from_dictionary(val)
 
-        key = 'delete-policy-rule'
-        delete_policy_rule = (
-            hateoas_link.HateoasLink.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['delete-policy-rule']
+        val_delete_policy_rule = hateoas_link_.HateoasLink.from_dictionary(val)
 
-        key = 'read-policy-definition'
-        read_policy_definition = (
-            read_policy_definition_hateoas_link.ReadPolicyDefinitionHateoasLink.from_dictionary(
-                dictionary.get(key)
+        val = dictionary['read-policy-definition']
+        val_read_policy_definition = (
+            read_policy_definition_hateoas_link_.ReadPolicyDefinitionHateoasLink.from_dictionary(
+                val
             )
-            if dictionary.get(key)
-            else None
         )
 
-        key = 'update-policy-rule'
-        update_policy_rule = (
-            hateoas_link.HateoasLink.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['update-policy-rule']
+        val_update_policy_rule = hateoas_link_.HateoasLink.from_dictionary(val)
 
         # Return an object of this model
-        return cls(p_self, delete_policy_rule, read_policy_definition, update_policy_rule)
+        return cls(
+            val_p_self,  # type: ignore
+            val_delete_policy_rule,  # type: ignore
+            val_read_policy_definition,  # type: ignore
+            val_update_policy_rule,  # type: ignore
+        )

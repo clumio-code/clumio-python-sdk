@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -19,6 +19,8 @@ class PostProcessKmsV1Request:
             The AWS region associated with the connection. For example, `us-east-1`.
         created_multi_region_cmk:
             Whether the CMK was created or an existing CMK was used.
+        intermediate_role_arn:
+            Role arn to be assumed before accessing ClumioRole in customer account.
         multi_region_cmk_key_id:
             The multi-region CMK Key ID.
         request_type:
@@ -37,10 +39,11 @@ class PostProcessKmsV1Request:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'account_native_id': 'account_native_id',
         'aws_region': 'aws_region',
         'created_multi_region_cmk': 'created_multi_region_cmk',
+        'intermediate_role_arn': 'intermediate_role_arn',
         'multi_region_cmk_key_id': 'multi_region_cmk_key_id',
         'request_type': 'request_type',
         'role_arn': 'role_arn',
@@ -52,16 +55,17 @@ class PostProcessKmsV1Request:
 
     def __init__(
         self,
-        account_native_id: str = None,
-        aws_region: str = None,
-        created_multi_region_cmk: bool = None,
-        multi_region_cmk_key_id: str = None,
-        request_type: str = None,
-        role_arn: str = None,
-        role_external_id: str = None,
-        role_id: str = None,
-        token: str = None,
-        version: int = None,
+        account_native_id: str,
+        aws_region: str,
+        created_multi_region_cmk: bool,
+        intermediate_role_arn: str,
+        multi_region_cmk_key_id: str,
+        request_type: str,
+        role_arn: str,
+        role_external_id: str,
+        role_id: str,
+        token: str,
+        version: int,
     ) -> None:
         """Constructor for the PostProcessKmsV1Request class."""
 
@@ -69,6 +73,7 @@ class PostProcessKmsV1Request:
         self.account_native_id: str = account_native_id
         self.aws_region: str = aws_region
         self.created_multi_region_cmk: bool = created_multi_region_cmk
+        self.intermediate_role_arn: str = intermediate_role_arn
         self.multi_region_cmk_key_id: str = multi_region_cmk_key_id
         self.request_type: str = request_type
         self.role_arn: str = role_arn
@@ -78,7 +83,7 @@ class PostProcessKmsV1Request:
         self.version: int = version
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -89,30 +94,52 @@ class PostProcessKmsV1Request:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        account_native_id = dictionary.get('account_native_id')
-        aws_region = dictionary.get('aws_region')
-        created_multi_region_cmk = dictionary.get('created_multi_region_cmk')
-        multi_region_cmk_key_id = dictionary.get('multi_region_cmk_key_id')
-        request_type = dictionary.get('request_type')
-        role_arn = dictionary.get('role_arn')
-        role_external_id = dictionary.get('role_external_id')
-        role_id = dictionary.get('role_id')
-        token = dictionary.get('token')
-        version = dictionary.get('version')
+        val = dictionary['account_native_id']
+        val_account_native_id = val
+
+        val = dictionary['aws_region']
+        val_aws_region = val
+
+        val = dictionary['created_multi_region_cmk']
+        val_created_multi_region_cmk = val
+
+        val = dictionary['intermediate_role_arn']
+        val_intermediate_role_arn = val
+
+        val = dictionary['multi_region_cmk_key_id']
+        val_multi_region_cmk_key_id = val
+
+        val = dictionary['request_type']
+        val_request_type = val
+
+        val = dictionary['role_arn']
+        val_role_arn = val
+
+        val = dictionary['role_external_id']
+        val_role_external_id = val
+
+        val = dictionary['role_id']
+        val_role_id = val
+
+        val = dictionary['token']
+        val_token = val
+
+        val = dictionary['version']
+        val_version = val
+
         # Return an object of this model
         return cls(
-            account_native_id,
-            aws_region,
-            created_multi_region_cmk,
-            multi_region_cmk_key_id,
-            request_type,
-            role_arn,
-            role_external_id,
-            role_id,
-            token,
-            version,
+            val_account_native_id,  # type: ignore
+            val_aws_region,  # type: ignore
+            val_created_multi_region_cmk,  # type: ignore
+            val_intermediate_role_arn,  # type: ignore
+            val_multi_region_cmk_key_id,  # type: ignore
+            val_request_type,  # type: ignore
+            val_role_arn,  # type: ignore
+            val_role_external_id,  # type: ignore
+            val_role_id,  # type: ignore
+            val_token,  # type: ignore
+            val_version,  # type: ignore
         )

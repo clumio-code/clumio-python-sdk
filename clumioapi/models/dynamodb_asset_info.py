@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -18,16 +18,16 @@ class DynamodbAssetInfo:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'installed_template_version': 'installed_template_version'}
+    _names: dict[str, str] = {'installed_template_version': 'installed_template_version'}
 
-    def __init__(self, installed_template_version: str = None) -> None:
+    def __init__(self, installed_template_version: str) -> None:
         """Constructor for the DynamodbAssetInfo class."""
 
         # Initialize members of the class
         self.installed_template_version: str = installed_template_version
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -38,10 +38,12 @@ class DynamodbAssetInfo:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        installed_template_version = dictionary.get('installed_template_version')
+        val = dictionary['installed_template_version']
+        val_installed_template_version = val
+
         # Return an object of this model
-        return cls(installed_template_version)
+        return cls(
+            val_installed_template_version,  # type: ignore
+        )

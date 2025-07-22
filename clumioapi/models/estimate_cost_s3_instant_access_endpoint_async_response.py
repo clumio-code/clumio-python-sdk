@@ -1,10 +1,12 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import estimate_cost_s3_instant_access_endpoint_async_response_links
+from clumioapi.models import \
+    estimate_cost_s3_instant_access_endpoint_async_response_links as \
+    estimate_cost_s3_instant_access_endpoint_async_response_links_
 
 T = TypeVar('T', bound='EstimateCostS3InstantAccessEndpointAsyncResponse')
 
@@ -27,25 +29,25 @@ class EstimateCostS3InstantAccessEndpointAsyncResponse:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'links': '_links', 'estimate_id': 'estimate_id', 'task_id': 'task_id'}
+    _names: dict[str, str] = {'links': '_links', 'estimate_id': 'estimate_id', 'task_id': 'task_id'}
 
     def __init__(
         self,
-        links: estimate_cost_s3_instant_access_endpoint_async_response_links.EstimateCostS3InstantAccessEndpointAsyncResponseLinks = None,
-        estimate_id: str = None,
-        task_id: str = None,
+        links: estimate_cost_s3_instant_access_endpoint_async_response_links_.EstimateCostS3InstantAccessEndpointAsyncResponseLinks,
+        estimate_id: str,
+        task_id: str,
     ) -> None:
         """Constructor for the EstimateCostS3InstantAccessEndpointAsyncResponse class."""
 
         # Initialize members of the class
         self.links: (
-            estimate_cost_s3_instant_access_endpoint_async_response_links.EstimateCostS3InstantAccessEndpointAsyncResponseLinks
+            estimate_cost_s3_instant_access_endpoint_async_response_links_.EstimateCostS3InstantAccessEndpointAsyncResponseLinks
         ) = links
         self.estimate_id: str = estimate_id
         self.task_id: str = task_id
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -56,20 +58,22 @@ class EstimateCostS3InstantAccessEndpointAsyncResponse:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        key = '_links'
-        links = (
-            estimate_cost_s3_instant_access_endpoint_async_response_links.EstimateCostS3InstantAccessEndpointAsyncResponseLinks.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
+        val = dictionary['_links']
+        val_links = estimate_cost_s3_instant_access_endpoint_async_response_links_.EstimateCostS3InstantAccessEndpointAsyncResponseLinks.from_dictionary(
+            val
         )
 
-        estimate_id = dictionary.get('estimate_id')
-        task_id = dictionary.get('task_id')
+        val = dictionary['estimate_id']
+        val_estimate_id = val
+
+        val = dictionary['task_id']
+        val_task_id = val
+
         # Return an object of this model
-        return cls(links, estimate_id, task_id)
+        return cls(
+            val_links,  # type: ignore
+            val_estimate_id,  # type: ignore
+            val_task_id,  # type: ignore
+        )

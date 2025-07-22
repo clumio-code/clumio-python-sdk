@@ -1,9 +1,9 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -31,7 +31,7 @@ class Ec2MssqlHostsV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def list_ec2_mssql_hosts(
-        self, limit: int = None, start: str = None, filter: str = None, embed: str = None, **kwargs
+        self, limit: int, start: str, filter: str, embed: str, **kwargs
     ) -> Union[
         list_ec2_mssql_inv_hosts_response.ListEC2MSSQLInvHostsResponse,
         tuple[
@@ -101,12 +101,12 @@ class Ec2MssqlHostsV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/datasources/aws/ec2-mssql/hosts'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'limit': limit, 'start': start, 'filter': filter, 'embed': embed}
 
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -128,7 +128,9 @@ class Ec2MssqlHostsV1Controller(base_controller.BaseController):
                     resp.json()
                 ),
             )
-        return list_ec2_mssql_inv_hosts_response.ListEC2MSSQLInvHostsResponse.from_dictionary(resp)
+        return list_ec2_mssql_inv_hosts_response.ListEC2MSSQLInvHostsResponse.from_dictionary(
+            resp.json()
+        )
 
     def read_ec2_mssql_host(self, host_id: str, **kwargs) -> Union[
         read_ec2_mssql_inv_host_response.ReadEC2MSSQLInvHostResponse,
@@ -154,11 +156,11 @@ class Ec2MssqlHostsV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/datasources/aws/ec2-mssql/hosts/{host_id}'
         _url_path = api_helper.append_url_with_template_parameters(_url_path, {'host_id': host_id})
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -180,4 +182,6 @@ class Ec2MssqlHostsV1Controller(base_controller.BaseController):
                     resp.json()
                 ),
             )
-        return read_ec2_mssql_inv_host_response.ReadEC2MSSQLInvHostResponse.from_dictionary(resp)
+        return read_ec2_mssql_inv_host_response.ReadEC2MSSQLInvHostResponse.from_dictionary(
+            resp.json()
+        )

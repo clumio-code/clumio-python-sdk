@@ -1,10 +1,10 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import share_file_restore_email_links
+from clumioapi.models import share_file_restore_email_links as share_file_restore_email_links_
 
 T = TypeVar('T', bound='ShareFileRestoreEmailResponse')
 
@@ -18,18 +18,16 @@ class ShareFileRestoreEmailResponse:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'links': '_links'}
+    _names: dict[str, str] = {'links': '_links'}
 
-    def __init__(
-        self, links: share_file_restore_email_links.ShareFileRestoreEmailLinks = None
-    ) -> None:
+    def __init__(self, links: share_file_restore_email_links_.ShareFileRestoreEmailLinks) -> None:
         """Constructor for the ShareFileRestoreEmailResponse class."""
 
         # Initialize members of the class
-        self.links: share_file_restore_email_links.ShareFileRestoreEmailLinks = links
+        self.links: share_file_restore_email_links_.ShareFileRestoreEmailLinks = links
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -40,18 +38,12 @@ class ShareFileRestoreEmailResponse:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        key = '_links'
-        links = (
-            share_file_restore_email_links.ShareFileRestoreEmailLinks.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['_links']
+        val_links = share_file_restore_email_links_.ShareFileRestoreEmailLinks.from_dictionary(val)
 
         # Return an object of this model
-        return cls(links)
+        return cls(
+            val_links,  # type: ignore
+        )

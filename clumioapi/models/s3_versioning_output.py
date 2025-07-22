@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -20,9 +20,9 @@ class S3VersioningOutput:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'mfa_delete': 'mfa_delete', 'status': 'status'}
+    _names: dict[str, str] = {'mfa_delete': 'mfa_delete', 'status': 'status'}
 
-    def __init__(self, mfa_delete: str = None, status: str = None) -> None:
+    def __init__(self, mfa_delete: str, status: str) -> None:
         """Constructor for the S3VersioningOutput class."""
 
         # Initialize members of the class
@@ -30,7 +30,7 @@ class S3VersioningOutput:
         self.status: str = status
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -41,11 +41,16 @@ class S3VersioningOutput:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        mfa_delete = dictionary.get('mfa_delete')
-        status = dictionary.get('status')
+        val = dictionary['mfa_delete']
+        val_mfa_delete = val
+
+        val = dictionary['status']
+        val_status = val
+
         # Return an object of this model
-        return cls(mfa_delete, status)
+        return cls(
+            val_mfa_delete,  # type: ignore
+            val_status,  # type: ignore
+        )

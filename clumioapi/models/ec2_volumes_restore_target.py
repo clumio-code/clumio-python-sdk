@@ -1,10 +1,11 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import ec2_restore_ebs_block_device_mapping
+from clumioapi.models import \
+    ec2_restore_ebs_block_device_mapping as ec2_restore_ebs_block_device_mapping_
 
 T = TypeVar('T', bound='EC2VolumesRestoreTarget')
 
@@ -32,7 +33,7 @@ class EC2VolumesRestoreTarget:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'aws_az': 'aws_az',
         'ebs_block_device_mappings': 'ebs_block_device_mappings',
         'environment_id': 'environment_id',
@@ -41,25 +42,25 @@ class EC2VolumesRestoreTarget:
 
     def __init__(
         self,
-        aws_az: str = None,
+        aws_az: str,
         ebs_block_device_mappings: Sequence[
-            ec2_restore_ebs_block_device_mapping.EC2RestoreEbsBlockDeviceMapping
-        ] = None,
-        environment_id: str = None,
-        target_instance_native_id: str = None,
+            ec2_restore_ebs_block_device_mapping_.EC2RestoreEbsBlockDeviceMapping
+        ],
+        environment_id: str,
+        target_instance_native_id: str,
     ) -> None:
         """Constructor for the EC2VolumesRestoreTarget class."""
 
         # Initialize members of the class
         self.aws_az: str = aws_az
         self.ebs_block_device_mappings: Sequence[
-            ec2_restore_ebs_block_device_mapping.EC2RestoreEbsBlockDeviceMapping
+            ec2_restore_ebs_block_device_mapping_.EC2RestoreEbsBlockDeviceMapping
         ] = ebs_block_device_mappings
         self.environment_id: str = environment_id
         self.target_instance_native_id: str = target_instance_native_id
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -70,22 +71,33 @@ class EC2VolumesRestoreTarget:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        aws_az = dictionary.get('aws_az')
-        ebs_block_device_mappings = None
-        if dictionary.get('ebs_block_device_mappings'):
-            ebs_block_device_mappings = list()
-            for value in dictionary.get('ebs_block_device_mappings'):
-                ebs_block_device_mappings.append(
-                    ec2_restore_ebs_block_device_mapping.EC2RestoreEbsBlockDeviceMapping.from_dictionary(
+        val = dictionary['aws_az']
+        val_aws_az = val
+
+        val = dictionary['ebs_block_device_mappings']
+
+        val_ebs_block_device_mappings = None
+        if val:
+            val_ebs_block_device_mappings = list()
+            for value in val:
+                val_ebs_block_device_mappings.append(
+                    ec2_restore_ebs_block_device_mapping_.EC2RestoreEbsBlockDeviceMapping.from_dictionary(
                         value
                     )
                 )
 
-        environment_id = dictionary.get('environment_id')
-        target_instance_native_id = dictionary.get('target_instance_native_id')
+        val = dictionary['environment_id']
+        val_environment_id = val
+
+        val = dictionary['target_instance_native_id']
+        val_target_instance_native_id = val
+
         # Return an object of this model
-        return cls(aws_az, ebs_block_device_mappings, environment_id, target_instance_native_id)
+        return cls(
+            val_aws_az,  # type: ignore
+            val_ebs_block_device_mappings,  # type: ignore
+            val_environment_id,  # type: ignore
+            val_target_instance_native_id,  # type: ignore
+        )

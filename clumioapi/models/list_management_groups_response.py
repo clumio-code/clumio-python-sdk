@@ -1,11 +1,11 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import management_group_list_embedded
-from clumioapi.models import management_group_list_links
+from clumioapi.models import management_group_list_embedded as management_group_list_embedded_
+from clumioapi.models import management_group_list_links as management_group_list_links_
 
 T = TypeVar('T', bound='ListManagementGroupsResponse')
 
@@ -30,7 +30,7 @@ class ListManagementGroupsResponse:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'embedded': '_embedded',
         'links': '_links',
         'current_count': 'current_count',
@@ -41,25 +41,25 @@ class ListManagementGroupsResponse:
 
     def __init__(
         self,
-        embedded: management_group_list_embedded.ManagementGroupListEmbedded = None,
-        links: management_group_list_links.ManagementGroupListLinks = None,
-        current_count: int = None,
-        limit: int = None,
-        min_count: int = None,
-        start: str = None,
+        embedded: management_group_list_embedded_.ManagementGroupListEmbedded,
+        links: management_group_list_links_.ManagementGroupListLinks,
+        current_count: int,
+        limit: int,
+        min_count: int,
+        start: str,
     ) -> None:
         """Constructor for the ListManagementGroupsResponse class."""
 
         # Initialize members of the class
-        self.embedded: management_group_list_embedded.ManagementGroupListEmbedded = embedded
-        self.links: management_group_list_links.ManagementGroupListLinks = links
+        self.embedded: management_group_list_embedded_.ManagementGroupListEmbedded = embedded
+        self.links: management_group_list_links_.ManagementGroupListLinks = links
         self.current_count: int = current_count
         self.limit: int = limit
         self.min_count: int = min_count
         self.start: str = start
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -70,31 +70,34 @@ class ListManagementGroupsResponse:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        key = '_embedded'
-        embedded = (
-            management_group_list_embedded.ManagementGroupListEmbedded.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
+        val = dictionary['_embedded']
+        val_embedded = management_group_list_embedded_.ManagementGroupListEmbedded.from_dictionary(
+            val
         )
 
-        key = '_links'
-        links = (
-            management_group_list_links.ManagementGroupListLinks.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['_links']
+        val_links = management_group_list_links_.ManagementGroupListLinks.from_dictionary(val)
 
-        current_count = dictionary.get('current_count')
-        limit = dictionary.get('limit')
-        min_count = dictionary.get('min_count')
-        start = dictionary.get('start')
+        val = dictionary['current_count']
+        val_current_count = val
+
+        val = dictionary['limit']
+        val_limit = val
+
+        val = dictionary['min_count']
+        val_min_count = val
+
+        val = dictionary['start']
+        val_start = val
+
         # Return an object of this model
-        return cls(embedded, links, current_count, limit, min_count, start)
+        return cls(
+            val_embedded,  # type: ignore
+            val_links,  # type: ignore
+            val_current_count,  # type: ignore
+            val_limit,  # type: ignore
+            val_min_count,  # type: ignore
+            val_start,  # type: ignore
+        )

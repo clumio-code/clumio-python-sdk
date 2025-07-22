@@ -1,11 +1,12 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import s3_instant_access_endpoint_embedded
-from clumioapi.models import s3_instant_access_endpoint_links
+from clumioapi.models import \
+    s3_instant_access_endpoint_embedded as s3_instant_access_endpoint_embedded_
+from clumioapi.models import s3_instant_access_endpoint_links as s3_instant_access_endpoint_links_
 
 T = TypeVar('T', bound='UpdateS3InstantAccessEndpointResponse')
 
@@ -60,7 +61,7 @@ class UpdateS3InstantAccessEndpointResponse:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'embedded': '_embedded',
         'links': '_links',
         'aws_account_id': 'aws_account_id',
@@ -84,33 +85,33 @@ class UpdateS3InstantAccessEndpointResponse:
 
     def __init__(
         self,
-        embedded: s3_instant_access_endpoint_embedded.S3InstantAccessEndpointEmbedded = None,
-        links: s3_instant_access_endpoint_links.S3InstantAccessEndpointLinks = None,
-        aws_account_id: str = None,
-        backup_region: str = None,
-        bucket_name: str = None,
-        created_timestamp: str = None,
-        endpoint_status: str = None,
-        expiry_timestamp: str = None,
-        p_id: str = None,
-        name: str = None,
-        objects_created_after: str = None,
-        objects_created_before: str = None,
-        organizational_unit_id: str = None,
-        protection_group_id: str = None,
-        protection_group_name: str = None,
-        protection_group_s3_asset_id: str = None,
-        region: str = None,
-        restore_timestamp: str = None,
-        updated_timestamp: str = None,
+        embedded: s3_instant_access_endpoint_embedded_.S3InstantAccessEndpointEmbedded,
+        links: s3_instant_access_endpoint_links_.S3InstantAccessEndpointLinks,
+        aws_account_id: str,
+        backup_region: str,
+        bucket_name: str,
+        created_timestamp: str,
+        endpoint_status: str,
+        expiry_timestamp: str,
+        p_id: str,
+        name: str,
+        objects_created_after: str,
+        objects_created_before: str,
+        organizational_unit_id: str,
+        protection_group_id: str,
+        protection_group_name: str,
+        protection_group_s3_asset_id: str,
+        region: str,
+        restore_timestamp: str,
+        updated_timestamp: str,
     ) -> None:
         """Constructor for the UpdateS3InstantAccessEndpointResponse class."""
 
         # Initialize members of the class
-        self.embedded: s3_instant_access_endpoint_embedded.S3InstantAccessEndpointEmbedded = (
+        self.embedded: s3_instant_access_endpoint_embedded_.S3InstantAccessEndpointEmbedded = (
             embedded
         )
-        self.links: s3_instant_access_endpoint_links.S3InstantAccessEndpointLinks = links
+        self.links: s3_instant_access_endpoint_links_.S3InstantAccessEndpointLinks = links
         self.aws_account_id: str = aws_account_id
         self.backup_region: str = backup_region
         self.bucket_name: str = bucket_name
@@ -130,7 +131,7 @@ class UpdateS3InstantAccessEndpointResponse:
         self.updated_timestamp: str = updated_timestamp
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -141,64 +142,90 @@ class UpdateS3InstantAccessEndpointResponse:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        key = '_embedded'
-        embedded = (
-            s3_instant_access_endpoint_embedded.S3InstantAccessEndpointEmbedded.from_dictionary(
-                dictionary.get(key)
+        val = dictionary['_embedded']
+        val_embedded = (
+            s3_instant_access_endpoint_embedded_.S3InstantAccessEndpointEmbedded.from_dictionary(
+                val
             )
-            if dictionary.get(key)
-            else None
         )
 
-        key = '_links'
-        links = (
-            s3_instant_access_endpoint_links.S3InstantAccessEndpointLinks.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
+        val = dictionary['_links']
+        val_links = s3_instant_access_endpoint_links_.S3InstantAccessEndpointLinks.from_dictionary(
+            val
         )
 
-        aws_account_id = dictionary.get('aws_account_id')
-        backup_region = dictionary.get('backup_region')
-        bucket_name = dictionary.get('bucket_name')
-        created_timestamp = dictionary.get('created_timestamp')
-        endpoint_status = dictionary.get('endpoint_status')
-        expiry_timestamp = dictionary.get('expiry_timestamp')
-        p_id = dictionary.get('id')
-        name = dictionary.get('name')
-        objects_created_after = dictionary.get('objects_created_after')
-        objects_created_before = dictionary.get('objects_created_before')
-        organizational_unit_id = dictionary.get('organizational_unit_id')
-        protection_group_id = dictionary.get('protection_group_id')
-        protection_group_name = dictionary.get('protection_group_name')
-        protection_group_s3_asset_id = dictionary.get('protection_group_s3_asset_id')
-        region = dictionary.get('region')
-        restore_timestamp = dictionary.get('restore_timestamp')
-        updated_timestamp = dictionary.get('updated_timestamp')
+        val = dictionary['aws_account_id']
+        val_aws_account_id = val
+
+        val = dictionary['backup_region']
+        val_backup_region = val
+
+        val = dictionary['bucket_name']
+        val_bucket_name = val
+
+        val = dictionary['created_timestamp']
+        val_created_timestamp = val
+
+        val = dictionary['endpoint_status']
+        val_endpoint_status = val
+
+        val = dictionary['expiry_timestamp']
+        val_expiry_timestamp = val
+
+        val = dictionary['id']
+        val_p_id = val
+
+        val = dictionary['name']
+        val_name = val
+
+        val = dictionary['objects_created_after']
+        val_objects_created_after = val
+
+        val = dictionary['objects_created_before']
+        val_objects_created_before = val
+
+        val = dictionary['organizational_unit_id']
+        val_organizational_unit_id = val
+
+        val = dictionary['protection_group_id']
+        val_protection_group_id = val
+
+        val = dictionary['protection_group_name']
+        val_protection_group_name = val
+
+        val = dictionary['protection_group_s3_asset_id']
+        val_protection_group_s3_asset_id = val
+
+        val = dictionary['region']
+        val_region = val
+
+        val = dictionary['restore_timestamp']
+        val_restore_timestamp = val
+
+        val = dictionary['updated_timestamp']
+        val_updated_timestamp = val
+
         # Return an object of this model
         return cls(
-            embedded,
-            links,
-            aws_account_id,
-            backup_region,
-            bucket_name,
-            created_timestamp,
-            endpoint_status,
-            expiry_timestamp,
-            p_id,
-            name,
-            objects_created_after,
-            objects_created_before,
-            organizational_unit_id,
-            protection_group_id,
-            protection_group_name,
-            protection_group_s3_asset_id,
-            region,
-            restore_timestamp,
-            updated_timestamp,
+            val_embedded,  # type: ignore
+            val_links,  # type: ignore
+            val_aws_account_id,  # type: ignore
+            val_backup_region,  # type: ignore
+            val_bucket_name,  # type: ignore
+            val_created_timestamp,  # type: ignore
+            val_endpoint_status,  # type: ignore
+            val_expiry_timestamp,  # type: ignore
+            val_p_id,  # type: ignore
+            val_name,  # type: ignore
+            val_objects_created_after,  # type: ignore
+            val_objects_created_before,  # type: ignore
+            val_organizational_unit_id,  # type: ignore
+            val_protection_group_id,  # type: ignore
+            val_protection_group_name,  # type: ignore
+            val_protection_group_s3_asset_id,  # type: ignore
+            val_region,  # type: ignore
+            val_restore_timestamp,  # type: ignore
+            val_updated_timestamp,  # type: ignore
         )

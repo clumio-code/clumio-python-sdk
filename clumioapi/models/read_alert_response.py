@@ -1,15 +1,15 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import alert_embedded
-from clumioapi.models import alert_links
-from clumioapi.models import alert_parent_entity
-from clumioapi.models import alert_primary_entity
-from clumioapi.models import individual_alert_details
-from clumioapi.models import rest_entity
+from clumioapi.models import alert_embedded as alert_embedded_
+from clumioapi.models import alert_links as alert_links_
+from clumioapi.models import alert_parent_entity as alert_parent_entity_
+from clumioapi.models import alert_primary_entity as alert_primary_entity_
+from clumioapi.models import individual_alert_details as individual_alert_details_
+from clumioapi.models import rest_entity as rest_entity_
 
 T = TypeVar('T', bound='ReadAlertResponse')
 
@@ -47,7 +47,7 @@ class ReadAlertResponse:
             "aws_ebs_volume".
         primary_entity:
             The primary object associated with or affected by the alert. Examples of primary
-            entities include "aws_connection", "aws_ebs_volume" and "vmware_vm".
+            entities include "aws_connection", "aws_ebs_volume".
         raised_count:
             The number of times the alert has recurred for this primary entity.
         raised_timestamp:
@@ -73,7 +73,7 @@ class ReadAlertResponse:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'embedded': '_embedded',
         'etag': '_etag',
         'links': '_links',
@@ -96,49 +96,49 @@ class ReadAlertResponse:
 
     def __init__(
         self,
-        embedded: alert_embedded.AlertEmbedded = None,
-        etag: str = None,
-        links: alert_links.AlertLinks = None,
-        cause: str = None,
-        cleared_timestamp: str = None,
-        consolidated_alert_id: str = None,
-        details: individual_alert_details.IndividualAlertDetails = None,
-        p_id: str = None,
-        notes: str = None,
-        parent_entity: alert_parent_entity.AlertParentEntity = None,
-        primary_entity: alert_primary_entity.AlertPrimaryEntity = None,
-        raised_count: int = None,
-        raised_timestamp: str = None,
-        severity: str = None,
-        status: str = None,
-        tags: Sequence[rest_entity.RestEntity] = None,
-        p_type: str = None,
-        updated_timestamp: str = None,
+        embedded: alert_embedded_.AlertEmbedded,
+        etag: str,
+        links: alert_links_.AlertLinks,
+        cause: str,
+        cleared_timestamp: str,
+        consolidated_alert_id: str,
+        details: individual_alert_details_.IndividualAlertDetails,
+        p_id: str,
+        notes: str,
+        parent_entity: alert_parent_entity_.AlertParentEntity,
+        primary_entity: alert_primary_entity_.AlertPrimaryEntity,
+        raised_count: int,
+        raised_timestamp: str,
+        severity: str,
+        status: str,
+        tags: Sequence[rest_entity_.RestEntity],
+        p_type: str,
+        updated_timestamp: str,
     ) -> None:
         """Constructor for the ReadAlertResponse class."""
 
         # Initialize members of the class
-        self.embedded: alert_embedded.AlertEmbedded = embedded
+        self.embedded: alert_embedded_.AlertEmbedded = embedded
         self.etag: str = etag
-        self.links: alert_links.AlertLinks = links
+        self.links: alert_links_.AlertLinks = links
         self.cause: str = cause
         self.cleared_timestamp: str = cleared_timestamp
         self.consolidated_alert_id: str = consolidated_alert_id
-        self.details: individual_alert_details.IndividualAlertDetails = details
+        self.details: individual_alert_details_.IndividualAlertDetails = details
         self.p_id: str = p_id
         self.notes: str = notes
-        self.parent_entity: alert_parent_entity.AlertParentEntity = parent_entity
-        self.primary_entity: alert_primary_entity.AlertPrimaryEntity = primary_entity
+        self.parent_entity: alert_parent_entity_.AlertParentEntity = parent_entity
+        self.primary_entity: alert_primary_entity_.AlertPrimaryEntity = primary_entity
         self.raised_count: int = raised_count
         self.raised_timestamp: str = raised_timestamp
         self.severity: str = severity
         self.status: str = status
-        self.tags: Sequence[rest_entity.RestEntity] = tags
+        self.tags: Sequence[rest_entity_.RestEntity] = tags
         self.p_type: str = p_type
         self.updated_timestamp: str = updated_timestamp
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -149,81 +149,85 @@ class ReadAlertResponse:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        key = '_embedded'
-        embedded = (
-            alert_embedded.AlertEmbedded.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['_embedded']
+        val_embedded = alert_embedded_.AlertEmbedded.from_dictionary(val)
 
-        etag = dictionary.get('_etag')
-        key = '_links'
-        links = (
-            alert_links.AlertLinks.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['_etag']
+        val_etag = val
 
-        cause = dictionary.get('cause')
-        cleared_timestamp = dictionary.get('cleared_timestamp')
-        consolidated_alert_id = dictionary.get('consolidated_alert_id')
-        key = 'details'
-        details = (
-            individual_alert_details.IndividualAlertDetails.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['_links']
+        val_links = alert_links_.AlertLinks.from_dictionary(val)
 
-        p_id = dictionary.get('id')
-        notes = dictionary.get('notes')
-        key = 'parent_entity'
-        parent_entity = (
-            alert_parent_entity.AlertParentEntity.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['cause']
+        val_cause = val
 
-        key = 'primary_entity'
-        primary_entity = (
-            alert_primary_entity.AlertPrimaryEntity.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['cleared_timestamp']
+        val_cleared_timestamp = val
 
-        raised_count = dictionary.get('raised_count')
-        raised_timestamp = dictionary.get('raised_timestamp')
-        severity = dictionary.get('severity')
-        status = dictionary.get('status')
-        tags = None
-        if dictionary.get('tags'):
-            tags = list()
-            for value in dictionary.get('tags'):
-                tags.append(rest_entity.RestEntity.from_dictionary(value))
+        val = dictionary['consolidated_alert_id']
+        val_consolidated_alert_id = val
 
-        p_type = dictionary.get('type')
-        updated_timestamp = dictionary.get('updated_timestamp')
+        val = dictionary['details']
+        val_details = individual_alert_details_.IndividualAlertDetails.from_dictionary(val)
+
+        val = dictionary['id']
+        val_p_id = val
+
+        val = dictionary['notes']
+        val_notes = val
+
+        val = dictionary['parent_entity']
+        val_parent_entity = alert_parent_entity_.AlertParentEntity.from_dictionary(val)
+
+        val = dictionary['primary_entity']
+        val_primary_entity = alert_primary_entity_.AlertPrimaryEntity.from_dictionary(val)
+
+        val = dictionary['raised_count']
+        val_raised_count = val
+
+        val = dictionary['raised_timestamp']
+        val_raised_timestamp = val
+
+        val = dictionary['severity']
+        val_severity = val
+
+        val = dictionary['status']
+        val_status = val
+
+        val = dictionary['tags']
+
+        val_tags = None
+        if val:
+            val_tags = list()
+            for value in val:
+                val_tags.append(rest_entity_.RestEntity.from_dictionary(value))
+
+        val = dictionary['type']
+        val_p_type = val
+
+        val = dictionary['updated_timestamp']
+        val_updated_timestamp = val
+
         # Return an object of this model
         return cls(
-            embedded,
-            etag,
-            links,
-            cause,
-            cleared_timestamp,
-            consolidated_alert_id,
-            details,
-            p_id,
-            notes,
-            parent_entity,
-            primary_entity,
-            raised_count,
-            raised_timestamp,
-            severity,
-            status,
-            tags,
-            p_type,
-            updated_timestamp,
+            val_embedded,  # type: ignore
+            val_etag,  # type: ignore
+            val_links,  # type: ignore
+            val_cause,  # type: ignore
+            val_cleared_timestamp,  # type: ignore
+            val_consolidated_alert_id,  # type: ignore
+            val_details,  # type: ignore
+            val_p_id,  # type: ignore
+            val_notes,  # type: ignore
+            val_parent_entity,  # type: ignore
+            val_primary_entity,  # type: ignore
+            val_raised_count,  # type: ignore
+            val_raised_timestamp,  # type: ignore
+            val_severity,  # type: ignore
+            val_status,  # type: ignore
+            val_tags,  # type: ignore
+            val_p_type,  # type: ignore
+            val_updated_timestamp,  # type: ignore
         )

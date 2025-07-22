@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -22,9 +22,9 @@ class DirectDownloadDataAccessObject:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'download_link': 'download_link', 'retrieved_by': 'retrieved_by'}
+    _names: dict[str, str] = {'download_link': 'download_link', 'retrieved_by': 'retrieved_by'}
 
-    def __init__(self, download_link: str = None, retrieved_by: str = None) -> None:
+    def __init__(self, download_link: str, retrieved_by: str) -> None:
         """Constructor for the DirectDownloadDataAccessObject class."""
 
         # Initialize members of the class
@@ -32,7 +32,7 @@ class DirectDownloadDataAccessObject:
         self.retrieved_by: str = retrieved_by
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -43,11 +43,16 @@ class DirectDownloadDataAccessObject:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        download_link = dictionary.get('download_link')
-        retrieved_by = dictionary.get('retrieved_by')
+        val = dictionary['download_link']
+        val_download_link = val
+
+        val = dictionary['retrieved_by']
+        val_retrieved_by = val
+
         # Return an object of this model
-        return cls(download_link, retrieved_by)
+        return cls(
+            val_download_link,  # type: ignore
+            val_retrieved_by,  # type: ignore
+        )

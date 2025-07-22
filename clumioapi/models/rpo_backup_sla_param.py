@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -28,9 +28,9 @@ class RPOBackupSLAParam:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'offsets': 'offsets', 'unit': 'unit', 'value': 'value'}
+    _names: dict[str, str] = {'offsets': 'offsets', 'unit': 'unit', 'value': 'value'}
 
-    def __init__(self, offsets: Sequence[int] = None, unit: str = None, value: int = None) -> None:
+    def __init__(self, offsets: Sequence[int], unit: str, value: int) -> None:
         """Constructor for the RPOBackupSLAParam class."""
 
         # Initialize members of the class
@@ -39,7 +39,7 @@ class RPOBackupSLAParam:
         self.value: int = value
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -50,12 +50,20 @@ class RPOBackupSLAParam:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        offsets = dictionary.get('offsets')
-        unit = dictionary.get('unit')
-        value = dictionary.get('value')
+        val = dictionary['offsets']
+        val_offsets = val
+
+        val = dictionary['unit']
+        val_unit = val
+
+        val = dictionary['value']
+        val_value = val
+
         # Return an object of this model
-        return cls(offsets, unit, value)
+        return cls(
+            val_offsets,  # type: ignore
+            val_unit,  # type: ignore
+            val_value,  # type: ignore
+        )

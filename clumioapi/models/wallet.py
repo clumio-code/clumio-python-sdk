@@ -1,11 +1,11 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import error_model
-from clumioapi.models import wallet_links
+from clumioapi.models import error_model as error_model_
+from clumioapi.models import wallet_links as wallet_links_
 
 T = TypeVar('T', bound='Wallet')
 
@@ -60,7 +60,7 @@ class Wallet:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'embedded': '_embedded',
         'links': '_links',
         'account_native_id': 'account_native_id',
@@ -82,29 +82,29 @@ class Wallet:
 
     def __init__(
         self,
-        embedded: object = None,
-        links: wallet_links.WalletLinks = None,
-        account_native_id: str = None,
-        available_version: int = None,
-        clumio_aws_account_id: str = None,
-        deployment_url: str = None,
-        error_code: str = None,
-        error_message: str = None,
-        p_id: str = None,
-        installed_regions: Sequence[str] = None,
-        key_errors: Mapping[str, error_model.ErrorModel] = None,
-        role_arn: str = None,
-        stack_version: int = None,
-        state: str = None,
-        supported_regions: Sequence[str] = None,
-        template_url: str = None,
-        token: str = None,
+        embedded: object,
+        links: wallet_links_.WalletLinks,
+        account_native_id: str,
+        available_version: int,
+        clumio_aws_account_id: str,
+        deployment_url: str,
+        error_code: str,
+        error_message: str,
+        p_id: str,
+        installed_regions: Sequence[str],
+        key_errors: Mapping[str, error_model_.ErrorModel],
+        role_arn: str,
+        stack_version: int,
+        state: str,
+        supported_regions: Sequence[str],
+        template_url: str,
+        token: str,
     ) -> None:
         """Constructor for the Wallet class."""
 
         # Initialize members of the class
         self.embedded: object = embedded
-        self.links: wallet_links.WalletLinks = links
+        self.links: wallet_links_.WalletLinks = links
         self.account_native_id: str = account_native_id
         self.available_version: int = available_version
         self.clumio_aws_account_id: str = clumio_aws_account_id
@@ -113,7 +113,7 @@ class Wallet:
         self.error_message: str = error_message
         self.p_id: str = p_id
         self.installed_regions: Sequence[str] = installed_regions
-        self.key_errors: Mapping[str, error_model.ErrorModel] = key_errors
+        self.key_errors: Mapping[str, error_model_.ErrorModel] = key_errors
         self.role_arn: str = role_arn
         self.stack_version: int = stack_version
         self.state: str = state
@@ -122,7 +122,7 @@ class Wallet:
         self.token: str = token
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -133,53 +133,78 @@ class Wallet:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        embedded = dictionary.get('_embedded')
-        key = '_links'
-        links = (
-            wallet_links.WalletLinks.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['_embedded']
+        val_embedded = val
 
-        account_native_id = dictionary.get('account_native_id')
-        available_version = dictionary.get('available_version')
-        clumio_aws_account_id = dictionary.get('clumio_aws_account_id')
-        deployment_url = dictionary.get('deployment_url')
-        error_code = dictionary.get('error_code')
-        error_message = dictionary.get('error_message')
-        p_id = dictionary.get('id')
-        installed_regions = dictionary.get('installed_regions')
-        key_errors: Dict[str, error_model.ErrorModel] = {}
-        for key, value in dictionary.get('key_errors').items():
-            key_errors[key] = error_model.ErrorModel.from_dictionary(value) if value else None
+        val = dictionary['_links']
+        val_links = wallet_links_.WalletLinks.from_dictionary(val)
 
-        role_arn = dictionary.get('role_arn')
-        stack_version = dictionary.get('stack_version')
-        state = dictionary.get('state')
-        supported_regions = dictionary.get('supported_regions')
-        template_url = dictionary.get('template_url')
-        token = dictionary.get('token')
+        val = dictionary['account_native_id']
+        val_account_native_id = val
+
+        val = dictionary['available_version']
+        val_available_version = val
+
+        val = dictionary['clumio_aws_account_id']
+        val_clumio_aws_account_id = val
+
+        val = dictionary['deployment_url']
+        val_deployment_url = val
+
+        val = dictionary['error_code']
+        val_error_code = val
+
+        val = dictionary['error_message']
+        val_error_message = val
+
+        val = dictionary['id']
+        val_p_id = val
+
+        val = dictionary['installed_regions']
+        val_installed_regions = val
+
+        val = dictionary['key_errors']
+        val_key_errors: Dict[str, error_model_.ErrorModel] = {}
+        for key, value in val.items():
+            val_key_errors[key] = error_model_.ErrorModel.from_dictionary(value)
+
+        val = dictionary['role_arn']
+        val_role_arn = val
+
+        val = dictionary['stack_version']
+        val_stack_version = val
+
+        val = dictionary['state']
+        val_state = val
+
+        val = dictionary['supported_regions']
+        val_supported_regions = val
+
+        val = dictionary['template_url']
+        val_template_url = val
+
+        val = dictionary['token']
+        val_token = val
+
         # Return an object of this model
         return cls(
-            embedded,
-            links,
-            account_native_id,
-            available_version,
-            clumio_aws_account_id,
-            deployment_url,
-            error_code,
-            error_message,
-            p_id,
-            installed_regions,
-            key_errors,
-            role_arn,
-            stack_version,
-            state,
-            supported_regions,
-            template_url,
-            token,
+            val_embedded,  # type: ignore
+            val_links,  # type: ignore
+            val_account_native_id,  # type: ignore
+            val_available_version,  # type: ignore
+            val_clumio_aws_account_id,  # type: ignore
+            val_deployment_url,  # type: ignore
+            val_error_code,  # type: ignore
+            val_error_message,  # type: ignore
+            val_p_id,  # type: ignore
+            val_installed_regions,  # type: ignore
+            val_key_errors,  # type: ignore
+            val_role_arn,  # type: ignore
+            val_stack_version,  # type: ignore
+            val_state,  # type: ignore
+            val_supported_regions,  # type: ignore
+            val_template_url,  # type: ignore
+            val_token,  # type: ignore
         )

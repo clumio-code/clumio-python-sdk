@@ -1,11 +1,11 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import ec2_mssql_inv_host_links
-from clumioapi.models import protection_info
+from clumioapi.models import ec2_mssql_inv_host_links as ec2_mssql_inv_host_links_
+from clumioapi.models import protection_info as protection_info_
 
 T = TypeVar('T', bound='ReadEC2MSSQLInvHostResponse')
 
@@ -50,7 +50,7 @@ class ReadEC2MSSQLInvHostResponse:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'embedded': '_embedded',
         'links': '_links',
         'account_native_id': 'account_native_id',
@@ -69,26 +69,26 @@ class ReadEC2MSSQLInvHostResponse:
 
     def __init__(
         self,
-        embedded: object = None,
-        links: ec2_mssql_inv_host_links.EC2MSSQLInvHostLinks = None,
-        account_native_id: str = None,
-        aws_region: str = None,
-        connection_id: str = None,
-        endpoint: str = None,
-        environment_id: str = None,
-        has_associated_availability_group: bool = None,
-        p_id: str = None,
-        instance_count: int = None,
-        is_part_of_fci: bool = None,
-        organizational_unit_id: str = None,
-        protection_info: protection_info.ProtectionInfo = None,
-        status: str = None,
+        embedded: object,
+        links: ec2_mssql_inv_host_links_.EC2MSSQLInvHostLinks,
+        account_native_id: str,
+        aws_region: str,
+        connection_id: str,
+        endpoint: str,
+        environment_id: str,
+        has_associated_availability_group: bool,
+        p_id: str,
+        instance_count: int,
+        is_part_of_fci: bool,
+        organizational_unit_id: str,
+        protection_info: protection_info_.ProtectionInfo,
+        status: str,
     ) -> None:
         """Constructor for the ReadEC2MSSQLInvHostResponse class."""
 
         # Initialize members of the class
         self.embedded: object = embedded
-        self.links: ec2_mssql_inv_host_links.EC2MSSQLInvHostLinks = links
+        self.links: ec2_mssql_inv_host_links_.EC2MSSQLInvHostLinks = links
         self.account_native_id: str = account_native_id
         self.aws_region: str = aws_region
         self.connection_id: str = connection_id
@@ -99,11 +99,11 @@ class ReadEC2MSSQLInvHostResponse:
         self.instance_count: int = instance_count
         self.is_part_of_fci: bool = is_part_of_fci
         self.organizational_unit_id: str = organizational_unit_id
-        self.protection_info: protection_info.ProtectionInfo = protection_info
+        self.protection_info: protection_info_.ProtectionInfo = protection_info
         self.status: str = status
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -114,50 +114,64 @@ class ReadEC2MSSQLInvHostResponse:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        embedded = dictionary.get('_embedded')
-        key = '_links'
-        links = (
-            ec2_mssql_inv_host_links.EC2MSSQLInvHostLinks.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['_embedded']
+        val_embedded = val
 
-        account_native_id = dictionary.get('account_native_id')
-        aws_region = dictionary.get('aws_region')
-        connection_id = dictionary.get('connection_id')
-        endpoint = dictionary.get('endpoint')
-        environment_id = dictionary.get('environment_id')
-        has_associated_availability_group = dictionary.get('has_associated_availability_group')
-        p_id = dictionary.get('id')
-        instance_count = dictionary.get('instance_count')
-        is_part_of_fci = dictionary.get('is_part_of_fci')
-        organizational_unit_id = dictionary.get('organizational_unit_id')
-        key = 'protection_info'
-        p_protection_info = (
-            protection_info.ProtectionInfo.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['_links']
+        val_links = ec2_mssql_inv_host_links_.EC2MSSQLInvHostLinks.from_dictionary(val)
 
-        status = dictionary.get('status')
+        val = dictionary['account_native_id']
+        val_account_native_id = val
+
+        val = dictionary['aws_region']
+        val_aws_region = val
+
+        val = dictionary['connection_id']
+        val_connection_id = val
+
+        val = dictionary['endpoint']
+        val_endpoint = val
+
+        val = dictionary['environment_id']
+        val_environment_id = val
+
+        val = dictionary['has_associated_availability_group']
+        val_has_associated_availability_group = val
+
+        val = dictionary['id']
+        val_p_id = val
+
+        val = dictionary['instance_count']
+        val_instance_count = val
+
+        val = dictionary['is_part_of_fci']
+        val_is_part_of_fci = val
+
+        val = dictionary['organizational_unit_id']
+        val_organizational_unit_id = val
+
+        val = dictionary['protection_info']
+        val_protection_info = protection_info_.ProtectionInfo.from_dictionary(val)
+
+        val = dictionary['status']
+        val_status = val
+
         # Return an object of this model
         return cls(
-            embedded,
-            links,
-            account_native_id,
-            aws_region,
-            connection_id,
-            endpoint,
-            environment_id,
-            has_associated_availability_group,
-            p_id,
-            instance_count,
-            is_part_of_fci,
-            organizational_unit_id,
-            p_protection_info,
-            status,
+            val_embedded,  # type: ignore
+            val_links,  # type: ignore
+            val_account_native_id,  # type: ignore
+            val_aws_region,  # type: ignore
+            val_connection_id,  # type: ignore
+            val_endpoint,  # type: ignore
+            val_environment_id,  # type: ignore
+            val_has_associated_availability_group,  # type: ignore
+            val_p_id,  # type: ignore
+            val_instance_count,  # type: ignore
+            val_is_part_of_fci,  # type: ignore
+            val_organizational_unit_id,  # type: ignore
+            val_protection_info,  # type: ignore
+            val_status,  # type: ignore
         )

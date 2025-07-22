@@ -1,10 +1,12 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import estimate_cost_details_s3_instant_access_endpoint_response_links
+from clumioapi.models import \
+    estimate_cost_details_s3_instant_access_endpoint_response_links as \
+    estimate_cost_details_s3_instant_access_endpoint_response_links_
 
 T = TypeVar('T', bound='EstimateCostDetailsS3InstantAccessEndpointResponse')
 
@@ -26,7 +28,7 @@ class EstimateCostDetailsS3InstantAccessEndpointResponse:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'etag': '_etag',
         'links': '_links',
         'estimated_cost': 'estimated_cost',
@@ -36,25 +38,25 @@ class EstimateCostDetailsS3InstantAccessEndpointResponse:
 
     def __init__(
         self,
-        etag: str = None,
-        links: estimate_cost_details_s3_instant_access_endpoint_response_links.EstimateCostDetailsS3InstantAccessEndpointResponseLinks = None,
-        estimated_cost: float = None,
-        total_object_count: int = None,
-        total_object_size: int = None,
+        etag: str,
+        links: estimate_cost_details_s3_instant_access_endpoint_response_links_.EstimateCostDetailsS3InstantAccessEndpointResponseLinks,
+        estimated_cost: float,
+        total_object_count: int,
+        total_object_size: int,
     ) -> None:
         """Constructor for the EstimateCostDetailsS3InstantAccessEndpointResponse class."""
 
         # Initialize members of the class
         self.etag: str = etag
         self.links: (
-            estimate_cost_details_s3_instant_access_endpoint_response_links.EstimateCostDetailsS3InstantAccessEndpointResponseLinks
+            estimate_cost_details_s3_instant_access_endpoint_response_links_.EstimateCostDetailsS3InstantAccessEndpointResponseLinks
         ) = links
         self.estimated_cost: float = estimated_cost
         self.total_object_count: int = total_object_count
         self.total_object_size: int = total_object_size
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -65,22 +67,30 @@ class EstimateCostDetailsS3InstantAccessEndpointResponse:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        etag = dictionary.get('_etag')
-        key = '_links'
-        links = (
-            estimate_cost_details_s3_instant_access_endpoint_response_links.EstimateCostDetailsS3InstantAccessEndpointResponseLinks.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
+        val = dictionary['_etag']
+        val_etag = val
+
+        val = dictionary['_links']
+        val_links = estimate_cost_details_s3_instant_access_endpoint_response_links_.EstimateCostDetailsS3InstantAccessEndpointResponseLinks.from_dictionary(
+            val
         )
 
-        estimated_cost = dictionary.get('estimated_cost')
-        total_object_count = dictionary.get('total_object_count')
-        total_object_size = dictionary.get('total_object_size')
+        val = dictionary['estimated_cost']
+        val_estimated_cost = val
+
+        val = dictionary['total_object_count']
+        val_total_object_count = val
+
+        val = dictionary['total_object_size']
+        val_total_object_size = val
+
         # Return an object of this model
-        return cls(etag, links, estimated_cost, total_object_count, total_object_size)
+        return cls(
+            val_etag,  # type: ignore
+            val_links,  # type: ignore
+            val_estimated_cost,  # type: ignore
+            val_total_object_count,  # type: ignore
+            val_total_object_size,  # type: ignore
+        )

@@ -1,11 +1,11 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import rule
-from clumioapi.models import update_rule_response_links
+from clumioapi.models import rule as rule_
+from clumioapi.models import update_rule_response_links as update_rule_response_links_
 
 T = TypeVar('T', bound='UpdateRuleResponse')
 
@@ -23,23 +23,23 @@ class UpdateRuleResponse:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'links': '_links', 'rule': 'rule', 'task_id': 'task_id'}
+    _names: dict[str, str] = {'links': '_links', 'rule': 'rule', 'task_id': 'task_id'}
 
     def __init__(
         self,
-        links: update_rule_response_links.UpdateRuleResponseLinks = None,
-        rule: rule.Rule = None,
-        task_id: str = None,
+        links: update_rule_response_links_.UpdateRuleResponseLinks,
+        rule: rule_.Rule,
+        task_id: str,
     ) -> None:
         """Constructor for the UpdateRuleResponse class."""
 
         # Initialize members of the class
-        self.links: update_rule_response_links.UpdateRuleResponseLinks = links
-        self.rule: rule.Rule = rule
+        self.links: update_rule_response_links_.UpdateRuleResponseLinks = links
+        self.rule: rule_.Rule = rule
         self.task_id: str = task_id
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -50,20 +50,20 @@ class UpdateRuleResponse:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        key = '_links'
-        links = (
-            update_rule_response_links.UpdateRuleResponseLinks.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['_links']
+        val_links = update_rule_response_links_.UpdateRuleResponseLinks.from_dictionary(val)
 
-        key = 'rule'
-        p_rule = rule.Rule.from_dictionary(dictionary.get(key)) if dictionary.get(key) else None
+        val = dictionary['rule']
+        val_rule = rule_.Rule.from_dictionary(val)
 
-        task_id = dictionary.get('task_id')
+        val = dictionary['task_id']
+        val_task_id = val
+
         # Return an object of this model
-        return cls(links, p_rule, task_id)
+        return cls(
+            val_links,  # type: ignore
+            val_rule,  # type: ignore
+            val_task_id,  # type: ignore
+        )

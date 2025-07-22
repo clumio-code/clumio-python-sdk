@@ -1,9 +1,9 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -32,8 +32,8 @@ class RestoredAwsRdsResourcesV1Controller(base_controller.BaseController):
 
     def restore_aws_rds_resource(
         self,
-        embed: str = None,
-        body: restore_aws_rds_resource_v1_request.RestoreAwsRdsResourceV1Request = None,
+        embed: str,
+        body: restore_aws_rds_resource_v1_request.RestoreAwsRdsResourceV1Request,
         **kwargs,
     ) -> Union[
         create_rds_resource_restore_response.CreateRdsResourceRestoreResponse,
@@ -72,12 +72,12 @@ class RestoredAwsRdsResourcesV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/restores/aws/rds-resources'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'embed': embed}
 
         # Execute request
         try:
-            resp = self.client.post(
+            resp: requests.Response = self.client.post(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -102,6 +102,6 @@ class RestoredAwsRdsResourcesV1Controller(base_controller.BaseController):
             )
         return (
             create_rds_resource_restore_response.CreateRdsResourceRestoreResponse.from_dictionary(
-                resp
+                resp.json()
             )
         )

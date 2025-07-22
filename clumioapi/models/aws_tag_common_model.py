@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -20,9 +20,9 @@ class AwsTagCommonModel:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'key': 'key', 'value': 'value'}
+    _names: dict[str, str] = {'key': 'key', 'value': 'value'}
 
-    def __init__(self, key: str = None, value: str = None) -> None:
+    def __init__(self, key: str, value: str) -> None:
         """Constructor for the AwsTagCommonModel class."""
 
         # Initialize members of the class
@@ -30,7 +30,7 @@ class AwsTagCommonModel:
         self.value: str = value
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -41,11 +41,16 @@ class AwsTagCommonModel:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        key = dictionary.get('key')
-        value = dictionary.get('value')
+        val = dictionary['key']
+        val_key = val
+
+        val = dictionary['value']
+        val_value = val
+
         # Return an object of this model
-        return cls(key, value)
+        return cls(
+            val_key,  # type: ignore
+            val_value,  # type: ignore
+        )

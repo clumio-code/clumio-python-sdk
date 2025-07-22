@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -21,9 +21,9 @@ class RetentionBackupSLAParam:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'unit': 'unit', 'value': 'value'}
+    _names: dict[str, str] = {'unit': 'unit', 'value': 'value'}
 
-    def __init__(self, unit: str = None, value: int = None) -> None:
+    def __init__(self, unit: str, value: int) -> None:
         """Constructor for the RetentionBackupSLAParam class."""
 
         # Initialize members of the class
@@ -31,7 +31,7 @@ class RetentionBackupSLAParam:
         self.value: int = value
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -42,11 +42,16 @@ class RetentionBackupSLAParam:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        unit = dictionary.get('unit')
-        value = dictionary.get('value')
+        val = dictionary['unit']
+        val_unit = val
+
+        val = dictionary['value']
+        val_value = val
+
         # Return an object of this model
-        return cls(unit, value)
+        return cls(
+            val_unit,  # type: ignore
+            val_value,  # type: ignore
+        )

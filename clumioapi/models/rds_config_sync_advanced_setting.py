@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -20,16 +20,16 @@ class RDSConfigSyncAdvancedSetting:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'apply': 'apply'}
+    _names: dict[str, str] = {'apply': 'apply'}
 
-    def __init__(self, apply: str = None) -> None:
+    def __init__(self, apply: str) -> None:
         """Constructor for the RDSConfigSyncAdvancedSetting class."""
 
         # Initialize members of the class
         self.apply: str = apply
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -40,10 +40,12 @@ class RDSConfigSyncAdvancedSetting:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        apply = dictionary.get('apply')
+        val = dictionary['apply']
+        val_apply = val
+
         # Return an object of this model
-        return cls(apply)
+        return cls(
+            val_apply,  # type: ignore
+        )

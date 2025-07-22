@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -19,9 +19,9 @@ class UpdateManagementGroupV1Request:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'backup_across_subgroups': 'backup_across_subgroups', 'name': 'name'}
+    _names: dict[str, str] = {'backup_across_subgroups': 'backup_across_subgroups', 'name': 'name'}
 
-    def __init__(self, backup_across_subgroups: bool = None, name: str = None) -> None:
+    def __init__(self, backup_across_subgroups: bool, name: str) -> None:
         """Constructor for the UpdateManagementGroupV1Request class."""
 
         # Initialize members of the class
@@ -29,7 +29,7 @@ class UpdateManagementGroupV1Request:
         self.name: str = name
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -40,11 +40,16 @@ class UpdateManagementGroupV1Request:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        backup_across_subgroups = dictionary.get('backup_across_subgroups')
-        name = dictionary.get('name')
+        val = dictionary['backup_across_subgroups']
+        val_backup_across_subgroups = val
+
+        val = dictionary['name']
+        val_name = val
+
         # Return an object of this model
-        return cls(backup_across_subgroups, name)
+        return cls(
+            val_backup_across_subgroups,  # type: ignore
+            val_name,  # type: ignore
+        )

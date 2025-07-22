@@ -1,11 +1,11 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import aws_connection_list_embedded
-from clumioapi.models import aws_connection_list_links
+from clumioapi.models import aws_connection_list_embedded as aws_connection_list_embedded_
+from clumioapi.models import aws_connection_list_links as aws_connection_list_links_
 
 T = TypeVar('T', bound='ListAWSConnectionsResponse')
 
@@ -30,7 +30,7 @@ class ListAWSConnectionsResponse:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'embedded': '_embedded',
         'links': '_links',
         'current_count': 'current_count',
@@ -41,25 +41,25 @@ class ListAWSConnectionsResponse:
 
     def __init__(
         self,
-        embedded: aws_connection_list_embedded.AWSConnectionListEmbedded = None,
-        links: aws_connection_list_links.AWSConnectionListLinks = None,
-        current_count: int = None,
-        filter_applied: str = None,
-        limit: int = None,
-        start: str = None,
+        embedded: aws_connection_list_embedded_.AWSConnectionListEmbedded,
+        links: aws_connection_list_links_.AWSConnectionListLinks,
+        current_count: int,
+        filter_applied: str,
+        limit: int,
+        start: str,
     ) -> None:
         """Constructor for the ListAWSConnectionsResponse class."""
 
         # Initialize members of the class
-        self.embedded: aws_connection_list_embedded.AWSConnectionListEmbedded = embedded
-        self.links: aws_connection_list_links.AWSConnectionListLinks = links
+        self.embedded: aws_connection_list_embedded_.AWSConnectionListEmbedded = embedded
+        self.links: aws_connection_list_links_.AWSConnectionListLinks = links
         self.current_count: int = current_count
         self.filter_applied: str = filter_applied
         self.limit: int = limit
         self.start: str = start
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -70,29 +70,32 @@ class ListAWSConnectionsResponse:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        key = '_embedded'
-        embedded = (
-            aws_connection_list_embedded.AWSConnectionListEmbedded.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['_embedded']
+        val_embedded = aws_connection_list_embedded_.AWSConnectionListEmbedded.from_dictionary(val)
 
-        key = '_links'
-        links = (
-            aws_connection_list_links.AWSConnectionListLinks.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['_links']
+        val_links = aws_connection_list_links_.AWSConnectionListLinks.from_dictionary(val)
 
-        current_count = dictionary.get('current_count')
-        filter_applied = dictionary.get('filter_applied')
-        limit = dictionary.get('limit')
-        start = dictionary.get('start')
+        val = dictionary['current_count']
+        val_current_count = val
+
+        val = dictionary['filter_applied']
+        val_filter_applied = val
+
+        val = dictionary['limit']
+        val_limit = val
+
+        val = dictionary['start']
+        val_start = val
+
         # Return an object of this model
-        return cls(embedded, links, current_count, filter_applied, limit, start)
+        return cls(
+            val_embedded,  # type: ignore
+            val_links,  # type: ignore
+            val_current_count,  # type: ignore
+            val_filter_applied,  # type: ignore
+            val_limit,  # type: ignore
+            val_start,  # type: ignore
+        )

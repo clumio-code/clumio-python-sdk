@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
@@ -28,9 +28,9 @@ class UpdateIndividualAlertV1Request:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'notes': 'notes', 'status': 'status'}
+    _names: dict[str, str] = {'notes': 'notes', 'status': 'status'}
 
-    def __init__(self, notes: str = None, status: str = None) -> None:
+    def __init__(self, notes: str, status: str) -> None:
         """Constructor for the UpdateIndividualAlertV1Request class."""
 
         # Initialize members of the class
@@ -44,7 +44,7 @@ class UpdateIndividualAlertV1Request:
         self.status: str = status
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -55,11 +55,16 @@ class UpdateIndividualAlertV1Request:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        notes = dictionary.get('notes')
-        status = dictionary.get('status')
+        val = dictionary['notes']
+        val_notes = val
+
+        val = dictionary['status']
+        val_status = val
+
         # Return an object of this model
-        return cls(notes, status)
+        return cls(
+            val_notes,  # type: ignore
+            val_status,  # type: ignore
+        )

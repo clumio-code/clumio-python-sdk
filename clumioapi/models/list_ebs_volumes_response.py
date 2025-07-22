@@ -1,11 +1,11 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import ebs_volume_list_embedded
-from clumioapi.models import ebs_volume_list_links
+from clumioapi.models import ebs_volume_list_embedded as ebs_volume_list_embedded_
+from clumioapi.models import ebs_volume_list_links as ebs_volume_list_links_
 
 T = TypeVar('T', bound='ListEbsVolumesResponse')
 
@@ -32,7 +32,7 @@ class ListEbsVolumesResponse:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'embedded': '_embedded',
         'links': '_links',
         'current_count': 'current_count',
@@ -44,19 +44,19 @@ class ListEbsVolumesResponse:
 
     def __init__(
         self,
-        embedded: ebs_volume_list_embedded.EbsVolumeListEmbedded = None,
-        links: ebs_volume_list_links.EbsVolumeListLinks = None,
-        current_count: int = None,
-        limit: int = None,
-        start: str = None,
-        total_count: int = None,
-        total_pages_count: int = None,
+        embedded: ebs_volume_list_embedded_.EbsVolumeListEmbedded,
+        links: ebs_volume_list_links_.EbsVolumeListLinks,
+        current_count: int,
+        limit: int,
+        start: str,
+        total_count: int,
+        total_pages_count: int,
     ) -> None:
         """Constructor for the ListEbsVolumesResponse class."""
 
         # Initialize members of the class
-        self.embedded: ebs_volume_list_embedded.EbsVolumeListEmbedded = embedded
-        self.links: ebs_volume_list_links.EbsVolumeListLinks = links
+        self.embedded: ebs_volume_list_embedded_.EbsVolumeListEmbedded = embedded
+        self.links: ebs_volume_list_links_.EbsVolumeListLinks = links
         self.current_count: int = current_count
         self.limit: int = limit
         self.start: str = start
@@ -64,7 +64,7 @@ class ListEbsVolumesResponse:
         self.total_pages_count: int = total_pages_count
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -75,28 +75,36 @@ class ListEbsVolumesResponse:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        key = '_embedded'
-        embedded = (
-            ebs_volume_list_embedded.EbsVolumeListEmbedded.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['_embedded']
+        val_embedded = ebs_volume_list_embedded_.EbsVolumeListEmbedded.from_dictionary(val)
 
-        key = '_links'
-        links = (
-            ebs_volume_list_links.EbsVolumeListLinks.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['_links']
+        val_links = ebs_volume_list_links_.EbsVolumeListLinks.from_dictionary(val)
 
-        current_count = dictionary.get('current_count')
-        limit = dictionary.get('limit')
-        start = dictionary.get('start')
-        total_count = dictionary.get('total_count')
-        total_pages_count = dictionary.get('total_pages_count')
+        val = dictionary['current_count']
+        val_current_count = val
+
+        val = dictionary['limit']
+        val_limit = val
+
+        val = dictionary['start']
+        val_start = val
+
+        val = dictionary['total_count']
+        val_total_count = val
+
+        val = dictionary['total_pages_count']
+        val_total_pages_count = val
+
         # Return an object of this model
-        return cls(embedded, links, current_count, limit, start, total_count, total_pages_count)
+        return cls(
+            val_embedded,  # type: ignore
+            val_links,  # type: ignore
+            val_current_count,  # type: ignore
+            val_limit,  # type: ignore
+            val_start,  # type: ignore
+            val_total_count,  # type: ignore
+            val_total_pages_count,  # type: ignore
+        )

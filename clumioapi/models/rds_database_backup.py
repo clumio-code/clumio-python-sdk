@@ -1,12 +1,12 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import aws_tag_common_model
-from clumioapi.models import rds_database_backup_links
-from clumioapi.models import rds_instance_model
+from clumioapi.models import aws_tag_common_model as aws_tag_common_model_
+from clumioapi.models import rds_database_backup_links as rds_database_backup_links_
+from clumioapi.models import rds_instance_model as rds_instance_model_
 
 T = TypeVar('T', bound='RdsDatabaseBackup')
 
@@ -68,7 +68,7 @@ class RdsDatabaseBackup:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'links': '_links',
         'account_native_id': 'account_native_id',
         'aws_azs': 'aws_azs',
@@ -94,32 +94,32 @@ class RdsDatabaseBackup:
 
     def __init__(
         self,
-        links: rds_database_backup_links.RdsDatabaseBackupLinks = None,
-        account_native_id: str = None,
-        aws_azs: Sequence[str] = None,
-        aws_region: str = None,
-        database_native_id: str = None,
-        engine: str = None,
-        engine_version: str = None,
-        expiration_timestamp: str = None,
-        p_id: str = None,
-        instances: Sequence[rds_instance_model.RdsInstanceModel] = None,
-        kms_key_native_id: str = None,
-        migration_timestamp: str = None,
-        option_group_name: str = None,
-        resource_id: str = None,
-        resource_type: str = None,
-        security_group_native_ids: Sequence[str] = None,
-        size: int = None,
-        start_timestamp: str = None,
-        subnet_group_name: str = None,
-        tags: Sequence[aws_tag_common_model.AwsTagCommonModel] = None,
-        p_type: str = None,
+        links: rds_database_backup_links_.RdsDatabaseBackupLinks,
+        account_native_id: str,
+        aws_azs: Sequence[str],
+        aws_region: str,
+        database_native_id: str,
+        engine: str,
+        engine_version: str,
+        expiration_timestamp: str,
+        p_id: str,
+        instances: Sequence[rds_instance_model_.RdsInstanceModel],
+        kms_key_native_id: str,
+        migration_timestamp: str,
+        option_group_name: str,
+        resource_id: str,
+        resource_type: str,
+        security_group_native_ids: Sequence[str],
+        size: int,
+        start_timestamp: str,
+        subnet_group_name: str,
+        tags: Sequence[aws_tag_common_model_.AwsTagCommonModel],
+        p_type: str,
     ) -> None:
         """Constructor for the RdsDatabaseBackup class."""
 
         # Initialize members of the class
-        self.links: rds_database_backup_links.RdsDatabaseBackupLinks = links
+        self.links: rds_database_backup_links_.RdsDatabaseBackupLinks = links
         self.account_native_id: str = account_native_id
         self.aws_azs: Sequence[str] = aws_azs
         self.aws_region: str = aws_region
@@ -128,7 +128,7 @@ class RdsDatabaseBackup:
         self.engine_version: str = engine_version
         self.expiration_timestamp: str = expiration_timestamp
         self.p_id: str = p_id
-        self.instances: Sequence[rds_instance_model.RdsInstanceModel] = instances
+        self.instances: Sequence[rds_instance_model_.RdsInstanceModel] = instances
         self.kms_key_native_id: str = kms_key_native_id
         self.migration_timestamp: str = migration_timestamp
         self.option_group_name: str = option_group_name
@@ -138,11 +138,11 @@ class RdsDatabaseBackup:
         self.size: int = size
         self.start_timestamp: str = start_timestamp
         self.subnet_group_name: str = subnet_group_name
-        self.tags: Sequence[aws_tag_common_model.AwsTagCommonModel] = tags
+        self.tags: Sequence[aws_tag_common_model_.AwsTagCommonModel] = tags
         self.p_type: str = p_type
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -153,68 +153,102 @@ class RdsDatabaseBackup:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        key = '_links'
-        links = (
-            rds_database_backup_links.RdsDatabaseBackupLinks.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['_links']
+        val_links = rds_database_backup_links_.RdsDatabaseBackupLinks.from_dictionary(val)
 
-        account_native_id = dictionary.get('account_native_id')
-        aws_azs = dictionary.get('aws_azs')
-        aws_region = dictionary.get('aws_region')
-        database_native_id = dictionary.get('database_native_id')
-        engine = dictionary.get('engine')
-        engine_version = dictionary.get('engine_version')
-        expiration_timestamp = dictionary.get('expiration_timestamp')
-        p_id = dictionary.get('id')
-        instances = None
-        if dictionary.get('instances'):
-            instances = list()
-            for value in dictionary.get('instances'):
-                instances.append(rds_instance_model.RdsInstanceModel.from_dictionary(value))
+        val = dictionary['account_native_id']
+        val_account_native_id = val
 
-        kms_key_native_id = dictionary.get('kms_key_native_id')
-        migration_timestamp = dictionary.get('migration_timestamp')
-        option_group_name = dictionary.get('option_group_name')
-        resource_id = dictionary.get('resource_id')
-        resource_type = dictionary.get('resource_type')
-        security_group_native_ids = dictionary.get('security_group_native_ids')
-        size = dictionary.get('size')
-        start_timestamp = dictionary.get('start_timestamp')
-        subnet_group_name = dictionary.get('subnet_group_name')
-        tags = None
-        if dictionary.get('tags'):
-            tags = list()
-            for value in dictionary.get('tags'):
-                tags.append(aws_tag_common_model.AwsTagCommonModel.from_dictionary(value))
+        val = dictionary['aws_azs']
+        val_aws_azs = val
 
-        p_type = dictionary.get('type')
+        val = dictionary['aws_region']
+        val_aws_region = val
+
+        val = dictionary['database_native_id']
+        val_database_native_id = val
+
+        val = dictionary['engine']
+        val_engine = val
+
+        val = dictionary['engine_version']
+        val_engine_version = val
+
+        val = dictionary['expiration_timestamp']
+        val_expiration_timestamp = val
+
+        val = dictionary['id']
+        val_p_id = val
+
+        val = dictionary['instances']
+
+        val_instances = None
+        if val:
+            val_instances = list()
+            for value in val:
+                val_instances.append(rds_instance_model_.RdsInstanceModel.from_dictionary(value))
+
+        val = dictionary['kms_key_native_id']
+        val_kms_key_native_id = val
+
+        val = dictionary['migration_timestamp']
+        val_migration_timestamp = val
+
+        val = dictionary['option_group_name']
+        val_option_group_name = val
+
+        val = dictionary['resource_id']
+        val_resource_id = val
+
+        val = dictionary['resource_type']
+        val_resource_type = val
+
+        val = dictionary['security_group_native_ids']
+        val_security_group_native_ids = val
+
+        val = dictionary['size']
+        val_size = val
+
+        val = dictionary['start_timestamp']
+        val_start_timestamp = val
+
+        val = dictionary['subnet_group_name']
+        val_subnet_group_name = val
+
+        val = dictionary['tags']
+
+        val_tags = None
+        if val:
+            val_tags = list()
+            for value in val:
+                val_tags.append(aws_tag_common_model_.AwsTagCommonModel.from_dictionary(value))
+
+        val = dictionary['type']
+        val_p_type = val
+
         # Return an object of this model
         return cls(
-            links,
-            account_native_id,
-            aws_azs,
-            aws_region,
-            database_native_id,
-            engine,
-            engine_version,
-            expiration_timestamp,
-            p_id,
-            instances,
-            kms_key_native_id,
-            migration_timestamp,
-            option_group_name,
-            resource_id,
-            resource_type,
-            security_group_native_ids,
-            size,
-            start_timestamp,
-            subnet_group_name,
-            tags,
-            p_type,
+            val_links,  # type: ignore
+            val_account_native_id,  # type: ignore
+            val_aws_azs,  # type: ignore
+            val_aws_region,  # type: ignore
+            val_database_native_id,  # type: ignore
+            val_engine,  # type: ignore
+            val_engine_version,  # type: ignore
+            val_expiration_timestamp,  # type: ignore
+            val_p_id,  # type: ignore
+            val_instances,  # type: ignore
+            val_kms_key_native_id,  # type: ignore
+            val_migration_timestamp,  # type: ignore
+            val_option_group_name,  # type: ignore
+            val_resource_id,  # type: ignore
+            val_resource_type,  # type: ignore
+            val_security_group_native_ids,  # type: ignore
+            val_size,  # type: ignore
+            val_start_timestamp,  # type: ignore
+            val_subnet_group_name,  # type: ignore
+            val_tags,  # type: ignore
+            val_p_type,  # type: ignore
         )

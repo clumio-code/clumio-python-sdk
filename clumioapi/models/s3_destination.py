@@ -1,13 +1,13 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import s3_access_control_translation
-from clumioapi.models import s3_encryption_configuration
-from clumioapi.models import s3_metrics
-from clumioapi.models import s3_replication_time
+from clumioapi.models import s3_access_control_translation as s3_access_control_translation_
+from clumioapi.models import s3_encryption_configuration as s3_encryption_configuration_
+from clumioapi.models import s3_metrics as s3_metrics_
+from clumioapi.models import s3_replication_time as s3_replication_time_
 
 T = TypeVar('T', bound='S3Destination')
 
@@ -39,7 +39,7 @@ class S3Destination:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'access_control_translation': 'access_control_translation',
         'account': 'account',
         'bucket': 'bucket',
@@ -51,31 +51,31 @@ class S3Destination:
 
     def __init__(
         self,
-        access_control_translation: s3_access_control_translation.S3AccessControlTranslation = None,
-        account: str = None,
-        bucket: str = None,
-        encryption_configuration: s3_encryption_configuration.S3EncryptionConfiguration = None,
-        metrics: s3_metrics.S3Metrics = None,
-        replication_time: s3_replication_time.S3ReplicationTime = None,
-        storage_class: str = None,
+        access_control_translation: s3_access_control_translation_.S3AccessControlTranslation,
+        account: str,
+        bucket: str,
+        encryption_configuration: s3_encryption_configuration_.S3EncryptionConfiguration,
+        metrics: s3_metrics_.S3Metrics,
+        replication_time: s3_replication_time_.S3ReplicationTime,
+        storage_class: str,
     ) -> None:
         """Constructor for the S3Destination class."""
 
         # Initialize members of the class
         self.access_control_translation: (
-            s3_access_control_translation.S3AccessControlTranslation
+            s3_access_control_translation_.S3AccessControlTranslation
         ) = access_control_translation
         self.account: str = account
         self.bucket: str = bucket
-        self.encryption_configuration: s3_encryption_configuration.S3EncryptionConfiguration = (
+        self.encryption_configuration: s3_encryption_configuration_.S3EncryptionConfiguration = (
             encryption_configuration
         )
-        self.metrics: s3_metrics.S3Metrics = metrics
-        self.replication_time: s3_replication_time.S3ReplicationTime = replication_time
+        self.metrics: s3_metrics_.S3Metrics = metrics
+        self.replication_time: s3_replication_time_.S3ReplicationTime = replication_time
         self.storage_class: str = storage_class
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -86,52 +86,40 @@ class S3Destination:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        key = 'access_control_translation'
-        access_control_translation = (
-            s3_access_control_translation.S3AccessControlTranslation.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
+        val = dictionary['access_control_translation']
+        val_access_control_translation = (
+            s3_access_control_translation_.S3AccessControlTranslation.from_dictionary(val)
         )
 
-        account = dictionary.get('account')
-        bucket = dictionary.get('bucket')
-        key = 'encryption_configuration'
-        encryption_configuration = (
-            s3_encryption_configuration.S3EncryptionConfiguration.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
+        val = dictionary['account']
+        val_account = val
+
+        val = dictionary['bucket']
+        val_bucket = val
+
+        val = dictionary['encryption_configuration']
+        val_encryption_configuration = (
+            s3_encryption_configuration_.S3EncryptionConfiguration.from_dictionary(val)
         )
 
-        key = 'metrics'
-        metrics = (
-            s3_metrics.S3Metrics.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['metrics']
+        val_metrics = s3_metrics_.S3Metrics.from_dictionary(val)
 
-        key = 'replication_time'
-        replication_time = (
-            s3_replication_time.S3ReplicationTime.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['replication_time']
+        val_replication_time = s3_replication_time_.S3ReplicationTime.from_dictionary(val)
 
-        storage_class = dictionary.get('storage_class')
+        val = dictionary['storage_class']
+        val_storage_class = val
+
         # Return an object of this model
         return cls(
-            access_control_translation,
-            account,
-            bucket,
-            encryption_configuration,
-            metrics,
-            replication_time,
-            storage_class,
+            val_access_control_translation,  # type: ignore
+            val_account,  # type: ignore
+            val_bucket,  # type: ignore
+            val_encryption_configuration,  # type: ignore
+            val_metrics,  # type: ignore
+            val_replication_time,  # type: ignore
+            val_storage_class,  # type: ignore
         )

@@ -1,10 +1,10 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import file_descriptor
+from clumioapi.models import file_descriptor as file_descriptor_
 
 T = TypeVar('T', bound='FileRestoreSource')
 
@@ -26,19 +26,17 @@ class FileRestoreSource:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'backup_id': 'backup_id', 'files': 'files'}
+    _names: dict[str, str] = {'backup_id': 'backup_id', 'files': 'files'}
 
-    def __init__(
-        self, backup_id: str = None, files: Sequence[file_descriptor.FileDescriptor] = None
-    ) -> None:
+    def __init__(self, backup_id: str, files: Sequence[file_descriptor_.FileDescriptor]) -> None:
         """Constructor for the FileRestoreSource class."""
 
         # Initialize members of the class
         self.backup_id: str = backup_id
-        self.files: Sequence[file_descriptor.FileDescriptor] = files
+        self.files: Sequence[file_descriptor_.FileDescriptor] = files
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -49,16 +47,21 @@ class FileRestoreSource:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        backup_id = dictionary.get('backup_id')
-        files = None
-        if dictionary.get('files'):
-            files = list()
-            for value in dictionary.get('files'):
-                files.append(file_descriptor.FileDescriptor.from_dictionary(value))
+        val = dictionary['backup_id']
+        val_backup_id = val
+
+        val = dictionary['files']
+
+        val_files = None
+        if val:
+            val_files = list()
+            for value in val:
+                val_files.append(file_descriptor_.FileDescriptor.from_dictionary(value))
 
         # Return an object of this model
-        return cls(backup_id, files)
+        return cls(
+            val_backup_id,  # type: ignore
+            val_files,  # type: ignore
+        )

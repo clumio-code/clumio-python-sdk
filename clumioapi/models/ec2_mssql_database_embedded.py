@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -26,7 +26,7 @@ class EC2MSSQLDatabaseEmbedded:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'get_ec2_mssql_failover_clusters_hosts_info': 'get-ec2-mssql-failover-clusters-hosts-info',
         'read_aws_ec2_instance': 'read-aws-ec2-instance',
         'read_aws_environment': 'read-aws-environment',
@@ -35,10 +35,10 @@ class EC2MSSQLDatabaseEmbedded:
 
     def __init__(
         self,
-        get_ec2_mssql_failover_clusters_hosts_info: object = None,
-        read_aws_ec2_instance: object = None,
-        read_aws_environment: object = None,
-        read_policy_definition: object = None,
+        get_ec2_mssql_failover_clusters_hosts_info: object,
+        read_aws_ec2_instance: object,
+        read_aws_environment: object,
+        read_policy_definition: object,
     ) -> None:
         """Constructor for the EC2MSSQLDatabaseEmbedded class."""
 
@@ -51,7 +51,7 @@ class EC2MSSQLDatabaseEmbedded:
         self.read_policy_definition: object = read_policy_definition
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -62,20 +62,24 @@ class EC2MSSQLDatabaseEmbedded:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        get_ec2_mssql_failover_clusters_hosts_info = dictionary.get(
-            'get-ec2-mssql-failover-clusters-hosts-info'
-        )
-        read_aws_ec2_instance = dictionary.get('read-aws-ec2-instance')
-        read_aws_environment = dictionary.get('read-aws-environment')
-        read_policy_definition = dictionary.get('read-policy-definition')
+        val = dictionary['get-ec2-mssql-failover-clusters-hosts-info']
+        val_get_ec2_mssql_failover_clusters_hosts_info = val
+
+        val = dictionary['read-aws-ec2-instance']
+        val_read_aws_ec2_instance = val
+
+        val = dictionary['read-aws-environment']
+        val_read_aws_environment = val
+
+        val = dictionary['read-policy-definition']
+        val_read_policy_definition = val
+
         # Return an object of this model
         return cls(
-            get_ec2_mssql_failover_clusters_hosts_info,
-            read_aws_ec2_instance,
-            read_aws_environment,
-            read_policy_definition,
+            val_get_ec2_mssql_failover_clusters_hosts_info,  # type: ignore
+            val_read_aws_ec2_instance,  # type: ignore
+            val_read_aws_environment,  # type: ignore
+            val_read_policy_definition,  # type: ignore
         )

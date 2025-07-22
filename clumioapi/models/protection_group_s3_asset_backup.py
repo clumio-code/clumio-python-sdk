@@ -1,10 +1,11 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import protection_group_s3_asset_backup_links
+from clumioapi.models import \
+    protection_group_s3_asset_backup_links as protection_group_s3_asset_backup_links_
 
 T = TypeVar('T', bound='ProtectionGroupS3AssetBackup')
 
@@ -50,7 +51,7 @@ class ProtectionGroupS3AssetBackup:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'links': '_links',
         'aws_region': 'aws_region',
         'backed_up_object_count': 'backed_up_object_count',
@@ -70,26 +71,28 @@ class ProtectionGroupS3AssetBackup:
 
     def __init__(
         self,
-        links: protection_group_s3_asset_backup_links.ProtectionGroupS3AssetBackupLinks = None,
-        aws_region: str = None,
-        backed_up_object_count: int = None,
-        backed_up_size_bytes: int = None,
-        bucket_id: str = None,
-        bucket_name: str = None,
-        expiration_timestamp: str = None,
-        failed_object_count: int = None,
-        failed_size_bytes: int = None,
-        p_id: str = None,
-        protection_group_id: str = None,
-        protection_group_s3_asset_id: str = None,
-        protection_group_version: int = None,
-        start_timestamp: str = None,
-        p_type: str = None,
+        links: protection_group_s3_asset_backup_links_.ProtectionGroupS3AssetBackupLinks,
+        aws_region: str,
+        backed_up_object_count: int,
+        backed_up_size_bytes: int,
+        bucket_id: str,
+        bucket_name: str,
+        expiration_timestamp: str,
+        failed_object_count: int,
+        failed_size_bytes: int,
+        p_id: str,
+        protection_group_id: str,
+        protection_group_s3_asset_id: str,
+        protection_group_version: int,
+        start_timestamp: str,
+        p_type: str,
     ) -> None:
         """Constructor for the ProtectionGroupS3AssetBackup class."""
 
         # Initialize members of the class
-        self.links: protection_group_s3_asset_backup_links.ProtectionGroupS3AssetBackupLinks = links
+        self.links: protection_group_s3_asset_backup_links_.ProtectionGroupS3AssetBackupLinks = (
+            links
+        )
         self.aws_region: str = aws_region
         self.backed_up_object_count: int = backed_up_object_count
         self.backed_up_size_bytes: int = backed_up_size_bytes
@@ -106,7 +109,7 @@ class ProtectionGroupS3AssetBackup:
         self.p_type: str = p_type
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -117,48 +120,70 @@ class ProtectionGroupS3AssetBackup:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        key = '_links'
-        links = (
-            protection_group_s3_asset_backup_links.ProtectionGroupS3AssetBackupLinks.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
+        val = dictionary['_links']
+        val_links = protection_group_s3_asset_backup_links_.ProtectionGroupS3AssetBackupLinks.from_dictionary(
+            val
         )
 
-        aws_region = dictionary.get('aws_region')
-        backed_up_object_count = dictionary.get('backed_up_object_count')
-        backed_up_size_bytes = dictionary.get('backed_up_size_bytes')
-        bucket_id = dictionary.get('bucket_id')
-        bucket_name = dictionary.get('bucket_name')
-        expiration_timestamp = dictionary.get('expiration_timestamp')
-        failed_object_count = dictionary.get('failed_object_count')
-        failed_size_bytes = dictionary.get('failed_size_bytes')
-        p_id = dictionary.get('id')
-        protection_group_id = dictionary.get('protection_group_id')
-        protection_group_s3_asset_id = dictionary.get('protection_group_s3_asset_id')
-        protection_group_version = dictionary.get('protection_group_version')
-        start_timestamp = dictionary.get('start_timestamp')
-        p_type = dictionary.get('type')
+        val = dictionary['aws_region']
+        val_aws_region = val
+
+        val = dictionary['backed_up_object_count']
+        val_backed_up_object_count = val
+
+        val = dictionary['backed_up_size_bytes']
+        val_backed_up_size_bytes = val
+
+        val = dictionary['bucket_id']
+        val_bucket_id = val
+
+        val = dictionary['bucket_name']
+        val_bucket_name = val
+
+        val = dictionary['expiration_timestamp']
+        val_expiration_timestamp = val
+
+        val = dictionary['failed_object_count']
+        val_failed_object_count = val
+
+        val = dictionary['failed_size_bytes']
+        val_failed_size_bytes = val
+
+        val = dictionary['id']
+        val_p_id = val
+
+        val = dictionary['protection_group_id']
+        val_protection_group_id = val
+
+        val = dictionary['protection_group_s3_asset_id']
+        val_protection_group_s3_asset_id = val
+
+        val = dictionary['protection_group_version']
+        val_protection_group_version = val
+
+        val = dictionary['start_timestamp']
+        val_start_timestamp = val
+
+        val = dictionary['type']
+        val_p_type = val
+
         # Return an object of this model
         return cls(
-            links,
-            aws_region,
-            backed_up_object_count,
-            backed_up_size_bytes,
-            bucket_id,
-            bucket_name,
-            expiration_timestamp,
-            failed_object_count,
-            failed_size_bytes,
-            p_id,
-            protection_group_id,
-            protection_group_s3_asset_id,
-            protection_group_version,
-            start_timestamp,
-            p_type,
+            val_links,  # type: ignore
+            val_aws_region,  # type: ignore
+            val_backed_up_object_count,  # type: ignore
+            val_backed_up_size_bytes,  # type: ignore
+            val_bucket_id,  # type: ignore
+            val_bucket_name,  # type: ignore
+            val_expiration_timestamp,  # type: ignore
+            val_failed_object_count,  # type: ignore
+            val_failed_size_bytes,  # type: ignore
+            val_p_id,  # type: ignore
+            val_protection_group_id,  # type: ignore
+            val_protection_group_s3_asset_id,  # type: ignore
+            val_protection_group_version,  # type: ignore
+            val_start_timestamp,  # type: ignore
+            val_p_type,  # type: ignore
         )

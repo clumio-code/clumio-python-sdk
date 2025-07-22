@@ -1,9 +1,9 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -33,13 +33,7 @@ class IndividualAlertsV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def list_individual_alerts(
-        self,
-        limit: int = None,
-        start: str = None,
-        sort: str = None,
-        filter: str = None,
-        embed: str = None,
-        **kwargs,
+        self, limit: int, start: str, sort: str, filter: str, embed: str, **kwargs
     ) -> Union[
         list_alerts_response.ListAlertsResponse,
         tuple[requests.Response, Optional[list_alerts_response.ListAlertsResponse]],
@@ -48,7 +42,7 @@ class IndividualAlertsV1Controller(base_controller.BaseController):
 
         Each alert is associated with a cause, which represents the issue that generated
         the alert,
-        and each cause belongs to a general alert alert type. Some alert types may be
+        and each cause belongs to a general alert type. Some alert types may be
         associated with multiple causes.
 
         The following table lists the Clumio alert types:
@@ -191,7 +185,6 @@ class IndividualAlertsV1Controller(base_controller.BaseController):
                 |                             |                  | Examples of primary entity  |
                 |                             |                  | types include               |
                 |                             |                  | "aws_ebs_volume",           |
-                |                             |                  | "vmware_vm",                |
                 |                             |                  | "aws_environment". For      |
                 |                             |                  | example, filter={"primary_e |
                 |                             |                  | ntity.type":{"$eq":"aws_ebs |
@@ -244,7 +237,7 @@ class IndividualAlertsV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/alerts/individual'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {
             'limit': limit,
             'start': start,
@@ -255,7 +248,7 @@ class IndividualAlertsV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -272,9 +265,9 @@ class IndividualAlertsV1Controller(base_controller.BaseController):
 
         if self.config.raw_response:
             return resp, list_alerts_response.ListAlertsResponse.from_dictionary(resp.json())
-        return list_alerts_response.ListAlertsResponse.from_dictionary(resp)
+        return list_alerts_response.ListAlertsResponse.from_dictionary(resp.json())
 
-    def read_individual_alert(self, individual_alert_id: str, embed: str = None, **kwargs) -> Union[
+    def read_individual_alert(self, individual_alert_id: str, embed: str, **kwargs) -> Union[
         read_alert_response.ReadAlertResponse,
         tuple[requests.Response, Optional[read_alert_response.ReadAlertResponse]],
     ]:
@@ -310,12 +303,12 @@ class IndividualAlertsV1Controller(base_controller.BaseController):
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'individual_alert_id': individual_alert_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'embed': embed}
 
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -332,13 +325,13 @@ class IndividualAlertsV1Controller(base_controller.BaseController):
 
         if self.config.raw_response:
             return resp, read_alert_response.ReadAlertResponse.from_dictionary(resp.json())
-        return read_alert_response.ReadAlertResponse.from_dictionary(resp)
+        return read_alert_response.ReadAlertResponse.from_dictionary(resp.json())
 
     def update_individual_alert(
         self,
         individual_alert_id: str,
-        embed: str = None,
-        body: update_individual_alert_v1_request.UpdateIndividualAlertV1Request = None,
+        embed: str,
+        body: update_individual_alert_v1_request.UpdateIndividualAlertV1Request,
         **kwargs,
     ) -> Union[
         update_alert_response.UpdateAlertResponse,
@@ -379,12 +372,12 @@ class IndividualAlertsV1Controller(base_controller.BaseController):
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'individual_alert_id': individual_alert_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'embed': embed}
 
         # Execute request
         try:
-            resp = self.client.patch(
+            resp: requests.Response = self.client.patch(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -402,4 +395,4 @@ class IndividualAlertsV1Controller(base_controller.BaseController):
 
         if self.config.raw_response:
             return resp, update_alert_response.UpdateAlertResponse.from_dictionary(resp.json())
-        return update_alert_response.UpdateAlertResponse.from_dictionary(resp)
+        return update_alert_response.UpdateAlertResponse.from_dictionary(resp.json())

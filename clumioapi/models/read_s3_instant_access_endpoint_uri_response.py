@@ -1,11 +1,12 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import s3_instant_access_endpoint_embedded
-from clumioapi.models import s3_instant_access_endpoint_links
+from clumioapi.models import \
+    s3_instant_access_endpoint_embedded as s3_instant_access_endpoint_embedded_
+from clumioapi.models import s3_instant_access_endpoint_links as s3_instant_access_endpoint_links_
 
 T = TypeVar('T', bound='ReadS3InstantAccessEndpointUriResponse')
 
@@ -29,7 +30,7 @@ class ReadS3InstantAccessEndpointUriResponse:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'embedded': '_embedded',
         'links': '_links',
         'bucket_alias': 'bucket_alias',
@@ -40,27 +41,27 @@ class ReadS3InstantAccessEndpointUriResponse:
 
     def __init__(
         self,
-        embedded: s3_instant_access_endpoint_embedded.S3InstantAccessEndpointEmbedded = None,
-        links: s3_instant_access_endpoint_links.S3InstantAccessEndpointLinks = None,
-        bucket_alias: str = None,
-        cloudfront_distribution_origin_domain: str = None,
-        endpoint_uri: str = None,
-        region: str = None,
+        embedded: s3_instant_access_endpoint_embedded_.S3InstantAccessEndpointEmbedded,
+        links: s3_instant_access_endpoint_links_.S3InstantAccessEndpointLinks,
+        bucket_alias: str,
+        cloudfront_distribution_origin_domain: str,
+        endpoint_uri: str,
+        region: str,
     ) -> None:
         """Constructor for the ReadS3InstantAccessEndpointUriResponse class."""
 
         # Initialize members of the class
-        self.embedded: s3_instant_access_endpoint_embedded.S3InstantAccessEndpointEmbedded = (
+        self.embedded: s3_instant_access_endpoint_embedded_.S3InstantAccessEndpointEmbedded = (
             embedded
         )
-        self.links: s3_instant_access_endpoint_links.S3InstantAccessEndpointLinks = links
+        self.links: s3_instant_access_endpoint_links_.S3InstantAccessEndpointLinks = links
         self.bucket_alias: str = bucket_alias
         self.cloudfront_distribution_origin_domain: str = cloudfront_distribution_origin_domain
         self.endpoint_uri: str = endpoint_uri
         self.region: str = region
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -71,40 +72,38 @@ class ReadS3InstantAccessEndpointUriResponse:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        key = '_embedded'
-        embedded = (
-            s3_instant_access_endpoint_embedded.S3InstantAccessEndpointEmbedded.from_dictionary(
-                dictionary.get(key)
+        val = dictionary['_embedded']
+        val_embedded = (
+            s3_instant_access_endpoint_embedded_.S3InstantAccessEndpointEmbedded.from_dictionary(
+                val
             )
-            if dictionary.get(key)
-            else None
         )
 
-        key = '_links'
-        links = (
-            s3_instant_access_endpoint_links.S3InstantAccessEndpointLinks.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
+        val = dictionary['_links']
+        val_links = s3_instant_access_endpoint_links_.S3InstantAccessEndpointLinks.from_dictionary(
+            val
         )
 
-        bucket_alias = dictionary.get('bucket_alias')
-        cloudfront_distribution_origin_domain = dictionary.get(
-            'cloudfront_distribution_origin_domain'
-        )
-        endpoint_uri = dictionary.get('endpoint_uri')
-        region = dictionary.get('region')
+        val = dictionary['bucket_alias']
+        val_bucket_alias = val
+
+        val = dictionary['cloudfront_distribution_origin_domain']
+        val_cloudfront_distribution_origin_domain = val
+
+        val = dictionary['endpoint_uri']
+        val_endpoint_uri = val
+
+        val = dictionary['region']
+        val_region = val
+
         # Return an object of this model
         return cls(
-            embedded,
-            links,
-            bucket_alias,
-            cloudfront_distribution_origin_domain,
-            endpoint_uri,
-            region,
+            val_embedded,  # type: ignore
+            val_links,  # type: ignore
+            val_bucket_alias,  # type: ignore
+            val_cloudfront_distribution_origin_domain,  # type: ignore
+            val_endpoint_uri,  # type: ignore
+            val_region,  # type: ignore
         )

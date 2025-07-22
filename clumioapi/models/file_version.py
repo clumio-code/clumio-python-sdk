@@ -1,10 +1,10 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import file_version_hateoas
+from clumioapi.models import file_version_hateoas as file_version_hateoas_
 
 T = TypeVar('T', bound='FileVersion')
 
@@ -36,7 +36,7 @@ class FileVersion:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'links': '_links',
         'backup_id': 'backup_id',
         'filesystem_id': 'filesystem_id',
@@ -48,18 +48,18 @@ class FileVersion:
 
     def __init__(
         self,
-        links: file_version_hateoas.FileVersionHateoas = None,
-        backup_id: str = None,
-        filesystem_id: str = None,
-        modified_timestamp: str = None,
-        path: str = None,
-        size: int = None,
-        start_timestamp: str = None,
+        links: file_version_hateoas_.FileVersionHateoas,
+        backup_id: str,
+        filesystem_id: str,
+        modified_timestamp: str,
+        path: str,
+        size: int,
+        start_timestamp: str,
     ) -> None:
         """Constructor for the FileVersion class."""
 
         # Initialize members of the class
-        self.links: file_version_hateoas.FileVersionHateoas = links
+        self.links: file_version_hateoas_.FileVersionHateoas = links
         self.backup_id: str = backup_id
         self.filesystem_id: str = filesystem_id
         self.modified_timestamp: str = modified_timestamp
@@ -68,7 +68,7 @@ class FileVersion:
         self.start_timestamp: str = start_timestamp
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -79,22 +79,36 @@ class FileVersion:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        key = '_links'
-        links = (
-            file_version_hateoas.FileVersionHateoas.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['_links']
+        val_links = file_version_hateoas_.FileVersionHateoas.from_dictionary(val)
 
-        backup_id = dictionary.get('backup_id')
-        filesystem_id = dictionary.get('filesystem_id')
-        modified_timestamp = dictionary.get('modified_timestamp')
-        path = dictionary.get('path')
-        size = dictionary.get('size')
-        start_timestamp = dictionary.get('start_timestamp')
+        val = dictionary['backup_id']
+        val_backup_id = val
+
+        val = dictionary['filesystem_id']
+        val_filesystem_id = val
+
+        val = dictionary['modified_timestamp']
+        val_modified_timestamp = val
+
+        val = dictionary['path']
+        val_path = val
+
+        val = dictionary['size']
+        val_size = val
+
+        val = dictionary['start_timestamp']
+        val_start_timestamp = val
+
         # Return an object of this model
-        return cls(links, backup_id, filesystem_id, modified_timestamp, path, size, start_timestamp)
+        return cls(
+            val_links,  # type: ignore
+            val_backup_id,  # type: ignore
+            val_filesystem_id,  # type: ignore
+            val_modified_timestamp,  # type: ignore
+            val_path,  # type: ignore
+            val_size,  # type: ignore
+            val_start_timestamp,  # type: ignore
+        )

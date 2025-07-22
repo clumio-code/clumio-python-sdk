@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -29,15 +29,13 @@ class RdsInstanceModel:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'p_class': 'class',
         'is_publicly_accessible': 'is_publicly_accessible',
         'name': 'name',
     }
 
-    def __init__(
-        self, p_class: str = None, is_publicly_accessible: bool = None, name: str = None
-    ) -> None:
+    def __init__(self, p_class: str, is_publicly_accessible: bool, name: str) -> None:
         """Constructor for the RdsInstanceModel class."""
 
         # Initialize members of the class
@@ -46,7 +44,7 @@ class RdsInstanceModel:
         self.name: str = name
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -57,12 +55,20 @@ class RdsInstanceModel:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        p_class = dictionary.get('class')
-        is_publicly_accessible = dictionary.get('is_publicly_accessible')
-        name = dictionary.get('name')
+        val = dictionary['class']
+        val_p_class = val
+
+        val = dictionary['is_publicly_accessible']
+        val_is_publicly_accessible = val
+
+        val = dictionary['name']
+        val_name = val
+
         # Return an object of this model
-        return cls(p_class, is_publicly_accessible, name)
+        return cls(
+            val_p_class,  # type: ignore
+            val_is_publicly_accessible,  # type: ignore
+            val_name,  # type: ignore
+        )

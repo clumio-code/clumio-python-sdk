@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -21,16 +21,16 @@ class EC2MSSQLRestoreToAAGOptions:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'database_id': 'database_id'}
+    _names: dict[str, str] = {'database_id': 'database_id'}
 
-    def __init__(self, database_id: str = None) -> None:
+    def __init__(self, database_id: str) -> None:
         """Constructor for the EC2MSSQLRestoreToAAGOptions class."""
 
         # Initialize members of the class
         self.database_id: str = database_id
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -41,10 +41,12 @@ class EC2MSSQLRestoreToAAGOptions:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        database_id = dictionary.get('database_id')
+        val = dictionary['database_id']
+        val_database_id = val
+
         # Return an object of this model
-        return cls(database_id)
+        return cls(
+            val_database_id,  # type: ignore
+        )

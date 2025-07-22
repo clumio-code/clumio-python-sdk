@@ -1,10 +1,10 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import s3_instant_access_source
+from clumioapi.models import s3_instant_access_source as s3_instant_access_source_
 
 T = TypeVar('T', bound='CreateProtectionGroupInstantAccessEndpointV1Request')
 
@@ -22,23 +22,27 @@ class CreateProtectionGroupInstantAccessEndpointV1Request:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'expiry_timestamp': 'expiry_timestamp', 'name': 'name', 'source': 'source'}
+    _names: dict[str, str] = {
+        'expiry_timestamp': 'expiry_timestamp',
+        'name': 'name',
+        'source': 'source',
+    }
 
     def __init__(
         self,
-        expiry_timestamp: str = None,
-        name: str = None,
-        source: s3_instant_access_source.S3InstantAccessSource = None,
+        expiry_timestamp: str,
+        name: str,
+        source: s3_instant_access_source_.S3InstantAccessSource,
     ) -> None:
         """Constructor for the CreateProtectionGroupInstantAccessEndpointV1Request class."""
 
         # Initialize members of the class
         self.expiry_timestamp: str = expiry_timestamp
         self.name: str = name
-        self.source: s3_instant_access_source.S3InstantAccessSource = source
+        self.source: s3_instant_access_source_.S3InstantAccessSource = source
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -49,18 +53,20 @@ class CreateProtectionGroupInstantAccessEndpointV1Request:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        expiry_timestamp = dictionary.get('expiry_timestamp')
-        name = dictionary.get('name')
-        key = 'source'
-        source = (
-            s3_instant_access_source.S3InstantAccessSource.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['expiry_timestamp']
+        val_expiry_timestamp = val
+
+        val = dictionary['name']
+        val_name = val
+
+        val = dictionary['source']
+        val_source = s3_instant_access_source_.S3InstantAccessSource.from_dictionary(val)
 
         # Return an object of this model
-        return cls(expiry_timestamp, name, source)
+        return cls(
+            val_expiry_timestamp,  # type: ignore
+            val_name,  # type: ignore
+            val_source,  # type: ignore
+        )

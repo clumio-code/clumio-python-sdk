@@ -1,9 +1,9 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -33,7 +33,7 @@ class BackupProtectionGroupsV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def list_backup_protection_groups(
-        self, limit: int = None, start: str = None, sort: str = None, filter: str = None, **kwargs
+        self, limit: int, start: str, sort: str, filter: str, **kwargs
     ) -> Union[
         list_protection_group_backups_response.ListProtectionGroupBackupsResponse,
         tuple[
@@ -98,12 +98,12 @@ class BackupProtectionGroupsV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/backups/protection-groups'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'limit': limit, 'start': start, 'sort': sort, 'filter': filter}
 
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -126,11 +126,11 @@ class BackupProtectionGroupsV1Controller(base_controller.BaseController):
                 ),
             )
         return list_protection_group_backups_response.ListProtectionGroupBackupsResponse.from_dictionary(
-            resp
+            resp.json()
         )
 
     def list_backup_protection_group_s3_assets(
-        self, limit: int = None, start: str = None, sort: str = None, filter: str = None, **kwargs
+        self, limit: int, start: str, sort: str, filter: str, **kwargs
     ) -> Union[
         list_protection_group_s3_asset_backups_response.ListProtectionGroupS3AssetBackupsResponse,
         tuple[
@@ -212,12 +212,12 @@ class BackupProtectionGroupsV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/backups/protection-groups/s3-assets'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'limit': limit, 'start': start, 'sort': sort, 'filter': filter}
 
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -240,7 +240,7 @@ class BackupProtectionGroupsV1Controller(base_controller.BaseController):
                 ),
             )
         return list_protection_group_s3_asset_backups_response.ListProtectionGroupS3AssetBackupsResponse.from_dictionary(
-            resp
+            resp.json()
         )
 
     def read_backup_protection_group_s3_asset(self, backup_id: str, **kwargs) -> Union[
@@ -271,11 +271,11 @@ class BackupProtectionGroupsV1Controller(base_controller.BaseController):
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'backup_id': backup_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -298,7 +298,7 @@ class BackupProtectionGroupsV1Controller(base_controller.BaseController):
                 ),
             )
         return read_protection_group_s3_asset_backup_response.ReadProtectionGroupS3AssetBackupResponse.from_dictionary(
-            resp
+            resp.json()
         )
 
     def read_backup_protection_group(self, backup_id: str, **kwargs) -> Union[
@@ -327,11 +327,11 @@ class BackupProtectionGroupsV1Controller(base_controller.BaseController):
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'backup_id': backup_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -355,6 +355,6 @@ class BackupProtectionGroupsV1Controller(base_controller.BaseController):
             )
         return (
             read_protection_group_backup_response.ReadProtectionGroupBackupResponse.from_dictionary(
-                resp
+                resp.json()
             )
         )

@@ -1,11 +1,11 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import template_configuration_v2
-from clumioapi.models import template_links
+from clumioapi.models import template_configuration_v2 as template_configuration_v2_
+from clumioapi.models import template_links as template_links_
 
 T = TypeVar('T', bound='ReadAWSTemplatesV2Response')
 
@@ -21,21 +21,21 @@ class ReadAWSTemplatesV2Response:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'links': '_links', 'config': 'config'}
+    _names: dict[str, str] = {'links': '_links', 'config': 'config'}
 
     def __init__(
         self,
-        links: template_links.TemplateLinks = None,
-        config: template_configuration_v2.TemplateConfigurationV2 = None,
+        links: template_links_.TemplateLinks,
+        config: template_configuration_v2_.TemplateConfigurationV2,
     ) -> None:
         """Constructor for the ReadAWSTemplatesV2Response class."""
 
         # Initialize members of the class
-        self.links: template_links.TemplateLinks = links
-        self.config: template_configuration_v2.TemplateConfigurationV2 = config
+        self.links: template_links_.TemplateLinks = links
+        self.config: template_configuration_v2_.TemplateConfigurationV2 = config
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -46,23 +46,16 @@ class ReadAWSTemplatesV2Response:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        key = '_links'
-        links = (
-            template_links.TemplateLinks.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['_links']
+        val_links = template_links_.TemplateLinks.from_dictionary(val)
 
-        key = 'config'
-        config = (
-            template_configuration_v2.TemplateConfigurationV2.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['config']
+        val_config = template_configuration_v2_.TemplateConfigurationV2.from_dictionary(val)
 
         # Return an object of this model
-        return cls(links, config)
+        return cls(
+            val_links,  # type: ignore
+            val_config,  # type: ignore
+        )

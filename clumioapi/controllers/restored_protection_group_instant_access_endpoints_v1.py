@@ -1,9 +1,9 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -46,7 +46,7 @@ class RestoredProtectionGroupInstantAccessEndpointsV1Controller(base_controller.
             self.headers.update(config.custom_headers)
 
     def list_protection_group_instant_access_endpoints(
-        self, limit: int = None, start: str = None, filter: str = None, **kwargs
+        self, limit: int, start: str, filter: str, **kwargs
     ) -> Union[
         list_s3_instant_access_endpoints_response.ListS3InstantAccessEndpointsResponse,
         tuple[
@@ -98,12 +98,12 @@ class RestoredProtectionGroupInstantAccessEndpointsV1Controller(base_controller.
         # Prepare query URL
         _url_path = '/restores/protection-groups/instant-access-endpoints'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'limit': limit, 'start': start, 'filter': filter}
 
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -127,12 +127,12 @@ class RestoredProtectionGroupInstantAccessEndpointsV1Controller(base_controller.
                 ),
             )
         return list_s3_instant_access_endpoints_response.ListS3InstantAccessEndpointsResponse.from_dictionary(
-            resp
+            resp.json()
         )
 
     def create_protection_group_instant_access_endpoint(
         self,
-        body: create_protection_group_instant_access_endpoint_v1_request.CreateProtectionGroupInstantAccessEndpointV1Request = None,
+        body: create_protection_group_instant_access_endpoint_v1_request.CreateProtectionGroupInstantAccessEndpointV1Request,
         **kwargs,
     ) -> Union[
         create_s3_instant_access_endpoint_response.CreateS3InstantAccessEndpointResponse,
@@ -162,11 +162,11 @@ class RestoredProtectionGroupInstantAccessEndpointsV1Controller(base_controller.
         # Prepare query URL
         _url_path = '/restores/protection-groups/instant-access-endpoints'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
         # Execute request
         try:
-            resp = self.client.post(
+            resp: requests.Response = self.client.post(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -191,12 +191,12 @@ class RestoredProtectionGroupInstantAccessEndpointsV1Controller(base_controller.
                 ),
             )
         return create_s3_instant_access_endpoint_response.CreateS3InstantAccessEndpointResponse.from_dictionary(
-            resp
+            resp.json()
         )
 
     def cost_estimates_protection_group_instant_access_endpoint(
         self,
-        body: cost_estimates_protection_group_instant_access_endpoint_v1_request.CostEstimatesProtectionGroupInstantAccessEndpointV1Request = None,
+        body: cost_estimates_protection_group_instant_access_endpoint_v1_request.CostEstimatesProtectionGroupInstantAccessEndpointV1Request,
         **kwargs,
     ) -> Union[
         Union[
@@ -231,11 +231,11 @@ class RestoredProtectionGroupInstantAccessEndpointsV1Controller(base_controller.
         # Prepare query URL
         _url_path = '/restores/protection-groups/instant-access-endpoints/cost-estimates'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
         # Execute request
         try:
-            resp = self.client.post(
+            resp: requests.Response = self.client.post(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -274,6 +274,9 @@ class RestoredProtectionGroupInstantAccessEndpointsV1Controller(base_controller.
             return estimate_cost_s3_instant_access_endpoint_async_response.EstimateCostS3InstantAccessEndpointAsyncResponse.from_dictionary(
                 unmarshalled_dict
             )
+        raise RuntimeError(
+            f'Code should be unreachable; Unexpected response code: {resp.status_code}. '
+        )
 
     def cost_estimates_details_protection_group_instant_access_endpoint(
         self, estimate_id: str, **kwargs
@@ -302,15 +305,17 @@ class RestoredProtectionGroupInstantAccessEndpointsV1Controller(base_controller.
         """
 
         # Prepare query URL
-        _url_path = '/restores/protection-groups/instant-access-endpoints/cost-estimates/{estimate_id}'
+        _url_path = (
+            '/restores/protection-groups/instant-access-endpoints/cost-estimates/{estimate_id}'
+        )
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'estimate_id': estimate_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -334,7 +339,7 @@ class RestoredProtectionGroupInstantAccessEndpointsV1Controller(base_controller.
                 ),
             )
         return estimate_cost_details_s3_instant_access_endpoint_response.EstimateCostDetailsS3InstantAccessEndpointResponse.from_dictionary(
-            resp
+            resp.json()
         )
 
     def read_protection_group_instant_access_endpoint(self, endpoint_id: str, **kwargs) -> Union[
@@ -363,11 +368,11 @@ class RestoredProtectionGroupInstantAccessEndpointsV1Controller(base_controller.
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'endpoint_id': endpoint_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -391,13 +396,13 @@ class RestoredProtectionGroupInstantAccessEndpointsV1Controller(base_controller.
                 ),
             )
         return read_s3_instant_access_endpoint_response.ReadS3InstantAccessEndpointResponse.from_dictionary(
-            resp
+            resp.json()
         )
 
     def update_protection_group_instant_access_endpoint(
         self,
         endpoint_id: str,
-        body: update_protection_group_instant_access_endpoint_v1_request.UpdateProtectionGroupInstantAccessEndpointV1Request = None,
+        body: update_protection_group_instant_access_endpoint_v1_request.UpdateProtectionGroupInstantAccessEndpointV1Request,
         **kwargs,
     ) -> Union[
         update_s3_instant_access_endpoint_response.UpdateS3InstantAccessEndpointResponse,
@@ -429,11 +434,11 @@ class RestoredProtectionGroupInstantAccessEndpointsV1Controller(base_controller.
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'endpoint_id': endpoint_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
         # Execute request
         try:
-            resp = self.client.put(
+            resp: requests.Response = self.client.put(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -458,7 +463,7 @@ class RestoredProtectionGroupInstantAccessEndpointsV1Controller(base_controller.
                 ),
             )
         return update_s3_instant_access_endpoint_response.UpdateS3InstantAccessEndpointResponse.from_dictionary(
-            resp
+            resp.json()
         )
 
     def delete_protection_group_instant_access_endpoint(
@@ -483,11 +488,11 @@ class RestoredProtectionGroupInstantAccessEndpointsV1Controller(base_controller.
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'endpoint_id': endpoint_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
         # Execute request
         try:
-            resp = self.client.delete(
+            resp: requests.Response = self.client.delete(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -537,11 +542,11 @@ class RestoredProtectionGroupInstantAccessEndpointsV1Controller(base_controller.
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'endpoint_id': endpoint_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -565,13 +570,13 @@ class RestoredProtectionGroupInstantAccessEndpointsV1Controller(base_controller.
                 ),
             )
         return read_s3_instant_access_endpoint_uri_response.ReadS3InstantAccessEndpointUriResponse.from_dictionary(
-            resp
+            resp.json()
         )
 
     def add_protection_group_instant_access_endpoint_role(
         self,
         endpoint_id: str,
-        body: add_protection_group_instant_access_endpoint_role_v1_request.AddProtectionGroupInstantAccessEndpointRoleV1Request = None,
+        body: add_protection_group_instant_access_endpoint_role_v1_request.AddProtectionGroupInstantAccessEndpointRoleV1Request,
         **kwargs,
     ) -> Union[
         add_s3_instant_access_endpoint_role_response.AddS3InstantAccessEndpointRoleResponse,
@@ -603,11 +608,11 @@ class RestoredProtectionGroupInstantAccessEndpointsV1Controller(base_controller.
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'endpoint_id': endpoint_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
         # Execute request
         try:
-            resp = self.client.post(
+            resp: requests.Response = self.client.post(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -632,7 +637,7 @@ class RestoredProtectionGroupInstantAccessEndpointsV1Controller(base_controller.
                 ),
             )
         return add_s3_instant_access_endpoint_role_response.AddS3InstantAccessEndpointRoleResponse.from_dictionary(
-            resp
+            resp.json()
         )
 
     def read_protection_group_instant_access_endpoint_role_permission(
@@ -663,15 +668,17 @@ class RestoredProtectionGroupInstantAccessEndpointsV1Controller(base_controller.
         """
 
         # Prepare query URL
-        _url_path = '/restores/protection-groups/instant-access-endpoints/{endpoint_id}/roles/permissions'
+        _url_path = (
+            '/restores/protection-groups/instant-access-endpoints/{endpoint_id}/roles/permissions'
+        )
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'endpoint_id': endpoint_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -695,14 +702,14 @@ class RestoredProtectionGroupInstantAccessEndpointsV1Controller(base_controller.
                 ),
             )
         return read_s3_instant_access_endpoint_role_permission_response.ReadS3InstantAccessEndpointRolePermissionResponse.from_dictionary(
-            resp
+            resp.json()
         )
 
     def update_protection_group_instant_access_endpoint_role(
         self,
         endpoint_id: str,
         role_id: str,
-        body: update_protection_group_instant_access_endpoint_role_v1_request.UpdateProtectionGroupInstantAccessEndpointRoleV1Request = None,
+        body: update_protection_group_instant_access_endpoint_role_v1_request.UpdateProtectionGroupInstantAccessEndpointRoleV1Request,
         **kwargs,
     ) -> Union[
         update_s3_instant_access_endpoint_role_response.UpdateS3InstantAccessEndpointRoleResponse,
@@ -734,15 +741,17 @@ class RestoredProtectionGroupInstantAccessEndpointsV1Controller(base_controller.
         """
 
         # Prepare query URL
-        _url_path = '/restores/protection-groups/instant-access-endpoints/{endpoint_id}/roles/{role_id}'
+        _url_path = (
+            '/restores/protection-groups/instant-access-endpoints/{endpoint_id}/roles/{role_id}'
+        )
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'endpoint_id': endpoint_id, 'role_id': role_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
         # Execute request
         try:
-            resp = self.client.put(
+            resp: requests.Response = self.client.put(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -767,7 +776,7 @@ class RestoredProtectionGroupInstantAccessEndpointsV1Controller(base_controller.
                 ),
             )
         return update_s3_instant_access_endpoint_role_response.UpdateS3InstantAccessEndpointRoleResponse.from_dictionary(
-            resp
+            resp.json()
         )
 
     def delete_protection_group_instant_access_endpoint_role(
@@ -799,15 +808,17 @@ class RestoredProtectionGroupInstantAccessEndpointsV1Controller(base_controller.
         """
 
         # Prepare query URL
-        _url_path = '/restores/protection-groups/instant-access-endpoints/{endpoint_id}/roles/{role_id}'
+        _url_path = (
+            '/restores/protection-groups/instant-access-endpoints/{endpoint_id}/roles/{role_id}'
+        )
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'endpoint_id': endpoint_id, 'role_id': role_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
         # Execute request
         try:
-            resp = self.client.delete(
+            resp: requests.Response = self.client.delete(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -831,5 +842,5 @@ class RestoredProtectionGroupInstantAccessEndpointsV1Controller(base_controller.
                 ),
             )
         return delete_s3_instant_access_endpoint_role_response.DeleteS3InstantAccessEndpointRoleResponse.from_dictionary(
-            resp
+            resp.json()
         )

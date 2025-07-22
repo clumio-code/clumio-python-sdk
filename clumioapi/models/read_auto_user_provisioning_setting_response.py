@@ -1,10 +1,11 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import auto_user_provisioning_setting_links
+from clumioapi.models import \
+    auto_user_provisioning_setting_links as auto_user_provisioning_setting_links_
 
 T = TypeVar('T', bound='ReadAutoUserProvisioningSettingResponse')
 
@@ -20,21 +21,21 @@ class ReadAutoUserProvisioningSettingResponse:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'links': '_links', 'is_enabled': 'is_enabled'}
+    _names: dict[str, str] = {'links': '_links', 'is_enabled': 'is_enabled'}
 
     def __init__(
         self,
-        links: auto_user_provisioning_setting_links.AutoUserProvisioningSettingLinks = None,
-        is_enabled: bool = None,
+        links: auto_user_provisioning_setting_links_.AutoUserProvisioningSettingLinks,
+        is_enabled: bool,
     ) -> None:
         """Constructor for the ReadAutoUserProvisioningSettingResponse class."""
 
         # Initialize members of the class
-        self.links: auto_user_provisioning_setting_links.AutoUserProvisioningSettingLinks = links
+        self.links: auto_user_provisioning_setting_links_.AutoUserProvisioningSettingLinks = links
         self.is_enabled: bool = is_enabled
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -45,19 +46,20 @@ class ReadAutoUserProvisioningSettingResponse:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        key = '_links'
-        links = (
-            auto_user_provisioning_setting_links.AutoUserProvisioningSettingLinks.from_dictionary(
-                dictionary.get(key)
+        val = dictionary['_links']
+        val_links = (
+            auto_user_provisioning_setting_links_.AutoUserProvisioningSettingLinks.from_dictionary(
+                val
             )
-            if dictionary.get(key)
-            else None
         )
 
-        is_enabled = dictionary.get('is_enabled')
+        val = dictionary['is_enabled']
+        val_is_enabled = val
+
         # Return an object of this model
-        return cls(links, is_enabled)
+        return cls(
+            val_links,  # type: ignore
+            val_is_enabled,  # type: ignore
+        )

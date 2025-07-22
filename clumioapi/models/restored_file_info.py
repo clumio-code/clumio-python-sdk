@@ -1,10 +1,10 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import data_access_object
+from clumioapi.models import data_access_object as data_access_object_
 
 T = TypeVar('T', bound='RestoredFileInfo')
 
@@ -41,7 +41,7 @@ class RestoredFileInfo:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'access_methods': 'access_methods',
         'backup_id': 'backup_id',
         'backup_timestamp': 'backup_timestamp',
@@ -54,19 +54,19 @@ class RestoredFileInfo:
 
     def __init__(
         self,
-        access_methods: Sequence[data_access_object.DataAccessObject] = None,
-        backup_id: str = None,
-        backup_timestamp: str = None,
-        expiration_timestamp: str = None,
-        p_id: str = None,
-        name: str = None,
-        size: int = None,
-        task_id: str = None,
+        access_methods: Sequence[data_access_object_.DataAccessObject],
+        backup_id: str,
+        backup_timestamp: str,
+        expiration_timestamp: str,
+        p_id: str,
+        name: str,
+        size: int,
+        task_id: str,
     ) -> None:
         """Constructor for the RestoredFileInfo class."""
 
         # Initialize members of the class
-        self.access_methods: Sequence[data_access_object.DataAccessObject] = access_methods
+        self.access_methods: Sequence[data_access_object_.DataAccessObject] = access_methods
         self.backup_id: str = backup_id
         self.backup_timestamp: str = backup_timestamp
         self.expiration_timestamp: str = expiration_timestamp
@@ -76,7 +76,7 @@ class RestoredFileInfo:
         self.task_id: str = task_id
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -87,31 +87,47 @@ class RestoredFileInfo:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        access_methods = None
-        if dictionary.get('access_methods'):
-            access_methods = list()
-            for value in dictionary.get('access_methods'):
-                access_methods.append(data_access_object.DataAccessObject.from_dictionary(value))
+        val = dictionary['access_methods']
 
-        backup_id = dictionary.get('backup_id')
-        backup_timestamp = dictionary.get('backup_timestamp')
-        expiration_timestamp = dictionary.get('expiration_timestamp')
-        p_id = dictionary.get('id')
-        name = dictionary.get('name')
-        size = dictionary.get('size')
-        task_id = dictionary.get('task_id')
+        val_access_methods = None
+        if val:
+            val_access_methods = list()
+            for value in val:
+                val_access_methods.append(
+                    data_access_object_.DataAccessObject.from_dictionary(value)
+                )
+
+        val = dictionary['backup_id']
+        val_backup_id = val
+
+        val = dictionary['backup_timestamp']
+        val_backup_timestamp = val
+
+        val = dictionary['expiration_timestamp']
+        val_expiration_timestamp = val
+
+        val = dictionary['id']
+        val_p_id = val
+
+        val = dictionary['name']
+        val_name = val
+
+        val = dictionary['size']
+        val_size = val
+
+        val = dictionary['task_id']
+        val_task_id = val
+
         # Return an object of this model
         return cls(
-            access_methods,
-            backup_id,
-            backup_timestamp,
-            expiration_timestamp,
-            p_id,
-            name,
-            size,
-            task_id,
+            val_access_methods,  # type: ignore
+            val_backup_id,  # type: ignore
+            val_backup_timestamp,  # type: ignore
+            val_expiration_timestamp,  # type: ignore
+            val_p_id,  # type: ignore
+            val_name,  # type: ignore
+            val_size,  # type: ignore
+            val_task_id,  # type: ignore
         )

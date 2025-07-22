@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -110,15 +110,14 @@ class DynamoDBGRRAttributeFilter:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'condition': 'condition', 'name': 'name', 'p_type': 'type', 'values': 'values'}
+    _names: dict[str, str] = {
+        'condition': 'condition',
+        'name': 'name',
+        'p_type': 'type',
+        'values': 'values',
+    }
 
-    def __init__(
-        self,
-        condition: str = None,
-        name: str = None,
-        p_type: str = None,
-        values: Sequence[str] = None,
-    ) -> None:
+    def __init__(self, condition: str, name: str, p_type: str, values: Sequence[str]) -> None:
         """Constructor for the DynamoDBGRRAttributeFilter class."""
 
         # Initialize members of the class
@@ -128,7 +127,7 @@ class DynamoDBGRRAttributeFilter:
         self.values: Sequence[str] = values
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -139,13 +138,24 @@ class DynamoDBGRRAttributeFilter:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        condition = dictionary.get('condition')
-        name = dictionary.get('name')
-        p_type = dictionary.get('type')
-        values = dictionary.get('values')
+        val = dictionary['condition']
+        val_condition = val
+
+        val = dictionary['name']
+        val_name = val
+
+        val = dictionary['type']
+        val_p_type = val
+
+        val = dictionary['values']
+        val_values = val
+
         # Return an object of this model
-        return cls(condition, name, p_type, values)
+        return cls(
+            val_condition,  # type: ignore
+            val_name,  # type: ignore
+            val_p_type,  # type: ignore
+            val_values,  # type: ignore
+        )

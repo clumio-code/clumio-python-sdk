@@ -1,11 +1,11 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import audit_parent_entity
-from clumioapi.models import audit_primary_entity
+from clumioapi.models import audit_parent_entity as audit_parent_entity_
+from clumioapi.models import audit_primary_entity as audit_primary_entity_
 
 T = TypeVar('T', bound='AuditTrails')
 
@@ -143,13 +143,10 @@ class AuditTrails:
         parent_entity:
             The parent object of the primary entity associated with or affected by the
             audit.
-            If the primary entity is not a vmware entity, this field will have a value of
-            null
-            For example, "vmware_vcenter" is the parent entity of primary entity
-            "vmware_vm".
         primary_entity:
             The primary object associated with the audit event. Examples of primary entities
-            include "aws_connection", "aws_ebs_volume" and "vmware_vm". In some cases like
+            include "aws_connection", "aws_ebs_volume" and "aws_ec2_instance". In some cases
+            like
             global settings, the primary entity may be null.
         status:
             The status of the performed action. 'success', 'failure', 'partial_success'
@@ -160,7 +157,7 @@ class AuditTrails:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'action': 'action',
         'category': 'category',
         'details': 'details',
@@ -176,17 +173,17 @@ class AuditTrails:
 
     def __init__(
         self,
-        action: str = None,
-        category: str = None,
-        details: str = None,
-        p_id: str = None,
-        interface: str = None,
-        ip_address: str = None,
-        parent_entity: audit_parent_entity.AuditParentEntity = None,
-        primary_entity: audit_primary_entity.AuditPrimaryEntity = None,
-        status: str = None,
-        timestamp: str = None,
-        user_email: str = None,
+        action: str,
+        category: str,
+        details: str,
+        p_id: str,
+        interface: str,
+        ip_address: str,
+        parent_entity: audit_parent_entity_.AuditParentEntity,
+        primary_entity: audit_primary_entity_.AuditPrimaryEntity,
+        status: str,
+        timestamp: str,
+        user_email: str,
     ) -> None:
         """Constructor for the AuditTrails class."""
 
@@ -197,14 +194,14 @@ class AuditTrails:
         self.p_id: str = p_id
         self.interface: str = interface
         self.ip_address: str = ip_address
-        self.parent_entity: audit_parent_entity.AuditParentEntity = parent_entity
-        self.primary_entity: audit_primary_entity.AuditPrimaryEntity = primary_entity
+        self.parent_entity: audit_parent_entity_.AuditParentEntity = parent_entity
+        self.primary_entity: audit_primary_entity_.AuditPrimaryEntity = primary_entity
         self.status: str = status
         self.timestamp: str = timestamp
         self.user_email: str = user_email
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -215,44 +212,52 @@ class AuditTrails:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        action = dictionary.get('action')
-        category = dictionary.get('category')
-        details = dictionary.get('details')
-        p_id = dictionary.get('id')
-        interface = dictionary.get('interface')
-        ip_address = dictionary.get('ip_address')
-        key = 'parent_entity'
-        parent_entity = (
-            audit_parent_entity.AuditParentEntity.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['action']
+        val_action = val
 
-        key = 'primary_entity'
-        primary_entity = (
-            audit_primary_entity.AuditPrimaryEntity.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['category']
+        val_category = val
 
-        status = dictionary.get('status')
-        timestamp = dictionary.get('timestamp')
-        user_email = dictionary.get('user_email')
+        val = dictionary['details']
+        val_details = val
+
+        val = dictionary['id']
+        val_p_id = val
+
+        val = dictionary['interface']
+        val_interface = val
+
+        val = dictionary['ip_address']
+        val_ip_address = val
+
+        val = dictionary['parent_entity']
+        val_parent_entity = audit_parent_entity_.AuditParentEntity.from_dictionary(val)
+
+        val = dictionary['primary_entity']
+        val_primary_entity = audit_primary_entity_.AuditPrimaryEntity.from_dictionary(val)
+
+        val = dictionary['status']
+        val_status = val
+
+        val = dictionary['timestamp']
+        val_timestamp = val
+
+        val = dictionary['user_email']
+        val_user_email = val
+
         # Return an object of this model
         return cls(
-            action,
-            category,
-            details,
-            p_id,
-            interface,
-            ip_address,
-            parent_entity,
-            primary_entity,
-            status,
-            timestamp,
-            user_email,
+            val_action,  # type: ignore
+            val_category,  # type: ignore
+            val_details,  # type: ignore
+            val_p_id,  # type: ignore
+            val_interface,  # type: ignore
+            val_ip_address,  # type: ignore
+            val_parent_entity,  # type: ignore
+            val_primary_entity,  # type: ignore
+            val_status,  # type: ignore
+            val_timestamp,  # type: ignore
+            val_user_email,  # type: ignore
         )

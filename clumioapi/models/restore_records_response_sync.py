@@ -1,11 +1,11 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import dynamo_db_query_preview_result
-from clumioapi.models import restore_records_links_sync
+from clumioapi.models import dynamo_db_query_preview_result as dynamo_db_query_preview_result_
+from clumioapi.models import restore_records_links_sync as restore_records_links_sync_
 
 T = TypeVar('T', bound='RestoreRecordsResponseSync')
 
@@ -25,23 +25,23 @@ class RestoreRecordsResponseSync:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'links': '_links', 'preview_result': 'preview_result'}
+    _names: dict[str, str] = {'links': '_links', 'preview_result': 'preview_result'}
 
     def __init__(
         self,
-        links: restore_records_links_sync.RestoreRecordsLinksSync = None,
-        preview_result: dynamo_db_query_preview_result.DynamoDBQueryPreviewResult = None,
+        links: restore_records_links_sync_.RestoreRecordsLinksSync,
+        preview_result: dynamo_db_query_preview_result_.DynamoDBQueryPreviewResult,
     ) -> None:
         """Constructor for the RestoreRecordsResponseSync class."""
 
         # Initialize members of the class
-        self.links: restore_records_links_sync.RestoreRecordsLinksSync = links
-        self.preview_result: dynamo_db_query_preview_result.DynamoDBQueryPreviewResult = (
+        self.links: restore_records_links_sync_.RestoreRecordsLinksSync = links
+        self.preview_result: dynamo_db_query_preview_result_.DynamoDBQueryPreviewResult = (
             preview_result
         )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -52,25 +52,18 @@ class RestoreRecordsResponseSync:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        key = '_links'
-        links = (
-            restore_records_links_sync.RestoreRecordsLinksSync.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['_links']
+        val_links = restore_records_links_sync_.RestoreRecordsLinksSync.from_dictionary(val)
 
-        key = 'preview_result'
-        preview_result = (
-            dynamo_db_query_preview_result.DynamoDBQueryPreviewResult.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
+        val = dictionary['preview_result']
+        val_preview_result = (
+            dynamo_db_query_preview_result_.DynamoDBQueryPreviewResult.from_dictionary(val)
         )
 
         # Return an object of this model
-        return cls(links, preview_result)
+        return cls(
+            val_links,  # type: ignore
+            val_preview_result,  # type: ignore
+        )

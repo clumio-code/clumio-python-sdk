@@ -3,7 +3,7 @@
 #
 
 import json
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -31,13 +31,7 @@ class AwsDynamodbTablesV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def list_aws_dynamodb_tables(
-        self,
-        limit: int = None,
-        start: str = None,
-        filter: str = None,
-        embed: str = None,
-        lookback_days: int = None,
-        **kwargs,
+        self, limit: int, start: str, filter: str, embed: str, lookback_days: int, **kwargs
     ) -> Union[
         list_dynamo_db_table_response.ListDynamoDBTableResponse,
         tuple[requests.Response, Optional[list_dynamo_db_table_response.ListDynamoDBTableResponse]],
@@ -162,7 +156,7 @@ class AwsDynamodbTablesV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/datasources/aws/dynamodb-tables'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {
             'limit': limit,
             'start': start,
@@ -173,7 +167,7 @@ class AwsDynamodbTablesV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -192,10 +186,10 @@ class AwsDynamodbTablesV1Controller(base_controller.BaseController):
             return resp, list_dynamo_db_table_response.ListDynamoDBTableResponse.from_dictionary(
                 resp.json()
             )
-        return list_dynamo_db_table_response.ListDynamoDBTableResponse.from_dictionary(resp)
+        return list_dynamo_db_table_response.ListDynamoDBTableResponse.from_dictionary(resp.json())
 
     def read_aws_dynamodb_table(
-        self, table_id: str, lookback_days: int = None, embed: str = None, **kwargs
+        self, table_id: str, lookback_days: int, embed: str, **kwargs
     ) -> Union[
         read_dynamo_db_table_response.ReadDynamoDBTableResponse,
         tuple[requests.Response, Optional[read_dynamo_db_table_response.ReadDynamoDBTableResponse]],
@@ -234,12 +228,12 @@ class AwsDynamodbTablesV1Controller(base_controller.BaseController):
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'table_id': table_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'lookback_days': lookback_days, 'embed': embed}
 
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -258,4 +252,4 @@ class AwsDynamodbTablesV1Controller(base_controller.BaseController):
             return resp, read_dynamo_db_table_response.ReadDynamoDBTableResponse.from_dictionary(
                 resp.json()
             )
-        return read_dynamo_db_table_response.ReadDynamoDBTableResponse.from_dictionary(resp)
+        return read_dynamo_db_table_response.ReadDynamoDBTableResponse.from_dictionary(resp.json())

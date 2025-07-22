@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -24,11 +24,9 @@ class AwsTagModel:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'p_id': 'id', 'key': 'key', 'key_id': 'key_id', 'value': 'value'}
+    _names: dict[str, str] = {'p_id': 'id', 'key': 'key', 'key_id': 'key_id', 'value': 'value'}
 
-    def __init__(
-        self, p_id: str = None, key: str = None, key_id: str = None, value: str = None
-    ) -> None:
+    def __init__(self, p_id: str, key: str, key_id: str, value: str) -> None:
         """Constructor for the AwsTagModel class."""
 
         # Initialize members of the class
@@ -38,7 +36,7 @@ class AwsTagModel:
         self.value: str = value
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -49,13 +47,24 @@ class AwsTagModel:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        p_id = dictionary.get('id')
-        key = dictionary.get('key')
-        key_id = dictionary.get('key_id')
-        value = dictionary.get('value')
+        val = dictionary['id']
+        val_p_id = val
+
+        val = dictionary['key']
+        val_key = val
+
+        val = dictionary['key_id']
+        val_key_id = val
+
+        val = dictionary['value']
+        val_value = val
+
         # Return an object of this model
-        return cls(p_id, key, key_id, value)
+        return cls(
+            val_p_id,  # type: ignore
+            val_key,  # type: ignore
+            val_key_id,  # type: ignore
+            val_value,  # type: ignore
+        )

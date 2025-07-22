@@ -1,9 +1,9 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -30,9 +30,7 @@ class BackupFilesystemsV1Controller(base_controller.BaseController):
         if config.custom_headers != None:
             self.headers.update(config.custom_headers)
 
-    def list_backup_filesystems(
-        self, backup_id: str, limit: int = None, start: str = None, **kwargs
-    ) -> Union[
+    def list_backup_filesystems(self, backup_id: str, limit: int, start: str, **kwargs) -> Union[
         list_file_systems_response.ListFileSystemsResponse,
         tuple[requests.Response, Optional[list_file_systems_response.ListFileSystemsResponse]],
     ]:
@@ -60,12 +58,12 @@ class BackupFilesystemsV1Controller(base_controller.BaseController):
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'backup_id': backup_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'limit': limit, 'start': start}
 
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -84,7 +82,7 @@ class BackupFilesystemsV1Controller(base_controller.BaseController):
             return resp, list_file_systems_response.ListFileSystemsResponse.from_dictionary(
                 resp.json()
             )
-        return list_file_systems_response.ListFileSystemsResponse.from_dictionary(resp)
+        return list_file_systems_response.ListFileSystemsResponse.from_dictionary(resp.json())
 
     def read_filesystem(self, filesystem_id: str, backup_id: str, **kwargs) -> Union[
         read_file_system_response.ReadFileSystemResponse,
@@ -111,11 +109,11 @@ class BackupFilesystemsV1Controller(base_controller.BaseController):
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'filesystem_id': filesystem_id, 'backup_id': backup_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -134,4 +132,4 @@ class BackupFilesystemsV1Controller(base_controller.BaseController):
             return resp, read_file_system_response.ReadFileSystemResponse.from_dictionary(
                 resp.json()
             )
-        return read_file_system_response.ReadFileSystemResponse.from_dictionary(resp)
+        return read_file_system_response.ReadFileSystemResponse.from_dictionary(resp.json())

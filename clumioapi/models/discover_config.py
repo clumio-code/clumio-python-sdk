@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -22,14 +22,12 @@ class DiscoverConfig:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'asset_types_enabled': 'asset_types_enabled',
         'installed_template_version': 'installed_template_version',
     }
 
-    def __init__(
-        self, asset_types_enabled: Sequence[str] = None, installed_template_version: str = None
-    ) -> None:
+    def __init__(self, asset_types_enabled: Sequence[str], installed_template_version: str) -> None:
         """Constructor for the DiscoverConfig class."""
 
         # Initialize members of the class
@@ -37,7 +35,7 @@ class DiscoverConfig:
         self.installed_template_version: str = installed_template_version
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -48,11 +46,16 @@ class DiscoverConfig:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        asset_types_enabled = dictionary.get('asset_types_enabled')
-        installed_template_version = dictionary.get('installed_template_version')
+        val = dictionary['asset_types_enabled']
+        val_asset_types_enabled = val
+
+        val = dictionary['installed_template_version']
+        val_installed_template_version = val
+
         # Return an object of this model
-        return cls(asset_types_enabled, installed_template_version)
+        return cls(
+            val_asset_types_enabled,  # type: ignore
+            val_installed_template_version,  # type: ignore
+        )

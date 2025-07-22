@@ -1,10 +1,10 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import restored_record_links
+from clumioapi.models import restored_record_links as restored_record_links_
 
 T = TypeVar('T', bound='RestoredRecord')
 
@@ -42,7 +42,7 @@ class RestoredRecord:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'links': '_links',
         'account_native_id': 'account_native_id',
         'aws_region': 'aws_region',
@@ -60,24 +60,24 @@ class RestoredRecord:
 
     def __init__(
         self,
-        links: restored_record_links.RestoredRecordLinks = None,
-        account_native_id: str = None,
-        aws_region: str = None,
-        backup_id: str = None,
-        database_name: str = None,
-        download_link: str = None,
-        expiration_timestamp: str = None,
-        p_id: str = None,
-        query_statement: str = None,
-        resource_id: str = None,
-        row_count: int = None,
-        start_timestamp: str = None,
-        task_id: str = None,
+        links: restored_record_links_.RestoredRecordLinks,
+        account_native_id: str,
+        aws_region: str,
+        backup_id: str,
+        database_name: str,
+        download_link: str,
+        expiration_timestamp: str,
+        p_id: str,
+        query_statement: str,
+        resource_id: str,
+        row_count: int,
+        start_timestamp: str,
+        task_id: str,
     ) -> None:
         """Constructor for the RestoredRecord class."""
 
         # Initialize members of the class
-        self.links: restored_record_links.RestoredRecordLinks = links
+        self.links: restored_record_links_.RestoredRecordLinks = links
         self.account_native_id: str = account_native_id
         self.aws_region: str = aws_region
         self.backup_id: str = backup_id
@@ -92,7 +92,7 @@ class RestoredRecord:
         self.task_id: str = task_id
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -103,42 +103,60 @@ class RestoredRecord:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        key = '_links'
-        links = (
-            restored_record_links.RestoredRecordLinks.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['_links']
+        val_links = restored_record_links_.RestoredRecordLinks.from_dictionary(val)
 
-        account_native_id = dictionary.get('account_native_id')
-        aws_region = dictionary.get('aws_region')
-        backup_id = dictionary.get('backup_id')
-        database_name = dictionary.get('database_name')
-        download_link = dictionary.get('download_link')
-        expiration_timestamp = dictionary.get('expiration_timestamp')
-        p_id = dictionary.get('id')
-        query_statement = dictionary.get('query_statement')
-        resource_id = dictionary.get('resource_id')
-        row_count = dictionary.get('row_count')
-        start_timestamp = dictionary.get('start_timestamp')
-        task_id = dictionary.get('task_id')
+        val = dictionary['account_native_id']
+        val_account_native_id = val
+
+        val = dictionary['aws_region']
+        val_aws_region = val
+
+        val = dictionary['backup_id']
+        val_backup_id = val
+
+        val = dictionary['database_name']
+        val_database_name = val
+
+        val = dictionary['download_link']
+        val_download_link = val
+
+        val = dictionary['expiration_timestamp']
+        val_expiration_timestamp = val
+
+        val = dictionary['id']
+        val_p_id = val
+
+        val = dictionary['query_statement']
+        val_query_statement = val
+
+        val = dictionary['resource_id']
+        val_resource_id = val
+
+        val = dictionary['row_count']
+        val_row_count = val
+
+        val = dictionary['start_timestamp']
+        val_start_timestamp = val
+
+        val = dictionary['task_id']
+        val_task_id = val
+
         # Return an object of this model
         return cls(
-            links,
-            account_native_id,
-            aws_region,
-            backup_id,
-            database_name,
-            download_link,
-            expiration_timestamp,
-            p_id,
-            query_statement,
-            resource_id,
-            row_count,
-            start_timestamp,
-            task_id,
+            val_links,  # type: ignore
+            val_account_native_id,  # type: ignore
+            val_aws_region,  # type: ignore
+            val_backup_id,  # type: ignore
+            val_database_name,  # type: ignore
+            val_download_link,  # type: ignore
+            val_expiration_timestamp,  # type: ignore
+            val_p_id,  # type: ignore
+            val_query_statement,  # type: ignore
+            val_resource_id,  # type: ignore
+            val_row_count,  # type: ignore
+            val_start_timestamp,  # type: ignore
+            val_task_id,  # type: ignore
         )

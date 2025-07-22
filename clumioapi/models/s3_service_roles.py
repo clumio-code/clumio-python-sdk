@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -16,16 +16,16 @@ class S3ServiceRoles:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'continuous_backups_role_arn': 'continuous_backups_role_arn'}
+    _names: dict[str, str] = {'continuous_backups_role_arn': 'continuous_backups_role_arn'}
 
-    def __init__(self, continuous_backups_role_arn: str = None) -> None:
+    def __init__(self, continuous_backups_role_arn: str) -> None:
         """Constructor for the S3ServiceRoles class."""
 
         # Initialize members of the class
         self.continuous_backups_role_arn: str = continuous_backups_role_arn
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -36,10 +36,12 @@ class S3ServiceRoles:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        continuous_backups_role_arn = dictionary.get('continuous_backups_role_arn')
+        val = dictionary['continuous_backups_role_arn']
+        val_continuous_backups_role_arn = val
+
         # Return an object of this model
-        return cls(continuous_backups_role_arn)
+        return cls(
+            val_continuous_backups_role_arn,  # type: ignore
+        )

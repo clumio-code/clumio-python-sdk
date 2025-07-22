@@ -1,10 +1,10 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import organizational_unit_with_e_tag_v1
+from clumioapi.models import organizational_unit_with_e_tag_v1 as organizational_unit_with_e_tag_v1_
 
 T = TypeVar('T', bound='OrganizationalUnitListEmbeddedV1')
 
@@ -20,18 +20,20 @@ class OrganizationalUnitListEmbeddedV1:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'items': 'items'}
+    _names: dict[str, str] = {'items': 'items'}
 
     def __init__(
-        self, items: Sequence[organizational_unit_with_e_tag_v1.OrganizationalUnitWithETagV1] = None
+        self, items: Sequence[organizational_unit_with_e_tag_v1_.OrganizationalUnitWithETagV1]
     ) -> None:
         """Constructor for the OrganizationalUnitListEmbeddedV1 class."""
 
         # Initialize members of the class
-        self.items: Sequence[organizational_unit_with_e_tag_v1.OrganizationalUnitWithETagV1] = items
+        self.items: Sequence[organizational_unit_with_e_tag_v1_.OrganizationalUnitWithETagV1] = (
+            items
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -42,19 +44,21 @@ class OrganizationalUnitListEmbeddedV1:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        items = None
-        if dictionary.get('items'):
-            items = list()
-            for value in dictionary.get('items'):
-                items.append(
-                    organizational_unit_with_e_tag_v1.OrganizationalUnitWithETagV1.from_dictionary(
+        val = dictionary['items']
+
+        val_items = None
+        if val:
+            val_items = list()
+            for value in val:
+                val_items.append(
+                    organizational_unit_with_e_tag_v1_.OrganizationalUnitWithETagV1.from_dictionary(
                         value
                     )
                 )
 
         # Return an object of this model
-        return cls(items)
+        return cls(
+            val_items,  # type: ignore
+        )

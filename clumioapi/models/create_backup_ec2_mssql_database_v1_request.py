@@ -1,10 +1,10 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
 from clumioapi.exceptions import clumio_exception
-from clumioapi.models import on_demand_setting
+from clumioapi.models import on_demand_setting as on_demand_setting_
 
 T = TypeVar('T', bound='CreateBackupEc2MssqlDatabaseV1Request')
 
@@ -27,19 +27,16 @@ class CreateBackupEc2MssqlDatabaseV1Request:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'asset_id': 'asset_id', 'settings': 'settings', 'p_type': 'type'}
+    _names: dict[str, str] = {'asset_id': 'asset_id', 'settings': 'settings', 'p_type': 'type'}
 
     def __init__(
-        self,
-        asset_id: str = None,
-        settings: on_demand_setting.OnDemandSetting = None,
-        p_type: str = None,
+        self, asset_id: str, settings: on_demand_setting_.OnDemandSetting, p_type: str
     ) -> None:
         """Constructor for the CreateBackupEc2MssqlDatabaseV1Request class."""
 
         # Initialize members of the class
         self.asset_id: str = asset_id
-        self.settings: on_demand_setting.OnDemandSetting = settings
+        self.settings: on_demand_setting_.OnDemandSetting = settings
 
         if p_type not in TypeValues:
             raise clumio_exception.ClumioException(
@@ -49,7 +46,7 @@ class CreateBackupEc2MssqlDatabaseV1Request:
         self.p_type: str = p_type
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -60,18 +57,20 @@ class CreateBackupEc2MssqlDatabaseV1Request:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        asset_id = dictionary.get('asset_id')
-        key = 'settings'
-        settings = (
-            on_demand_setting.OnDemandSetting.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['asset_id']
+        val_asset_id = val
 
-        p_type = dictionary.get('type')
+        val = dictionary['settings']
+        val_settings = on_demand_setting_.OnDemandSetting.from_dictionary(val)
+
+        val = dictionary['type']
+        val_p_type = val
+
         # Return an object of this model
-        return cls(asset_id, settings, p_type)
+        return cls(
+            val_asset_id,  # type: ignore
+            val_settings,  # type: ignore
+            val_p_type,  # type: ignore
+        )

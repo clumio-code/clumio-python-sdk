@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -23,15 +23,13 @@ class AddProtectionGroupInstantAccessEndpointRoleV1Request:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'is_allow_external_account': 'is_allow_external_account',
         'role_alias': 'role_alias',
         'role_arn': 'role_arn',
     }
 
-    def __init__(
-        self, is_allow_external_account: bool = None, role_alias: str = None, role_arn: str = None
-    ) -> None:
+    def __init__(self, is_allow_external_account: bool, role_alias: str, role_arn: str) -> None:
         """Constructor for the AddProtectionGroupInstantAccessEndpointRoleV1Request class."""
 
         # Initialize members of the class
@@ -40,7 +38,7 @@ class AddProtectionGroupInstantAccessEndpointRoleV1Request:
         self.role_arn: str = role_arn
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -51,12 +49,20 @@ class AddProtectionGroupInstantAccessEndpointRoleV1Request:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        is_allow_external_account = dictionary.get('is_allow_external_account')
-        role_alias = dictionary.get('role_alias')
-        role_arn = dictionary.get('role_arn')
+        val = dictionary['is_allow_external_account']
+        val_is_allow_external_account = val
+
+        val = dictionary['role_alias']
+        val_role_alias = val
+
+        val = dictionary['role_arn']
+        val_role_arn = val
+
         # Return an object of this model
-        return cls(is_allow_external_account, role_alias, role_arn)
+        return cls(
+            val_is_allow_external_account,  # type: ignore
+            val_role_alias,  # type: ignore
+            val_role_arn,  # type: ignore
+        )

@@ -1,9 +1,9 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -46,11 +46,11 @@ class GeneralSettingsV2Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/settings/general'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -72,12 +72,12 @@ class GeneralSettingsV2Controller(base_controller.BaseController):
                     resp.json()
                 ),
             )
-        return read_general_settings_response_v2.ReadGeneralSettingsResponseV2.from_dictionary(resp)
+        return read_general_settings_response_v2.ReadGeneralSettingsResponseV2.from_dictionary(
+            resp.json()
+        )
 
     def update_general_settings(
-        self,
-        body: update_general_settings_v2_request.UpdateGeneralSettingsV2Request = None,
-        **kwargs,
+        self, body: update_general_settings_v2_request.UpdateGeneralSettingsV2Request, **kwargs
     ) -> Union[
         patch_general_settings_response_v2.PatchGeneralSettingsResponseV2,
         tuple[
@@ -102,11 +102,11 @@ class GeneralSettingsV2Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/settings/general'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
         # Execute request
         try:
-            resp = self.client.patch(
+            resp: requests.Response = self.client.patch(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -130,5 +130,5 @@ class GeneralSettingsV2Controller(base_controller.BaseController):
                 ),
             )
         return patch_general_settings_response_v2.PatchGeneralSettingsResponseV2.from_dictionary(
-            resp
+            resp.json()
         )

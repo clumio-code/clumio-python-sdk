@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -24,9 +24,12 @@ class RuleProvision:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'organizational_unit_ids': 'organizational_unit_ids', 'role_id': 'role_id'}
+    _names: dict[str, str] = {
+        'organizational_unit_ids': 'organizational_unit_ids',
+        'role_id': 'role_id',
+    }
 
-    def __init__(self, organizational_unit_ids: Sequence[str] = None, role_id: str = None) -> None:
+    def __init__(self, organizational_unit_ids: Sequence[str], role_id: str) -> None:
         """Constructor for the RuleProvision class."""
 
         # Initialize members of the class
@@ -34,7 +37,7 @@ class RuleProvision:
         self.role_id: str = role_id
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -45,11 +48,16 @@ class RuleProvision:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        organizational_unit_ids = dictionary.get('organizational_unit_ids')
-        role_id = dictionary.get('role_id')
+        val = dictionary['organizational_unit_ids']
+        val_organizational_unit_ids = val
+
+        val = dictionary['role_id']
+        val_role_id = val
+
         # Return an object of this model
-        return cls(organizational_unit_ids, role_id)
+        return cls(
+            val_organizational_unit_ids,  # type: ignore
+            val_role_id,  # type: ignore
+        )

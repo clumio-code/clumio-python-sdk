@@ -1,10 +1,10 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import aws_connection
+from clumioapi.models import aws_connection as aws_connection_
 
 T = TypeVar('T', bound='AWSConnectionListEmbedded')
 
@@ -20,16 +20,16 @@ class AWSConnectionListEmbedded:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'items': 'items'}
+    _names: dict[str, str] = {'items': 'items'}
 
-    def __init__(self, items: Sequence[aws_connection.AWSConnection] = None) -> None:
+    def __init__(self, items: Sequence[aws_connection_.AWSConnection]) -> None:
         """Constructor for the AWSConnectionListEmbedded class."""
 
         # Initialize members of the class
-        self.items: Sequence[aws_connection.AWSConnection] = items
+        self.items: Sequence[aws_connection_.AWSConnection] = items
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -40,15 +40,17 @@ class AWSConnectionListEmbedded:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        items = None
-        if dictionary.get('items'):
-            items = list()
-            for value in dictionary.get('items'):
-                items.append(aws_connection.AWSConnection.from_dictionary(value))
+        val = dictionary['items']
+
+        val_items = None
+        if val:
+            val_items = list()
+            for value in val:
+                val_items.append(aws_connection_.AWSConnection.from_dictionary(value))
 
         # Return an object of this model
-        return cls(items)
+        return cls(
+            val_items,  # type: ignore
+        )

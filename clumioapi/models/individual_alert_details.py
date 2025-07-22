@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -28,7 +28,7 @@ class IndividualAlertDetails:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'cause': 'cause',
         'description': 'description',
         'p_type': 'type',
@@ -36,11 +36,7 @@ class IndividualAlertDetails:
     }
 
     def __init__(
-        self,
-        cause: str = None,
-        description: str = None,
-        p_type: str = None,
-        variables: Mapping[str, str] = None,
+        self, cause: str, description: str, p_type: str, variables: Mapping[str, str]
     ) -> None:
         """Constructor for the IndividualAlertDetails class."""
 
@@ -51,7 +47,7 @@ class IndividualAlertDetails:
         self.variables: Mapping[str, str] = variables
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -62,13 +58,24 @@ class IndividualAlertDetails:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        cause = dictionary.get('cause')
-        description = dictionary.get('description')
-        p_type = dictionary.get('type')
-        variables = dictionary.get('variables')
+        val = dictionary['cause']
+        val_cause = val
+
+        val = dictionary['description']
+        val_description = val
+
+        val = dictionary['type']
+        val_p_type = val
+
+        val = dictionary['variables']
+        val_variables = val
+
         # Return an object of this model
-        return cls(cause, description, p_type, variables)
+        return cls(
+            val_cause,  # type: ignore
+            val_description,  # type: ignore
+            val_p_type,  # type: ignore
+            val_variables,  # type: ignore
+        )

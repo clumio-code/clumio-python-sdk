@@ -1,15 +1,15 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import hateoas_first_link
-from clumioapi.models import hateoas_last_link
-from clumioapi.models import hateoas_link
-from clumioapi.models import hateoas_next_link
-from clumioapi.models import hateoas_prev_link
-from clumioapi.models import hateoas_self_link
+from clumioapi.models import hateoas_first_link as hateoas_first_link_
+from clumioapi.models import hateoas_last_link as hateoas_last_link_
+from clumioapi.models import hateoas_link as hateoas_link_
+from clumioapi.models import hateoas_next_link as hateoas_next_link_
+from clumioapi.models import hateoas_prev_link as hateoas_prev_link_
+from clumioapi.models import hateoas_self_link as hateoas_self_link_
 
 T = TypeVar('T', bound='UserListHateoasLinks')
 
@@ -35,7 +35,7 @@ class UserListHateoasLinks:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'first': '_first',
         'last': '_last',
         'p_next': '_next',
@@ -46,25 +46,25 @@ class UserListHateoasLinks:
 
     def __init__(
         self,
-        first: hateoas_first_link.HateoasFirstLink = None,
-        last: hateoas_last_link.HateoasLastLink = None,
-        p_next: hateoas_next_link.HateoasNextLink = None,
-        prev: hateoas_prev_link.HateoasPrevLink = None,
-        p_self: hateoas_self_link.HateoasSelfLink = None,
-        create_user: hateoas_link.HateoasLink = None,
+        first: hateoas_first_link_.HateoasFirstLink,
+        last: hateoas_last_link_.HateoasLastLink,
+        p_next: hateoas_next_link_.HateoasNextLink,
+        prev: hateoas_prev_link_.HateoasPrevLink,
+        p_self: hateoas_self_link_.HateoasSelfLink,
+        create_user: hateoas_link_.HateoasLink,
     ) -> None:
         """Constructor for the UserListHateoasLinks class."""
 
         # Initialize members of the class
-        self.first: hateoas_first_link.HateoasFirstLink = first
-        self.last: hateoas_last_link.HateoasLastLink = last
-        self.p_next: hateoas_next_link.HateoasNextLink = p_next
-        self.prev: hateoas_prev_link.HateoasPrevLink = prev
-        self.p_self: hateoas_self_link.HateoasSelfLink = p_self
-        self.create_user: hateoas_link.HateoasLink = create_user
+        self.first: hateoas_first_link_.HateoasFirstLink = first
+        self.last: hateoas_last_link_.HateoasLastLink = last
+        self.p_next: hateoas_next_link_.HateoasNextLink = p_next
+        self.prev: hateoas_prev_link_.HateoasPrevLink = prev
+        self.p_self: hateoas_self_link_.HateoasSelfLink = p_self
+        self.create_user: hateoas_link_.HateoasLink = create_user
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -75,51 +75,32 @@ class UserListHateoasLinks:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        key = '_first'
-        first = (
-            hateoas_first_link.HateoasFirstLink.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['_first']
+        val_first = hateoas_first_link_.HateoasFirstLink.from_dictionary(val)
 
-        key = '_last'
-        last = (
-            hateoas_last_link.HateoasLastLink.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['_last']
+        val_last = hateoas_last_link_.HateoasLastLink.from_dictionary(val)
 
-        key = '_next'
-        p_next = (
-            hateoas_next_link.HateoasNextLink.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['_next']
+        val_p_next = hateoas_next_link_.HateoasNextLink.from_dictionary(val)
 
-        key = '_prev'
-        prev = (
-            hateoas_prev_link.HateoasPrevLink.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['_prev']
+        val_prev = hateoas_prev_link_.HateoasPrevLink.from_dictionary(val)
 
-        key = '_self'
-        p_self = (
-            hateoas_self_link.HateoasSelfLink.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['_self']
+        val_p_self = hateoas_self_link_.HateoasSelfLink.from_dictionary(val)
 
-        key = 'create-user'
-        create_user = (
-            hateoas_link.HateoasLink.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['create-user']
+        val_create_user = hateoas_link_.HateoasLink.from_dictionary(val)
 
         # Return an object of this model
-        return cls(first, last, p_next, prev, p_self, create_user)
+        return cls(
+            val_first,  # type: ignore
+            val_last,  # type: ignore
+            val_p_next,  # type: ignore
+            val_prev,  # type: ignore
+            val_p_self,  # type: ignore
+            val_create_user,  # type: ignore
+        )

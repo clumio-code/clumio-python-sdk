@@ -1,9 +1,9 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -36,13 +36,7 @@ class PolicyRulesV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def list_policy_rules(
-        self,
-        limit: int = None,
-        start: str = None,
-        organizational_unit_id: str = None,
-        sort: str = None,
-        filter: str = None,
-        **kwargs,
+        self, limit: int, start: str, organizational_unit_id: str, sort: str, filter: str, **kwargs
     ) -> Union[
         list_rules_response.ListRulesResponse,
         tuple[requests.Response, Optional[list_rules_response.ListRulesResponse]],
@@ -108,7 +102,7 @@ class PolicyRulesV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/policies/rules'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {
             'limit': limit,
             'start': start,
@@ -119,7 +113,7 @@ class PolicyRulesV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -136,10 +130,10 @@ class PolicyRulesV1Controller(base_controller.BaseController):
 
         if self.config.raw_response:
             return resp, list_rules_response.ListRulesResponse.from_dictionary(resp.json())
-        return list_rules_response.ListRulesResponse.from_dictionary(resp)
+        return list_rules_response.ListRulesResponse.from_dictionary(resp.json())
 
     def create_policy_rule(
-        self, body: create_policy_rule_v1_request.CreatePolicyRuleV1Request = None, **kwargs
+        self, body: create_policy_rule_v1_request.CreatePolicyRuleV1Request, **kwargs
     ) -> Union[
         create_rule_response.CreateRuleResponse,
         tuple[requests.Response, Optional[create_rule_response.CreateRuleResponse]],
@@ -165,11 +159,11 @@ class PolicyRulesV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/policies/rules'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
         # Execute request
         try:
-            resp = self.client.post(
+            resp: requests.Response = self.client.post(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -187,7 +181,7 @@ class PolicyRulesV1Controller(base_controller.BaseController):
 
         if self.config.raw_response:
             return resp, create_rule_response.CreateRuleResponse.from_dictionary(resp.json())
-        return create_rule_response.CreateRuleResponse.from_dictionary(resp)
+        return create_rule_response.CreateRuleResponse.from_dictionary(resp.json())
 
     def read_policy_rule(self, rule_id: str, **kwargs) -> Union[
         read_rule_response.ReadRuleResponse,
@@ -210,11 +204,11 @@ class PolicyRulesV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/policies/rules/{rule_id}'
         _url_path = api_helper.append_url_with_template_parameters(_url_path, {'rule_id': rule_id})
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -231,13 +225,10 @@ class PolicyRulesV1Controller(base_controller.BaseController):
 
         if self.config.raw_response:
             return resp, read_rule_response.ReadRuleResponse.from_dictionary(resp.json())
-        return read_rule_response.ReadRuleResponse.from_dictionary(resp)
+        return read_rule_response.ReadRuleResponse.from_dictionary(resp.json())
 
     def update_policy_rule(
-        self,
-        rule_id: str,
-        body: update_policy_rule_v1_request.UpdatePolicyRuleV1Request = None,
-        **kwargs,
+        self, rule_id: str, body: update_policy_rule_v1_request.UpdatePolicyRuleV1Request, **kwargs
     ) -> Union[
         update_rule_response.UpdateRuleResponse,
         tuple[requests.Response, Optional[update_rule_response.UpdateRuleResponse]],
@@ -261,11 +252,11 @@ class PolicyRulesV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/policies/rules/{rule_id}'
         _url_path = api_helper.append_url_with_template_parameters(_url_path, {'rule_id': rule_id})
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
         # Execute request
         try:
-            resp = self.client.put(
+            resp: requests.Response = self.client.put(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -283,9 +274,9 @@ class PolicyRulesV1Controller(base_controller.BaseController):
 
         if self.config.raw_response:
             return resp, update_rule_response.UpdateRuleResponse.from_dictionary(resp.json())
-        return update_rule_response.UpdateRuleResponse.from_dictionary(resp)
+        return update_rule_response.UpdateRuleResponse.from_dictionary(resp.json())
 
-    def delete_policy_rule(self, rule_id: str, body: object = None, **kwargs) -> Union[
+    def delete_policy_rule(self, rule_id: str, body: object, **kwargs) -> Union[
         delete_rule_response.DeleteRuleResponse,
         tuple[requests.Response, Optional[delete_rule_response.DeleteRuleResponse]],
     ]:
@@ -308,11 +299,11 @@ class PolicyRulesV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/policies/rules/{rule_id}'
         _url_path = api_helper.append_url_with_template_parameters(_url_path, {'rule_id': rule_id})
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
         # Execute request
         try:
-            resp = self.client.delete(
+            resp: requests.Response = self.client.delete(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -330,4 +321,4 @@ class PolicyRulesV1Controller(base_controller.BaseController):
 
         if self.config.raw_response:
             return resp, delete_rule_response.DeleteRuleResponse.from_dictionary(resp.json())
-        return delete_rule_response.DeleteRuleResponse.from_dictionary(resp)
+        return delete_rule_response.DeleteRuleResponse.from_dictionary(resp.json())

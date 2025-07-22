@@ -3,7 +3,7 @@
 #
 
 import json
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -31,13 +31,7 @@ class AwsRdsResourcesV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def list_aws_rds_resources(
-        self,
-        limit: int = None,
-        start: str = None,
-        filter: str = None,
-        embed: str = None,
-        lookback_days: int = None,
-        **kwargs,
+        self, limit: int, start: str, filter: str, embed: str, lookback_days: int, **kwargs
     ) -> Union[
         list_rds_resources_response.ListRdsResourcesResponse,
         tuple[requests.Response, Optional[list_rds_resources_response.ListRdsResourcesResponse]],
@@ -167,7 +161,7 @@ class AwsRdsResourcesV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/datasources/aws/rds-resources'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {
             'limit': limit,
             'start': start,
@@ -178,7 +172,7 @@ class AwsRdsResourcesV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -197,10 +191,10 @@ class AwsRdsResourcesV1Controller(base_controller.BaseController):
             return resp, list_rds_resources_response.ListRdsResourcesResponse.from_dictionary(
                 resp.json()
             )
-        return list_rds_resources_response.ListRdsResourcesResponse.from_dictionary(resp)
+        return list_rds_resources_response.ListRdsResourcesResponse.from_dictionary(resp.json())
 
     def read_aws_rds_resource(
-        self, resource_id: str, lookback_days: int = None, embed: str = None, **kwargs
+        self, resource_id: str, lookback_days: int, embed: str, **kwargs
     ) -> Union[
         read_rds_resource_response.ReadRdsResourceResponse,
         tuple[requests.Response, Optional[read_rds_resource_response.ReadRdsResourceResponse]],
@@ -238,12 +232,12 @@ class AwsRdsResourcesV1Controller(base_controller.BaseController):
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'resource_id': resource_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'lookback_days': lookback_days, 'embed': embed}
 
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -262,4 +256,4 @@ class AwsRdsResourcesV1Controller(base_controller.BaseController):
             return resp, read_rds_resource_response.ReadRdsResourceResponse.from_dictionary(
                 resp.json()
             )
-        return read_rds_resource_response.ReadRdsResourceResponse.from_dictionary(resp)
+        return read_rds_resource_response.ReadRdsResourceResponse.from_dictionary(resp.json())

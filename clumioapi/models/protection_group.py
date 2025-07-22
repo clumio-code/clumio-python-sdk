@@ -5,11 +5,11 @@
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
 from clumioapi.models import backup_status_stats as backup_status_stats_
-from clumioapi.models import backup_tier_stat
+from clumioapi.models import backup_tier_stat as backup_tier_stat_
 from clumioapi.models import object_filter as object_filter_
-from clumioapi.models import protection_group_embedded
-from clumioapi.models import protection_group_links
-from clumioapi.models import protection_info_with_rule
+from clumioapi.models import protection_group_embedded as protection_group_embedded_
+from clumioapi.models import protection_group_links as protection_group_links_
+from clumioapi.models import protection_info_with_rule as protection_info_with_rule_
 from clumioapi.models import protection_stats as protection_stats_
 
 T = TypeVar('T', bound='ProtectionGroup')
@@ -37,7 +37,7 @@ class ProtectionGroup:
             automatically added to a protection group.
             Denotes the properties to conditionalize on. For `$eq`, `$not_eq`, `$contains`
             and `$not_contains` a single element is provided: `{'$eq':{'key':'Environment',
-            'value':'Prod'}}`. For all other other operations, a list is provided:
+            'value':'Prod'}}`. For all other operations, a list is provided:
             `{'$in':[{'key':'Environment','value':'Prod'}, {'key':'Hello',
             'value':'World'}]}`.
 
@@ -137,7 +137,7 @@ class ProtectionGroup:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'embedded': '_embedded',
         'links': '_links',
         'backup_status_stats': 'backup_status_stats',
@@ -167,40 +167,40 @@ class ProtectionGroup:
 
     def __init__(
         self,
-        embedded: protection_group_embedded.ProtectionGroupEmbedded = None,
-        links: protection_group_links.ProtectionGroupLinks = None,
-        backup_status_stats: backup_status_stats_.BackupStatusStats = None,
-        backup_target_aws_region: str = None,
-        backup_tier_stats: Sequence[backup_tier_stat.BackupTierStat] = None,
-        bucket_count: int = None,
-        bucket_rule: str = None,
-        created_timestamp: str = None,
-        description: str = None,
-        earliest_available_backup_timestamp: str = None,
-        p_id: str = None,
-        is_backup_target_region_configured: bool = None,
-        is_deleted: bool = None,
-        last_backup_timestamp: str = None,
-        last_continuous_backup_timestamp: str = None,
-        modified_timestamp: str = None,
-        name: str = None,
-        object_filter: object_filter_.ObjectFilter = None,
-        organizational_unit_id: str = None,
-        protection_info: protection_info_with_rule.ProtectionInfoWithRule = None,
-        protection_stats: protection_stats_.ProtectionStats = None,
-        protection_status: str = None,
-        total_backed_up_object_count: int = None,
-        total_backed_up_size_bytes: int = None,
-        version: int = None,
+        embedded: protection_group_embedded_.ProtectionGroupEmbedded,
+        links: protection_group_links_.ProtectionGroupLinks,
+        backup_status_stats: backup_status_stats_.BackupStatusStats,
+        backup_target_aws_region: str,
+        backup_tier_stats: Sequence[backup_tier_stat_.BackupTierStat],
+        bucket_count: int,
+        bucket_rule: str,
+        created_timestamp: str,
+        description: str,
+        earliest_available_backup_timestamp: str,
+        p_id: str,
+        is_backup_target_region_configured: bool,
+        is_deleted: bool,
+        last_backup_timestamp: str,
+        last_continuous_backup_timestamp: str,
+        modified_timestamp: str,
+        name: str,
+        object_filter: object_filter_.ObjectFilter,
+        organizational_unit_id: str,
+        protection_info: protection_info_with_rule_.ProtectionInfoWithRule,
+        protection_stats: protection_stats_.ProtectionStats,
+        protection_status: str,
+        total_backed_up_object_count: int,
+        total_backed_up_size_bytes: int,
+        version: int,
     ) -> None:
         """Constructor for the ProtectionGroup class."""
 
         # Initialize members of the class
-        self.embedded: protection_group_embedded.ProtectionGroupEmbedded = embedded
-        self.links: protection_group_links.ProtectionGroupLinks = links
+        self.embedded: protection_group_embedded_.ProtectionGroupEmbedded = embedded
+        self.links: protection_group_links_.ProtectionGroupLinks = links
         self.backup_status_stats: backup_status_stats_.BackupStatusStats = backup_status_stats
         self.backup_target_aws_region: str = backup_target_aws_region
-        self.backup_tier_stats: Sequence[backup_tier_stat.BackupTierStat] = backup_tier_stats
+        self.backup_tier_stats: Sequence[backup_tier_stat_.BackupTierStat] = backup_tier_stats
         self.bucket_count: int = bucket_count
         self.bucket_rule: str = bucket_rule
         self.created_timestamp: str = created_timestamp
@@ -215,7 +215,7 @@ class ProtectionGroup:
         self.name: str = name
         self.object_filter: object_filter_.ObjectFilter = object_filter
         self.organizational_unit_id: str = organizational_unit_id
-        self.protection_info: protection_info_with_rule.ProtectionInfoWithRule = protection_info
+        self.protection_info: protection_info_with_rule_.ProtectionInfoWithRule = protection_info
         self.protection_stats: protection_stats_.ProtectionStats = protection_stats
         self.protection_status: str = protection_status
         self.total_backed_up_object_count: int = total_backed_up_object_count
@@ -223,7 +223,7 @@ class ProtectionGroup:
         self.version: int = version
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -234,106 +234,115 @@ class ProtectionGroup:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        key = '_embedded'
-        val_embedded = (
-            protection_group_embedded.ProtectionGroupEmbedded.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['_embedded']
+        val_embedded = protection_group_embedded_.ProtectionGroupEmbedded.from_dictionary(val)
 
-        key = '_links'
-        val_links = (
-            protection_group_links.ProtectionGroupLinks.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['_links']
+        val_links = protection_group_links_.ProtectionGroupLinks.from_dictionary(val)
 
-        key = 'backup_status_stats'
-        val_backup_status_stats = (
-            backup_status_stats_.BackupStatusStats.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['backup_status_stats']
+        val_backup_status_stats = backup_status_stats_.BackupStatusStats.from_dictionary(val)
 
-        val_backup_target_aws_region = dictionary.get('backup_target_aws_region')
+        val = dictionary['backup_target_aws_region']
+        val_backup_target_aws_region = val
+
+        val = dictionary['backup_tier_stats']
 
         val_backup_tier_stats = None
-        if dictionary.get('backup_tier_stats'):
+        if val:
             val_backup_tier_stats = list()
-            for value in dictionary.get('backup_tier_stats'):
-                val_backup_tier_stats.append(backup_tier_stat.BackupTierStat.from_dictionary(value))
+            for value in val:
+                val_backup_tier_stats.append(
+                    backup_tier_stat_.BackupTierStat.from_dictionary(value)
+                )
 
-        val_bucket_count = dictionary.get('bucket_count')
-        val_bucket_rule = dictionary.get('bucket_rule')
-        val_created_timestamp = dictionary.get('created_timestamp')
-        val_description = dictionary.get('description')
-        val_earliest_available_backup_timestamp = dictionary.get(
-            'earliest_available_backup_timestamp'
-        )
-        val_p_id = dictionary.get('id')
-        val_is_backup_target_region_configured = dictionary.get(
-            'is_backup_target_region_configured'
-        )
-        val_is_deleted = dictionary.get('is_deleted')
-        val_last_backup_timestamp = dictionary.get('last_backup_timestamp')
-        val_last_continuous_backup_timestamp = dictionary.get('last_continuous_backup_timestamp')
-        val_modified_timestamp = dictionary.get('modified_timestamp')
-        val_name = dictionary.get('name')
-        key = 'object_filter'
-        val_object_filter = (
-            object_filter_.ObjectFilter.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['bucket_count']
+        val_bucket_count = val
 
-        val_organizational_unit_id = dictionary.get('organizational_unit_id')
-        key = 'protection_info'
-        val_protection_info = (
-            protection_info_with_rule.ProtectionInfoWithRule.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['bucket_rule']
+        val_bucket_rule = val
 
-        key = 'protection_stats'
-        val_protection_stats = (
-            protection_stats_.ProtectionStats.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['created_timestamp']
+        val_created_timestamp = val
 
-        val_protection_status = dictionary.get('protection_status')
-        val_total_backed_up_object_count = dictionary.get('total_backed_up_object_count')
-        val_total_backed_up_size_bytes = dictionary.get('total_backed_up_size_bytes')
-        val_version = dictionary.get('version')
+        val = dictionary['description']
+        val_description = val
+
+        val = dictionary['earliest_available_backup_timestamp']
+        val_earliest_available_backup_timestamp = val
+
+        val = dictionary['id']
+        val_p_id = val
+
+        val = dictionary['is_backup_target_region_configured']
+        val_is_backup_target_region_configured = val
+
+        val = dictionary['is_deleted']
+        val_is_deleted = val
+
+        val = dictionary['last_backup_timestamp']
+        val_last_backup_timestamp = val
+
+        val = dictionary['last_continuous_backup_timestamp']
+        val_last_continuous_backup_timestamp = val
+
+        val = dictionary['modified_timestamp']
+        val_modified_timestamp = val
+
+        val = dictionary['name']
+        val_name = val
+
+        val = dictionary['object_filter']
+        val_object_filter = object_filter_.ObjectFilter.from_dictionary(val)
+
+        val = dictionary['organizational_unit_id']
+        val_organizational_unit_id = val
+
+        val = dictionary['protection_info']
+        val_protection_info = protection_info_with_rule_.ProtectionInfoWithRule.from_dictionary(val)
+
+        val = dictionary['protection_stats']
+        val_protection_stats = protection_stats_.ProtectionStats.from_dictionary(val)
+
+        val = dictionary['protection_status']
+        val_protection_status = val
+
+        val = dictionary['total_backed_up_object_count']
+        val_total_backed_up_object_count = val
+
+        val = dictionary['total_backed_up_size_bytes']
+        val_total_backed_up_size_bytes = val
+
+        val = dictionary['version']
+        val_version = val
+
         # Return an object of this model
         return cls(
-            val_embedded,
-            val_links,
-            val_backup_status_stats,
-            val_backup_target_aws_region,
-            val_backup_tier_stats,
-            val_bucket_count,
-            val_bucket_rule,
-            val_created_timestamp,
-            val_description,
-            val_earliest_available_backup_timestamp,
-            val_p_id,
-            val_is_backup_target_region_configured,
-            val_is_deleted,
-            val_last_backup_timestamp,
-            val_last_continuous_backup_timestamp,
-            val_modified_timestamp,
-            val_name,
-            val_object_filter,
-            val_organizational_unit_id,
-            val_protection_info,
-            val_protection_stats,
-            val_protection_status,
-            val_total_backed_up_object_count,
-            val_total_backed_up_size_bytes,
-            val_version,
+            val_embedded,  # type: ignore
+            val_links,  # type: ignore
+            val_backup_status_stats,  # type: ignore
+            val_backup_target_aws_region,  # type: ignore
+            val_backup_tier_stats,  # type: ignore
+            val_bucket_count,  # type: ignore
+            val_bucket_rule,  # type: ignore
+            val_created_timestamp,  # type: ignore
+            val_description,  # type: ignore
+            val_earliest_available_backup_timestamp,  # type: ignore
+            val_p_id,  # type: ignore
+            val_is_backup_target_region_configured,  # type: ignore
+            val_is_deleted,  # type: ignore
+            val_last_backup_timestamp,  # type: ignore
+            val_last_continuous_backup_timestamp,  # type: ignore
+            val_modified_timestamp,  # type: ignore
+            val_name,  # type: ignore
+            val_object_filter,  # type: ignore
+            val_organizational_unit_id,  # type: ignore
+            val_protection_info,  # type: ignore
+            val_protection_stats,  # type: ignore
+            val_protection_status,  # type: ignore
+            val_total_backed_up_object_count,  # type: ignore
+            val_total_backed_up_size_bytes,  # type: ignore
+            val_version,  # type: ignore
         )

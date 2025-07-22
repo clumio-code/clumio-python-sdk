@@ -1,11 +1,11 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import hateoas_link
-from clumioapi.models import hateoas_self_link
+from clumioapi.models import hateoas_link as hateoas_link_
+from clumioapi.models import hateoas_self_link as hateoas_self_link_
 
 T = TypeVar('T', bound='AutoUserProvisioningSettingLinks')
 
@@ -23,26 +23,26 @@ class AutoUserProvisioningSettingLinks:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'p_self': '_self',
         'update_auto_user_provisioning_setting': 'update-auto-user-provisioning-setting',
     }
 
     def __init__(
         self,
-        p_self: hateoas_self_link.HateoasSelfLink = None,
-        update_auto_user_provisioning_setting: hateoas_link.HateoasLink = None,
+        p_self: hateoas_self_link_.HateoasSelfLink,
+        update_auto_user_provisioning_setting: hateoas_link_.HateoasLink,
     ) -> None:
         """Constructor for the AutoUserProvisioningSettingLinks class."""
 
         # Initialize members of the class
-        self.p_self: hateoas_self_link.HateoasSelfLink = p_self
-        self.update_auto_user_provisioning_setting: hateoas_link.HateoasLink = (
+        self.p_self: hateoas_self_link_.HateoasSelfLink = p_self
+        self.update_auto_user_provisioning_setting: hateoas_link_.HateoasLink = (
             update_auto_user_provisioning_setting
         )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -53,23 +53,16 @@ class AutoUserProvisioningSettingLinks:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        key = '_self'
-        p_self = (
-            hateoas_self_link.HateoasSelfLink.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['_self']
+        val_p_self = hateoas_self_link_.HateoasSelfLink.from_dictionary(val)
 
-        key = 'update-auto-user-provisioning-setting'
-        update_auto_user_provisioning_setting = (
-            hateoas_link.HateoasLink.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['update-auto-user-provisioning-setting']
+        val_update_auto_user_provisioning_setting = hateoas_link_.HateoasLink.from_dictionary(val)
 
         # Return an object of this model
-        return cls(p_self, update_auto_user_provisioning_setting)
+        return cls(
+            val_p_self,  # type: ignore
+            val_update_auto_user_provisioning_setting,  # type: ignore
+        )

@@ -1,10 +1,10 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import aws_tag_common_model
+from clumioapi.models import aws_tag_common_model as aws_tag_common_model_
 
 T = TypeVar('T', bound='ProtectionGroupRestoreTarget')
 
@@ -49,7 +49,7 @@ class ProtectionGroupRestoreTarget:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'bucket_id': 'bucket_id',
         'environment_id': 'environment_id',
         'overwrite': 'overwrite',
@@ -61,13 +61,13 @@ class ProtectionGroupRestoreTarget:
 
     def __init__(
         self,
-        bucket_id: str = None,
-        environment_id: str = None,
-        overwrite: bool = None,
-        prefix: str = None,
-        restore_original_storage_class: bool = None,
-        storage_class: str = None,
-        tags: Sequence[aws_tag_common_model.AwsTagCommonModel] = None,
+        bucket_id: str,
+        environment_id: str,
+        overwrite: bool,
+        prefix: str,
+        restore_original_storage_class: bool,
+        storage_class: str,
+        tags: Sequence[aws_tag_common_model_.AwsTagCommonModel],
     ) -> None:
         """Constructor for the ProtectionGroupRestoreTarget class."""
 
@@ -78,10 +78,10 @@ class ProtectionGroupRestoreTarget:
         self.prefix: str = prefix
         self.restore_original_storage_class: bool = restore_original_storage_class
         self.storage_class: str = storage_class
-        self.tags: Sequence[aws_tag_common_model.AwsTagCommonModel] = tags
+        self.tags: Sequence[aws_tag_common_model_.AwsTagCommonModel] = tags
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -92,29 +92,41 @@ class ProtectionGroupRestoreTarget:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        bucket_id = dictionary.get('bucket_id')
-        environment_id = dictionary.get('environment_id')
-        overwrite = dictionary.get('overwrite')
-        prefix = dictionary.get('prefix')
-        restore_original_storage_class = dictionary.get('restore_original_storage_class')
-        storage_class = dictionary.get('storage_class')
-        tags = None
-        if dictionary.get('tags'):
-            tags = list()
-            for value in dictionary.get('tags'):
-                tags.append(aws_tag_common_model.AwsTagCommonModel.from_dictionary(value))
+        val = dictionary['bucket_id']
+        val_bucket_id = val
+
+        val = dictionary['environment_id']
+        val_environment_id = val
+
+        val = dictionary['overwrite']
+        val_overwrite = val
+
+        val = dictionary['prefix']
+        val_prefix = val
+
+        val = dictionary['restore_original_storage_class']
+        val_restore_original_storage_class = val
+
+        val = dictionary['storage_class']
+        val_storage_class = val
+
+        val = dictionary['tags']
+
+        val_tags = None
+        if val:
+            val_tags = list()
+            for value in val:
+                val_tags.append(aws_tag_common_model_.AwsTagCommonModel.from_dictionary(value))
 
         # Return an object of this model
         return cls(
-            bucket_id,
-            environment_id,
-            overwrite,
-            prefix,
-            restore_original_storage_class,
-            storage_class,
-            tags,
+            val_bucket_id,  # type: ignore
+            val_environment_id,  # type: ignore
+            val_overwrite,  # type: ignore
+            val_prefix,  # type: ignore
+            val_restore_original_storage_class,  # type: ignore
+            val_storage_class,  # type: ignore
+            val_tags,  # type: ignore
         )

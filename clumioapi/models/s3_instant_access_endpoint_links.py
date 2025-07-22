@@ -1,10 +1,10 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import hateoas_self_link
+from clumioapi.models import hateoas_self_link as hateoas_self_link_
 
 T = TypeVar('T', bound='S3InstantAccessEndpointLinks')
 
@@ -28,7 +28,7 @@ class S3InstantAccessEndpointLinks:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'p_self': '_self',
         'read_protection_group_instant_access_endpoint': 'read-protection-group-instant-access-endpoint',
         'read_protection_group_instant_access_endpoint_role_permission': 'read-protection-group-instant-access-endpoint-role-permission',
@@ -38,16 +38,16 @@ class S3InstantAccessEndpointLinks:
 
     def __init__(
         self,
-        p_self: hateoas_self_link.HateoasSelfLink = None,
-        read_protection_group_instant_access_endpoint: object = None,
-        read_protection_group_instant_access_endpoint_role_permission: object = None,
-        read_protection_group_instant_access_endpoint_uri: object = None,
-        read_protection_group_s3_asset: object = None,
+        p_self: hateoas_self_link_.HateoasSelfLink,
+        read_protection_group_instant_access_endpoint: object,
+        read_protection_group_instant_access_endpoint_role_permission: object,
+        read_protection_group_instant_access_endpoint_uri: object,
+        read_protection_group_s3_asset: object,
     ) -> None:
         """Constructor for the S3InstantAccessEndpointLinks class."""
 
         # Initialize members of the class
-        self.p_self: hateoas_self_link.HateoasSelfLink = p_self
+        self.p_self: hateoas_self_link_.HateoasSelfLink = p_self
         self.read_protection_group_instant_access_endpoint: object = (
             read_protection_group_instant_access_endpoint
         )
@@ -60,7 +60,7 @@ class S3InstantAccessEndpointLinks:
         self.read_protection_group_s3_asset: object = read_protection_group_s3_asset
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -71,32 +71,28 @@ class S3InstantAccessEndpointLinks:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        key = '_self'
-        p_self = (
-            hateoas_self_link.HateoasSelfLink.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['_self']
+        val_p_self = hateoas_self_link_.HateoasSelfLink.from_dictionary(val)
 
-        read_protection_group_instant_access_endpoint = dictionary.get(
-            'read-protection-group-instant-access-endpoint'
-        )
-        read_protection_group_instant_access_endpoint_role_permission = dictionary.get(
-            'read-protection-group-instant-access-endpoint-role-permission'
-        )
-        read_protection_group_instant_access_endpoint_uri = dictionary.get(
-            'read-protection-group-instant-access-endpoint-uri'
-        )
-        read_protection_group_s3_asset = dictionary.get('read-protection-group-s3-asset')
+        val = dictionary['read-protection-group-instant-access-endpoint']
+        val_read_protection_group_instant_access_endpoint = val
+
+        val = dictionary['read-protection-group-instant-access-endpoint-role-permission']
+        val_read_protection_group_instant_access_endpoint_role_permission = val
+
+        val = dictionary['read-protection-group-instant-access-endpoint-uri']
+        val_read_protection_group_instant_access_endpoint_uri = val
+
+        val = dictionary['read-protection-group-s3-asset']
+        val_read_protection_group_s3_asset = val
+
         # Return an object of this model
         return cls(
-            p_self,
-            read_protection_group_instant_access_endpoint,
-            read_protection_group_instant_access_endpoint_role_permission,
-            read_protection_group_instant_access_endpoint_uri,
-            read_protection_group_s3_asset,
+            val_p_self,  # type: ignore
+            val_read_protection_group_instant_access_endpoint,  # type: ignore
+            val_read_protection_group_instant_access_endpoint_role_permission,  # type: ignore
+            val_read_protection_group_instant_access_endpoint_uri,  # type: ignore
+            val_read_protection_group_s3_asset,  # type: ignore
         )

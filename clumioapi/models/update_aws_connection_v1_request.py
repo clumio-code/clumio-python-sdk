@@ -1,10 +1,10 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import resources
+from clumioapi.models import resources as resources_
 
 T = TypeVar('T', bound='UpdateAwsConnectionV1Request')
 
@@ -16,6 +16,12 @@ class UpdateAwsConnectionV1Request:
         asset_types_enabled:
             Asset types enabled with the given resource ARNs.
             This field is only applicable to manually configured connections.
+            Valid values are any of ["EC2/EBS", "RDS", "DynamoDB", "EC2MSSQL", "S3", "EBS",
+            "Iceberg"].
+
+            NOTE -
+            1. EC2/EBS is required for EC2MSSQL.
+            2. EBS as a value is deprecated in favor of EC2/EBS.
         description:
             An optional, user-provided description for this connection.
         resources:
@@ -25,27 +31,24 @@ class UpdateAwsConnectionV1Request:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'asset_types_enabled': 'asset_types_enabled',
         'description': 'description',
         'resources': 'resources',
     }
 
     def __init__(
-        self,
-        asset_types_enabled: Sequence[str] = None,
-        description: str = None,
-        resources: resources.Resources = None,
+        self, asset_types_enabled: Sequence[str], description: str, resources: resources_.Resources
     ) -> None:
         """Constructor for the UpdateAwsConnectionV1Request class."""
 
         # Initialize members of the class
         self.asset_types_enabled: Sequence[str] = asset_types_enabled
         self.description: str = description
-        self.resources: resources.Resources = resources
+        self.resources: resources_.Resources = resources
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -56,18 +59,20 @@ class UpdateAwsConnectionV1Request:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        asset_types_enabled = dictionary.get('asset_types_enabled')
-        description = dictionary.get('description')
-        key = 'resources'
-        p_resources = (
-            resources.Resources.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['asset_types_enabled']
+        val_asset_types_enabled = val
+
+        val = dictionary['description']
+        val_description = val
+
+        val = dictionary['resources']
+        val_resources = resources_.Resources.from_dictionary(val)
 
         # Return an object of this model
-        return cls(asset_types_enabled, description, p_resources)
+        return cls(
+            val_asset_types_enabled,  # type: ignore
+            val_description,  # type: ignore
+            val_resources,  # type: ignore
+        )

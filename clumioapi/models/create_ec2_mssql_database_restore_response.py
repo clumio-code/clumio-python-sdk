@@ -1,11 +1,13 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import create_ec2_mssql_database_restore_response_links
-from clumioapi.models import read_task_hateoas_outer_embedded
+from clumioapi.models import \
+    create_ec2_mssql_database_restore_response_links as \
+    create_ec2_mssql_database_restore_response_links_
+from clumioapi.models import read_task_hateoas_outer_embedded as read_task_hateoas_outer_embedded_
 
 T = TypeVar('T', bound='CreateEC2MSSQLDatabaseRestoreResponse')
 
@@ -25,25 +27,25 @@ class CreateEC2MSSQLDatabaseRestoreResponse:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'embedded': '_embedded', 'links': '_links', 'task_id': 'task_id'}
+    _names: dict[str, str] = {'embedded': '_embedded', 'links': '_links', 'task_id': 'task_id'}
 
     def __init__(
         self,
-        embedded: read_task_hateoas_outer_embedded.ReadTaskHateoasOuterEmbedded = None,
-        links: create_ec2_mssql_database_restore_response_links.CreateEC2MSSQLDatabaseRestoreResponseLinks = None,
-        task_id: str = None,
+        embedded: read_task_hateoas_outer_embedded_.ReadTaskHateoasOuterEmbedded,
+        links: create_ec2_mssql_database_restore_response_links_.CreateEC2MSSQLDatabaseRestoreResponseLinks,
+        task_id: str,
     ) -> None:
         """Constructor for the CreateEC2MSSQLDatabaseRestoreResponse class."""
 
         # Initialize members of the class
-        self.embedded: read_task_hateoas_outer_embedded.ReadTaskHateoasOuterEmbedded = embedded
+        self.embedded: read_task_hateoas_outer_embedded_.ReadTaskHateoasOuterEmbedded = embedded
         self.links: (
-            create_ec2_mssql_database_restore_response_links.CreateEC2MSSQLDatabaseRestoreResponseLinks
+            create_ec2_mssql_database_restore_response_links_.CreateEC2MSSQLDatabaseRestoreResponseLinks
         ) = links
         self.task_id: str = task_id
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -54,28 +56,24 @@ class CreateEC2MSSQLDatabaseRestoreResponse:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        key = '_embedded'
-        embedded = (
-            read_task_hateoas_outer_embedded.ReadTaskHateoasOuterEmbedded.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
+        val = dictionary['_embedded']
+        val_embedded = (
+            read_task_hateoas_outer_embedded_.ReadTaskHateoasOuterEmbedded.from_dictionary(val)
         )
 
-        key = '_links'
-        links = (
-            create_ec2_mssql_database_restore_response_links.CreateEC2MSSQLDatabaseRestoreResponseLinks.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
+        val = dictionary['_links']
+        val_links = create_ec2_mssql_database_restore_response_links_.CreateEC2MSSQLDatabaseRestoreResponseLinks.from_dictionary(
+            val
         )
 
-        task_id = dictionary.get('task_id')
+        val = dictionary['task_id']
+        val_task_id = val
+
         # Return an object of this model
-        return cls(embedded, links, task_id)
+        return cls(
+            val_embedded,  # type: ignore
+            val_links,  # type: ignore
+            val_task_id,  # type: ignore
+        )

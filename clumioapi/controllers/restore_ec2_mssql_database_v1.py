@@ -1,9 +1,9 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -32,8 +32,8 @@ class RestoreEc2MssqlDatabaseV1Controller(base_controller.BaseController):
 
     def restore_ec2_mssql_database(
         self,
-        embed: str = None,
-        body: restore_ec2_mssql_database_v1_request.RestoreEc2MssqlDatabaseV1Request = None,
+        embed: str,
+        body: restore_ec2_mssql_database_v1_request.RestoreEc2MssqlDatabaseV1Request,
         **kwargs,
     ) -> Union[
         create_ec2_mssql_database_restore_response.CreateEC2MSSQLDatabaseRestoreResponse,
@@ -74,12 +74,12 @@ class RestoreEc2MssqlDatabaseV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/restores/aws/ec2-mssql/databases'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'embed': embed}
 
         # Execute request
         try:
-            resp = self.client.post(
+            resp: requests.Response = self.client.post(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -103,5 +103,5 @@ class RestoreEc2MssqlDatabaseV1Controller(base_controller.BaseController):
                 ),
             )
         return create_ec2_mssql_database_restore_response.CreateEC2MSSQLDatabaseRestoreResponse.from_dictionary(
-            resp
+            resp.json()
         )

@@ -1,11 +1,11 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import read_task_hateoas_outer_embedded
-from clumioapi.models import restore_records_links_async
+from clumioapi.models import read_task_hateoas_outer_embedded as read_task_hateoas_outer_embedded_
+from clumioapi.models import restore_records_links_async as restore_records_links_async_
 
 T = TypeVar('T', bound='RestoreRecordsResponseAsync')
 
@@ -36,7 +36,7 @@ class RestoreRecordsResponseAsync:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'embedded': '_embedded',
         'links': '_links',
         'passcode': 'passcode',
@@ -45,21 +45,21 @@ class RestoreRecordsResponseAsync:
 
     def __init__(
         self,
-        embedded: read_task_hateoas_outer_embedded.ReadTaskHateoasOuterEmbedded = None,
-        links: restore_records_links_async.RestoreRecordsLinksAsync = None,
-        passcode: str = None,
-        task_id: str = None,
+        embedded: read_task_hateoas_outer_embedded_.ReadTaskHateoasOuterEmbedded,
+        links: restore_records_links_async_.RestoreRecordsLinksAsync,
+        passcode: str,
+        task_id: str,
     ) -> None:
         """Constructor for the RestoreRecordsResponseAsync class."""
 
         # Initialize members of the class
-        self.embedded: read_task_hateoas_outer_embedded.ReadTaskHateoasOuterEmbedded = embedded
-        self.links: restore_records_links_async.RestoreRecordsLinksAsync = links
+        self.embedded: read_task_hateoas_outer_embedded_.ReadTaskHateoasOuterEmbedded = embedded
+        self.links: restore_records_links_async_.RestoreRecordsLinksAsync = links
         self.passcode: str = passcode
         self.task_id: str = task_id
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -70,29 +70,26 @@ class RestoreRecordsResponseAsync:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        key = '_embedded'
-        embedded = (
-            read_task_hateoas_outer_embedded.ReadTaskHateoasOuterEmbedded.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
+        val = dictionary['_embedded']
+        val_embedded = (
+            read_task_hateoas_outer_embedded_.ReadTaskHateoasOuterEmbedded.from_dictionary(val)
         )
 
-        key = '_links'
-        links = (
-            restore_records_links_async.RestoreRecordsLinksAsync.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['_links']
+        val_links = restore_records_links_async_.RestoreRecordsLinksAsync.from_dictionary(val)
 
-        passcode = dictionary.get('passcode')
-        task_id = dictionary.get('task_id')
+        val = dictionary['passcode']
+        val_passcode = val
+
+        val = dictionary['task_id']
+        val_task_id = val
+
         # Return an object of this model
-        return cls(embedded, links, passcode, task_id)
+        return cls(
+            val_embedded,  # type: ignore
+            val_links,  # type: ignore
+            val_passcode,  # type: ignore
+            val_task_id,  # type: ignore
+        )

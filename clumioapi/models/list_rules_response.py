@@ -1,11 +1,11 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import rule_list_embedded
-from clumioapi.models import rule_list_links
+from clumioapi.models import rule_list_embedded as rule_list_embedded_
+from clumioapi.models import rule_list_links as rule_list_links_
 
 T = TypeVar('T', bound='ListRulesResponse')
 
@@ -27,7 +27,7 @@ class ListRulesResponse:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'embedded': '_embedded',
         'links': '_links',
         'current_count': 'current_count',
@@ -37,23 +37,23 @@ class ListRulesResponse:
 
     def __init__(
         self,
-        embedded: rule_list_embedded.RuleListEmbedded = None,
-        links: rule_list_links.RuleListLinks = None,
-        current_count: int = None,
-        limit: int = None,
-        start: str = None,
+        embedded: rule_list_embedded_.RuleListEmbedded,
+        links: rule_list_links_.RuleListLinks,
+        current_count: int,
+        limit: int,
+        start: str,
     ) -> None:
         """Constructor for the ListRulesResponse class."""
 
         # Initialize members of the class
-        self.embedded: rule_list_embedded.RuleListEmbedded = embedded
-        self.links: rule_list_links.RuleListLinks = links
+        self.embedded: rule_list_embedded_.RuleListEmbedded = embedded
+        self.links: rule_list_links_.RuleListLinks = links
         self.current_count: int = current_count
         self.limit: int = limit
         self.start: str = start
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -64,26 +64,28 @@ class ListRulesResponse:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        key = '_embedded'
-        embedded = (
-            rule_list_embedded.RuleListEmbedded.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['_embedded']
+        val_embedded = rule_list_embedded_.RuleListEmbedded.from_dictionary(val)
 
-        key = '_links'
-        links = (
-            rule_list_links.RuleListLinks.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['_links']
+        val_links = rule_list_links_.RuleListLinks.from_dictionary(val)
 
-        current_count = dictionary.get('current_count')
-        limit = dictionary.get('limit')
-        start = dictionary.get('start')
+        val = dictionary['current_count']
+        val_current_count = val
+
+        val = dictionary['limit']
+        val_limit = val
+
+        val = dictionary['start']
+        val_start = val
+
         # Return an object of this model
-        return cls(embedded, links, current_count, limit, start)
+        return cls(
+            val_embedded,  # type: ignore
+            val_links,  # type: ignore
+            val_current_count,  # type: ignore
+            val_limit,  # type: ignore
+            val_start,  # type: ignore
+        )

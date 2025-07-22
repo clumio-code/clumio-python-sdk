@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -40,7 +40,7 @@ class EC2RestoreNetworkInterface:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'device_index': 'device_index',
         'network_interface_native_id': 'network_interface_native_id',
         'restore_default': 'restore_default',
@@ -51,12 +51,12 @@ class EC2RestoreNetworkInterface:
 
     def __init__(
         self,
-        device_index: int = None,
-        network_interface_native_id: str = None,
-        restore_default: bool = None,
-        restore_from_backup: bool = None,
-        security_group_native_ids: Sequence[str] = None,
-        subnet_native_id: str = None,
+        device_index: int,
+        network_interface_native_id: str,
+        restore_default: bool,
+        restore_from_backup: bool,
+        security_group_native_ids: Sequence[str],
+        subnet_native_id: str,
     ) -> None:
         """Constructor for the EC2RestoreNetworkInterface class."""
 
@@ -69,7 +69,7 @@ class EC2RestoreNetworkInterface:
         self.subnet_native_id: str = subnet_native_id
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -80,22 +80,32 @@ class EC2RestoreNetworkInterface:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        device_index = dictionary.get('device_index')
-        network_interface_native_id = dictionary.get('network_interface_native_id')
-        restore_default = dictionary.get('restore_default')
-        restore_from_backup = dictionary.get('restore_from_backup')
-        security_group_native_ids = dictionary.get('security_group_native_ids')
-        subnet_native_id = dictionary.get('subnet_native_id')
+        val = dictionary['device_index']
+        val_device_index = val
+
+        val = dictionary['network_interface_native_id']
+        val_network_interface_native_id = val
+
+        val = dictionary['restore_default']
+        val_restore_default = val
+
+        val = dictionary['restore_from_backup']
+        val_restore_from_backup = val
+
+        val = dictionary['security_group_native_ids']
+        val_security_group_native_ids = val
+
+        val = dictionary['subnet_native_id']
+        val_subnet_native_id = val
+
         # Return an object of this model
         return cls(
-            device_index,
-            network_interface_native_id,
-            restore_default,
-            restore_from_backup,
-            security_group_native_ids,
-            subnet_native_id,
+            val_device_index,  # type: ignore
+            val_network_interface_native_id,  # type: ignore
+            val_restore_default,  # type: ignore
+            val_restore_from_backup,  # type: ignore
+            val_security_group_native_ids,  # type: ignore
+            val_subnet_native_id,  # type: ignore
         )

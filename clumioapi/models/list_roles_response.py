@@ -1,11 +1,11 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import role_list_embedded
-from clumioapi.models import role_list_links
+from clumioapi.models import role_list_embedded as role_list_embedded_
+from clumioapi.models import role_list_links as role_list_links_
 
 T = TypeVar('T', bound='ListRolesResponse')
 
@@ -35,7 +35,7 @@ class ListRolesResponse:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'embedded': '_embedded',
         'links': '_links',
         'current_count': 'current_count',
@@ -48,20 +48,20 @@ class ListRolesResponse:
 
     def __init__(
         self,
-        embedded: role_list_embedded.RoleListEmbedded = None,
-        links: role_list_links.RoleListLinks = None,
-        current_count: int = None,
-        filter_applied: str = None,
-        limit: int = None,
-        start: str = None,
-        total_count: int = None,
-        total_pages_count: int = None,
+        embedded: role_list_embedded_.RoleListEmbedded,
+        links: role_list_links_.RoleListLinks,
+        current_count: int,
+        filter_applied: str,
+        limit: int,
+        start: str,
+        total_count: int,
+        total_pages_count: int,
     ) -> None:
         """Constructor for the ListRolesResponse class."""
 
         # Initialize members of the class
-        self.embedded: role_list_embedded.RoleListEmbedded = embedded
-        self.links: role_list_links.RoleListLinks = links
+        self.embedded: role_list_embedded_.RoleListEmbedded = embedded
+        self.links: role_list_links_.RoleListLinks = links
         self.current_count: int = current_count
         self.filter_applied: str = filter_applied
         self.limit: int = limit
@@ -70,7 +70,7 @@ class ListRolesResponse:
         self.total_pages_count: int = total_pages_count
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -81,38 +81,40 @@ class ListRolesResponse:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        key = '_embedded'
-        embedded = (
-            role_list_embedded.RoleListEmbedded.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['_embedded']
+        val_embedded = role_list_embedded_.RoleListEmbedded.from_dictionary(val)
 
-        key = '_links'
-        links = (
-            role_list_links.RoleListLinks.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['_links']
+        val_links = role_list_links_.RoleListLinks.from_dictionary(val)
 
-        current_count = dictionary.get('current_count')
-        filter_applied = dictionary.get('filter_applied')
-        limit = dictionary.get('limit')
-        start = dictionary.get('start')
-        total_count = dictionary.get('total_count')
-        total_pages_count = dictionary.get('total_pages_count')
+        val = dictionary['current_count']
+        val_current_count = val
+
+        val = dictionary['filter_applied']
+        val_filter_applied = val
+
+        val = dictionary['limit']
+        val_limit = val
+
+        val = dictionary['start']
+        val_start = val
+
+        val = dictionary['total_count']
+        val_total_count = val
+
+        val = dictionary['total_pages_count']
+        val_total_pages_count = val
+
         # Return an object of this model
         return cls(
-            embedded,
-            links,
-            current_count,
-            filter_applied,
-            limit,
-            start,
-            total_count,
-            total_pages_count,
+            val_embedded,  # type: ignore
+            val_links,  # type: ignore
+            val_current_count,  # type: ignore
+            val_filter_applied,  # type: ignore
+            val_limit,  # type: ignore
+            val_start,  # type: ignore
+            val_total_count,  # type: ignore
+            val_total_pages_count,  # type: ignore
         )

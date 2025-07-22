@@ -1,9 +1,9 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -30,7 +30,7 @@ class PostProcessKmsV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def post_process_kms(
-        self, body: post_process_kms_v1_request.PostProcessKmsV1Request = None, **kwargs
+        self, body: post_process_kms_v1_request.PostProcessKmsV1Request, **kwargs
     ) -> Union[object, tuple[requests.Response, Optional[object]]]:
         """This API runs automatically and performs post-processing after a KMS template
         Create, Update, or Delete operation. It must be invoked by the Clumio Terraform
@@ -51,11 +51,11 @@ class PostProcessKmsV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/wallets/_post-process'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
         # Execute request
         try:
-            resp = self.client.post(
+            resp: requests.Response = self.client.post(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,

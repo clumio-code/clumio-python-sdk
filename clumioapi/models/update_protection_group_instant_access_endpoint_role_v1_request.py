@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -24,9 +24,12 @@ class UpdateProtectionGroupInstantAccessEndpointRoleV1Request:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'updated_role_alias': 'updated_role_alias', 'updated_role_arn': 'updated_role_arn'}
+    _names: dict[str, str] = {
+        'updated_role_alias': 'updated_role_alias',
+        'updated_role_arn': 'updated_role_arn',
+    }
 
-    def __init__(self, updated_role_alias: str = None, updated_role_arn: str = None) -> None:
+    def __init__(self, updated_role_alias: str, updated_role_arn: str) -> None:
         """Constructor for the UpdateProtectionGroupInstantAccessEndpointRoleV1Request class."""
 
         # Initialize members of the class
@@ -34,7 +37,7 @@ class UpdateProtectionGroupInstantAccessEndpointRoleV1Request:
         self.updated_role_arn: str = updated_role_arn
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -45,11 +48,16 @@ class UpdateProtectionGroupInstantAccessEndpointRoleV1Request:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        updated_role_alias = dictionary.get('updated_role_alias')
-        updated_role_arn = dictionary.get('updated_role_arn')
+        val = dictionary['updated_role_alias']
+        val_updated_role_alias = val
+
+        val = dictionary['updated_role_arn']
+        val_updated_role_arn = val
+
         # Return an object of this model
-        return cls(updated_role_alias, updated_role_arn)
+        return cls(
+            val_updated_role_alias,  # type: ignore
+            val_updated_role_arn,  # type: ignore
+        )

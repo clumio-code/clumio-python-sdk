@@ -4,16 +4,16 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import aws_tag_model
+from clumioapi.models import aws_tag_model as aws_tag_model_
 from clumioapi.models import backup_status_info as backup_status_info_
-from clumioapi.models import dynamo_db_keys
-from clumioapi.models import dynamo_db_table_embedded
-from clumioapi.models import dynamo_db_table_links
-from clumioapi.models import global_secondary_index
-from clumioapi.models import local_secondary_index
-from clumioapi.models import protection_info_with_rule
+from clumioapi.models import dynamo_db_keys as dynamo_db_keys_
+from clumioapi.models import dynamo_db_table_embedded as dynamo_db_table_embedded_
+from clumioapi.models import dynamo_db_table_links as dynamo_db_table_links_
+from clumioapi.models import global_secondary_index as global_secondary_index_
+from clumioapi.models import local_secondary_index as local_secondary_index_
+from clumioapi.models import protection_info_with_rule as protection_info_with_rule_
 from clumioapi.models import provisioned_throughput as provisioned_throughput_
-from clumioapi.models import replica_description
+from clumioapi.models import replica_description as replica_description_
 from clumioapi.models import sse_specification as sse_specification_
 from clumioapi.models import stream_specification as stream_specification_
 
@@ -168,7 +168,7 @@ class DynamoDBTable:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'embedded': '_embedded',
         'links': '_links',
         'account_native_id': 'account_native_id',
@@ -212,51 +212,51 @@ class DynamoDBTable:
 
     def __init__(
         self,
-        embedded: dynamo_db_table_embedded.DynamoDBTableEmbedded = None,
-        links: dynamo_db_table_links.DynamoDBTableLinks = None,
-        account_native_id: str = None,
-        aws_region: str = None,
-        backup_status_info: backup_status_info_.BackupStatusInfo = None,
-        billing_mode: str = None,
-        contributor_insights_status: bool = None,
-        deletion_protection_enabled: bool = None,
-        deletion_timestamp: str = None,
-        direct_assignment_policy_id: str = None,
-        earliest_continuous_snapshot_restorable_timestamp: str = None,
-        environment_id: str = None,
-        global_secondary_indexes: Sequence[global_secondary_index.GlobalSecondaryIndex] = None,
-        global_table_version: str = None,
-        has_direct_assignment: bool = None,
-        p_id: str = None,
-        is_deleted: bool = None,
-        is_supported: bool = None,
-        item_count: int = None,
-        last_snapshot_timestamp: str = None,
-        latest_continuous_snapshot_restorable_timestamp: str = None,
-        local_secondary_indexes: Sequence[local_secondary_index.LocalSecondaryIndex] = None,
-        name: str = None,
-        organizational_unit_id: str = None,
-        pitr_status: bool = None,
-        protection_info: protection_info_with_rule.ProtectionInfoWithRule = None,
-        protection_status: str = None,
-        provisioned_throughput: provisioned_throughput_.ProvisionedThroughput = None,
-        replicas: Sequence[replica_description.ReplicaDescription] = None,
-        size: int = None,
-        sse_specification: sse_specification_.SSESpecification = None,
-        stream_specification: stream_specification_.StreamSpecification = None,
-        table_arn: str = None,
-        table_class: str = None,
-        table_keys: dynamo_db_keys.DynamoDBKeys = None,
-        table_native_id: str = None,
-        table_status: str = None,
-        tags: Sequence[aws_tag_model.AwsTagModel] = None,
-        unsupported_reason: str = None,
+        embedded: dynamo_db_table_embedded_.DynamoDBTableEmbedded,
+        links: dynamo_db_table_links_.DynamoDBTableLinks,
+        account_native_id: str,
+        aws_region: str,
+        backup_status_info: backup_status_info_.BackupStatusInfo,
+        billing_mode: str,
+        contributor_insights_status: bool,
+        deletion_protection_enabled: bool,
+        deletion_timestamp: str,
+        direct_assignment_policy_id: str,
+        earliest_continuous_snapshot_restorable_timestamp: str,
+        environment_id: str,
+        global_secondary_indexes: Sequence[global_secondary_index_.GlobalSecondaryIndex],
+        global_table_version: str,
+        has_direct_assignment: bool,
+        p_id: str,
+        is_deleted: bool,
+        is_supported: bool,
+        item_count: int,
+        last_snapshot_timestamp: str,
+        latest_continuous_snapshot_restorable_timestamp: str,
+        local_secondary_indexes: Sequence[local_secondary_index_.LocalSecondaryIndex],
+        name: str,
+        organizational_unit_id: str,
+        pitr_status: bool,
+        protection_info: protection_info_with_rule_.ProtectionInfoWithRule,
+        protection_status: str,
+        provisioned_throughput: provisioned_throughput_.ProvisionedThroughput,
+        replicas: Sequence[replica_description_.ReplicaDescription],
+        size: int,
+        sse_specification: sse_specification_.SSESpecification,
+        stream_specification: stream_specification_.StreamSpecification,
+        table_arn: str,
+        table_class: str,
+        table_keys: dynamo_db_keys_.DynamoDBKeys,
+        table_native_id: str,
+        table_status: str,
+        tags: Sequence[aws_tag_model_.AwsTagModel],
+        unsupported_reason: str,
     ) -> None:
         """Constructor for the DynamoDBTable class."""
 
         # Initialize members of the class
-        self.embedded: dynamo_db_table_embedded.DynamoDBTableEmbedded = embedded
-        self.links: dynamo_db_table_links.DynamoDBTableLinks = links
+        self.embedded: dynamo_db_table_embedded_.DynamoDBTableEmbedded = embedded
+        self.links: dynamo_db_table_links_.DynamoDBTableLinks = links
         self.account_native_id: str = account_native_id
         self.aws_region: str = aws_region
         self.backup_status_info: backup_status_info_.BackupStatusInfo = backup_status_info
@@ -269,7 +269,7 @@ class DynamoDBTable:
             earliest_continuous_snapshot_restorable_timestamp
         )
         self.environment_id: str = environment_id
-        self.global_secondary_indexes: Sequence[global_secondary_index.GlobalSecondaryIndex] = (
+        self.global_secondary_indexes: Sequence[global_secondary_index_.GlobalSecondaryIndex] = (
             global_secondary_indexes
         )
         self.global_table_version: str = global_table_version
@@ -282,31 +282,31 @@ class DynamoDBTable:
         self.latest_continuous_snapshot_restorable_timestamp: str = (
             latest_continuous_snapshot_restorable_timestamp
         )
-        self.local_secondary_indexes: Sequence[local_secondary_index.LocalSecondaryIndex] = (
+        self.local_secondary_indexes: Sequence[local_secondary_index_.LocalSecondaryIndex] = (
             local_secondary_indexes
         )
         self.name: str = name
         self.organizational_unit_id: str = organizational_unit_id
         self.pitr_status: bool = pitr_status
-        self.protection_info: protection_info_with_rule.ProtectionInfoWithRule = protection_info
+        self.protection_info: protection_info_with_rule_.ProtectionInfoWithRule = protection_info
         self.protection_status: str = protection_status
         self.provisioned_throughput: provisioned_throughput_.ProvisionedThroughput = (
             provisioned_throughput
         )
-        self.replicas: Sequence[replica_description.ReplicaDescription] = replicas
+        self.replicas: Sequence[replica_description_.ReplicaDescription] = replicas
         self.size: int = size
         self.sse_specification: sse_specification_.SSESpecification = sse_specification
         self.stream_specification: stream_specification_.StreamSpecification = stream_specification
         self.table_arn: str = table_arn
         self.table_class: str = table_class
-        self.table_keys: dynamo_db_keys.DynamoDBKeys = table_keys
+        self.table_keys: dynamo_db_keys_.DynamoDBKeys = table_keys
         self.table_native_id: str = table_native_id
         self.table_status: str = table_status
-        self.tags: Sequence[aws_tag_model.AwsTagModel] = tags
+        self.tags: Sequence[aws_tag_model_.AwsTagModel] = tags
         self.unsupported_reason: str = unsupported_reason
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -317,167 +317,190 @@ class DynamoDBTable:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        key = '_embedded'
-        val_embedded = (
-            dynamo_db_table_embedded.DynamoDBTableEmbedded.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['_embedded']
+        val_embedded = dynamo_db_table_embedded_.DynamoDBTableEmbedded.from_dictionary(val)
 
-        key = '_links'
-        val_links = (
-            dynamo_db_table_links.DynamoDBTableLinks.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['_links']
+        val_links = dynamo_db_table_links_.DynamoDBTableLinks.from_dictionary(val)
 
-        val_account_native_id = dictionary.get('account_native_id')
-        val_aws_region = dictionary.get('aws_region')
-        key = 'backup_status_info'
-        val_backup_status_info = (
-            backup_status_info_.BackupStatusInfo.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['account_native_id']
+        val_account_native_id = val
 
-        val_billing_mode = dictionary.get('billing_mode')
-        val_contributor_insights_status = dictionary.get('contributor_insights_status')
-        val_deletion_protection_enabled = dictionary.get('deletion_protection_enabled')
-        val_deletion_timestamp = dictionary.get('deletion_timestamp')
-        val_direct_assignment_policy_id = dictionary.get('direct_assignment_policy_id')
-        val_earliest_continuous_snapshot_restorable_timestamp = dictionary.get(
-            'earliest_continuous_snapshot_restorable_timestamp'
-        )
-        val_environment_id = dictionary.get('environment_id')
+        val = dictionary['aws_region']
+        val_aws_region = val
+
+        val = dictionary['backup_status_info']
+        val_backup_status_info = backup_status_info_.BackupStatusInfo.from_dictionary(val)
+
+        val = dictionary['billing_mode']
+        val_billing_mode = val
+
+        val = dictionary['contributor_insights_status']
+        val_contributor_insights_status = val
+
+        val = dictionary['deletion_protection_enabled']
+        val_deletion_protection_enabled = val
+
+        val = dictionary['deletion_timestamp']
+        val_deletion_timestamp = val
+
+        val = dictionary['direct_assignment_policy_id']
+        val_direct_assignment_policy_id = val
+
+        val = dictionary['earliest_continuous_snapshot_restorable_timestamp']
+        val_earliest_continuous_snapshot_restorable_timestamp = val
+
+        val = dictionary['environment_id']
+        val_environment_id = val
+
+        val = dictionary['global_secondary_indexes']
 
         val_global_secondary_indexes = None
-        if dictionary.get('global_secondary_indexes'):
+        if val:
             val_global_secondary_indexes = list()
-            for value in dictionary.get('global_secondary_indexes'):
+            for value in val:
                 val_global_secondary_indexes.append(
-                    global_secondary_index.GlobalSecondaryIndex.from_dictionary(value)
+                    global_secondary_index_.GlobalSecondaryIndex.from_dictionary(value)
                 )
 
-        val_global_table_version = dictionary.get('global_table_version')
-        val_has_direct_assignment = dictionary.get('has_direct_assignment')
-        val_p_id = dictionary.get('id')
-        val_is_deleted = dictionary.get('is_deleted')
-        val_is_supported = dictionary.get('is_supported')
-        val_item_count = dictionary.get('item_count')
-        val_last_snapshot_timestamp = dictionary.get('last_snapshot_timestamp')
-        val_latest_continuous_snapshot_restorable_timestamp = dictionary.get(
-            'latest_continuous_snapshot_restorable_timestamp'
-        )
+        val = dictionary['global_table_version']
+        val_global_table_version = val
+
+        val = dictionary['has_direct_assignment']
+        val_has_direct_assignment = val
+
+        val = dictionary['id']
+        val_p_id = val
+
+        val = dictionary['is_deleted']
+        val_is_deleted = val
+
+        val = dictionary['is_supported']
+        val_is_supported = val
+
+        val = dictionary['item_count']
+        val_item_count = val
+
+        val = dictionary['last_snapshot_timestamp']
+        val_last_snapshot_timestamp = val
+
+        val = dictionary['latest_continuous_snapshot_restorable_timestamp']
+        val_latest_continuous_snapshot_restorable_timestamp = val
+
+        val = dictionary['local_secondary_indexes']
 
         val_local_secondary_indexes = None
-        if dictionary.get('local_secondary_indexes'):
+        if val:
             val_local_secondary_indexes = list()
-            for value in dictionary.get('local_secondary_indexes'):
+            for value in val:
                 val_local_secondary_indexes.append(
-                    local_secondary_index.LocalSecondaryIndex.from_dictionary(value)
+                    local_secondary_index_.LocalSecondaryIndex.from_dictionary(value)
                 )
 
-        val_name = dictionary.get('name')
-        val_organizational_unit_id = dictionary.get('organizational_unit_id')
-        val_pitr_status = dictionary.get('pitr_status')
-        key = 'protection_info'
-        val_protection_info = (
-            protection_info_with_rule.ProtectionInfoWithRule.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
+        val = dictionary['name']
+        val_name = val
+
+        val = dictionary['organizational_unit_id']
+        val_organizational_unit_id = val
+
+        val = dictionary['pitr_status']
+        val_pitr_status = val
+
+        val = dictionary['protection_info']
+        val_protection_info = protection_info_with_rule_.ProtectionInfoWithRule.from_dictionary(val)
+
+        val = dictionary['protection_status']
+        val_protection_status = val
+
+        val = dictionary['provisioned_throughput']
+        val_provisioned_throughput = provisioned_throughput_.ProvisionedThroughput.from_dictionary(
+            val
         )
 
-        val_protection_status = dictionary.get('protection_status')
-        key = 'provisioned_throughput'
-        val_provisioned_throughput = (
-            provisioned_throughput_.ProvisionedThroughput.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['replicas']
 
         val_replicas = None
-        if dictionary.get('replicas'):
+        if val:
             val_replicas = list()
-            for value in dictionary.get('replicas'):
-                val_replicas.append(replica_description.ReplicaDescription.from_dictionary(value))
+            for value in val:
+                val_replicas.append(replica_description_.ReplicaDescription.from_dictionary(value))
 
-        val_size = dictionary.get('size')
-        key = 'sse_specification'
-        val_sse_specification = (
-            sse_specification_.SSESpecification.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['size']
+        val_size = val
 
-        key = 'stream_specification'
-        val_stream_specification = (
-            stream_specification_.StreamSpecification.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['sse_specification']
+        val_sse_specification = sse_specification_.SSESpecification.from_dictionary(val)
 
-        val_table_arn = dictionary.get('table_arn')
-        val_table_class = dictionary.get('table_class')
-        key = 'table_keys'
-        val_table_keys = (
-            dynamo_db_keys.DynamoDBKeys.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['stream_specification']
+        val_stream_specification = stream_specification_.StreamSpecification.from_dictionary(val)
 
-        val_table_native_id = dictionary.get('table_native_id')
-        val_table_status = dictionary.get('table_status')
+        val = dictionary['table_arn']
+        val_table_arn = val
+
+        val = dictionary['table_class']
+        val_table_class = val
+
+        val = dictionary['table_keys']
+        val_table_keys = dynamo_db_keys_.DynamoDBKeys.from_dictionary(val)
+
+        val = dictionary['table_native_id']
+        val_table_native_id = val
+
+        val = dictionary['table_status']
+        val_table_status = val
+
+        val = dictionary['tags']
 
         val_tags = None
-        if dictionary.get('tags'):
+        if val:
             val_tags = list()
-            for value in dictionary.get('tags'):
-                val_tags.append(aws_tag_model.AwsTagModel.from_dictionary(value))
+            for value in val:
+                val_tags.append(aws_tag_model_.AwsTagModel.from_dictionary(value))
 
-        val_unsupported_reason = dictionary.get('unsupported_reason')
+        val = dictionary['unsupported_reason']
+        val_unsupported_reason = val
+
         # Return an object of this model
         return cls(
-            val_embedded,
-            val_links,
-            val_account_native_id,
-            val_aws_region,
-            val_backup_status_info,
-            val_billing_mode,
-            val_contributor_insights_status,
-            val_deletion_protection_enabled,
-            val_deletion_timestamp,
-            val_direct_assignment_policy_id,
-            val_earliest_continuous_snapshot_restorable_timestamp,
-            val_environment_id,
-            val_global_secondary_indexes,
-            val_global_table_version,
-            val_has_direct_assignment,
-            val_p_id,
-            val_is_deleted,
-            val_is_supported,
-            val_item_count,
-            val_last_snapshot_timestamp,
-            val_latest_continuous_snapshot_restorable_timestamp,
-            val_local_secondary_indexes,
-            val_name,
-            val_organizational_unit_id,
-            val_pitr_status,
-            val_protection_info,
-            val_protection_status,
-            val_provisioned_throughput,
-            val_replicas,
-            val_size,
-            val_sse_specification,
-            val_stream_specification,
-            val_table_arn,
-            val_table_class,
-            val_table_keys,
-            val_table_native_id,
-            val_table_status,
-            val_tags,
-            val_unsupported_reason,
+            val_embedded,  # type: ignore
+            val_links,  # type: ignore
+            val_account_native_id,  # type: ignore
+            val_aws_region,  # type: ignore
+            val_backup_status_info,  # type: ignore
+            val_billing_mode,  # type: ignore
+            val_contributor_insights_status,  # type: ignore
+            val_deletion_protection_enabled,  # type: ignore
+            val_deletion_timestamp,  # type: ignore
+            val_direct_assignment_policy_id,  # type: ignore
+            val_earliest_continuous_snapshot_restorable_timestamp,  # type: ignore
+            val_environment_id,  # type: ignore
+            val_global_secondary_indexes,  # type: ignore
+            val_global_table_version,  # type: ignore
+            val_has_direct_assignment,  # type: ignore
+            val_p_id,  # type: ignore
+            val_is_deleted,  # type: ignore
+            val_is_supported,  # type: ignore
+            val_item_count,  # type: ignore
+            val_last_snapshot_timestamp,  # type: ignore
+            val_latest_continuous_snapshot_restorable_timestamp,  # type: ignore
+            val_local_secondary_indexes,  # type: ignore
+            val_name,  # type: ignore
+            val_organizational_unit_id,  # type: ignore
+            val_pitr_status,  # type: ignore
+            val_protection_info,  # type: ignore
+            val_protection_status,  # type: ignore
+            val_provisioned_throughput,  # type: ignore
+            val_replicas,  # type: ignore
+            val_size,  # type: ignore
+            val_sse_specification,  # type: ignore
+            val_stream_specification,  # type: ignore
+            val_table_arn,  # type: ignore
+            val_table_class,  # type: ignore
+            val_table_keys,  # type: ignore
+            val_table_native_id,  # type: ignore
+            val_table_status,  # type: ignore
+            val_tags,  # type: ignore
+            val_unsupported_reason,  # type: ignore
         )

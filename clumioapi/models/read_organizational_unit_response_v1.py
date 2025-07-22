@@ -1,11 +1,11 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import entity_group_embedded
-from clumioapi.models import organizational_unit_links
+from clumioapi.models import entity_group_embedded as entity_group_embedded_
+from clumioapi.models import organizational_unit_links as organizational_unit_links_
 
 T = TypeVar('T', bound='ReadOrganizationalUnitResponseV1')
 
@@ -53,7 +53,7 @@ class ReadOrganizationalUnitResponseV1:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'embedded': '_embedded',
         'etag': '_etag',
         'links': '_links',
@@ -71,26 +71,26 @@ class ReadOrganizationalUnitResponseV1:
 
     def __init__(
         self,
-        embedded: entity_group_embedded.EntityGroupEmbedded = None,
-        etag: str = None,
-        links: organizational_unit_links.OrganizationalUnitLinks = None,
-        children_count: int = None,
-        configured_datasource_types: Sequence[str] = None,
-        descendant_ids: Sequence[str] = None,
-        description: str = None,
-        p_id: str = None,
-        name: str = None,
-        parent_id: str = None,
-        task_id: str = None,
-        user_count: int = None,
-        users: Sequence[str] = None,
+        embedded: entity_group_embedded_.EntityGroupEmbedded,
+        etag: str,
+        links: organizational_unit_links_.OrganizationalUnitLinks,
+        children_count: int,
+        configured_datasource_types: Sequence[str],
+        descendant_ids: Sequence[str],
+        description: str,
+        p_id: str,
+        name: str,
+        parent_id: str,
+        task_id: str,
+        user_count: int,
+        users: Sequence[str],
     ) -> None:
         """Constructor for the ReadOrganizationalUnitResponseV1 class."""
 
         # Initialize members of the class
-        self.embedded: entity_group_embedded.EntityGroupEmbedded = embedded
+        self.embedded: entity_group_embedded_.EntityGroupEmbedded = embedded
         self.etag: str = etag
-        self.links: organizational_unit_links.OrganizationalUnitLinks = links
+        self.links: organizational_unit_links_.OrganizationalUnitLinks = links
         self.children_count: int = children_count
         self.configured_datasource_types: Sequence[str] = configured_datasource_types
         self.descendant_ids: Sequence[str] = descendant_ids
@@ -103,7 +103,7 @@ class ReadOrganizationalUnitResponseV1:
         self.users: Sequence[str] = users
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -114,48 +114,60 @@ class ReadOrganizationalUnitResponseV1:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        key = '_embedded'
-        embedded = (
-            entity_group_embedded.EntityGroupEmbedded.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['_embedded']
+        val_embedded = entity_group_embedded_.EntityGroupEmbedded.from_dictionary(val)
 
-        etag = dictionary.get('_etag')
-        key = '_links'
-        links = (
-            organizational_unit_links.OrganizationalUnitLinks.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['_etag']
+        val_etag = val
 
-        children_count = dictionary.get('children_count')
-        configured_datasource_types = dictionary.get('configured_datasource_types')
-        descendant_ids = dictionary.get('descendant_ids')
-        description = dictionary.get('description')
-        p_id = dictionary.get('id')
-        name = dictionary.get('name')
-        parent_id = dictionary.get('parent_id')
-        task_id = dictionary.get('task_id')
-        user_count = dictionary.get('user_count')
-        users = dictionary.get('users')
+        val = dictionary['_links']
+        val_links = organizational_unit_links_.OrganizationalUnitLinks.from_dictionary(val)
+
+        val = dictionary['children_count']
+        val_children_count = val
+
+        val = dictionary['configured_datasource_types']
+        val_configured_datasource_types = val
+
+        val = dictionary['descendant_ids']
+        val_descendant_ids = val
+
+        val = dictionary['description']
+        val_description = val
+
+        val = dictionary['id']
+        val_p_id = val
+
+        val = dictionary['name']
+        val_name = val
+
+        val = dictionary['parent_id']
+        val_parent_id = val
+
+        val = dictionary['task_id']
+        val_task_id = val
+
+        val = dictionary['user_count']
+        val_user_count = val
+
+        val = dictionary['users']
+        val_users = val
+
         # Return an object of this model
         return cls(
-            embedded,
-            etag,
-            links,
-            children_count,
-            configured_datasource_types,
-            descendant_ids,
-            description,
-            p_id,
-            name,
-            parent_id,
-            task_id,
-            user_count,
-            users,
+            val_embedded,  # type: ignore
+            val_etag,  # type: ignore
+            val_links,  # type: ignore
+            val_children_count,  # type: ignore
+            val_configured_datasource_types,  # type: ignore
+            val_descendant_ids,  # type: ignore
+            val_description,  # type: ignore
+            val_p_id,  # type: ignore
+            val_name,  # type: ignore
+            val_parent_id,  # type: ignore
+            val_task_id,  # type: ignore
+            val_user_count,  # type: ignore
+            val_users,  # type: ignore
         )

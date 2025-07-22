@@ -1,11 +1,11 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import permission_model
-from clumioapi.models import role_links
+from clumioapi.models import permission_model as permission_model_
+from clumioapi.models import role_links as role_links_
 
 T = TypeVar('T', bound='ReadRoleResponse')
 
@@ -31,7 +31,7 @@ class ReadRoleResponse:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'etag': '_etag',
         'links': '_links',
         'description': 'description',
@@ -43,27 +43,27 @@ class ReadRoleResponse:
 
     def __init__(
         self,
-        etag: str = None,
-        links: role_links.RoleLinks = None,
-        description: str = None,
-        p_id: str = None,
-        name: str = None,
-        permissions: Sequence[permission_model.PermissionModel] = None,
-        user_count: int = None,
+        etag: str,
+        links: role_links_.RoleLinks,
+        description: str,
+        p_id: str,
+        name: str,
+        permissions: Sequence[permission_model_.PermissionModel],
+        user_count: int,
     ) -> None:
         """Constructor for the ReadRoleResponse class."""
 
         # Initialize members of the class
         self.etag: str = etag
-        self.links: role_links.RoleLinks = links
+        self.links: role_links_.RoleLinks = links
         self.description: str = description
         self.p_id: str = p_id
         self.name: str = name
-        self.permissions: Sequence[permission_model.PermissionModel] = permissions
+        self.permissions: Sequence[permission_model_.PermissionModel] = permissions
         self.user_count: int = user_count
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -74,27 +74,41 @@ class ReadRoleResponse:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        etag = dictionary.get('_etag')
-        key = '_links'
-        links = (
-            role_links.RoleLinks.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['_etag']
+        val_etag = val
 
-        description = dictionary.get('description')
-        p_id = dictionary.get('id')
-        name = dictionary.get('name')
-        permissions = None
-        if dictionary.get('permissions'):
-            permissions = list()
-            for value in dictionary.get('permissions'):
-                permissions.append(permission_model.PermissionModel.from_dictionary(value))
+        val = dictionary['_links']
+        val_links = role_links_.RoleLinks.from_dictionary(val)
 
-        user_count = dictionary.get('user_count')
+        val = dictionary['description']
+        val_description = val
+
+        val = dictionary['id']
+        val_p_id = val
+
+        val = dictionary['name']
+        val_name = val
+
+        val = dictionary['permissions']
+
+        val_permissions = None
+        if val:
+            val_permissions = list()
+            for value in val:
+                val_permissions.append(permission_model_.PermissionModel.from_dictionary(value))
+
+        val = dictionary['user_count']
+        val_user_count = val
+
         # Return an object of this model
-        return cls(etag, links, description, p_id, name, permissions, user_count)
+        return cls(
+            val_etag,  # type: ignore
+            val_links,  # type: ignore
+            val_description,  # type: ignore
+            val_p_id,  # type: ignore
+            val_name,  # type: ignore
+            val_permissions,  # type: ignore
+            val_user_count,  # type: ignore
+        )

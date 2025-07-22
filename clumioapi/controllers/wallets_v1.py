@@ -1,9 +1,9 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -33,7 +33,7 @@ class WalletsV1Controller(base_controller.BaseController):
         if config.custom_headers != None:
             self.headers.update(config.custom_headers)
 
-    def list_wallets(self, limit: int = None, start: str = None, **kwargs) -> Union[
+    def list_wallets(self, limit: int, start: str, **kwargs) -> Union[
         list_wallets_response.ListWalletsResponse,
         tuple[requests.Response, Optional[list_wallets_response.ListWalletsResponse]],
     ]:
@@ -58,12 +58,12 @@ class WalletsV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/wallets'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'limit': limit, 'start': start}
 
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -80,10 +80,10 @@ class WalletsV1Controller(base_controller.BaseController):
 
         if self.config.raw_response:
             return resp, list_wallets_response.ListWalletsResponse.from_dictionary(resp.json())
-        return list_wallets_response.ListWalletsResponse.from_dictionary(resp)
+        return list_wallets_response.ListWalletsResponse.from_dictionary(resp.json())
 
     def create_wallet(
-        self, body: create_wallet_v1_request.CreateWalletV1Request = None, **kwargs
+        self, body: create_wallet_v1_request.CreateWalletV1Request, **kwargs
     ) -> Union[
         create_wallet_response.CreateWalletResponse,
         tuple[requests.Response, Optional[create_wallet_response.CreateWalletResponse]],
@@ -105,11 +105,11 @@ class WalletsV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/wallets'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
         # Execute request
         try:
-            resp = self.client.post(
+            resp: requests.Response = self.client.post(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -127,7 +127,7 @@ class WalletsV1Controller(base_controller.BaseController):
 
         if self.config.raw_response:
             return resp, create_wallet_response.CreateWalletResponse.from_dictionary(resp.json())
-        return create_wallet_response.CreateWalletResponse.from_dictionary(resp)
+        return create_wallet_response.CreateWalletResponse.from_dictionary(resp.json())
 
     def read_wallet(self, wallet_id: str, **kwargs) -> Union[
         read_wallet_response.ReadWalletResponse,
@@ -152,11 +152,11 @@ class WalletsV1Controller(base_controller.BaseController):
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'wallet_id': wallet_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -173,7 +173,7 @@ class WalletsV1Controller(base_controller.BaseController):
 
         if self.config.raw_response:
             return resp, read_wallet_response.ReadWalletResponse.from_dictionary(resp.json())
-        return read_wallet_response.ReadWalletResponse.from_dictionary(resp)
+        return read_wallet_response.ReadWalletResponse.from_dictionary(resp.json())
 
     def delete_wallet(
         self, wallet_id: str, **kwargs
@@ -197,11 +197,11 @@ class WalletsV1Controller(base_controller.BaseController):
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'wallet_id': wallet_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
         # Execute request
         try:
-            resp = self.client.delete(
+            resp: requests.Response = self.client.delete(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -244,11 +244,11 @@ class WalletsV1Controller(base_controller.BaseController):
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'wallet_id': wallet_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
         # Execute request
         try:
-            resp = self.client.post(
+            resp: requests.Response = self.client.post(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -265,4 +265,4 @@ class WalletsV1Controller(base_controller.BaseController):
 
         if self.config.raw_response:
             return resp, refresh_wallet_response.RefreshWalletResponse.from_dictionary(resp.json())
-        return refresh_wallet_response.RefreshWalletResponse.from_dictionary(resp)
+        return refresh_wallet_response.RefreshWalletResponse.from_dictionary(resp.json())

@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -22,9 +22,9 @@ class RdsResourceRestoreSourcePitrOptions:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'resource_id': 'resource_id', 'timestamp': 'timestamp'}
+    _names: dict[str, str] = {'resource_id': 'resource_id', 'timestamp': 'timestamp'}
 
-    def __init__(self, resource_id: str = None, timestamp: str = None) -> None:
+    def __init__(self, resource_id: str, timestamp: str) -> None:
         """Constructor for the RdsResourceRestoreSourcePitrOptions class."""
 
         # Initialize members of the class
@@ -32,7 +32,7 @@ class RdsResourceRestoreSourcePitrOptions:
         self.timestamp: str = timestamp
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -43,11 +43,16 @@ class RdsResourceRestoreSourcePitrOptions:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        resource_id = dictionary.get('resource_id')
-        timestamp = dictionary.get('timestamp')
+        val = dictionary['resource_id']
+        val_resource_id = val
+
+        val = dictionary['timestamp']
+        val_timestamp = val
+
         # Return an object of this model
-        return cls(resource_id, timestamp)
+        return cls(
+            val_resource_id,  # type: ignore
+            val_timestamp,  # type: ignore
+        )

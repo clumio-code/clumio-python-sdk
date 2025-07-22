@@ -1,9 +1,9 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -36,9 +36,7 @@ class RestoredFilesV1Controller(base_controller.BaseController):
         if config.custom_headers != None:
             self.headers.update(config.custom_headers)
 
-    def list_restored_files(
-        self, limit: int = None, start: str = None, filter: str = None, **kwargs
-    ) -> Union[
+    def list_restored_files(self, limit: int, start: str, filter: str, **kwargs) -> Union[
         restored_files_response.RestoredFilesResponse,
         tuple[requests.Response, Optional[restored_files_response.RestoredFilesResponse]],
     ]:
@@ -63,7 +61,7 @@ class RestoredFilesV1Controller(base_controller.BaseController):
                 | asset_type | $eq              | Required. The type of the asset within which |
                 |            |                  | to search for files. Possible values include |
                 |            |                  | aws_ebs_volume,                              |
-                |            |                  | aws_ec2_instance, vmware_vm and              |
+                |            |                  | aws_ec2_instance, aws_ec2_instance and       |
                 |            |                  | aws_dynamodb_table.                          |
                 +------------+------------------+----------------------------------------------+
                 | asset_id   | $eq              | Required. The Clumio-assigned ID of the      |
@@ -83,12 +81,12 @@ class RestoredFilesV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/restores/files'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'limit': limit, 'start': start, 'filter': filter}
 
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -105,13 +103,10 @@ class RestoredFilesV1Controller(base_controller.BaseController):
 
         if self.config.raw_response:
             return resp, restored_files_response.RestoredFilesResponse.from_dictionary(resp.json())
-        return restored_files_response.RestoredFilesResponse.from_dictionary(resp)
+        return restored_files_response.RestoredFilesResponse.from_dictionary(resp.json())
 
     def restore_files(
-        self,
-        embed: str = None,
-        body: restore_files_v1_request.RestoreFilesV1Request = None,
-        **kwargs,
+        self, embed: str, body: restore_files_v1_request.RestoreFilesV1Request, **kwargs
     ) -> Union[
         restore_file_response.RestoreFileResponse,
         tuple[requests.Response, Optional[restore_file_response.RestoreFileResponse]],
@@ -145,12 +140,12 @@ class RestoredFilesV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/restores/files'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'embed': embed}
 
         # Execute request
         try:
-            resp = self.client.post(
+            resp: requests.Response = self.client.post(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -168,10 +163,10 @@ class RestoredFilesV1Controller(base_controller.BaseController):
 
         if self.config.raw_response:
             return resp, restore_file_response.RestoreFileResponse.from_dictionary(resp.json())
-        return restore_file_response.RestoreFileResponse.from_dictionary(resp)
+        return restore_file_response.RestoreFileResponse.from_dictionary(resp.json())
 
     def download_shared_file(
-        self, body: download_shared_file_v1_request.DownloadSharedFileV1Request = None, **kwargs
+        self, body: download_shared_file_v1_request.DownloadSharedFileV1Request, **kwargs
     ) -> Union[
         download_shared_file_response.DownloadSharedFileResponse,
         tuple[
@@ -196,11 +191,11 @@ class RestoredFilesV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/restores/files/_download'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
         # Execute request
         try:
-            resp = self.client.post(
+            resp: requests.Response = self.client.post(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -220,7 +215,7 @@ class RestoredFilesV1Controller(base_controller.BaseController):
             return resp, download_shared_file_response.DownloadSharedFileResponse.from_dictionary(
                 resp.json()
             )
-        return download_shared_file_response.DownloadSharedFileResponse.from_dictionary(resp)
+        return download_shared_file_response.DownloadSharedFileResponse.from_dictionary(resp.json())
 
     def generate_restored_file_passcode(self, restored_file_id: str, **kwargs) -> Union[
         generate_restored_file_passcode_response.GenerateRestoredFilePasscodeResponse,
@@ -253,11 +248,11 @@ class RestoredFilesV1Controller(base_controller.BaseController):
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'restored_file_id': restored_file_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
         # Execute request
         try:
-            resp = self.client.post(
+            resp: requests.Response = self.client.post(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -280,13 +275,13 @@ class RestoredFilesV1Controller(base_controller.BaseController):
                 ),
             )
         return generate_restored_file_passcode_response.GenerateRestoredFilePasscodeResponse.from_dictionary(
-            resp
+            resp.json()
         )
 
     def share_restored_file(
         self,
         restored_file_id: str,
-        body: share_restored_file_v1_request.ShareRestoredFileV1Request = None,
+        body: share_restored_file_v1_request.ShareRestoredFileV1Request,
         **kwargs,
     ) -> Union[
         share_file_restore_email_response.ShareFileRestoreEmailResponse,
@@ -326,11 +321,11 @@ class RestoredFilesV1Controller(base_controller.BaseController):
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'restored_file_id': restored_file_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
         # Execute request
         try:
-            resp = self.client.post(
+            resp: requests.Response = self.client.post(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -353,4 +348,6 @@ class RestoredFilesV1Controller(base_controller.BaseController):
                     resp.json()
                 ),
             )
-        return share_file_restore_email_response.ShareFileRestoreEmailResponse.from_dictionary(resp)
+        return share_file_restore_email_response.ShareFileRestoreEmailResponse.from_dictionary(
+            resp.json()
+        )

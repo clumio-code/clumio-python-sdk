@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -21,9 +21,9 @@ class DownloadSharedFileV1Request:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'email_link': 'email_link', 'passcode': 'passcode'}
+    _names: dict[str, str] = {'email_link': 'email_link', 'passcode': 'passcode'}
 
-    def __init__(self, email_link: str = None, passcode: str = None) -> None:
+    def __init__(self, email_link: str, passcode: str) -> None:
         """Constructor for the DownloadSharedFileV1Request class."""
 
         # Initialize members of the class
@@ -31,7 +31,7 @@ class DownloadSharedFileV1Request:
         self.passcode: str = passcode
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -42,11 +42,16 @@ class DownloadSharedFileV1Request:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        email_link = dictionary.get('email_link')
-        passcode = dictionary.get('passcode')
+        val = dictionary['email_link']
+        val_email_link = val
+
+        val = dictionary['passcode']
+        val_passcode = val
+
         # Return an object of this model
-        return cls(email_link, passcode)
+        return cls(
+            val_email_link,  # type: ignore
+            val_passcode,  # type: ignore
+        )

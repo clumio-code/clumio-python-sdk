@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -24,15 +24,13 @@ class EmailDownloadDataAccessObject:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'email_message': 'email_message',
         'retrieved_by': 'retrieved_by',
         'retrieved_for': 'retrieved_for',
     }
 
-    def __init__(
-        self, email_message: str = None, retrieved_by: str = None, retrieved_for: str = None
-    ) -> None:
+    def __init__(self, email_message: str, retrieved_by: str, retrieved_for: str) -> None:
         """Constructor for the EmailDownloadDataAccessObject class."""
 
         # Initialize members of the class
@@ -41,7 +39,7 @@ class EmailDownloadDataAccessObject:
         self.retrieved_for: str = retrieved_for
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -52,12 +50,20 @@ class EmailDownloadDataAccessObject:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        email_message = dictionary.get('email_message')
-        retrieved_by = dictionary.get('retrieved_by')
-        retrieved_for = dictionary.get('retrieved_for')
+        val = dictionary['email_message']
+        val_email_message = val
+
+        val = dictionary['retrieved_by']
+        val_retrieved_by = val
+
+        val = dictionary['retrieved_for']
+        val_retrieved_for = val
+
         # Return an object of this model
-        return cls(email_message, retrieved_by, retrieved_for)
+        return cls(
+            val_email_message,  # type: ignore
+            val_retrieved_by,  # type: ignore
+            val_retrieved_for,  # type: ignore
+        )

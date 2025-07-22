@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -36,9 +36,12 @@ class SSESpecification:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'kms_key_type': 'kms_key_type', 'kms_master_key_id': 'kms_master_key_id'}
+    _names: dict[str, str] = {
+        'kms_key_type': 'kms_key_type',
+        'kms_master_key_id': 'kms_master_key_id',
+    }
 
-    def __init__(self, kms_key_type: str = None, kms_master_key_id: str = None) -> None:
+    def __init__(self, kms_key_type: str, kms_master_key_id: str) -> None:
         """Constructor for the SSESpecification class."""
 
         # Initialize members of the class
@@ -46,7 +49,7 @@ class SSESpecification:
         self.kms_master_key_id: str = kms_master_key_id
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -57,11 +60,16 @@ class SSESpecification:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        kms_key_type = dictionary.get('kms_key_type')
-        kms_master_key_id = dictionary.get('kms_master_key_id')
+        val = dictionary['kms_key_type']
+        val_kms_key_type = val
+
+        val = dictionary['kms_master_key_id']
+        val_kms_master_key_id = val
+
         # Return an object of this model
-        return cls(kms_key_type, kms_master_key_id)
+        return cls(
+            val_kms_key_type,  # type: ignore
+            val_kms_master_key_id,  # type: ignore
+        )

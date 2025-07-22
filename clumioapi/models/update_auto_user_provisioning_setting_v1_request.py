@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -16,16 +16,16 @@ class UpdateAutoUserProvisioningSettingV1Request:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'is_enabled': 'is_enabled'}
+    _names: dict[str, str] = {'is_enabled': 'is_enabled'}
 
-    def __init__(self, is_enabled: bool = None) -> None:
+    def __init__(self, is_enabled: bool) -> None:
         """Constructor for the UpdateAutoUserProvisioningSettingV1Request class."""
 
         # Initialize members of the class
         self.is_enabled: bool = is_enabled
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -36,10 +36,12 @@ class UpdateAutoUserProvisioningSettingV1Request:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        is_enabled = dictionary.get('is_enabled')
+        val = dictionary['is_enabled']
+        val_is_enabled = val
+
         # Return an object of this model
-        return cls(is_enabled)
+        return cls(
+            val_is_enabled,  # type: ignore
+        )

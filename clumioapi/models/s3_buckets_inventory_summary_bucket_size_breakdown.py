@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -34,7 +34,7 @@ class S3BucketsInventorySummaryBucketSizeBreakdown:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'glacier_deep_archive_storage_bytes': 'glacier_deep_archive_storage_bytes',
         'glacier_flexible_retrieval_storage_bytes': 'glacier_flexible_retrieval_storage_bytes',
         'glacier_instant_retrieval_storage_bytes': 'glacier_instant_retrieval_storage_bytes',
@@ -47,14 +47,14 @@ class S3BucketsInventorySummaryBucketSizeBreakdown:
 
     def __init__(
         self,
-        glacier_deep_archive_storage_bytes: int = None,
-        glacier_flexible_retrieval_storage_bytes: int = None,
-        glacier_instant_retrieval_storage_bytes: int = None,
-        intelligent_tiering_storage_bytes: int = None,
-        one_zone_ia_storage_bytes: int = None,
-        reduced_redundancy_storage_bytes: int = None,
-        standard_ia_storage_bytes: int = None,
-        standard_storage_bytes: int = None,
+        glacier_deep_archive_storage_bytes: int,
+        glacier_flexible_retrieval_storage_bytes: int,
+        glacier_instant_retrieval_storage_bytes: int,
+        intelligent_tiering_storage_bytes: int,
+        one_zone_ia_storage_bytes: int,
+        reduced_redundancy_storage_bytes: int,
+        standard_ia_storage_bytes: int,
+        standard_storage_bytes: int,
     ) -> None:
         """Constructor for the S3BucketsInventorySummaryBucketSizeBreakdown class."""
 
@@ -71,7 +71,7 @@ class S3BucketsInventorySummaryBucketSizeBreakdown:
         self.standard_storage_bytes: int = standard_storage_bytes
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -82,30 +82,40 @@ class S3BucketsInventorySummaryBucketSizeBreakdown:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        glacier_deep_archive_storage_bytes = dictionary.get('glacier_deep_archive_storage_bytes')
-        glacier_flexible_retrieval_storage_bytes = dictionary.get(
-            'glacier_flexible_retrieval_storage_bytes'
-        )
-        glacier_instant_retrieval_storage_bytes = dictionary.get(
-            'glacier_instant_retrieval_storage_bytes'
-        )
-        intelligent_tiering_storage_bytes = dictionary.get('intelligent_tiering_storage_bytes')
-        one_zone_ia_storage_bytes = dictionary.get('one_zone_ia_storage_bytes')
-        reduced_redundancy_storage_bytes = dictionary.get('reduced_redundancy_storage_bytes')
-        standard_ia_storage_bytes = dictionary.get('standard_ia_storage_bytes')
-        standard_storage_bytes = dictionary.get('standard_storage_bytes')
+        val = dictionary['glacier_deep_archive_storage_bytes']
+        val_glacier_deep_archive_storage_bytes = val
+
+        val = dictionary['glacier_flexible_retrieval_storage_bytes']
+        val_glacier_flexible_retrieval_storage_bytes = val
+
+        val = dictionary['glacier_instant_retrieval_storage_bytes']
+        val_glacier_instant_retrieval_storage_bytes = val
+
+        val = dictionary['intelligent_tiering_storage_bytes']
+        val_intelligent_tiering_storage_bytes = val
+
+        val = dictionary['one_zone_ia_storage_bytes']
+        val_one_zone_ia_storage_bytes = val
+
+        val = dictionary['reduced_redundancy_storage_bytes']
+        val_reduced_redundancy_storage_bytes = val
+
+        val = dictionary['standard_ia_storage_bytes']
+        val_standard_ia_storage_bytes = val
+
+        val = dictionary['standard_storage_bytes']
+        val_standard_storage_bytes = val
+
         # Return an object of this model
         return cls(
-            glacier_deep_archive_storage_bytes,
-            glacier_flexible_retrieval_storage_bytes,
-            glacier_instant_retrieval_storage_bytes,
-            intelligent_tiering_storage_bytes,
-            one_zone_ia_storage_bytes,
-            reduced_redundancy_storage_bytes,
-            standard_ia_storage_bytes,
-            standard_storage_bytes,
+            val_glacier_deep_archive_storage_bytes,  # type: ignore
+            val_glacier_flexible_retrieval_storage_bytes,  # type: ignore
+            val_glacier_instant_retrieval_storage_bytes,  # type: ignore
+            val_intelligent_tiering_storage_bytes,  # type: ignore
+            val_one_zone_ia_storage_bytes,  # type: ignore
+            val_reduced_redundancy_storage_bytes,  # type: ignore
+            val_standard_ia_storage_bytes,  # type: ignore
+            val_standard_storage_bytes,  # type: ignore
         )

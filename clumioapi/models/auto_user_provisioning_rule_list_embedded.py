@@ -1,10 +1,11 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import auto_user_provisioning_rule_with_e_tag
+from clumioapi.models import \
+    auto_user_provisioning_rule_with_e_tag as auto_user_provisioning_rule_with_e_tag_
 
 T = TypeVar('T', bound='AutoUserProvisioningRuleListEmbedded')
 
@@ -20,23 +21,21 @@ class AutoUserProvisioningRuleListEmbedded:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'items': 'items'}
+    _names: dict[str, str] = {'items': 'items'}
 
     def __init__(
         self,
-        items: Sequence[
-            auto_user_provisioning_rule_with_e_tag.AutoUserProvisioningRuleWithETag
-        ] = None,
+        items: Sequence[auto_user_provisioning_rule_with_e_tag_.AutoUserProvisioningRuleWithETag],
     ) -> None:
         """Constructor for the AutoUserProvisioningRuleListEmbedded class."""
 
         # Initialize members of the class
         self.items: Sequence[
-            auto_user_provisioning_rule_with_e_tag.AutoUserProvisioningRuleWithETag
+            auto_user_provisioning_rule_with_e_tag_.AutoUserProvisioningRuleWithETag
         ] = items
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -47,19 +46,21 @@ class AutoUserProvisioningRuleListEmbedded:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        items = None
-        if dictionary.get('items'):
-            items = list()
-            for value in dictionary.get('items'):
-                items.append(
-                    auto_user_provisioning_rule_with_e_tag.AutoUserProvisioningRuleWithETag.from_dictionary(
+        val = dictionary['items']
+
+        val_items = None
+        if val:
+            val_items = list()
+            for value in val:
+                val_items.append(
+                    auto_user_provisioning_rule_with_e_tag_.AutoUserProvisioningRuleWithETag.from_dictionary(
                         value
                     )
                 )
 
         # Return an object of this model
-        return cls(items)
+        return cls(
+            val_items,  # type: ignore
+        )

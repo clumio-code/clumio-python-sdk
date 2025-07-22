@@ -1,11 +1,11 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import user_embedded_v1
-from clumioapi.models import user_links
+from clumioapi.models import user_embedded_v1 as user_embedded_v1_
+from clumioapi.models import user_links as user_links_
 
 T = TypeVar('T', bound='UpdateUserResponseV1')
 
@@ -54,7 +54,7 @@ class UpdateUserResponseV1:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'embedded': '_embedded',
         'links': '_links',
         'assigned_organizational_unit_ids': 'assigned_organizational_unit_ids',
@@ -71,24 +71,24 @@ class UpdateUserResponseV1:
 
     def __init__(
         self,
-        embedded: user_embedded_v1.UserEmbeddedV1 = None,
-        links: user_links.UserLinks = None,
-        assigned_organizational_unit_ids: Sequence[str] = None,
-        assigned_role: str = None,
-        email: str = None,
-        full_name: str = None,
-        p_id: str = None,
-        inviter: str = None,
-        is_confirmed: bool = None,
-        is_enabled: bool = None,
-        last_activity_timestamp: str = None,
-        organizational_unit_count: int = None,
+        embedded: user_embedded_v1_.UserEmbeddedV1,
+        links: user_links_.UserLinks,
+        assigned_organizational_unit_ids: Sequence[str],
+        assigned_role: str,
+        email: str,
+        full_name: str,
+        p_id: str,
+        inviter: str,
+        is_confirmed: bool,
+        is_enabled: bool,
+        last_activity_timestamp: str,
+        organizational_unit_count: int,
     ) -> None:
         """Constructor for the UpdateUserResponseV1 class."""
 
         # Initialize members of the class
-        self.embedded: user_embedded_v1.UserEmbeddedV1 = embedded
-        self.links: user_links.UserLinks = links
+        self.embedded: user_embedded_v1_.UserEmbeddedV1 = embedded
+        self.links: user_links_.UserLinks = links
         self.assigned_organizational_unit_ids: Sequence[str] = assigned_organizational_unit_ids
         self.assigned_role: str = assigned_role
         self.email: str = email
@@ -101,7 +101,7 @@ class UpdateUserResponseV1:
         self.organizational_unit_count: int = organizational_unit_count
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -112,46 +112,56 @@ class UpdateUserResponseV1:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        key = '_embedded'
-        embedded = (
-            user_embedded_v1.UserEmbeddedV1.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['_embedded']
+        val_embedded = user_embedded_v1_.UserEmbeddedV1.from_dictionary(val)
 
-        key = '_links'
-        links = (
-            user_links.UserLinks.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['_links']
+        val_links = user_links_.UserLinks.from_dictionary(val)
 
-        assigned_organizational_unit_ids = dictionary.get('assigned_organizational_unit_ids')
-        assigned_role = dictionary.get('assigned_role')
-        email = dictionary.get('email')
-        full_name = dictionary.get('full_name')
-        p_id = dictionary.get('id')
-        inviter = dictionary.get('inviter')
-        is_confirmed = dictionary.get('is_confirmed')
-        is_enabled = dictionary.get('is_enabled')
-        last_activity_timestamp = dictionary.get('last_activity_timestamp')
-        organizational_unit_count = dictionary.get('organizational_unit_count')
+        val = dictionary['assigned_organizational_unit_ids']
+        val_assigned_organizational_unit_ids = val
+
+        val = dictionary['assigned_role']
+        val_assigned_role = val
+
+        val = dictionary['email']
+        val_email = val
+
+        val = dictionary['full_name']
+        val_full_name = val
+
+        val = dictionary['id']
+        val_p_id = val
+
+        val = dictionary['inviter']
+        val_inviter = val
+
+        val = dictionary['is_confirmed']
+        val_is_confirmed = val
+
+        val = dictionary['is_enabled']
+        val_is_enabled = val
+
+        val = dictionary['last_activity_timestamp']
+        val_last_activity_timestamp = val
+
+        val = dictionary['organizational_unit_count']
+        val_organizational_unit_count = val
+
         # Return an object of this model
         return cls(
-            embedded,
-            links,
-            assigned_organizational_unit_ids,
-            assigned_role,
-            email,
-            full_name,
-            p_id,
-            inviter,
-            is_confirmed,
-            is_enabled,
-            last_activity_timestamp,
-            organizational_unit_count,
+            val_embedded,  # type: ignore
+            val_links,  # type: ignore
+            val_assigned_organizational_unit_ids,  # type: ignore
+            val_assigned_role,  # type: ignore
+            val_email,  # type: ignore
+            val_full_name,  # type: ignore
+            val_p_id,  # type: ignore
+            val_inviter,  # type: ignore
+            val_is_confirmed,  # type: ignore
+            val_is_enabled,  # type: ignore
+            val_last_activity_timestamp,  # type: ignore
+            val_organizational_unit_count,  # type: ignore
         )

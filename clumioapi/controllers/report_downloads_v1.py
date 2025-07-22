@@ -1,9 +1,9 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -31,9 +31,7 @@ class ReportDownloadsV1Controller(base_controller.BaseController):
         if config.custom_headers != None:
             self.headers.update(config.custom_headers)
 
-    def list_report_downloads(
-        self, limit: int = None, start: str = None, filter: str = None, **kwargs
-    ) -> Union[
+    def list_report_downloads(self, limit: int, start: str, filter: str, **kwargs) -> Union[
         list_report_downloads_response.ListReportDownloadsResponse,
         tuple[
             requests.Response, Optional[list_report_downloads_response.ListReportDownloadsResponse]
@@ -66,11 +64,10 @@ class ReportDownloadsV1Controller(base_controller.BaseController):
                 |                 |                  | Filter report downloaded records whose  |
                 |                 |                  | type is one of the given values. The    |
                 |                 |                  | possible values are: "activity",        |
-                |                 |                  | "compliance", "audit", and              |
-                |                 |                  | "consumption".                          |
+                |                 |                  | "audit", and "consumption".             |
                 |                 |                  |                                         |
-                |                 |                  | filter={"report_type":{"$in":["complian |
-                |                 |                  | ce"]}}                                  |
+                |                 |                  | filter={"report_type":{"$in":["activity |
+                |                 |                  | "]}}                                    |
                 |                 |                  |                                         |
                 |                 |                  |                                         |
                 +-----------------+------------------+-----------------------------------------+
@@ -89,12 +86,12 @@ class ReportDownloadsV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/reports/downloads'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'limit': limit, 'start': start, 'filter': filter}
 
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -113,10 +110,12 @@ class ReportDownloadsV1Controller(base_controller.BaseController):
             return resp, list_report_downloads_response.ListReportDownloadsResponse.from_dictionary(
                 resp.json()
             )
-        return list_report_downloads_response.ListReportDownloadsResponse.from_dictionary(resp)
+        return list_report_downloads_response.ListReportDownloadsResponse.from_dictionary(
+            resp.json()
+        )
 
     def create_report_download(
-        self, body: create_report_download_v1_request.CreateReportDownloadV1Request = None, **kwargs
+        self, body: create_report_download_v1_request.CreateReportDownloadV1Request, **kwargs
     ) -> Union[
         create_report_download_response.CreateReportDownloadResponse,
         tuple[
@@ -142,11 +141,11 @@ class ReportDownloadsV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/reports/downloads'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
         # Execute request
         try:
-            resp = self.client.post(
+            resp: requests.Response = self.client.post(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -169,4 +168,6 @@ class ReportDownloadsV1Controller(base_controller.BaseController):
                     resp.json()
                 ),
             )
-        return create_report_download_response.CreateReportDownloadResponse.from_dictionary(resp)
+        return create_report_download_response.CreateReportDownloadResponse.from_dictionary(
+            resp.json()
+        )

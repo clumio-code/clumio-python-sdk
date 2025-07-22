@@ -1,10 +1,10 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import directory_links
+from clumioapi.models import directory_links as directory_links_
 
 T = TypeVar('T', bound='Directory')
 
@@ -31,7 +31,7 @@ class Directory:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'links': '_links',
         'directory_id': 'directory_id',
         'is_directory': 'is_directory',
@@ -42,17 +42,17 @@ class Directory:
 
     def __init__(
         self,
-        links: directory_links.DirectoryLinks = None,
-        directory_id: str = None,
-        is_directory: bool = None,
-        modified_timestamp: str = None,
-        name: str = None,
-        size: int = None,
+        links: directory_links_.DirectoryLinks,
+        directory_id: str,
+        is_directory: bool,
+        modified_timestamp: str,
+        name: str,
+        size: int,
     ) -> None:
         """Constructor for the Directory class."""
 
         # Initialize members of the class
-        self.links: directory_links.DirectoryLinks = links
+        self.links: directory_links_.DirectoryLinks = links
         self.directory_id: str = directory_id
         self.is_directory: bool = is_directory
         self.modified_timestamp: str = modified_timestamp
@@ -60,7 +60,7 @@ class Directory:
         self.size: int = size
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -71,21 +71,32 @@ class Directory:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        key = '_links'
-        links = (
-            directory_links.DirectoryLinks.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['_links']
+        val_links = directory_links_.DirectoryLinks.from_dictionary(val)
 
-        directory_id = dictionary.get('directory_id')
-        is_directory = dictionary.get('is_directory')
-        modified_timestamp = dictionary.get('modified_timestamp')
-        name = dictionary.get('name')
-        size = dictionary.get('size')
+        val = dictionary['directory_id']
+        val_directory_id = val
+
+        val = dictionary['is_directory']
+        val_is_directory = val
+
+        val = dictionary['modified_timestamp']
+        val_modified_timestamp = val
+
+        val = dictionary['name']
+        val_name = val
+
+        val = dictionary['size']
+        val_size = val
+
         # Return an object of this model
-        return cls(links, directory_id, is_directory, modified_timestamp, name, size)
+        return cls(
+            val_links,  # type: ignore
+            val_directory_id,  # type: ignore
+            val_is_directory,  # type: ignore
+            val_modified_timestamp,  # type: ignore
+            val_name,  # type: ignore
+            val_size,  # type: ignore
+        )

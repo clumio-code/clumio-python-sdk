@@ -1,10 +1,10 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import restored_record
+from clumioapi.models import restored_record as restored_record_
 
 T = TypeVar('T', bound='RestoredRecordListEmbedded')
 
@@ -20,16 +20,16 @@ class RestoredRecordListEmbedded:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'items': 'items'}
+    _names: dict[str, str] = {'items': 'items'}
 
-    def __init__(self, items: Sequence[restored_record.RestoredRecord] = None) -> None:
+    def __init__(self, items: Sequence[restored_record_.RestoredRecord]) -> None:
         """Constructor for the RestoredRecordListEmbedded class."""
 
         # Initialize members of the class
-        self.items: Sequence[restored_record.RestoredRecord] = items
+        self.items: Sequence[restored_record_.RestoredRecord] = items
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -40,15 +40,17 @@ class RestoredRecordListEmbedded:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        items = None
-        if dictionary.get('items'):
-            items = list()
-            for value in dictionary.get('items'):
-                items.append(restored_record.RestoredRecord.from_dictionary(value))
+        val = dictionary['items']
+
+        val_items = None
+        if val:
+            val_items = list()
+            for value in val:
+                val_items.append(restored_record_.RestoredRecord.from_dictionary(value))
 
         # Return an object of this model
-        return cls(items)
+        return cls(
+            val_items,  # type: ignore
+        )

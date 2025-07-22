@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -39,7 +39,7 @@ class PostProcessAwsConnectionV1Request:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'account_native_id': 'account_native_id',
         'aws_region': 'aws_region',
         'clumio_event_pub_id': 'clumio_event_pub_id',
@@ -54,16 +54,16 @@ class PostProcessAwsConnectionV1Request:
 
     def __init__(
         self,
-        account_native_id: str = None,
-        aws_region: str = None,
-        clumio_event_pub_id: str = None,
-        configuration: str = None,
-        intermediate_role_arn: str = None,
-        properties: Mapping[str, str] = None,
-        request_type: str = None,
-        role_arn: str = None,
-        role_external_id: str = None,
-        token: str = None,
+        account_native_id: str,
+        aws_region: str,
+        clumio_event_pub_id: str,
+        configuration: str,
+        intermediate_role_arn: str,
+        properties: Mapping[str, str],
+        request_type: str,
+        role_arn: str,
+        role_external_id: str,
+        token: str,
     ) -> None:
         """Constructor for the PostProcessAwsConnectionV1Request class."""
 
@@ -80,7 +80,7 @@ class PostProcessAwsConnectionV1Request:
         self.token: str = token
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -91,30 +91,48 @@ class PostProcessAwsConnectionV1Request:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        account_native_id = dictionary.get('account_native_id')
-        aws_region = dictionary.get('aws_region')
-        clumio_event_pub_id = dictionary.get('clumio_event_pub_id')
-        configuration = dictionary.get('configuration')
-        intermediate_role_arn = dictionary.get('intermediate_role_arn')
-        properties = dictionary.get('properties')
-        request_type = dictionary.get('request_type')
-        role_arn = dictionary.get('role_arn')
-        role_external_id = dictionary.get('role_external_id')
-        token = dictionary.get('token')
+        val = dictionary['account_native_id']
+        val_account_native_id = val
+
+        val = dictionary['aws_region']
+        val_aws_region = val
+
+        val = dictionary['clumio_event_pub_id']
+        val_clumio_event_pub_id = val
+
+        val = dictionary['configuration']
+        val_configuration = val
+
+        val = dictionary['intermediate_role_arn']
+        val_intermediate_role_arn = val
+
+        val = dictionary['properties']
+        val_properties = val
+
+        val = dictionary['request_type']
+        val_request_type = val
+
+        val = dictionary['role_arn']
+        val_role_arn = val
+
+        val = dictionary['role_external_id']
+        val_role_external_id = val
+
+        val = dictionary['token']
+        val_token = val
+
         # Return an object of this model
         return cls(
-            account_native_id,
-            aws_region,
-            clumio_event_pub_id,
-            configuration,
-            intermediate_role_arn,
-            properties,
-            request_type,
-            role_arn,
-            role_external_id,
-            token,
+            val_account_native_id,  # type: ignore
+            val_aws_region,  # type: ignore
+            val_clumio_event_pub_id,  # type: ignore
+            val_configuration,  # type: ignore
+            val_intermediate_role_arn,  # type: ignore
+            val_properties,  # type: ignore
+            val_request_type,  # type: ignore
+            val_role_arn,  # type: ignore
+            val_role_external_id,  # type: ignore
+            val_token,  # type: ignore
         )

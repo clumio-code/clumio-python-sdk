@@ -1,10 +1,10 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import attribute_definition
+from clumioapi.models import attribute_definition as attribute_definition_
 
 T = TypeVar('T', bound='DynamoDBKeys')
 
@@ -24,21 +24,21 @@ class DynamoDBKeys:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'partition_key': 'partition_key', 'sort_key': 'sort_key'}
+    _names: dict[str, str] = {'partition_key': 'partition_key', 'sort_key': 'sort_key'}
 
     def __init__(
         self,
-        partition_key: attribute_definition.AttributeDefinition = None,
-        sort_key: attribute_definition.AttributeDefinition = None,
+        partition_key: attribute_definition_.AttributeDefinition,
+        sort_key: attribute_definition_.AttributeDefinition,
     ) -> None:
         """Constructor for the DynamoDBKeys class."""
 
         # Initialize members of the class
-        self.partition_key: attribute_definition.AttributeDefinition = partition_key
-        self.sort_key: attribute_definition.AttributeDefinition = sort_key
+        self.partition_key: attribute_definition_.AttributeDefinition = partition_key
+        self.sort_key: attribute_definition_.AttributeDefinition = sort_key
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -49,23 +49,16 @@ class DynamoDBKeys:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        key = 'partition_key'
-        partition_key = (
-            attribute_definition.AttributeDefinition.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['partition_key']
+        val_partition_key = attribute_definition_.AttributeDefinition.from_dictionary(val)
 
-        key = 'sort_key'
-        sort_key = (
-            attribute_definition.AttributeDefinition.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['sort_key']
+        val_sort_key = attribute_definition_.AttributeDefinition.from_dictionary(val)
 
         # Return an object of this model
-        return cls(partition_key, sort_key)
+        return cls(
+            val_partition_key,  # type: ignore
+            val_sort_key,  # type: ignore
+        )

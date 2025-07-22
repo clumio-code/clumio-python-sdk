@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -18,16 +18,16 @@ class S3ReplicaModifications:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'status': 'status'}
+    _names: dict[str, str] = {'status': 'status'}
 
-    def __init__(self, status: str = None) -> None:
+    def __init__(self, status: str) -> None:
         """Constructor for the S3ReplicaModifications class."""
 
         # Initialize members of the class
         self.status: str = status
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -38,10 +38,12 @@ class S3ReplicaModifications:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        status = dictionary.get('status')
+        val = dictionary['status']
+        val_status = val
+
         # Return an object of this model
-        return cls(status)
+        return cls(
+            val_status,  # type: ignore
+        )

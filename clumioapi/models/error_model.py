@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -19,9 +19,9 @@ class ErrorModel:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'error_code': 'error_code', 'error_message': 'error_message'}
+    _names: dict[str, str] = {'error_code': 'error_code', 'error_message': 'error_message'}
 
-    def __init__(self, error_code: str = None, error_message: str = None) -> None:
+    def __init__(self, error_code: str, error_message: str) -> None:
         """Constructor for the ErrorModel class."""
 
         # Initialize members of the class
@@ -29,7 +29,7 @@ class ErrorModel:
         self.error_message: str = error_message
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -40,11 +40,16 @@ class ErrorModel:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        error_code = dictionary.get('error_code')
-        error_message = dictionary.get('error_message')
+        val = dictionary['error_code']
+        val_error_code = val
+
+        val = dictionary['error_message']
+        val_error_message = val
+
         # Return an object of this model
-        return cls(error_code, error_message)
+        return cls(
+            val_error_code,  # type: ignore
+            val_error_message,  # type: ignore
+        )

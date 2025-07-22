@@ -1,10 +1,10 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import s3_replication_time_value
+from clumioapi.models import s3_replication_time_value as s3_replication_time_value_
 
 T = TypeVar('T', bound='S3ReplicationTime')
 
@@ -23,19 +23,19 @@ class S3ReplicationTime:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'status': 'status', 'time': 'time'}
+    _names: dict[str, str] = {'status': 'status', 'time': 'time'}
 
     def __init__(
-        self, status: str = None, time: s3_replication_time_value.S3ReplicationTimeValue = None
+        self, status: str, time: s3_replication_time_value_.S3ReplicationTimeValue
     ) -> None:
         """Constructor for the S3ReplicationTime class."""
 
         # Initialize members of the class
         self.status: str = status
-        self.time: s3_replication_time_value.S3ReplicationTimeValue = time
+        self.time: s3_replication_time_value_.S3ReplicationTimeValue = time
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -46,17 +46,16 @@ class S3ReplicationTime:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        status = dictionary.get('status')
-        key = 'time'
-        time = (
-            s3_replication_time_value.S3ReplicationTimeValue.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['status']
+        val_status = val
+
+        val = dictionary['time']
+        val_time = s3_replication_time_value_.S3ReplicationTimeValue.from_dictionary(val)
 
         # Return an object of this model
-        return cls(status, time)
+        return cls(
+            val_status,  # type: ignore
+            val_time,  # type: ignore
+        )

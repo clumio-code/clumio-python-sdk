@@ -1,10 +1,11 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import email_recipients_data_access_option
+from clumioapi.models import \
+    email_recipients_data_access_option as email_recipients_data_access_option_
 
 T = TypeVar('T', bound='DynamoDBGrrTarget')
 
@@ -36,23 +37,27 @@ class DynamoDBGrrTarget:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'direct_download': 'direct_download', 'email': 'email', 'preview': 'preview'}
+    _names: dict[str, str] = {
+        'direct_download': 'direct_download',
+        'email': 'email',
+        'preview': 'preview',
+    }
 
     def __init__(
         self,
-        direct_download: object = None,
-        email: email_recipients_data_access_option.EmailRecipientsDataAccessOption = None,
-        preview: bool = None,
+        direct_download: object,
+        email: email_recipients_data_access_option_.EmailRecipientsDataAccessOption,
+        preview: bool,
     ) -> None:
         """Constructor for the DynamoDBGrrTarget class."""
 
         # Initialize members of the class
         self.direct_download: object = direct_download
-        self.email: email_recipients_data_access_option.EmailRecipientsDataAccessOption = email
+        self.email: email_recipients_data_access_option_.EmailRecipientsDataAccessOption = email
         self.preview: bool = preview
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -63,20 +68,24 @@ class DynamoDBGrrTarget:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        direct_download = dictionary.get('direct_download')
-        key = 'email'
-        email = (
-            email_recipients_data_access_option.EmailRecipientsDataAccessOption.from_dictionary(
-                dictionary.get(key)
+        val = dictionary['direct_download']
+        val_direct_download = val
+
+        val = dictionary['email']
+        val_email = (
+            email_recipients_data_access_option_.EmailRecipientsDataAccessOption.from_dictionary(
+                val
             )
-            if dictionary.get(key)
-            else None
         )
 
-        preview = dictionary.get('preview')
+        val = dictionary['preview']
+        val_preview = val
+
         # Return an object of this model
-        return cls(direct_download, email, preview)
+        return cls(
+            val_direct_download,  # type: ignore
+            val_email,  # type: ignore
+            val_preview,  # type: ignore
+        )

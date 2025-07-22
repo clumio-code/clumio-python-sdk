@@ -1,10 +1,10 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import hateoas_common_links
+from clumioapi.models import hateoas_common_links as hateoas_common_links_
 
 T = TypeVar('T', bound='FileSystem')
 
@@ -48,7 +48,7 @@ class FileSystem:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'links': '_links',
         'available': 'available',
         'filesystem_native_id': 'filesystem_native_id',
@@ -65,23 +65,23 @@ class FileSystem:
 
     def __init__(
         self,
-        links: hateoas_common_links.HateoasCommonLinks = None,
-        available: int = None,
-        filesystem_native_id: str = None,
-        p_id: str = None,
-        indexing_failed_reason: str = None,
-        is_encrypted: bool = None,
-        is_indexed: bool = None,
-        mount_path: str = None,
-        num_files_indexed: int = None,
-        size: int = None,
-        p_type: str = None,
-        used: int = None,
+        links: hateoas_common_links_.HateoasCommonLinks,
+        available: int,
+        filesystem_native_id: str,
+        p_id: str,
+        indexing_failed_reason: str,
+        is_encrypted: bool,
+        is_indexed: bool,
+        mount_path: str,
+        num_files_indexed: int,
+        size: int,
+        p_type: str,
+        used: int,
     ) -> None:
         """Constructor for the FileSystem class."""
 
         # Initialize members of the class
-        self.links: hateoas_common_links.HateoasCommonLinks = links
+        self.links: hateoas_common_links_.HateoasCommonLinks = links
         self.available: int = available
         self.filesystem_native_id: str = filesystem_native_id
         self.p_id: str = p_id
@@ -95,7 +95,7 @@ class FileSystem:
         self.used: int = used
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -106,40 +106,56 @@ class FileSystem:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        key = '_links'
-        links = (
-            hateoas_common_links.HateoasCommonLinks.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['_links']
+        val_links = hateoas_common_links_.HateoasCommonLinks.from_dictionary(val)
 
-        available = dictionary.get('available')
-        filesystem_native_id = dictionary.get('filesystem_native_id')
-        p_id = dictionary.get('id')
-        indexing_failed_reason = dictionary.get('indexing_failed_reason')
-        is_encrypted = dictionary.get('is_encrypted')
-        is_indexed = dictionary.get('is_indexed')
-        mount_path = dictionary.get('mount_path')
-        num_files_indexed = dictionary.get('num_files_indexed')
-        size = dictionary.get('size')
-        p_type = dictionary.get('type')
-        used = dictionary.get('used')
+        val = dictionary['available']
+        val_available = val
+
+        val = dictionary['filesystem_native_id']
+        val_filesystem_native_id = val
+
+        val = dictionary['id']
+        val_p_id = val
+
+        val = dictionary['indexing_failed_reason']
+        val_indexing_failed_reason = val
+
+        val = dictionary['is_encrypted']
+        val_is_encrypted = val
+
+        val = dictionary['is_indexed']
+        val_is_indexed = val
+
+        val = dictionary['mount_path']
+        val_mount_path = val
+
+        val = dictionary['num_files_indexed']
+        val_num_files_indexed = val
+
+        val = dictionary['size']
+        val_size = val
+
+        val = dictionary['type']
+        val_p_type = val
+
+        val = dictionary['used']
+        val_used = val
+
         # Return an object of this model
         return cls(
-            links,
-            available,
-            filesystem_native_id,
-            p_id,
-            indexing_failed_reason,
-            is_encrypted,
-            is_indexed,
-            mount_path,
-            num_files_indexed,
-            size,
-            p_type,
-            used,
+            val_links,  # type: ignore
+            val_available,  # type: ignore
+            val_filesystem_native_id,  # type: ignore
+            val_p_id,  # type: ignore
+            val_indexing_failed_reason,  # type: ignore
+            val_is_encrypted,  # type: ignore
+            val_is_indexed,  # type: ignore
+            val_mount_path,  # type: ignore
+            val_num_files_indexed,  # type: ignore
+            val_size,  # type: ignore
+            val_p_type,  # type: ignore
+            val_used,  # type: ignore
         )

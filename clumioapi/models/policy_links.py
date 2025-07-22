@@ -1,11 +1,11 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import hateoas_link
-from clumioapi.models import hateoas_self_link
+from clumioapi.models import hateoas_link as hateoas_link_
+from clumioapi.models import hateoas_self_link as hateoas_self_link_
 
 T = TypeVar('T', bound='PolicyLinks')
 
@@ -25,7 +25,7 @@ class PolicyLinks:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'p_self': '_self',
         'delete_policy_definition': 'delete-policy-definition',
         'update_policy_definition': 'update-policy-definition',
@@ -33,19 +33,19 @@ class PolicyLinks:
 
     def __init__(
         self,
-        p_self: hateoas_self_link.HateoasSelfLink = None,
-        delete_policy_definition: hateoas_link.HateoasLink = None,
-        update_policy_definition: hateoas_link.HateoasLink = None,
+        p_self: hateoas_self_link_.HateoasSelfLink,
+        delete_policy_definition: hateoas_link_.HateoasLink,
+        update_policy_definition: hateoas_link_.HateoasLink,
     ) -> None:
         """Constructor for the PolicyLinks class."""
 
         # Initialize members of the class
-        self.p_self: hateoas_self_link.HateoasSelfLink = p_self
-        self.delete_policy_definition: hateoas_link.HateoasLink = delete_policy_definition
-        self.update_policy_definition: hateoas_link.HateoasLink = update_policy_definition
+        self.p_self: hateoas_self_link_.HateoasSelfLink = p_self
+        self.delete_policy_definition: hateoas_link_.HateoasLink = delete_policy_definition
+        self.update_policy_definition: hateoas_link_.HateoasLink = update_policy_definition
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -56,30 +56,20 @@ class PolicyLinks:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        key = '_self'
-        p_self = (
-            hateoas_self_link.HateoasSelfLink.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['_self']
+        val_p_self = hateoas_self_link_.HateoasSelfLink.from_dictionary(val)
 
-        key = 'delete-policy-definition'
-        delete_policy_definition = (
-            hateoas_link.HateoasLink.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['delete-policy-definition']
+        val_delete_policy_definition = hateoas_link_.HateoasLink.from_dictionary(val)
 
-        key = 'update-policy-definition'
-        update_policy_definition = (
-            hateoas_link.HateoasLink.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['update-policy-definition']
+        val_update_policy_definition = hateoas_link_.HateoasLink.from_dictionary(val)
 
         # Return an object of this model
-        return cls(p_self, delete_policy_definition, update_policy_definition)
+        return cls(
+            val_p_self,  # type: ignore
+            val_delete_policy_definition,  # type: ignore
+            val_update_policy_definition,  # type: ignore
+        )

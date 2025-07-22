@@ -1,11 +1,15 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import create_s3_instant_access_endpoint_response_embedded
-from clumioapi.models import create_s3_instant_access_endpoint_response_links
+from clumioapi.models import \
+    create_s3_instant_access_endpoint_response_embedded as \
+    create_s3_instant_access_endpoint_response_embedded_
+from clumioapi.models import \
+    create_s3_instant_access_endpoint_response_links as \
+    create_s3_instant_access_endpoint_response_links_
 
 T = TypeVar('T', bound='CreateS3InstantAccessEndpointResponse')
 
@@ -28,29 +32,34 @@ class CreateS3InstantAccessEndpointResponse:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'embedded': '_embedded', 'links': '_links', 'p_id': 'id', 'task_id': 'task_id'}
+    _names: dict[str, str] = {
+        'embedded': '_embedded',
+        'links': '_links',
+        'p_id': 'id',
+        'task_id': 'task_id',
+    }
 
     def __init__(
         self,
-        embedded: create_s3_instant_access_endpoint_response_embedded.CreateS3InstantAccessEndpointResponseEmbedded = None,
-        links: create_s3_instant_access_endpoint_response_links.CreateS3InstantAccessEndpointResponseLinks = None,
-        p_id: str = None,
-        task_id: str = None,
+        embedded: create_s3_instant_access_endpoint_response_embedded_.CreateS3InstantAccessEndpointResponseEmbedded,
+        links: create_s3_instant_access_endpoint_response_links_.CreateS3InstantAccessEndpointResponseLinks,
+        p_id: str,
+        task_id: str,
     ) -> None:
         """Constructor for the CreateS3InstantAccessEndpointResponse class."""
 
         # Initialize members of the class
         self.embedded: (
-            create_s3_instant_access_endpoint_response_embedded.CreateS3InstantAccessEndpointResponseEmbedded
+            create_s3_instant_access_endpoint_response_embedded_.CreateS3InstantAccessEndpointResponseEmbedded
         ) = embedded
         self.links: (
-            create_s3_instant_access_endpoint_response_links.CreateS3InstantAccessEndpointResponseLinks
+            create_s3_instant_access_endpoint_response_links_.CreateS3InstantAccessEndpointResponseLinks
         ) = links
         self.p_id: str = p_id
         self.task_id: str = task_id
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -61,29 +70,28 @@ class CreateS3InstantAccessEndpointResponse:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        key = '_embedded'
-        embedded = (
-            create_s3_instant_access_endpoint_response_embedded.CreateS3InstantAccessEndpointResponseEmbedded.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
+        val = dictionary['_embedded']
+        val_embedded = create_s3_instant_access_endpoint_response_embedded_.CreateS3InstantAccessEndpointResponseEmbedded.from_dictionary(
+            val
         )
 
-        key = '_links'
-        links = (
-            create_s3_instant_access_endpoint_response_links.CreateS3InstantAccessEndpointResponseLinks.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
+        val = dictionary['_links']
+        val_links = create_s3_instant_access_endpoint_response_links_.CreateS3InstantAccessEndpointResponseLinks.from_dictionary(
+            val
         )
 
-        p_id = dictionary.get('id')
-        task_id = dictionary.get('task_id')
+        val = dictionary['id']
+        val_p_id = val
+
+        val = dictionary['task_id']
+        val_task_id = val
+
         # Return an object of this model
-        return cls(embedded, links, p_id, task_id)
+        return cls(
+            val_embedded,  # type: ignore
+            val_links,  # type: ignore
+            val_p_id,  # type: ignore
+            val_task_id,  # type: ignore
+        )

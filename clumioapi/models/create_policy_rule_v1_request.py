@@ -1,11 +1,11 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import rule_action
-from clumioapi.models import rule_priority
+from clumioapi.models import rule_action as rule_action_
+from clumioapi.models import rule_priority as rule_priority_
 
 T = TypeVar('T', bound='CreatePolicyRuleV1Request')
 
@@ -48,10 +48,10 @@ class CreatePolicyRuleV1Request:
             |                       |                           |                          |
             |                       |                           |                          |
             +-----------------------+---------------------------+--------------------------+
-            | aws_tag               | $eq, $in, $all, $contains | Denotes the AWS tag(s)   |
-            |                       |                           | to conditionalize on.    |
-            |                       |                           | Max 100 tags allowed in  |
-            |                       |                           | each rule                |
+            | aws_tag               | $eq, $in, $all,           | Denotes the AWS tag(s)   |
+            |                       | $contains, $not_eq,       | to conditionalize on.    |
+            |                       | $not_in, $not_all,        | Max 100 tags allowed in  |
+            |                       | $not_contains             | each rule                |
             |                       |                           | and tag key can be upto  |
             |                       |                           | 128 characters and value |
             |                       |                           | can be upto 256          |
@@ -81,6 +81,30 @@ class CreatePolicyRuleV1Request:
             |                       |                           | "value":"Prod"}}}        |
             |                       |                           |                          |
             |                       |                           |                          |
+            |                       |                           | {"aws_tag":{"$not_eq":{" |
+            |                       |                           | key":"Environment",      |
+            |                       |                           | "value":"Prod"}}}        |
+            |                       |                           |                          |
+            |                       |                           |                          |
+            |                       |                           | {"aws_tag":{"$not_in":[{ |
+            |                       |                           | "key":"Environment",     |
+            |                       |                           | "value":"Prod"},         |
+            |                       |                           | {"key":"Hello",          |
+            |                       |                           | "value":"World"}]}}      |
+            |                       |                           |                          |
+            |                       |                           |                          |
+            |                       |                           | {"aws_tag":{"$not_all":[ |
+            |                       |                           | {"key":"Environment",    |
+            |                       |                           | "value":"Prod"},         |
+            |                       |                           | {"key":"Hello",          |
+            |                       |                           | "value":"World"}]}}      |
+            |                       |                           |                          |
+            |                       |                           |                          |
+            |                       |                           | {"aws_tag":{"$not_contai |
+            |                       |                           | ns":{"key":"Environment" |
+            |                       |                           | , "value":"Prod"}}}      |
+            |                       |                           |                          |
+            |                       |                           |                          |
             +-----------------------+---------------------------+--------------------------+
             | entity_type           | $eq, $in                  | Denotes the AWS entity   |
             |                       |                           | type to conditionalize   |
@@ -106,25 +130,30 @@ class CreatePolicyRuleV1Request:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'action': 'action', 'condition': 'condition', 'name': 'name', 'priority': 'priority'}
+    _names: dict[str, str] = {
+        'action': 'action',
+        'condition': 'condition',
+        'name': 'name',
+        'priority': 'priority',
+    }
 
     def __init__(
         self,
-        action: rule_action.RuleAction = None,
-        condition: str = None,
-        name: str = None,
-        priority: rule_priority.RulePriority = None,
+        action: rule_action_.RuleAction,
+        condition: str,
+        name: str,
+        priority: rule_priority_.RulePriority,
     ) -> None:
         """Constructor for the CreatePolicyRuleV1Request class."""
 
         # Initialize members of the class
-        self.action: rule_action.RuleAction = action
+        self.action: rule_action_.RuleAction = action
         self.condition: str = condition
         self.name: str = name
-        self.priority: rule_priority.RulePriority = priority
+        self.priority: rule_priority_.RulePriority = priority
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -135,25 +164,24 @@ class CreatePolicyRuleV1Request:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        key = 'action'
-        action = (
-            rule_action.RuleAction.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['action']
+        val_action = rule_action_.RuleAction.from_dictionary(val)
 
-        condition = dictionary.get('condition')
-        name = dictionary.get('name')
-        key = 'priority'
-        priority = (
-            rule_priority.RulePriority.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['condition']
+        val_condition = val
+
+        val = dictionary['name']
+        val_name = val
+
+        val = dictionary['priority']
+        val_priority = rule_priority_.RulePriority.from_dictionary(val)
 
         # Return an object of this model
-        return cls(action, condition, name, priority)
+        return cls(
+            val_action,  # type: ignore
+            val_condition,  # type: ignore
+            val_name,  # type: ignore
+            val_priority,  # type: ignore
+        )

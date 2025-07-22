@@ -1,10 +1,10 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import rds_database_backup
+from clumioapi.models import rds_database_backup as rds_database_backup_
 
 T = TypeVar('T', bound='RdsDatabaseBackupListEmbedded')
 
@@ -20,16 +20,16 @@ class RdsDatabaseBackupListEmbedded:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'items': 'items'}
+    _names: dict[str, str] = {'items': 'items'}
 
-    def __init__(self, items: Sequence[rds_database_backup.RdsDatabaseBackup] = None) -> None:
+    def __init__(self, items: Sequence[rds_database_backup_.RdsDatabaseBackup]) -> None:
         """Constructor for the RdsDatabaseBackupListEmbedded class."""
 
         # Initialize members of the class
-        self.items: Sequence[rds_database_backup.RdsDatabaseBackup] = items
+        self.items: Sequence[rds_database_backup_.RdsDatabaseBackup] = items
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -40,15 +40,17 @@ class RdsDatabaseBackupListEmbedded:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        items = None
-        if dictionary.get('items'):
-            items = list()
-            for value in dictionary.get('items'):
-                items.append(rds_database_backup.RdsDatabaseBackup.from_dictionary(value))
+        val = dictionary['items']
+
+        val_items = None
+        if val:
+            val_items = list()
+            for value in val:
+                val_items.append(rds_database_backup_.RdsDatabaseBackup.from_dictionary(value))
 
         # Return an object of this model
-        return cls(items)
+        return cls(
+            val_items,  # type: ignore
+        )

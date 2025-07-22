@@ -1,9 +1,9 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -45,11 +45,11 @@ class AutoUserProvisioningSettingsV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/settings/auto-user-provisioning'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -72,12 +72,12 @@ class AutoUserProvisioningSettingsV1Controller(base_controller.BaseController):
                 ),
             )
         return read_auto_user_provisioning_setting_response.ReadAutoUserProvisioningSettingResponse.from_dictionary(
-            resp
+            resp.json()
         )
 
     def update_auto_user_provisioning_setting(
         self,
-        body: update_auto_user_provisioning_setting_v1_request.UpdateAutoUserProvisioningSettingV1Request = None,
+        body: update_auto_user_provisioning_setting_v1_request.UpdateAutoUserProvisioningSettingV1Request,
         **kwargs,
     ) -> Union[
         update_auto_user_provisioning_setting_response.UpdateAutoUserProvisioningSettingResponse,
@@ -105,11 +105,11 @@ class AutoUserProvisioningSettingsV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/settings/auto-user-provisioning'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
         # Execute request
         try:
-            resp = self.client.put(
+            resp: requests.Response = self.client.put(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -133,5 +133,5 @@ class AutoUserProvisioningSettingsV1Controller(base_controller.BaseController):
                 ),
             )
         return update_auto_user_provisioning_setting_response.UpdateAutoUserProvisioningSettingResponse.from_dictionary(
-            resp
+            resp.json()
         )

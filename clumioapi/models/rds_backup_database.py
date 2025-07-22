@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -16,16 +16,16 @@ class RDSBackupDatabase:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'name': 'name'}
+    _names: dict[str, str] = {'name': 'name'}
 
-    def __init__(self, name: str = None) -> None:
+    def __init__(self, name: str) -> None:
         """Constructor for the RDSBackupDatabase class."""
 
         # Initialize members of the class
         self.name: str = name
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -36,10 +36,12 @@ class RDSBackupDatabase:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        name = dictionary.get('name')
+        val = dictionary['name']
+        val_name = val
+
         # Return an object of this model
-        return cls(name)
+        return cls(
+            val_name,  # type: ignore
+        )

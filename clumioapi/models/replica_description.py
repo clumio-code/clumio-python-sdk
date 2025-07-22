@@ -1,11 +1,13 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import provisioned_throughput_override
-from clumioapi.models import replica_global_secondary_index_description
+from clumioapi.models import on_demand_throughput_override as on_demand_throughput_override_
+from clumioapi.models import provisioned_throughput_override as provisioned_throughput_override_
+from clumioapi.models import \
+    replica_global_secondary_index_description as replica_global_secondary_index_description_
 
 T = TypeVar('T', bound='ReplicaDescription')
 
@@ -20,44 +22,60 @@ class ReplicaDescription:
             The replica-specific global secondary index settings.
         kms_master_key_id:
             The AWS KMS key of the replica that will be used for AWS KMS encryption.
+        on_demand_throughput_override:
+            Replica-specific ondemand throughput settings. If not specified, uses the source
+            table's ondemand throughput settings.
         provisioned_throughput_override:
             Replica-specific provisioned throughput settings. If not specified, uses the
             source table's provisioned throughput settings.
         region_name:
             The name of the Region.
+        replica_table_class:
+            Replica-specific table class summary.
+            Possible values are `STANDARD` or `STANDARD_INFREQUENT_ACCESS`. This is
+            defaulted to the
+            `STANDARD` storage class if empty.
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'global_secondary_indexes': 'global_secondary_indexes',
         'kms_master_key_id': 'kms_master_key_id',
+        'on_demand_throughput_override': 'on_demand_throughput_override',
         'provisioned_throughput_override': 'provisioned_throughput_override',
         'region_name': 'region_name',
+        'replica_table_class': 'replica_table_class',
     }
 
     def __init__(
         self,
         global_secondary_indexes: Sequence[
-            replica_global_secondary_index_description.ReplicaGlobalSecondaryIndexDescription
-        ] = None,
-        kms_master_key_id: str = None,
-        provisioned_throughput_override: provisioned_throughput_override.ProvisionedThroughputOverride = None,
-        region_name: str = None,
+            replica_global_secondary_index_description_.ReplicaGlobalSecondaryIndexDescription
+        ],
+        kms_master_key_id: str,
+        on_demand_throughput_override: on_demand_throughput_override_.OnDemandThroughputOverride,
+        provisioned_throughput_override: provisioned_throughput_override_.ProvisionedThroughputOverride,
+        region_name: str,
+        replica_table_class: str,
     ) -> None:
         """Constructor for the ReplicaDescription class."""
 
         # Initialize members of the class
         self.global_secondary_indexes: Sequence[
-            replica_global_secondary_index_description.ReplicaGlobalSecondaryIndexDescription
+            replica_global_secondary_index_description_.ReplicaGlobalSecondaryIndexDescription
         ] = global_secondary_indexes
         self.kms_master_key_id: str = kms_master_key_id
+        self.on_demand_throughput_override: (
+            on_demand_throughput_override_.OnDemandThroughputOverride
+        ) = on_demand_throughput_override
         self.provisioned_throughput_override: (
-            provisioned_throughput_override.ProvisionedThroughputOverride
+            provisioned_throughput_override_.ProvisionedThroughputOverride
         ) = provisioned_throughput_override
         self.region_name: str = region_name
+        self.replica_table_class: str = replica_table_class
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -68,35 +86,45 @@ class ReplicaDescription:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        global_secondary_indexes = None
-        if dictionary.get('global_secondary_indexes'):
-            global_secondary_indexes = list()
-            for value in dictionary.get('global_secondary_indexes'):
-                global_secondary_indexes.append(
-                    replica_global_secondary_index_description.ReplicaGlobalSecondaryIndexDescription.from_dictionary(
+        val = dictionary['global_secondary_indexes']
+
+        val_global_secondary_indexes = None
+        if val:
+            val_global_secondary_indexes = list()
+            for value in val:
+                val_global_secondary_indexes.append(
+                    replica_global_secondary_index_description_.ReplicaGlobalSecondaryIndexDescription.from_dictionary(
                         value
                     )
                 )
 
-        kms_master_key_id = dictionary.get('kms_master_key_id')
-        key = 'provisioned_throughput_override'
-        p_provisioned_throughput_override = (
-            provisioned_throughput_override.ProvisionedThroughputOverride.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
+        val = dictionary['kms_master_key_id']
+        val_kms_master_key_id = val
+
+        val = dictionary['on_demand_throughput_override']
+        val_on_demand_throughput_override = (
+            on_demand_throughput_override_.OnDemandThroughputOverride.from_dictionary(val)
         )
 
-        region_name = dictionary.get('region_name')
+        val = dictionary['provisioned_throughput_override']
+        val_provisioned_throughput_override = (
+            provisioned_throughput_override_.ProvisionedThroughputOverride.from_dictionary(val)
+        )
+
+        val = dictionary['region_name']
+        val_region_name = val
+
+        val = dictionary['replica_table_class']
+        val_replica_table_class = val
+
         # Return an object of this model
         return cls(
-            global_secondary_indexes,
-            kms_master_key_id,
-            p_provisioned_throughput_override,
-            region_name,
+            val_global_secondary_indexes,  # type: ignore
+            val_kms_master_key_id,  # type: ignore
+            val_on_demand_throughput_override,  # type: ignore
+            val_provisioned_throughput_override,  # type: ignore
+            val_region_name,  # type: ignore
+            val_replica_table_class,  # type: ignore
         )

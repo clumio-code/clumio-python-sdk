@@ -1,10 +1,10 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import dynamodb_template_info
+from clumioapi.models import dynamodb_template_info as dynamodb_template_info_
 
 T = TypeVar('T', bound='WarmTierProtectTemplateInfo')
 
@@ -24,7 +24,7 @@ class WarmTierProtectTemplateInfo:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'asset_types_enabled': 'asset_types_enabled',
         'available_template_version': 'available_template_version',
         'dynamodb': 'dynamodb',
@@ -32,19 +32,19 @@ class WarmTierProtectTemplateInfo:
 
     def __init__(
         self,
-        asset_types_enabled: Sequence[str] = None,
-        available_template_version: str = None,
-        dynamodb: dynamodb_template_info.DynamodbTemplateInfo = None,
+        asset_types_enabled: Sequence[str],
+        available_template_version: str,
+        dynamodb: dynamodb_template_info_.DynamodbTemplateInfo,
     ) -> None:
         """Constructor for the WarmTierProtectTemplateInfo class."""
 
         # Initialize members of the class
         self.asset_types_enabled: Sequence[str] = asset_types_enabled
         self.available_template_version: str = available_template_version
-        self.dynamodb: dynamodb_template_info.DynamodbTemplateInfo = dynamodb
+        self.dynamodb: dynamodb_template_info_.DynamodbTemplateInfo = dynamodb
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -55,18 +55,20 @@ class WarmTierProtectTemplateInfo:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        asset_types_enabled = dictionary.get('asset_types_enabled')
-        available_template_version = dictionary.get('available_template_version')
-        key = 'dynamodb'
-        dynamodb = (
-            dynamodb_template_info.DynamodbTemplateInfo.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['asset_types_enabled']
+        val_asset_types_enabled = val
+
+        val = dictionary['available_template_version']
+        val_available_template_version = val
+
+        val = dictionary['dynamodb']
+        val_dynamodb = dynamodb_template_info_.DynamodbTemplateInfo.from_dictionary(val)
 
         # Return an object of this model
-        return cls(asset_types_enabled, available_template_version, dynamodb)
+        return cls(
+            val_asset_types_enabled,  # type: ignore
+            val_available_template_version,  # type: ignore
+            val_dynamodb,  # type: ignore
+        )

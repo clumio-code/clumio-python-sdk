@@ -1,11 +1,11 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import hateoas_self_link
-from clumioapi.models import read_task_hateoas_link
+from clumioapi.models import hateoas_self_link as hateoas_self_link_
+from clumioapi.models import read_task_hateoas_link as read_task_hateoas_link_
 
 T = TypeVar('T', bound='CreateS3InstantAccessEndpointResponseLinks')
 
@@ -25,7 +25,7 @@ class CreateS3InstantAccessEndpointResponseLinks:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'p_self': '_self',
         'read_protection_group_instant_access_endpoint': 'read-protection-group-instant-access-endpoint',
         'read_task': 'read-task',
@@ -33,21 +33,21 @@ class CreateS3InstantAccessEndpointResponseLinks:
 
     def __init__(
         self,
-        p_self: hateoas_self_link.HateoasSelfLink = None,
-        read_protection_group_instant_access_endpoint: object = None,
-        read_task: read_task_hateoas_link.ReadTaskHateoasLink = None,
+        p_self: hateoas_self_link_.HateoasSelfLink,
+        read_protection_group_instant_access_endpoint: object,
+        read_task: read_task_hateoas_link_.ReadTaskHateoasLink,
     ) -> None:
         """Constructor for the CreateS3InstantAccessEndpointResponseLinks class."""
 
         # Initialize members of the class
-        self.p_self: hateoas_self_link.HateoasSelfLink = p_self
+        self.p_self: hateoas_self_link_.HateoasSelfLink = p_self
         self.read_protection_group_instant_access_endpoint: object = (
             read_protection_group_instant_access_endpoint
         )
-        self.read_task: read_task_hateoas_link.ReadTaskHateoasLink = read_task
+        self.read_task: read_task_hateoas_link_.ReadTaskHateoasLink = read_task
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -58,26 +58,20 @@ class CreateS3InstantAccessEndpointResponseLinks:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        key = '_self'
-        p_self = (
-            hateoas_self_link.HateoasSelfLink.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['_self']
+        val_p_self = hateoas_self_link_.HateoasSelfLink.from_dictionary(val)
 
-        read_protection_group_instant_access_endpoint = dictionary.get(
-            'read-protection-group-instant-access-endpoint'
-        )
-        key = 'read-task'
-        read_task = (
-            read_task_hateoas_link.ReadTaskHateoasLink.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['read-protection-group-instant-access-endpoint']
+        val_read_protection_group_instant_access_endpoint = val
+
+        val = dictionary['read-task']
+        val_read_task = read_task_hateoas_link_.ReadTaskHateoasLink.from_dictionary(val)
 
         # Return an object of this model
-        return cls(p_self, read_protection_group_instant_access_endpoint, read_task)
+        return cls(
+            val_p_self,  # type: ignore
+            val_read_protection_group_instant_access_endpoint,  # type: ignore
+            val_read_task,  # type: ignore
+        )

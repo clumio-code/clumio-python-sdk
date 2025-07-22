@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -16,16 +16,16 @@ class RdsTemplateInfo:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'available_template_version': 'available_template_version'}
+    _names: dict[str, str] = {'available_template_version': 'available_template_version'}
 
-    def __init__(self, available_template_version: str = None) -> None:
+    def __init__(self, available_template_version: str) -> None:
         """Constructor for the RdsTemplateInfo class."""
 
         # Initialize members of the class
         self.available_template_version: str = available_template_version
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -36,10 +36,12 @@ class RdsTemplateInfo:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        available_template_version = dictionary.get('available_template_version')
+        val = dictionary['available_template_version']
+        val_available_template_version = val
+
         # Return an object of this model
-        return cls(available_template_version)
+        return cls(
+            val_available_template_version,  # type: ignore
+        )

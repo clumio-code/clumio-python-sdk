@@ -1,13 +1,14 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import aws_tag_model
-from clumioapi.models import protection_info_with_rule
-from clumioapi.models import rds_resource_embedded
-from clumioapi.models import rds_resource_links
+from clumioapi.models import aws_tag_model as aws_tag_model_
+from clumioapi.models import backup_status_info as backup_status_info_
+from clumioapi.models import protection_info_with_rule as protection_info_with_rule_
+from clumioapi.models import rds_resource_embedded as rds_resource_embedded_
+from clumioapi.models import rds_resource_links as rds_resource_links_
 
 T = TypeVar('T', bound='ReadRdsResourceResponse')
 
@@ -27,11 +28,8 @@ class ReadRdsResourceResponse:
             west-2a`.
         aws_region:
             The AWS region associated with this resource.
-        compliance_status:
-            The compliance status of the protected RDS resource. Possible values include
-            `compliant` and `noncompliant`. If the resource is not protected, then this
-            field has
-            a value of `null`.
+        backup_status_info:
+            The backup status information applied to this resource.
         deletion_timestamp:
             The timestamp of when the RDS resource was deleted. Represented in RFC-3339
             format.
@@ -124,13 +122,13 @@ class ReadRdsResourceResponse:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'embedded': '_embedded',
         'links': '_links',
         'account_native_id': 'account_native_id',
         'aws_azs': 'aws_azs',
         'aws_region': 'aws_region',
-        'compliance_status': 'compliance_status',
+        'backup_status_info': 'backup_status_info',
         'deletion_timestamp': 'deletion_timestamp',
         'direct_assignment_policy_id': 'direct_assignment_policy_id',
         'earliest_aws_snapshot_restorable_timestamp': 'earliest_aws_snapshot_restorable_timestamp',
@@ -164,51 +162,51 @@ class ReadRdsResourceResponse:
 
     def __init__(
         self,
-        embedded: rds_resource_embedded.RdsResourceEmbedded = None,
-        links: rds_resource_links.RdsResourceLinks = None,
-        account_native_id: str = None,
-        aws_azs: Sequence[str] = None,
-        aws_region: str = None,
-        compliance_status: str = None,
-        deletion_timestamp: str = None,
-        direct_assignment_policy_id: str = None,
-        earliest_aws_snapshot_restorable_timestamp: str = None,
-        engine: str = None,
-        engine_mode: str = None,
-        engine_version: str = None,
-        environment_id: str = None,
-        first_clumio_snapshot_timestamp: str = None,
-        first_granular_backup_timestamp: str = None,
-        has_direct_assignment: bool = None,
-        p_id: str = None,
-        is_deleted: bool = None,
-        is_encrypted: bool = None,
-        is_supported: bool = None,
-        kms_key_native_id: str = None,
-        last_clumio_snapshot_timestamp: str = None,
-        last_granular_backup_timestamp: str = None,
-        latest_aws_snapshot_restorable_timestamp: str = None,
-        name: str = None,
-        organizational_unit_id: str = None,
-        protection_info: protection_info_with_rule.ProtectionInfoWithRule = None,
-        protection_status: str = None,
-        resource_native_id: str = None,
-        security_group_native_ids: Sequence[str] = None,
-        size: int = None,
-        subnet_group_name: str = None,
-        tags: Sequence[aws_tag_model.AwsTagModel] = None,
-        p_type: str = None,
-        unsupported_reason: str = None,
+        embedded: rds_resource_embedded_.RdsResourceEmbedded,
+        links: rds_resource_links_.RdsResourceLinks,
+        account_native_id: str,
+        aws_azs: Sequence[str],
+        aws_region: str,
+        backup_status_info: backup_status_info_.BackupStatusInfo,
+        deletion_timestamp: str,
+        direct_assignment_policy_id: str,
+        earliest_aws_snapshot_restorable_timestamp: str,
+        engine: str,
+        engine_mode: str,
+        engine_version: str,
+        environment_id: str,
+        first_clumio_snapshot_timestamp: str,
+        first_granular_backup_timestamp: str,
+        has_direct_assignment: bool,
+        p_id: str,
+        is_deleted: bool,
+        is_encrypted: bool,
+        is_supported: bool,
+        kms_key_native_id: str,
+        last_clumio_snapshot_timestamp: str,
+        last_granular_backup_timestamp: str,
+        latest_aws_snapshot_restorable_timestamp: str,
+        name: str,
+        organizational_unit_id: str,
+        protection_info: protection_info_with_rule_.ProtectionInfoWithRule,
+        protection_status: str,
+        resource_native_id: str,
+        security_group_native_ids: Sequence[str],
+        size: int,
+        subnet_group_name: str,
+        tags: Sequence[aws_tag_model_.AwsTagModel],
+        p_type: str,
+        unsupported_reason: str,
     ) -> None:
         """Constructor for the ReadRdsResourceResponse class."""
 
         # Initialize members of the class
-        self.embedded: rds_resource_embedded.RdsResourceEmbedded = embedded
-        self.links: rds_resource_links.RdsResourceLinks = links
+        self.embedded: rds_resource_embedded_.RdsResourceEmbedded = embedded
+        self.links: rds_resource_links_.RdsResourceLinks = links
         self.account_native_id: str = account_native_id
         self.aws_azs: Sequence[str] = aws_azs
         self.aws_region: str = aws_region
-        self.compliance_status: str = compliance_status
+        self.backup_status_info: backup_status_info_.BackupStatusInfo = backup_status_info
         self.deletion_timestamp: str = deletion_timestamp
         self.direct_assignment_policy_id: str = direct_assignment_policy_id
         self.earliest_aws_snapshot_restorable_timestamp: str = (
@@ -233,18 +231,18 @@ class ReadRdsResourceResponse:
         )
         self.name: str = name
         self.organizational_unit_id: str = organizational_unit_id
-        self.protection_info: protection_info_with_rule.ProtectionInfoWithRule = protection_info
+        self.protection_info: protection_info_with_rule_.ProtectionInfoWithRule = protection_info
         self.protection_status: str = protection_status
         self.resource_native_id: str = resource_native_id
         self.security_group_native_ids: Sequence[str] = security_group_native_ids
         self.size: int = size
         self.subnet_group_name: str = subnet_group_name
-        self.tags: Sequence[aws_tag_model.AwsTagModel] = tags
+        self.tags: Sequence[aws_tag_model_.AwsTagModel] = tags
         self.p_type: str = p_type
         self.unsupported_reason: str = unsupported_reason
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -255,107 +253,153 @@ class ReadRdsResourceResponse:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        key = '_embedded'
-        embedded = (
-            rds_resource_embedded.RdsResourceEmbedded.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['_embedded']
+        val_embedded = rds_resource_embedded_.RdsResourceEmbedded.from_dictionary(val)
 
-        key = '_links'
-        links = (
-            rds_resource_links.RdsResourceLinks.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['_links']
+        val_links = rds_resource_links_.RdsResourceLinks.from_dictionary(val)
 
-        account_native_id = dictionary.get('account_native_id')
-        aws_azs = dictionary.get('aws_azs')
-        aws_region = dictionary.get('aws_region')
-        compliance_status = dictionary.get('compliance_status')
-        deletion_timestamp = dictionary.get('deletion_timestamp')
-        direct_assignment_policy_id = dictionary.get('direct_assignment_policy_id')
-        earliest_aws_snapshot_restorable_timestamp = dictionary.get(
-            'earliest_aws_snapshot_restorable_timestamp'
-        )
-        engine = dictionary.get('engine')
-        engine_mode = dictionary.get('engine_mode')
-        engine_version = dictionary.get('engine_version')
-        environment_id = dictionary.get('environment_id')
-        first_clumio_snapshot_timestamp = dictionary.get('first_clumio_snapshot_timestamp')
-        first_granular_backup_timestamp = dictionary.get('first_granular_backup_timestamp')
-        has_direct_assignment = dictionary.get('has_direct_assignment')
-        p_id = dictionary.get('id')
-        is_deleted = dictionary.get('is_deleted')
-        is_encrypted = dictionary.get('is_encrypted')
-        is_supported = dictionary.get('is_supported')
-        kms_key_native_id = dictionary.get('kms_key_native_id')
-        last_clumio_snapshot_timestamp = dictionary.get('last_clumio_snapshot_timestamp')
-        last_granular_backup_timestamp = dictionary.get('last_granular_backup_timestamp')
-        latest_aws_snapshot_restorable_timestamp = dictionary.get(
-            'latest_aws_snapshot_restorable_timestamp'
-        )
-        name = dictionary.get('name')
-        organizational_unit_id = dictionary.get('organizational_unit_id')
-        key = 'protection_info'
-        protection_info = (
-            protection_info_with_rule.ProtectionInfoWithRule.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['account_native_id']
+        val_account_native_id = val
 
-        protection_status = dictionary.get('protection_status')
-        resource_native_id = dictionary.get('resource_native_id')
-        security_group_native_ids = dictionary.get('security_group_native_ids')
-        size = dictionary.get('size')
-        subnet_group_name = dictionary.get('subnet_group_name')
-        tags = None
-        if dictionary.get('tags'):
-            tags = list()
-            for value in dictionary.get('tags'):
-                tags.append(aws_tag_model.AwsTagModel.from_dictionary(value))
+        val = dictionary['aws_azs']
+        val_aws_azs = val
 
-        p_type = dictionary.get('type')
-        unsupported_reason = dictionary.get('unsupported_reason')
+        val = dictionary['aws_region']
+        val_aws_region = val
+
+        val = dictionary['backup_status_info']
+        val_backup_status_info = backup_status_info_.BackupStatusInfo.from_dictionary(val)
+
+        val = dictionary['deletion_timestamp']
+        val_deletion_timestamp = val
+
+        val = dictionary['direct_assignment_policy_id']
+        val_direct_assignment_policy_id = val
+
+        val = dictionary['earliest_aws_snapshot_restorable_timestamp']
+        val_earliest_aws_snapshot_restorable_timestamp = val
+
+        val = dictionary['engine']
+        val_engine = val
+
+        val = dictionary['engine_mode']
+        val_engine_mode = val
+
+        val = dictionary['engine_version']
+        val_engine_version = val
+
+        val = dictionary['environment_id']
+        val_environment_id = val
+
+        val = dictionary['first_clumio_snapshot_timestamp']
+        val_first_clumio_snapshot_timestamp = val
+
+        val = dictionary['first_granular_backup_timestamp']
+        val_first_granular_backup_timestamp = val
+
+        val = dictionary['has_direct_assignment']
+        val_has_direct_assignment = val
+
+        val = dictionary['id']
+        val_p_id = val
+
+        val = dictionary['is_deleted']
+        val_is_deleted = val
+
+        val = dictionary['is_encrypted']
+        val_is_encrypted = val
+
+        val = dictionary['is_supported']
+        val_is_supported = val
+
+        val = dictionary['kms_key_native_id']
+        val_kms_key_native_id = val
+
+        val = dictionary['last_clumio_snapshot_timestamp']
+        val_last_clumio_snapshot_timestamp = val
+
+        val = dictionary['last_granular_backup_timestamp']
+        val_last_granular_backup_timestamp = val
+
+        val = dictionary['latest_aws_snapshot_restorable_timestamp']
+        val_latest_aws_snapshot_restorable_timestamp = val
+
+        val = dictionary['name']
+        val_name = val
+
+        val = dictionary['organizational_unit_id']
+        val_organizational_unit_id = val
+
+        val = dictionary['protection_info']
+        val_protection_info = protection_info_with_rule_.ProtectionInfoWithRule.from_dictionary(val)
+
+        val = dictionary['protection_status']
+        val_protection_status = val
+
+        val = dictionary['resource_native_id']
+        val_resource_native_id = val
+
+        val = dictionary['security_group_native_ids']
+        val_security_group_native_ids = val
+
+        val = dictionary['size']
+        val_size = val
+
+        val = dictionary['subnet_group_name']
+        val_subnet_group_name = val
+
+        val = dictionary['tags']
+
+        val_tags = None
+        if val:
+            val_tags = list()
+            for value in val:
+                val_tags.append(aws_tag_model_.AwsTagModel.from_dictionary(value))
+
+        val = dictionary['type']
+        val_p_type = val
+
+        val = dictionary['unsupported_reason']
+        val_unsupported_reason = val
+
         # Return an object of this model
         return cls(
-            embedded,
-            links,
-            account_native_id,
-            aws_azs,
-            aws_region,
-            compliance_status,
-            deletion_timestamp,
-            direct_assignment_policy_id,
-            earliest_aws_snapshot_restorable_timestamp,
-            engine,
-            engine_mode,
-            engine_version,
-            environment_id,
-            first_clumio_snapshot_timestamp,
-            first_granular_backup_timestamp,
-            has_direct_assignment,
-            p_id,
-            is_deleted,
-            is_encrypted,
-            is_supported,
-            kms_key_native_id,
-            last_clumio_snapshot_timestamp,
-            last_granular_backup_timestamp,
-            latest_aws_snapshot_restorable_timestamp,
-            name,
-            organizational_unit_id,
-            protection_info,
-            protection_status,
-            resource_native_id,
-            security_group_native_ids,
-            size,
-            subnet_group_name,
-            tags,
-            p_type,
-            unsupported_reason,
+            val_embedded,  # type: ignore
+            val_links,  # type: ignore
+            val_account_native_id,  # type: ignore
+            val_aws_azs,  # type: ignore
+            val_aws_region,  # type: ignore
+            val_backup_status_info,  # type: ignore
+            val_deletion_timestamp,  # type: ignore
+            val_direct_assignment_policy_id,  # type: ignore
+            val_earliest_aws_snapshot_restorable_timestamp,  # type: ignore
+            val_engine,  # type: ignore
+            val_engine_mode,  # type: ignore
+            val_engine_version,  # type: ignore
+            val_environment_id,  # type: ignore
+            val_first_clumio_snapshot_timestamp,  # type: ignore
+            val_first_granular_backup_timestamp,  # type: ignore
+            val_has_direct_assignment,  # type: ignore
+            val_p_id,  # type: ignore
+            val_is_deleted,  # type: ignore
+            val_is_encrypted,  # type: ignore
+            val_is_supported,  # type: ignore
+            val_kms_key_native_id,  # type: ignore
+            val_last_clumio_snapshot_timestamp,  # type: ignore
+            val_last_granular_backup_timestamp,  # type: ignore
+            val_latest_aws_snapshot_restorable_timestamp,  # type: ignore
+            val_name,  # type: ignore
+            val_organizational_unit_id,  # type: ignore
+            val_protection_info,  # type: ignore
+            val_protection_status,  # type: ignore
+            val_resource_native_id,  # type: ignore
+            val_security_group_native_ids,  # type: ignore
+            val_size,  # type: ignore
+            val_subnet_group_name,  # type: ignore
+            val_tags,  # type: ignore
+            val_p_type,  # type: ignore
+            val_unsupported_reason,  # type: ignore
         )

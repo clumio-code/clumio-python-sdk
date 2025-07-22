@@ -1,12 +1,12 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import ec2_mssqlfci_embedded
-from clumioapi.models import ec2_mssqlfci_links
-from clumioapi.models import protection_info
+from clumioapi.models import ec2_mssqlfci_embedded as ec2_mssqlfci_embedded_
+from clumioapi.models import ec2_mssqlfci_links as ec2_mssqlfci_links_
+from clumioapi.models import protection_info as protection_info_
 
 T = TypeVar('T', bound='ReadEC2MSSQLFCIResponse')
 
@@ -19,8 +19,6 @@ class ReadEC2MSSQLFCIResponse:
             Embedded responses related to the resource.
         links:
             URLs to pages related to the resource.
-        compliance_status:
-            ComplianceStatus of the resource
         p_id:
             The Clumio-assigned ID of the failover cluster.
         name:
@@ -37,10 +35,9 @@ class ReadEC2MSSQLFCIResponse:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'embedded': '_embedded',
         'links': '_links',
-        'compliance_status': 'compliance_status',
         'p_id': 'id',
         'name': 'name',
         'organizational_unit_id': 'organizational_unit_id',
@@ -51,31 +48,29 @@ class ReadEC2MSSQLFCIResponse:
 
     def __init__(
         self,
-        embedded: ec2_mssqlfci_embedded.EC2MSSQLFCIEmbedded = None,
-        links: ec2_mssqlfci_links.EC2MSSQLFCILinks = None,
-        compliance_status: str = None,
-        p_id: str = None,
-        name: str = None,
-        organizational_unit_id: str = None,
-        protection_info: protection_info.ProtectionInfo = None,
-        protection_status: str = None,
-        status: str = None,
+        embedded: ec2_mssqlfci_embedded_.EC2MSSQLFCIEmbedded,
+        links: ec2_mssqlfci_links_.EC2MSSQLFCILinks,
+        p_id: str,
+        name: str,
+        organizational_unit_id: str,
+        protection_info: protection_info_.ProtectionInfo,
+        protection_status: str,
+        status: str,
     ) -> None:
         """Constructor for the ReadEC2MSSQLFCIResponse class."""
 
         # Initialize members of the class
-        self.embedded: ec2_mssqlfci_embedded.EC2MSSQLFCIEmbedded = embedded
-        self.links: ec2_mssqlfci_links.EC2MSSQLFCILinks = links
-        self.compliance_status: str = compliance_status
+        self.embedded: ec2_mssqlfci_embedded_.EC2MSSQLFCIEmbedded = embedded
+        self.links: ec2_mssqlfci_links_.EC2MSSQLFCILinks = links
         self.p_id: str = p_id
         self.name: str = name
         self.organizational_unit_id: str = organizational_unit_id
-        self.protection_info: protection_info.ProtectionInfo = protection_info
+        self.protection_info: protection_info_.ProtectionInfo = protection_info
         self.protection_status: str = protection_status
         self.status: str = status
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -86,46 +81,40 @@ class ReadEC2MSSQLFCIResponse:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        key = '_embedded'
-        embedded = (
-            ec2_mssqlfci_embedded.EC2MSSQLFCIEmbedded.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['_embedded']
+        val_embedded = ec2_mssqlfci_embedded_.EC2MSSQLFCIEmbedded.from_dictionary(val)
 
-        key = '_links'
-        links = (
-            ec2_mssqlfci_links.EC2MSSQLFCILinks.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['_links']
+        val_links = ec2_mssqlfci_links_.EC2MSSQLFCILinks.from_dictionary(val)
 
-        compliance_status = dictionary.get('compliance_status')
-        p_id = dictionary.get('id')
-        name = dictionary.get('name')
-        organizational_unit_id = dictionary.get('organizational_unit_id')
-        key = 'protection_info'
-        p_protection_info = (
-            protection_info.ProtectionInfo.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['id']
+        val_p_id = val
 
-        protection_status = dictionary.get('protection_status')
-        status = dictionary.get('status')
+        val = dictionary['name']
+        val_name = val
+
+        val = dictionary['organizational_unit_id']
+        val_organizational_unit_id = val
+
+        val = dictionary['protection_info']
+        val_protection_info = protection_info_.ProtectionInfo.from_dictionary(val)
+
+        val = dictionary['protection_status']
+        val_protection_status = val
+
+        val = dictionary['status']
+        val_status = val
+
         # Return an object of this model
         return cls(
-            embedded,
-            links,
-            compliance_status,
-            p_id,
-            name,
-            organizational_unit_id,
-            p_protection_info,
-            protection_status,
-            status,
+            val_embedded,  # type: ignore
+            val_links,  # type: ignore
+            val_p_id,  # type: ignore
+            val_name,  # type: ignore
+            val_organizational_unit_id,  # type: ignore
+            val_protection_info,  # type: ignore
+            val_protection_status,  # type: ignore
+            val_status,  # type: ignore
         )

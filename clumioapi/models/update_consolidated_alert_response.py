@@ -1,12 +1,12 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import consolidated_alert_details
-from clumioapi.models import consolidated_alert_links
-from clumioapi.models import consolidated_alert_parent_entity
+from clumioapi.models import consolidated_alert_details as consolidated_alert_details_
+from clumioapi.models import consolidated_alert_links as consolidated_alert_links_
+from clumioapi.models import consolidated_alert_parent_entity as consolidated_alert_parent_entity_
 
 T = TypeVar('T', bound='UpdateConsolidatedAlertResponse')
 
@@ -64,7 +64,7 @@ class UpdateConsolidatedAlertResponse:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'etag': '_etag',
         'links': '_links',
         'active_entity_count': 'active_entity_count',
@@ -84,35 +84,35 @@ class UpdateConsolidatedAlertResponse:
 
     def __init__(
         self,
-        etag: str = None,
-        links: consolidated_alert_links.ConsolidatedAlertLinks = None,
-        active_entity_count: int = None,
-        cause: str = None,
-        cleared_entity_count: int = None,
-        cleared_timestamp: str = None,
-        details: consolidated_alert_details.ConsolidatedAlertDetails = None,
-        p_id: str = None,
-        notes: str = None,
-        parent_entity: consolidated_alert_parent_entity.ConsolidatedAlertParentEntity = None,
-        raised_timestamp: str = None,
-        severity: str = None,
-        status: str = None,
-        p_type: str = None,
-        updated_timestamp: str = None,
+        etag: str,
+        links: consolidated_alert_links_.ConsolidatedAlertLinks,
+        active_entity_count: int,
+        cause: str,
+        cleared_entity_count: int,
+        cleared_timestamp: str,
+        details: consolidated_alert_details_.ConsolidatedAlertDetails,
+        p_id: str,
+        notes: str,
+        parent_entity: consolidated_alert_parent_entity_.ConsolidatedAlertParentEntity,
+        raised_timestamp: str,
+        severity: str,
+        status: str,
+        p_type: str,
+        updated_timestamp: str,
     ) -> None:
         """Constructor for the UpdateConsolidatedAlertResponse class."""
 
         # Initialize members of the class
         self.etag: str = etag
-        self.links: consolidated_alert_links.ConsolidatedAlertLinks = links
+        self.links: consolidated_alert_links_.ConsolidatedAlertLinks = links
         self.active_entity_count: int = active_entity_count
         self.cause: str = cause
         self.cleared_entity_count: int = cleared_entity_count
         self.cleared_timestamp: str = cleared_timestamp
-        self.details: consolidated_alert_details.ConsolidatedAlertDetails = details
+        self.details: consolidated_alert_details_.ConsolidatedAlertDetails = details
         self.p_id: str = p_id
         self.notes: str = notes
-        self.parent_entity: consolidated_alert_parent_entity.ConsolidatedAlertParentEntity = (
+        self.parent_entity: consolidated_alert_parent_entity_.ConsolidatedAlertParentEntity = (
             parent_entity
         )
         self.raised_timestamp: str = raised_timestamp
@@ -122,7 +122,7 @@ class UpdateConsolidatedAlertResponse:
         self.updated_timestamp: str = updated_timestamp
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -133,60 +133,70 @@ class UpdateConsolidatedAlertResponse:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        etag = dictionary.get('_etag')
-        key = '_links'
-        links = (
-            consolidated_alert_links.ConsolidatedAlertLinks.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
+        val = dictionary['_etag']
+        val_etag = val
+
+        val = dictionary['_links']
+        val_links = consolidated_alert_links_.ConsolidatedAlertLinks.from_dictionary(val)
+
+        val = dictionary['active_entity_count']
+        val_active_entity_count = val
+
+        val = dictionary['cause']
+        val_cause = val
+
+        val = dictionary['cleared_entity_count']
+        val_cleared_entity_count = val
+
+        val = dictionary['cleared_timestamp']
+        val_cleared_timestamp = val
+
+        val = dictionary['details']
+        val_details = consolidated_alert_details_.ConsolidatedAlertDetails.from_dictionary(val)
+
+        val = dictionary['id']
+        val_p_id = val
+
+        val = dictionary['notes']
+        val_notes = val
+
+        val = dictionary['parent_entity']
+        val_parent_entity = (
+            consolidated_alert_parent_entity_.ConsolidatedAlertParentEntity.from_dictionary(val)
         )
 
-        active_entity_count = dictionary.get('active_entity_count')
-        cause = dictionary.get('cause')
-        cleared_entity_count = dictionary.get('cleared_entity_count')
-        cleared_timestamp = dictionary.get('cleared_timestamp')
-        key = 'details'
-        details = (
-            consolidated_alert_details.ConsolidatedAlertDetails.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['raised_timestamp']
+        val_raised_timestamp = val
 
-        p_id = dictionary.get('id')
-        notes = dictionary.get('notes')
-        key = 'parent_entity'
-        parent_entity = (
-            consolidated_alert_parent_entity.ConsolidatedAlertParentEntity.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['severity']
+        val_severity = val
 
-        raised_timestamp = dictionary.get('raised_timestamp')
-        severity = dictionary.get('severity')
-        status = dictionary.get('status')
-        p_type = dictionary.get('type')
-        updated_timestamp = dictionary.get('updated_timestamp')
+        val = dictionary['status']
+        val_status = val
+
+        val = dictionary['type']
+        val_p_type = val
+
+        val = dictionary['updated_timestamp']
+        val_updated_timestamp = val
+
         # Return an object of this model
         return cls(
-            etag,
-            links,
-            active_entity_count,
-            cause,
-            cleared_entity_count,
-            cleared_timestamp,
-            details,
-            p_id,
-            notes,
-            parent_entity,
-            raised_timestamp,
-            severity,
-            status,
-            p_type,
-            updated_timestamp,
+            val_etag,  # type: ignore
+            val_links,  # type: ignore
+            val_active_entity_count,  # type: ignore
+            val_cause,  # type: ignore
+            val_cleared_entity_count,  # type: ignore
+            val_cleared_timestamp,  # type: ignore
+            val_details,  # type: ignore
+            val_p_id,  # type: ignore
+            val_notes,  # type: ignore
+            val_parent_entity,  # type: ignore
+            val_raised_timestamp,  # type: ignore
+            val_severity,  # type: ignore
+            val_status,  # type: ignore
+            val_p_type,  # type: ignore
+            val_updated_timestamp,  # type: ignore
         )

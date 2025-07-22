@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -20,12 +20,12 @@ class ProvisionedThroughput:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'read_capacity_units': 'read_capacity_units',
         'write_capacity_units': 'write_capacity_units',
     }
 
-    def __init__(self, read_capacity_units: int = None, write_capacity_units: int = None) -> None:
+    def __init__(self, read_capacity_units: int, write_capacity_units: int) -> None:
         """Constructor for the ProvisionedThroughput class."""
 
         # Initialize members of the class
@@ -33,7 +33,7 @@ class ProvisionedThroughput:
         self.write_capacity_units: int = write_capacity_units
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -44,11 +44,16 @@ class ProvisionedThroughput:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        read_capacity_units = dictionary.get('read_capacity_units')
-        write_capacity_units = dictionary.get('write_capacity_units')
+        val = dictionary['read_capacity_units']
+        val_read_capacity_units = val
+
+        val = dictionary['write_capacity_units']
+        val_write_capacity_units = val
+
         # Return an object of this model
-        return cls(read_capacity_units, write_capacity_units)
+        return cls(
+            val_read_capacity_units,  # type: ignore
+            val_write_capacity_units,  # type: ignore
+        )

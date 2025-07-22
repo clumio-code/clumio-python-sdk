@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -19,9 +19,9 @@ class ShareRestoredFileV1Request:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'email_address': 'email_address', 'message': 'message'}
+    _names: dict[str, str] = {'email_address': 'email_address', 'message': 'message'}
 
-    def __init__(self, email_address: str = None, message: str = None) -> None:
+    def __init__(self, email_address: str, message: str) -> None:
         """Constructor for the ShareRestoredFileV1Request class."""
 
         # Initialize members of the class
@@ -29,7 +29,7 @@ class ShareRestoredFileV1Request:
         self.message: str = message
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -40,11 +40,16 @@ class ShareRestoredFileV1Request:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        email_address = dictionary.get('email_address')
-        message = dictionary.get('message')
+        val = dictionary['email_address']
+        val_email_address = val
+
+        val = dictionary['message']
+        val_message = val
+
         # Return an object of this model
-        return cls(email_address, message)
+        return cls(
+            val_email_address,  # type: ignore
+            val_message,  # type: ignore
+        )

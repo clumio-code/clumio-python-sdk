@@ -1,10 +1,10 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import user_with_e_tag
+from clumioapi.models import user_with_e_tag as user_with_e_tag_
 
 T = TypeVar('T', bound='UserListEmbedded')
 
@@ -20,16 +20,16 @@ class UserListEmbedded:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'items': 'items'}
+    _names: dict[str, str] = {'items': 'items'}
 
-    def __init__(self, items: Sequence[user_with_e_tag.UserWithETag] = None) -> None:
+    def __init__(self, items: Sequence[user_with_e_tag_.UserWithETag]) -> None:
         """Constructor for the UserListEmbedded class."""
 
         # Initialize members of the class
-        self.items: Sequence[user_with_e_tag.UserWithETag] = items
+        self.items: Sequence[user_with_e_tag_.UserWithETag] = items
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -40,15 +40,17 @@ class UserListEmbedded:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        items = None
-        if dictionary.get('items'):
-            items = list()
-            for value in dictionary.get('items'):
-                items.append(user_with_e_tag.UserWithETag.from_dictionary(value))
+        val = dictionary['items']
+
+        val_items = None
+        if val:
+            val_items = list()
+            for value in val:
+                val_items.append(user_with_e_tag_.UserWithETag.from_dictionary(value))
 
         # Return an object of this model
-        return cls(items)
+        return cls(
+            val_items,  # type: ignore
+        )

@@ -1,12 +1,12 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import ec2_mssqlag_embedded
-from clumioapi.models import ec2_mssqlag_links
-from clumioapi.models import protection_info
+from clumioapi.models import ec2_mssqlag_embedded as ec2_mssqlag_embedded_
+from clumioapi.models import ec2_mssqlag_links as ec2_mssqlag_links_
+from clumioapi.models import protection_info as protection_info_
 
 T = TypeVar('T', bound='EC2MSSQLAG')
 
@@ -35,7 +35,7 @@ class EC2MSSQLAG:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'embedded': '_embedded',
         'links': '_links',
         'p_id': 'id',
@@ -47,27 +47,27 @@ class EC2MSSQLAG:
 
     def __init__(
         self,
-        embedded: ec2_mssqlag_embedded.EC2MSSQLAGEmbedded = None,
-        links: ec2_mssqlag_links.EC2MSSQLAGLinks = None,
-        p_id: str = None,
-        name: str = None,
-        organizational_unit_id: str = None,
-        protection_info: protection_info.ProtectionInfo = None,
-        status: str = None,
+        embedded: ec2_mssqlag_embedded_.EC2MSSQLAGEmbedded,
+        links: ec2_mssqlag_links_.EC2MSSQLAGLinks,
+        p_id: str,
+        name: str,
+        organizational_unit_id: str,
+        protection_info: protection_info_.ProtectionInfo,
+        status: str,
     ) -> None:
         """Constructor for the EC2MSSQLAG class."""
 
         # Initialize members of the class
-        self.embedded: ec2_mssqlag_embedded.EC2MSSQLAGEmbedded = embedded
-        self.links: ec2_mssqlag_links.EC2MSSQLAGLinks = links
+        self.embedded: ec2_mssqlag_embedded_.EC2MSSQLAGEmbedded = embedded
+        self.links: ec2_mssqlag_links_.EC2MSSQLAGLinks = links
         self.p_id: str = p_id
         self.name: str = name
         self.organizational_unit_id: str = organizational_unit_id
-        self.protection_info: protection_info.ProtectionInfo = protection_info
+        self.protection_info: protection_info_.ProtectionInfo = protection_info
         self.status: str = status
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -78,34 +78,36 @@ class EC2MSSQLAG:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        key = '_embedded'
-        embedded = (
-            ec2_mssqlag_embedded.EC2MSSQLAGEmbedded.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['_embedded']
+        val_embedded = ec2_mssqlag_embedded_.EC2MSSQLAGEmbedded.from_dictionary(val)
 
-        key = '_links'
-        links = (
-            ec2_mssqlag_links.EC2MSSQLAGLinks.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['_links']
+        val_links = ec2_mssqlag_links_.EC2MSSQLAGLinks.from_dictionary(val)
 
-        p_id = dictionary.get('id')
-        name = dictionary.get('name')
-        organizational_unit_id = dictionary.get('organizational_unit_id')
-        key = 'protection_info'
-        p_protection_info = (
-            protection_info.ProtectionInfo.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['id']
+        val_p_id = val
 
-        status = dictionary.get('status')
+        val = dictionary['name']
+        val_name = val
+
+        val = dictionary['organizational_unit_id']
+        val_organizational_unit_id = val
+
+        val = dictionary['protection_info']
+        val_protection_info = protection_info_.ProtectionInfo.from_dictionary(val)
+
+        val = dictionary['status']
+        val_status = val
+
         # Return an object of this model
-        return cls(embedded, links, p_id, name, organizational_unit_id, p_protection_info, status)
+        return cls(
+            val_embedded,  # type: ignore
+            val_links,  # type: ignore
+            val_p_id,  # type: ignore
+            val_name,  # type: ignore
+            val_organizational_unit_id,  # type: ignore
+            val_protection_info,  # type: ignore
+            val_status,  # type: ignore
+        )

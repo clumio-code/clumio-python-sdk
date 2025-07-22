@@ -1,10 +1,10 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import protection_group_bucket
+from clumioapi.models import protection_group_bucket as protection_group_bucket_
 
 T = TypeVar('T', bound='ProtectionGroupBucketListEmbedded')
 
@@ -20,18 +20,16 @@ class ProtectionGroupBucketListEmbedded:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'items': 'items'}
+    _names: dict[str, str] = {'items': 'items'}
 
-    def __init__(
-        self, items: Sequence[protection_group_bucket.ProtectionGroupBucket] = None
-    ) -> None:
+    def __init__(self, items: Sequence[protection_group_bucket_.ProtectionGroupBucket]) -> None:
         """Constructor for the ProtectionGroupBucketListEmbedded class."""
 
         # Initialize members of the class
-        self.items: Sequence[protection_group_bucket.ProtectionGroupBucket] = items
+        self.items: Sequence[protection_group_bucket_.ProtectionGroupBucket] = items
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -42,15 +40,19 @@ class ProtectionGroupBucketListEmbedded:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        items = None
-        if dictionary.get('items'):
-            items = list()
-            for value in dictionary.get('items'):
-                items.append(protection_group_bucket.ProtectionGroupBucket.from_dictionary(value))
+        val = dictionary['items']
+
+        val_items = None
+        if val:
+            val_items = list()
+            for value in val:
+                val_items.append(
+                    protection_group_bucket_.ProtectionGroupBucket.from_dictionary(value)
+                )
 
         # Return an object of this model
-        return cls(items)
+        return cls(
+            val_items,  # type: ignore
+        )

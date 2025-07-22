@@ -1,9 +1,9 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -37,9 +37,7 @@ class OrganizationalUnitsV2Controller(base_controller.BaseController):
         if config.custom_headers != None:
             self.headers.update(config.custom_headers)
 
-    def list_organizational_units(
-        self, limit: int = None, start: str = None, filter: str = None, **kwargs
-    ) -> Union[
+    def list_organizational_units(self, limit: int, start: str, filter: str, **kwargs) -> Union[
         list_organizational_units_response.ListOrganizationalUnitsResponse,
         tuple[
             requests.Response,
@@ -85,12 +83,12 @@ class OrganizationalUnitsV2Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/organizational-units'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'limit': limit, 'start': start, 'filter': filter}
 
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -113,13 +111,13 @@ class OrganizationalUnitsV2Controller(base_controller.BaseController):
                 ),
             )
         return list_organizational_units_response.ListOrganizationalUnitsResponse.from_dictionary(
-            resp
+            resp.json()
         )
 
     def create_organizational_unit(
         self,
-        embed: str = None,
-        body: create_organizational_unit_v2_request.CreateOrganizationalUnitV2Request = None,
+        embed: str,
+        body: create_organizational_unit_v2_request.CreateOrganizationalUnitV2Request,
         **kwargs,
     ) -> Union[
         Union[
@@ -169,12 +167,12 @@ class OrganizationalUnitsV2Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/organizational-units'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'embed': embed}
 
         # Execute request
         try:
-            resp = self.client.post(
+            resp: requests.Response = self.client.post(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -212,8 +210,11 @@ class OrganizationalUnitsV2Controller(base_controller.BaseController):
             return create_organizational_unit_response.CreateOrganizationalUnitResponse.from_dictionary(
                 unmarshalled_dict
             )
+        raise RuntimeError(
+            f'Code should be unreachable; Unexpected response code: {resp.status_code}. '
+        )
 
-    def read_organizational_unit(self, id: str, embed: str = None, **kwargs) -> Union[
+    def read_organizational_unit(self, id: str, embed: str, **kwargs) -> Union[
         read_organizational_unit_response.ReadOrganizationalUnitResponse,
         tuple[
             requests.Response,
@@ -249,12 +250,12 @@ class OrganizationalUnitsV2Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/organizational-units/{id}'
         _url_path = api_helper.append_url_with_template_parameters(_url_path, {'id': id})
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'embed': embed}
 
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -277,10 +278,10 @@ class OrganizationalUnitsV2Controller(base_controller.BaseController):
                 ),
             )
         return read_organizational_unit_response.ReadOrganizationalUnitResponse.from_dictionary(
-            resp
+            resp.json()
         )
 
-    def delete_organizational_unit(self, id: str, embed: str = None, **kwargs) -> Union[
+    def delete_organizational_unit(self, id: str, embed: str, **kwargs) -> Union[
         delete_organizational_unit_response.DeleteOrganizationalUnitResponse,
         tuple[
             requests.Response,
@@ -316,12 +317,12 @@ class OrganizationalUnitsV2Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/organizational-units/{id}'
         _url_path = api_helper.append_url_with_template_parameters(_url_path, {'id': id})
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'embed': embed}
 
         # Execute request
         try:
-            resp = self.client.delete(
+            resp: requests.Response = self.client.delete(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -344,14 +345,14 @@ class OrganizationalUnitsV2Controller(base_controller.BaseController):
                 ),
             )
         return delete_organizational_unit_response.DeleteOrganizationalUnitResponse.from_dictionary(
-            resp
+            resp.json()
         )
 
     def patch_organizational_unit(
         self,
         id: str,
-        embed: str = None,
-        body: patch_organizational_unit_v2_request.PatchOrganizationalUnitV2Request = None,
+        embed: str,
+        body: patch_organizational_unit_v2_request.PatchOrganizationalUnitV2Request,
         **kwargs,
     ) -> Union[
         Union[
@@ -406,12 +407,12 @@ class OrganizationalUnitsV2Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/organizational-units/{id}'
         _url_path = api_helper.append_url_with_template_parameters(_url_path, {'id': id})
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'embed': embed}
 
         # Execute request
         try:
-            resp = self.client.patch(
+            resp: requests.Response = self.client.patch(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -451,3 +452,6 @@ class OrganizationalUnitsV2Controller(base_controller.BaseController):
                     unmarshalled_dict
                 )
             )
+        raise RuntimeError(
+            f'Code should be unreachable; Unexpected response code: {resp.status_code}. '
+        )

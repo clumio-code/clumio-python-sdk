@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -16,20 +16,22 @@ class SetBucketPropertiesV1Request:
         event_bridge_enabled:
             If true, enables continuous backup for the given bucket.
             If false, disables continuous backup for the given bucket.
+            If not set, does not update EventBridge.
         event_bridge_notification_disabled:
             If true, tries to disable EventBridge notification for the given bucket.
-            This may override the existing bucket notification configuration in the
-            customer's account.
+            It may override the existing bucket notification configuration in the customer's
+            account.
+            This takes effect only when `event_bridge_enabled` is set to `false`.
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'event_bridge_enabled': 'event_bridge_enabled',
         'event_bridge_notification_disabled': 'event_bridge_notification_disabled',
     }
 
     def __init__(
-        self, event_bridge_enabled: bool = None, event_bridge_notification_disabled: bool = None
+        self, event_bridge_enabled: bool, event_bridge_notification_disabled: bool
     ) -> None:
         """Constructor for the SetBucketPropertiesV1Request class."""
 
@@ -38,7 +40,7 @@ class SetBucketPropertiesV1Request:
         self.event_bridge_notification_disabled: bool = event_bridge_notification_disabled
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -49,11 +51,16 @@ class SetBucketPropertiesV1Request:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        event_bridge_enabled = dictionary.get('event_bridge_enabled')
-        event_bridge_notification_disabled = dictionary.get('event_bridge_notification_disabled')
+        val = dictionary['event_bridge_enabled']
+        val_event_bridge_enabled = val
+
+        val = dictionary['event_bridge_notification_disabled']
+        val_event_bridge_notification_disabled = val
+
         # Return an object of this model
-        return cls(event_bridge_enabled, event_bridge_notification_disabled)
+        return cls(
+            val_event_bridge_enabled,  # type: ignore
+            val_event_bridge_notification_disabled,  # type: ignore
+        )

@@ -1,10 +1,10 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import s3_replication_time_value
+from clumioapi.models import s3_replication_time_value as s3_replication_time_value_
 
 T = TypeVar('T', bound='S3Metrics')
 
@@ -24,21 +24,19 @@ class S3Metrics:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'event_threshold': 'event_threshold', 'status': 'status'}
+    _names: dict[str, str] = {'event_threshold': 'event_threshold', 'status': 'status'}
 
     def __init__(
-        self,
-        event_threshold: s3_replication_time_value.S3ReplicationTimeValue = None,
-        status: str = None,
+        self, event_threshold: s3_replication_time_value_.S3ReplicationTimeValue, status: str
     ) -> None:
         """Constructor for the S3Metrics class."""
 
         # Initialize members of the class
-        self.event_threshold: s3_replication_time_value.S3ReplicationTimeValue = event_threshold
+        self.event_threshold: s3_replication_time_value_.S3ReplicationTimeValue = event_threshold
         self.status: str = status
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -49,17 +47,16 @@ class S3Metrics:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        key = 'event_threshold'
-        event_threshold = (
-            s3_replication_time_value.S3ReplicationTimeValue.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['event_threshold']
+        val_event_threshold = s3_replication_time_value_.S3ReplicationTimeValue.from_dictionary(val)
 
-        status = dictionary.get('status')
+        val = dictionary['status']
+        val_status = val
+
         # Return an object of this model
-        return cls(event_threshold, status)
+        return cls(
+            val_event_threshold,  # type: ignore
+            val_status,  # type: ignore
+        )

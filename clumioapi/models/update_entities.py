@@ -1,10 +1,10 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import entity_model
+from clumioapi.models import entity_model as entity_model_
 
 T = TypeVar('T', bound='UpdateEntities')
 
@@ -24,21 +24,19 @@ class UpdateEntities:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'add': 'add', 'remove': 'remove'}
+    _names: dict[str, str] = {'add': 'add', 'remove': 'remove'}
 
     def __init__(
-        self,
-        add: Sequence[entity_model.EntityModel] = None,
-        remove: Sequence[entity_model.EntityModel] = None,
+        self, add: Sequence[entity_model_.EntityModel], remove: Sequence[entity_model_.EntityModel]
     ) -> None:
         """Constructor for the UpdateEntities class."""
 
         # Initialize members of the class
-        self.add: Sequence[entity_model.EntityModel] = add
-        self.remove: Sequence[entity_model.EntityModel] = remove
+        self.add: Sequence[entity_model_.EntityModel] = add
+        self.remove: Sequence[entity_model_.EntityModel] = remove
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -49,21 +47,26 @@ class UpdateEntities:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        add = None
-        if dictionary.get('add'):
-            add = list()
-            for value in dictionary.get('add'):
-                add.append(entity_model.EntityModel.from_dictionary(value))
+        val = dictionary['add']
 
-        remove = None
-        if dictionary.get('remove'):
-            remove = list()
-            for value in dictionary.get('remove'):
-                remove.append(entity_model.EntityModel.from_dictionary(value))
+        val_add = None
+        if val:
+            val_add = list()
+            for value in val:
+                val_add.append(entity_model_.EntityModel.from_dictionary(value))
+
+        val = dictionary['remove']
+
+        val_remove = None
+        if val:
+            val_remove = list()
+            for value in val:
+                val_remove.append(entity_model_.EntityModel.from_dictionary(value))
 
         # Return an object of this model
-        return cls(add, remove)
+        return cls(
+            val_add,  # type: ignore
+            val_remove,  # type: ignore
+        )

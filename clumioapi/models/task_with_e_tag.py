@@ -1,12 +1,12 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import task_links
-from clumioapi.models import task_parent_entity
-from clumioapi.models import task_primary_entity
+from clumioapi.models import task_links as task_links_
+from clumioapi.models import task_parent_entity as task_parent_entity_
+from clumioapi.models import task_primary_entity as task_primary_entity_
 
 T = TypeVar('T', bound='TaskWithETag')
 
@@ -69,8 +69,7 @@ class TaskWithETag:
         is_abortable:
             Determines whether or not this task can be aborted.
             A task can be aborted if its status is either "queued" or "in_progress".
-            Tasks of certain types including
-            "vmware_vm_backup_indexing" and "aws_ebs_volume_backup_indexing" cannot be
+            Tasks of certain types including "aws_ebs_volume_backup_indexing" cannot be
             aborted.
         parent_entity:
             The parent entity associated with the task.
@@ -91,7 +90,7 @@ class TaskWithETag:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'etag': '_etag',
         'links': '_links',
         'category': 'category',
@@ -110,41 +109,41 @@ class TaskWithETag:
 
     def __init__(
         self,
-        etag: str = None,
-        links: task_links.TaskLinks = None,
-        category: str = None,
-        created_timestamp: str = None,
-        end_timestamp: str = None,
-        genre: str = None,
-        p_id: str = None,
-        is_abortable: bool = None,
-        parent_entity: task_parent_entity.TaskParentEntity = None,
-        primary_entity: task_primary_entity.TaskPrimaryEntity = None,
-        progress_percentage: int = None,
-        start_timestamp: str = None,
-        status: str = None,
-        p_type: str = None,
+        etag: str,
+        links: task_links_.TaskLinks,
+        category: str,
+        created_timestamp: str,
+        end_timestamp: str,
+        genre: str,
+        p_id: str,
+        is_abortable: bool,
+        parent_entity: task_parent_entity_.TaskParentEntity,
+        primary_entity: task_primary_entity_.TaskPrimaryEntity,
+        progress_percentage: int,
+        start_timestamp: str,
+        status: str,
+        p_type: str,
     ) -> None:
         """Constructor for the TaskWithETag class."""
 
         # Initialize members of the class
         self.etag: str = etag
-        self.links: task_links.TaskLinks = links
+        self.links: task_links_.TaskLinks = links
         self.category: str = category
         self.created_timestamp: str = created_timestamp
         self.end_timestamp: str = end_timestamp
         self.genre: str = genre
         self.p_id: str = p_id
         self.is_abortable: bool = is_abortable
-        self.parent_entity: task_parent_entity.TaskParentEntity = parent_entity
-        self.primary_entity: task_primary_entity.TaskPrimaryEntity = primary_entity
+        self.parent_entity: task_parent_entity_.TaskParentEntity = parent_entity
+        self.primary_entity: task_primary_entity_.TaskPrimaryEntity = primary_entity
         self.progress_percentage: int = progress_percentage
         self.start_timestamp: str = start_timestamp
         self.status: str = status
         self.p_type: str = p_type
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -155,56 +154,64 @@ class TaskWithETag:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        etag = dictionary.get('_etag')
-        key = '_links'
-        links = (
-            task_links.TaskLinks.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['_etag']
+        val_etag = val
 
-        category = dictionary.get('category')
-        created_timestamp = dictionary.get('created_timestamp')
-        end_timestamp = dictionary.get('end_timestamp')
-        genre = dictionary.get('genre')
-        p_id = dictionary.get('id')
-        is_abortable = dictionary.get('is_abortable')
-        key = 'parent_entity'
-        parent_entity = (
-            task_parent_entity.TaskParentEntity.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['_links']
+        val_links = task_links_.TaskLinks.from_dictionary(val)
 
-        key = 'primary_entity'
-        primary_entity = (
-            task_primary_entity.TaskPrimaryEntity.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['category']
+        val_category = val
 
-        progress_percentage = dictionary.get('progress_percentage')
-        start_timestamp = dictionary.get('start_timestamp')
-        status = dictionary.get('status')
-        p_type = dictionary.get('type')
+        val = dictionary['created_timestamp']
+        val_created_timestamp = val
+
+        val = dictionary['end_timestamp']
+        val_end_timestamp = val
+
+        val = dictionary['genre']
+        val_genre = val
+
+        val = dictionary['id']
+        val_p_id = val
+
+        val = dictionary['is_abortable']
+        val_is_abortable = val
+
+        val = dictionary['parent_entity']
+        val_parent_entity = task_parent_entity_.TaskParentEntity.from_dictionary(val)
+
+        val = dictionary['primary_entity']
+        val_primary_entity = task_primary_entity_.TaskPrimaryEntity.from_dictionary(val)
+
+        val = dictionary['progress_percentage']
+        val_progress_percentage = val
+
+        val = dictionary['start_timestamp']
+        val_start_timestamp = val
+
+        val = dictionary['status']
+        val_status = val
+
+        val = dictionary['type']
+        val_p_type = val
+
         # Return an object of this model
         return cls(
-            etag,
-            links,
-            category,
-            created_timestamp,
-            end_timestamp,
-            genre,
-            p_id,
-            is_abortable,
-            parent_entity,
-            primary_entity,
-            progress_percentage,
-            start_timestamp,
-            status,
-            p_type,
+            val_etag,  # type: ignore
+            val_links,  # type: ignore
+            val_category,  # type: ignore
+            val_created_timestamp,  # type: ignore
+            val_end_timestamp,  # type: ignore
+            val_genre,  # type: ignore
+            val_p_id,  # type: ignore
+            val_is_abortable,  # type: ignore
+            val_parent_entity,  # type: ignore
+            val_primary_entity,  # type: ignore
+            val_progress_percentage,  # type: ignore
+            val_start_timestamp,  # type: ignore
+            val_status,  # type: ignore
+            val_p_type,  # type: ignore
         )

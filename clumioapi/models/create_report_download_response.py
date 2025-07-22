@@ -1,10 +1,10 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import report_download_links
+from clumioapi.models import report_download_links as report_download_links_
 
 T = TypeVar('T', bound='CreateReportDownloadResponse')
 
@@ -22,19 +22,17 @@ class CreateReportDownloadResponse:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'links': '_links', 'task_id': 'task_id'}
+    _names: dict[str, str] = {'links': '_links', 'task_id': 'task_id'}
 
-    def __init__(
-        self, links: report_download_links.ReportDownloadLinks = None, task_id: str = None
-    ) -> None:
+    def __init__(self, links: report_download_links_.ReportDownloadLinks, task_id: str) -> None:
         """Constructor for the CreateReportDownloadResponse class."""
 
         # Initialize members of the class
-        self.links: report_download_links.ReportDownloadLinks = links
+        self.links: report_download_links_.ReportDownloadLinks = links
         self.task_id: str = task_id
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -45,17 +43,16 @@ class CreateReportDownloadResponse:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        key = '_links'
-        links = (
-            report_download_links.ReportDownloadLinks.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['_links']
+        val_links = report_download_links_.ReportDownloadLinks.from_dictionary(val)
 
-        task_id = dictionary.get('task_id')
+        val = dictionary['task_id']
+        val_task_id = val
+
         # Return an object of this model
-        return cls(links, task_id)
+        return cls(
+            val_links,  # type: ignore
+            val_task_id,  # type: ignore
+        )

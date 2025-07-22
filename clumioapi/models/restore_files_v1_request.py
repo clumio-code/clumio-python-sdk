@@ -1,11 +1,11 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import file_restore_source
-from clumioapi.models import file_restore_target
+from clumioapi.models import file_restore_source as file_restore_source_
+from clumioapi.models import file_restore_target as file_restore_target_
 
 T = TypeVar('T', bound='RestoreFilesV1Request')
 
@@ -31,21 +31,21 @@ class RestoreFilesV1Request:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'source': 'source', 'target': 'target'}
+    _names: dict[str, str] = {'source': 'source', 'target': 'target'}
 
     def __init__(
         self,
-        source: file_restore_source.FileRestoreSource = None,
-        target: file_restore_target.FileRestoreTarget = None,
+        source: file_restore_source_.FileRestoreSource,
+        target: file_restore_target_.FileRestoreTarget,
     ) -> None:
         """Constructor for the RestoreFilesV1Request class."""
 
         # Initialize members of the class
-        self.source: file_restore_source.FileRestoreSource = source
-        self.target: file_restore_target.FileRestoreTarget = target
+        self.source: file_restore_source_.FileRestoreSource = source
+        self.target: file_restore_target_.FileRestoreTarget = target
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -56,23 +56,16 @@ class RestoreFilesV1Request:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        key = 'source'
-        source = (
-            file_restore_source.FileRestoreSource.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['source']
+        val_source = file_restore_source_.FileRestoreSource.from_dictionary(val)
 
-        key = 'target'
-        target = (
-            file_restore_target.FileRestoreTarget.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['target']
+        val_target = file_restore_target_.FileRestoreTarget.from_dictionary(val)
 
         # Return an object of this model
-        return cls(source, target)
+        return cls(
+            val_source,  # type: ignore
+            val_target,  # type: ignore
+        )

@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -29,11 +29,11 @@ class ReportDownload:
             The Clumio-assigned ID of the task which generated the restored file.
         p_type:
             The type of report this CSV Download is associated with.
-            The possible values include "activity" and "compliance".
+            The possible values: ["activity"].
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'download_link': 'download_link',
         'end_timestamp': 'end_timestamp',
         'expiration_timestamp': 'expiration_timestamp',
@@ -47,15 +47,15 @@ class ReportDownload:
 
     def __init__(
         self,
-        download_link: str = None,
-        end_timestamp: str = None,
-        expiration_timestamp: str = None,
-        file_name: str = None,
-        filters: str = None,
-        p_id: str = None,
-        start_timestamp: str = None,
-        task_id: str = None,
-        p_type: str = None,
+        download_link: str,
+        end_timestamp: str,
+        expiration_timestamp: str,
+        file_name: str,
+        filters: str,
+        p_id: str,
+        start_timestamp: str,
+        task_id: str,
+        p_type: str,
     ) -> None:
         """Constructor for the ReportDownload class."""
 
@@ -71,7 +71,7 @@ class ReportDownload:
         self.p_type: str = p_type
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -82,28 +82,44 @@ class ReportDownload:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        download_link = dictionary.get('download_link')
-        end_timestamp = dictionary.get('end_timestamp')
-        expiration_timestamp = dictionary.get('expiration_timestamp')
-        file_name = dictionary.get('file_name')
-        filters = dictionary.get('filters')
-        p_id = dictionary.get('id')
-        start_timestamp = dictionary.get('start_timestamp')
-        task_id = dictionary.get('task_id')
-        p_type = dictionary.get('type')
+        val = dictionary['download_link']
+        val_download_link = val
+
+        val = dictionary['end_timestamp']
+        val_end_timestamp = val
+
+        val = dictionary['expiration_timestamp']
+        val_expiration_timestamp = val
+
+        val = dictionary['file_name']
+        val_file_name = val
+
+        val = dictionary['filters']
+        val_filters = val
+
+        val = dictionary['id']
+        val_p_id = val
+
+        val = dictionary['start_timestamp']
+        val_start_timestamp = val
+
+        val = dictionary['task_id']
+        val_task_id = val
+
+        val = dictionary['type']
+        val_p_type = val
+
         # Return an object of this model
         return cls(
-            download_link,
-            end_timestamp,
-            expiration_timestamp,
-            file_name,
-            filters,
-            p_id,
-            start_timestamp,
-            task_id,
-            p_type,
+            val_download_link,  # type: ignore
+            val_end_timestamp,  # type: ignore
+            val_expiration_timestamp,  # type: ignore
+            val_file_name,  # type: ignore
+            val_filters,  # type: ignore
+            val_p_id,  # type: ignore
+            val_start_timestamp,  # type: ignore
+            val_task_id,  # type: ignore
+            val_p_type,  # type: ignore
         )

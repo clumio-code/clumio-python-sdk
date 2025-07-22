@@ -1,12 +1,12 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import key_schema_element
-from clumioapi.models import projection
-from clumioapi.models import provisioned_throughput
+from clumioapi.models import key_schema_element as key_schema_element_
+from clumioapi.models import projection as projection_
+from clumioapi.models import provisioned_throughput as provisioned_throughput_
 
 T = TypeVar('T', bound='GlobalSecondaryIndex')
 
@@ -17,6 +17,13 @@ class GlobalSecondaryIndex:
     Represents the properties of a global secondary index.
 
     Attributes:
+        contributor_insights_status:
+            Indicates whether DynamoDB Contributor Insights is enabled (true) or disabled
+            (false)
+            on the index.
+            For [POST /restores/aws/dynamodb](#operation/restore-aws-dynamodb-table), this
+            is defaulted to the
+            value set in backup if `null`.
         index_name:
             The name of the global secondary index.
         key_schema:
@@ -33,7 +40,8 @@ class GlobalSecondaryIndex:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
+        'contributor_insights_status': 'contributor_insights_status',
         'index_name': 'index_name',
         'key_schema': 'key_schema',
         'projection': 'projection',
@@ -42,23 +50,25 @@ class GlobalSecondaryIndex:
 
     def __init__(
         self,
-        index_name: str = None,
-        key_schema: Sequence[key_schema_element.KeySchemaElement] = None,
-        projection: projection.Projection = None,
-        provisioned_throughput: provisioned_throughput.ProvisionedThroughput = None,
+        contributor_insights_status: bool,
+        index_name: str,
+        key_schema: Sequence[key_schema_element_.KeySchemaElement],
+        projection: projection_.Projection,
+        provisioned_throughput: provisioned_throughput_.ProvisionedThroughput,
     ) -> None:
         """Constructor for the GlobalSecondaryIndex class."""
 
         # Initialize members of the class
+        self.contributor_insights_status: bool = contributor_insights_status
         self.index_name: str = index_name
-        self.key_schema: Sequence[key_schema_element.KeySchemaElement] = key_schema
-        self.projection: projection.Projection = projection
-        self.provisioned_throughput: provisioned_throughput.ProvisionedThroughput = (
+        self.key_schema: Sequence[key_schema_element_.KeySchemaElement] = key_schema
+        self.projection: projection_.Projection = projection
+        self.provisioned_throughput: provisioned_throughput_.ProvisionedThroughput = (
             provisioned_throughput
         )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -69,30 +79,35 @@ class GlobalSecondaryIndex:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        index_name = dictionary.get('index_name')
-        key_schema = None
-        if dictionary.get('key_schema'):
-            key_schema = list()
-            for value in dictionary.get('key_schema'):
-                key_schema.append(key_schema_element.KeySchemaElement.from_dictionary(value))
+        val = dictionary['contributor_insights_status']
+        val_contributor_insights_status = val
 
-        key = 'projection'
-        p_projection = (
-            projection.Projection.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['index_name']
+        val_index_name = val
 
-        key = 'provisioned_throughput'
-        p_provisioned_throughput = (
-            provisioned_throughput.ProvisionedThroughput.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
+        val = dictionary['key_schema']
+
+        val_key_schema = None
+        if val:
+            val_key_schema = list()
+            for value in val:
+                val_key_schema.append(key_schema_element_.KeySchemaElement.from_dictionary(value))
+
+        val = dictionary['projection']
+        val_projection = projection_.Projection.from_dictionary(val)
+
+        val = dictionary['provisioned_throughput']
+        val_provisioned_throughput = provisioned_throughput_.ProvisionedThroughput.from_dictionary(
+            val
         )
 
         # Return an object of this model
-        return cls(index_name, key_schema, p_projection, p_provisioned_throughput)
+        return cls(
+            val_contributor_insights_status,  # type: ignore
+            val_index_name,  # type: ignore
+            val_key_schema,  # type: ignore
+            val_projection,  # type: ignore
+            val_provisioned_throughput,  # type: ignore
+        )

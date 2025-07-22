@@ -1,11 +1,11 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import ebs_restore_source
-from clumioapi.models import ebs_restore_target
+from clumioapi.models import ebs_restore_source as ebs_restore_source_
+from clumioapi.models import ebs_restore_target as ebs_restore_target_
 
 T = TypeVar('T', bound='RestoreAwsEbsVolumeV2Request')
 
@@ -21,21 +21,21 @@ class RestoreAwsEbsVolumeV2Request:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'source': 'source', 'target': 'target'}
+    _names: dict[str, str] = {'source': 'source', 'target': 'target'}
 
     def __init__(
         self,
-        source: ebs_restore_source.EBSRestoreSource = None,
-        target: ebs_restore_target.EBSRestoreTarget = None,
+        source: ebs_restore_source_.EBSRestoreSource,
+        target: ebs_restore_target_.EBSRestoreTarget,
     ) -> None:
         """Constructor for the RestoreAwsEbsVolumeV2Request class."""
 
         # Initialize members of the class
-        self.source: ebs_restore_source.EBSRestoreSource = source
-        self.target: ebs_restore_target.EBSRestoreTarget = target
+        self.source: ebs_restore_source_.EBSRestoreSource = source
+        self.target: ebs_restore_target_.EBSRestoreTarget = target
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -46,23 +46,16 @@ class RestoreAwsEbsVolumeV2Request:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        key = 'source'
-        source = (
-            ebs_restore_source.EBSRestoreSource.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['source']
+        val_source = ebs_restore_source_.EBSRestoreSource.from_dictionary(val)
 
-        key = 'target'
-        target = (
-            ebs_restore_target.EBSRestoreTarget.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['target']
+        val_target = ebs_restore_target_.EBSRestoreTarget.from_dictionary(val)
 
         # Return an object of this model
-        return cls(source, target)
+        return cls(
+            val_source,  # type: ignore
+            val_target,  # type: ignore
+        )

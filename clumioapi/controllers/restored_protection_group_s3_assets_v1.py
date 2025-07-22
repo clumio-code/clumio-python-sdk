@@ -1,9 +1,9 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -36,8 +36,8 @@ class RestoredProtectionGroupS3AssetsV1Controller(base_controller.BaseController
 
     def restore_protection_group_s3_asset(
         self,
-        embed: str = None,
-        body: restore_protection_group_s3_asset_v1_request.RestoreProtectionGroupS3AssetV1Request = None,
+        embed: str,
+        body: restore_protection_group_s3_asset_v1_request.RestoreProtectionGroupS3AssetV1Request,
         **kwargs,
     ) -> Union[
         restore_protection_group_s3_asset_response.RestoreProtectionGroupS3AssetResponse,
@@ -78,12 +78,12 @@ class RestoredProtectionGroupS3AssetsV1Controller(base_controller.BaseController
         # Prepare query URL
         _url_path = '/restores/protection-groups/s3-assets'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'embed': embed}
 
         # Execute request
         try:
-            resp = self.client.post(
+            resp: requests.Response = self.client.post(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -107,13 +107,13 @@ class RestoredProtectionGroupS3AssetsV1Controller(base_controller.BaseController
                 ),
             )
         return restore_protection_group_s3_asset_response.RestoreProtectionGroupS3AssetResponse.from_dictionary(
-            resp
+            resp.json()
         )
 
     def preview_protection_group_s3_asset(
         self,
         protection_group_s3_asset_id: str,
-        body: preview_protection_group_s3_asset_v1_request.PreviewProtectionGroupS3AssetV1Request = None,
+        body: preview_protection_group_s3_asset_v1_request.PreviewProtectionGroupS3AssetV1Request,
         **kwargs,
     ) -> Union[
         Union[
@@ -151,11 +151,11 @@ class RestoredProtectionGroupS3AssetsV1Controller(base_controller.BaseController
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'protection_group_s3_asset_id': protection_group_s3_asset_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
         # Execute request
         try:
-            resp = self.client.post(
+            resp: requests.Response = self.client.post(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -193,6 +193,9 @@ class RestoredProtectionGroupS3AssetsV1Controller(base_controller.BaseController
             return preview_protection_group_s3_asset_async_response.PreviewProtectionGroupS3AssetAsyncResponse.from_dictionary(
                 unmarshalled_dict
             )
+        raise RuntimeError(
+            f'Code should be unreachable; Unexpected response code: {resp.status_code}. '
+        )
 
     def preview_details_protection_group_s3_asset(
         self, protection_group_s3_asset_id: str, preview_id: str, **kwargs
@@ -230,11 +233,11 @@ class RestoredProtectionGroupS3AssetsV1Controller(base_controller.BaseController
                 'preview_id': preview_id,
             },
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -257,5 +260,5 @@ class RestoredProtectionGroupS3AssetsV1Controller(base_controller.BaseController
                 ),
             )
         return preview_protection_group_s3_asset_details_response.PreviewProtectionGroupS3AssetDetailsResponse.from_dictionary(
-            resp
+            resp.json()
         )

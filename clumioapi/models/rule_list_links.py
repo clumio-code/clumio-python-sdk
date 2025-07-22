@@ -1,13 +1,13 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import hateoas_first_link
-from clumioapi.models import hateoas_link
-from clumioapi.models import hateoas_next_link
-from clumioapi.models import hateoas_self_link
+from clumioapi.models import hateoas_first_link as hateoas_first_link_
+from clumioapi.models import hateoas_link as hateoas_link_
+from clumioapi.models import hateoas_next_link as hateoas_next_link_
+from clumioapi.models import hateoas_self_link as hateoas_self_link_
 
 T = TypeVar('T', bound='RuleListLinks')
 
@@ -29,7 +29,7 @@ class RuleListLinks:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'first': '_first',
         'p_next': '_next',
         'p_self': '_self',
@@ -38,21 +38,21 @@ class RuleListLinks:
 
     def __init__(
         self,
-        first: hateoas_first_link.HateoasFirstLink = None,
-        p_next: hateoas_next_link.HateoasNextLink = None,
-        p_self: hateoas_self_link.HateoasSelfLink = None,
-        create_policy_rule: hateoas_link.HateoasLink = None,
+        first: hateoas_first_link_.HateoasFirstLink,
+        p_next: hateoas_next_link_.HateoasNextLink,
+        p_self: hateoas_self_link_.HateoasSelfLink,
+        create_policy_rule: hateoas_link_.HateoasLink,
     ) -> None:
         """Constructor for the RuleListLinks class."""
 
         # Initialize members of the class
-        self.first: hateoas_first_link.HateoasFirstLink = first
-        self.p_next: hateoas_next_link.HateoasNextLink = p_next
-        self.p_self: hateoas_self_link.HateoasSelfLink = p_self
-        self.create_policy_rule: hateoas_link.HateoasLink = create_policy_rule
+        self.first: hateoas_first_link_.HateoasFirstLink = first
+        self.p_next: hateoas_next_link_.HateoasNextLink = p_next
+        self.p_self: hateoas_self_link_.HateoasSelfLink = p_self
+        self.create_policy_rule: hateoas_link_.HateoasLink = create_policy_rule
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -63,37 +63,24 @@ class RuleListLinks:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        key = '_first'
-        first = (
-            hateoas_first_link.HateoasFirstLink.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['_first']
+        val_first = hateoas_first_link_.HateoasFirstLink.from_dictionary(val)
 
-        key = '_next'
-        p_next = (
-            hateoas_next_link.HateoasNextLink.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['_next']
+        val_p_next = hateoas_next_link_.HateoasNextLink.from_dictionary(val)
 
-        key = '_self'
-        p_self = (
-            hateoas_self_link.HateoasSelfLink.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['_self']
+        val_p_self = hateoas_self_link_.HateoasSelfLink.from_dictionary(val)
 
-        key = 'create-policy-rule'
-        create_policy_rule = (
-            hateoas_link.HateoasLink.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['create-policy-rule']
+        val_create_policy_rule = hateoas_link_.HateoasLink.from_dictionary(val)
 
         # Return an object of this model
-        return cls(first, p_next, p_self, create_policy_rule)
+        return cls(
+            val_first,  # type: ignore
+            val_p_next,  # type: ignore
+            val_p_self,  # type: ignore
+            val_create_policy_rule,  # type: ignore
+        )

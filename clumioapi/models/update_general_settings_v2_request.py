@@ -1,10 +1,10 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import ou_grouping_criteria
+from clumioapi.models import ou_grouping_criteria as ou_grouping_criteria_
 
 T = TypeVar('T', bound='UpdateGeneralSettingsV2Request')
 
@@ -43,7 +43,7 @@ class UpdateGeneralSettingsV2Request:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'auto_logout_duration': 'auto_logout_duration',
         'ip_allowlist': 'ip_allowlist',
         'organizational_unit_data_groups': 'organizational_unit_data_groups',
@@ -52,23 +52,23 @@ class UpdateGeneralSettingsV2Request:
 
     def __init__(
         self,
-        auto_logout_duration: int = None,
-        ip_allowlist: Sequence[str] = None,
-        organizational_unit_data_groups: ou_grouping_criteria.OUGroupingCriteria = None,
-        password_expiration_duration: int = None,
+        auto_logout_duration: int,
+        ip_allowlist: Sequence[str],
+        organizational_unit_data_groups: ou_grouping_criteria_.OUGroupingCriteria,
+        password_expiration_duration: int,
     ) -> None:
         """Constructor for the UpdateGeneralSettingsV2Request class."""
 
         # Initialize members of the class
         self.auto_logout_duration: int = auto_logout_duration
         self.ip_allowlist: Sequence[str] = ip_allowlist
-        self.organizational_unit_data_groups: ou_grouping_criteria.OUGroupingCriteria = (
+        self.organizational_unit_data_groups: ou_grouping_criteria_.OUGroupingCriteria = (
             organizational_unit_data_groups
         )
         self.password_expiration_duration: int = password_expiration_duration
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -79,24 +79,26 @@ class UpdateGeneralSettingsV2Request:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        auto_logout_duration = dictionary.get('auto_logout_duration')
-        ip_allowlist = dictionary.get('ip_allowlist')
-        key = 'organizational_unit_data_groups'
-        organizational_unit_data_groups = (
-            ou_grouping_criteria.OUGroupingCriteria.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
+        val = dictionary['auto_logout_duration']
+        val_auto_logout_duration = val
+
+        val = dictionary['ip_allowlist']
+        val_ip_allowlist = val
+
+        val = dictionary['organizational_unit_data_groups']
+        val_organizational_unit_data_groups = (
+            ou_grouping_criteria_.OUGroupingCriteria.from_dictionary(val)
         )
 
-        password_expiration_duration = dictionary.get('password_expiration_duration')
+        val = dictionary['password_expiration_duration']
+        val_password_expiration_duration = val
+
         # Return an object of this model
         return cls(
-            auto_logout_duration,
-            ip_allowlist,
-            organizational_unit_data_groups,
-            password_expiration_duration,
+            val_auto_logout_duration,  # type: ignore
+            val_ip_allowlist,  # type: ignore
+            val_organizational_unit_data_groups,  # type: ignore
+            val_password_expiration_duration,  # type: ignore
         )

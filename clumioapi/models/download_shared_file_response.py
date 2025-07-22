@@ -1,10 +1,10 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import download_shared_file_links
+from clumioapi.models import download_shared_file_links as download_shared_file_links_
 
 T = TypeVar('T', bound='DownloadSharedFileResponse')
 
@@ -21,21 +21,19 @@ class DownloadSharedFileResponse:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'links': '_links', 'download_url': 'download_url'}
+    _names: dict[str, str] = {'links': '_links', 'download_url': 'download_url'}
 
     def __init__(
-        self,
-        links: download_shared_file_links.DownloadSharedFileLinks = None,
-        download_url: str = None,
+        self, links: download_shared_file_links_.DownloadSharedFileLinks, download_url: str
     ) -> None:
         """Constructor for the DownloadSharedFileResponse class."""
 
         # Initialize members of the class
-        self.links: download_shared_file_links.DownloadSharedFileLinks = links
+        self.links: download_shared_file_links_.DownloadSharedFileLinks = links
         self.download_url: str = download_url
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -46,17 +44,16 @@ class DownloadSharedFileResponse:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        key = '_links'
-        links = (
-            download_shared_file_links.DownloadSharedFileLinks.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['_links']
+        val_links = download_shared_file_links_.DownloadSharedFileLinks.from_dictionary(val)
 
-        download_url = dictionary.get('download_url')
+        val = dictionary['download_url']
+        val_download_url = val
+
         # Return an object of this model
-        return cls(links, download_url)
+        return cls(
+            val_links,  # type: ignore
+            val_download_url,  # type: ignore
+        )

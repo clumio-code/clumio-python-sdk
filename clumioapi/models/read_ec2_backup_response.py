@@ -1,16 +1,17 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import ami_model
-from clumioapi.models import attached_ebs_volume_full_model
-from clumioapi.models import aws_tag_common_model
-from clumioapi.models import ec2_backup_links
-from clumioapi.models import iam_instance_profile_model
-from clumioapi.models import instance_store_block_device_mapping
-from clumioapi.models import network_interface
+from clumioapi.models import ami_model as ami_model_
+from clumioapi.models import attached_ebs_volume_full_model as attached_ebs_volume_full_model_
+from clumioapi.models import aws_tag_common_model as aws_tag_common_model_
+from clumioapi.models import ec2_backup_links as ec2_backup_links_
+from clumioapi.models import iam_instance_profile_model as iam_instance_profile_model_
+from clumioapi.models import \
+    instance_store_block_device_mapping as instance_store_block_device_mapping_
+from clumioapi.models import network_interface as network_interface_
 
 T = TypeVar('T', bound='ReadEC2BackupResponse')
 
@@ -72,6 +73,8 @@ class ReadEC2BackupResponse:
             migration backups. Represented in RFC-3339 format.
         network_interfaces:
             The network interfaces attached to the instance.
+        public_ip_address:
+            The public IP v4 address of the instance if one was assigned.
         size:
             The size of the instance backup. This is the sum of all the EBS volumes attached
             to the EC2 measured in gigabytes (GB).
@@ -90,7 +93,7 @@ class ReadEC2BackupResponse:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'links': '_links',
         'account_native_id': 'account_native_id',
         'ami': 'ami',
@@ -112,6 +115,7 @@ class ReadEC2BackupResponse:
         'key_pair_native_id': 'key_pair_native_id',
         'migration_timestamp': 'migration_timestamp',
         'network_interfaces': 'network_interfaces',
+        'public_ip_address': 'public_ip_address',
         'size': 'size',
         'start_timestamp': 'start_timestamp',
         'subnet_native_id': 'subnet_native_id',
@@ -123,79 +127,81 @@ class ReadEC2BackupResponse:
 
     def __init__(
         self,
-        links: ec2_backup_links.EC2BackupLinks = None,
-        account_native_id: str = None,
-        ami: ami_model.AmiModel = None,
+        links: ec2_backup_links_.EC2BackupLinks,
+        account_native_id: str,
+        ami: ami_model_.AmiModel,
         attached_backup_ebs_volumes: Sequence[
-            attached_ebs_volume_full_model.AttachedEBSVolumeFullModel
-        ] = None,
-        aws_az: str = None,
-        aws_region: str = None,
-        backup_ami: ami_model.AmiModel = None,
-        backup_tier: str = None,
-        browsing_failed_reason: str = None,
-        expiration_timestamp: str = None,
-        iam_instance_profile: iam_instance_profile_model.IamInstanceProfileModel = None,
-        p_id: str = None,
-        instance_id: str = None,
-        instance_native_id: str = None,
+            attached_ebs_volume_full_model_.AttachedEBSVolumeFullModel
+        ],
+        aws_az: str,
+        aws_region: str,
+        backup_ami: ami_model_.AmiModel,
+        backup_tier: str,
+        browsing_failed_reason: str,
+        expiration_timestamp: str,
+        iam_instance_profile: iam_instance_profile_model_.IamInstanceProfileModel,
+        p_id: str,
+        instance_id: str,
+        instance_native_id: str,
         instance_store_block_device_mappings: Sequence[
-            instance_store_block_device_mapping.InstanceStoreBlockDeviceMapping
-        ] = None,
-        instance_type: str = None,
-        is_browsable: bool = None,
-        key_pair_name: str = None,
-        key_pair_native_id: str = None,
-        migration_timestamp: str = None,
-        network_interfaces: Sequence[network_interface.NetworkInterface] = None,
-        size: int = None,
-        start_timestamp: str = None,
-        subnet_native_id: str = None,
-        tags: Sequence[aws_tag_common_model.AwsTagCommonModel] = None,
-        p_type: str = None,
-        utilized_size_in_bytes: int = None,
-        vpc_native_id: str = None,
+            instance_store_block_device_mapping_.InstanceStoreBlockDeviceMapping
+        ],
+        instance_type: str,
+        is_browsable: bool,
+        key_pair_name: str,
+        key_pair_native_id: str,
+        migration_timestamp: str,
+        network_interfaces: Sequence[network_interface_.NetworkInterface],
+        public_ip_address: str,
+        size: int,
+        start_timestamp: str,
+        subnet_native_id: str,
+        tags: Sequence[aws_tag_common_model_.AwsTagCommonModel],
+        p_type: str,
+        utilized_size_in_bytes: int,
+        vpc_native_id: str,
     ) -> None:
         """Constructor for the ReadEC2BackupResponse class."""
 
         # Initialize members of the class
-        self.links: ec2_backup_links.EC2BackupLinks = links
+        self.links: ec2_backup_links_.EC2BackupLinks = links
         self.account_native_id: str = account_native_id
-        self.ami: ami_model.AmiModel = ami
+        self.ami: ami_model_.AmiModel = ami
         self.attached_backup_ebs_volumes: Sequence[
-            attached_ebs_volume_full_model.AttachedEBSVolumeFullModel
+            attached_ebs_volume_full_model_.AttachedEBSVolumeFullModel
         ] = attached_backup_ebs_volumes
         self.aws_az: str = aws_az
         self.aws_region: str = aws_region
-        self.backup_ami: ami_model.AmiModel = backup_ami
+        self.backup_ami: ami_model_.AmiModel = backup_ami
         self.backup_tier: str = backup_tier
         self.browsing_failed_reason: str = browsing_failed_reason
         self.expiration_timestamp: str = expiration_timestamp
-        self.iam_instance_profile: iam_instance_profile_model.IamInstanceProfileModel = (
+        self.iam_instance_profile: iam_instance_profile_model_.IamInstanceProfileModel = (
             iam_instance_profile
         )
         self.p_id: str = p_id
         self.instance_id: str = instance_id
         self.instance_native_id: str = instance_native_id
         self.instance_store_block_device_mappings: Sequence[
-            instance_store_block_device_mapping.InstanceStoreBlockDeviceMapping
+            instance_store_block_device_mapping_.InstanceStoreBlockDeviceMapping
         ] = instance_store_block_device_mappings
         self.instance_type: str = instance_type
         self.is_browsable: bool = is_browsable
         self.key_pair_name: str = key_pair_name
         self.key_pair_native_id: str = key_pair_native_id
         self.migration_timestamp: str = migration_timestamp
-        self.network_interfaces: Sequence[network_interface.NetworkInterface] = network_interfaces
+        self.network_interfaces: Sequence[network_interface_.NetworkInterface] = network_interfaces
+        self.public_ip_address: str = public_ip_address
         self.size: int = size
         self.start_timestamp: str = start_timestamp
         self.subnet_native_id: str = subnet_native_id
-        self.tags: Sequence[aws_tag_common_model.AwsTagCommonModel] = tags
+        self.tags: Sequence[aws_tag_common_model_.AwsTagCommonModel] = tags
         self.p_type: str = p_type
         self.utilized_size_in_bytes: int = utilized_size_in_bytes
         self.vpc_native_id: str = vpc_native_id
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -206,112 +212,156 @@ class ReadEC2BackupResponse:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        key = '_links'
-        links = (
-            ec2_backup_links.EC2BackupLinks.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['_links']
+        val_links = ec2_backup_links_.EC2BackupLinks.from_dictionary(val)
 
-        account_native_id = dictionary.get('account_native_id')
-        key = 'ami'
-        ami = (
-            ami_model.AmiModel.from_dictionary(dictionary.get(key)) if dictionary.get(key) else None
-        )
+        val = dictionary['account_native_id']
+        val_account_native_id = val
 
-        attached_backup_ebs_volumes = None
-        if dictionary.get('attached_backup_ebs_volumes'):
-            attached_backup_ebs_volumes = list()
-            for value in dictionary.get('attached_backup_ebs_volumes'):
-                attached_backup_ebs_volumes.append(
-                    attached_ebs_volume_full_model.AttachedEBSVolumeFullModel.from_dictionary(value)
-                )
+        val = dictionary['ami']
+        val_ami = ami_model_.AmiModel.from_dictionary(val)
 
-        aws_az = dictionary.get('aws_az')
-        aws_region = dictionary.get('aws_region')
-        key = 'backup_ami'
-        backup_ami = (
-            ami_model.AmiModel.from_dictionary(dictionary.get(key)) if dictionary.get(key) else None
-        )
+        val = dictionary['attached_backup_ebs_volumes']
 
-        backup_tier = dictionary.get('backup_tier')
-        browsing_failed_reason = dictionary.get('browsing_failed_reason')
-        expiration_timestamp = dictionary.get('expiration_timestamp')
-        key = 'iam_instance_profile'
-        iam_instance_profile = (
-            iam_instance_profile_model.IamInstanceProfileModel.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
-
-        p_id = dictionary.get('id')
-        instance_id = dictionary.get('instance_id')
-        instance_native_id = dictionary.get('instance_native_id')
-        instance_store_block_device_mappings = None
-        if dictionary.get('instance_store_block_device_mappings'):
-            instance_store_block_device_mappings = list()
-            for value in dictionary.get('instance_store_block_device_mappings'):
-                instance_store_block_device_mappings.append(
-                    instance_store_block_device_mapping.InstanceStoreBlockDeviceMapping.from_dictionary(
+        val_attached_backup_ebs_volumes = None
+        if val:
+            val_attached_backup_ebs_volumes = list()
+            for value in val:
+                val_attached_backup_ebs_volumes.append(
+                    attached_ebs_volume_full_model_.AttachedEBSVolumeFullModel.from_dictionary(
                         value
                     )
                 )
 
-        instance_type = dictionary.get('instance_type')
-        is_browsable = dictionary.get('is_browsable')
-        key_pair_name = dictionary.get('key_pair_name')
-        key_pair_native_id = dictionary.get('key_pair_native_id')
-        migration_timestamp = dictionary.get('migration_timestamp')
-        network_interfaces = None
-        if dictionary.get('network_interfaces'):
-            network_interfaces = list()
-            for value in dictionary.get('network_interfaces'):
-                network_interfaces.append(network_interface.NetworkInterface.from_dictionary(value))
+        val = dictionary['aws_az']
+        val_aws_az = val
 
-        size = dictionary.get('size')
-        start_timestamp = dictionary.get('start_timestamp')
-        subnet_native_id = dictionary.get('subnet_native_id')
-        tags = None
-        if dictionary.get('tags'):
-            tags = list()
-            for value in dictionary.get('tags'):
-                tags.append(aws_tag_common_model.AwsTagCommonModel.from_dictionary(value))
+        val = dictionary['aws_region']
+        val_aws_region = val
 
-        p_type = dictionary.get('type')
-        utilized_size_in_bytes = dictionary.get('utilized_size_in_bytes')
-        vpc_native_id = dictionary.get('vpc_native_id')
+        val = dictionary['backup_ami']
+        val_backup_ami = ami_model_.AmiModel.from_dictionary(val)
+
+        val = dictionary['backup_tier']
+        val_backup_tier = val
+
+        val = dictionary['browsing_failed_reason']
+        val_browsing_failed_reason = val
+
+        val = dictionary['expiration_timestamp']
+        val_expiration_timestamp = val
+
+        val = dictionary['iam_instance_profile']
+        val_iam_instance_profile = (
+            iam_instance_profile_model_.IamInstanceProfileModel.from_dictionary(val)
+        )
+
+        val = dictionary['id']
+        val_p_id = val
+
+        val = dictionary['instance_id']
+        val_instance_id = val
+
+        val = dictionary['instance_native_id']
+        val_instance_native_id = val
+
+        val = dictionary['instance_store_block_device_mappings']
+
+        val_instance_store_block_device_mappings = None
+        if val:
+            val_instance_store_block_device_mappings = list()
+            for value in val:
+                val_instance_store_block_device_mappings.append(
+                    instance_store_block_device_mapping_.InstanceStoreBlockDeviceMapping.from_dictionary(
+                        value
+                    )
+                )
+
+        val = dictionary['instance_type']
+        val_instance_type = val
+
+        val = dictionary['is_browsable']
+        val_is_browsable = val
+
+        val = dictionary['key_pair_name']
+        val_key_pair_name = val
+
+        val = dictionary['key_pair_native_id']
+        val_key_pair_native_id = val
+
+        val = dictionary['migration_timestamp']
+        val_migration_timestamp = val
+
+        val = dictionary['network_interfaces']
+
+        val_network_interfaces = None
+        if val:
+            val_network_interfaces = list()
+            for value in val:
+                val_network_interfaces.append(
+                    network_interface_.NetworkInterface.from_dictionary(value)
+                )
+
+        val = dictionary['public_ip_address']
+        val_public_ip_address = val
+
+        val = dictionary['size']
+        val_size = val
+
+        val = dictionary['start_timestamp']
+        val_start_timestamp = val
+
+        val = dictionary['subnet_native_id']
+        val_subnet_native_id = val
+
+        val = dictionary['tags']
+
+        val_tags = None
+        if val:
+            val_tags = list()
+            for value in val:
+                val_tags.append(aws_tag_common_model_.AwsTagCommonModel.from_dictionary(value))
+
+        val = dictionary['type']
+        val_p_type = val
+
+        val = dictionary['utilized_size_in_bytes']
+        val_utilized_size_in_bytes = val
+
+        val = dictionary['vpc_native_id']
+        val_vpc_native_id = val
+
         # Return an object of this model
         return cls(
-            links,
-            account_native_id,
-            ami,
-            attached_backup_ebs_volumes,
-            aws_az,
-            aws_region,
-            backup_ami,
-            backup_tier,
-            browsing_failed_reason,
-            expiration_timestamp,
-            iam_instance_profile,
-            p_id,
-            instance_id,
-            instance_native_id,
-            instance_store_block_device_mappings,
-            instance_type,
-            is_browsable,
-            key_pair_name,
-            key_pair_native_id,
-            migration_timestamp,
-            network_interfaces,
-            size,
-            start_timestamp,
-            subnet_native_id,
-            tags,
-            p_type,
-            utilized_size_in_bytes,
-            vpc_native_id,
+            val_links,  # type: ignore
+            val_account_native_id,  # type: ignore
+            val_ami,  # type: ignore
+            val_attached_backup_ebs_volumes,  # type: ignore
+            val_aws_az,  # type: ignore
+            val_aws_region,  # type: ignore
+            val_backup_ami,  # type: ignore
+            val_backup_tier,  # type: ignore
+            val_browsing_failed_reason,  # type: ignore
+            val_expiration_timestamp,  # type: ignore
+            val_iam_instance_profile,  # type: ignore
+            val_p_id,  # type: ignore
+            val_instance_id,  # type: ignore
+            val_instance_native_id,  # type: ignore
+            val_instance_store_block_device_mappings,  # type: ignore
+            val_instance_type,  # type: ignore
+            val_is_browsable,  # type: ignore
+            val_key_pair_name,  # type: ignore
+            val_key_pair_native_id,  # type: ignore
+            val_migration_timestamp,  # type: ignore
+            val_network_interfaces,  # type: ignore
+            val_public_ip_address,  # type: ignore
+            val_size,  # type: ignore
+            val_start_timestamp,  # type: ignore
+            val_subnet_native_id,  # type: ignore
+            val_tags,  # type: ignore
+            val_p_type,  # type: ignore
+            val_utilized_size_in_bytes,  # type: ignore
+            val_vpc_native_id,  # type: ignore
         )

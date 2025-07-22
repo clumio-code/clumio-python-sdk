@@ -3,7 +3,7 @@
 #
 
 import json
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -33,12 +33,7 @@ class ProtectionGroupsS3AssetsV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def list_protection_group_s3_assets(
-        self,
-        limit: int = None,
-        start: str = None,
-        filter: str = None,
-        lookback_days: int = None,
-        **kwargs,
+        self, limit: int, start: str, filter: str, lookback_days: int, **kwargs
     ) -> Union[
         list_protection_group_s3_assets_response.ListProtectionGroupS3AssetsResponse,
         tuple[
@@ -156,7 +151,7 @@ class ProtectionGroupsS3AssetsV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/datasources/protection-groups/s3-assets'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {
             'limit': limit,
             'start': start,
@@ -166,7 +161,7 @@ class ProtectionGroupsS3AssetsV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -189,11 +184,11 @@ class ProtectionGroupsS3AssetsV1Controller(base_controller.BaseController):
                 ),
             )
         return list_protection_group_s3_assets_response.ListProtectionGroupS3AssetsResponse.from_dictionary(
-            resp
+            resp.json()
         )
 
     def read_protection_group_s3_asset(
-        self, protection_group_s3_asset_id: str, lookback_days: int = None, **kwargs
+        self, protection_group_s3_asset_id: str, lookback_days: int, **kwargs
     ) -> Union[
         read_protection_group_s3_asset_response.ReadProtectionGroupS3AssetResponse,
         tuple[
@@ -222,12 +217,12 @@ class ProtectionGroupsS3AssetsV1Controller(base_controller.BaseController):
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'protection_group_s3_asset_id': protection_group_s3_asset_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'lookback_days': lookback_days}
 
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -250,17 +245,17 @@ class ProtectionGroupsS3AssetsV1Controller(base_controller.BaseController):
                 ),
             )
         return read_protection_group_s3_asset_response.ReadProtectionGroupS3AssetResponse.from_dictionary(
-            resp
+            resp.json()
         )
 
     def read_protection_group_s3_asset_continuous_backup_stats(
         self,
         protection_group_s3_asset_id: str,
-        bucket_name: str = None,
-        bucket_id: str = None,
-        begin_timestamp: str = None,
-        end_timestamp: str = None,
-        interval: str = None,
+        bucket_name: str,
+        bucket_id: str,
+        begin_timestamp: str,
+        end_timestamp: str,
+        interval: str,
         **kwargs,
     ) -> Union[
         read_protection_group_s3_asset_continuous_backup_stats_response.ReadProtectionGroupS3AssetContinuousBackupStatsResponse,
@@ -303,7 +298,7 @@ class ProtectionGroupsS3AssetsV1Controller(base_controller.BaseController):
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'protection_group_s3_asset_id': protection_group_s3_asset_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {
             'bucket_name': bucket_name,
             'bucket_id': bucket_id,
@@ -314,7 +309,7 @@ class ProtectionGroupsS3AssetsV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -338,16 +333,11 @@ class ProtectionGroupsS3AssetsV1Controller(base_controller.BaseController):
                 ),
             )
         return read_protection_group_s3_asset_continuous_backup_stats_response.ReadProtectionGroupS3AssetContinuousBackupStatsResponse.from_dictionary(
-            resp
+            resp.json()
         )
 
     def list_protection_group_s3_asset_pitr_intervals(
-        self,
-        protection_group_s3_asset_id: str,
-        limit: int = None,
-        start: str = None,
-        filter: str = None,
-        **kwargs,
+        self, protection_group_s3_asset_id: str, limit: int, start: str, filter: str, **kwargs
     ) -> Union[
         list_protection_group_s3_asset_pitr_intervals_response.ListProtectionGroupS3AssetPitrIntervalsResponse,
         tuple[
@@ -399,12 +389,12 @@ class ProtectionGroupsS3AssetsV1Controller(base_controller.BaseController):
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'protection_group_s3_asset_id': protection_group_s3_asset_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'limit': limit, 'start': start, 'filter': filter}
 
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -428,5 +418,5 @@ class ProtectionGroupsS3AssetsV1Controller(base_controller.BaseController):
                 ),
             )
         return list_protection_group_s3_asset_pitr_intervals_response.ListProtectionGroupS3AssetPitrIntervalsResponse.from_dictionary(
-            resp
+            resp.json()
         )

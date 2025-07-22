@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -20,9 +20,9 @@ class UserWithRole:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'assigned_role': 'assigned_role', 'user_id': 'user_id'}
+    _names: dict[str, str] = {'assigned_role': 'assigned_role', 'user_id': 'user_id'}
 
-    def __init__(self, assigned_role: str = None, user_id: str = None) -> None:
+    def __init__(self, assigned_role: str, user_id: str) -> None:
         """Constructor for the UserWithRole class."""
 
         # Initialize members of the class
@@ -30,7 +30,7 @@ class UserWithRole:
         self.user_id: str = user_id
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -41,11 +41,16 @@ class UserWithRole:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        assigned_role = dictionary.get('assigned_role')
-        user_id = dictionary.get('user_id')
+        val = dictionary['assigned_role']
+        val_assigned_role = val
+
+        val = dictionary['user_id']
+        val_user_id = val
+
         # Return an object of this model
-        return cls(assigned_role, user_id)
+        return cls(
+            val_assigned_role,  # type: ignore
+            val_user_id,  # type: ignore
+        )

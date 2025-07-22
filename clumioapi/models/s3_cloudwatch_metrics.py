@@ -1,10 +1,10 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import s3_bucket_size_res
+from clumioapi.models import s3_bucket_size_res as s3_bucket_size_res_
 
 T = TypeVar('T', bound='S3CloudwatchMetrics')
 
@@ -32,7 +32,7 @@ class S3CloudwatchMetrics:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'average_object_size_bytes': 'average_object_size_bytes',
         'average_object_size_bytes_time': 'average_object_size_bytes_time',
         'object_count': 'object_count',
@@ -44,13 +44,13 @@ class S3CloudwatchMetrics:
 
     def __init__(
         self,
-        average_object_size_bytes: float = None,
-        average_object_size_bytes_time: str = None,
-        object_count: int = None,
-        object_count_retrieved_time: str = None,
-        size_bytes: int = None,
-        size_bytes_per_storage_class: s3_bucket_size_res.S3BucketSizeRes = None,
-        size_bytes_retrieved_time: str = None,
+        average_object_size_bytes: float,
+        average_object_size_bytes_time: str,
+        object_count: int,
+        object_count_retrieved_time: str,
+        size_bytes: int,
+        size_bytes_per_storage_class: s3_bucket_size_res_.S3BucketSizeRes,
+        size_bytes_retrieved_time: str,
     ) -> None:
         """Constructor for the S3CloudwatchMetrics class."""
 
@@ -60,13 +60,13 @@ class S3CloudwatchMetrics:
         self.object_count: int = object_count
         self.object_count_retrieved_time: str = object_count_retrieved_time
         self.size_bytes: int = size_bytes
-        self.size_bytes_per_storage_class: s3_bucket_size_res.S3BucketSizeRes = (
+        self.size_bytes_per_storage_class: s3_bucket_size_res_.S3BucketSizeRes = (
             size_bytes_per_storage_class
         )
         self.size_bytes_retrieved_time: str = size_bytes_retrieved_time
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -77,30 +77,36 @@ class S3CloudwatchMetrics:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        average_object_size_bytes = dictionary.get('average_object_size_bytes')
-        average_object_size_bytes_time = dictionary.get('average_object_size_bytes_time')
-        object_count = dictionary.get('object_count')
-        object_count_retrieved_time = dictionary.get('object_count_retrieved_time')
-        size_bytes = dictionary.get('size_bytes')
-        key = 'size_bytes_per_storage_class'
-        size_bytes_per_storage_class = (
-            s3_bucket_size_res.S3BucketSizeRes.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['average_object_size_bytes']
+        val_average_object_size_bytes = val
 
-        size_bytes_retrieved_time = dictionary.get('size_bytes_retrieved_time')
+        val = dictionary['average_object_size_bytes_time']
+        val_average_object_size_bytes_time = val
+
+        val = dictionary['object_count']
+        val_object_count = val
+
+        val = dictionary['object_count_retrieved_time']
+        val_object_count_retrieved_time = val
+
+        val = dictionary['size_bytes']
+        val_size_bytes = val
+
+        val = dictionary['size_bytes_per_storage_class']
+        val_size_bytes_per_storage_class = s3_bucket_size_res_.S3BucketSizeRes.from_dictionary(val)
+
+        val = dictionary['size_bytes_retrieved_time']
+        val_size_bytes_retrieved_time = val
+
         # Return an object of this model
         return cls(
-            average_object_size_bytes,
-            average_object_size_bytes_time,
-            object_count,
-            object_count_retrieved_time,
-            size_bytes,
-            size_bytes_per_storage_class,
-            size_bytes_retrieved_time,
+            val_average_object_size_bytes,  # type: ignore
+            val_average_object_size_bytes_time,  # type: ignore
+            val_object_count,  # type: ignore
+            val_object_count_retrieved_time,  # type: ignore
+            val_size_bytes,  # type: ignore
+            val_size_bytes_per_storage_class,  # type: ignore
+            val_size_bytes_retrieved_time,  # type: ignore
         )

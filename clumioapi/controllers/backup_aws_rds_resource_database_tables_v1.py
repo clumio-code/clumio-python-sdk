@@ -1,9 +1,9 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -35,10 +35,10 @@ class BackupAwsRdsResourceDatabaseTablesV1Controller(base_controller.BaseControl
         self,
         backup_id: str,
         database_name: str,
-        current_count: int = None,
-        limit: int = None,
-        start: str = None,
-        filter: str = None,
+        current_count: int,
+        limit: int,
+        start: str,
+        filter: str,
         **kwargs,
     ) -> Union[
         list_rds_database_tables_response.ListRDSDatabaseTablesResponse,
@@ -86,7 +86,7 @@ class BackupAwsRdsResourceDatabaseTablesV1Controller(base_controller.BaseControl
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'backup_id': backup_id, 'database_name': database_name}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {
             'current_count': current_count,
             'limit': limit,
@@ -96,7 +96,7 @@ class BackupAwsRdsResourceDatabaseTablesV1Controller(base_controller.BaseControl
 
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -119,10 +119,12 @@ class BackupAwsRdsResourceDatabaseTablesV1Controller(base_controller.BaseControl
                     resp.json()
                 ),
             )
-        return list_rds_database_tables_response.ListRDSDatabaseTablesResponse.from_dictionary(resp)
+        return list_rds_database_tables_response.ListRDSDatabaseTablesResponse.from_dictionary(
+            resp.json()
+        )
 
     def read_backup_aws_rds_resource_database_table(
-        self, backup_id: str, database_name: str, table_id: str, embed: str = None, **kwargs
+        self, backup_id: str, database_name: str, table_id: str, embed: str, **kwargs
     ) -> Union[
         read_rds_database_table_response.ReadRDSDatabaseTableResponse,
         tuple[
@@ -163,17 +165,19 @@ class BackupAwsRdsResourceDatabaseTablesV1Controller(base_controller.BaseControl
         """
 
         # Prepare query URL
-        _url_path = '/backups/aws/rds-resources/{backup_id}/databases/{database_name}/tables/{table_id}'
+        _url_path = (
+            '/backups/aws/rds-resources/{backup_id}/databases/{database_name}/tables/{table_id}'
+        )
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path,
             {'backup_id': backup_id, 'database_name': database_name, 'table_id': table_id},
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'embed': embed}
 
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -196,7 +200,9 @@ class BackupAwsRdsResourceDatabaseTablesV1Controller(base_controller.BaseControl
                     resp.json()
                 ),
             )
-        return read_rds_database_table_response.ReadRDSDatabaseTableResponse.from_dictionary(resp)
+        return read_rds_database_table_response.ReadRDSDatabaseTableResponse.from_dictionary(
+            resp.json()
+        )
 
     def read_backup_aws_rds_resource_database_table_columns(
         self, backup_id: str, database_name: str, table_id: str, **kwargs
@@ -231,11 +237,11 @@ class BackupAwsRdsResourceDatabaseTablesV1Controller(base_controller.BaseControl
             _url_path,
             {'backup_id': backup_id, 'database_name': database_name, 'table_id': table_id},
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -259,5 +265,5 @@ class BackupAwsRdsResourceDatabaseTablesV1Controller(base_controller.BaseControl
                 ),
             )
         return read_rds_database_table_columns_response.ReadRDSDatabaseTableColumnsResponse.from_dictionary(
-            resp
+            resp.json()
         )

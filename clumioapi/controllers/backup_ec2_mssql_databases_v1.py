@@ -1,9 +1,9 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -33,13 +33,7 @@ class BackupEc2MssqlDatabasesV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def list_backup_ec2_mssql_databases(
-        self,
-        limit: int = None,
-        start: str = None,
-        sort: str = None,
-        filter: str = None,
-        embed: str = None,
-        **kwargs,
+        self, limit: int, start: str, sort: str, filter: str, embed: str, **kwargs
     ) -> Union[
         list_ec2_mssql_database_backups_response.ListEC2MSSQLDatabaseBackupsResponse,
         tuple[
@@ -121,7 +115,7 @@ class BackupEc2MssqlDatabasesV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/backups/aws/ec2-mssql/databases'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {
             'limit': limit,
             'start': start,
@@ -132,7 +126,7 @@ class BackupEc2MssqlDatabasesV1Controller(base_controller.BaseController):
 
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -155,13 +149,13 @@ class BackupEc2MssqlDatabasesV1Controller(base_controller.BaseController):
                 ),
             )
         return list_ec2_mssql_database_backups_response.ListEC2MSSQLDatabaseBackupsResponse.from_dictionary(
-            resp
+            resp.json()
         )
 
     def create_backup_ec2_mssql_database(
         self,
-        embed: str = None,
-        body: create_backup_ec2_mssql_database_v1_request.CreateBackupEc2MssqlDatabaseV1Request = None,
+        embed: str,
+        body: create_backup_ec2_mssql_database_v1_request.CreateBackupEc2MssqlDatabaseV1Request,
         **kwargs,
     ) -> Union[
         on_demand_ec2_mssql_database_backup_response.OnDemandEC2MSSQLDatabaseBackupResponse,
@@ -201,12 +195,12 @@ class BackupEc2MssqlDatabasesV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/backups/aws/ec2-mssql/databases'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'embed': embed}
 
         # Execute request
         try:
-            resp = self.client.post(
+            resp: requests.Response = self.client.post(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -230,7 +224,7 @@ class BackupEc2MssqlDatabasesV1Controller(base_controller.BaseController):
                 ),
             )
         return on_demand_ec2_mssql_database_backup_response.OnDemandEC2MSSQLDatabaseBackupResponse.from_dictionary(
-            resp
+            resp.json()
         )
 
     def read_backup_ec2_mssql_database(self, backup_id: str, **kwargs) -> Union[
@@ -262,11 +256,11 @@ class BackupEc2MssqlDatabasesV1Controller(base_controller.BaseController):
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'backup_id': backup_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -289,5 +283,5 @@ class BackupEc2MssqlDatabasesV1Controller(base_controller.BaseController):
                 ),
             )
         return read_ec2_mssql_database_backup_response.ReadEC2MSSQLDatabaseBackupResponse.from_dictionary(
-            resp
+            resp.json()
         )

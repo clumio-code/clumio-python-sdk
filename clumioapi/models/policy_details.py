@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -22,11 +22,13 @@ class PolicyDetails:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'description': 'description', 'name': 'name', 'policy_document': 'policy_document'}
+    _names: dict[str, str] = {
+        'description': 'description',
+        'name': 'name',
+        'policy_document': 'policy_document',
+    }
 
-    def __init__(
-        self, description: str = None, name: str = None, policy_document: object = None
-    ) -> None:
+    def __init__(self, description: str, name: str, policy_document: object) -> None:
         """Constructor for the PolicyDetails class."""
 
         # Initialize members of the class
@@ -35,7 +37,7 @@ class PolicyDetails:
         self.policy_document: object = policy_document
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -46,12 +48,20 @@ class PolicyDetails:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        description = dictionary.get('description')
-        name = dictionary.get('name')
-        policy_document = dictionary.get('policy_document')
+        val = dictionary['description']
+        val_description = val
+
+        val = dictionary['name']
+        val_name = val
+
+        val = dictionary['policy_document']
+        val_policy_document = val
+
         # Return an object of this model
-        return cls(description, name, policy_document)
+        return cls(
+            val_description,  # type: ignore
+            val_name,  # type: ignore
+            val_policy_document,  # type: ignore
+        )

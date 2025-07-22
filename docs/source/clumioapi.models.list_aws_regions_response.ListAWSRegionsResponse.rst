@@ -1,0 +1,26 @@
+clumioapi.models.list\_aws\_regions\_response.ListAWSRegionsResponse
+====================================================================
+
+.. currentmodule:: clumioapi.models.list_aws_regions_response
+
+.. autoclass:: ListAWSRegionsResponse
+   :members:
+   :show-inheritance:
+   :inherited-members:
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~ListAWSRegionsResponse.__init__
+      ~ListAWSRegionsResponse.from_dictionary
+   
+   
+
+   
+   
+   

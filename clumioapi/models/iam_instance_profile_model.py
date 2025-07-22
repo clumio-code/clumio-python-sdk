@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -24,9 +24,9 @@ class IamInstanceProfileModel:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'arn': 'arn', 'name': 'name', 'native_id': 'native_id'}
+    _names: dict[str, str] = {'arn': 'arn', 'name': 'name', 'native_id': 'native_id'}
 
-    def __init__(self, arn: str = None, name: str = None, native_id: str = None) -> None:
+    def __init__(self, arn: str, name: str, native_id: str) -> None:
         """Constructor for the IamInstanceProfileModel class."""
 
         # Initialize members of the class
@@ -35,7 +35,7 @@ class IamInstanceProfileModel:
         self.native_id: str = native_id
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -46,12 +46,20 @@ class IamInstanceProfileModel:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        arn = dictionary.get('arn')
-        name = dictionary.get('name')
-        native_id = dictionary.get('native_id')
+        val = dictionary['arn']
+        val_arn = val
+
+        val = dictionary['name']
+        val_name = val
+
+        val = dictionary['native_id']
+        val_native_id = val
+
         # Return an object of this model
-        return cls(arn, name, native_id)
+        return cls(
+            val_arn,  # type: ignore
+            val_name,  # type: ignore
+            val_native_id,  # type: ignore
+        )

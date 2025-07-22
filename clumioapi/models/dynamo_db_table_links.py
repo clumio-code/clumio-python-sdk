@@ -1,12 +1,13 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import hateoas_link
-from clumioapi.models import hateoas_self_link
-from clumioapi.models import read_policy_definition_hateoas_link
+from clumioapi.models import hateoas_link as hateoas_link_
+from clumioapi.models import hateoas_self_link as hateoas_self_link_
+from clumioapi.models import \
+    read_policy_definition_hateoas_link as read_policy_definition_hateoas_link_
 
 T = TypeVar('T', bound='DynamoDBTableLinks')
 
@@ -31,7 +32,7 @@ class DynamoDBTableLinks:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'p_self': '_self',
         'create_backup_aws_dynamodb_table': 'create-backup-aws-dynamodb-table',
         'list_backup_aws_dynamodb_tables': 'list-backup-aws-dynamodb-tables',
@@ -41,29 +42,29 @@ class DynamoDBTableLinks:
 
     def __init__(
         self,
-        p_self: hateoas_self_link.HateoasSelfLink = None,
-        create_backup_aws_dynamodb_table: hateoas_link.HateoasLink = None,
-        list_backup_aws_dynamodb_tables: hateoas_link.HateoasLink = None,
-        read_policy_definition: read_policy_definition_hateoas_link.ReadPolicyDefinitionHateoasLink = None,
-        restore_aws_dynamodb_table: hateoas_link.HateoasLink = None,
+        p_self: hateoas_self_link_.HateoasSelfLink,
+        create_backup_aws_dynamodb_table: hateoas_link_.HateoasLink,
+        list_backup_aws_dynamodb_tables: hateoas_link_.HateoasLink,
+        read_policy_definition: read_policy_definition_hateoas_link_.ReadPolicyDefinitionHateoasLink,
+        restore_aws_dynamodb_table: hateoas_link_.HateoasLink,
     ) -> None:
         """Constructor for the DynamoDBTableLinks class."""
 
         # Initialize members of the class
-        self.p_self: hateoas_self_link.HateoasSelfLink = p_self
-        self.create_backup_aws_dynamodb_table: hateoas_link.HateoasLink = (
+        self.p_self: hateoas_self_link_.HateoasSelfLink = p_self
+        self.create_backup_aws_dynamodb_table: hateoas_link_.HateoasLink = (
             create_backup_aws_dynamodb_table
         )
-        self.list_backup_aws_dynamodb_tables: hateoas_link.HateoasLink = (
+        self.list_backup_aws_dynamodb_tables: hateoas_link_.HateoasLink = (
             list_backup_aws_dynamodb_tables
         )
         self.read_policy_definition: (
-            read_policy_definition_hateoas_link.ReadPolicyDefinitionHateoasLink
+            read_policy_definition_hateoas_link_.ReadPolicyDefinitionHateoasLink
         ) = read_policy_definition
-        self.restore_aws_dynamodb_table: hateoas_link.HateoasLink = restore_aws_dynamodb_table
+        self.restore_aws_dynamodb_table: hateoas_link_.HateoasLink = restore_aws_dynamodb_table
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -74,52 +75,32 @@ class DynamoDBTableLinks:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        key = '_self'
-        p_self = (
-            hateoas_self_link.HateoasSelfLink.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['_self']
+        val_p_self = hateoas_self_link_.HateoasSelfLink.from_dictionary(val)
 
-        key = 'create-backup-aws-dynamodb-table'
-        create_backup_aws_dynamodb_table = (
-            hateoas_link.HateoasLink.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['create-backup-aws-dynamodb-table']
+        val_create_backup_aws_dynamodb_table = hateoas_link_.HateoasLink.from_dictionary(val)
 
-        key = 'list-backup-aws-dynamodb-tables'
-        list_backup_aws_dynamodb_tables = (
-            hateoas_link.HateoasLink.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['list-backup-aws-dynamodb-tables']
+        val_list_backup_aws_dynamodb_tables = hateoas_link_.HateoasLink.from_dictionary(val)
 
-        key = 'read-policy-definition'
-        read_policy_definition = (
-            read_policy_definition_hateoas_link.ReadPolicyDefinitionHateoasLink.from_dictionary(
-                dictionary.get(key)
+        val = dictionary['read-policy-definition']
+        val_read_policy_definition = (
+            read_policy_definition_hateoas_link_.ReadPolicyDefinitionHateoasLink.from_dictionary(
+                val
             )
-            if dictionary.get(key)
-            else None
         )
 
-        key = 'restore-aws-dynamodb-table'
-        restore_aws_dynamodb_table = (
-            hateoas_link.HateoasLink.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['restore-aws-dynamodb-table']
+        val_restore_aws_dynamodb_table = hateoas_link_.HateoasLink.from_dictionary(val)
 
         # Return an object of this model
         return cls(
-            p_self,
-            create_backup_aws_dynamodb_table,
-            list_backup_aws_dynamodb_tables,
-            read_policy_definition,
-            restore_aws_dynamodb_table,
+            val_p_self,  # type: ignore
+            val_create_backup_aws_dynamodb_table,  # type: ignore
+            val_list_backup_aws_dynamodb_tables,  # type: ignore
+            val_read_policy_definition,  # type: ignore
+            val_restore_aws_dynamodb_table,  # type: ignore
         )

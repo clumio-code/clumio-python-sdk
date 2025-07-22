@@ -1,12 +1,12 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import role_for_organizational_units
-from clumioapi.models import user_embedded
-from clumioapi.models import user_links
+from clumioapi.models import role_for_organizational_units as role_for_organizational_units_
+from clumioapi.models import user_embedded as user_embedded_
+from clumioapi.models import user_links as user_links_
 
 T = TypeVar('T', bound='UserWithETag')
 
@@ -55,7 +55,7 @@ class UserWithETag:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'embedded': '_embedded',
         'etag': '_etag',
         'links': '_links',
@@ -72,29 +72,29 @@ class UserWithETag:
 
     def __init__(
         self,
-        embedded: user_embedded.UserEmbedded = None,
-        etag: str = None,
-        links: user_links.UserLinks = None,
+        embedded: user_embedded_.UserEmbedded,
+        etag: str,
+        links: user_links_.UserLinks,
         access_control_configuration: Sequence[
-            role_for_organizational_units.RoleForOrganizationalUnits
-        ] = None,
-        email: str = None,
-        full_name: str = None,
-        p_id: str = None,
-        inviter: str = None,
-        is_confirmed: bool = None,
-        is_enabled: bool = None,
-        last_activity_timestamp: str = None,
-        organizational_unit_count: int = None,
+            role_for_organizational_units_.RoleForOrganizationalUnits
+        ],
+        email: str,
+        full_name: str,
+        p_id: str,
+        inviter: str,
+        is_confirmed: bool,
+        is_enabled: bool,
+        last_activity_timestamp: str,
+        organizational_unit_count: int,
     ) -> None:
         """Constructor for the UserWithETag class."""
 
         # Initialize members of the class
-        self.embedded: user_embedded.UserEmbedded = embedded
+        self.embedded: user_embedded_.UserEmbedded = embedded
         self.etag: str = etag
-        self.links: user_links.UserLinks = links
+        self.links: user_links_.UserLinks = links
         self.access_control_configuration: Sequence[
-            role_for_organizational_units.RoleForOrganizationalUnits
+            role_for_organizational_units_.RoleForOrganizationalUnits
         ] = access_control_configuration
         self.email: str = email
         self.full_name: str = full_name
@@ -106,7 +106,7 @@ class UserWithETag:
         self.organizational_unit_count: int = organizational_unit_count
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -117,53 +117,63 @@ class UserWithETag:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        key = '_embedded'
-        embedded = (
-            user_embedded.UserEmbedded.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['_embedded']
+        val_embedded = user_embedded_.UserEmbedded.from_dictionary(val)
 
-        etag = dictionary.get('_etag')
-        key = '_links'
-        links = (
-            user_links.UserLinks.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['_etag']
+        val_etag = val
 
-        access_control_configuration = None
-        if dictionary.get('access_control_configuration'):
-            access_control_configuration = list()
-            for value in dictionary.get('access_control_configuration'):
-                access_control_configuration.append(
-                    role_for_organizational_units.RoleForOrganizationalUnits.from_dictionary(value)
+        val = dictionary['_links']
+        val_links = user_links_.UserLinks.from_dictionary(val)
+
+        val = dictionary['access_control_configuration']
+
+        val_access_control_configuration = None
+        if val:
+            val_access_control_configuration = list()
+            for value in val:
+                val_access_control_configuration.append(
+                    role_for_organizational_units_.RoleForOrganizationalUnits.from_dictionary(value)
                 )
 
-        email = dictionary.get('email')
-        full_name = dictionary.get('full_name')
-        p_id = dictionary.get('id')
-        inviter = dictionary.get('inviter')
-        is_confirmed = dictionary.get('is_confirmed')
-        is_enabled = dictionary.get('is_enabled')
-        last_activity_timestamp = dictionary.get('last_activity_timestamp')
-        organizational_unit_count = dictionary.get('organizational_unit_count')
+        val = dictionary['email']
+        val_email = val
+
+        val = dictionary['full_name']
+        val_full_name = val
+
+        val = dictionary['id']
+        val_p_id = val
+
+        val = dictionary['inviter']
+        val_inviter = val
+
+        val = dictionary['is_confirmed']
+        val_is_confirmed = val
+
+        val = dictionary['is_enabled']
+        val_is_enabled = val
+
+        val = dictionary['last_activity_timestamp']
+        val_last_activity_timestamp = val
+
+        val = dictionary['organizational_unit_count']
+        val_organizational_unit_count = val
+
         # Return an object of this model
         return cls(
-            embedded,
-            etag,
-            links,
-            access_control_configuration,
-            email,
-            full_name,
-            p_id,
-            inviter,
-            is_confirmed,
-            is_enabled,
-            last_activity_timestamp,
-            organizational_unit_count,
+            val_embedded,  # type: ignore
+            val_etag,  # type: ignore
+            val_links,  # type: ignore
+            val_access_control_configuration,  # type: ignore
+            val_email,  # type: ignore
+            val_full_name,  # type: ignore
+            val_p_id,  # type: ignore
+            val_inviter,  # type: ignore
+            val_is_confirmed,  # type: ignore
+            val_is_enabled,  # type: ignore
+            val_last_activity_timestamp,  # type: ignore
+            val_organizational_unit_count,  # type: ignore
         )

@@ -1,11 +1,12 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import s3_instant_access_source_pitr_options
-from clumioapi.models import source_object_filters
+from clumioapi.models import \
+    s3_instant_access_source_pitr_options as s3_instant_access_source_pitr_options_
+from clumioapi.models import source_object_filters as source_object_filters_
 
 T = TypeVar('T', bound='S3InstantAccessSource')
 
@@ -41,7 +42,7 @@ class S3InstantAccessSource:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'backup_id': 'backup_id',
         'object_filters': 'object_filters',
         'pitr': 'pitr',
@@ -50,21 +51,21 @@ class S3InstantAccessSource:
 
     def __init__(
         self,
-        backup_id: str = None,
-        object_filters: source_object_filters.SourceObjectFilters = None,
-        pitr: s3_instant_access_source_pitr_options.S3InstantAccessSourcePitrOptions = None,
-        protection_group_s3_asset_id: str = None,
+        backup_id: str,
+        object_filters: source_object_filters_.SourceObjectFilters,
+        pitr: s3_instant_access_source_pitr_options_.S3InstantAccessSourcePitrOptions,
+        protection_group_s3_asset_id: str,
     ) -> None:
         """Constructor for the S3InstantAccessSource class."""
 
         # Initialize members of the class
         self.backup_id: str = backup_id
-        self.object_filters: source_object_filters.SourceObjectFilters = object_filters
-        self.pitr: s3_instant_access_source_pitr_options.S3InstantAccessSourcePitrOptions = pitr
+        self.object_filters: source_object_filters_.SourceObjectFilters = object_filters
+        self.pitr: s3_instant_access_source_pitr_options_.S3InstantAccessSourcePitrOptions = pitr
         self.protection_group_s3_asset_id: str = protection_group_s3_asset_id
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -75,27 +76,28 @@ class S3InstantAccessSource:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
         # Extract variables from the dictionary
-        backup_id = dictionary.get('backup_id')
-        key = 'object_filters'
-        object_filters = (
-            source_object_filters.SourceObjectFilters.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary['backup_id']
+        val_backup_id = val
 
-        key = 'pitr'
-        pitr = (
-            s3_instant_access_source_pitr_options.S3InstantAccessSourcePitrOptions.from_dictionary(
-                dictionary.get(key)
+        val = dictionary['object_filters']
+        val_object_filters = source_object_filters_.SourceObjectFilters.from_dictionary(val)
+
+        val = dictionary['pitr']
+        val_pitr = (
+            s3_instant_access_source_pitr_options_.S3InstantAccessSourcePitrOptions.from_dictionary(
+                val
             )
-            if dictionary.get(key)
-            else None
         )
 
-        protection_group_s3_asset_id = dictionary.get('protection_group_s3_asset_id')
+        val = dictionary['protection_group_s3_asset_id']
+        val_protection_group_s3_asset_id = val
+
         # Return an object of this model
-        return cls(backup_id, object_filters, pitr, protection_group_s3_asset_id)
+        return cls(
+            val_backup_id,  # type: ignore
+            val_object_filters,  # type: ignore
+            val_pitr,  # type: ignore
+            val_protection_group_s3_asset_id,  # type: ignore
+        )
