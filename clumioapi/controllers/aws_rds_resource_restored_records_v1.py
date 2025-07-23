@@ -1,9 +1,9 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -33,7 +33,11 @@ class AwsRdsResourceRestoredRecordsV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def list_rds_restored_records(
-        self, limit: int = None, start: str = None, filter: str = None, **kwargs
+        self,
+        limit: int | None = None,
+        start: str | None = None,
+        filter: str | None = None,
+        **kwargs,
     ) -> Union[
         list_restored_records_response.ListRestoredRecordsResponse,
         tuple[
@@ -72,12 +76,12 @@ class AwsRdsResourceRestoredRecordsV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/restores/aws/rds-resources/records'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'limit': limit, 'start': start, 'filter': filter}
 
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -96,12 +100,14 @@ class AwsRdsResourceRestoredRecordsV1Controller(base_controller.BaseController):
             return resp, list_restored_records_response.ListRestoredRecordsResponse.from_dictionary(
                 resp.json()
             )
-        return list_restored_records_response.ListRestoredRecordsResponse.from_dictionary(resp)
+        return list_restored_records_response.ListRestoredRecordsResponse.from_dictionary(
+            resp.json()
+        )
 
     def restore_rds_record(
         self,
-        embed: str = None,
-        body: restore_rds_record_v1_request.RestoreRdsRecordV1Request = None,
+        embed: str | None = None,
+        body: restore_rds_record_v1_request.RestoreRdsRecordV1Request | None = None,
         **kwargs,
     ) -> Union[
         Union[
@@ -150,12 +156,12 @@ class AwsRdsResourceRestoredRecordsV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/restores/aws/rds-resources/records'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'embed': embed}
 
         # Execute request
         try:
-            resp = self.client.post(
+            resp: requests.Response = self.client.post(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -188,3 +194,6 @@ class AwsRdsResourceRestoredRecordsV1Controller(base_controller.BaseController):
                     unmarshalled_dict
                 )
             return restore_record_response.RestoreRecordResponse.from_dictionary(unmarshalled_dict)
+        raise RuntimeError(
+            f'Code should be unreachable; Unexpected response code: {resp.status_code}. '
+        )

@@ -1,9 +1,9 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -31,7 +31,9 @@ class RestoredAwsEbsVolumesV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def restore_aws_ebs_volume(
-        self, body: restore_aws_ebs_volume_v1_request.RestoreAwsEbsVolumeV1Request = None, **kwargs
+        self,
+        body: restore_aws_ebs_volume_v1_request.RestoreAwsEbsVolumeV1Request | None = None,
+        **kwargs,
     ) -> Union[
         restore_ebs_response_v1.RestoreEBSResponseV1,
         tuple[requests.Response, Optional[restore_ebs_response_v1.RestoreEBSResponseV1]],
@@ -53,11 +55,11 @@ class RestoredAwsEbsVolumesV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/restores/aws/ebs-volumes'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
         # Execute request
         try:
-            resp = self.client.post(
+            resp: requests.Response = self.client.post(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -75,4 +77,4 @@ class RestoredAwsEbsVolumesV1Controller(base_controller.BaseController):
 
         if self.config.raw_response:
             return resp, restore_ebs_response_v1.RestoreEBSResponseV1.from_dictionary(resp.json())
-        return restore_ebs_response_v1.RestoreEBSResponseV1.from_dictionary(resp)
+        return restore_ebs_response_v1.RestoreEBSResponseV1.from_dictionary(resp.json())

@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -24,22 +24,24 @@ class ProtectionGroupEmbedded:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'read_organizational_unit': 'read-organizational-unit',
         'read_policy_definition': 'read-policy-definition',
     }
 
     def __init__(
-        self, read_organizational_unit: object = None, read_policy_definition: object = None
+        self,
+        read_organizational_unit: object | None = None,
+        read_policy_definition: object | None = None,
     ) -> None:
         """Constructor for the ProtectionGroupEmbedded class."""
 
         # Initialize members of the class
-        self.read_organizational_unit: object = read_organizational_unit
-        self.read_policy_definition: object = read_policy_definition
+        self.read_organizational_unit: object | None = read_organizational_unit
+        self.read_policy_definition: object | None = read_policy_definition
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -50,11 +52,17 @@ class ProtectionGroupEmbedded:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        read_organizational_unit = dictionary.get('read-organizational-unit')
-        read_policy_definition = dictionary.get('read-policy-definition')
+        val = dictionary.get('read-organizational-unit', None)
+        val_read_organizational_unit = val
+
+        val = dictionary.get('read-policy-definition', None)
+        val_read_policy_definition = val
+
         # Return an object of this model
-        return cls(read_organizational_unit, read_policy_definition)
+        return cls(
+            val_read_organizational_unit,
+            val_read_policy_definition,
+        )

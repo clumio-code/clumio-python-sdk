@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -16,16 +16,16 @@ class AddBucketProtectionGroupV1Request:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'bucket_id': 'bucket_id'}
+    _names: dict[str, str] = {'bucket_id': 'bucket_id'}
 
-    def __init__(self, bucket_id: str = None) -> None:
+    def __init__(self, bucket_id: str | None = None) -> None:
         """Constructor for the AddBucketProtectionGroupV1Request class."""
 
         # Initialize members of the class
-        self.bucket_id: str = bucket_id
+        self.bucket_id: str | None = bucket_id
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -36,10 +36,13 @@ class AddBucketProtectionGroupV1Request:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        bucket_id = dictionary.get('bucket_id')
+        val = dictionary.get('bucket_id', None)
+        val_bucket_id = val
+
         # Return an object of this model
-        return cls(bucket_id)
+        return cls(
+            val_bucket_id,
+        )

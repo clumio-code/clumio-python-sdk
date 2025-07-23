@@ -1,9 +1,9 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -31,7 +31,11 @@ class Ec2MssqlInstanceV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def list_ec2_mssql_instances(
-        self, limit: int = None, start: str = None, filter: str = None, **kwargs
+        self,
+        limit: int | None = None,
+        start: str | None = None,
+        filter: str | None = None,
+        **kwargs,
     ) -> Union[
         list_ec2_mssql_instances_response.ListEC2MSSQLInstancesResponse,
         tuple[
@@ -91,12 +95,12 @@ class Ec2MssqlInstanceV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/datasources/aws/ec2-mssql/instances'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'limit': limit, 'start': start, 'filter': filter}
 
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -118,9 +122,11 @@ class Ec2MssqlInstanceV1Controller(base_controller.BaseController):
                     resp.json()
                 ),
             )
-        return list_ec2_mssql_instances_response.ListEC2MSSQLInstancesResponse.from_dictionary(resp)
+        return list_ec2_mssql_instances_response.ListEC2MSSQLInstancesResponse.from_dictionary(
+            resp.json()
+        )
 
-    def read_ec2_mssql_instance(self, instance_id: str, **kwargs) -> Union[
+    def read_ec2_mssql_instance(self, instance_id: str | None = None, **kwargs) -> Union[
         read_ec2_mssql_instance_response.ReadEC2MSSQLInstanceResponse,
         tuple[
             requests.Response,
@@ -146,11 +152,11 @@ class Ec2MssqlInstanceV1Controller(base_controller.BaseController):
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'instance_id': instance_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -172,4 +178,6 @@ class Ec2MssqlInstanceV1Controller(base_controller.BaseController):
                     resp.json()
                 ),
             )
-        return read_ec2_mssql_instance_response.ReadEC2MSSQLInstanceResponse.from_dictionary(resp)
+        return read_ec2_mssql_instance_response.ReadEC2MSSQLInstanceResponse.from_dictionary(
+            resp.json()
+        )

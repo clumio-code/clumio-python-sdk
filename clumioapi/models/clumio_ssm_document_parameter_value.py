@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -24,7 +24,7 @@ class ClumioSsmDocumentParameterValue:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'allowedPattern': 'allowedPattern',
         'default': 'default',
         'description': 'description',
@@ -33,21 +33,21 @@ class ClumioSsmDocumentParameterValue:
 
     def __init__(
         self,
-        allowedPattern: str = None,
-        default: str = None,
-        description: str = None,
-        p_type: str = None,
+        allowedPattern: str | None = None,
+        default: str | None = None,
+        description: str | None = None,
+        p_type: str | None = None,
     ) -> None:
         """Constructor for the ClumioSsmDocumentParameterValue class."""
 
         # Initialize members of the class
-        self.allowedPattern: str = allowedPattern
-        self.default: str = default
-        self.description: str = description
-        self.p_type: str = p_type
+        self.allowedPattern: str | None = allowedPattern
+        self.default: str | None = default
+        self.description: str | None = description
+        self.p_type: str | None = p_type
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -58,13 +58,25 @@ class ClumioSsmDocumentParameterValue:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        allowedPattern = dictionary.get('allowedPattern')
-        default = dictionary.get('default')
-        description = dictionary.get('description')
-        p_type = dictionary.get('type')
+        val = dictionary.get('allowedPattern', None)
+        val_allowedPattern = val
+
+        val = dictionary.get('default', None)
+        val_default = val
+
+        val = dictionary.get('description', None)
+        val_description = val
+
+        val = dictionary.get('type', None)
+        val_p_type = val
+
         # Return an object of this model
-        return cls(allowedPattern, default, description, p_type)
+        return cls(
+            val_allowedPattern,
+            val_default,
+            val_description,
+            val_p_type,
+        )

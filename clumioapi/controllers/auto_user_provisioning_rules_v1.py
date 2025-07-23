@@ -1,9 +1,9 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -35,7 +35,11 @@ class AutoUserProvisioningRulesV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def list_auto_user_provisioning_rules(
-        self, limit: int = None, start: str = None, filter: str = None, **kwargs
+        self,
+        limit: int | None = None,
+        start: str | None = None,
+        filter: str | None = None,
+        **kwargs,
     ) -> Union[
         list_auto_user_provisioning_rules_response.ListAutoUserProvisioningRulesResponse,
         tuple[
@@ -85,12 +89,12 @@ class AutoUserProvisioningRulesV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/settings/auto-user-provisioning/rules'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'limit': limit, 'start': start, 'filter': filter}
 
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -113,12 +117,15 @@ class AutoUserProvisioningRulesV1Controller(base_controller.BaseController):
                 ),
             )
         return list_auto_user_provisioning_rules_response.ListAutoUserProvisioningRulesResponse.from_dictionary(
-            resp
+            resp.json()
         )
 
     def create_auto_user_provisioning_rule(
         self,
-        body: create_auto_user_provisioning_rule_v1_request.CreateAutoUserProvisioningRuleV1Request = None,
+        body: (
+            create_auto_user_provisioning_rule_v1_request.CreateAutoUserProvisioningRuleV1Request
+            | None
+        ) = None,
         **kwargs,
     ) -> Union[
         create_auto_user_provisioning_rule_response.CreateAutoUserProvisioningRuleResponse,
@@ -148,11 +155,11 @@ class AutoUserProvisioningRulesV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/settings/auto-user-provisioning/rules'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
         # Execute request
         try:
-            resp = self.client.post(
+            resp: requests.Response = self.client.post(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -176,10 +183,10 @@ class AutoUserProvisioningRulesV1Controller(base_controller.BaseController):
                 ),
             )
         return create_auto_user_provisioning_rule_response.CreateAutoUserProvisioningRuleResponse.from_dictionary(
-            resp
+            resp.json()
         )
 
-    def read_auto_user_provisioning_rule(self, rule_id: str, **kwargs) -> Union[
+    def read_auto_user_provisioning_rule(self, rule_id: str | None = None, **kwargs) -> Union[
         read_auto_user_provisioning_rule_response.ReadAutoUserProvisioningRuleResponse,
         tuple[
             requests.Response,
@@ -205,11 +212,11 @@ class AutoUserProvisioningRulesV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/settings/auto-user-provisioning/rules/{rule_id}'
         _url_path = api_helper.append_url_with_template_parameters(_url_path, {'rule_id': rule_id})
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -232,13 +239,16 @@ class AutoUserProvisioningRulesV1Controller(base_controller.BaseController):
                 ),
             )
         return read_auto_user_provisioning_rule_response.ReadAutoUserProvisioningRuleResponse.from_dictionary(
-            resp
+            resp.json()
         )
 
     def update_auto_user_provisioning_rule(
         self,
-        rule_id: str,
-        body: update_auto_user_provisioning_rule_v1_request.UpdateAutoUserProvisioningRuleV1Request = None,
+        rule_id: str | None = None,
+        body: (
+            update_auto_user_provisioning_rule_v1_request.UpdateAutoUserProvisioningRuleV1Request
+            | None
+        ) = None,
         **kwargs,
     ) -> Union[
         update_auto_user_provisioning_rule_response.UpdateAutoUserProvisioningRuleResponse,
@@ -268,11 +278,11 @@ class AutoUserProvisioningRulesV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/settings/auto-user-provisioning/rules/{rule_id}'
         _url_path = api_helper.append_url_with_template_parameters(_url_path, {'rule_id': rule_id})
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
         # Execute request
         try:
-            resp = self.client.put(
+            resp: requests.Response = self.client.put(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -296,11 +306,11 @@ class AutoUserProvisioningRulesV1Controller(base_controller.BaseController):
                 ),
             )
         return update_auto_user_provisioning_rule_response.UpdateAutoUserProvisioningRuleResponse.from_dictionary(
-            resp
+            resp.json()
         )
 
     def delete_auto_user_provisioning_rule(
-        self, rule_id: str, **kwargs
+        self, rule_id: str | None = None, **kwargs
     ) -> Union[object, tuple[requests.Response, Optional[object]]]:
         """Delete the specified auto user provisioning rule.
 
@@ -319,11 +329,11 @@ class AutoUserProvisioningRulesV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/settings/auto-user-provisioning/rules/{rule_id}'
         _url_path = api_helper.append_url_with_template_parameters(_url_path, {'rule_id': rule_id})
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
         # Execute request
         try:
-            resp = self.client.delete(
+            resp: requests.Response = self.client.delete(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,

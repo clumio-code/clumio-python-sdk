@@ -1,9 +1,9 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -35,7 +35,9 @@ class PolicyDefinitionsV1Controller(base_controller.BaseController):
         if config.custom_headers != None:
             self.headers.update(config.custom_headers)
 
-    def list_policy_definitions(self, filter: str = None, embed: str = None, **kwargs) -> Union[
+    def list_policy_definitions(
+        self, filter: str | None = None, embed: str | None = None, **kwargs
+    ) -> Union[
         list_policies_response.ListPoliciesResponse,
         tuple[requests.Response, Optional[list_policies_response.ListPoliciesResponse]],
     ]:
@@ -46,8 +48,6 @@ class PolicyDefinitionsV1Controller(base_controller.BaseController):
         +----------------------------------+-------------------------------------------+
         |            Operation             |                Description                |
         +==================================+===========================================+
-        | vmware_vm_backup                 | VMware VM backup.                         |
-        +----------------------------------+-------------------------------------------+
         | aws_ebs_volume_backup            | AWS EBS volume backup.                    |
         +----------------------------------+-------------------------------------------+
         | aws_ebs_volume_snapshot          | AWS EBS volume snapshot stored in         |
@@ -85,11 +85,6 @@ class PolicyDefinitionsV1Controller(base_controller.BaseController):
         +----------------------------------+-------------------------------------------+
         | microsoft365_teams_backup        | Microsoft365 team backup.                 |
         +----------------------------------+-------------------------------------------+
-        | mssql_database_backup            | VMC MSSQL database backup stored in       |
-        |                                  | Clumio.                                   |
-        +----------------------------------+-------------------------------------------+
-        | mssql_log_backup                 | VMC MSSQL log backup stored in Clumio.    |
-        +----------------------------------+-------------------------------------------+
 
 
         The following table describes the supported policy activation statuses.
@@ -103,7 +98,7 @@ class PolicyDefinitionsV1Controller(base_controller.BaseController):
         | deactivated       |                                                          |
         |                   | Backups will not begin until the policy is reactivated.  |
         |                   | The assets associated with the policy will have their    |
-        |                   | compliance status set to "deactivated".                  |
+        |                   | protection status set to "deactivated".                  |
         |                   |                                                          |
         +-------------------+----------------------------------------------------------+
 
@@ -124,8 +119,8 @@ class PolicyDefinitionsV1Controller(base_controller.BaseController):
                 |                   |                   | limit the results to policies who    |
                 |                   |                   | support the specified operations.    |
                 |                   |                   | For example, filter={"operations.typ |
-                |                   |                   | e":{"$in":["vmware_vm_backup","aws_e |
-                |                   |                   | bs_volume_backup"]}}                 |
+                |                   |                   | e":{"$in":["aws_ec2_instance_backup" |
+                |                   |                   | ,"aws_ebs_volume_backup"]}}          |
                 +-------------------+-------------------+--------------------------------------+
                 | activation_status | $eq               | The activation status of the policy. |
                 |                   |                   | For example, filter={"activation_sta |
@@ -140,31 +135,40 @@ class PolicyDefinitionsV1Controller(base_controller.BaseController):
                 +---------------------------------------+--------------------------------------+
                 |            Embeddable Link            |             Description              |
                 +=======================================+======================================+
-                | [DEPRECATED] read-policy-aws-ebs-     | Embeds compliance statistics about   |
-                | volumes-compliance-stats              | EBS volumes into the _embedded field |
-                |                                       | of each policy in the response. For  |
-                |                                       | example, embed=read-policy-aws-ebs-  |
-                |                                       | volumes-compliance-stats             |
+                | read-policy-aws-ebs-volumes-          | Embeds protection stats about EBS    |
+                | protection-stats                      | Volumes associated with this tag     |
+                |                                       | into the response. For example,      |
+                |                                       | embed=read-policy-aws-ebs-volumes-   |
+                |                                       | protection-stats                     |
                 +---------------------------------------+--------------------------------------+
-                | [DEPRECATED] read-policy-vmware-vms-  | Embeds compliance statistics about   |
-                | compliance-stats                      | VMs into the _embedded field of each |
-                |                                       | policy in the response. For example, |
-                |                                       | embed=read-policy-vmware-vms-        |
-                |                                       | compliance-stats                     |
+                | read-policy-aws-ec2-instances-        | Embeds protection stats about EC2    |
+                | protection-stats                      | Instance associated with this tag    |
+                |                                       | into the response. For example,      |
+                |                                       | embed=read-policy-aws-ec2-instances- |
+                |                                       | protection-stats                     |
                 +---------------------------------------+--------------------------------------+
-                | [DEPRECATED] read-policy-aws-         | Embeds compliance statistics about   |
-                | dynamodb-tables-compliance-stats      | DynamoDB tables into the _embedded   |
-                |                                       | field of each policy in the          |
-                |                                       | response. For example, embed=read-   |
-                |                                       | policy-aws-dynamodb-tables-          |
-                |                                       | compliance-stats                     |
+                | read-policy-aws-rds-volumes-          | Embeds protection stats about RDS    |
+                | protection-stats                      | Instance associated with this tag    |
+                |                                       | into the response. For example,      |
+                |                                       | embed=read-policy-aws-rds-volumes-   |
+                |                                       | protection-stats                     |
                 +---------------------------------------+--------------------------------------+
-                | [DEPRECATED] read-policy-protection-  | Embeds compliance statistics about   |
-                | groups-compliance-stats               | protection groups into the _embedded |
-                |                                       | field of each policy in the          |
-                |                                       | response. For example, embed=read-   |
-                |                                       | policy-protection-groups-compliance- |
-                |                                       | stats                                |
+                | read-policy-aws-dynamodb-tables-      | Embeds protection stats about        |
+                | protection-stats                      | DynamoDB tables associated with this |
+                |                                       | tag into the response. For example,  |
+                |                                       | embed=read-policy-aws-dynamodb-      |
+                |                                       | tables-protection-stats              |
+                +---------------------------------------+--------------------------------------+
+                | read-policy-aws-iceberg-tables-       | Embeds protection stats about        |
+                | protection-stats                      | Iceberg tables associated with this  |
+                |                                       | tag into the response. For example,  |
+                |                                       | embed=read-policy-aws-iceberg-       |
+                |                                       | tables-protection-stats              |
+                +---------------------------------------+--------------------------------------+
+                | read-policy-backup-status-stats       | Embeds backup statistics for each    |
+                |                                       | AWS environment into the response.   |
+                |                                       | For example, embed=read-policy-      |
+                |                                       | backup-status-stats                  |
                 +---------------------------------------+--------------------------------------+
 
         Returns:
@@ -179,12 +183,12 @@ class PolicyDefinitionsV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/policies/definitions'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'filter': filter, 'embed': embed}
 
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -201,11 +205,11 @@ class PolicyDefinitionsV1Controller(base_controller.BaseController):
 
         if self.config.raw_response:
             return resp, list_policies_response.ListPoliciesResponse.from_dictionary(resp.json())
-        return list_policies_response.ListPoliciesResponse.from_dictionary(resp)
+        return list_policies_response.ListPoliciesResponse.from_dictionary(resp.json())
 
     def create_policy_definition(
         self,
-        body: create_policy_definition_v1_request.CreatePolicyDefinitionV1Request = None,
+        body: create_policy_definition_v1_request.CreatePolicyDefinitionV1Request | None = None,
         **kwargs,
     ) -> Union[
         create_policy_response.CreatePolicyResponse,
@@ -229,11 +233,11 @@ class PolicyDefinitionsV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/policies/definitions'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
         # Execute request
         try:
-            resp = self.client.post(
+            resp: requests.Response = self.client.post(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -251,9 +255,11 @@ class PolicyDefinitionsV1Controller(base_controller.BaseController):
 
         if self.config.raw_response:
             return resp, create_policy_response.CreatePolicyResponse.from_dictionary(resp.json())
-        return create_policy_response.CreatePolicyResponse.from_dictionary(resp)
+        return create_policy_response.CreatePolicyResponse.from_dictionary(resp.json())
 
-    def read_policy_definition(self, policy_id: str, embed: str = None, **kwargs) -> Union[
+    def read_policy_definition(
+        self, policy_id: str | None = None, embed: str | None = None, **kwargs
+    ) -> Union[
         read_policy_response.ReadPolicyResponse,
         tuple[requests.Response, Optional[read_policy_response.ReadPolicyResponse]],
     ]:
@@ -270,16 +276,40 @@ class PolicyDefinitionsV1Controller(base_controller.BaseController):
                 +---------------------------------------+--------------------------------------+
                 |            Embeddable Link            |             Description              |
                 +=======================================+======================================+
-                | [DEPRECATED] read-policy-aws-ebs-     | Embeds compliance statistics about   |
-                | volumes-compliance-stats              | EBS volumes into the _embedded field |
-                |                                       | of the response. For example,        |
+                | read-policy-aws-ebs-volumes-          | Embeds protection stats about EBS    |
+                | protection-stats                      | Volumes associated with this tag     |
+                |                                       | into the response. For example,      |
                 |                                       | embed=read-policy-aws-ebs-volumes-   |
-                |                                       | compliance-stats                     |
+                |                                       | protection-stats                     |
                 +---------------------------------------+--------------------------------------+
-                | [DEPRECATED] read-policy-vmware-vms-  | Embeds compliance statistics about   |
-                | compliance-stats                      | VMs into the _embedded field of the  |
-                |                                       | response. For example, embed=read-   |
-                |                                       | policy-vmware-vms-compliance-stats   |
+                | read-policy-aws-ec2-instances-        | Embeds protection stats about EC2    |
+                | protection-stats                      | Instance associated with this tag    |
+                |                                       | into the response. For example,      |
+                |                                       | embed=read-policy-aws-ec2-instances- |
+                |                                       | protection-stats                     |
+                +---------------------------------------+--------------------------------------+
+                | read-policy-aws-rds-volumes-          | Embeds protection stats about RDS    |
+                | protection-stats                      | Instance associated with this tag    |
+                |                                       | into the response. For example,      |
+                |                                       | embed=read-policy-aws-rds-volumes-   |
+                |                                       | protection-stats                     |
+                +---------------------------------------+--------------------------------------+
+                | read-policy-aws-dynamodb-tables-      | Embeds protection stats about        |
+                | protection-stats                      | DynamoDB tables associated with this |
+                |                                       | tag into the response. For example,  |
+                |                                       | embed=read-policy-aws-dynamodb-      |
+                |                                       | tables-protection-stats              |
+                +---------------------------------------+--------------------------------------+
+                | read-policy-aws-iceberg-tables-       | Embeds protection stats about        |
+                | protection-stats                      | Iceberg tables associated with this  |
+                |                                       | tag into the response. For example,  |
+                |                                       | embed=read-policy-aws-iceberg-       |
+                |                                       | tables-protection-stats              |
+                +---------------------------------------+--------------------------------------+
+                | read-policy-backup-status-stats       | Embeds backup statistics for each    |
+                |                                       | AWS environment into the response.   |
+                |                                       | For example, embed=read-policy-      |
+                |                                       | backup-status-stats                  |
                 +---------------------------------------+--------------------------------------+
 
         Returns:
@@ -296,12 +326,12 @@ class PolicyDefinitionsV1Controller(base_controller.BaseController):
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'policy_id': policy_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'embed': embed}
 
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -318,21 +348,23 @@ class PolicyDefinitionsV1Controller(base_controller.BaseController):
 
         if self.config.raw_response:
             return resp, read_policy_response.ReadPolicyResponse.from_dictionary(resp.json())
-        return read_policy_response.ReadPolicyResponse.from_dictionary(resp)
+        return read_policy_response.ReadPolicyResponse.from_dictionary(resp.json())
 
     def update_policy_definition(
         self,
-        policy_id: str,
-        embed: str = None,
-        body: update_policy_definition_v1_request.UpdatePolicyDefinitionV1Request = None,
+        policy_id: str | None = None,
+        embed: str | None = None,
+        body: update_policy_definition_v1_request.UpdatePolicyDefinitionV1Request | None = None,
         **kwargs,
     ) -> Union[
         update_policy_response.UpdatePolicyResponse,
         tuple[requests.Response, Optional[update_policy_response.UpdatePolicyResponse]],
     ]:
         """Updates an existing policy by modifying its backup seed setting, backup service
-        level agreement (SLA), and backup window. If a policy is updated while a backup
-        is in progress, the policy changes will take effect after the backup completes.
+        level agreement (SLA), and backup window. The policy is updated asynchronously,
+        and the response will include the existing policy. If a policy is updated while
+        a backup is in progress, the policy changes will take effect after the backup is
+        completed.
 
         Args:
             policy_id:
@@ -345,16 +377,40 @@ class PolicyDefinitionsV1Controller(base_controller.BaseController):
                 +---------------------------------------+--------------------------------------+
                 |            Embeddable Link            |             Description              |
                 +=======================================+======================================+
-                | [DEPRECATED] read-policy-aws-ebs-     | Embeds compliance statistics about   |
-                | volumes-compliance-stats              | EBS volumes into the _embedded field |
-                |                                       | of the response. For example,        |
+                | read-policy-aws-ebs-volumes-          | Embeds protection stats about EBS    |
+                | protection-stats                      | Volumes associated with this tag     |
+                |                                       | into the response. For example,      |
                 |                                       | embed=read-policy-aws-ebs-volumes-   |
-                |                                       | compliance-stats                     |
+                |                                       | protection-stats                     |
                 +---------------------------------------+--------------------------------------+
-                | [DEPRECATED] read-policy-vmware-vms-  | Embeds compliance statistics about   |
-                | compliance-stats                      | VMs into the _embedded field of the  |
-                |                                       | response. For example, embed=read-   |
-                |                                       | policy-vmware-vms-compliance-stats   |
+                | read-policy-aws-ec2-instances-        | Embeds protection stats about EC2    |
+                | protection-stats                      | Instance associated with this tag    |
+                |                                       | into the response. For example,      |
+                |                                       | embed=read-policy-aws-ec2-instances- |
+                |                                       | protection-stats                     |
+                +---------------------------------------+--------------------------------------+
+                | read-policy-aws-rds-volumes-          | Embeds protection stats about RDS    |
+                | protection-stats                      | Instance associated with this tag    |
+                |                                       | into the response. For example,      |
+                |                                       | embed=read-policy-aws-rds-volumes-   |
+                |                                       | protection-stats                     |
+                +---------------------------------------+--------------------------------------+
+                | read-policy-aws-dynamodb-tables-      | Embeds protection stats about        |
+                | protection-stats                      | DynamoDB tables associated with this |
+                |                                       | tag into the response. For example,  |
+                |                                       | embed=read-policy-aws-dynamodb-      |
+                |                                       | tables-protection-stats              |
+                +---------------------------------------+--------------------------------------+
+                | read-policy-aws-iceberg-tables-       | Embeds protection stats about        |
+                | protection-stats                      | Iceberg tables associated with this  |
+                |                                       | tag into the response. For example,  |
+                |                                       | embed=read-policy-aws-iceberg-       |
+                |                                       | tables-protection-stats              |
+                +---------------------------------------+--------------------------------------+
+                | read-policy-backup-status-stats       | Embeds backup statistics for each    |
+                |                                       | AWS environment into the response.   |
+                |                                       | For example, embed=read-policy-      |
+                |                                       | backup-status-stats                  |
                 +---------------------------------------+--------------------------------------+
 
             body:
@@ -373,12 +429,12 @@ class PolicyDefinitionsV1Controller(base_controller.BaseController):
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'policy_id': policy_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'embed': embed}
 
         # Execute request
         try:
-            resp = self.client.put(
+            resp: requests.Response = self.client.put(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -396,9 +452,9 @@ class PolicyDefinitionsV1Controller(base_controller.BaseController):
 
         if self.config.raw_response:
             return resp, update_policy_response.UpdatePolicyResponse.from_dictionary(resp.json())
-        return update_policy_response.UpdatePolicyResponse.from_dictionary(resp)
+        return update_policy_response.UpdatePolicyResponse.from_dictionary(resp.json())
 
-    def delete_policy_definition(self, policy_id: str, **kwargs) -> Union[
+    def delete_policy_definition(self, policy_id: str | None = None, **kwargs) -> Union[
         delete_policy_response.DeletePolicyResponse,
         tuple[requests.Response, Optional[delete_policy_response.DeletePolicyResponse]],
     ]:
@@ -421,11 +477,11 @@ class PolicyDefinitionsV1Controller(base_controller.BaseController):
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'policy_id': policy_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
         # Execute request
         try:
-            resp = self.client.delete(
+            resp: requests.Response = self.client.delete(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -442,4 +498,4 @@ class PolicyDefinitionsV1Controller(base_controller.BaseController):
 
         if self.config.raw_response:
             return resp, delete_policy_response.DeletePolicyResponse.from_dictionary(resp.json())
-        return delete_policy_response.DeletePolicyResponse.from_dictionary(resp)
+        return delete_policy_response.DeletePolicyResponse.from_dictionary(resp.json())

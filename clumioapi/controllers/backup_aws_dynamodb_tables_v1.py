@@ -1,9 +1,9 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -33,7 +33,12 @@ class BackupAwsDynamodbTablesV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def list_backup_aws_dynamodb_tables(
-        self, limit: int = None, start: str = None, sort: str = None, filter: str = None, **kwargs
+        self,
+        limit: int | None = None,
+        start: str | None = None,
+        sort: str | None = None,
+        filter: str | None = None,
+        **kwargs,
     ) -> Union[
         list_dynamo_db_table_backups_response.ListDynamoDBTableBackupsResponse,
         tuple[
@@ -112,12 +117,12 @@ class BackupAwsDynamodbTablesV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/backups/aws/dynamodb-tables'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'limit': limit, 'start': start, 'sort': sort, 'filter': filter}
 
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -141,14 +146,16 @@ class BackupAwsDynamodbTablesV1Controller(base_controller.BaseController):
             )
         return (
             list_dynamo_db_table_backups_response.ListDynamoDBTableBackupsResponse.from_dictionary(
-                resp
+                resp.json()
             )
         )
 
     def create_backup_aws_dynamodb_table(
         self,
-        embed: str = None,
-        body: create_backup_aws_dynamodb_table_v1_request.CreateBackupAwsDynamodbTableV1Request = None,
+        embed: str | None = None,
+        body: (
+            create_backup_aws_dynamodb_table_v1_request.CreateBackupAwsDynamodbTableV1Request | None
+        ) = None,
         **kwargs,
     ) -> Union[
         on_demand_dynamo_db_backup_response.OnDemandDynamoDBBackupResponse,
@@ -188,12 +195,12 @@ class BackupAwsDynamodbTablesV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/backups/aws/dynamodb-tables'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'embed': embed}
 
         # Execute request
         try:
-            resp = self.client.post(
+            resp: requests.Response = self.client.post(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -217,10 +224,10 @@ class BackupAwsDynamodbTablesV1Controller(base_controller.BaseController):
                 ),
             )
         return on_demand_dynamo_db_backup_response.OnDemandDynamoDBBackupResponse.from_dictionary(
-            resp
+            resp.json()
         )
 
-    def read_backup_aws_dynamodb_table(self, backup_id: str, **kwargs) -> Union[
+    def read_backup_aws_dynamodb_table(self, backup_id: str | None = None, **kwargs) -> Union[
         read_dynamo_db_table_backup_response.ReadDynamoDBTableBackupResponse,
         tuple[
             requests.Response,
@@ -246,11 +253,11 @@ class BackupAwsDynamodbTablesV1Controller(base_controller.BaseController):
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'backup_id': backup_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -273,5 +280,5 @@ class BackupAwsDynamodbTablesV1Controller(base_controller.BaseController):
                 ),
             )
         return read_dynamo_db_table_backup_response.ReadDynamoDBTableBackupResponse.from_dictionary(
-            resp
+            resp.json()
         )

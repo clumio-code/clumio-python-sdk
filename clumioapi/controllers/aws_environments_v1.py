@@ -1,9 +1,9 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -31,7 +31,13 @@ class AwsEnvironmentsV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def list_aws_environments(
-        self, limit: int = None, start: str = None, filter: str = None, embed: str = None, **kwargs
+        self,
+        limit: int | None = None,
+        start: str | None = None,
+        filter: str | None = None,
+        embed: str | None = None,
+        lookback_days: int | None = None,
+        **kwargs,
     ) -> Union[
         list_aws_environments_response.ListAWSEnvironmentsResponse,
         tuple[
@@ -90,37 +96,50 @@ class AwsEnvironmentsV1Controller(base_controller.BaseController):
                 +---------------------------------------+--------------------------------------+
                 |            Embeddable Link            |             Description              |
                 +=======================================+======================================+
-                | read-aws-environment-ebs-volumes-     | Embeds compliance statistics about   |
-                | compliance-stats                      | EBS volumes for each AWS environment |
+                | read-aws-environment-ebs-volumes-     | Embeds protection stats about EBS    |
+                | protection-stats                      | Volumes for each AWS environment     |
                 |                                       | into the response. For example,      |
                 |                                       | embed=read-aws-environment-ebs-      |
-                |                                       | volumes-compliance-stats             |
+                |                                       | volumes-protection-stats             |
                 +---------------------------------------+--------------------------------------+
-                | read-aws-environment-rds-resources-   | Embeds compliance statistics about   |
-                | compliance-stats                      | RDS resources for each AWS           |
+                | read-aws-environment-ec2-instances-   | Embeds protection stats about EC2    |
+                | protection-stats                      | Instance for each AWS environment    |
+                |                                       | into the response. For example,      |
+                |                                       | embed=read-aws-environment-          |
+                |                                       | ec2-instances-protection-stats       |
+                +---------------------------------------+--------------------------------------+
+                | read-aws-environment-ec2-mssql-       | Embeds protection stats about EC2    |
+                | protection-stats                      | MSSQL for each AWS environment into  |
+                |                                       | the response. For example,           |
+                |                                       | embed=read-aws-environment-          |
+                |                                       | ec2-mssql-protection-stats           |
+                +---------------------------------------+--------------------------------------+
+                | read-aws-environment-rds-resources-   | Embeds protection stats about RDS    |
+                | protection-stats                      | Instance for each AWS environment    |
+                |                                       | into the response. For example,      |
+                |                                       | embed=read-aws-environment-rds-      |
+                |                                       | resources-protection-stats           |
+                +---------------------------------------+--------------------------------------+
+                | read-aws-environment-dynamodb-tables- | Embeds protection stats about        |
+                | protection-stats                      | DynamoDB tables for each AWS         |
                 |                                       | environment into the response. For   |
                 |                                       | example, embed=read-aws-environment- |
-                |                                       | rds-resources-compliance-stats       |
+                |                                       | dynamodb-tables-protection-stats     |
                 +---------------------------------------+--------------------------------------+
-                | read-aws-environment-dynamodb-tables- | Embeds compliance statistics about   |
-                | compliance-stats                      | DynamoDB tables for each AWS         |
+                | read-aws-environment-protection-      | Embeds protection stats about        |
+                | groups-protection-stats               | Protection Group for each AWS        |
                 |                                       | environment into the response. For   |
                 |                                       | example, embed=read-aws-environment- |
-                |                                       | dynamodb-tables-compliance-stats     |
+                |                                       | protection-groups-protection-stats   |
                 +---------------------------------------+--------------------------------------+
-                | read-aws-environment-protection-      | Embeds compliance statistics about   |
-                | groups-compliance-stats               | Protection Groups for each AWS       |
-                |                                       | environment into the response. For   |
-                |                                       | example, embed=read-aws-environment- |
-                |                                       | protection-groups-compliance-stats   |
-                +---------------------------------------+--------------------------------------+
-                | read-aws-environment-ec2-mssql-       | Embeds compliance statistics about   |
-                | compliance-stats                      | EC2 MSSQL databases for each AWS     |
-                |                                       | environment into the response. For   |
-                |                                       | example, embed=read-aws-environment- |
-                |                                       | ec2-mssql-compliance-stats           |
+                | read-aws-environments-backup-status-  | Embeds backup statistics for each    |
+                | stats                                 | AWS environment into the response.   |
+                |                                       | For example, embed=read-aws-         |
+                |                                       | environments-backup-status-stats     |
                 +---------------------------------------+--------------------------------------+
 
+            lookback_days:
+                Calculate backup status for the last `lookback_days` days.
         Returns:
             requests.Response: Raw Response from the API if config.raw_response is set to True.
             list_aws_environments_response.ListAWSEnvironmentsResponse: Response from the API.
@@ -133,12 +152,18 @@ class AwsEnvironmentsV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/datasources/aws/environments'
 
-        _query_parameters = {}
-        _query_parameters = {'limit': limit, 'start': start, 'filter': filter, 'embed': embed}
+        _query_parameters: dict[str, Any] = {}
+        _query_parameters = {
+            'limit': limit,
+            'start': start,
+            'filter': filter,
+            'embed': embed,
+            'lookback_days': lookback_days,
+        }
 
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -157,9 +182,17 @@ class AwsEnvironmentsV1Controller(base_controller.BaseController):
             return resp, list_aws_environments_response.ListAWSEnvironmentsResponse.from_dictionary(
                 resp.json()
             )
-        return list_aws_environments_response.ListAWSEnvironmentsResponse.from_dictionary(resp)
+        return list_aws_environments_response.ListAWSEnvironmentsResponse.from_dictionary(
+            resp.json()
+        )
 
-    def read_aws_environment(self, environment_id: str, embed: str = None, **kwargs) -> Union[
+    def read_aws_environment(
+        self,
+        environment_id: str | None = None,
+        embed: str | None = None,
+        lookback_days: int | None = None,
+        **kwargs,
+    ) -> Union[
         read_aws_environment_response.ReadAWSEnvironmentResponse,
         tuple[
             requests.Response, Optional[read_aws_environment_response.ReadAWSEnvironmentResponse]
@@ -178,37 +211,50 @@ class AwsEnvironmentsV1Controller(base_controller.BaseController):
                 +---------------------------------------+--------------------------------------+
                 |            Embeddable Link            |             Description              |
                 +=======================================+======================================+
-                | read-aws-environment-ebs-volumes-     | Embeds compliance stats about EBS    |
-                | compliance-stats                      | Volumes into the _embedded field of  |
-                |                                       | the response. For example,           |
+                | read-aws-environment-ebs-volumes-     | Embeds protection stats about EBS    |
+                | protection-stats                      | Volumes for each AWS environment     |
+                |                                       | into the response. For example,      |
                 |                                       | embed=read-aws-environment-ebs-      |
-                |                                       | volumes-compliance-stats             |
+                |                                       | volumes-protection-stats             |
                 +---------------------------------------+--------------------------------------+
-                | read-aws-environment-rds-resources-   | Embeds compliance stats about RDS    |
-                | compliance-stats                      | resources into the _embedded field   |
-                |                                       | of the response. For example,        |
-                |                                       | embed=read-aws-environment-rds-      |
-                |                                       | resources-compliance-stats           |
-                +---------------------------------------+--------------------------------------+
-                | read-aws-environment-dynamodb-tables- | Embeds compliance stats about        |
-                | compliance-stats                      | DynamoDB tables into the _embedded   |
-                |                                       | field of the response. For example,  |
-                |                                       | embed=read-aws-environment-dynamodb- |
-                |                                       | tables-compliance-stats              |
-                +---------------------------------------+--------------------------------------+
-                | read-aws-environment-protection-      | Embeds compliance stats about        |
-                | groups-compliance-stats               | DynamoDB tables into the _embedded   |
-                |                                       | field of the response. For example,  |
+                | read-aws-environment-ec2-instances-   | Embeds protection stats about EC2    |
+                | protection-stats                      | Instance for each AWS environment    |
+                |                                       | into the response. For example,      |
                 |                                       | embed=read-aws-environment-          |
-                |                                       | protection-groups-compliance-stats   |
+                |                                       | ec2-instances-protection-stats       |
                 +---------------------------------------+--------------------------------------+
-                | read-aws-environment-ec2-mssql-       | Embeds compliance statistics about   |
-                | compliance-stats                      | EC2 MSSQL databases for each AWS     |
+                | read-aws-environment-ec2-mssql-       | Embeds protection stats about EC2    |
+                | protection-stats                      | MSSQL for each AWS environment into  |
+                |                                       | the response. For example,           |
+                |                                       | embed=read-aws-environment-          |
+                |                                       | ec2-mssql-protection-stats           |
+                +---------------------------------------+--------------------------------------+
+                | read-aws-environment-rds-resources-   | Embeds protection stats about RDS    |
+                | protection-stats                      | Instance for each AWS environment    |
+                |                                       | into the response. For example,      |
+                |                                       | embed=read-aws-environment-rds-      |
+                |                                       | resources-protection-stats           |
+                +---------------------------------------+--------------------------------------+
+                | read-aws-environment-dynamodb-tables- | Embeds protection stats about        |
+                | protection-stats                      | DynamoDB tables for each AWS         |
                 |                                       | environment into the response. For   |
                 |                                       | example, embed=read-aws-environment- |
-                |                                       | ec2-mssql-compliance-stats           |
+                |                                       | dynamodb-tables-protection-stats     |
+                +---------------------------------------+--------------------------------------+
+                | read-aws-environment-protection-      | Embeds protection stats about        |
+                | groups-protection-stats               | Protection Group for each AWS        |
+                |                                       | environment into the response. For   |
+                |                                       | example, embed=read-aws-environment- |
+                |                                       | protection-groups-protection-stats   |
+                +---------------------------------------+--------------------------------------+
+                | read-aws-environments-backup-status-  | Embeds backup statistics for each    |
+                | stats                                 | AWS environment into the response.   |
+                |                                       | For example, embed=read-aws-         |
+                |                                       | environments-backup-status-stats     |
                 +---------------------------------------+--------------------------------------+
 
+            lookback_days:
+                Calculate backup status for the last `lookback_days` days.
         Returns:
             requests.Response: Raw Response from the API if config.raw_response is set to True.
             read_aws_environment_response.ReadAWSEnvironmentResponse: Response from the API.
@@ -223,12 +269,12 @@ class AwsEnvironmentsV1Controller(base_controller.BaseController):
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'environment_id': environment_id}
         )
-        _query_parameters = {}
-        _query_parameters = {'embed': embed}
+        _query_parameters: dict[str, Any] = {}
+        _query_parameters = {'embed': embed, 'lookback_days': lookback_days}
 
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -247,4 +293,4 @@ class AwsEnvironmentsV1Controller(base_controller.BaseController):
             return resp, read_aws_environment_response.ReadAWSEnvironmentResponse.from_dictionary(
                 resp.json()
             )
-        return read_aws_environment_response.ReadAWSEnvironmentResponse.from_dictionary(resp)
+        return read_aws_environment_response.ReadAWSEnvironmentResponse.from_dictionary(resp.json())

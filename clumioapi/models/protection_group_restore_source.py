@@ -1,11 +1,12 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import protection_group_restore_source_pitr_options
-from clumioapi.models import source_object_filters
+from clumioapi.models import \
+    protection_group_restore_source_pitr_options as protection_group_restore_source_pitr_options_
+from clumioapi.models import source_object_filters as source_object_filters_
 
 T = TypeVar('T', bound='ProtectionGroupRestoreSource')
 
@@ -35,7 +36,7 @@ class ProtectionGroupRestoreSource:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'backup_id': 'backup_id',
         'object_filters': 'object_filters',
         'pitr': 'pitr',
@@ -44,23 +45,27 @@ class ProtectionGroupRestoreSource:
 
     def __init__(
         self,
-        backup_id: str = None,
-        object_filters: source_object_filters.SourceObjectFilters = None,
-        pitr: protection_group_restore_source_pitr_options.ProtectionGroupRestoreSourcePitrOptions = None,
-        protection_group_s3_asset_ids: Sequence[str] = None,
+        backup_id: str | None = None,
+        object_filters: source_object_filters_.SourceObjectFilters | None = None,
+        pitr: (
+            protection_group_restore_source_pitr_options_.ProtectionGroupRestoreSourcePitrOptions
+            | None
+        ) = None,
+        protection_group_s3_asset_ids: Sequence[str] | None = None,
     ) -> None:
         """Constructor for the ProtectionGroupRestoreSource class."""
 
         # Initialize members of the class
-        self.backup_id: str = backup_id
-        self.object_filters: source_object_filters.SourceObjectFilters = object_filters
+        self.backup_id: str | None = backup_id
+        self.object_filters: source_object_filters_.SourceObjectFilters | None = object_filters
         self.pitr: (
-            protection_group_restore_source_pitr_options.ProtectionGroupRestoreSourcePitrOptions
+            protection_group_restore_source_pitr_options_.ProtectionGroupRestoreSourcePitrOptions
+            | None
         ) = pitr
-        self.protection_group_s3_asset_ids: Sequence[str] = protection_group_s3_asset_ids
+        self.protection_group_s3_asset_ids: Sequence[str] | None = protection_group_s3_asset_ids
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -71,27 +76,27 @@ class ProtectionGroupRestoreSource:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        backup_id = dictionary.get('backup_id')
-        key = 'object_filters'
-        object_filters = (
-            source_object_filters.SourceObjectFilters.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
+        val = dictionary.get('backup_id', None)
+        val_backup_id = val
+
+        val = dictionary.get('object_filters', None)
+        val_object_filters = source_object_filters_.SourceObjectFilters.from_dictionary(val)
+
+        val = dictionary.get('pitr', None)
+        val_pitr = protection_group_restore_source_pitr_options_.ProtectionGroupRestoreSourcePitrOptions.from_dictionary(
+            val
         )
 
-        key = 'pitr'
-        pitr = (
-            protection_group_restore_source_pitr_options.ProtectionGroupRestoreSourcePitrOptions.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('protection_group_s3_asset_ids', None)
+        val_protection_group_s3_asset_ids = val
 
-        protection_group_s3_asset_ids = dictionary.get('protection_group_s3_asset_ids')
         # Return an object of this model
-        return cls(backup_id, object_filters, pitr, protection_group_s3_asset_ids)
+        return cls(
+            val_backup_id,
+            val_object_filters,
+            val_pitr,
+            val_protection_group_s3_asset_ids,
+        )

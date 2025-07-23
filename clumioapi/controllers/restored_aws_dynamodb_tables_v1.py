@@ -1,9 +1,9 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -32,8 +32,8 @@ class RestoredAwsDynamodbTablesV1Controller(base_controller.BaseController):
 
     def restore_aws_dynamodb_table(
         self,
-        embed: str = None,
-        body: restore_aws_dynamodb_table_v1_request.RestoreAwsDynamodbTableV1Request = None,
+        embed: str | None = None,
+        body: restore_aws_dynamodb_table_v1_request.RestoreAwsDynamodbTableV1Request | None = None,
         **kwargs,
     ) -> Union[
         restore_dynamo_db_table_response.RestoreDynamoDBTableResponse,
@@ -72,12 +72,12 @@ class RestoredAwsDynamodbTablesV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/restores/aws/dynamodb-tables'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'embed': embed}
 
         # Execute request
         try:
-            resp = self.client.post(
+            resp: requests.Response = self.client.post(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -100,4 +100,6 @@ class RestoredAwsDynamodbTablesV1Controller(base_controller.BaseController):
                     resp.json()
                 ),
             )
-        return restore_dynamo_db_table_response.RestoreDynamoDBTableResponse.from_dictionary(resp)
+        return restore_dynamo_db_table_response.RestoreDynamoDBTableResponse.from_dictionary(
+            resp.json()
+        )

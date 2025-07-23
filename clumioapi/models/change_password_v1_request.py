@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -22,17 +22,22 @@ class ChangePasswordV1Request:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'current_password': 'current_password', 'new_password': 'new_password'}
+    _names: dict[str, str] = {
+        'current_password': 'current_password',
+        'new_password': 'new_password',
+    }
 
-    def __init__(self, current_password: str = None, new_password: str = None) -> None:
+    def __init__(
+        self, current_password: str | None = None, new_password: str | None = None
+    ) -> None:
         """Constructor for the ChangePasswordV1Request class."""
 
         # Initialize members of the class
-        self.current_password: str = current_password
-        self.new_password: str = new_password
+        self.current_password: str | None = current_password
+        self.new_password: str | None = new_password
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -43,11 +48,17 @@ class ChangePasswordV1Request:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        current_password = dictionary.get('current_password')
-        new_password = dictionary.get('new_password')
+        val = dictionary.get('current_password', None)
+        val_current_password = val
+
+        val = dictionary.get('new_password', None)
+        val_new_password = val
+
         # Return an object of this model
-        return cls(current_password, new_password)
+        return cls(
+            val_current_password,
+            val_new_password,
+        )

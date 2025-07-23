@@ -1,9 +1,9 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -33,7 +33,12 @@ class BackupAwsEbsVolumesV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def list_backup_aws_ebs_volumes(
-        self, limit: int = None, start: str = None, sort: str = None, filter: str = None, **kwargs
+        self,
+        limit: int | None = None,
+        start: str | None = None,
+        sort: str | None = None,
+        filter: str | None = None,
+        **kwargs,
     ) -> Union[
         list_ebs_backups_response_v1.ListEBSBackupsResponseV1,
         tuple[requests.Response, Optional[list_ebs_backups_response_v1.ListEBSBackupsResponseV1]],
@@ -98,12 +103,12 @@ class BackupAwsEbsVolumesV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/backups/aws/ebs-volumes'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'limit': limit, 'start': start, 'sort': sort, 'filter': filter}
 
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -122,12 +127,14 @@ class BackupAwsEbsVolumesV1Controller(base_controller.BaseController):
             return resp, list_ebs_backups_response_v1.ListEBSBackupsResponseV1.from_dictionary(
                 resp.json()
             )
-        return list_ebs_backups_response_v1.ListEBSBackupsResponseV1.from_dictionary(resp)
+        return list_ebs_backups_response_v1.ListEBSBackupsResponseV1.from_dictionary(resp.json())
 
     def create_backup_aws_ebs_volume(
         self,
-        embed: str = None,
-        body: create_backup_aws_ebs_volume_v1_request.CreateBackupAwsEbsVolumeV1Request = None,
+        embed: str | None = None,
+        body: (
+            create_backup_aws_ebs_volume_v1_request.CreateBackupAwsEbsVolumeV1Request | None
+        ) = None,
         **kwargs,
     ) -> Union[
         on_demand_ebs_backup_response_v1.OnDemandEBSBackupResponseV1,
@@ -167,12 +174,12 @@ class BackupAwsEbsVolumesV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/backups/aws/ebs-volumes'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'embed': embed}
 
         # Execute request
         try:
-            resp = self.client.post(
+            resp: requests.Response = self.client.post(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -195,9 +202,11 @@ class BackupAwsEbsVolumesV1Controller(base_controller.BaseController):
                     resp.json()
                 ),
             )
-        return on_demand_ebs_backup_response_v1.OnDemandEBSBackupResponseV1.from_dictionary(resp)
+        return on_demand_ebs_backup_response_v1.OnDemandEBSBackupResponseV1.from_dictionary(
+            resp.json()
+        )
 
-    def read_backup_aws_ebs_volume(self, backup_id: str, **kwargs) -> Union[
+    def read_backup_aws_ebs_volume(self, backup_id: str | None = None, **kwargs) -> Union[
         read_ebs_backup_response_v1.ReadEBSBackupResponseV1,
         tuple[requests.Response, Optional[read_ebs_backup_response_v1.ReadEBSBackupResponseV1]],
     ]:
@@ -220,11 +229,11 @@ class BackupAwsEbsVolumesV1Controller(base_controller.BaseController):
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'backup_id': backup_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -243,4 +252,4 @@ class BackupAwsEbsVolumesV1Controller(base_controller.BaseController):
             return resp, read_ebs_backup_response_v1.ReadEBSBackupResponseV1.from_dictionary(
                 resp.json()
             )
-        return read_ebs_backup_response_v1.ReadEBSBackupResponseV1.from_dictionary(resp)
+        return read_ebs_backup_response_v1.ReadEBSBackupResponseV1.from_dictionary(resp.json())

@@ -1,9 +1,9 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -29,7 +29,13 @@ class Ec2MssqlFailoverClusterV1Controller(base_controller.BaseController):
         if config.custom_headers != None:
             self.headers.update(config.custom_headers)
 
-    def read_ec2_mssql_failover_cluster(self, failover_cluster_id: str, **kwargs) -> Union[
+    def read_ec2_mssql_failover_cluster(
+        self,
+        failover_cluster_id: str | None = None,
+        embed: str | None = None,
+        lookback_days: int | None = None,
+        **kwargs,
+    ) -> Union[
         read_ec2_mssqlfci_response.ReadEC2MSSQLFCIResponse,
         tuple[requests.Response, Optional[read_ec2_mssqlfci_response.ReadEC2MSSQLFCIResponse]],
     ]:
@@ -38,6 +44,39 @@ class Ec2MssqlFailoverClusterV1Controller(base_controller.BaseController):
         Args:
             failover_cluster_id:
                 Performs the operation on the fci with the specified ID.
+            embed:
+                Embeds the details of an associated resource. Set the parameter to one of the
+                following embeddable links to include additional details associated with the
+                resource.
+
+                +---------------------------------------+--------------------------------------+
+                |            Embeddable Link            |             Description              |
+                +=======================================+======================================+
+                | read-policy-definition                | Embeds the definition of the policy  |
+                |                                       | associated with this resource.       |
+                |                                       | Unprotected resources will not have  |
+                |                                       | an associated policy. For example,   |
+                |                                       | embed=read-policy-definition.        |
+                +---------------------------------------+--------------------------------------+
+                | get-ec2-mssql-failover-cluster-stats  | Embeds the stats information         |
+                |                                       | associated with failover cluster.    |
+                |                                       | For example, embed=get-ec2-mssql-    |
+                |                                       | failover-cluster-stats.              |
+                +---------------------------------------+--------------------------------------+
+                | get-ec2-mssql-failover-cluster-hosts- | Embeds the stats information         |
+                | info                                  | associated with Hosts part of        |
+                |                                       | failover cluster. For example,       |
+                |                                       | embed=get-ec2-mssql-failover-        |
+                |                                       | cluster-hosts-info.                  |
+                +---------------------------------------+--------------------------------------+
+                | get-ec2-mssql-stats-backup-status     | Embeds the backup statistics for     |
+                |                                       | each resource into the response. For |
+                |                                       | example, embed=get-ec2-mssql-stats-  |
+                |                                       | backup-status                        |
+                +---------------------------------------+--------------------------------------+
+
+            lookback_days:
+                Calculate backup status for the last `lookback_days` days.
         Returns:
             requests.Response: Raw Response from the API if config.raw_response is set to True.
             read_ec2_mssqlfci_response.ReadEC2MSSQLFCIResponse: Response from the API.
@@ -52,11 +91,12 @@ class Ec2MssqlFailoverClusterV1Controller(base_controller.BaseController):
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'failover_cluster_id': failover_cluster_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
+        _query_parameters = {'embed': embed, 'lookback_days': lookback_days}
 
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -75,4 +115,4 @@ class Ec2MssqlFailoverClusterV1Controller(base_controller.BaseController):
             return resp, read_ec2_mssqlfci_response.ReadEC2MSSQLFCIResponse.from_dictionary(
                 resp.json()
             )
-        return read_ec2_mssqlfci_response.ReadEC2MSSQLFCIResponse.from_dictionary(resp)
+        return read_ec2_mssqlfci_response.ReadEC2MSSQLFCIResponse.from_dictionary(resp.json())

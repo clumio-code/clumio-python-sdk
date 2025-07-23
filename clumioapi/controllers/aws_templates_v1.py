@@ -1,9 +1,9 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -47,11 +47,11 @@ class AwsTemplatesV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/connections/aws/templates'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -70,11 +70,14 @@ class AwsTemplatesV1Controller(base_controller.BaseController):
             return resp, read_aws_templates_v2_response.ReadAWSTemplatesV2Response.from_dictionary(
                 resp.json()
             )
-        return read_aws_templates_v2_response.ReadAWSTemplatesV2Response.from_dictionary(resp)
+        return read_aws_templates_v2_response.ReadAWSTemplatesV2Response.from_dictionary(
+            resp.json()
+        )
 
     def create_connection_template(
         self,
-        body: create_connection_template_v1_request.CreateConnectionTemplateV1Request = None,
+        return_group_token: bool | None = None,
+        body: create_connection_template_v1_request.CreateConnectionTemplateV1Request | None = None,
         **kwargs,
     ) -> Union[
         create_aws_template_v2_response.CreateAWSTemplateV2Response,
@@ -86,6 +89,8 @@ class AwsTemplatesV1Controller(base_controller.BaseController):
         to a given configuration of asset types.
 
         Args:
+            return_group_token:
+                If passed as true, then the API will return grouping token for the template.
             body:
 
         Returns:
@@ -100,11 +105,12 @@ class AwsTemplatesV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/connections/aws/templates'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
+        _query_parameters = {'return_group_token': return_group_token}
 
         # Execute request
         try:
-            resp = self.client.post(
+            resp: requests.Response = self.client.post(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -127,4 +133,6 @@ class AwsTemplatesV1Controller(base_controller.BaseController):
                     resp.json()
                 ),
             )
-        return create_aws_template_v2_response.CreateAWSTemplateV2Response.from_dictionary(resp)
+        return create_aws_template_v2_response.CreateAWSTemplateV2Response.from_dictionary(
+            resp.json()
+        )

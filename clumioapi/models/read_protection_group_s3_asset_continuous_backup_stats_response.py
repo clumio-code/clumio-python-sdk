@@ -1,11 +1,15 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import protection_group_bucket_continuous_backup_stats
-from clumioapi.models import protection_group_bucket_continuous_backup_stats_links
+from clumioapi.models import \
+    protection_group_bucket_continuous_backup_stats as \
+    protection_group_bucket_continuous_backup_stats_
+from clumioapi.models import \
+    protection_group_bucket_continuous_backup_stats_links as \
+    protection_group_bucket_continuous_backup_stats_links_
 
 T = TypeVar('T', bound='ReadProtectionGroupS3AssetContinuousBackupStatsResponse')
 
@@ -24,31 +28,45 @@ class ReadProtectionGroupS3AssetContinuousBackupStatsResponse:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'links': '_links', 'bins': 'bins', 'total_stats': 'total_stats'}
+    _names: dict[str, str] = {'links': '_links', 'bins': 'bins', 'total_stats': 'total_stats'}
 
     def __init__(
         self,
-        links: protection_group_bucket_continuous_backup_stats_links.ProtectionGroupBucketContinuousBackupStatsLinks = None,
-        bins: Sequence[
-            protection_group_bucket_continuous_backup_stats.ProtectionGroupBucketContinuousBackupStats
-        ] = None,
-        total_stats: protection_group_bucket_continuous_backup_stats.ProtectionGroupBucketContinuousBackupStats = None,
+        links: (
+            protection_group_bucket_continuous_backup_stats_links_.ProtectionGroupBucketContinuousBackupStatsLinks
+            | None
+        ) = None,
+        bins: (
+            Sequence[
+                protection_group_bucket_continuous_backup_stats_.ProtectionGroupBucketContinuousBackupStats
+            ]
+            | None
+        ) = None,
+        total_stats: (
+            protection_group_bucket_continuous_backup_stats_.ProtectionGroupBucketContinuousBackupStats
+            | None
+        ) = None,
     ) -> None:
         """Constructor for the ReadProtectionGroupS3AssetContinuousBackupStatsResponse class."""
 
         # Initialize members of the class
         self.links: (
-            protection_group_bucket_continuous_backup_stats_links.ProtectionGroupBucketContinuousBackupStatsLinks
+            protection_group_bucket_continuous_backup_stats_links_.ProtectionGroupBucketContinuousBackupStatsLinks
+            | None
         ) = links
-        self.bins: Sequence[
-            protection_group_bucket_continuous_backup_stats.ProtectionGroupBucketContinuousBackupStats
-        ] = bins
+        self.bins: (
+            Sequence[
+                protection_group_bucket_continuous_backup_stats_.ProtectionGroupBucketContinuousBackupStats
+            ]
+            | None
+        ) = bins
         self.total_stats: (
-            protection_group_bucket_continuous_backup_stats.ProtectionGroupBucketContinuousBackupStats
+            protection_group_bucket_continuous_backup_stats_.ProtectionGroupBucketContinuousBackupStats
+            | None
         ) = total_stats
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -59,37 +77,34 @@ class ReadProtectionGroupS3AssetContinuousBackupStatsResponse:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = '_links'
-        links = (
-            protection_group_bucket_continuous_backup_stats_links.ProtectionGroupBucketContinuousBackupStatsLinks.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
+        val = dictionary.get('_links', None)
+        val_links = protection_group_bucket_continuous_backup_stats_links_.ProtectionGroupBucketContinuousBackupStatsLinks.from_dictionary(
+            val
         )
 
-        bins = None
-        if dictionary.get('bins'):
-            bins = list()
-            for value in dictionary.get('bins'):
-                bins.append(
-                    protection_group_bucket_continuous_backup_stats.ProtectionGroupBucketContinuousBackupStats.from_dictionary(
+        val = dictionary.get('bins', None)
+
+        val_bins = None
+        if val:
+            val_bins = list()
+            for value in val:
+                val_bins.append(
+                    protection_group_bucket_continuous_backup_stats_.ProtectionGroupBucketContinuousBackupStats.from_dictionary(
                         value
                     )
                 )
 
-        key = 'total_stats'
-        total_stats = (
-            protection_group_bucket_continuous_backup_stats.ProtectionGroupBucketContinuousBackupStats.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
+        val = dictionary.get('total_stats', None)
+        val_total_stats = protection_group_bucket_continuous_backup_stats_.ProtectionGroupBucketContinuousBackupStats.from_dictionary(
+            val
         )
 
         # Return an object of this model
-        return cls(links, bins, total_stats)
+        return cls(
+            val_links,
+            val_bins,
+            val_total_stats,
+        )

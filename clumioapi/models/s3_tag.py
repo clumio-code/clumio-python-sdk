@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -20,17 +20,17 @@ class S3Tag:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'key': 'key', 'value': 'value'}
+    _names: dict[str, str] = {'key': 'key', 'value': 'value'}
 
-    def __init__(self, key: str = None, value: str = None) -> None:
+    def __init__(self, key: str | None = None, value: str | None = None) -> None:
         """Constructor for the S3Tag class."""
 
         # Initialize members of the class
-        self.key: str = key
-        self.value: str = value
+        self.key: str | None = key
+        self.value: str | None = value
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -41,11 +41,17 @@ class S3Tag:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = dictionary.get('key')
-        value = dictionary.get('value')
+        val = dictionary.get('key', None)
+        val_key = val
+
+        val = dictionary.get('value', None)
+        val_value = val
+
         # Return an object of this model
-        return cls(key, value)
+        return cls(
+            val_key,
+            val_value,
+        )

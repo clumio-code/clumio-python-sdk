@@ -1,10 +1,10 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import clumio_ssm_document_inputs
+from clumioapi.models import clumio_ssm_document_inputs as clumio_ssm_document_inputs_
 
 T = TypeVar('T', bound='ClumioSsmDocumentStep')
 
@@ -26,7 +26,7 @@ class ClumioSsmDocumentStep:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'action': 'action',
         'inputs': 'inputs',
         'name': 'name',
@@ -35,21 +35,21 @@ class ClumioSsmDocumentStep:
 
     def __init__(
         self,
-        action: str = None,
-        inputs: clumio_ssm_document_inputs.ClumioSsmDocumentInputs = None,
-        name: str = None,
-        precondition: Mapping[str, Sequence[str]] = None,
+        action: str | None = None,
+        inputs: clumio_ssm_document_inputs_.ClumioSsmDocumentInputs | None = None,
+        name: str | None = None,
+        precondition: Mapping[str, Sequence[str]] | None = None,
     ) -> None:
         """Constructor for the ClumioSsmDocumentStep class."""
 
         # Initialize members of the class
-        self.action: str = action
-        self.inputs: clumio_ssm_document_inputs.ClumioSsmDocumentInputs = inputs
-        self.name: str = name
-        self.precondition: Mapping[str, Sequence[str]] = precondition
+        self.action: str | None = action
+        self.inputs: clumio_ssm_document_inputs_.ClumioSsmDocumentInputs | None = inputs
+        self.name: str | None = name
+        self.precondition: Mapping[str, Sequence[str]] | None = precondition
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -60,19 +60,25 @@ class ClumioSsmDocumentStep:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        action = dictionary.get('action')
-        key = 'inputs'
-        inputs = (
-            clumio_ssm_document_inputs.ClumioSsmDocumentInputs.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('action', None)
+        val_action = val
 
-        name = dictionary.get('name')
-        precondition = dictionary.get('precondition')
+        val = dictionary.get('inputs', None)
+        val_inputs = clumio_ssm_document_inputs_.ClumioSsmDocumentInputs.from_dictionary(val)
+
+        val = dictionary.get('name', None)
+        val_name = val
+
+        val = dictionary.get('precondition', None)
+        val_precondition = val
+
         # Return an object of this model
-        return cls(action, inputs, name, precondition)
+        return cls(
+            val_action,
+            val_inputs,
+            val_name,
+            val_precondition,
+        )

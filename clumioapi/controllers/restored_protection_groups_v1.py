@@ -1,9 +1,9 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -38,8 +38,8 @@ class RestoredProtectionGroupsV1Controller(base_controller.BaseController):
 
     def restore_protection_group(
         self,
-        embed: str = None,
-        body: restore_protection_group_v1_request.RestoreProtectionGroupV1Request = None,
+        embed: str | None = None,
+        body: restore_protection_group_v1_request.RestoreProtectionGroupV1Request | None = None,
         **kwargs,
     ) -> Union[
         restore_protection_group_response.RestoreProtectionGroupResponse,
@@ -78,12 +78,12 @@ class RestoredProtectionGroupsV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/restores/protection-groups'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'embed': embed}
 
         # Execute request
         try:
-            resp = self.client.post(
+            resp: requests.Response = self.client.post(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -107,13 +107,13 @@ class RestoredProtectionGroupsV1Controller(base_controller.BaseController):
                 ),
             )
         return restore_protection_group_response.RestoreProtectionGroupResponse.from_dictionary(
-            resp
+            resp.json()
         )
 
     def preview_protection_group(
         self,
-        protection_group_id: str,
-        body: preview_protection_group_v1_request.PreviewProtectionGroupV1Request = None,
+        protection_group_id: str | None = None,
+        body: preview_protection_group_v1_request.PreviewProtectionGroupV1Request | None = None,
         **kwargs,
     ) -> Union[
         Union[
@@ -147,17 +147,15 @@ class RestoredProtectionGroupsV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = (
-            '/restores/protection-groups/{protection_group_id}/previews'
-        )
+        _url_path = '/restores/protection-groups/{protection_group_id}/previews'
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'protection_group_id': protection_group_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
         # Execute request
         try:
-            resp = self.client.post(
+            resp: requests.Response = self.client.post(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -195,9 +193,12 @@ class RestoredProtectionGroupsV1Controller(base_controller.BaseController):
             return preview_protection_group_async_response.PreviewProtectionGroupAsyncResponse.from_dictionary(
                 unmarshalled_dict
             )
+        raise RuntimeError(
+            f'Code should be unreachable; Unexpected response code: {resp.status_code}. '
+        )
 
     def preview_details_protection_group(
-        self, protection_group_id: str, preview_id: str, **kwargs
+        self, protection_group_id: str | None = None, preview_id: str | None = None, **kwargs
     ) -> Union[
         preview_details_protection_group_response.PreviewDetailsProtectionGroupResponse,
         tuple[
@@ -228,11 +229,11 @@ class RestoredProtectionGroupsV1Controller(base_controller.BaseController):
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'protection_group_id': protection_group_id, 'preview_id': preview_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -255,14 +256,17 @@ class RestoredProtectionGroupsV1Controller(base_controller.BaseController):
                 ),
             )
         return preview_details_protection_group_response.PreviewDetailsProtectionGroupResponse.from_dictionary(
-            resp
+            resp.json()
         )
 
     def restore_protection_group_s3_objects(
         self,
-        protection_group_id: str,
-        embed: str = None,
-        body: restore_protection_group_s3_objects_v1_request.RestoreProtectionGroupS3ObjectsV1Request = None,
+        protection_group_id: str | None = None,
+        embed: str | None = None,
+        body: (
+            restore_protection_group_s3_objects_v1_request.RestoreProtectionGroupS3ObjectsV1Request
+            | None
+        ) = None,
         **kwargs,
     ) -> Union[
         restore_objects_response.RestoreObjectsResponse,
@@ -297,18 +301,16 @@ class RestoredProtectionGroupsV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = (
-            '/restores/protection-groups/{protection_group_id}/s3-objects'
-        )
+        _url_path = '/restores/protection-groups/{protection_group_id}/s3-objects'
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'protection_group_id': protection_group_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'embed': embed}
 
         # Execute request
         try:
-            resp = self.client.post(
+            resp: requests.Response = self.client.post(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -328,4 +330,4 @@ class RestoredProtectionGroupsV1Controller(base_controller.BaseController):
             return resp, restore_objects_response.RestoreObjectsResponse.from_dictionary(
                 resp.json()
             )
-        return restore_objects_response.RestoreObjectsResponse.from_dictionary(resp)
+        return restore_objects_response.RestoreObjectsResponse.from_dictionary(resp.json())

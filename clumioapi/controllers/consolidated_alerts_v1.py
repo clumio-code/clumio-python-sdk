@@ -1,9 +1,9 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -33,7 +33,11 @@ class ConsolidatedAlertsV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def list_consolidated_alerts(
-        self, limit: int = None, start: str = None, filter: str = None, **kwargs
+        self,
+        limit: int | None = None,
+        start: str | None = None,
+        filter: str | None = None,
+        **kwargs,
     ) -> Union[
         list_consolidated_alerts_response.ListConsolidatedAlertsResponse,
         tuple[
@@ -110,12 +114,12 @@ class ConsolidatedAlertsV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/alerts/consolidated'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'limit': limit, 'start': start, 'filter': filter}
 
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -138,10 +142,10 @@ class ConsolidatedAlertsV1Controller(base_controller.BaseController):
                 ),
             )
         return list_consolidated_alerts_response.ListConsolidatedAlertsResponse.from_dictionary(
-            resp
+            resp.json()
         )
 
-    def read_consolidated_alert(self, id: str, **kwargs) -> Union[
+    def read_consolidated_alert(self, id: str | None = None, **kwargs) -> Union[
         read_consolidated_alert_response.ReadConsolidatedAlertResponse,
         tuple[
             requests.Response,
@@ -165,11 +169,11 @@ class ConsolidatedAlertsV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/alerts/consolidated/{id}'
         _url_path = api_helper.append_url_with_template_parameters(_url_path, {'id': id})
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -191,12 +195,14 @@ class ConsolidatedAlertsV1Controller(base_controller.BaseController):
                     resp.json()
                 ),
             )
-        return read_consolidated_alert_response.ReadConsolidatedAlertResponse.from_dictionary(resp)
+        return read_consolidated_alert_response.ReadConsolidatedAlertResponse.from_dictionary(
+            resp.json()
+        )
 
     def update_consolidated_alert(
         self,
-        id: str,
-        body: update_consolidated_alert_v1_request.UpdateConsolidatedAlertV1Request = None,
+        id: str | None = None,
+        body: update_consolidated_alert_v1_request.UpdateConsolidatedAlertV1Request | None = None,
         **kwargs,
     ) -> Union[
         update_consolidated_alert_response.UpdateConsolidatedAlertResponse,
@@ -225,11 +231,11 @@ class ConsolidatedAlertsV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/alerts/consolidated/{id}'
         _url_path = api_helper.append_url_with_template_parameters(_url_path, {'id': id})
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
         # Execute request
         try:
-            resp = self.client.patch(
+            resp: requests.Response = self.client.patch(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -253,5 +259,5 @@ class ConsolidatedAlertsV1Controller(base_controller.BaseController):
                 ),
             )
         return update_consolidated_alert_response.UpdateConsolidatedAlertResponse.from_dictionary(
-            resp
+            resp.json()
         )

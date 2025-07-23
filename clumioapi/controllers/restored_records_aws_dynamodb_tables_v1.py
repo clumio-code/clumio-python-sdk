@@ -1,9 +1,9 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -33,8 +33,11 @@ class RestoredRecordsAwsDynamodbTablesV1Controller(base_controller.BaseControlle
 
     def restore_records_aws_dynamodb_table(
         self,
-        embed: str = None,
-        body: restore_records_aws_dynamodb_table_v1_request.RestoreRecordsAwsDynamodbTableV1Request = None,
+        embed: str | None = None,
+        body: (
+            restore_records_aws_dynamodb_table_v1_request.RestoreRecordsAwsDynamodbTableV1Request
+            | None
+        ) = None,
         **kwargs,
     ) -> Union[
         Union[
@@ -83,12 +86,12 @@ class RestoredRecordsAwsDynamodbTablesV1Controller(base_controller.BaseControlle
         # Prepare query URL
         _url_path = '/restores/aws/dynamodb-tables/records'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'embed': embed}
 
         # Execute request
         try:
-            resp = self.client.post(
+            resp: requests.Response = self.client.post(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -126,3 +129,6 @@ class RestoredRecordsAwsDynamodbTablesV1Controller(base_controller.BaseControlle
             return restore_records_response_async.RestoreRecordsResponseAsync.from_dictionary(
                 unmarshalled_dict
             )
+        raise RuntimeError(
+            f'Code should be unreachable; Unexpected response code: {resp.status_code}. '
+        )

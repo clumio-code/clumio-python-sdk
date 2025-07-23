@@ -1,11 +1,11 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import aws_tag_common_model
-from clumioapi.models import ebs_backup_links
+from clumioapi.models import aws_tag_common_model as aws_tag_common_model_
+from clumioapi.models import ebs_backup_links as ebs_backup_links_
 
 T = TypeVar('T', bound='ReadEBSBackupResponse')
 
@@ -69,7 +69,7 @@ class ReadEBSBackupResponse:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'links': '_links',
         'account_native_id': 'account_native_id',
         'aws_az': 'aws_az',
@@ -95,55 +95,55 @@ class ReadEBSBackupResponse:
 
     def __init__(
         self,
-        links: ebs_backup_links.EBSBackupLinks = None,
-        account_native_id: str = None,
-        aws_az: str = None,
-        aws_region: str = None,
-        backup_tier: str = None,
-        browsing_failed_reason: str = None,
-        expiration_timestamp: str = None,
-        p_id: str = None,
-        iops: int = None,
-        is_browsable: bool = None,
-        is_encrypted: bool = None,
-        kms_key_native_id: str = None,
-        migration_timestamp: str = None,
-        size: int = None,
-        start_timestamp: str = None,
-        tags: Sequence[aws_tag_common_model.AwsTagCommonModel] = None,
-        p_type: str = None,
-        utilized_size_in_bytes: int = None,
-        volume_id: str = None,
-        volume_native_id: str = None,
-        volume_type: str = None,
+        links: ebs_backup_links_.EBSBackupLinks | None = None,
+        account_native_id: str | None = None,
+        aws_az: str | None = None,
+        aws_region: str | None = None,
+        backup_tier: str | None = None,
+        browsing_failed_reason: str | None = None,
+        expiration_timestamp: str | None = None,
+        p_id: str | None = None,
+        iops: int | None = None,
+        is_browsable: bool | None = None,
+        is_encrypted: bool | None = None,
+        kms_key_native_id: str | None = None,
+        migration_timestamp: str | None = None,
+        size: int | None = None,
+        start_timestamp: str | None = None,
+        tags: Sequence[aws_tag_common_model_.AwsTagCommonModel] | None = None,
+        p_type: str | None = None,
+        utilized_size_in_bytes: int | None = None,
+        volume_id: str | None = None,
+        volume_native_id: str | None = None,
+        volume_type: str | None = None,
     ) -> None:
         """Constructor for the ReadEBSBackupResponse class."""
 
         # Initialize members of the class
-        self.links: ebs_backup_links.EBSBackupLinks = links
-        self.account_native_id: str = account_native_id
-        self.aws_az: str = aws_az
-        self.aws_region: str = aws_region
-        self.backup_tier: str = backup_tier
-        self.browsing_failed_reason: str = browsing_failed_reason
-        self.expiration_timestamp: str = expiration_timestamp
-        self.p_id: str = p_id
-        self.iops: int = iops
-        self.is_browsable: bool = is_browsable
-        self.is_encrypted: bool = is_encrypted
-        self.kms_key_native_id: str = kms_key_native_id
-        self.migration_timestamp: str = migration_timestamp
-        self.size: int = size
-        self.start_timestamp: str = start_timestamp
-        self.tags: Sequence[aws_tag_common_model.AwsTagCommonModel] = tags
-        self.p_type: str = p_type
-        self.utilized_size_in_bytes: int = utilized_size_in_bytes
-        self.volume_id: str = volume_id
-        self.volume_native_id: str = volume_native_id
-        self.volume_type: str = volume_type
+        self.links: ebs_backup_links_.EBSBackupLinks | None = links
+        self.account_native_id: str | None = account_native_id
+        self.aws_az: str | None = aws_az
+        self.aws_region: str | None = aws_region
+        self.backup_tier: str | None = backup_tier
+        self.browsing_failed_reason: str | None = browsing_failed_reason
+        self.expiration_timestamp: str | None = expiration_timestamp
+        self.p_id: str | None = p_id
+        self.iops: int | None = iops
+        self.is_browsable: bool | None = is_browsable
+        self.is_encrypted: bool | None = is_encrypted
+        self.kms_key_native_id: str | None = kms_key_native_id
+        self.migration_timestamp: str | None = migration_timestamp
+        self.size: int | None = size
+        self.start_timestamp: str | None = start_timestamp
+        self.tags: Sequence[aws_tag_common_model_.AwsTagCommonModel] | None = tags
+        self.p_type: str | None = p_type
+        self.utilized_size_in_bytes: int | None = utilized_size_in_bytes
+        self.volume_id: str | None = volume_id
+        self.volume_native_id: str | None = volume_native_id
+        self.volume_type: str | None = volume_type
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -154,63 +154,98 @@ class ReadEBSBackupResponse:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = '_links'
-        links = (
-            ebs_backup_links.EBSBackupLinks.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('_links', None)
+        val_links = ebs_backup_links_.EBSBackupLinks.from_dictionary(val)
 
-        account_native_id = dictionary.get('account_native_id')
-        aws_az = dictionary.get('aws_az')
-        aws_region = dictionary.get('aws_region')
-        backup_tier = dictionary.get('backup_tier')
-        browsing_failed_reason = dictionary.get('browsing_failed_reason')
-        expiration_timestamp = dictionary.get('expiration_timestamp')
-        p_id = dictionary.get('id')
-        iops = dictionary.get('iops')
-        is_browsable = dictionary.get('is_browsable')
-        is_encrypted = dictionary.get('is_encrypted')
-        kms_key_native_id = dictionary.get('kms_key_native_id')
-        migration_timestamp = dictionary.get('migration_timestamp')
-        size = dictionary.get('size')
-        start_timestamp = dictionary.get('start_timestamp')
-        tags = None
-        if dictionary.get('tags'):
-            tags = list()
-            for value in dictionary.get('tags'):
-                tags.append(aws_tag_common_model.AwsTagCommonModel.from_dictionary(value))
+        val = dictionary.get('account_native_id', None)
+        val_account_native_id = val
 
-        p_type = dictionary.get('type')
-        utilized_size_in_bytes = dictionary.get('utilized_size_in_bytes')
-        volume_id = dictionary.get('volume_id')
-        volume_native_id = dictionary.get('volume_native_id')
-        volume_type = dictionary.get('volume_type')
+        val = dictionary.get('aws_az', None)
+        val_aws_az = val
+
+        val = dictionary.get('aws_region', None)
+        val_aws_region = val
+
+        val = dictionary.get('backup_tier', None)
+        val_backup_tier = val
+
+        val = dictionary.get('browsing_failed_reason', None)
+        val_browsing_failed_reason = val
+
+        val = dictionary.get('expiration_timestamp', None)
+        val_expiration_timestamp = val
+
+        val = dictionary.get('id', None)
+        val_p_id = val
+
+        val = dictionary.get('iops', None)
+        val_iops = val
+
+        val = dictionary.get('is_browsable', None)
+        val_is_browsable = val
+
+        val = dictionary.get('is_encrypted', None)
+        val_is_encrypted = val
+
+        val = dictionary.get('kms_key_native_id', None)
+        val_kms_key_native_id = val
+
+        val = dictionary.get('migration_timestamp', None)
+        val_migration_timestamp = val
+
+        val = dictionary.get('size', None)
+        val_size = val
+
+        val = dictionary.get('start_timestamp', None)
+        val_start_timestamp = val
+
+        val = dictionary.get('tags', None)
+
+        val_tags = None
+        if val:
+            val_tags = list()
+            for value in val:
+                val_tags.append(aws_tag_common_model_.AwsTagCommonModel.from_dictionary(value))
+
+        val = dictionary.get('type', None)
+        val_p_type = val
+
+        val = dictionary.get('utilized_size_in_bytes', None)
+        val_utilized_size_in_bytes = val
+
+        val = dictionary.get('volume_id', None)
+        val_volume_id = val
+
+        val = dictionary.get('volume_native_id', None)
+        val_volume_native_id = val
+
+        val = dictionary.get('volume_type', None)
+        val_volume_type = val
+
         # Return an object of this model
         return cls(
-            links,
-            account_native_id,
-            aws_az,
-            aws_region,
-            backup_tier,
-            browsing_failed_reason,
-            expiration_timestamp,
-            p_id,
-            iops,
-            is_browsable,
-            is_encrypted,
-            kms_key_native_id,
-            migration_timestamp,
-            size,
-            start_timestamp,
-            tags,
-            p_type,
-            utilized_size_in_bytes,
-            volume_id,
-            volume_native_id,
-            volume_type,
+            val_links,
+            val_account_native_id,
+            val_aws_az,
+            val_aws_region,
+            val_backup_tier,
+            val_browsing_failed_reason,
+            val_expiration_timestamp,
+            val_p_id,
+            val_iops,
+            val_is_browsable,
+            val_is_encrypted,
+            val_kms_key_native_id,
+            val_migration_timestamp,
+            val_size,
+            val_start_timestamp,
+            val_tags,
+            val_p_type,
+            val_utilized_size_in_bytes,
+            val_volume_id,
+            val_volume_native_id,
+            val_volume_type,
         )

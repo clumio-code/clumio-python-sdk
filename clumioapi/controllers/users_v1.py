@@ -1,9 +1,9 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -40,7 +40,11 @@ class UsersV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def list_users(
-        self, limit: int = None, start: str = None, filter: str = None, **kwargs
+        self,
+        limit: int | None = None,
+        start: str | None = None,
+        filter: str | None = None,
+        **kwargs,
     ) -> Union[
         list_users_response_v1.ListUsersResponseV1,
         tuple[requests.Response, Optional[list_users_response_v1.ListUsersResponseV1]],
@@ -78,12 +82,12 @@ class UsersV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/users'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'limit': limit, 'start': start, 'filter': filter}
 
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -100,10 +104,10 @@ class UsersV1Controller(base_controller.BaseController):
 
         if self.config.raw_response:
             return resp, list_users_response_v1.ListUsersResponseV1.from_dictionary(resp.json())
-        return list_users_response_v1.ListUsersResponseV1.from_dictionary(resp)
+        return list_users_response_v1.ListUsersResponseV1.from_dictionary(resp.json())
 
     def create_user(
-        self, body: create_user_v1_request.CreateUserV1Request = None, **kwargs
+        self, body: create_user_v1_request.CreateUserV1Request | None = None, **kwargs
     ) -> Union[
         create_user_response_v1.CreateUserResponseV1,
         tuple[requests.Response, Optional[create_user_response_v1.CreateUserResponseV1]],
@@ -127,11 +131,11 @@ class UsersV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/users'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
         # Execute request
         try:
-            resp = self.client.post(
+            resp: requests.Response = self.client.post(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -149,10 +153,12 @@ class UsersV1Controller(base_controller.BaseController):
 
         if self.config.raw_response:
             return resp, create_user_response_v1.CreateUserResponseV1.from_dictionary(resp.json())
-        return create_user_response_v1.CreateUserResponseV1.from_dictionary(resp)
+        return create_user_response_v1.CreateUserResponseV1.from_dictionary(resp.json())
 
     def update_user_profile(
-        self, body: update_user_profile_v1_request.UpdateUserProfileV1Request = None, **kwargs
+        self,
+        body: update_user_profile_v1_request.UpdateUserProfileV1Request | None = None,
+        **kwargs,
     ) -> Union[
         edit_profile_response_v1.EditProfileResponseV1,
         tuple[requests.Response, Optional[edit_profile_response_v1.EditProfileResponseV1]],
@@ -174,11 +180,11 @@ class UsersV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/users/my-profile'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
         # Execute request
         try:
-            resp = self.client.patch(
+            resp: requests.Response = self.client.patch(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -196,9 +202,9 @@ class UsersV1Controller(base_controller.BaseController):
 
         if self.config.raw_response:
             return resp, edit_profile_response_v1.EditProfileResponseV1.from_dictionary(resp.json())
-        return edit_profile_response_v1.EditProfileResponseV1.from_dictionary(resp)
+        return edit_profile_response_v1.EditProfileResponseV1.from_dictionary(resp.json())
 
-    def read_user(self, user_id: int, **kwargs) -> Union[
+    def read_user(self, user_id: int | None = None, **kwargs) -> Union[
         read_user_response_v1.ReadUserResponseV1,
         tuple[requests.Response, Optional[read_user_response_v1.ReadUserResponseV1]],
     ]:
@@ -219,11 +225,11 @@ class UsersV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/users/{user_id}'
         _url_path = api_helper.append_url_with_template_parameters(_url_path, {'user_id': user_id})
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -240,9 +246,9 @@ class UsersV1Controller(base_controller.BaseController):
 
         if self.config.raw_response:
             return resp, read_user_response_v1.ReadUserResponseV1.from_dictionary(resp.json())
-        return read_user_response_v1.ReadUserResponseV1.from_dictionary(resp)
+        return read_user_response_v1.ReadUserResponseV1.from_dictionary(resp.json())
 
-    def delete_user(self, user_id: int, **kwargs) -> Union[
+    def delete_user(self, user_id: int | None = None, **kwargs) -> Union[
         delete_user_response_v1.DeleteUserResponseV1,
         tuple[requests.Response, Optional[delete_user_response_v1.DeleteUserResponseV1]],
     ]:
@@ -264,11 +270,11 @@ class UsersV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/users/{user_id}'
         _url_path = api_helper.append_url_with_template_parameters(_url_path, {'user_id': user_id})
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
         # Execute request
         try:
-            resp = self.client.delete(
+            resp: requests.Response = self.client.delete(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -285,10 +291,13 @@ class UsersV1Controller(base_controller.BaseController):
 
         if self.config.raw_response:
             return resp, delete_user_response_v1.DeleteUserResponseV1.from_dictionary(resp.json())
-        return delete_user_response_v1.DeleteUserResponseV1.from_dictionary(resp)
+        return delete_user_response_v1.DeleteUserResponseV1.from_dictionary(resp.json())
 
     def update_user(
-        self, user_id: int, body: update_user_v1_request.UpdateUserV1Request = None, **kwargs
+        self,
+        user_id: int | None = None,
+        body: update_user_v1_request.UpdateUserV1Request | None = None,
+        **kwargs,
     ) -> Union[
         update_user_response_v1.UpdateUserResponseV1,
         tuple[requests.Response, Optional[update_user_response_v1.UpdateUserResponseV1]],
@@ -314,11 +323,11 @@ class UsersV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/users/{user_id}'
         _url_path = api_helper.append_url_with_template_parameters(_url_path, {'user_id': user_id})
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
         # Execute request
         try:
-            resp = self.client.patch(
+            resp: requests.Response = self.client.patch(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -336,12 +345,12 @@ class UsersV1Controller(base_controller.BaseController):
 
         if self.config.raw_response:
             return resp, update_user_response_v1.UpdateUserResponseV1.from_dictionary(resp.json())
-        return update_user_response_v1.UpdateUserResponseV1.from_dictionary(resp)
+        return update_user_response_v1.UpdateUserResponseV1.from_dictionary(resp.json())
 
     def change_password(
         self,
-        user_id: int,
-        body: change_password_v1_request.ChangePasswordV1Request = None,
+        user_id: int | None = None,
+        body: change_password_v1_request.ChangePasswordV1Request | None = None,
         **kwargs,
     ) -> Union[
         change_password_response.ChangePasswordResponse,
@@ -366,11 +375,11 @@ class UsersV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/users/{user_id}/password'
         _url_path = api_helper.append_url_with_template_parameters(_url_path, {'user_id': user_id})
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
         # Execute request
         try:
-            resp = self.client.put(
+            resp: requests.Response = self.client.put(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -390,4 +399,4 @@ class UsersV1Controller(base_controller.BaseController):
             return resp, change_password_response.ChangePasswordResponse.from_dictionary(
                 resp.json()
             )
-        return change_password_response.ChangePasswordResponse.from_dictionary(resp)
+        return change_password_response.ChangePasswordResponse.from_dictionary(resp.json())

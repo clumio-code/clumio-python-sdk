@@ -1,9 +1,9 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -31,7 +31,9 @@ class PostProcessAwsConnectionV1Controller(base_controller.BaseController):
 
     def post_process_aws_connection(
         self,
-        body: post_process_aws_connection_v1_request.PostProcessAwsConnectionV1Request = None,
+        body: (
+            post_process_aws_connection_v1_request.PostProcessAwsConnectionV1Request | None
+        ) = None,
         **kwargs,
     ) -> Union[object, tuple[requests.Response, Optional[object]]]:
         """Performs post-processing after AWS Connection Create, Update or Delete. This API
@@ -53,11 +55,11 @@ class PostProcessAwsConnectionV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/connections/aws/post-process'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
         # Execute request
         try:
-            resp = self.client.post(
+            resp: requests.Response = self.client.post(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,

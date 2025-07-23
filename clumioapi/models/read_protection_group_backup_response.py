@@ -1,10 +1,10 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import protection_group_backup_links
+from clumioapi.models import protection_group_backup_links as protection_group_backup_links_
 
 T = TypeVar('T', bound='ReadProtectionGroupBackupResponse')
 
@@ -42,7 +42,7 @@ class ReadProtectionGroupBackupResponse:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'links': '_links',
         'backed_up_object_count': 'backed_up_object_count',
         'backed_up_size_bytes': 'backed_up_size_bytes',
@@ -59,37 +59,37 @@ class ReadProtectionGroupBackupResponse:
 
     def __init__(
         self,
-        links: protection_group_backup_links.ProtectionGroupBackupLinks = None,
-        backed_up_object_count: int = None,
-        backed_up_size_bytes: int = None,
-        expiration_timestamp: str = None,
-        failed_object_count: int = None,
-        failed_size_bytes: int = None,
-        p_id: str = None,
-        protection_group_id: str = None,
-        protection_group_name: str = None,
-        protection_group_version: int = None,
-        start_timestamp: str = None,
-        p_type: str = None,
+        links: protection_group_backup_links_.ProtectionGroupBackupLinks | None = None,
+        backed_up_object_count: int | None = None,
+        backed_up_size_bytes: int | None = None,
+        expiration_timestamp: str | None = None,
+        failed_object_count: int | None = None,
+        failed_size_bytes: int | None = None,
+        p_id: str | None = None,
+        protection_group_id: str | None = None,
+        protection_group_name: str | None = None,
+        protection_group_version: int | None = None,
+        start_timestamp: str | None = None,
+        p_type: str | None = None,
     ) -> None:
         """Constructor for the ReadProtectionGroupBackupResponse class."""
 
         # Initialize members of the class
-        self.links: protection_group_backup_links.ProtectionGroupBackupLinks = links
-        self.backed_up_object_count: int = backed_up_object_count
-        self.backed_up_size_bytes: int = backed_up_size_bytes
-        self.expiration_timestamp: str = expiration_timestamp
-        self.failed_object_count: int = failed_object_count
-        self.failed_size_bytes: int = failed_size_bytes
-        self.p_id: str = p_id
-        self.protection_group_id: str = protection_group_id
-        self.protection_group_name: str = protection_group_name
-        self.protection_group_version: int = protection_group_version
-        self.start_timestamp: str = start_timestamp
-        self.p_type: str = p_type
+        self.links: protection_group_backup_links_.ProtectionGroupBackupLinks | None = links
+        self.backed_up_object_count: int | None = backed_up_object_count
+        self.backed_up_size_bytes: int | None = backed_up_size_bytes
+        self.expiration_timestamp: str | None = expiration_timestamp
+        self.failed_object_count: int | None = failed_object_count
+        self.failed_size_bytes: int | None = failed_size_bytes
+        self.p_id: str | None = p_id
+        self.protection_group_id: str | None = protection_group_id
+        self.protection_group_name: str | None = protection_group_name
+        self.protection_group_version: int | None = protection_group_version
+        self.start_timestamp: str | None = start_timestamp
+        self.p_type: str | None = p_type
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -100,42 +100,57 @@ class ReadProtectionGroupBackupResponse:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = '_links'
-        links = (
-            protection_group_backup_links.ProtectionGroupBackupLinks.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('_links', None)
+        val_links = protection_group_backup_links_.ProtectionGroupBackupLinks.from_dictionary(val)
 
-        backed_up_object_count = dictionary.get('backed_up_object_count')
-        backed_up_size_bytes = dictionary.get('backed_up_size_bytes')
-        expiration_timestamp = dictionary.get('expiration_timestamp')
-        failed_object_count = dictionary.get('failed_object_count')
-        failed_size_bytes = dictionary.get('failed_size_bytes')
-        p_id = dictionary.get('id')
-        protection_group_id = dictionary.get('protection_group_id')
-        protection_group_name = dictionary.get('protection_group_name')
-        protection_group_version = dictionary.get('protection_group_version')
-        start_timestamp = dictionary.get('start_timestamp')
-        p_type = dictionary.get('type')
+        val = dictionary.get('backed_up_object_count', None)
+        val_backed_up_object_count = val
+
+        val = dictionary.get('backed_up_size_bytes', None)
+        val_backed_up_size_bytes = val
+
+        val = dictionary.get('expiration_timestamp', None)
+        val_expiration_timestamp = val
+
+        val = dictionary.get('failed_object_count', None)
+        val_failed_object_count = val
+
+        val = dictionary.get('failed_size_bytes', None)
+        val_failed_size_bytes = val
+
+        val = dictionary.get('id', None)
+        val_p_id = val
+
+        val = dictionary.get('protection_group_id', None)
+        val_protection_group_id = val
+
+        val = dictionary.get('protection_group_name', None)
+        val_protection_group_name = val
+
+        val = dictionary.get('protection_group_version', None)
+        val_protection_group_version = val
+
+        val = dictionary.get('start_timestamp', None)
+        val_start_timestamp = val
+
+        val = dictionary.get('type', None)
+        val_p_type = val
+
         # Return an object of this model
         return cls(
-            links,
-            backed_up_object_count,
-            backed_up_size_bytes,
-            expiration_timestamp,
-            failed_object_count,
-            failed_size_bytes,
-            p_id,
-            protection_group_id,
-            protection_group_name,
-            protection_group_version,
-            start_timestamp,
-            p_type,
+            val_links,
+            val_backed_up_object_count,
+            val_backed_up_size_bytes,
+            val_expiration_timestamp,
+            val_failed_object_count,
+            val_failed_size_bytes,
+            val_p_id,
+            val_protection_group_id,
+            val_protection_group_name,
+            val_protection_group_version,
+            val_start_timestamp,
+            val_p_type,
         )

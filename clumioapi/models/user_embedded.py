@@ -1,10 +1,10 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import role_model
+from clumioapi.models import role_model as role_model_
 
 T = TypeVar('T', bound='UserEmbedded')
 
@@ -20,16 +20,16 @@ class UserEmbedded:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'read_role': 'read-role'}
+    _names: dict[str, str] = {'read_role': 'read-role'}
 
-    def __init__(self, read_role: Sequence[role_model.RoleModel] = None) -> None:
+    def __init__(self, read_role: Sequence[role_model_.RoleModel] | None = None) -> None:
         """Constructor for the UserEmbedded class."""
 
         # Initialize members of the class
-        self.read_role: Sequence[role_model.RoleModel] = read_role
+        self.read_role: Sequence[role_model_.RoleModel] | None = read_role
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -40,15 +40,18 @@ class UserEmbedded:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        read_role = None
-        if dictionary.get('read-role'):
-            read_role = list()
-            for value in dictionary.get('read-role'):
-                read_role.append(role_model.RoleModel.from_dictionary(value))
+        val = dictionary.get('read-role', None)
+
+        val_read_role = None
+        if val:
+            val_read_role = list()
+            for value in val:
+                val_read_role.append(role_model_.RoleModel.from_dictionary(value))
 
         # Return an object of this model
-        return cls(read_role)
+        return cls(
+            val_read_role,
+        )

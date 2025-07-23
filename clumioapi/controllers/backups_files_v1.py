@@ -1,9 +1,9 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -31,7 +31,11 @@ class BackupsFilesV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def list_files(
-        self, limit: int = None, start: str = None, filter: str = None, **kwargs
+        self,
+        limit: int | None = None,
+        start: str | None = None,
+        filter: str | None = None,
+        **kwargs,
     ) -> Union[
         file_search_response.FileSearchResponse,
         tuple[requests.Response, Optional[file_search_response.FileSearchResponse]],
@@ -56,8 +60,8 @@ class BackupsFilesV1Controller(base_controller.BaseController):
                 +============+==================+==============================================+
                 | asset_type | $eq              | Required. The type of the asset within which |
                 |            |                  | to search for files. Possible values include |
-                |            |                  | aws_ebs_volume,                              |
-                |            |                  | aws_ec2_instance, and vmware_vm.             |
+                |            |                  | aws_ebs_volume and                           |
+                |            |                  | aws_ec2_instance.                            |
                 +------------+------------------+----------------------------------------------+
                 | asset_id   | $eq              | Required. The Clumio-assigned ID of the      |
                 |            |                  | asset                                        |
@@ -80,12 +84,12 @@ class BackupsFilesV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/backups/files/search'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'limit': limit, 'start': start, 'filter': filter}
 
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -102,10 +106,14 @@ class BackupsFilesV1Controller(base_controller.BaseController):
 
         if self.config.raw_response:
             return resp, file_search_response.FileSearchResponse.from_dictionary(resp.json())
-        return file_search_response.FileSearchResponse.from_dictionary(resp)
+        return file_search_response.FileSearchResponse.from_dictionary(resp.json())
 
     def list_file_versions(
-        self, search_result_id: str, limit: int = None, start: str = None, **kwargs
+        self,
+        search_result_id: str | None = None,
+        limit: int | None = None,
+        start: str | None = None,
+        **kwargs,
     ) -> Union[
         file_list_response.FileListResponse,
         tuple[requests.Response, Optional[file_list_response.FileListResponse]],
@@ -135,12 +143,12 @@ class BackupsFilesV1Controller(base_controller.BaseController):
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'search_result_id': search_result_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'limit': limit, 'start': start}
 
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -157,4 +165,4 @@ class BackupsFilesV1Controller(base_controller.BaseController):
 
         if self.config.raw_response:
             return resp, file_list_response.FileListResponse.from_dictionary(resp.json())
-        return file_list_response.FileListResponse.from_dictionary(resp)
+        return file_list_response.FileListResponse.from_dictionary(resp.json())
