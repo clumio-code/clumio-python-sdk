@@ -4,7 +4,8 @@
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import protection_group_s3_asset_pitr_interval
+from clumioapi.models import \
+    protection_group_s3_asset_pitr_interval as protection_group_s3_asset_pitr_interval_
 
 T = TypeVar('T', bound='ProtectionGroupS3AssetPitrIntervalListEmbedded')
 
@@ -20,23 +21,25 @@ class ProtectionGroupS3AssetPitrIntervalListEmbedded:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'items': 'items'}
+    _names: dict[str, str] = {'items': 'items'}
 
     def __init__(
         self,
-        items: Sequence[
-            protection_group_s3_asset_pitr_interval.ProtectionGroupS3AssetPitrInterval
-        ] = None,
+        items: (
+            Sequence[protection_group_s3_asset_pitr_interval_.ProtectionGroupS3AssetPitrInterval]
+            | None
+        ) = None,
     ) -> None:
         """Constructor for the ProtectionGroupS3AssetPitrIntervalListEmbedded class."""
 
         # Initialize members of the class
-        self.items: Sequence[
-            protection_group_s3_asset_pitr_interval.ProtectionGroupS3AssetPitrInterval
-        ] = items
+        self.items: (
+            Sequence[protection_group_s3_asset_pitr_interval_.ProtectionGroupS3AssetPitrInterval]
+            | None
+        ) = items
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -47,20 +50,22 @@ class ProtectionGroupS3AssetPitrIntervalListEmbedded:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
+        val = dictionary.get('items', None)
 
         val_items = None
-        if dictionary.get('items'):
+        if val:
             val_items = list()
-            for value in dictionary.get('items'):
+            for value in val:
                 val_items.append(
-                    protection_group_s3_asset_pitr_interval.ProtectionGroupS3AssetPitrInterval.from_dictionary(
+                    protection_group_s3_asset_pitr_interval_.ProtectionGroupS3AssetPitrInterval.from_dictionary(
                         value
                     )
                 )
 
         # Return an object of this model
-        return cls(val_items)
+        return cls(
+            val_items,
+        )

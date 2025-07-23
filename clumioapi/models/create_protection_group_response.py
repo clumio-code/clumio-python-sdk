@@ -1,11 +1,12 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import object_filter
-from clumioapi.models import protection_group_version_links
+from clumioapi.models import backup_tier_stat as backup_tier_stat_
+from clumioapi.models import object_filter as object_filter_
+from clumioapi.models import protection_group_version_links as protection_group_version_links_
 
 T = TypeVar('T', bound='CreateProtectionGroupResponse')
 
@@ -21,22 +22,57 @@ class CreateProtectionGroupResponse:
         backup_target_aws_region:
             The backup target AWS region associated with the protection group, empty if
             in-region or not configured.
+        backup_tier_stats:
+            TotalBackedUpSizeBytes, TotalBackedUpObjectCount for each backup tier
         bucket_count:
             Number of buckets
         bucket_rule:
             The following table describes the possible conditions for a bucket to be
             automatically added to a protection group.
+            Denotes the properties to conditionalize on. For `$eq`, `$not_eq`, `$contains`
+            and `$not_contains` a single element is provided: `{'$eq':{'key':'Environment',
+            'value':'Prod'}}`. For all other operations, a list is provided:
+            `{'$in':[{'key':'Environment','value':'Prod'}, {'key':'Hello',
+            'value':'World'}]}`.
 
-            +---------+----------------+---------------------------------------------------+
-            |  Field  | Rule Condition |                    Description                    |
-            +=========+================+===================================================+
-            | aws_tag | $eq            | Denotes the AWS tag(s) to conditionalize on       |
-            |         |                |                                                   |
-            |         |                | {"aws_tag":{"$eq":{"key":"Environment",           |
-            |         |                | "value":"Prod"}}}                                 |
-            |         |                |                                                   |
-            |         |                |                                                   |
-            +---------+----------------+---------------------------------------------------+
+            +-------------------+-----------------------------+----------------------------+
+            |       Field       |       Rule Condition        |        Description         |
+            +===================+=============================+============================+
+            | aws_tag           | $eq, $not_eq, $contains,    | Supports filtering by AWS  |
+            |                   | $not_contains, $all,        | tag(s) using the following |
+            |                   | $not_all, $in, $not_in      | operators. For example,    |
+            |                   |                             |                            |
+            |                   |                             | {"aws_tag":{"$eq":{"key":" |
+            |                   |                             | Environment",              |
+            |                   |                             | "value":"Prod"}}}          |
+            |                   |                             |                            |
+            |                   |                             |                            |
+            +-------------------+-----------------------------+----------------------------+
+            | account_native_id | $eq, $in                    |                            |
+            |                   |                             | This will be deprecated    |
+            |                   |                             | and use                    |
+            |                   |                             | aws_account_native_id      |
+            |                   |                             | instead.                   |
+            |                   |                             | Supports filtering by AWS  |
+            |                   |                             | account(s) using the       |
+            |                   |                             | following operators. For   |
+            |                   |                             | example,                   |
+            |                   |                             |                            |
+            |                   |                             | {"account_native_id":{"$in |
+            |                   |                             | ":["111111111111"]}}       |
+            |                   |                             |                            |
+            |                   |                             |                            |
+            +-------------------+-----------------------------+----------------------------+
+            | aws_region        | $eq, $in                    | Supports filtering by AWS  |
+            |                   |                             | region(s) using the        |
+            |                   |                             | following operators. For   |
+            |                   |                             | example,                   |
+            |                   |                             |                            |
+            |                   |                             | {"aws_region":{"$eq":"us-  |
+            |                   |                             | west-2"}}                  |
+            |                   |                             |                            |
+            |                   |                             |                            |
+            +-------------------+-----------------------------+----------------------------+
         created_timestamp:
             Creation time of the protection group in RFC-3339 format.
         description:
@@ -80,10 +116,11 @@ class CreateProtectionGroupResponse:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'embedded': '_embedded',
         'links': '_links',
         'backup_target_aws_region': 'backup_target_aws_region',
+        'backup_tier_stats': 'backup_tier_stats',
         'bucket_count': 'bucket_count',
         'bucket_rule': 'bucket_rule',
         'created_timestamp': 'created_timestamp',
@@ -104,51 +141,55 @@ class CreateProtectionGroupResponse:
 
     def __init__(
         self,
-        embedded: object = None,
-        links: protection_group_version_links.ProtectionGroupVersionLinks = None,
-        backup_target_aws_region: str = None,
-        bucket_count: int = None,
-        bucket_rule: str = None,
-        created_timestamp: str = None,
-        description: str = None,
-        p_id: str = None,
-        is_backup_target_region_configured: bool = None,
-        is_deleted: bool = None,
-        last_backup_timestamp: str = None,
-        last_continuous_backup_timestamp: str = None,
-        modified_timestamp: str = None,
-        name: str = None,
-        object_filter: object_filter.ObjectFilter = None,
-        organizational_unit_id: str = None,
-        total_backed_up_object_count: int = None,
-        total_backed_up_size_bytes: int = None,
-        version: int = None,
+        embedded: object | None = None,
+        links: protection_group_version_links_.ProtectionGroupVersionLinks | None = None,
+        backup_target_aws_region: str | None = None,
+        backup_tier_stats: Sequence[backup_tier_stat_.BackupTierStat] | None = None,
+        bucket_count: int | None = None,
+        bucket_rule: str | None = None,
+        created_timestamp: str | None = None,
+        description: str | None = None,
+        p_id: str | None = None,
+        is_backup_target_region_configured: bool | None = None,
+        is_deleted: bool | None = None,
+        last_backup_timestamp: str | None = None,
+        last_continuous_backup_timestamp: str | None = None,
+        modified_timestamp: str | None = None,
+        name: str | None = None,
+        object_filter: object_filter_.ObjectFilter | None = None,
+        organizational_unit_id: str | None = None,
+        total_backed_up_object_count: int | None = None,
+        total_backed_up_size_bytes: int | None = None,
+        version: int | None = None,
     ) -> None:
         """Constructor for the CreateProtectionGroupResponse class."""
 
         # Initialize members of the class
-        self.embedded: object = embedded
-        self.links: protection_group_version_links.ProtectionGroupVersionLinks = links
-        self.backup_target_aws_region: str = backup_target_aws_region
-        self.bucket_count: int = bucket_count
-        self.bucket_rule: str = bucket_rule
-        self.created_timestamp: str = created_timestamp
-        self.description: str = description
-        self.p_id: str = p_id
-        self.is_backup_target_region_configured: bool = is_backup_target_region_configured
-        self.is_deleted: bool = is_deleted
-        self.last_backup_timestamp: str = last_backup_timestamp
-        self.last_continuous_backup_timestamp: str = last_continuous_backup_timestamp
-        self.modified_timestamp: str = modified_timestamp
-        self.name: str = name
-        self.object_filter: object_filter.ObjectFilter = object_filter
-        self.organizational_unit_id: str = organizational_unit_id
-        self.total_backed_up_object_count: int = total_backed_up_object_count
-        self.total_backed_up_size_bytes: int = total_backed_up_size_bytes
-        self.version: int = version
+        self.embedded: object | None = embedded
+        self.links: protection_group_version_links_.ProtectionGroupVersionLinks | None = links
+        self.backup_target_aws_region: str | None = backup_target_aws_region
+        self.backup_tier_stats: Sequence[backup_tier_stat_.BackupTierStat] | None = (
+            backup_tier_stats
+        )
+        self.bucket_count: int | None = bucket_count
+        self.bucket_rule: str | None = bucket_rule
+        self.created_timestamp: str | None = created_timestamp
+        self.description: str | None = description
+        self.p_id: str | None = p_id
+        self.is_backup_target_region_configured: bool | None = is_backup_target_region_configured
+        self.is_deleted: bool | None = is_deleted
+        self.last_backup_timestamp: str | None = last_backup_timestamp
+        self.last_continuous_backup_timestamp: str | None = last_continuous_backup_timestamp
+        self.modified_timestamp: str | None = modified_timestamp
+        self.name: str | None = name
+        self.object_filter: object_filter_.ObjectFilter | None = object_filter
+        self.organizational_unit_id: str | None = organizational_unit_id
+        self.total_backed_up_object_count: int | None = total_backed_up_object_count
+        self.total_backed_up_size_bytes: int | None = total_backed_up_size_bytes
+        self.version: int | None = version
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -159,62 +200,96 @@ class CreateProtectionGroupResponse:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        embedded = dictionary.get('_embedded')
-        key = '_links'
-        links = (
-            protection_group_version_links.ProtectionGroupVersionLinks.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('_embedded', None)
+        val_embedded = val
 
-        backup_target_aws_region = dictionary.get('backup_target_aws_region')
-        bucket_count = dictionary.get('bucket_count')
-        bucket_rule = dictionary.get('bucket_rule')
-        created_timestamp = dictionary.get('created_timestamp')
-        description = dictionary.get('description')
-        p_id = dictionary.get('id')
-        is_backup_target_region_configured = dictionary.get('is_backup_target_region_configured')
-        is_deleted = dictionary.get('is_deleted')
-        last_backup_timestamp = dictionary.get('last_backup_timestamp')
-        last_continuous_backup_timestamp = dictionary.get('last_continuous_backup_timestamp')
-        modified_timestamp = dictionary.get('modified_timestamp')
-        name = dictionary.get('name')
-        key = 'object_filter'
-        p_object_filter = (
-            object_filter.ObjectFilter.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('_links', None)
+        val_links = protection_group_version_links_.ProtectionGroupVersionLinks.from_dictionary(val)
 
-        organizational_unit_id = dictionary.get('organizational_unit_id')
-        total_backed_up_object_count = dictionary.get('total_backed_up_object_count')
-        total_backed_up_size_bytes = dictionary.get('total_backed_up_size_bytes')
-        version = dictionary.get('version')
+        val = dictionary.get('backup_target_aws_region', None)
+        val_backup_target_aws_region = val
+
+        val = dictionary.get('backup_tier_stats', None)
+
+        val_backup_tier_stats = None
+        if val:
+            val_backup_tier_stats = list()
+            for value in val:
+                val_backup_tier_stats.append(
+                    backup_tier_stat_.BackupTierStat.from_dictionary(value)
+                )
+
+        val = dictionary.get('bucket_count', None)
+        val_bucket_count = val
+
+        val = dictionary.get('bucket_rule', None)
+        val_bucket_rule = val
+
+        val = dictionary.get('created_timestamp', None)
+        val_created_timestamp = val
+
+        val = dictionary.get('description', None)
+        val_description = val
+
+        val = dictionary.get('id', None)
+        val_p_id = val
+
+        val = dictionary.get('is_backup_target_region_configured', None)
+        val_is_backup_target_region_configured = val
+
+        val = dictionary.get('is_deleted', None)
+        val_is_deleted = val
+
+        val = dictionary.get('last_backup_timestamp', None)
+        val_last_backup_timestamp = val
+
+        val = dictionary.get('last_continuous_backup_timestamp', None)
+        val_last_continuous_backup_timestamp = val
+
+        val = dictionary.get('modified_timestamp', None)
+        val_modified_timestamp = val
+
+        val = dictionary.get('name', None)
+        val_name = val
+
+        val = dictionary.get('object_filter', None)
+        val_object_filter = object_filter_.ObjectFilter.from_dictionary(val)
+
+        val = dictionary.get('organizational_unit_id', None)
+        val_organizational_unit_id = val
+
+        val = dictionary.get('total_backed_up_object_count', None)
+        val_total_backed_up_object_count = val
+
+        val = dictionary.get('total_backed_up_size_bytes', None)
+        val_total_backed_up_size_bytes = val
+
+        val = dictionary.get('version', None)
+        val_version = val
+
         # Return an object of this model
         return cls(
-            embedded,
-            links,
-            backup_target_aws_region,
-            bucket_count,
-            bucket_rule,
-            created_timestamp,
-            description,
-            p_id,
-            is_backup_target_region_configured,
-            is_deleted,
-            last_backup_timestamp,
-            last_continuous_backup_timestamp,
-            modified_timestamp,
-            name,
-            p_object_filter,
-            organizational_unit_id,
-            total_backed_up_object_count,
-            total_backed_up_size_bytes,
-            version,
+            val_embedded,
+            val_links,
+            val_backup_target_aws_region,
+            val_backup_tier_stats,
+            val_bucket_count,
+            val_bucket_rule,
+            val_created_timestamp,
+            val_description,
+            val_p_id,
+            val_is_backup_target_region_configured,
+            val_is_deleted,
+            val_last_backup_timestamp,
+            val_last_continuous_backup_timestamp,
+            val_modified_timestamp,
+            val_name,
+            val_object_filter,
+            val_organizational_unit_id,
+            val_total_backed_up_object_count,
+            val_total_backed_up_size_bytes,
+            val_version,
         )

@@ -1,9 +1,9 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -35,7 +35,11 @@ class AwsConnectionsV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def list_aws_connections(
-        self, limit: int = None, start: str = None, filter: str = None, **kwargs
+        self,
+        limit: int | None = None,
+        start: str | None = None,
+        filter: str | None = None,
+        **kwargs,
     ) -> Union[
         list_aws_connections_response.ListAWSConnectionsResponse,
         tuple[
@@ -100,11 +104,10 @@ class AwsConnectionsV1Controller(base_controller.BaseController):
                 |                        |                   |                                 |
                 +------------------------+-------------------+---------------------------------+
                 | connection_status      | $eq, $in          | The status of the connection to |
-                |                        |                   | the environment, which is       |
-                |                        |                   | mediated by a CloudFormation    |
-                |                        |                   | stack. Possible values include  |
-                |                        |                   | "connecting", "connected",      |
-                |                        |                   | "unlinked". For example,        |
+                |                        |                   | the environment. Possible       |
+                |                        |                   | values include "connecting",    |
+                |                        |                   | "connected", "unlinked". For    |
+                |                        |                   | example,                        |
                 |                        |                   | filter={"connection_status":{"$ |
                 |                        |                   | eq":"connected"}}               |
                 |                        |                   | filter={"connection_status":{"$ |
@@ -144,34 +147,36 @@ class AwsConnectionsV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/connections/aws'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'limit': limit, 'start': start, 'filter': filter}
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_aws_connections.', errors
             )
 
-        if self.config.raw_response:
-            return resp, list_aws_connections_response.ListAWSConnectionsResponse.from_dictionary(
-                resp.json()
-            )
-        return list_aws_connections_response.ListAWSConnectionsResponse.from_dictionary(resp)
+        obj = list_aws_connections_response.ListAWSConnectionsResponse.from_dictionary(resp.json())
+        if raw_response:
+            return resp, obj
+        return obj
 
     def create_aws_connection(
-        self, body: create_aws_connection_v1_request.CreateAwsConnectionV1Request = None, **kwargs
+        self,
+        body: create_aws_connection_v1_request.CreateAwsConnectionV1Request | None = None,
+        **kwargs,
     ) -> Union[
         create_aws_connection_response.CreateAWSConnectionResponse,
         tuple[
@@ -195,34 +200,36 @@ class AwsConnectionsV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/connections/aws'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.post(
+            resp: requests.Response = self.client.post(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing create_aws_connection.', errors
             )
 
-        if self.config.raw_response:
-            return resp, create_aws_connection_response.CreateAWSConnectionResponse.from_dictionary(
-                resp.json()
-            )
-        return create_aws_connection_response.CreateAWSConnectionResponse.from_dictionary(resp)
+        obj = create_aws_connection_response.CreateAWSConnectionResponse.from_dictionary(
+            resp.json()
+        )
+        if raw_response:
+            return resp, obj
+        return obj
 
     def read_aws_connection(
-        self, connection_id: str, return_external_id: str = None, **kwargs
+        self, connection_id: str | None = None, return_external_id: str | None = None, **kwargs
     ) -> Union[
         read_aws_connection_response.ReadAWSConnectionResponse,
         tuple[requests.Response, Optional[read_aws_connection_response.ReadAWSConnectionResponse]],
@@ -248,34 +255,34 @@ class AwsConnectionsV1Controller(base_controller.BaseController):
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'connection_id': connection_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'return_external_id': return_external_id}
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_aws_connection.', errors
             )
 
-        if self.config.raw_response:
-            return resp, read_aws_connection_response.ReadAWSConnectionResponse.from_dictionary(
-                resp.json()
-            )
-        return read_aws_connection_response.ReadAWSConnectionResponse.from_dictionary(resp)
+        obj = read_aws_connection_response.ReadAWSConnectionResponse.from_dictionary(resp.json())
+        if raw_response:
+            return resp, obj
+        return obj
 
     def delete_aws_connection(
-        self, connection_id: str, **kwargs
+        self, connection_id: str | None = None, **kwargs
     ) -> Union[object, tuple[requests.Response, Optional[object]]]:
         """Delete the specified AWS connection.
 
@@ -296,33 +303,34 @@ class AwsConnectionsV1Controller(base_controller.BaseController):
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'connection_id': connection_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.delete(
+            resp: requests.Response = self.client.delete(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing delete_aws_connection.', errors
             )
 
-        if self.config.raw_response:
+        if raw_response:
             return resp, resp.json()
         return resp
 
     def update_aws_connection(
         self,
-        connection_id: str,
-        body: update_aws_connection_v1_request.UpdateAwsConnectionV1Request = None,
+        connection_id: str | None = None,
+        body: update_aws_connection_v1_request.UpdateAwsConnectionV1Request | None = None,
         **kwargs,
     ) -> Union[
         update_aws_connection_response.UpdateAWSConnectionResponse,
@@ -351,28 +359,30 @@ class AwsConnectionsV1Controller(base_controller.BaseController):
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'connection_id': connection_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.patch(
+            resp: requests.Response = self.client.patch(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing update_aws_connection.', errors
             )
 
-        if self.config.raw_response:
-            return resp, update_aws_connection_response.UpdateAWSConnectionResponse.from_dictionary(
-                resp.json()
-            )
-        return update_aws_connection_response.UpdateAWSConnectionResponse.from_dictionary(resp)
+        obj = update_aws_connection_response.UpdateAWSConnectionResponse.from_dictionary(
+            resp.json()
+        )
+        if raw_response:
+            return resp, obj
+        return obj

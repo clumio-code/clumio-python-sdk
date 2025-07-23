@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -20,17 +20,19 @@ class PrefixFilter:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'excluded_sub_prefixes': 'excluded_sub_prefixes', 'prefix': 'prefix'}
+    _names: dict[str, str] = {'excluded_sub_prefixes': 'excluded_sub_prefixes', 'prefix': 'prefix'}
 
-    def __init__(self, excluded_sub_prefixes: Sequence[str] = None, prefix: str = None) -> None:
+    def __init__(
+        self, excluded_sub_prefixes: Sequence[str] | None = None, prefix: str | None = None
+    ) -> None:
         """Constructor for the PrefixFilter class."""
 
         # Initialize members of the class
-        self.excluded_sub_prefixes: Sequence[str] = excluded_sub_prefixes
-        self.prefix: str = prefix
+        self.excluded_sub_prefixes: Sequence[str] | None = excluded_sub_prefixes
+        self.prefix: str | None = prefix
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -41,11 +43,17 @@ class PrefixFilter:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        excluded_sub_prefixes = dictionary.get('excluded_sub_prefixes')
-        prefix = dictionary.get('prefix')
+        val = dictionary.get('excluded_sub_prefixes', None)
+        val_excluded_sub_prefixes = val
+
+        val = dictionary.get('prefix', None)
+        val_prefix = val
+
         # Return an object of this model
-        return cls(excluded_sub_prefixes, prefix)
+        return cls(
+            val_excluded_sub_prefixes,
+            val_prefix,
+        )

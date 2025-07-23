@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -29,24 +29,27 @@ class RdsInstanceModel:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'p_class': 'class',
         'is_publicly_accessible': 'is_publicly_accessible',
         'name': 'name',
     }
 
     def __init__(
-        self, p_class: str = None, is_publicly_accessible: bool = None, name: str = None
+        self,
+        p_class: str | None = None,
+        is_publicly_accessible: bool | None = None,
+        name: str | None = None,
     ) -> None:
         """Constructor for the RdsInstanceModel class."""
 
         # Initialize members of the class
-        self.p_class: str = p_class
-        self.is_publicly_accessible: bool = is_publicly_accessible
-        self.name: str = name
+        self.p_class: str | None = p_class
+        self.is_publicly_accessible: bool | None = is_publicly_accessible
+        self.name: str | None = name
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -57,12 +60,21 @@ class RdsInstanceModel:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        p_class = dictionary.get('class')
-        is_publicly_accessible = dictionary.get('is_publicly_accessible')
-        name = dictionary.get('name')
+        val = dictionary.get('class', None)
+        val_p_class = val
+
+        val = dictionary.get('is_publicly_accessible', None)
+        val_is_publicly_accessible = val
+
+        val = dictionary.get('name', None)
+        val_name = val
+
         # Return an object of this model
-        return cls(p_class, is_publicly_accessible, name)
+        return cls(
+            val_p_class,
+            val_is_publicly_accessible,
+            val_name,
+        )

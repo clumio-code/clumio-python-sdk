@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -21,17 +21,17 @@ class AttributeDefinition:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'name': 'name', 'p_type': 'type'}
+    _names: dict[str, str] = {'name': 'name', 'p_type': 'type'}
 
-    def __init__(self, name: str = None, p_type: str = None) -> None:
+    def __init__(self, name: str | None = None, p_type: str | None = None) -> None:
         """Constructor for the AttributeDefinition class."""
 
         # Initialize members of the class
-        self.name: str = name
-        self.p_type: str = p_type
+        self.name: str | None = name
+        self.p_type: str | None = p_type
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -42,11 +42,17 @@ class AttributeDefinition:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        name = dictionary.get('name')
-        p_type = dictionary.get('type')
+        val = dictionary.get('name', None)
+        val_name = val
+
+        val = dictionary.get('type', None)
+        val_p_type = val
+
         # Return an object of this model
-        return cls(name, p_type)
+        return cls(
+            val_name,
+            val_p_type,
+        )

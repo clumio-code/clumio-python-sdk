@@ -1,11 +1,12 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import entity_group_embedded
-from clumioapi.models import organizational_unit_links_for_delete
+from clumioapi.models import entity_group_embedded as entity_group_embedded_
+from clumioapi.models import \
+    organizational_unit_links_for_delete as organizational_unit_links_for_delete_
 
 T = TypeVar('T', bound='DeleteOrganizationalUnitResponse')
 
@@ -27,23 +28,25 @@ class DeleteOrganizationalUnitResponse:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'embedded': '_embedded', 'links': '_links', 'task_id': 'task_id'}
+    _names: dict[str, str] = {'embedded': '_embedded', 'links': '_links', 'task_id': 'task_id'}
 
     def __init__(
         self,
-        embedded: entity_group_embedded.EntityGroupEmbedded = None,
-        links: organizational_unit_links_for_delete.OrganizationalUnitLinksForDelete = None,
-        task_id: str = None,
+        embedded: entity_group_embedded_.EntityGroupEmbedded | None = None,
+        links: organizational_unit_links_for_delete_.OrganizationalUnitLinksForDelete | None = None,
+        task_id: str | None = None,
     ) -> None:
         """Constructor for the DeleteOrganizationalUnitResponse class."""
 
         # Initialize members of the class
-        self.embedded: entity_group_embedded.EntityGroupEmbedded = embedded
-        self.links: organizational_unit_links_for_delete.OrganizationalUnitLinksForDelete = links
-        self.task_id: str = task_id
+        self.embedded: entity_group_embedded_.EntityGroupEmbedded | None = embedded
+        self.links: (
+            organizational_unit_links_for_delete_.OrganizationalUnitLinksForDelete | None
+        ) = links
+        self.task_id: str | None = task_id
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -54,26 +57,25 @@ class DeleteOrganizationalUnitResponse:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = '_embedded'
-        embedded = (
-            entity_group_embedded.EntityGroupEmbedded.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('_embedded', None)
+        val_embedded = entity_group_embedded_.EntityGroupEmbedded.from_dictionary(val)
 
-        key = '_links'
-        links = (
-            organizational_unit_links_for_delete.OrganizationalUnitLinksForDelete.from_dictionary(
-                dictionary.get(key)
+        val = dictionary.get('_links', None)
+        val_links = (
+            organizational_unit_links_for_delete_.OrganizationalUnitLinksForDelete.from_dictionary(
+                val
             )
-            if dictionary.get(key)
-            else None
         )
 
-        task_id = dictionary.get('task_id')
+        val = dictionary.get('task_id', None)
+        val_task_id = val
+
         # Return an object of this model
-        return cls(embedded, links, task_id)
+        return cls(
+            val_embedded,
+            val_links,
+            val_task_id,
+        )

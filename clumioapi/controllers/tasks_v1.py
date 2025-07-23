@@ -1,9 +1,9 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -33,7 +33,11 @@ class TasksV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def list_tasks(
-        self, limit: int = None, start: str = None, filter: str = None, **kwargs
+        self,
+        limit: int | None = None,
+        start: str | None = None,
+        filter: str | None = None,
+        **kwargs,
     ) -> Union[
         list_tasks_response.ListTasksResponse,
         tuple[requests.Response, Optional[list_tasks_response.ListTasksResponse]],
@@ -46,23 +50,6 @@ class TasksV1Controller(base_controller.BaseController):
         +-----------------------------------+------------------------------------------+
         |             Task Type             |               Description                |
         +===================================+==========================================+
-        | vmware_vm_file_restore            | A restore task for a file within a VM.   |
-        +-----------------------------------+------------------------------------------+
-        | vmware_vm_backup_seeding          | The initial backup task of a VM - future |
-        |                                   | backups are incremental.                 |
-        +-----------------------------------+------------------------------------------+
-        | vmware_vm_incremental_backup      | A scheduled incremental backup task for  |
-        |                                   | a VM.                                    |
-        +-----------------------------------+------------------------------------------+
-        | vmware_vm_backup_indexing         | A post-processing task that indexes the  |
-        |                                   | contents                                 |
-        |                                   | of a VM disk in preparation for file-    |
-        |                                   | level indexing and restores.             |
-        |                                   | The vmware_vm_backup_indexing task       |
-        |                                   | cannot be aborted.                       |
-        +-----------------------------------+------------------------------------------+
-        | vmware_vm_restore                 | A restore task for a VM.                 |
-        +-----------------------------------+------------------------------------------+
         | aws_ebs_volume_file_restore       | A restore task for a file within an EBS  |
         |                                   | volume.                                  |
         +-----------------------------------+------------------------------------------+
@@ -76,8 +63,8 @@ class TasksV1Controller(base_controller.BaseController):
         |                                   | contents                                 |
         |                                   | of an EBS volume in preparation for      |
         |                                   | file-level indexing and restores.        |
-        |                                   | The aws_ebs_volume_backup_indexing task  |
-        |                                   | cannot be aborted.                       |
+        |                                   | The `aws_ebs_volume_backup_indexing`     |
+        |                                   | task cannot be aborted.                  |
         +-----------------------------------+------------------------------------------+
         | aws_ebs_volume_restore            | A restore task for an EBS Volume.        |
         +-----------------------------------+------------------------------------------+
@@ -91,7 +78,7 @@ class TasksV1Controller(base_controller.BaseController):
         |                                   | Microsoft 365 domain by gathering        |
         |                                   | mailbox information and other data, such |
         |                                   | as usage and sizing statistics.          |
-        |                                   | The microsoft365_inventory_sync task     |
+        |                                   | The `microsoft365_inventory_sync` task   |
         |                                   | cannot be aborted.                       |
         +-----------------------------------+------------------------------------------+
         | microsoft365_mail_restore         | A restore task for a microsoft365        |
@@ -109,7 +96,7 @@ class TasksV1Controller(base_controller.BaseController):
         +-------------+----------------------------------------------------------------+
         | in_progress | A task that is currently running. Once the task has            |
         |             | successfully completed,                                        |
-        |             | the task status changes to completed.                          |
+        |             | the task status changes to `completed`.                        |
         |             | A task that is in progress can be aborted at any time.         |
         +-------------+----------------------------------------------------------------+
         | completed   | A task that has successfully completed.                        |
@@ -119,7 +106,7 @@ class TasksV1Controller(base_controller.BaseController):
         | aborting    | A task that is in the process of aborting.                     |
         |             | Only tasks that are queued or in progress can be aborted.      |
         |             | Once a task has successfully aborted, the task status changes  |
-        |             | to aborted.                                                    |
+        |             | to `aborted`.                                                  |
         +-------------+----------------------------------------------------------------+
         | aborted     | A task that has fully aborted.                                 |
         +-------------+----------------------------------------------------------------+
@@ -161,7 +148,6 @@ class TasksV1Controller(base_controller.BaseController):
                 +----------------------+------------------+------------------------------------+
                 | type                 | $in              | The task type.                     |
                 |                      |                  | Examples of task types include     |
-                |                      |                  | "vm_backup_seeding",               |
                 |                      |                  | "ebs_indexing", and                |
                 |                      |                  | "file_restore".                    |
                 |                      |                  | Refer to the Task Type table for a |
@@ -211,31 +197,33 @@ class TasksV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/tasks'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'limit': limit, 'start': start, 'filter': filter}
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_tasks.', errors
             )
 
-        if self.config.raw_response:
-            return resp, list_tasks_response.ListTasksResponse.from_dictionary(resp.json())
-        return list_tasks_response.ListTasksResponse.from_dictionary(resp)
+        obj = list_tasks_response.ListTasksResponse.from_dictionary(resp.json())
+        if raw_response:
+            return resp, obj
+        return obj
 
-    def read_task(self, task_id: str, **kwargs) -> Union[
+    def read_task(self, task_id: str | None = None, **kwargs) -> Union[
         read_task_response.ReadTaskResponse,
         tuple[requests.Response, Optional[read_task_response.ReadTaskResponse]],
     ]:
@@ -256,31 +244,36 @@ class TasksV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/tasks/{task_id}'
         _url_path = api_helper.append_url_with_template_parameters(_url_path, {'task_id': task_id})
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_task.', errors
             )
 
-        if self.config.raw_response:
-            return resp, read_task_response.ReadTaskResponse.from_dictionary(resp.json())
-        return read_task_response.ReadTaskResponse.from_dictionary(resp)
+        obj = read_task_response.ReadTaskResponse.from_dictionary(resp.json())
+        if raw_response:
+            return resp, obj
+        return obj
 
     def update_task(
-        self, task_id: str, body: update_task_v1_request.UpdateTaskV1Request = None, **kwargs
+        self,
+        task_id: str | None = None,
+        body: update_task_v1_request.UpdateTaskV1Request | None = None,
+        **kwargs,
     ) -> Union[
         update_task_response.UpdateTaskResponse,
         tuple[requests.Response, Optional[update_task_response.UpdateTaskResponse]],
@@ -305,26 +298,28 @@ class TasksV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/tasks/{task_id}'
         _url_path = api_helper.append_url_with_template_parameters(_url_path, {'task_id': task_id})
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.patch(
+            resp: requests.Response = self.client.patch(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing update_task.', errors
             )
 
-        if self.config.raw_response:
-            return resp, update_task_response.UpdateTaskResponse.from_dictionary(resp.json())
-        return update_task_response.UpdateTaskResponse.from_dictionary(resp)
+        obj = update_task_response.UpdateTaskResponse.from_dictionary(resp.json())
+        if raw_response:
+            return resp, obj
+        return obj

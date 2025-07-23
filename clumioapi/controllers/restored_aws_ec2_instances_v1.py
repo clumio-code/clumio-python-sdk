@@ -1,9 +1,9 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -32,8 +32,8 @@ class RestoredAwsEc2InstancesV1Controller(base_controller.BaseController):
 
     def restore_aws_ec2_instance(
         self,
-        embed: str = None,
-        body: restore_aws_ec2_instance_v1_request.RestoreAwsEc2InstanceV1Request = None,
+        embed: str | None = None,
+        body: restore_aws_ec2_instance_v1_request.RestoreAwsEc2InstanceV1Request | None = None,
         **kwargs,
     ) -> Union[
         restore_ec2_response.RestoreEC2Response,
@@ -68,27 +68,29 @@ class RestoredAwsEc2InstancesV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/restores/aws/ec2-instances'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'embed': embed}
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.post(
+            resp: requests.Response = self.client.post(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing restore_aws_ec2_instance.', errors
             )
 
-        if self.config.raw_response:
-            return resp, restore_ec2_response.RestoreEC2Response.from_dictionary(resp.json())
-        return restore_ec2_response.RestoreEC2Response.from_dictionary(resp)
+        obj = restore_ec2_response.RestoreEC2Response.from_dictionary(resp.json())
+        if raw_response:
+            return resp, obj
+        return obj

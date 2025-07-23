@@ -1,9 +1,9 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -33,8 +33,11 @@ class RestoredRecordsAwsDynamodbTablesV1Controller(base_controller.BaseControlle
 
     def restore_records_aws_dynamodb_table(
         self,
-        embed: str = None,
-        body: restore_records_aws_dynamodb_table_v1_request.RestoreRecordsAwsDynamodbTableV1Request = None,
+        embed: str | None = None,
+        body: (
+            restore_records_aws_dynamodb_table_v1_request.RestoreRecordsAwsDynamodbTableV1Request
+            | None
+        ) = None,
         **kwargs,
     ) -> Union[
         Union[
@@ -83,12 +86,13 @@ class RestoredRecordsAwsDynamodbTablesV1Controller(base_controller.BaseControlle
         # Prepare query URL
         _url_path = '/restores/aws/dynamodb-tables/records'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'embed': embed}
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.post(
+            resp: requests.Response = self.client.post(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -97,32 +101,32 @@ class RestoredRecordsAwsDynamodbTablesV1Controller(base_controller.BaseControlle
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing restore_records_aws_dynamodb_table.', errors
             )
-        unmarshalled_dict = json.loads(resp.text)
+        text_unmarshalled_dict = json.loads(resp.text)
+
+        obj: Any
+
+        obj = restore_records_response_sync.RestoreRecordsResponseSync.from_dictionary(
+            text_unmarshalled_dict
+        )
         if resp.status_code == 200:
-            if self.config.raw_response:
-                return (
-                    resp,
-                    restore_records_response_sync.RestoreRecordsResponseSync.from_dictionary(
-                        unmarshalled_dict
-                    ),
-                )
-            return restore_records_response_sync.RestoreRecordsResponseSync.from_dictionary(
-                unmarshalled_dict
-            )
+            if raw_response:
+                return resp, obj
+            return obj
+
+        obj = restore_records_response_async.RestoreRecordsResponseAsync.from_dictionary(
+            text_unmarshalled_dict
+        )
         if resp.status_code == 202:
-            if self.config.raw_response:
-                return (
-                    resp,
-                    restore_records_response_async.RestoreRecordsResponseAsync.from_dictionary(
-                        unmarshalled_dict
-                    ),
-                )
-            return restore_records_response_async.RestoreRecordsResponseAsync.from_dictionary(
-                unmarshalled_dict
-            )
+            if raw_response:
+                return resp, obj
+            return obj
+
+        raise RuntimeError(
+            f'Code should be unreachable; Unexpected response code: {resp.status_code}. '
+        )

@@ -1,10 +1,10 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import delete_policy_response_links
+from clumioapi.models import delete_policy_response_links as delete_policy_response_links_
 
 T = TypeVar('T', bound='DeletePolicyResponse')
 
@@ -20,21 +20,21 @@ class DeletePolicyResponse:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'links': '_links', 'task_id': 'task_id'}
+    _names: dict[str, str] = {'links': '_links', 'task_id': 'task_id'}
 
     def __init__(
         self,
-        links: delete_policy_response_links.DeletePolicyResponseLinks = None,
-        task_id: str = None,
+        links: delete_policy_response_links_.DeletePolicyResponseLinks | None = None,
+        task_id: str | None = None,
     ) -> None:
         """Constructor for the DeletePolicyResponse class."""
 
         # Initialize members of the class
-        self.links: delete_policy_response_links.DeletePolicyResponseLinks = links
-        self.task_id: str = task_id
+        self.links: delete_policy_response_links_.DeletePolicyResponseLinks | None = links
+        self.task_id: str | None = task_id
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -45,19 +45,17 @@ class DeletePolicyResponse:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = '_links'
-        links = (
-            delete_policy_response_links.DeletePolicyResponseLinks.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('_links', None)
+        val_links = delete_policy_response_links_.DeletePolicyResponseLinks.from_dictionary(val)
 
-        task_id = dictionary.get('task_id')
+        val = dictionary.get('task_id', None)
+        val_task_id = val
+
         # Return an object of this model
-        return cls(links, task_id)
+        return cls(
+            val_links,
+            val_task_id,
+        )

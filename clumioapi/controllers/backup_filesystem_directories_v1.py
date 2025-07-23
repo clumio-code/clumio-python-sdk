@@ -1,9 +1,9 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -31,11 +31,11 @@ class BackupFilesystemDirectoriesV1Controller(base_controller.BaseController):
 
     def read_backup_filesystem_directory(
         self,
-        backup_id: str,
-        filesystem_id: str,
-        directory_id: str,
-        limit: int = None,
-        start: str = None,
+        backup_id: str | None = None,
+        filesystem_id: str | None = None,
+        directory_id: str | None = None,
+        limit: int | None = None,
+        start: str | None = None,
         **kwargs,
     ) -> Union[
         read_directory_response.ReadDirectoryResponse,
@@ -66,31 +66,35 @@ class BackupFilesystemDirectoriesV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = '/backups/{backup_id}/filesystems/{filesystem_id}/directories/{directory_id}/browse'
+        _url_path = (
+            '/backups/{backup_id}/filesystems/{filesystem_id}/directories/{directory_id}/browse'
+        )
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path,
             {'backup_id': backup_id, 'filesystem_id': filesystem_id, 'directory_id': directory_id},
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'limit': limit, 'start': start}
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_backup_filesystem_directory.', errors
             )
 
-        if self.config.raw_response:
-            return resp, read_directory_response.ReadDirectoryResponse.from_dictionary(resp.json())
-        return read_directory_response.ReadDirectoryResponse.from_dictionary(resp)
+        obj = read_directory_response.ReadDirectoryResponse.from_dictionary(resp.json())
+        if raw_response:
+            return resp, obj
+        return obj

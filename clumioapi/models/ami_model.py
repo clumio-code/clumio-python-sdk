@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -50,7 +50,7 @@ class AmiModel:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'ami_native_id': 'ami_native_id',
         'architecture': 'architecture',
         'has_ena_support': 'has_ena_support',
@@ -70,43 +70,43 @@ class AmiModel:
 
     def __init__(
         self,
-        ami_native_id: str = None,
-        architecture: str = None,
-        has_ena_support: bool = None,
-        hypervisor_type: str = None,
-        image_type: str = None,
-        is_public: bool = None,
-        name: str = None,
-        number_of_ebs_volumes: int = None,
-        number_of_ephemeral_volumes: int = None,
-        owner_id: str = None,
-        platform: str = None,
-        root_device_name: str = None,
-        root_device_type: str = None,
-        sriov_net_support: str = None,
-        virtualization_type: str = None,
+        ami_native_id: str | None = None,
+        architecture: str | None = None,
+        has_ena_support: bool | None = None,
+        hypervisor_type: str | None = None,
+        image_type: str | None = None,
+        is_public: bool | None = None,
+        name: str | None = None,
+        number_of_ebs_volumes: int | None = None,
+        number_of_ephemeral_volumes: int | None = None,
+        owner_id: str | None = None,
+        platform: str | None = None,
+        root_device_name: str | None = None,
+        root_device_type: str | None = None,
+        sriov_net_support: str | None = None,
+        virtualization_type: str | None = None,
     ) -> None:
         """Constructor for the AmiModel class."""
 
         # Initialize members of the class
-        self.ami_native_id: str = ami_native_id
-        self.architecture: str = architecture
-        self.has_ena_support: bool = has_ena_support
-        self.hypervisor_type: str = hypervisor_type
-        self.image_type: str = image_type
-        self.is_public: bool = is_public
-        self.name: str = name
-        self.number_of_ebs_volumes: int = number_of_ebs_volumes
-        self.number_of_ephemeral_volumes: int = number_of_ephemeral_volumes
-        self.owner_id: str = owner_id
-        self.platform: str = platform
-        self.root_device_name: str = root_device_name
-        self.root_device_type: str = root_device_type
-        self.sriov_net_support: str = sriov_net_support
-        self.virtualization_type: str = virtualization_type
+        self.ami_native_id: str | None = ami_native_id
+        self.architecture: str | None = architecture
+        self.has_ena_support: bool | None = has_ena_support
+        self.hypervisor_type: str | None = hypervisor_type
+        self.image_type: str | None = image_type
+        self.is_public: bool | None = is_public
+        self.name: str | None = name
+        self.number_of_ebs_volumes: int | None = number_of_ebs_volumes
+        self.number_of_ephemeral_volumes: int | None = number_of_ephemeral_volumes
+        self.owner_id: str | None = owner_id
+        self.platform: str | None = platform
+        self.root_device_name: str | None = root_device_name
+        self.root_device_type: str | None = root_device_type
+        self.sriov_net_support: str | None = sriov_net_support
+        self.virtualization_type: str | None = virtualization_type
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -117,40 +117,69 @@ class AmiModel:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        ami_native_id = dictionary.get('ami_native_id')
-        architecture = dictionary.get('architecture')
-        has_ena_support = dictionary.get('has_ena_support')
-        hypervisor_type = dictionary.get('hypervisor_type')
-        image_type = dictionary.get('image_type')
-        is_public = dictionary.get('is_public')
-        name = dictionary.get('name')
-        number_of_ebs_volumes = dictionary.get('number_of_ebs_volumes')
-        number_of_ephemeral_volumes = dictionary.get('number_of_ephemeral_volumes')
-        owner_id = dictionary.get('owner_id')
-        platform = dictionary.get('platform')
-        root_device_name = dictionary.get('root_device_name')
-        root_device_type = dictionary.get('root_device_type')
-        sriov_net_support = dictionary.get('sriov_net_support')
-        virtualization_type = dictionary.get('virtualization_type')
+        val = dictionary.get('ami_native_id', None)
+        val_ami_native_id = val
+
+        val = dictionary.get('architecture', None)
+        val_architecture = val
+
+        val = dictionary.get('has_ena_support', None)
+        val_has_ena_support = val
+
+        val = dictionary.get('hypervisor_type', None)
+        val_hypervisor_type = val
+
+        val = dictionary.get('image_type', None)
+        val_image_type = val
+
+        val = dictionary.get('is_public', None)
+        val_is_public = val
+
+        val = dictionary.get('name', None)
+        val_name = val
+
+        val = dictionary.get('number_of_ebs_volumes', None)
+        val_number_of_ebs_volumes = val
+
+        val = dictionary.get('number_of_ephemeral_volumes', None)
+        val_number_of_ephemeral_volumes = val
+
+        val = dictionary.get('owner_id', None)
+        val_owner_id = val
+
+        val = dictionary.get('platform', None)
+        val_platform = val
+
+        val = dictionary.get('root_device_name', None)
+        val_root_device_name = val
+
+        val = dictionary.get('root_device_type', None)
+        val_root_device_type = val
+
+        val = dictionary.get('sriov_net_support', None)
+        val_sriov_net_support = val
+
+        val = dictionary.get('virtualization_type', None)
+        val_virtualization_type = val
+
         # Return an object of this model
         return cls(
-            ami_native_id,
-            architecture,
-            has_ena_support,
-            hypervisor_type,
-            image_type,
-            is_public,
-            name,
-            number_of_ebs_volumes,
-            number_of_ephemeral_volumes,
-            owner_id,
-            platform,
-            root_device_name,
-            root_device_type,
-            sriov_net_support,
-            virtualization_type,
+            val_ami_native_id,
+            val_architecture,
+            val_has_ena_support,
+            val_hypervisor_type,
+            val_image_type,
+            val_is_public,
+            val_name,
+            val_number_of_ebs_volumes,
+            val_number_of_ephemeral_volumes,
+            val_owner_id,
+            val_platform,
+            val_root_device_name,
+            val_root_device_type,
+            val_sriov_net_support,
+            val_virtualization_type,
         )

@@ -1,11 +1,12 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import object
-from clumioapi.models import preview_protection_group_s3_asset_sync_links
+from clumioapi.models import object as object_
+from clumioapi.models import \
+    preview_protection_group_s3_asset_sync_links as preview_protection_group_s3_asset_sync_links_
 
 T = TypeVar('T', bound='PreviewProtectionGroupS3AssetSyncResponse')
 
@@ -24,23 +25,27 @@ class PreviewProtectionGroupS3AssetSyncResponse:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'links': '_links', 'objects': 'objects'}
+    _names: dict[str, str] = {'links': '_links', 'objects': 'objects'}
 
     def __init__(
         self,
-        links: preview_protection_group_s3_asset_sync_links.PreviewProtectionGroupS3AssetSyncLinks = None,
-        objects: Sequence[object.Object] = None,
+        links: (
+            preview_protection_group_s3_asset_sync_links_.PreviewProtectionGroupS3AssetSyncLinks
+            | None
+        ) = None,
+        objects: Sequence[object_.Object] | None = None,
     ) -> None:
         """Constructor for the PreviewProtectionGroupS3AssetSyncResponse class."""
 
         # Initialize members of the class
         self.links: (
-            preview_protection_group_s3_asset_sync_links.PreviewProtectionGroupS3AssetSyncLinks
+            preview_protection_group_s3_asset_sync_links_.PreviewProtectionGroupS3AssetSyncLinks
+            | None
         ) = links
-        self.objects: Sequence[object.Object] = objects
+        self.objects: Sequence[object_.Object] | None = objects
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -51,24 +56,24 @@ class PreviewProtectionGroupS3AssetSyncResponse:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = '_links'
-        links = (
-            preview_protection_group_s3_asset_sync_links.PreviewProtectionGroupS3AssetSyncLinks.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
+        val = dictionary.get('_links', None)
+        val_links = preview_protection_group_s3_asset_sync_links_.PreviewProtectionGroupS3AssetSyncLinks.from_dictionary(
+            val
         )
 
-        objects = None
-        if dictionary.get('objects'):
-            objects = list()
-            for value in dictionary.get('objects'):
-                objects.append(object.Object.from_dictionary(value))
+        val = dictionary.get('objects', None)
+
+        val_objects = None
+        if val:
+            val_objects = list()
+            for value in val:
+                val_objects.append(object_.Object.from_dictionary(value))
 
         # Return an object of this model
-        return cls(links, objects)
+        return cls(
+            val_links,
+            val_objects,
+        )

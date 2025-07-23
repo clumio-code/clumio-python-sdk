@@ -1,10 +1,10 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import on_demand_setting
+from clumioapi.models import on_demand_setting as on_demand_setting_
 
 T = TypeVar('T', bound='CreateBackupAwsEc2InstanceV1Request')
 
@@ -24,23 +24,27 @@ class CreateBackupAwsEc2InstanceV1Request:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'instance_id': 'instance_id', 'settings': 'settings', 'p_type': 'type'}
+    _names: dict[str, str] = {
+        'instance_id': 'instance_id',
+        'settings': 'settings',
+        'p_type': 'type',
+    }
 
     def __init__(
         self,
-        instance_id: str = None,
-        settings: on_demand_setting.OnDemandSetting = None,
-        p_type: str = None,
+        instance_id: str | None = None,
+        settings: on_demand_setting_.OnDemandSetting | None = None,
+        p_type: str | None = None,
     ) -> None:
         """Constructor for the CreateBackupAwsEc2InstanceV1Request class."""
 
         # Initialize members of the class
-        self.instance_id: str = instance_id
-        self.settings: on_demand_setting.OnDemandSetting = settings
-        self.p_type: str = p_type
+        self.instance_id: str | None = instance_id
+        self.settings: on_demand_setting_.OnDemandSetting | None = settings
+        self.p_type: str | None = p_type
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -51,18 +55,21 @@ class CreateBackupAwsEc2InstanceV1Request:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        instance_id = dictionary.get('instance_id')
-        key = 'settings'
-        settings = (
-            on_demand_setting.OnDemandSetting.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('instance_id', None)
+        val_instance_id = val
 
-        p_type = dictionary.get('type')
+        val = dictionary.get('settings', None)
+        val_settings = on_demand_setting_.OnDemandSetting.from_dictionary(val)
+
+        val = dictionary.get('type', None)
+        val_p_type = val
+
         # Return an object of this model
-        return cls(instance_id, settings, p_type)
+        return cls(
+            val_instance_id,
+            val_settings,
+            val_p_type,
+        )

@@ -1,9 +1,9 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -46,7 +46,11 @@ class RestoredProtectionGroupInstantAccessEndpointsV1Controller(base_controller.
             self.headers.update(config.custom_headers)
 
     def list_protection_group_instant_access_endpoints(
-        self, limit: int = None, start: str = None, filter: str = None, **kwargs
+        self,
+        limit: int | None = None,
+        start: str | None = None,
+        filter: str | None = None,
+        **kwargs,
     ) -> Union[
         list_s3_instant_access_endpoints_response.ListS3InstantAccessEndpointsResponse,
         tuple[
@@ -98,20 +102,21 @@ class RestoredProtectionGroupInstantAccessEndpointsV1Controller(base_controller.
         # Prepare query URL
         _url_path = '/restores/protection-groups/instant-access-endpoints'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'limit': limit, 'start': start, 'filter': filter}
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
@@ -119,20 +124,19 @@ class RestoredProtectionGroupInstantAccessEndpointsV1Controller(base_controller.
                 errors,
             )
 
-        if self.config.raw_response:
-            return (
-                resp,
-                list_s3_instant_access_endpoints_response.ListS3InstantAccessEndpointsResponse.from_dictionary(
-                    resp.json()
-                ),
-            )
-        return list_s3_instant_access_endpoints_response.ListS3InstantAccessEndpointsResponse.from_dictionary(
-            resp
+        obj = list_s3_instant_access_endpoints_response.ListS3InstantAccessEndpointsResponse.from_dictionary(
+            resp.json()
         )
+        if raw_response:
+            return resp, obj
+        return obj
 
     def create_protection_group_instant_access_endpoint(
         self,
-        body: create_protection_group_instant_access_endpoint_v1_request.CreateProtectionGroupInstantAccessEndpointV1Request = None,
+        body: (
+            create_protection_group_instant_access_endpoint_v1_request.CreateProtectionGroupInstantAccessEndpointV1Request
+            | None
+        ) = None,
         **kwargs,
     ) -> Union[
         create_s3_instant_access_endpoint_response.CreateS3InstantAccessEndpointResponse,
@@ -162,20 +166,21 @@ class RestoredProtectionGroupInstantAccessEndpointsV1Controller(base_controller.
         # Prepare query URL
         _url_path = '/restores/protection-groups/instant-access-endpoints'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.post(
+            resp: requests.Response = self.client.post(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
@@ -183,20 +188,19 @@ class RestoredProtectionGroupInstantAccessEndpointsV1Controller(base_controller.
                 errors,
             )
 
-        if self.config.raw_response:
-            return (
-                resp,
-                create_s3_instant_access_endpoint_response.CreateS3InstantAccessEndpointResponse.from_dictionary(
-                    resp.json()
-                ),
-            )
-        return create_s3_instant_access_endpoint_response.CreateS3InstantAccessEndpointResponse.from_dictionary(
-            resp
+        obj = create_s3_instant_access_endpoint_response.CreateS3InstantAccessEndpointResponse.from_dictionary(
+            resp.json()
         )
+        if raw_response:
+            return resp, obj
+        return obj
 
     def cost_estimates_protection_group_instant_access_endpoint(
         self,
-        body: cost_estimates_protection_group_instant_access_endpoint_v1_request.CostEstimatesProtectionGroupInstantAccessEndpointV1Request = None,
+        body: (
+            cost_estimates_protection_group_instant_access_endpoint_v1_request.CostEstimatesProtectionGroupInstantAccessEndpointV1Request
+            | None
+        ) = None,
         **kwargs,
     ) -> Union[
         Union[
@@ -231,11 +235,12 @@ class RestoredProtectionGroupInstantAccessEndpointsV1Controller(base_controller.
         # Prepare query URL
         _url_path = '/restores/protection-groups/instant-access-endpoints/cost-estimates'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.post(
+            resp: requests.Response = self.client.post(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -244,39 +249,39 @@ class RestoredProtectionGroupInstantAccessEndpointsV1Controller(base_controller.
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing cost_estimates_protection_group_instant_access_endpoint.',
                 errors,
             )
-        unmarshalled_dict = json.loads(resp.text)
+        text_unmarshalled_dict = json.loads(resp.text)
+
+        obj: Any
+
+        obj = estimate_cost_s3_instant_access_endpoint_sync_response.EstimateCostS3InstantAccessEndpointSyncResponse.from_dictionary(
+            text_unmarshalled_dict
+        )
         if resp.status_code == 200:
-            if self.config.raw_response:
-                return (
-                    resp,
-                    estimate_cost_s3_instant_access_endpoint_sync_response.EstimateCostS3InstantAccessEndpointSyncResponse.from_dictionary(
-                        unmarshalled_dict
-                    ),
-                )
-            return estimate_cost_s3_instant_access_endpoint_sync_response.EstimateCostS3InstantAccessEndpointSyncResponse.from_dictionary(
-                unmarshalled_dict
-            )
+            if raw_response:
+                return resp, obj
+            return obj
+
+        obj = estimate_cost_s3_instant_access_endpoint_async_response.EstimateCostS3InstantAccessEndpointAsyncResponse.from_dictionary(
+            text_unmarshalled_dict
+        )
         if resp.status_code == 202:
-            if self.config.raw_response:
-                return (
-                    resp,
-                    estimate_cost_s3_instant_access_endpoint_async_response.EstimateCostS3InstantAccessEndpointAsyncResponse.from_dictionary(
-                        unmarshalled_dict
-                    ),
-                )
-            return estimate_cost_s3_instant_access_endpoint_async_response.EstimateCostS3InstantAccessEndpointAsyncResponse.from_dictionary(
-                unmarshalled_dict
-            )
+            if raw_response:
+                return resp, obj
+            return obj
+
+        raise RuntimeError(
+            f'Code should be unreachable; Unexpected response code: {resp.status_code}. '
+        )
 
     def cost_estimates_details_protection_group_instant_access_endpoint(
-        self, estimate_id: str, **kwargs
+        self, estimate_id: str | None = None, **kwargs
     ) -> Union[
         estimate_cost_details_s3_instant_access_endpoint_response.EstimateCostDetailsS3InstantAccessEndpointResponse,
         tuple[
@@ -302,23 +307,26 @@ class RestoredProtectionGroupInstantAccessEndpointsV1Controller(base_controller.
         """
 
         # Prepare query URL
-        _url_path = '/restores/protection-groups/instant-access-endpoints/cost-estimates/{estimate_id}'
+        _url_path = (
+            '/restores/protection-groups/instant-access-endpoints/cost-estimates/{estimate_id}'
+        )
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'estimate_id': estimate_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
@@ -326,18 +334,16 @@ class RestoredProtectionGroupInstantAccessEndpointsV1Controller(base_controller.
                 errors,
             )
 
-        if self.config.raw_response:
-            return (
-                resp,
-                estimate_cost_details_s3_instant_access_endpoint_response.EstimateCostDetailsS3InstantAccessEndpointResponse.from_dictionary(
-                    resp.json()
-                ),
-            )
-        return estimate_cost_details_s3_instant_access_endpoint_response.EstimateCostDetailsS3InstantAccessEndpointResponse.from_dictionary(
-            resp
+        obj = estimate_cost_details_s3_instant_access_endpoint_response.EstimateCostDetailsS3InstantAccessEndpointResponse.from_dictionary(
+            resp.json()
         )
+        if raw_response:
+            return resp, obj
+        return obj
 
-    def read_protection_group_instant_access_endpoint(self, endpoint_id: str, **kwargs) -> Union[
+    def read_protection_group_instant_access_endpoint(
+        self, endpoint_id: str | None = None, **kwargs
+    ) -> Union[
         read_s3_instant_access_endpoint_response.ReadS3InstantAccessEndpointResponse,
         tuple[
             requests.Response,
@@ -363,19 +369,20 @@ class RestoredProtectionGroupInstantAccessEndpointsV1Controller(base_controller.
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'endpoint_id': endpoint_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
@@ -383,21 +390,20 @@ class RestoredProtectionGroupInstantAccessEndpointsV1Controller(base_controller.
                 errors,
             )
 
-        if self.config.raw_response:
-            return (
-                resp,
-                read_s3_instant_access_endpoint_response.ReadS3InstantAccessEndpointResponse.from_dictionary(
-                    resp.json()
-                ),
-            )
-        return read_s3_instant_access_endpoint_response.ReadS3InstantAccessEndpointResponse.from_dictionary(
-            resp
+        obj = read_s3_instant_access_endpoint_response.ReadS3InstantAccessEndpointResponse.from_dictionary(
+            resp.json()
         )
+        if raw_response:
+            return resp, obj
+        return obj
 
     def update_protection_group_instant_access_endpoint(
         self,
-        endpoint_id: str,
-        body: update_protection_group_instant_access_endpoint_v1_request.UpdateProtectionGroupInstantAccessEndpointV1Request = None,
+        endpoint_id: str | None = None,
+        body: (
+            update_protection_group_instant_access_endpoint_v1_request.UpdateProtectionGroupInstantAccessEndpointV1Request
+            | None
+        ) = None,
         **kwargs,
     ) -> Union[
         update_s3_instant_access_endpoint_response.UpdateS3InstantAccessEndpointResponse,
@@ -429,20 +435,21 @@ class RestoredProtectionGroupInstantAccessEndpointsV1Controller(base_controller.
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'endpoint_id': endpoint_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.put(
+            resp: requests.Response = self.client.put(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
@@ -450,19 +457,15 @@ class RestoredProtectionGroupInstantAccessEndpointsV1Controller(base_controller.
                 errors,
             )
 
-        if self.config.raw_response:
-            return (
-                resp,
-                update_s3_instant_access_endpoint_response.UpdateS3InstantAccessEndpointResponse.from_dictionary(
-                    resp.json()
-                ),
-            )
-        return update_s3_instant_access_endpoint_response.UpdateS3InstantAccessEndpointResponse.from_dictionary(
-            resp
+        obj = update_s3_instant_access_endpoint_response.UpdateS3InstantAccessEndpointResponse.from_dictionary(
+            resp.json()
         )
+        if raw_response:
+            return resp, obj
+        return obj
 
     def delete_protection_group_instant_access_endpoint(
-        self, endpoint_id: str, **kwargs
+        self, endpoint_id: str | None = None, **kwargs
     ) -> Union[object, tuple[requests.Response, Optional[object]]]:
         """Deletes a S3 instant access endpoint and all its details.
 
@@ -483,19 +486,20 @@ class RestoredProtectionGroupInstantAccessEndpointsV1Controller(base_controller.
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'endpoint_id': endpoint_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.delete(
+            resp: requests.Response = self.client.delete(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
@@ -503,12 +507,12 @@ class RestoredProtectionGroupInstantAccessEndpointsV1Controller(base_controller.
                 errors,
             )
 
-        if self.config.raw_response:
+        if raw_response:
             return resp, resp.json()
         return resp
 
     def read_protection_group_instant_access_endpoint_uri(
-        self, endpoint_id: str, **kwargs
+        self, endpoint_id: str | None = None, **kwargs
     ) -> Union[
         read_s3_instant_access_endpoint_uri_response.ReadS3InstantAccessEndpointUriResponse,
         tuple[
@@ -537,19 +541,20 @@ class RestoredProtectionGroupInstantAccessEndpointsV1Controller(base_controller.
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'endpoint_id': endpoint_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
@@ -557,21 +562,20 @@ class RestoredProtectionGroupInstantAccessEndpointsV1Controller(base_controller.
                 errors,
             )
 
-        if self.config.raw_response:
-            return (
-                resp,
-                read_s3_instant_access_endpoint_uri_response.ReadS3InstantAccessEndpointUriResponse.from_dictionary(
-                    resp.json()
-                ),
-            )
-        return read_s3_instant_access_endpoint_uri_response.ReadS3InstantAccessEndpointUriResponse.from_dictionary(
-            resp
+        obj = read_s3_instant_access_endpoint_uri_response.ReadS3InstantAccessEndpointUriResponse.from_dictionary(
+            resp.json()
         )
+        if raw_response:
+            return resp, obj
+        return obj
 
     def add_protection_group_instant_access_endpoint_role(
         self,
-        endpoint_id: str,
-        body: add_protection_group_instant_access_endpoint_role_v1_request.AddProtectionGroupInstantAccessEndpointRoleV1Request = None,
+        endpoint_id: str | None = None,
+        body: (
+            add_protection_group_instant_access_endpoint_role_v1_request.AddProtectionGroupInstantAccessEndpointRoleV1Request
+            | None
+        ) = None,
         **kwargs,
     ) -> Union[
         add_s3_instant_access_endpoint_role_response.AddS3InstantAccessEndpointRoleResponse,
@@ -603,20 +607,21 @@ class RestoredProtectionGroupInstantAccessEndpointsV1Controller(base_controller.
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'endpoint_id': endpoint_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.post(
+            resp: requests.Response = self.client.post(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
@@ -624,19 +629,15 @@ class RestoredProtectionGroupInstantAccessEndpointsV1Controller(base_controller.
                 errors,
             )
 
-        if self.config.raw_response:
-            return (
-                resp,
-                add_s3_instant_access_endpoint_role_response.AddS3InstantAccessEndpointRoleResponse.from_dictionary(
-                    resp.json()
-                ),
-            )
-        return add_s3_instant_access_endpoint_role_response.AddS3InstantAccessEndpointRoleResponse.from_dictionary(
-            resp
+        obj = add_s3_instant_access_endpoint_role_response.AddS3InstantAccessEndpointRoleResponse.from_dictionary(
+            resp.json()
         )
+        if raw_response:
+            return resp, obj
+        return obj
 
     def read_protection_group_instant_access_endpoint_role_permission(
-        self, endpoint_id: str, **kwargs
+        self, endpoint_id: str | None = None, **kwargs
     ) -> Union[
         read_s3_instant_access_endpoint_role_permission_response.ReadS3InstantAccessEndpointRolePermissionResponse,
         tuple[
@@ -663,23 +664,26 @@ class RestoredProtectionGroupInstantAccessEndpointsV1Controller(base_controller.
         """
 
         # Prepare query URL
-        _url_path = '/restores/protection-groups/instant-access-endpoints/{endpoint_id}/roles/permissions'
+        _url_path = (
+            '/restores/protection-groups/instant-access-endpoints/{endpoint_id}/roles/permissions'
+        )
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'endpoint_id': endpoint_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
@@ -687,22 +691,21 @@ class RestoredProtectionGroupInstantAccessEndpointsV1Controller(base_controller.
                 errors,
             )
 
-        if self.config.raw_response:
-            return (
-                resp,
-                read_s3_instant_access_endpoint_role_permission_response.ReadS3InstantAccessEndpointRolePermissionResponse.from_dictionary(
-                    resp.json()
-                ),
-            )
-        return read_s3_instant_access_endpoint_role_permission_response.ReadS3InstantAccessEndpointRolePermissionResponse.from_dictionary(
-            resp
+        obj = read_s3_instant_access_endpoint_role_permission_response.ReadS3InstantAccessEndpointRolePermissionResponse.from_dictionary(
+            resp.json()
         )
+        if raw_response:
+            return resp, obj
+        return obj
 
     def update_protection_group_instant_access_endpoint_role(
         self,
-        endpoint_id: str,
-        role_id: str,
-        body: update_protection_group_instant_access_endpoint_role_v1_request.UpdateProtectionGroupInstantAccessEndpointRoleV1Request = None,
+        endpoint_id: str | None = None,
+        role_id: str | None = None,
+        body: (
+            update_protection_group_instant_access_endpoint_role_v1_request.UpdateProtectionGroupInstantAccessEndpointRoleV1Request
+            | None
+        ) = None,
         **kwargs,
     ) -> Union[
         update_s3_instant_access_endpoint_role_response.UpdateS3InstantAccessEndpointRoleResponse,
@@ -734,24 +737,27 @@ class RestoredProtectionGroupInstantAccessEndpointsV1Controller(base_controller.
         """
 
         # Prepare query URL
-        _url_path = '/restores/protection-groups/instant-access-endpoints/{endpoint_id}/roles/{role_id}'
+        _url_path = (
+            '/restores/protection-groups/instant-access-endpoints/{endpoint_id}/roles/{role_id}'
+        )
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'endpoint_id': endpoint_id, 'role_id': role_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.put(
+            resp: requests.Response = self.client.put(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
@@ -759,19 +765,15 @@ class RestoredProtectionGroupInstantAccessEndpointsV1Controller(base_controller.
                 errors,
             )
 
-        if self.config.raw_response:
-            return (
-                resp,
-                update_s3_instant_access_endpoint_role_response.UpdateS3InstantAccessEndpointRoleResponse.from_dictionary(
-                    resp.json()
-                ),
-            )
-        return update_s3_instant_access_endpoint_role_response.UpdateS3InstantAccessEndpointRoleResponse.from_dictionary(
-            resp
+        obj = update_s3_instant_access_endpoint_role_response.UpdateS3InstantAccessEndpointRoleResponse.from_dictionary(
+            resp.json()
         )
+        if raw_response:
+            return resp, obj
+        return obj
 
     def delete_protection_group_instant_access_endpoint_role(
-        self, endpoint_id: str, role_id: str, **kwargs
+        self, endpoint_id: str | None = None, role_id: str | None = None, **kwargs
     ) -> Union[
         delete_s3_instant_access_endpoint_role_response.DeleteS3InstantAccessEndpointRoleResponse,
         tuple[
@@ -799,23 +801,26 @@ class RestoredProtectionGroupInstantAccessEndpointsV1Controller(base_controller.
         """
 
         # Prepare query URL
-        _url_path = '/restores/protection-groups/instant-access-endpoints/{endpoint_id}/roles/{role_id}'
+        _url_path = (
+            '/restores/protection-groups/instant-access-endpoints/{endpoint_id}/roles/{role_id}'
+        )
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'endpoint_id': endpoint_id, 'role_id': role_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.delete(
+            resp: requests.Response = self.client.delete(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
@@ -823,13 +828,9 @@ class RestoredProtectionGroupInstantAccessEndpointsV1Controller(base_controller.
                 errors,
             )
 
-        if self.config.raw_response:
-            return (
-                resp,
-                delete_s3_instant_access_endpoint_role_response.DeleteS3InstantAccessEndpointRoleResponse.from_dictionary(
-                    resp.json()
-                ),
-            )
-        return delete_s3_instant_access_endpoint_role_response.DeleteS3InstantAccessEndpointRoleResponse.from_dictionary(
-            resp
+        obj = delete_s3_instant_access_endpoint_role_response.DeleteS3InstantAccessEndpointRoleResponse.from_dictionary(
+            resp.json()
         )
+        if raw_response:
+            return resp, obj
+        return obj

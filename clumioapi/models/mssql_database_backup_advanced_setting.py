@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -30,20 +30,22 @@ class MSSQLDatabaseBackupAdvancedSetting:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'alternative_replica': 'alternative_replica',
         'preferred_replica': 'preferred_replica',
     }
 
-    def __init__(self, alternative_replica: str = None, preferred_replica: str = None) -> None:
+    def __init__(
+        self, alternative_replica: str | None = None, preferred_replica: str | None = None
+    ) -> None:
         """Constructor for the MSSQLDatabaseBackupAdvancedSetting class."""
 
         # Initialize members of the class
-        self.alternative_replica: str = alternative_replica
-        self.preferred_replica: str = preferred_replica
+        self.alternative_replica: str | None = alternative_replica
+        self.preferred_replica: str | None = preferred_replica
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -54,11 +56,17 @@ class MSSQLDatabaseBackupAdvancedSetting:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        alternative_replica = dictionary.get('alternative_replica')
-        preferred_replica = dictionary.get('preferred_replica')
+        val = dictionary.get('alternative_replica', None)
+        val_alternative_replica = val
+
+        val = dictionary.get('preferred_replica', None)
+        val_preferred_replica = val
+
         # Return an object of this model
-        return cls(alternative_replica, preferred_replica)
+        return cls(
+            val_alternative_replica,
+            val_preferred_replica,
+        )

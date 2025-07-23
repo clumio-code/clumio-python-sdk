@@ -1,10 +1,11 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import generate_restored_file_passcode_links
+from clumioapi.models import \
+    generate_restored_file_passcode_links as generate_restored_file_passcode_links_
 
 T = TypeVar('T', bound='GenerateRestoredFilePasscodeResponse')
 
@@ -21,21 +22,25 @@ class GenerateRestoredFilePasscodeResponse:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'links': '_links', 'passcode': 'passcode'}
+    _names: dict[str, str] = {'links': '_links', 'passcode': 'passcode'}
 
     def __init__(
         self,
-        links: generate_restored_file_passcode_links.GenerateRestoredFilePasscodeLinks = None,
-        passcode: str = None,
+        links: (
+            generate_restored_file_passcode_links_.GenerateRestoredFilePasscodeLinks | None
+        ) = None,
+        passcode: str | None = None,
     ) -> None:
         """Constructor for the GenerateRestoredFilePasscodeResponse class."""
 
         # Initialize members of the class
-        self.links: generate_restored_file_passcode_links.GenerateRestoredFilePasscodeLinks = links
-        self.passcode: str = passcode
+        self.links: (
+            generate_restored_file_passcode_links_.GenerateRestoredFilePasscodeLinks | None
+        ) = links
+        self.passcode: str | None = passcode
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -46,19 +51,19 @@ class GenerateRestoredFilePasscodeResponse:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = '_links'
-        links = (
-            generate_restored_file_passcode_links.GenerateRestoredFilePasscodeLinks.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
+        val = dictionary.get('_links', None)
+        val_links = generate_restored_file_passcode_links_.GenerateRestoredFilePasscodeLinks.from_dictionary(
+            val
         )
 
-        passcode = dictionary.get('passcode')
+        val = dictionary.get('passcode', None)
+        val_passcode = val
+
         # Return an object of this model
-        return cls(links, passcode)
+        return cls(
+            val_links,
+            val_passcode,
+        )

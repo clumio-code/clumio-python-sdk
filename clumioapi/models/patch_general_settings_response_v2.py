@@ -1,11 +1,11 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import general_settings_links
-from clumioapi.models import ou_grouping_criteria
+from clumioapi.models import general_settings_links as general_settings_links_
+from clumioapi.models import ou_grouping_criteria as ou_grouping_criteria_
 
 T = TypeVar('T', bound='PatchGeneralSettingsResponseV2')
 
@@ -46,7 +46,7 @@ class PatchGeneralSettingsResponseV2:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'links': '_links',
         'auto_logout_duration': 'auto_logout_duration',
         'ip_allowlist': 'ip_allowlist',
@@ -56,25 +56,25 @@ class PatchGeneralSettingsResponseV2:
 
     def __init__(
         self,
-        links: general_settings_links.GeneralSettingsLinks = None,
-        auto_logout_duration: int = None,
-        ip_allowlist: Sequence[str] = None,
-        organizational_unit_data_groups: ou_grouping_criteria.OUGroupingCriteria = None,
-        password_expiration_duration: int = None,
+        links: general_settings_links_.GeneralSettingsLinks | None = None,
+        auto_logout_duration: int | None = None,
+        ip_allowlist: Sequence[str] | None = None,
+        organizational_unit_data_groups: ou_grouping_criteria_.OUGroupingCriteria | None = None,
+        password_expiration_duration: int | None = None,
     ) -> None:
         """Constructor for the PatchGeneralSettingsResponseV2 class."""
 
         # Initialize members of the class
-        self.links: general_settings_links.GeneralSettingsLinks = links
-        self.auto_logout_duration: int = auto_logout_duration
-        self.ip_allowlist: Sequence[str] = ip_allowlist
-        self.organizational_unit_data_groups: ou_grouping_criteria.OUGroupingCriteria = (
+        self.links: general_settings_links_.GeneralSettingsLinks | None = links
+        self.auto_logout_duration: int | None = auto_logout_duration
+        self.ip_allowlist: Sequence[str] | None = ip_allowlist
+        self.organizational_unit_data_groups: ou_grouping_criteria_.OUGroupingCriteria | None = (
             organizational_unit_data_groups
         )
-        self.password_expiration_duration: int = password_expiration_duration
+        self.password_expiration_duration: int | None = password_expiration_duration
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -85,32 +85,31 @@ class PatchGeneralSettingsResponseV2:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = '_links'
-        links = (
-            general_settings_links.GeneralSettingsLinks.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
+        val = dictionary.get('_links', None)
+        val_links = general_settings_links_.GeneralSettingsLinks.from_dictionary(val)
+
+        val = dictionary.get('auto_logout_duration', None)
+        val_auto_logout_duration = val
+
+        val = dictionary.get('ip_allowlist', None)
+        val_ip_allowlist = val
+
+        val = dictionary.get('organizational_unit_data_groups', None)
+        val_organizational_unit_data_groups = (
+            ou_grouping_criteria_.OUGroupingCriteria.from_dictionary(val)
         )
 
-        auto_logout_duration = dictionary.get('auto_logout_duration')
-        ip_allowlist = dictionary.get('ip_allowlist')
-        key = 'organizational_unit_data_groups'
-        organizational_unit_data_groups = (
-            ou_grouping_criteria.OUGroupingCriteria.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('password_expiration_duration', None)
+        val_password_expiration_duration = val
 
-        password_expiration_duration = dictionary.get('password_expiration_duration')
         # Return an object of this model
         return cls(
-            links,
-            auto_logout_duration,
-            ip_allowlist,
-            organizational_unit_data_groups,
-            password_expiration_duration,
+            val_links,
+            val_auto_logout_duration,
+            val_ip_allowlist,
+            val_organizational_unit_data_groups,
+            val_password_expiration_duration,
         )

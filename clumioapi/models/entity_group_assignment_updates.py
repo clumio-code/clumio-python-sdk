@@ -1,10 +1,10 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import role_for_organizational_units
+from clumioapi.models import role_for_organizational_units as role_for_organizational_units_
 
 T = TypeVar('T', bound='EntityGroupAssignmentUpdates')
 
@@ -26,21 +26,23 @@ class EntityGroupAssignmentUpdates:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'add': 'add', 'remove': 'remove'}
+    _names: dict[str, str] = {'add': 'add', 'remove': 'remove'}
 
     def __init__(
         self,
-        add: Sequence[role_for_organizational_units.RoleForOrganizationalUnits] = None,
-        remove: Sequence[role_for_organizational_units.RoleForOrganizationalUnits] = None,
+        add: Sequence[role_for_organizational_units_.RoleForOrganizationalUnits] | None = None,
+        remove: Sequence[role_for_organizational_units_.RoleForOrganizationalUnits] | None = None,
     ) -> None:
         """Constructor for the EntityGroupAssignmentUpdates class."""
 
         # Initialize members of the class
-        self.add: Sequence[role_for_organizational_units.RoleForOrganizationalUnits] = add
-        self.remove: Sequence[role_for_organizational_units.RoleForOrganizationalUnits] = remove
+        self.add: Sequence[role_for_organizational_units_.RoleForOrganizationalUnits] | None = add
+        self.remove: Sequence[role_for_organizational_units_.RoleForOrganizationalUnits] | None = (
+            remove
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -51,25 +53,31 @@ class EntityGroupAssignmentUpdates:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        add = None
-        if dictionary.get('add'):
-            add = list()
-            for value in dictionary.get('add'):
-                add.append(
-                    role_for_organizational_units.RoleForOrganizationalUnits.from_dictionary(value)
+        val = dictionary.get('add', None)
+
+        val_add = None
+        if val:
+            val_add = list()
+            for value in val:
+                val_add.append(
+                    role_for_organizational_units_.RoleForOrganizationalUnits.from_dictionary(value)
                 )
 
-        remove = None
-        if dictionary.get('remove'):
-            remove = list()
-            for value in dictionary.get('remove'):
-                remove.append(
-                    role_for_organizational_units.RoleForOrganizationalUnits.from_dictionary(value)
+        val = dictionary.get('remove', None)
+
+        val_remove = None
+        if val:
+            val_remove = list()
+            for value in val:
+                val_remove.append(
+                    role_for_organizational_units_.RoleForOrganizationalUnits.from_dictionary(value)
                 )
 
         # Return an object of this model
-        return cls(add, remove)
+        return cls(
+            val_add,
+            val_remove,
+        )

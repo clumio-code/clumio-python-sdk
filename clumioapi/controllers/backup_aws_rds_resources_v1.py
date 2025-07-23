@@ -1,9 +1,9 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -32,7 +32,12 @@ class BackupAwsRdsResourcesV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def list_backup_aws_rds_resources(
-        self, limit: int = None, start: str = None, sort: str = None, filter: str = None, **kwargs
+        self,
+        limit: int | None = None,
+        start: str | None = None,
+        sort: str | None = None,
+        filter: str | None = None,
+        **kwargs,
     ) -> Union[
         list_rds_database_backups_response.ListRdsDatabaseBackupsResponse,
         tuple[
@@ -76,11 +81,16 @@ class BackupAwsRdsResourcesV1Controller(base_controller.BaseController):
                 |      Field      | Filter Condition |               Description               |
                 +=================+==================+=========================================+
                 | resource_id     | $eq              | Filter database backups whose database  |
-                |                 |                  | ID equal the specified string.          |
+                |                 |                  | ID equal the specified string. For      |
+                |                 |                  | example, filter={"resource_id":{"$eq":" |
+                |                 |                  | fdba79ed-502b-11fb-9bdc-83d528bd52dc"}} |
                 +-----------------+------------------+-----------------------------------------+
                 | start_timestamp | $lte, $gt        | Filter database backups whose start     |
                 |                 |                  | timestamp is "less than or equal to" or |
                 |                 |                  | "greater than" a given timestamp.       |
+                |                 |                  | Represented in RFC-3339 format. For     |
+                |                 |                  | example, filter={"start_timestamp":{"$l |
+                |                 |                  | te":"1985-04-12T23:20:50Z"}}            |
                 +-----------------+------------------+-----------------------------------------+
 
         Returns:
@@ -95,38 +105,35 @@ class BackupAwsRdsResourcesV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/backups/aws/rds-resources'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'limit': limit, 'start': start, 'sort': sort, 'filter': filter}
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_backup_aws_rds_resources.', errors
             )
 
-        if self.config.raw_response:
-            return (
-                resp,
-                list_rds_database_backups_response.ListRdsDatabaseBackupsResponse.from_dictionary(
-                    resp.json()
-                ),
-            )
-        return list_rds_database_backups_response.ListRdsDatabaseBackupsResponse.from_dictionary(
-            resp
+        obj = list_rds_database_backups_response.ListRdsDatabaseBackupsResponse.from_dictionary(
+            resp.json()
         )
+        if raw_response:
+            return resp, obj
+        return obj
 
-    def read_backup_aws_rds_resource(self, backup_id: str, **kwargs) -> Union[
+    def read_backup_aws_rds_resource(self, backup_id: str | None = None, **kwargs) -> Union[
         read_rds_database_backup_response.ReadRdsDatabaseBackupResponse,
         tuple[
             requests.Response,
@@ -152,36 +159,40 @@ class BackupAwsRdsResourcesV1Controller(base_controller.BaseController):
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'backup_id': backup_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_backup_aws_rds_resource.', errors
             )
 
-        if self.config.raw_response:
-            return (
-                resp,
-                read_rds_database_backup_response.ReadRdsDatabaseBackupResponse.from_dictionary(
-                    resp.json()
-                ),
-            )
-        return read_rds_database_backup_response.ReadRdsDatabaseBackupResponse.from_dictionary(resp)
+        obj = read_rds_database_backup_response.ReadRdsDatabaseBackupResponse.from_dictionary(
+            resp.json()
+        )
+        if raw_response:
+            return resp, obj
+        return obj
 
     def list_aws_rds_resources_option_groups(
-        self, backup_id: str, limit: int = None, start: str = None, filter: str = None, **kwargs
+        self,
+        backup_id: str | None = None,
+        limit: int | None = None,
+        start: str | None = None,
+        filter: str | None = None,
+        **kwargs,
     ) -> Union[
         list_rds_option_groups_response.ListRdsOptionGroupsResponse,
         tuple[
@@ -228,31 +239,30 @@ class BackupAwsRdsResourcesV1Controller(base_controller.BaseController):
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'backup_id': backup_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'limit': limit, 'start': start, 'filter': filter}
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_aws_rds_resources_option_groups.', errors
             )
 
-        if self.config.raw_response:
-            return (
-                resp,
-                list_rds_option_groups_response.ListRdsOptionGroupsResponse.from_dictionary(
-                    resp.json()
-                ),
-            )
-        return list_rds_option_groups_response.ListRdsOptionGroupsResponse.from_dictionary(resp)
+        obj = list_rds_option_groups_response.ListRdsOptionGroupsResponse.from_dictionary(
+            resp.json()
+        )
+        if raw_response:
+            return resp, obj
+        return obj

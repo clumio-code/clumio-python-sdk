@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -19,17 +19,19 @@ class UpdateManagementGroupV1Request:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'backup_across_subgroups': 'backup_across_subgroups', 'name': 'name'}
+    _names: dict[str, str] = {'backup_across_subgroups': 'backup_across_subgroups', 'name': 'name'}
 
-    def __init__(self, backup_across_subgroups: bool = None, name: str = None) -> None:
+    def __init__(
+        self, backup_across_subgroups: bool | None = None, name: str | None = None
+    ) -> None:
         """Constructor for the UpdateManagementGroupV1Request class."""
 
         # Initialize members of the class
-        self.backup_across_subgroups: bool = backup_across_subgroups
-        self.name: str = name
+        self.backup_across_subgroups: bool | None = backup_across_subgroups
+        self.name: str | None = name
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -40,11 +42,17 @@ class UpdateManagementGroupV1Request:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        backup_across_subgroups = dictionary.get('backup_across_subgroups')
-        name = dictionary.get('name')
+        val = dictionary.get('backup_across_subgroups', None)
+        val_backup_across_subgroups = val
+
+        val = dictionary.get('name', None)
+        val_name = val
+
         # Return an object of this model
-        return cls(backup_across_subgroups, name)
+        return cls(
+            val_backup_across_subgroups,
+            val_name,
+        )

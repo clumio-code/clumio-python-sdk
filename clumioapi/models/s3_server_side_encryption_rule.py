@@ -1,10 +1,11 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import s3_server_side_encryption_by_default
+from clumioapi.models import \
+    s3_server_side_encryption_by_default as s3_server_side_encryption_by_default_
 
 T = TypeVar('T', bound='S3ServerSideEncryptionRule')
 
@@ -24,26 +25,28 @@ class S3ServerSideEncryptionRule:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'apply_server_side_encryption_by_default': 'apply_server_side_encryption_by_default',
         'bucket_key_enabled': 'bucket_key_enabled',
     }
 
     def __init__(
         self,
-        apply_server_side_encryption_by_default: s3_server_side_encryption_by_default.S3ServerSideEncryptionByDefault = None,
-        bucket_key_enabled: bool = None,
+        apply_server_side_encryption_by_default: (
+            s3_server_side_encryption_by_default_.S3ServerSideEncryptionByDefault | None
+        ) = None,
+        bucket_key_enabled: bool | None = None,
     ) -> None:
         """Constructor for the S3ServerSideEncryptionRule class."""
 
         # Initialize members of the class
         self.apply_server_side_encryption_by_default: (
-            s3_server_side_encryption_by_default.S3ServerSideEncryptionByDefault
+            s3_server_side_encryption_by_default_.S3ServerSideEncryptionByDefault | None
         ) = apply_server_side_encryption_by_default
-        self.bucket_key_enabled: bool = bucket_key_enabled
+        self.bucket_key_enabled: bool | None = bucket_key_enabled
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -54,19 +57,21 @@ class S3ServerSideEncryptionRule:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = 'apply_server_side_encryption_by_default'
-        apply_server_side_encryption_by_default = (
-            s3_server_side_encryption_by_default.S3ServerSideEncryptionByDefault.from_dictionary(
-                dictionary.get(key)
+        val = dictionary.get('apply_server_side_encryption_by_default', None)
+        val_apply_server_side_encryption_by_default = (
+            s3_server_side_encryption_by_default_.S3ServerSideEncryptionByDefault.from_dictionary(
+                val
             )
-            if dictionary.get(key)
-            else None
         )
 
-        bucket_key_enabled = dictionary.get('bucket_key_enabled')
+        val = dictionary.get('bucket_key_enabled', None)
+        val_bucket_key_enabled = val
+
         # Return an object of this model
-        return cls(apply_server_side_encryption_by_default, bucket_key_enabled)
+        return cls(
+            val_apply_server_side_encryption_by_default,
+            val_bucket_key_enabled,
+        )

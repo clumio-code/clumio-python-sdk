@@ -1,11 +1,11 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import hateoas_link
-from clumioapi.models import hateoas_self_link
+from clumioapi.models import hateoas_link as hateoas_link_
+from clumioapi.models import hateoas_self_link as hateoas_self_link_
 
 T = TypeVar('T', bound='UserLinks')
 
@@ -25,23 +25,27 @@ class UserLinks:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'p_self': '_self', 'delete_user': 'delete-user', 'update_user': 'update-user'}
+    _names: dict[str, str] = {
+        'p_self': '_self',
+        'delete_user': 'delete-user',
+        'update_user': 'update-user',
+    }
 
     def __init__(
         self,
-        p_self: hateoas_self_link.HateoasSelfLink = None,
-        delete_user: hateoas_link.HateoasLink = None,
-        update_user: hateoas_link.HateoasLink = None,
+        p_self: hateoas_self_link_.HateoasSelfLink | None = None,
+        delete_user: hateoas_link_.HateoasLink | None = None,
+        update_user: hateoas_link_.HateoasLink | None = None,
     ) -> None:
         """Constructor for the UserLinks class."""
 
         # Initialize members of the class
-        self.p_self: hateoas_self_link.HateoasSelfLink = p_self
-        self.delete_user: hateoas_link.HateoasLink = delete_user
-        self.update_user: hateoas_link.HateoasLink = update_user
+        self.p_self: hateoas_self_link_.HateoasSelfLink | None = p_self
+        self.delete_user: hateoas_link_.HateoasLink | None = delete_user
+        self.update_user: hateoas_link_.HateoasLink | None = update_user
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -52,30 +56,21 @@ class UserLinks:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = '_self'
-        p_self = (
-            hateoas_self_link.HateoasSelfLink.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('_self', None)
+        val_p_self = hateoas_self_link_.HateoasSelfLink.from_dictionary(val)
 
-        key = 'delete-user'
-        delete_user = (
-            hateoas_link.HateoasLink.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('delete-user', None)
+        val_delete_user = hateoas_link_.HateoasLink.from_dictionary(val)
 
-        key = 'update-user'
-        update_user = (
-            hateoas_link.HateoasLink.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('update-user', None)
+        val_update_user = hateoas_link_.HateoasLink.from_dictionary(val)
 
         # Return an object of this model
-        return cls(p_self, delete_user, update_user)
+        return cls(
+            val_p_self,
+            val_delete_user,
+            val_update_user,
+        )
