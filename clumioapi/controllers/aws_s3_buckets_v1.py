@@ -1,9 +1,9 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -33,7 +33,11 @@ class AwsS3BucketsV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def list_aws_s3_buckets(
-        self, limit: int = None, start: str = None, filter: str = None, **kwargs
+        self,
+        limit: int | None = None,
+        start: str | None = None,
+        filter: str | None = None,
+        **kwargs,
     ) -> Union[
         list_buckets_response.ListBucketsResponse,
         tuple[requests.Response, Optional[list_buckets_response.ListBucketsResponse]],
@@ -52,118 +56,235 @@ class AwsS3BucketsV1Controller(base_controller.BaseController):
                 the supported filter fields for this resource and the filter conditions that can
                 be applied on those fields:
 
-                +------------------------+------------------+----------------------------------+
-                |         Field          | Filter Condition |           Description            |
-                +========================+==================+==================================+
-                | environment_id         | $eq              | The Clumio-assigned ID of the    |
-                |                        |                  | AWS environment.                 |
-                +------------------------+------------------+----------------------------------+
-                | name                   | $contains, $in   | The AWS-assigned name of this    |
-                |                        |                  | resource to conditionalize on.   |
-                |                        |                  | For example, filter={"name":{"$c |
-                |                        |                  | ontains":"dev"}} retrieves all   |
-                |                        |                  | S3 buckets with "dev" in their   |
-                |                        |                  | name.                            |
-                |                        |                  | filter={"name":{"$in":["prod",   |
-                |                        |                  | "dev"]}} retrieves only S3       |
-                |                        |                  | buckets with names that exactly  |
-                |                        |                  | match "dev" or "prod"            |
-                +------------------------+------------------+----------------------------------+
-                | account_native_id      | $eq              | The AWS-assigned ID of the AWS   |
-                |                        |                  | account. For example, filter={"a |
-                |                        |                  | ccount_native_id":{"$eq":"789901 |
-                |                        |                  | 323485"}}                        |
-                +------------------------+------------------+----------------------------------+
-                | aws_region             | $eq, $in         | The AWS region of a given        |
-                |                        |                  | account to which this resource   |
-                |                        |                  | belongs. For example,            |
-                |                        |                  | filter={"aws_region":{"$eq":"us- |
-                |                        |                  | east-1"}}                        |
-                +------------------------+------------------+----------------------------------+
-                | is_deleted             | $eq,$in          | The deletion status of the       |
-                |                        |                  | bucket. Set to "true" to         |
-                |                        |                  | retrieve deleted buckets. For    |
-                |                        |                  | example, filter={"is_deleted":{" |
-                |                        |                  | $eq":true}} filter={"is_deleted" |
-                |                        |                  | :{"$in":["true","false"]}}       |
-                +------------------------+------------------+----------------------------------+
-                | tags.id                | $all             | The Clumio-assigned ID(s) of AWS |
-                |                        |                  | tag(s) applied to this resource. |
-                |                        |                  | For example, filter={"tags.id":{ |
-                |                        |                  | "$all":["c764b152-5819-11ea-bb9f |
-                |                        |                  | -b2e1c9a040ad","c764abb6-5819-   |
-                |                        |                  | 11ea-bb9f-b2e1c9a040ad"]}}       |
-                |                        |                  | retrieves all S3 buckets that    |
-                |                        |                  | are associated with the 2 AWS    |
-                |                        |                  | tags identified by these IDs. If |
-                |                        |                  | multiple tags are specified, all |
-                |                        |                  | of them must be applied to the   |
-                |                        |                  | same S3 bucket.                  |
-                +------------------------+------------------+----------------------------------+
-                | aws_tag                | $in, $all        | Denotes the AWS tags to          |
-                |                        |                  | conditionalize on. For example,  |
-                |                        |                  | filter={"aws_tag":{"$in":[{"key" |
-                |                        |                  | :"Environment", "value":"Prod"}, |
-                |                        |                  | {"key":"Hello",                  |
-                |                        |                  | "value":"World"}]}}              |
-                +------------------------+------------------+----------------------------------+
-                | excluded_aws_tag       | $all             | Denotes the AWS tags to          |
-                |                        |                  | conditionalize against, that     |
-                |                        |                  | assets cannot have. For example, |
-                |                        |                  | filter={"excluded_aws_tag":{"$al |
-                |                        |                  | l":[{"key":"Environment",        |
-                |                        |                  | "value":"Prod"}, {"key":"Hello", |
-                |                        |                  | "value":"World"}]}}              |
-                +------------------------+------------------+----------------------------------+
-                | organizational_unit_id | $in              | Denotes the organizational unit  |
-                |                        |                  | IDs that can own the assets that |
-                |                        |                  | are returned. For example, filte |
-                |                        |                  | r={"organizational_unit_id":{"$i |
-                |                        |                  | n":["c764b152-5819-11ea-bb9f-    |
-                |                        |                  | b2e1c9a040ad","c764abb6-5819-    |
-                |                        |                  | 11ea-bb9f-b2e1c9a040ad"]}}       |
-                +------------------------+------------------+----------------------------------+
-                | asset_id               | $in              | Denotes the asset IDs that the   |
-                |                        |                  | results will be constrained to,  |
-                |                        |                  | with other filters still         |
-                |                        |                  | applied. For example, filter={"a |
-                |                        |                  | sset_id":{"$in":["c764b152-5819- |
-                |                        |                  | 11ea-bb9f-                       |
-                |                        |                  | b2e1c9a040ad","c764abb6-5819-    |
-                |                        |                  | 11ea-bb9f-b2e1c9a040ad"]}}       |
-                +------------------------+------------------+----------------------------------+
-                | event_bridge_enabled   | $eq              | The AWS EventBridge status for   |
-                |                        |                  | the S3 bucket required for S3    |
-                |                        |                  | continuous backup. For example,  |
-                |                        |                  | filter={"event_bridge_enabled":{ |
-                |                        |                  | "$eq":true}}                     |
-                +------------------------+------------------+----------------------------------+
-                | is_versioning_enabled  | $eq              | The AWS Version status for the   |
-                |                        |                  | S3 bucket. For example, filter={ |
-                |                        |                  | "is_versioning_enabled":{"$eq":t |
-                |                        |                  | rue}}                            |
-                +------------------------+------------------+----------------------------------+
-                | is_encryption_enabled  | $eq              | The AWS Encryption status for    |
-                |                        |                  | the S3 bucket. For example, filt |
-                |                        |                  | er={"is_encryption_enabled":{"$e |
-                |                        |                  | q":true}}                        |
-                +------------------------+------------------+----------------------------------+
-                | is_replication_enabled | $eq              | The AWS Replication status for   |
-                |                        |                  | the S3 bucket. For example, filt |
-                |                        |                  | er={"is_replication_enabled":{"$ |
-                |                        |                  | eq":true}}                       |
-                +------------------------+------------------+----------------------------------+
-                | is_supported           | $eq              | The Clumio supported status for  |
-                |                        |                  | the S3 bucket. For example, filt |
-                |                        |                  | er={"is_supported":{"$eq":true}} |
-                +------------------------+------------------+----------------------------------+
-                | is_active              | $eq              | The Clumio status for the S3     |
-                |                        |                  | bucket - whether its information |
-                |                        |                  | has been updated within the last |
-                |                        |                  | 5 days. For example, filter={"is |
-                |                        |                  | _active":{"$eq":true}}           |
-                +------------------------+------------------+----------------------------------+
+                +-----------------------------+------------------+-----------------------------+
+                |            Field            | Filter Condition |         Description         |
+                +=============================+==================+=============================+
+                | environment_id              | $eq              | The Clumio-assigned ID of   |
+                |                             |                  | the AWS environment.        |
+                +-----------------------------+------------------+-----------------------------+
+                | name                        | $contains, $in   | The AWS-assigned name of    |
+                |                             |                  | this resource to            |
+                |                             |                  | conditionalize on. For      |
+                |                             |                  | example, filter={"name":{"$ |
+                |                             |                  | contains":"dev"}} retrieves |
+                |                             |                  | all S3 buckets with "dev"   |
+                |                             |                  | in their name. filter={"nam |
+                |                             |                  | e":{"$in":["prod", "dev"]}} |
+                |                             |                  | retrieves only S3 buckets   |
+                |                             |                  | with names that exactly     |
+                |                             |                  | match "dev" or "prod"       |
+                +-----------------------------+------------------+-----------------------------+
+                | account_native_id           | $eq              |                             |
+                | Deprecated                  |                  | This field will be          |
+                |                             |                  | deprecated. Use             |
+                |                             |                  | bucket_matcher filter       |
+                |                             |                  | instead.                    |
+                |                             |                  | The AWS-assigned ID of the  |
+                |                             |                  | AWS account. For example, f |
+                |                             |                  | ilter={"account_native_id": |
+                |                             |                  | {"$eq":"789901323485"}}     |
+                |                             |                  |                             |
+                +-----------------------------+------------------+-----------------------------+
+                | aws_region Deprecated       | $eq, $in         |                             |
+                |                             |                  | This field will be          |
+                |                             |                  | deprecated. Use             |
+                |                             |                  | bucket_matcher filter       |
+                |                             |                  | instead.                    |
+                |                             |                  | The AWS region of a given   |
+                |                             |                  | account to which this       |
+                |                             |                  | resource belongs. For       |
+                |                             |                  | example, filter={"aws_regio |
+                |                             |                  | n":{"$eq":"us-east-1"}}     |
+                |                             |                  |                             |
+                +-----------------------------+------------------+-----------------------------+
+                | is_deleted                  | $eq,$in          | The deletion status of the  |
+                |                             |                  | bucket. Set to "true" to    |
+                |                             |                  | retrieve deleted buckets.   |
+                |                             |                  | For example, filter={"is_de |
+                |                             |                  | leted":{"$eq":true}} filter |
+                |                             |                  | ={"is_deleted":{"$in":["tru |
+                |                             |                  | e","false"]}}               |
+                +-----------------------------+------------------+-----------------------------+
+                | tags.id                     | $all             | The Clumio-assigned ID(s)   |
+                |                             |                  | of AWS tag(s) applied to    |
+                |                             |                  | this resource. For example, |
+                |                             |                  | filter={"tags.id":{"$all":[ |
+                |                             |                  | "c764b152-5819-11ea-bb9f-   |
+                |                             |                  | b2e1c9a040ad","c764abb6-    |
+                |                             |                  | 5819-11ea-                  |
+                |                             |                  | bb9f-b2e1c9a040ad"]}}       |
+                |                             |                  | retrieves all S3 buckets    |
+                |                             |                  | that are associated with    |
+                |                             |                  | the 2 AWS tags identified   |
+                |                             |                  | by these IDs. If multiple   |
+                |                             |                  | tags are specified, all of  |
+                |                             |                  | them must be applied to the |
+                |                             |                  | same S3 bucket.             |
+                +-----------------------------+------------------+-----------------------------+
+                | aws_tag Deprecated          | $in, $all        |                             |
+                |                             |                  | This field will be          |
+                |                             |                  | deprecated. Use             |
+                |                             |                  | bucket_matcher filter       |
+                |                             |                  | instead.                    |
+                |                             |                  | Denotes the AWS tags to     |
+                |                             |                  | conditionalize on. For      |
+                |                             |                  | example, filter={"aws_tag": |
+                |                             |                  | {"$in":[{"key":"Environment |
+                |                             |                  | ", "value":"Prod"},         |
+                |                             |                  | {"key":"Hello",             |
+                |                             |                  | "value":"World"}]}}         |
+                |                             |                  |                             |
+                +-----------------------------+------------------+-----------------------------+
+                | excluded_aws_tag Deprecated | $all             |                             |
+                |                             |                  | This field will be          |
+                |                             |                  | deprecated. Use             |
+                |                             |                  | bucket_matcher filter       |
+                |                             |                  | instead.                    |
+                |                             |                  | Denotes the AWS tags to     |
+                |                             |                  | conditionalize against,     |
+                |                             |                  | that assets cannot have.    |
+                |                             |                  | For example, filter={"exclu |
+                |                             |                  | ded_aws_tag":{"$all":[{"key |
+                |                             |                  | ":"Environment",            |
+                |                             |                  | "value":"Prod"},            |
+                |                             |                  | {"key":"Hello",             |
+                |                             |                  | "value":"World"}]}}         |
+                |                             |                  |                             |
+                +-----------------------------+------------------+-----------------------------+
+                | organizational_unit_id      | $in              | Denotes the organizational  |
+                |                             |                  | unit IDs that can own the   |
+                |                             |                  | assets that are returned.   |
+                |                             |                  | For example, filter={"organ |
+                |                             |                  | izational_unit_id":{"$in":[ |
+                |                             |                  | "c764b152-5819-11ea-bb9f-   |
+                |                             |                  | b2e1c9a040ad","c764abb6-    |
+                |                             |                  | 5819-11ea-                  |
+                |                             |                  | bb9f-b2e1c9a040ad"]}}       |
+                +-----------------------------+------------------+-----------------------------+
+                | asset_id                    | $in              | Denotes the asset IDs that  |
+                |                             |                  | the results will be         |
+                |                             |                  | constrained to, with other  |
+                |                             |                  | filters still applied. For  |
+                |                             |                  | example, filter={"asset_id" |
+                |                             |                  | :{"$in":["c764b152-5819-    |
+                |                             |                  | 11ea-bb9f-                  |
+                |                             |                  | b2e1c9a040ad","c764abb6-    |
+                |                             |                  | 5819-11ea-                  |
+                |                             |                  | bb9f-b2e1c9a040ad"]}}       |
+                +-----------------------------+------------------+-----------------------------+
+                | event_bridge_enabled        | $eq              | The AWS EventBridge status  |
+                |                             |                  | for the S3 bucket required  |
+                |                             |                  | for S3 continuous backup.   |
+                |                             |                  | For example, filter={"event |
+                |                             |                  | _bridge_enabled":{"$eq":tru |
+                |                             |                  | e}}                         |
+                +-----------------------------+------------------+-----------------------------+
+                | is_versioning_enabled       | $eq              | The AWS Version status for  |
+                |                             |                  | the S3 bucket. For example, |
+                |                             |                  | filter={"is_versioning_enab |
+                |                             |                  | led":{"$eq":true}}          |
+                +-----------------------------+------------------+-----------------------------+
+                | is_encryption_enabled       | $eq              | The AWS Encryption status   |
+                |                             |                  | for the S3 bucket. For      |
+                |                             |                  | example, filter={"is_encryp |
+                |                             |                  | tion_enabled":{"$eq":true}} |
+                +-----------------------------+------------------+-----------------------------+
+                | is_replication_enabled      | $eq              | The AWS Replication status  |
+                |                             |                  | for the S3 bucket. For      |
+                |                             |                  | example, filter={"is_replic |
+                |                             |                  | ation_enabled":{"$eq":true} |
+                |                             |                  | }                           |
+                +-----------------------------+------------------+-----------------------------+
+                | is_supported                | $eq              | The Clumio supported status |
+                |                             |                  | for the S3 bucket. For      |
+                |                             |                  | example, filter={"is_suppor |
+                |                             |                  | ted":{"$eq":true}}          |
+                +-----------------------------+------------------+-----------------------------+
+                | is_active                   | $eq              | The Clumio status for the   |
+                |                             |                  | S3 bucket - whether its     |
+                |                             |                  | information has been        |
+                |                             |                  | updated within the last 5   |
+                |                             |                  | days. For example, filter={ |
+                |                             |                  | "is_active":{"$eq":true}}   |
+                +-----------------------------+------------------+-----------------------------+
+                | protection_method           | $eq, $in         | The applied protection      |
+                |                             |                  | method for the S3 bucket.   |
+                |                             |                  | Returns if any protection   |
+                |                             |                  | group is protected by the   |
+                |                             |                  | specified protection        |
+                |                             |                  | method. For example, filter |
+                |                             |                  | ={"protection_method":{"$eq |
+                |                             |                  | ":"securevault"}}           |
+                |                             |                  | Possible values include:    |
+                |                             |                  | 'securevault', 'backtrack', |
+                |                             |                  | 'none'                      |
+                +-----------------------------+------------------+-----------------------------+
 
+
+                in: query
+
+                The Bucket matcher query parameter receives an expression to query the bucket.
+                This field is an expression to match s3 buckets. Search for buckets that match
+                the conditions in the expression.
+                For example, bucket_matcher={"aws_tag":{"$eq":{"key":"key1", "value":"val1"}},"a
+                ws_account_native_id":{"$eq":"account"},"aws_region":{"$eq":"us-west-2"}}
+                The following formulas are supported.
+                Denotes the properties to conditionalize on. For `$eq`, `$not_eq`, `$contains`
+                and `$not_contains` a single element is provided: `{'$eq':{'key':'Environment',
+                'value':'Prod'}}`. For all other operations, a list is provided:
+                `{'$in':[{'key':'Environment','value':'Prod'}, {'key':'Hello',
+                'value':'World'}]}`.
+
+                +--------------------------+-------------------------+-------------------------+
+                |          Field           |     Rule Condition      |       Description       |
+                +==========================+=========================+=========================+
+                | aws_tag                  | $eq, $not_eq,           | Supports filtering by   |
+                |                          | $contains,              | AWS tag(s) using the    |
+                |                          | $not_contains, $all,    | following operators.    |
+                |                          | $not_all, $in, $not_in  | For example,            |
+                |                          |                         |                         |
+                |                          |                         | {"aws_tag":{"$eq":{"key |
+                |                          |                         | ":"Environment",        |
+                |                          |                         | "value":"Prod"}}}       |
+                |                          |                         |                         |
+                |                          |                         |                         |
+                +--------------------------+-------------------------+-------------------------+
+                | aws_account_native_id    | $eq, $in                | Supports filtering by   |
+                |                          |                         | AWS account(s) using    |
+                |                          |                         | the following           |
+                |                          |                         | operators. For example, |
+                |                          |                         |                         |
+                |                          |                         | {"aws_account_native_id |
+                |                          |                         | ":{"$eq":"111111111111" |
+                |                          |                         | }}                      |
+                |                          |                         |                         |
+                |                          |                         |                         |
+                +--------------------------+-------------------------+-------------------------+
+                | account_native_idDepreca | $eq, $in                |                         |
+                | ted                      |                         | This will be deprecated |
+                |                          |                         | and use                 |
+                |                          |                         | aws_account_native_id   |
+                |                          |                         | instead.                |
+                |                          |                         | Supports filtering by   |
+                |                          |                         | AWS account(s) using    |
+                |                          |                         | the following           |
+                |                          |                         | operators. For example, |
+                |                          |                         |                         |
+                |                          |                         | {"account_native_id":{" |
+                |                          |                         | $in":["111111111111"]}} |
+                |                          |                         |                         |
+                |                          |                         |                         |
+                +--------------------------+-------------------------+-------------------------+
+                | aws_region               | $eq, $in                | Supports filtering by   |
+                |                          |                         | AWS region(s) using the |
+                |                          |                         | following operators.    |
+                |                          |                         | For example,            |
+                |                          |                         |                         |
+                |                          |                         | {"aws_region":{"$eq":"u |
+                |                          |                         | s-west-2"}}             |
+                |                          |                         |                         |
+                |                          |                         |                         |
+                +--------------------------+-------------------------+-------------------------+
         Returns:
             requests.Response: Raw Response from the API if config.raw_response is set to True.
             list_buckets_response.ListBucketsResponse: Response from the API.
@@ -176,31 +297,33 @@ class AwsS3BucketsV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/datasources/aws/s3-buckets'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'limit': limit, 'start': start, 'filter': filter}
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_aws_s3_buckets.', errors
             )
 
-        if self.config.raw_response:
-            return resp, list_buckets_response.ListBucketsResponse.from_dictionary(resp.json())
-        return list_buckets_response.ListBucketsResponse.from_dictionary(resp)
+        obj = list_buckets_response.ListBucketsResponse.from_dictionary(resp.json())
+        if raw_response:
+            return resp, obj
+        return obj
 
-    def read_aws_s3_bucket(self, bucket_id: str, **kwargs) -> Union[
+    def read_aws_s3_bucket(self, bucket_id: str | None = None, **kwargs) -> Union[
         read_bucket_response.ReadBucketResponse,
         tuple[requests.Response, Optional[read_bucket_response.ReadBucketResponse]],
     ]:
@@ -223,33 +346,35 @@ class AwsS3BucketsV1Controller(base_controller.BaseController):
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'bucket_id': bucket_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_aws_s3_bucket.', errors
             )
 
-        if self.config.raw_response:
-            return resp, read_bucket_response.ReadBucketResponse.from_dictionary(resp.json())
-        return read_bucket_response.ReadBucketResponse.from_dictionary(resp)
+        obj = read_bucket_response.ReadBucketResponse.from_dictionary(resp.json())
+        if raw_response:
+            return resp, obj
+        return obj
 
     def set_bucket_properties(
         self,
-        bucket_id: str,
-        body: set_bucket_properties_v1_request.SetBucketPropertiesV1Request = None,
+        bucket_id: str | None = None,
+        body: set_bucket_properties_v1_request.SetBucketPropertiesV1Request | None = None,
         **kwargs,
     ) -> Union[
         set_bucket_properties_response.SetBucketPropertiesResponse,
@@ -257,8 +382,8 @@ class AwsS3BucketsV1Controller(base_controller.BaseController):
             requests.Response, Optional[set_bucket_properties_response.SetBucketPropertiesResponse]
         ],
     ]:
-        """Idempotent call to set properties on an S3 bucket to enable flows like S3
-        continuous backup.
+        """Idempotent call to set properties on an S3 bucket to enable S3 continuous
+        backup.
 
         Args:
             bucket_id:
@@ -279,28 +404,30 @@ class AwsS3BucketsV1Controller(base_controller.BaseController):
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'bucket_id': bucket_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.patch(
+            resp: requests.Response = self.client.patch(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing set_bucket_properties.', errors
             )
 
-        if self.config.raw_response:
-            return resp, set_bucket_properties_response.SetBucketPropertiesResponse.from_dictionary(
-                resp.json()
-            )
-        return set_bucket_properties_response.SetBucketPropertiesResponse.from_dictionary(resp)
+        obj = set_bucket_properties_response.SetBucketPropertiesResponse.from_dictionary(
+            resp.json()
+        )
+        if raw_response:
+            return resp, obj
+        return obj

@@ -1,9 +1,9 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -12,7 +12,6 @@ from clumioapi.controllers import base_controller
 from clumioapi.exceptions import clumio_exception
 from clumioapi.models import list_aws_tags_response
 from clumioapi.models import read_aws_tag_response
-from clumioapi.models import read_ebs_tag_compliance_stats_response
 import requests
 
 
@@ -33,14 +32,15 @@ class AwsEnvironmentTagsV1Controller(base_controller.BaseController):
 
     def list_aws_environment_tags(
         self,
-        environment_id: str,
-        current_count: int = None,
-        limit: int = None,
-        total_count: int = None,
-        total_pages_count: int = None,
-        start: str = None,
-        filter: str = None,
-        embed: str = None,
+        environment_id: str | None = None,
+        current_count: int | None = None,
+        limit: int | None = None,
+        total_count: int | None = None,
+        total_pages_count: int | None = None,
+        start: str | None = None,
+        filter: str | None = None,
+        embed: str | None = None,
+        lookback_days: int | None = None,
         **kwargs,
     ) -> Union[
         list_aws_tags_response.ListAwsTagsResponse,
@@ -114,17 +114,41 @@ class AwsEnvironmentTagsV1Controller(base_controller.BaseController):
                 +---------------------------------------+--------------------------------------+
                 |            Embeddable Link            |             Description              |
                 +=======================================+======================================+
-                | read-aws-environment-tag-ebs-volumes- | Embeds compliance statistics about   |
-                | compliance-stats                      | EBS volumes for each tag into the    |
-                |                                       | response. For example, embed=read-   |
-                |                                       | aws-environment-tag-ebs-volumes-     |
-                |                                       | compliance-stats                     |
+                | read-aws-environment-tag-ebs-volumes- | Embeds protection stats about EBS    |
+                | protection-stats                      | Volumes associated with this tag     |
+                |                                       | into the response. For example,      |
+                |                                       | embed=read-aws-environment-tag-ebs-  |
+                |                                       | volumes-protection-stats             |
                 +---------------------------------------+--------------------------------------+
-                | read-aws-environment-tag-dynamodb-    | Embeds compliance statistics about   |
-                | tables-compliance-stats               | DynamoDB tables for each tag into    |
-                |                                       | the response. For example,           |
+                | read-aws-environment-tag-             | Embeds protection stats about EC2    |
+                | ec2-instances-protection-stats        | Instance associated with this tag    |
+                |                                       | into the response. For example,      |
                 |                                       | embed=read-aws-environment-tag-      |
-                |                                       | dynamodb-tables-compliance-stats     |
+                |                                       | ec2-instances-protection-stats       |
+                +---------------------------------------+--------------------------------------+
+                | read-aws-environment-tag-rds-volumes- | Embeds protection stats about RDS    |
+                | protection-stats                      | Instance associated with this tag    |
+                |                                       | into the response. For example,      |
+                |                                       | embed=read-aws-environment-tag-rds-  |
+                |                                       | volumes-protection-stats             |
+                +---------------------------------------+--------------------------------------+
+                | read-aws-environment-tag-dynamodb-    | Embeds protection stats about        |
+                | tables-protection-stats               | DynamoDB tables associated with this |
+                |                                       | tag into the response. For example,  |
+                |                                       | embed=read-aws-environment-tag-      |
+                |                                       | dynamodb-tables-protection-stats     |
+                +---------------------------------------+--------------------------------------+
+                | read-aws-environment-tag-protection-  | Embeds protection stats about        |
+                | groups-protection-stats               | Protection Groups associated with    |
+                |                                       | this tag into the response. For      |
+                |                                       | example, embed=read-aws-environment- |
+                |                                       | tag-protection-groups-protection-    |
+                |                                       | stats                                |
+                +---------------------------------------+--------------------------------------+
+                | read-aws-environment-tag-backup-      | Embeds the backup statistics for     |
+                | status-stats                          | each tag into the response. For      |
+                |                                       | example, embed=read-aws-environment- |
+                |                                       | tag-backup-status-stats              |
                 +---------------------------------------+--------------------------------------+
                 | read-policy-definition                | Embeds the associated policy of a    |
                 |                                       | protected tag into the response. For |
@@ -132,6 +156,8 @@ class AwsEnvironmentTagsV1Controller(base_controller.BaseController):
                 |                                       | definition                           |
                 +---------------------------------------+--------------------------------------+
 
+            lookback_days:
+                Calculate backup status for the last `lookback_days` days.
         Returns:
             requests.Response: Raw Response from the API if config.raw_response is set to True.
             list_aws_tags_response.ListAwsTagsResponse: Response from the API.
@@ -146,7 +172,7 @@ class AwsEnvironmentTagsV1Controller(base_controller.BaseController):
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'environment_id': environment_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {
             'current_count': current_count,
             'limit': limit,
@@ -155,31 +181,39 @@ class AwsEnvironmentTagsV1Controller(base_controller.BaseController):
             'start': start,
             'filter': filter,
             'embed': embed,
+            'lookback_days': lookback_days,
         }
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_aws_environment_tags.', errors
             )
 
-        if self.config.raw_response:
-            return resp, list_aws_tags_response.ListAwsTagsResponse.from_dictionary(resp.json())
-        return list_aws_tags_response.ListAwsTagsResponse.from_dictionary(resp)
+        obj = list_aws_tags_response.ListAwsTagsResponse.from_dictionary(resp.json())
+        if raw_response:
+            return resp, obj
+        return obj
 
     def read_aws_environment_tag(
-        self, environment_id: str, tag_id: str, embed: str = None, **kwargs
+        self,
+        environment_id: str | None = None,
+        tag_id: str | None = None,
+        embed: str | None = None,
+        lookback_days: int | None = None,
+        **kwargs,
     ) -> Union[
         read_aws_tag_response.ReadAwsTagResponse,
         tuple[requests.Response, Optional[read_aws_tag_response.ReadAwsTagResponse]],
@@ -199,17 +233,41 @@ class AwsEnvironmentTagsV1Controller(base_controller.BaseController):
                 +---------------------------------------+--------------------------------------+
                 |            Embeddable Link            |             Description              |
                 +=======================================+======================================+
-                | read-aws-environment-tag-ebs-volumes- | Embeds compliance stats about EBS    |
-                | compliance-stats                      | Volumes associated with this tag     |
+                | read-aws-environment-tag-ebs-volumes- | Embeds protection stats about EBS    |
+                | protection-stats                      | Volumes associated with this tag     |
                 |                                       | into the response. For example,      |
                 |                                       | embed=read-aws-environment-tag-ebs-  |
-                |                                       | volumes-compliance-stats             |
+                |                                       | volumes-protection-stats             |
                 +---------------------------------------+--------------------------------------+
-                | read-aws-environment-tag-dynamodb-    | Embeds compliance stats about        |
-                | tables-compliance-stats               | DynamoDB tables associated with this |
+                | read-aws-environment-tag-             | Embeds protection stats about EC2    |
+                | ec2-instances-protection-stats        | Instance associated with this tag    |
+                |                                       | into the response. For example,      |
+                |                                       | embed=read-aws-environment-tag-      |
+                |                                       | ec2-instances-protection-stats       |
+                +---------------------------------------+--------------------------------------+
+                | read-aws-environment-tag-rds-volumes- | Embeds protection stats about RDS    |
+                | protection-stats                      | Instance associated with this tag    |
+                |                                       | into the response. For example,      |
+                |                                       | embed=read-aws-environment-tag-rds-  |
+                |                                       | volumes-protection-stats             |
+                +---------------------------------------+--------------------------------------+
+                | read-aws-environment-tag-dynamodb-    | Embeds protection stats about        |
+                | tables-protection-stats               | DynamoDB tables associated with this |
                 |                                       | tag into the response. For example,  |
                 |                                       | embed=read-aws-environment-tag-      |
-                |                                       | dynamodb-tables-compliance-stats     |
+                |                                       | dynamodb-tables-protection-stats     |
+                +---------------------------------------+--------------------------------------+
+                | read-aws-environment-tag-protection-  | Embeds protection stats about        |
+                | groups-protection-stats               | Protection Groups associated with    |
+                |                                       | this tag into the response. For      |
+                |                                       | example, embed=read-aws-environment- |
+                |                                       | tag-protection-groups-protection-    |
+                |                                       | stats                                |
+                +---------------------------------------+--------------------------------------+
+                | read-aws-environment-tag-backup-      | Embeds the backup statistics for     |
+                | status-stats                          | each tag into the response. For      |
+                |                                       | example, embed=read-aws-environment- |
+                |                                       | tag-backup-status-stats              |
                 +---------------------------------------+--------------------------------------+
                 | read-policy-definition                | Embeds the associated policy of a    |
                 |                                       | protected tag into the response. For |
@@ -217,6 +275,8 @@ class AwsEnvironmentTagsV1Controller(base_controller.BaseController):
                 |                                       | definition                           |
                 +---------------------------------------+--------------------------------------+
 
+            lookback_days:
+                Calculate backup status for the last `lookback_days` days.
         Returns:
             requests.Response: Raw Response from the API if config.raw_response is set to True.
             read_aws_tag_response.ReadAwsTagResponse: Response from the API.
@@ -227,93 +287,32 @@ class AwsEnvironmentTagsV1Controller(base_controller.BaseController):
         """
 
         # Prepare query URL
-        _url_path = (
-            '/datasources/aws/environments/{environment_id}/tags/{tag_id}'
-        )
+        _url_path = '/datasources/aws/environments/{environment_id}/tags/{tag_id}'
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'environment_id': environment_id, 'tag_id': tag_id}
         )
-        _query_parameters = {}
-        _query_parameters = {'embed': embed}
+        _query_parameters: dict[str, Any] = {}
+        _query_parameters = {'embed': embed, 'lookback_days': lookback_days}
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing read_aws_environment_tag.', errors
             )
 
-        if self.config.raw_response:
-            return resp, read_aws_tag_response.ReadAwsTagResponse.from_dictionary(resp.json())
-        return read_aws_tag_response.ReadAwsTagResponse.from_dictionary(resp)
-
-    def read_aws_environment_tag_ebs_volumes_compliance_stats(
-        self, environment_id: str, tag_id: str, **kwargs
-    ) -> Union[
-        read_ebs_tag_compliance_stats_response.ReadEbsTagComplianceStatsResponse,
-        tuple[
-            requests.Response,
-            Optional[read_ebs_tag_compliance_stats_response.ReadEbsTagComplianceStatsResponse],
-        ],
-    ]:
-        """Returns the specified AWS tag's EBS compliance statistics.
-
-        Args:
-            environment_id:
-                Performs the operation on an AWS tag within the specified environment.
-            tag_id:
-                Performs the operation on the AWS tag with the specified ID.
-        Returns:
-            requests.Response: Raw Response from the API if config.raw_response is set to True.
-            read_ebs_tag_compliance_stats_response.ReadEbsTagComplianceStatsResponse: Response from the API.
-        Raises:
-            ClumioException: An error occured while executing the API.
-                This exception includes the HTTP response code, an error
-                message, and the HTTP body that was received in the request.
-        """
-
-        # Prepare query URL
-        _url_path = '/datasources/aws/environments/{environment_id}/tags/{tag_id}/stats/compliance/ebs-volumes'
-        _url_path = api_helper.append_url_with_template_parameters(
-            _url_path, {'environment_id': environment_id, 'tag_id': tag_id}
-        )
-        _query_parameters = {}
-
-        # Execute request
-        try:
-            resp = self.client.get(
-                _url_path,
-                headers=self.headers,
-                params=_query_parameters,
-                raw_response=self.config.raw_response,
-                **kwargs,
-            )
-        except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
-                return http_error.response, None
-            errors = self.client.get_error_message(http_error.response)
-            raise clumio_exception.ClumioException(
-                'Error occurred while executing read_aws_environment_tag_ebs_volumes_compliance_stats.',
-                errors,
-            )
-
-        if self.config.raw_response:
-            return (
-                resp,
-                read_ebs_tag_compliance_stats_response.ReadEbsTagComplianceStatsResponse.from_dictionary(
-                    resp.json()
-                ),
-            )
-        return read_ebs_tag_compliance_stats_response.ReadEbsTagComplianceStatsResponse.from_dictionary(
-            resp
-        )
+        obj = read_aws_tag_response.ReadAwsTagResponse.from_dictionary(resp.json())
+        if raw_response:
+            return resp, obj
+        return obj

@@ -1,9 +1,9 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -32,7 +32,11 @@ class ReportDownloadsV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def list_report_downloads(
-        self, limit: int = None, start: str = None, filter: str = None, **kwargs
+        self,
+        limit: int | None = None,
+        start: str | None = None,
+        filter: str | None = None,
+        **kwargs,
     ) -> Union[
         list_report_downloads_response.ListReportDownloadsResponse,
         tuple[
@@ -66,11 +70,10 @@ class ReportDownloadsV1Controller(base_controller.BaseController):
                 |                 |                  | Filter report downloaded records whose  |
                 |                 |                  | type is one of the given values. The    |
                 |                 |                  | possible values are: "activity",        |
-                |                 |                  | "compliance", "audit", and              |
-                |                 |                  | "consumption".                          |
+                |                 |                  | "audit", and "consumption".             |
                 |                 |                  |                                         |
-                |                 |                  | filter={"report_type":{"$in":["complian |
-                |                 |                  | ce"]}}                                  |
+                |                 |                  | filter={"report_type":{"$in":["activity |
+                |                 |                  | "]}}                                    |
                 |                 |                  |                                         |
                 |                 |                  |                                         |
                 +-----------------+------------------+-----------------------------------------+
@@ -89,34 +92,38 @@ class ReportDownloadsV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/reports/downloads'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'limit': limit, 'start': start, 'filter': filter}
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing list_report_downloads.', errors
             )
 
-        if self.config.raw_response:
-            return resp, list_report_downloads_response.ListReportDownloadsResponse.from_dictionary(
-                resp.json()
-            )
-        return list_report_downloads_response.ListReportDownloadsResponse.from_dictionary(resp)
+        obj = list_report_downloads_response.ListReportDownloadsResponse.from_dictionary(
+            resp.json()
+        )
+        if raw_response:
+            return resp, obj
+        return obj
 
     def create_report_download(
-        self, body: create_report_download_v1_request.CreateReportDownloadV1Request = None, **kwargs
+        self,
+        body: create_report_download_v1_request.CreateReportDownloadV1Request | None = None,
+        **kwargs,
     ) -> Union[
         create_report_download_response.CreateReportDownloadResponse,
         tuple[
@@ -142,31 +149,30 @@ class ReportDownloadsV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/reports/downloads'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.post(
+            resp: requests.Response = self.client.post(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing create_report_download.', errors
             )
 
-        if self.config.raw_response:
-            return (
-                resp,
-                create_report_download_response.CreateReportDownloadResponse.from_dictionary(
-                    resp.json()
-                ),
-            )
-        return create_report_download_response.CreateReportDownloadResponse.from_dictionary(resp)
+        obj = create_report_download_response.CreateReportDownloadResponse.from_dictionary(
+            resp.json()
+        )
+        if raw_response:
+            return resp, obj
+        return obj

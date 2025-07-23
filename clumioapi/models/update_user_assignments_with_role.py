@@ -1,10 +1,10 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import user_with_role
+from clumioapi.models import user_with_role as user_with_role_
 
 T = TypeVar('T', bound='UpdateUserAssignmentsWithRole')
 
@@ -23,21 +23,21 @@ class UpdateUserAssignmentsWithRole:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'add': 'add', 'remove': 'remove'}
+    _names: dict[str, str] = {'add': 'add', 'remove': 'remove'}
 
     def __init__(
         self,
-        add: Sequence[user_with_role.UserWithRole] = None,
-        remove: Sequence[user_with_role.UserWithRole] = None,
+        add: Sequence[user_with_role_.UserWithRole] | None = None,
+        remove: Sequence[user_with_role_.UserWithRole] | None = None,
     ) -> None:
         """Constructor for the UpdateUserAssignmentsWithRole class."""
 
         # Initialize members of the class
-        self.add: Sequence[user_with_role.UserWithRole] = add
-        self.remove: Sequence[user_with_role.UserWithRole] = remove
+        self.add: Sequence[user_with_role_.UserWithRole] | None = add
+        self.remove: Sequence[user_with_role_.UserWithRole] | None = remove
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -48,21 +48,27 @@ class UpdateUserAssignmentsWithRole:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        add = None
-        if dictionary.get('add'):
-            add = list()
-            for value in dictionary.get('add'):
-                add.append(user_with_role.UserWithRole.from_dictionary(value))
+        val = dictionary.get('add', None)
 
-        remove = None
-        if dictionary.get('remove'):
-            remove = list()
-            for value in dictionary.get('remove'):
-                remove.append(user_with_role.UserWithRole.from_dictionary(value))
+        val_add = None
+        if val:
+            val_add = list()
+            for value in val:
+                val_add.append(user_with_role_.UserWithRole.from_dictionary(value))
+
+        val = dictionary.get('remove', None)
+
+        val_remove = None
+        if val:
+            val_remove = list()
+            for value in val:
+                val_remove.append(user_with_role_.UserWithRole.from_dictionary(value))
 
         # Return an object of this model
-        return cls(add, remove)
+        return cls(
+            val_add,
+            val_remove,
+        )

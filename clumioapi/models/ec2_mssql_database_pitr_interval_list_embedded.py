@@ -1,10 +1,10 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import ec2_mssql_database_pitr_interval
+from clumioapi.models import ec2_mssql_database_pitr_interval as ec2_mssql_database_pitr_interval_
 
 T = TypeVar('T', bound='EC2MssqlDatabasePitrIntervalListEmbedded')
 
@@ -20,18 +20,23 @@ class EC2MssqlDatabasePitrIntervalListEmbedded:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'items': 'items'}
+    _names: dict[str, str] = {'items': 'items'}
 
     def __init__(
-        self, items: Sequence[ec2_mssql_database_pitr_interval.EC2MssqlDatabasePitrInterval] = None
+        self,
+        items: (
+            Sequence[ec2_mssql_database_pitr_interval_.EC2MssqlDatabasePitrInterval] | None
+        ) = None,
     ) -> None:
         """Constructor for the EC2MssqlDatabasePitrIntervalListEmbedded class."""
 
         # Initialize members of the class
-        self.items: Sequence[ec2_mssql_database_pitr_interval.EC2MssqlDatabasePitrInterval] = items
+        self.items: (
+            Sequence[ec2_mssql_database_pitr_interval_.EC2MssqlDatabasePitrInterval] | None
+        ) = items
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -42,19 +47,22 @@ class EC2MssqlDatabasePitrIntervalListEmbedded:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        items = None
-        if dictionary.get('items'):
-            items = list()
-            for value in dictionary.get('items'):
-                items.append(
-                    ec2_mssql_database_pitr_interval.EC2MssqlDatabasePitrInterval.from_dictionary(
+        val = dictionary.get('items', None)
+
+        val_items = None
+        if val:
+            val_items = list()
+            for value in val:
+                val_items.append(
+                    ec2_mssql_database_pitr_interval_.EC2MssqlDatabasePitrInterval.from_dictionary(
                         value
                     )
                 )
 
         # Return an object of this model
-        return cls(items)
+        return cls(
+            val_items,
+        )

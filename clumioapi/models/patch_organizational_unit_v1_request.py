@@ -1,11 +1,11 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import update_entities
-from clumioapi.models import update_user_assignments
+from clumioapi.models import update_entities as update_entities_
+from clumioapi.models import update_user_assignments as update_user_assignments_
 
 T = TypeVar('T', bound='PatchOrganizationalUnitV1Request')
 
@@ -28,7 +28,7 @@ class PatchOrganizationalUnitV1Request:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'description': 'description',
         'entities': 'entities',
         'name': 'name',
@@ -37,21 +37,21 @@ class PatchOrganizationalUnitV1Request:
 
     def __init__(
         self,
-        description: str = None,
-        entities: update_entities.UpdateEntities = None,
-        name: str = None,
-        users: update_user_assignments.UpdateUserAssignments = None,
+        description: str | None = None,
+        entities: update_entities_.UpdateEntities | None = None,
+        name: str | None = None,
+        users: update_user_assignments_.UpdateUserAssignments | None = None,
     ) -> None:
         """Constructor for the PatchOrganizationalUnitV1Request class."""
 
         # Initialize members of the class
-        self.description: str = description
-        self.entities: update_entities.UpdateEntities = entities
-        self.name: str = name
-        self.users: update_user_assignments.UpdateUserAssignments = users
+        self.description: str | None = description
+        self.entities: update_entities_.UpdateEntities | None = entities
+        self.name: str | None = name
+        self.users: update_user_assignments_.UpdateUserAssignments | None = users
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -62,25 +62,25 @@ class PatchOrganizationalUnitV1Request:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        description = dictionary.get('description')
-        key = 'entities'
-        entities = (
-            update_entities.UpdateEntities.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('description', None)
+        val_description = val
 
-        name = dictionary.get('name')
-        key = 'users'
-        users = (
-            update_user_assignments.UpdateUserAssignments.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('entities', None)
+        val_entities = update_entities_.UpdateEntities.from_dictionary(val)
+
+        val = dictionary.get('name', None)
+        val_name = val
+
+        val = dictionary.get('users', None)
+        val_users = update_user_assignments_.UpdateUserAssignments.from_dictionary(val)
 
         # Return an object of this model
-        return cls(description, entities, name, users)
+        return cls(
+            val_description,
+            val_entities,
+            val_name,
+            val_users,
+        )

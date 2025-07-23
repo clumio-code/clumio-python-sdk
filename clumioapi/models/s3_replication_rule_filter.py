@@ -1,11 +1,11 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import s3_replication_rule_and_operator
-from clumioapi.models import s3_tag
+from clumioapi.models import s3_replication_rule_and_operator as s3_replication_rule_and_operator_
+from clumioapi.models import s3_tag as s3_tag_
 
 T = TypeVar('T', bound='S3ReplicationRuleFilter')
 
@@ -28,23 +28,23 @@ class S3ReplicationRuleFilter:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'p_and': 'and', 'prefix': 'prefix', 'tag': 'tag'}
+    _names: dict[str, str] = {'p_and': 'and', 'prefix': 'prefix', 'tag': 'tag'}
 
     def __init__(
         self,
-        p_and: s3_replication_rule_and_operator.S3ReplicationRuleAndOperator = None,
-        prefix: str = None,
-        tag: s3_tag.S3Tag = None,
+        p_and: s3_replication_rule_and_operator_.S3ReplicationRuleAndOperator | None = None,
+        prefix: str | None = None,
+        tag: s3_tag_.S3Tag | None = None,
     ) -> None:
         """Constructor for the S3ReplicationRuleFilter class."""
 
         # Initialize members of the class
-        self.p_and: s3_replication_rule_and_operator.S3ReplicationRuleAndOperator = p_and
-        self.prefix: str = prefix
-        self.tag: s3_tag.S3Tag = tag
+        self.p_and: s3_replication_rule_and_operator_.S3ReplicationRuleAndOperator | None = p_and
+        self.prefix: str | None = prefix
+        self.tag: s3_tag_.S3Tag | None = tag
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -55,22 +55,23 @@ class S3ReplicationRuleFilter:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = 'and'
-        p_and = (
-            s3_replication_rule_and_operator.S3ReplicationRuleAndOperator.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
+        val = dictionary.get('and', None)
+        val_p_and = s3_replication_rule_and_operator_.S3ReplicationRuleAndOperator.from_dictionary(
+            val
         )
 
-        prefix = dictionary.get('prefix')
-        key = 'tag'
-        tag = s3_tag.S3Tag.from_dictionary(dictionary.get(key)) if dictionary.get(key) else None
+        val = dictionary.get('prefix', None)
+        val_prefix = val
+
+        val = dictionary.get('tag', None)
+        val_tag = s3_tag_.S3Tag.from_dictionary(val)
 
         # Return an object of this model
-        return cls(p_and, prefix, tag)
+        return cls(
+            val_p_and,
+            val_prefix,
+            val_tag,
+        )

@@ -1,9 +1,9 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -31,7 +31,9 @@ class PolicyAssignmentsV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def set_policy_assignments(
-        self, body: set_policy_assignments_v1_request.SetPolicyAssignmentsV1Request = None, **kwargs
+        self,
+        body: set_policy_assignments_v1_request.SetPolicyAssignmentsV1Request | None = None,
+        **kwargs,
     ) -> Union[
         set_assignments_response.SetAssignmentsResponse,
         tuple[requests.Response, Optional[set_assignments_response.SetAssignmentsResponse]],
@@ -57,28 +59,28 @@ class PolicyAssignmentsV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/policies/assignments'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.post(
+            resp: requests.Response = self.client.post(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
             errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
                 'Error occurred while executing set_policy_assignments.', errors
             )
 
-        if self.config.raw_response:
-            return resp, set_assignments_response.SetAssignmentsResponse.from_dictionary(
-                resp.json()
-            )
-        return set_assignments_response.SetAssignmentsResponse.from_dictionary(resp)
+        obj = set_assignments_response.SetAssignmentsResponse.from_dictionary(resp.json())
+        if raw_response:
+            return resp, obj
+        return obj

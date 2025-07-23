@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -19,16 +19,16 @@ class ProvisionedThroughputOverride:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'read_capacity_units': 'read_capacity_units'}
+    _names: dict[str, str] = {'read_capacity_units': 'read_capacity_units'}
 
-    def __init__(self, read_capacity_units: int = None) -> None:
+    def __init__(self, read_capacity_units: int | None = None) -> None:
         """Constructor for the ProvisionedThroughputOverride class."""
 
         # Initialize members of the class
-        self.read_capacity_units: int = read_capacity_units
+        self.read_capacity_units: int | None = read_capacity_units
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -39,10 +39,13 @@ class ProvisionedThroughputOverride:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        read_capacity_units = dictionary.get('read_capacity_units')
+        val = dictionary.get('read_capacity_units', None)
+        val_read_capacity_units = val
+
         # Return an object of this model
-        return cls(read_capacity_units)
+        return cls(
+            val_read_capacity_units,
+        )

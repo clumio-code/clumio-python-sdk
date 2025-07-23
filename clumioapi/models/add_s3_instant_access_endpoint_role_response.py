@@ -1,11 +1,12 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import s3_instant_access_endpoint_embedded
-from clumioapi.models import s3_instant_access_endpoint_links
+from clumioapi.models import \
+    s3_instant_access_endpoint_embedded as s3_instant_access_endpoint_embedded_
+from clumioapi.models import s3_instant_access_endpoint_links as s3_instant_access_endpoint_links_
 
 T = TypeVar('T', bound='AddS3InstantAccessEndpointRoleResponse')
 
@@ -23,25 +24,27 @@ class AddS3InstantAccessEndpointRoleResponse:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'embedded': '_embedded', 'links': '_links', 'role_id': 'role_id'}
+    _names: dict[str, str] = {'embedded': '_embedded', 'links': '_links', 'role_id': 'role_id'}
 
     def __init__(
         self,
-        embedded: s3_instant_access_endpoint_embedded.S3InstantAccessEndpointEmbedded = None,
-        links: s3_instant_access_endpoint_links.S3InstantAccessEndpointLinks = None,
-        role_id: str = None,
+        embedded: (
+            s3_instant_access_endpoint_embedded_.S3InstantAccessEndpointEmbedded | None
+        ) = None,
+        links: s3_instant_access_endpoint_links_.S3InstantAccessEndpointLinks | None = None,
+        role_id: str | None = None,
     ) -> None:
         """Constructor for the AddS3InstantAccessEndpointRoleResponse class."""
 
         # Initialize members of the class
-        self.embedded: s3_instant_access_endpoint_embedded.S3InstantAccessEndpointEmbedded = (
-            embedded
-        )
-        self.links: s3_instant_access_endpoint_links.S3InstantAccessEndpointLinks = links
-        self.role_id: str = role_id
+        self.embedded: (
+            s3_instant_access_endpoint_embedded_.S3InstantAccessEndpointEmbedded | None
+        ) = embedded
+        self.links: s3_instant_access_endpoint_links_.S3InstantAccessEndpointLinks | None = links
+        self.role_id: str | None = role_id
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -52,28 +55,27 @@ class AddS3InstantAccessEndpointRoleResponse:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = '_embedded'
-        embedded = (
-            s3_instant_access_endpoint_embedded.S3InstantAccessEndpointEmbedded.from_dictionary(
-                dictionary.get(key)
+        val = dictionary.get('_embedded', None)
+        val_embedded = (
+            s3_instant_access_endpoint_embedded_.S3InstantAccessEndpointEmbedded.from_dictionary(
+                val
             )
-            if dictionary.get(key)
-            else None
         )
 
-        key = '_links'
-        links = (
-            s3_instant_access_endpoint_links.S3InstantAccessEndpointLinks.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
+        val = dictionary.get('_links', None)
+        val_links = s3_instant_access_endpoint_links_.S3InstantAccessEndpointLinks.from_dictionary(
+            val
         )
 
-        role_id = dictionary.get('role_id')
+        val = dictionary.get('role_id', None)
+        val_role_id = val
+
         # Return an object of this model
-        return cls(embedded, links, role_id)
+        return cls(
+            val_embedded,
+            val_links,
+            val_role_id,
+        )

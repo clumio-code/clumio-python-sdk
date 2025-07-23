@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -24,17 +24,17 @@ class FileDescriptor:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'filesystem_id': 'filesystem_id', 'path': 'path'}
+    _names: dict[str, str] = {'filesystem_id': 'filesystem_id', 'path': 'path'}
 
-    def __init__(self, filesystem_id: str = None, path: str = None) -> None:
+    def __init__(self, filesystem_id: str | None = None, path: str | None = None) -> None:
         """Constructor for the FileDescriptor class."""
 
         # Initialize members of the class
-        self.filesystem_id: str = filesystem_id
-        self.path: str = path
+        self.filesystem_id: str | None = filesystem_id
+        self.path: str | None = path
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -45,11 +45,17 @@ class FileDescriptor:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        filesystem_id = dictionary.get('filesystem_id')
-        path = dictionary.get('path')
+        val = dictionary.get('filesystem_id', None)
+        val_filesystem_id = val
+
+        val = dictionary.get('path', None)
+        val_path = val
+
         # Return an object of this model
-        return cls(filesystem_id, path)
+        return cls(
+            val_filesystem_id,
+            val_path,
+        )

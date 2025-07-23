@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import os
@@ -26,14 +26,20 @@ class Configuration:
 
     def __init__(
         self,
-        api_token: str = None,
-        client: rest3client.RESTclient = None,
-        hostname: str = None,
+        api_token: str = '',
+        client: rest3client.RESTclient | None = None,
+        hostname: str = '',
         raw_response: bool = False,
         organizational_unit_context: str = '',
-        custom_headers: Mapping[str, str] = None,
+        custom_headers: Mapping[str, str] | None = None,
     ) -> None:
-        self.api_token: str = api_token or os.getenv('API_TOKEN')
+        api_token = api_token or os.getenv('API_TOKEN') or ''
+        if not api_token:
+            raise ValueError(
+                'api_token must be provided either as a parameter to the Configuration constructor or'
+                'as an environment variable named API_TOKEN.'
+            )
+        self.api_token: str = api_token
         if hostname:
             self.hostname = hostname
         if api_token is None:

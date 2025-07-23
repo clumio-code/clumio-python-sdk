@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, List, Mapping, Optional
@@ -36,7 +36,7 @@ class ClumioException(Exception):
             reason = f'{reason}\n{errors_string}'
         super().__init__(reason)
 
-    def unbox(self, dictionary: Optional[Mapping[str, Any]]) -> None:
+    def unbox(self, dictionary: Mapping[str, Any]) -> None:
         """Populates the object properties by extracting them from dictionary.
 
         Args:
@@ -44,8 +44,5 @@ class ClumioException(Exception):
                 from the deserialization of the server's response. The keys MUST
                 match property names in the API description.
         """
-        if dictionary.get('errors'):
-            for structure in dictionary.get('errors', {}):
-                self.errors.append(
-                    single_error_response.SingleErrorResponse.from_dictionary(structure)
-                )
+        for structure in dictionary.get('errors', {}):
+            self.errors.append(single_error_response.SingleErrorResponse.from_dictionary(structure))

@@ -1,10 +1,10 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import aws_tag_common_model
+from clumioapi.models import aws_tag_common_model as aws_tag_common_model_
 
 T = TypeVar('T', bound='EC2RestoreEbsBlockDeviceMapping')
 
@@ -28,7 +28,7 @@ class EC2RestoreEbsBlockDeviceMapping:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'kms_key_native_id': 'kms_key_native_id',
         'name': 'name',
         'tags': 'tags',
@@ -37,21 +37,21 @@ class EC2RestoreEbsBlockDeviceMapping:
 
     def __init__(
         self,
-        kms_key_native_id: str = None,
-        name: str = None,
-        tags: Sequence[aws_tag_common_model.AwsTagCommonModel] = None,
-        volume_native_id: str = None,
+        kms_key_native_id: str | None = None,
+        name: str | None = None,
+        tags: Sequence[aws_tag_common_model_.AwsTagCommonModel] | None = None,
+        volume_native_id: str | None = None,
     ) -> None:
         """Constructor for the EC2RestoreEbsBlockDeviceMapping class."""
 
         # Initialize members of the class
-        self.kms_key_native_id: str = kms_key_native_id
-        self.name: str = name
-        self.tags: Sequence[aws_tag_common_model.AwsTagCommonModel] = tags
-        self.volume_native_id: str = volume_native_id
+        self.kms_key_native_id: str | None = kms_key_native_id
+        self.name: str | None = name
+        self.tags: Sequence[aws_tag_common_model_.AwsTagCommonModel] | None = tags
+        self.volume_native_id: str | None = volume_native_id
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -62,18 +62,30 @@ class EC2RestoreEbsBlockDeviceMapping:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        kms_key_native_id = dictionary.get('kms_key_native_id')
-        name = dictionary.get('name')
-        tags = None
-        if dictionary.get('tags'):
-            tags = list()
-            for value in dictionary.get('tags'):
-                tags.append(aws_tag_common_model.AwsTagCommonModel.from_dictionary(value))
+        val = dictionary.get('kms_key_native_id', None)
+        val_kms_key_native_id = val
 
-        volume_native_id = dictionary.get('volume_native_id')
+        val = dictionary.get('name', None)
+        val_name = val
+
+        val = dictionary.get('tags', None)
+
+        val_tags = None
+        if val:
+            val_tags = list()
+            for value in val:
+                val_tags.append(aws_tag_common_model_.AwsTagCommonModel.from_dictionary(value))
+
+        val = dictionary.get('volume_native_id', None)
+        val_volume_native_id = val
+
         # Return an object of this model
-        return cls(kms_key_native_id, name, tags, volume_native_id)
+        return cls(
+            val_kms_key_native_id,
+            val_name,
+            val_tags,
+            val_volume_native_id,
+        )

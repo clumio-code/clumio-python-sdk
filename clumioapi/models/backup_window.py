@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -28,17 +28,17 @@ class BackupWindow:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'end_time': 'end_time', 'start_time': 'start_time'}
+    _names: dict[str, str] = {'end_time': 'end_time', 'start_time': 'start_time'}
 
-    def __init__(self, end_time: str = None, start_time: str = None) -> None:
+    def __init__(self, end_time: str | None = None, start_time: str | None = None) -> None:
         """Constructor for the BackupWindow class."""
 
         # Initialize members of the class
-        self.end_time: str = end_time
-        self.start_time: str = start_time
+        self.end_time: str | None = end_time
+        self.start_time: str | None = start_time
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -49,11 +49,17 @@ class BackupWindow:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        end_time = dictionary.get('end_time')
-        start_time = dictionary.get('start_time')
+        val = dictionary.get('end_time', None)
+        val_end_time = val
+
+        val = dictionary.get('start_time', None)
+        val_start_time = val
+
         # Return an object of this model
-        return cls(end_time, start_time)
+        return cls(
+            val_end_time,
+            val_start_time,
+        )

@@ -1,10 +1,11 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import s3_server_side_encryption_configuration
+from clumioapi.models import \
+    s3_server_side_encryption_configuration as s3_server_side_encryption_configuration_
 
 T = TypeVar('T', bound='S3EncryptionOutput')
 
@@ -20,21 +21,25 @@ class S3EncryptionOutput:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'server_side_encryption_configuration': 'server_side_encryption_configuration'}
+    _names: dict[str, str] = {
+        'server_side_encryption_configuration': 'server_side_encryption_configuration'
+    }
 
     def __init__(
         self,
-        server_side_encryption_configuration: s3_server_side_encryption_configuration.S3ServerSideEncryptionConfiguration = None,
+        server_side_encryption_configuration: (
+            s3_server_side_encryption_configuration_.S3ServerSideEncryptionConfiguration | None
+        ) = None,
     ) -> None:
         """Constructor for the S3EncryptionOutput class."""
 
         # Initialize members of the class
         self.server_side_encryption_configuration: (
-            s3_server_side_encryption_configuration.S3ServerSideEncryptionConfiguration
+            s3_server_side_encryption_configuration_.S3ServerSideEncryptionConfiguration | None
         ) = server_side_encryption_configuration
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -45,18 +50,15 @@ class S3EncryptionOutput:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = 'server_side_encryption_configuration'
-        server_side_encryption_configuration = (
-            s3_server_side_encryption_configuration.S3ServerSideEncryptionConfiguration.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
+        val = dictionary.get('server_side_encryption_configuration', None)
+        val_server_side_encryption_configuration = s3_server_side_encryption_configuration_.S3ServerSideEncryptionConfiguration.from_dictionary(
+            val
         )
 
         # Return an object of this model
-        return cls(server_side_encryption_configuration)
+        return cls(
+            val_server_side_encryption_configuration,
+        )

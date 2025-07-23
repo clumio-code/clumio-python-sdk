@@ -1,10 +1,10 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import hateoas_link
+from clumioapi.models import hateoas_link as hateoas_link_
 
 T = TypeVar('T', bound='EC2MssqlDatabasePitrIntervalLinks')
 
@@ -20,16 +20,18 @@ class EC2MssqlDatabasePitrIntervalLinks:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'restore_ec2_mssql_database': 'restore-ec2-mssql-database'}
+    _names: dict[str, str] = {'restore_ec2_mssql_database': 'restore-ec2-mssql-database'}
 
-    def __init__(self, restore_ec2_mssql_database: hateoas_link.HateoasLink = None) -> None:
+    def __init__(self, restore_ec2_mssql_database: hateoas_link_.HateoasLink | None = None) -> None:
         """Constructor for the EC2MssqlDatabasePitrIntervalLinks class."""
 
         # Initialize members of the class
-        self.restore_ec2_mssql_database: hateoas_link.HateoasLink = restore_ec2_mssql_database
+        self.restore_ec2_mssql_database: hateoas_link_.HateoasLink | None = (
+            restore_ec2_mssql_database
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -40,16 +42,13 @@ class EC2MssqlDatabasePitrIntervalLinks:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = 'restore-ec2-mssql-database'
-        restore_ec2_mssql_database = (
-            hateoas_link.HateoasLink.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('restore-ec2-mssql-database', None)
+        val_restore_ec2_mssql_database = hateoas_link_.HateoasLink.from_dictionary(val)
 
         # Return an object of this model
-        return cls(restore_ec2_mssql_database)
+        return cls(
+            val_restore_ec2_mssql_database,
+        )

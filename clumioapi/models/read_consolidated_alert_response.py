@@ -1,12 +1,12 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import consolidated_alert_details
-from clumioapi.models import consolidated_alert_links
-from clumioapi.models import consolidated_alert_parent_entity
+from clumioapi.models import consolidated_alert_details as consolidated_alert_details_
+from clumioapi.models import consolidated_alert_links as consolidated_alert_links_
+from clumioapi.models import consolidated_alert_parent_entity as consolidated_alert_parent_entity_
 
 T = TypeVar('T', bound='ReadConsolidatedAlertResponse')
 
@@ -64,7 +64,7 @@ class ReadConsolidatedAlertResponse:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'etag': '_etag',
         'links': '_links',
         'active_entity_count': 'active_entity_count',
@@ -84,45 +84,47 @@ class ReadConsolidatedAlertResponse:
 
     def __init__(
         self,
-        etag: str = None,
-        links: consolidated_alert_links.ConsolidatedAlertLinks = None,
-        active_entity_count: int = None,
-        cause: str = None,
-        cleared_entity_count: int = None,
-        cleared_timestamp: str = None,
-        details: consolidated_alert_details.ConsolidatedAlertDetails = None,
-        p_id: str = None,
-        notes: str = None,
-        parent_entity: consolidated_alert_parent_entity.ConsolidatedAlertParentEntity = None,
-        raised_timestamp: str = None,
-        severity: str = None,
-        status: str = None,
-        p_type: str = None,
-        updated_timestamp: str = None,
+        etag: str | None = None,
+        links: consolidated_alert_links_.ConsolidatedAlertLinks | None = None,
+        active_entity_count: int | None = None,
+        cause: str | None = None,
+        cleared_entity_count: int | None = None,
+        cleared_timestamp: str | None = None,
+        details: consolidated_alert_details_.ConsolidatedAlertDetails | None = None,
+        p_id: str | None = None,
+        notes: str | None = None,
+        parent_entity: (
+            consolidated_alert_parent_entity_.ConsolidatedAlertParentEntity | None
+        ) = None,
+        raised_timestamp: str | None = None,
+        severity: str | None = None,
+        status: str | None = None,
+        p_type: str | None = None,
+        updated_timestamp: str | None = None,
     ) -> None:
         """Constructor for the ReadConsolidatedAlertResponse class."""
 
         # Initialize members of the class
-        self.etag: str = etag
-        self.links: consolidated_alert_links.ConsolidatedAlertLinks = links
-        self.active_entity_count: int = active_entity_count
-        self.cause: str = cause
-        self.cleared_entity_count: int = cleared_entity_count
-        self.cleared_timestamp: str = cleared_timestamp
-        self.details: consolidated_alert_details.ConsolidatedAlertDetails = details
-        self.p_id: str = p_id
-        self.notes: str = notes
-        self.parent_entity: consolidated_alert_parent_entity.ConsolidatedAlertParentEntity = (
-            parent_entity
-        )
-        self.raised_timestamp: str = raised_timestamp
-        self.severity: str = severity
-        self.status: str = status
-        self.p_type: str = p_type
-        self.updated_timestamp: str = updated_timestamp
+        self.etag: str | None = etag
+        self.links: consolidated_alert_links_.ConsolidatedAlertLinks | None = links
+        self.active_entity_count: int | None = active_entity_count
+        self.cause: str | None = cause
+        self.cleared_entity_count: int | None = cleared_entity_count
+        self.cleared_timestamp: str | None = cleared_timestamp
+        self.details: consolidated_alert_details_.ConsolidatedAlertDetails | None = details
+        self.p_id: str | None = p_id
+        self.notes: str | None = notes
+        self.parent_entity: (
+            consolidated_alert_parent_entity_.ConsolidatedAlertParentEntity | None
+        ) = parent_entity
+        self.raised_timestamp: str | None = raised_timestamp
+        self.severity: str | None = severity
+        self.status: str | None = status
+        self.p_type: str | None = p_type
+        self.updated_timestamp: str | None = updated_timestamp
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -133,60 +135,71 @@ class ReadConsolidatedAlertResponse:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        etag = dictionary.get('_etag')
-        key = '_links'
-        links = (
-            consolidated_alert_links.ConsolidatedAlertLinks.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
+        val = dictionary.get('_etag', None)
+        val_etag = val
+
+        val = dictionary.get('_links', None)
+        val_links = consolidated_alert_links_.ConsolidatedAlertLinks.from_dictionary(val)
+
+        val = dictionary.get('active_entity_count', None)
+        val_active_entity_count = val
+
+        val = dictionary.get('cause', None)
+        val_cause = val
+
+        val = dictionary.get('cleared_entity_count', None)
+        val_cleared_entity_count = val
+
+        val = dictionary.get('cleared_timestamp', None)
+        val_cleared_timestamp = val
+
+        val = dictionary.get('details', None)
+        val_details = consolidated_alert_details_.ConsolidatedAlertDetails.from_dictionary(val)
+
+        val = dictionary.get('id', None)
+        val_p_id = val
+
+        val = dictionary.get('notes', None)
+        val_notes = val
+
+        val = dictionary.get('parent_entity', None)
+        val_parent_entity = (
+            consolidated_alert_parent_entity_.ConsolidatedAlertParentEntity.from_dictionary(val)
         )
 
-        active_entity_count = dictionary.get('active_entity_count')
-        cause = dictionary.get('cause')
-        cleared_entity_count = dictionary.get('cleared_entity_count')
-        cleared_timestamp = dictionary.get('cleared_timestamp')
-        key = 'details'
-        details = (
-            consolidated_alert_details.ConsolidatedAlertDetails.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('raised_timestamp', None)
+        val_raised_timestamp = val
 
-        p_id = dictionary.get('id')
-        notes = dictionary.get('notes')
-        key = 'parent_entity'
-        parent_entity = (
-            consolidated_alert_parent_entity.ConsolidatedAlertParentEntity.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('severity', None)
+        val_severity = val
 
-        raised_timestamp = dictionary.get('raised_timestamp')
-        severity = dictionary.get('severity')
-        status = dictionary.get('status')
-        p_type = dictionary.get('type')
-        updated_timestamp = dictionary.get('updated_timestamp')
+        val = dictionary.get('status', None)
+        val_status = val
+
+        val = dictionary.get('type', None)
+        val_p_type = val
+
+        val = dictionary.get('updated_timestamp', None)
+        val_updated_timestamp = val
+
         # Return an object of this model
         return cls(
-            etag,
-            links,
-            active_entity_count,
-            cause,
-            cleared_entity_count,
-            cleared_timestamp,
-            details,
-            p_id,
-            notes,
-            parent_entity,
-            raised_timestamp,
-            severity,
-            status,
-            p_type,
-            updated_timestamp,
+            val_etag,
+            val_links,
+            val_active_entity_count,
+            val_cause,
+            val_cleared_entity_count,
+            val_cleared_timestamp,
+            val_details,
+            val_p_id,
+            val_notes,
+            val_parent_entity,
+            val_raised_timestamp,
+            val_severity,
+            val_status,
+            val_p_type,
+            val_updated_timestamp,
         )

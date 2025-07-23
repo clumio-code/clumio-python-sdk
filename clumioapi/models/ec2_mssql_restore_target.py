@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -38,7 +38,7 @@ class EC2MSSQLRestoreTarget:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'data_files_path': 'data_files_path',
         'database_name': 'database_name',
         'final_database_state': 'final_database_state',
@@ -49,25 +49,25 @@ class EC2MSSQLRestoreTarget:
 
     def __init__(
         self,
-        data_files_path: str = None,
-        database_name: str = None,
-        final_database_state: str = None,
-        instance_id: str = None,
-        log_files_path: str = None,
-        restore_as_new_database: bool = None,
+        data_files_path: str | None = None,
+        database_name: str | None = None,
+        final_database_state: str | None = None,
+        instance_id: str | None = None,
+        log_files_path: str | None = None,
+        restore_as_new_database: bool | None = None,
     ) -> None:
         """Constructor for the EC2MSSQLRestoreTarget class."""
 
         # Initialize members of the class
-        self.data_files_path: str = data_files_path
-        self.database_name: str = database_name
-        self.final_database_state: str = final_database_state
-        self.instance_id: str = instance_id
-        self.log_files_path: str = log_files_path
-        self.restore_as_new_database: bool = restore_as_new_database
+        self.data_files_path: str | None = data_files_path
+        self.database_name: str | None = database_name
+        self.final_database_state: str | None = final_database_state
+        self.instance_id: str | None = instance_id
+        self.log_files_path: str | None = log_files_path
+        self.restore_as_new_database: bool | None = restore_as_new_database
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -78,22 +78,33 @@ class EC2MSSQLRestoreTarget:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        data_files_path = dictionary.get('data_files_path')
-        database_name = dictionary.get('database_name')
-        final_database_state = dictionary.get('final_database_state')
-        instance_id = dictionary.get('instance_id')
-        log_files_path = dictionary.get('log_files_path')
-        restore_as_new_database = dictionary.get('restore_as_new_database')
+        val = dictionary.get('data_files_path', None)
+        val_data_files_path = val
+
+        val = dictionary.get('database_name', None)
+        val_database_name = val
+
+        val = dictionary.get('final_database_state', None)
+        val_final_database_state = val
+
+        val = dictionary.get('instance_id', None)
+        val_instance_id = val
+
+        val = dictionary.get('log_files_path', None)
+        val_log_files_path = val
+
+        val = dictionary.get('restore_as_new_database', None)
+        val_restore_as_new_database = val
+
         # Return an object of this model
         return cls(
-            data_files_path,
-            database_name,
-            final_database_state,
-            instance_id,
-            log_files_path,
-            restore_as_new_database,
+            val_data_files_path,
+            val_database_name,
+            val_final_database_state,
+            val_instance_id,
+            val_log_files_path,
+            val_restore_as_new_database,
         )

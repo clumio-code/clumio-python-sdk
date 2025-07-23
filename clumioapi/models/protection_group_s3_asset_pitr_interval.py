@@ -18,17 +18,22 @@ class ProtectionGroupS3AssetPitrInterval:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'end_timestamp': 'end_timestamp', 'start_timestamp': 'start_timestamp'}
+    _names: dict[str, str] = {
+        'end_timestamp': 'end_timestamp',
+        'start_timestamp': 'start_timestamp',
+    }
 
-    def __init__(self, end_timestamp: str = None, start_timestamp: str = None) -> None:
+    def __init__(
+        self, end_timestamp: str | None = None, start_timestamp: str | None = None
+    ) -> None:
         """Constructor for the ProtectionGroupS3AssetPitrInterval class."""
 
         # Initialize members of the class
-        self.end_timestamp: str = end_timestamp
-        self.start_timestamp: str = start_timestamp
+        self.end_timestamp: str | None = end_timestamp
+        self.start_timestamp: str | None = start_timestamp
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -39,11 +44,17 @@ class ProtectionGroupS3AssetPitrInterval:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        val_end_timestamp = dictionary.get('end_timestamp')
-        val_start_timestamp = dictionary.get('start_timestamp')
+        val = dictionary.get('end_timestamp', None)
+        val_end_timestamp = val
+
+        val = dictionary.get('start_timestamp', None)
+        val_start_timestamp = val
+
         # Return an object of this model
-        return cls(val_end_timestamp, val_start_timestamp)
+        return cls(
+            val_end_timestamp,
+            val_start_timestamp,
+        )

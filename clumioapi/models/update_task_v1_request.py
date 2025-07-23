@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
@@ -23,9 +23,9 @@ class UpdateTaskV1Request:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'status': 'status'}
+    _names: dict[str, str] = {'status': 'status'}
 
-    def __init__(self, status: str = None) -> None:
+    def __init__(self, status: str | None = None) -> None:
         """Constructor for the UpdateTaskV1Request class."""
 
         # Initialize members of the class
@@ -35,10 +35,10 @@ class UpdateTaskV1Request:
                 f'Invalid value for status: { status }. Valid values are { StatusValues }.',
                 None,
             )
-        self.status: str = status
+        self.status: str | None = status
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -49,10 +49,13 @@ class UpdateTaskV1Request:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        status = dictionary.get('status')
+        val = dictionary.get('status', None)
+        val_status = val
+
         # Return an object of this model
-        return cls(status)
+        return cls(
+            val_status,
+        )

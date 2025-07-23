@@ -1,10 +1,10 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import aws_tag_common_model
+from clumioapi.models import aws_tag_common_model as aws_tag_common_model_
 
 T = TypeVar('T', bound='RdsResourceRestoreTarget')
 
@@ -35,7 +35,9 @@ class RdsResourceRestoreTarget:
             https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Limits.html#RDS_Limi
             ts.Constraints
         option_group_name:
-            Option group name to be added to the restored RDS resource
+            Option group name to be added to the restored RDS resource.
+        parameter_group_name:
+            The name of the parameter group to be associated with the restored RDS resource.
         security_group_native_ids:
             The AWS-assigned IDs of the security groups to be associated with the restored
             RDS resource.
@@ -47,13 +49,14 @@ class RdsResourceRestoreTarget:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'environment_id': 'environment_id',
         'instance_class': 'instance_class',
         'is_publicly_accessible': 'is_publicly_accessible',
         'kms_key_native_id': 'kms_key_native_id',
         'name': 'name',
         'option_group_name': 'option_group_name',
+        'parameter_group_name': 'parameter_group_name',
         'security_group_native_ids': 'security_group_native_ids',
         'subnet_group_name': 'subnet_group_name',
         'tags': 'tags',
@@ -61,31 +64,33 @@ class RdsResourceRestoreTarget:
 
     def __init__(
         self,
-        environment_id: str = None,
-        instance_class: str = None,
-        is_publicly_accessible: bool = None,
-        kms_key_native_id: str = None,
-        name: str = None,
-        option_group_name: str = None,
-        security_group_native_ids: Sequence[str] = None,
-        subnet_group_name: str = None,
-        tags: Sequence[aws_tag_common_model.AwsTagCommonModel] = None,
+        environment_id: str | None = None,
+        instance_class: str | None = None,
+        is_publicly_accessible: bool | None = None,
+        kms_key_native_id: str | None = None,
+        name: str | None = None,
+        option_group_name: str | None = None,
+        parameter_group_name: str | None = None,
+        security_group_native_ids: Sequence[str] | None = None,
+        subnet_group_name: str | None = None,
+        tags: Sequence[aws_tag_common_model_.AwsTagCommonModel] | None = None,
     ) -> None:
         """Constructor for the RdsResourceRestoreTarget class."""
 
         # Initialize members of the class
-        self.environment_id: str = environment_id
-        self.instance_class: str = instance_class
-        self.is_publicly_accessible: bool = is_publicly_accessible
-        self.kms_key_native_id: str = kms_key_native_id
-        self.name: str = name
-        self.option_group_name: str = option_group_name
-        self.security_group_native_ids: Sequence[str] = security_group_native_ids
-        self.subnet_group_name: str = subnet_group_name
-        self.tags: Sequence[aws_tag_common_model.AwsTagCommonModel] = tags
+        self.environment_id: str | None = environment_id
+        self.instance_class: str | None = instance_class
+        self.is_publicly_accessible: bool | None = is_publicly_accessible
+        self.kms_key_native_id: str | None = kms_key_native_id
+        self.name: str | None = name
+        self.option_group_name: str | None = option_group_name
+        self.parameter_group_name: str | None = parameter_group_name
+        self.security_group_native_ids: Sequence[str] | None = security_group_native_ids
+        self.subnet_group_name: str | None = subnet_group_name
+        self.tags: Sequence[aws_tag_common_model_.AwsTagCommonModel] | None = tags
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -96,33 +101,54 @@ class RdsResourceRestoreTarget:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        environment_id = dictionary.get('environment_id')
-        instance_class = dictionary.get('instance_class')
-        is_publicly_accessible = dictionary.get('is_publicly_accessible')
-        kms_key_native_id = dictionary.get('kms_key_native_id')
-        name = dictionary.get('name')
-        option_group_name = dictionary.get('option_group_name')
-        security_group_native_ids = dictionary.get('security_group_native_ids')
-        subnet_group_name = dictionary.get('subnet_group_name')
-        tags = None
-        if dictionary.get('tags'):
-            tags = list()
-            for value in dictionary.get('tags'):
-                tags.append(aws_tag_common_model.AwsTagCommonModel.from_dictionary(value))
+        val = dictionary.get('environment_id', None)
+        val_environment_id = val
+
+        val = dictionary.get('instance_class', None)
+        val_instance_class = val
+
+        val = dictionary.get('is_publicly_accessible', None)
+        val_is_publicly_accessible = val
+
+        val = dictionary.get('kms_key_native_id', None)
+        val_kms_key_native_id = val
+
+        val = dictionary.get('name', None)
+        val_name = val
+
+        val = dictionary.get('option_group_name', None)
+        val_option_group_name = val
+
+        val = dictionary.get('parameter_group_name', None)
+        val_parameter_group_name = val
+
+        val = dictionary.get('security_group_native_ids', None)
+        val_security_group_native_ids = val
+
+        val = dictionary.get('subnet_group_name', None)
+        val_subnet_group_name = val
+
+        val = dictionary.get('tags', None)
+
+        val_tags = None
+        if val:
+            val_tags = list()
+            for value in val:
+                val_tags.append(aws_tag_common_model_.AwsTagCommonModel.from_dictionary(value))
 
         # Return an object of this model
         return cls(
-            environment_id,
-            instance_class,
-            is_publicly_accessible,
-            kms_key_native_id,
-            name,
-            option_group_name,
-            security_group_native_ids,
-            subnet_group_name,
-            tags,
+            val_environment_id,
+            val_instance_class,
+            val_is_publicly_accessible,
+            val_kms_key_native_id,
+            val_name,
+            val_option_group_name,
+            val_parameter_group_name,
+            val_security_group_native_ids,
+            val_subnet_group_name,
+            val_tags,
         )

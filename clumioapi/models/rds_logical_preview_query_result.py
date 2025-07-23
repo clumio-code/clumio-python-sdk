@@ -1,10 +1,10 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import rds_database_table_column
+from clumioapi.models import rds_database_table_column as rds_database_table_column_
 
 T = TypeVar('T', bound='RDSLogicalPreviewQueryResult')
 
@@ -24,21 +24,21 @@ class RDSLogicalPreviewQueryResult:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'columns': 'columns', 'rows': 'rows'}
+    _names: dict[str, str] = {'columns': 'columns', 'rows': 'rows'}
 
     def __init__(
         self,
-        columns: Sequence[rds_database_table_column.RDSDatabaseTableColumn] = None,
-        rows: Sequence[Sequence[str]] = None,
+        columns: Sequence[rds_database_table_column_.RDSDatabaseTableColumn] | None = None,
+        rows: Sequence[Sequence[str]] | None = None,
     ) -> None:
         """Constructor for the RDSLogicalPreviewQueryResult class."""
 
         # Initialize members of the class
-        self.columns: Sequence[rds_database_table_column.RDSDatabaseTableColumn] = columns
-        self.rows: Sequence[Sequence[str]] = rows
+        self.columns: Sequence[rds_database_table_column_.RDSDatabaseTableColumn] | None = columns
+        self.rows: Sequence[Sequence[str]] | None = rows
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -49,18 +49,24 @@ class RDSLogicalPreviewQueryResult:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        columns = None
-        if dictionary.get('columns'):
-            columns = list()
-            for value in dictionary.get('columns'):
-                columns.append(
-                    rds_database_table_column.RDSDatabaseTableColumn.from_dictionary(value)
+        val = dictionary.get('columns', None)
+
+        val_columns = None
+        if val:
+            val_columns = list()
+            for value in val:
+                val_columns.append(
+                    rds_database_table_column_.RDSDatabaseTableColumn.from_dictionary(value)
                 )
 
-        rows = dictionary.get('rows')
+        val = dictionary.get('rows', None)
+        val_rows = val
+
         # Return an object of this model
-        return cls(columns, rows)
+        return cls(
+            val_columns,
+            val_rows,
+        )

@@ -1,10 +1,10 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import s3_replication_configuration
+from clumioapi.models import s3_replication_configuration as s3_replication_configuration_
 
 T = TypeVar('T', bound='S3ReplicationOutput')
 
@@ -21,21 +21,23 @@ class S3ReplicationOutput:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'replication_configuration': 'replication_configuration'}
+    _names: dict[str, str] = {'replication_configuration': 'replication_configuration'}
 
     def __init__(
         self,
-        replication_configuration: s3_replication_configuration.S3ReplicationConfiguration = None,
+        replication_configuration: (
+            s3_replication_configuration_.S3ReplicationConfiguration | None
+        ) = None,
     ) -> None:
         """Constructor for the S3ReplicationOutput class."""
 
         # Initialize members of the class
-        self.replication_configuration: s3_replication_configuration.S3ReplicationConfiguration = (
-            replication_configuration
-        )
+        self.replication_configuration: (
+            s3_replication_configuration_.S3ReplicationConfiguration | None
+        ) = replication_configuration
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -46,18 +48,15 @@ class S3ReplicationOutput:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = 'replication_configuration'
-        replication_configuration = (
-            s3_replication_configuration.S3ReplicationConfiguration.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
+        val = dictionary.get('replication_configuration', None)
+        val_replication_configuration = (
+            s3_replication_configuration_.S3ReplicationConfiguration.from_dictionary(val)
         )
 
         # Return an object of this model
-        return cls(replication_configuration)
+        return cls(
+            val_replication_configuration,
+        )
