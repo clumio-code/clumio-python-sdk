@@ -1,3 +1,6 @@
+## 0.16.6
+Fix error message handling while raising ClumioException
+
 ## 0.16.5
 Added another missing PG model.
 
