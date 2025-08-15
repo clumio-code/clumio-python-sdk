@@ -2,10 +2,7 @@
 # Copyright 2023. Clumio, Inc.
 #
 
-from typing import Any, List, Mapping, Optional
-
-from clumioapi import api_helper
-from clumioapi.models import single_error_response
+from typing import Any
 
 
 class ClumioException(Exception):
@@ -22,30 +19,11 @@ class ClumioException(Exception):
         Args:
             reason: The reason (or error message) for the Exception
                 to be raised.
-            context:  The HttpContext of the API call.
+            errors:  Errors.
         """
-        self.errors: List[single_error_response.SingleErrorResponse] = list()
-        dictionary = api_helper.json_deserialize(errors)
-        if isinstance(dictionary, dict):
-            self.unbox(dictionary)
-        if len(self.errors) > 0:
-            error_msgs: List[str] = [
-                f'{str(i+1)}. {self.errors[i].error_message}\n' for i in range(len(self.errors))
-            ]
-            errors_string = ''.join(error_msgs)
-            reason = f'{reason}\n{errors_string}'
-        super().__init__(reason)
-
-    def unbox(self, dictionary: Optional[Mapping[str, Any]]) -> None:
-        """Populates the object properties by extracting them from dictionary.
-
-        Args:
-            dictionary: A dictionary representation of the object as obtained
-                from the deserialization of the server's response. The keys MUST
-                match property names in the API description.
-        """
-        if dictionary.get('errors'):
-            for structure in dictionary.get('errors', {}):
-                self.errors.append(
-                    single_error_response.SingleErrorResponse.from_dictionary(structure)
-                )
+        
+        if errors is not None:
+            errors_str = json.dumps(errors, indent=2, default=str)
+        else:
+            errors_str = "None"
+        super().__init__(f'ClumioException: {reason}, errors: {errors_str}')
