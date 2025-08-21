@@ -1,10 +1,10 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import role_for_organizational_units
+from clumioapi.models import role_for_organizational_units as role_for_organizational_units_
 
 T = TypeVar('T', bound='CreateUserV2Request')
 
@@ -27,7 +27,7 @@ class CreateUserV2Request:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'access_control_configuration': 'access_control_configuration',
         'email': 'email',
         'full_name': 'full_name',
@@ -35,23 +35,23 @@ class CreateUserV2Request:
 
     def __init__(
         self,
-        access_control_configuration: Sequence[
-            role_for_organizational_units.RoleForOrganizationalUnits
-        ] = None,
-        email: str = None,
-        full_name: str = None,
+        access_control_configuration: (
+            Sequence[role_for_organizational_units_.RoleForOrganizationalUnits] | None
+        ) = None,
+        email: str | None = None,
+        full_name: str | None = None,
     ) -> None:
         """Constructor for the CreateUserV2Request class."""
 
         # Initialize members of the class
-        self.access_control_configuration: Sequence[
-            role_for_organizational_units.RoleForOrganizationalUnits
-        ] = access_control_configuration
-        self.email: str = email
-        self.full_name: str = full_name
+        self.access_control_configuration: (
+            Sequence[role_for_organizational_units_.RoleForOrganizationalUnits] | None
+        ) = access_control_configuration
+        self.email: str | None = email
+        self.full_name: str | None = full_name
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -62,19 +62,28 @@ class CreateUserV2Request:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        access_control_configuration = None
-        if dictionary.get('access_control_configuration'):
-            access_control_configuration = list()
-            for value in dictionary.get('access_control_configuration'):
-                access_control_configuration.append(
-                    role_for_organizational_units.RoleForOrganizationalUnits.from_dictionary(value)
+        val = dictionary.get('access_control_configuration', None)
+
+        val_access_control_configuration = None
+        if val:
+            val_access_control_configuration = list()
+            for value in val:
+                val_access_control_configuration.append(
+                    role_for_organizational_units_.RoleForOrganizationalUnits.from_dictionary(value)
                 )
 
-        email = dictionary.get('email')
-        full_name = dictionary.get('full_name')
+        val = dictionary.get('email', None)
+        val_email = val
+
+        val = dictionary.get('full_name', None)
+        val_full_name = val
+
         # Return an object of this model
-        return cls(access_control_configuration, email, full_name)
+        return cls(
+            val_access_control_configuration,
+            val_email,
+            val_full_name,
+        )

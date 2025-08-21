@@ -1,11 +1,11 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import entity_group_embedded
-from clumioapi.models import organizational_unit_links
+from clumioapi.models import entity_group_embedded as entity_group_embedded_
+from clumioapi.models import organizational_unit_links as organizational_unit_links_
 
 T = TypeVar('T', bound='ReadOrganizationalUnitResponseV1')
 
@@ -53,7 +53,7 @@ class ReadOrganizationalUnitResponseV1:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'embedded': '_embedded',
         'etag': '_etag',
         'links': '_links',
@@ -71,39 +71,39 @@ class ReadOrganizationalUnitResponseV1:
 
     def __init__(
         self,
-        embedded: entity_group_embedded.EntityGroupEmbedded = None,
-        etag: str = None,
-        links: organizational_unit_links.OrganizationalUnitLinks = None,
-        children_count: int = None,
-        configured_datasource_types: Sequence[str] = None,
-        descendant_ids: Sequence[str] = None,
-        description: str = None,
-        p_id: str = None,
-        name: str = None,
-        parent_id: str = None,
-        task_id: str = None,
-        user_count: int = None,
-        users: Sequence[str] = None,
+        embedded: entity_group_embedded_.EntityGroupEmbedded | None = None,
+        etag: str | None = None,
+        links: organizational_unit_links_.OrganizationalUnitLinks | None = None,
+        children_count: int | None = None,
+        configured_datasource_types: Sequence[str] | None = None,
+        descendant_ids: Sequence[str] | None = None,
+        description: str | None = None,
+        p_id: str | None = None,
+        name: str | None = None,
+        parent_id: str | None = None,
+        task_id: str | None = None,
+        user_count: int | None = None,
+        users: Sequence[str] | None = None,
     ) -> None:
         """Constructor for the ReadOrganizationalUnitResponseV1 class."""
 
         # Initialize members of the class
-        self.embedded: entity_group_embedded.EntityGroupEmbedded = embedded
-        self.etag: str = etag
-        self.links: organizational_unit_links.OrganizationalUnitLinks = links
-        self.children_count: int = children_count
-        self.configured_datasource_types: Sequence[str] = configured_datasource_types
-        self.descendant_ids: Sequence[str] = descendant_ids
-        self.description: str = description
-        self.p_id: str = p_id
-        self.name: str = name
-        self.parent_id: str = parent_id
-        self.task_id: str = task_id
-        self.user_count: int = user_count
-        self.users: Sequence[str] = users
+        self.embedded: entity_group_embedded_.EntityGroupEmbedded | None = embedded
+        self.etag: str | None = etag
+        self.links: organizational_unit_links_.OrganizationalUnitLinks | None = links
+        self.children_count: int | None = children_count
+        self.configured_datasource_types: Sequence[str] | None = configured_datasource_types
+        self.descendant_ids: Sequence[str] | None = descendant_ids
+        self.description: str | None = description
+        self.p_id: str | None = p_id
+        self.name: str | None = name
+        self.parent_id: str | None = parent_id
+        self.task_id: str | None = task_id
+        self.user_count: int | None = user_count
+        self.users: Sequence[str] | None = users
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -114,48 +114,61 @@ class ReadOrganizationalUnitResponseV1:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = '_embedded'
-        embedded = (
-            entity_group_embedded.EntityGroupEmbedded.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('_embedded', None)
+        val_embedded = entity_group_embedded_.EntityGroupEmbedded.from_dictionary(val)
 
-        etag = dictionary.get('_etag')
-        key = '_links'
-        links = (
-            organizational_unit_links.OrganizationalUnitLinks.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('_etag', None)
+        val_etag = val
 
-        children_count = dictionary.get('children_count')
-        configured_datasource_types = dictionary.get('configured_datasource_types')
-        descendant_ids = dictionary.get('descendant_ids')
-        description = dictionary.get('description')
-        p_id = dictionary.get('id')
-        name = dictionary.get('name')
-        parent_id = dictionary.get('parent_id')
-        task_id = dictionary.get('task_id')
-        user_count = dictionary.get('user_count')
-        users = dictionary.get('users')
+        val = dictionary.get('_links', None)
+        val_links = organizational_unit_links_.OrganizationalUnitLinks.from_dictionary(val)
+
+        val = dictionary.get('children_count', None)
+        val_children_count = val
+
+        val = dictionary.get('configured_datasource_types', None)
+        val_configured_datasource_types = val
+
+        val = dictionary.get('descendant_ids', None)
+        val_descendant_ids = val
+
+        val = dictionary.get('description', None)
+        val_description = val
+
+        val = dictionary.get('id', None)
+        val_p_id = val
+
+        val = dictionary.get('name', None)
+        val_name = val
+
+        val = dictionary.get('parent_id', None)
+        val_parent_id = val
+
+        val = dictionary.get('task_id', None)
+        val_task_id = val
+
+        val = dictionary.get('user_count', None)
+        val_user_count = val
+
+        val = dictionary.get('users', None)
+        val_users = val
+
         # Return an object of this model
         return cls(
-            embedded,
-            etag,
-            links,
-            children_count,
-            configured_datasource_types,
-            descendant_ids,
-            description,
-            p_id,
-            name,
-            parent_id,
-            task_id,
-            user_count,
-            users,
+            val_embedded,
+            val_etag,
+            val_links,
+            val_children_count,
+            val_configured_datasource_types,
+            val_descendant_ids,
+            val_description,
+            val_p_id,
+            val_name,
+            val_parent_id,
+            val_task_id,
+            val_user_count,
+            val_users,
         )

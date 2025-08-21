@@ -1,11 +1,12 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import aws_tag_common_model
-from clumioapi.models import ec2_restore_ebs_block_device_mapping
+from clumioapi.models import aws_tag_common_model as aws_tag_common_model_
+from clumioapi.models import \
+    ec2_restore_ebs_block_device_mapping as ec2_restore_ebs_block_device_mapping_
 
 T = TypeVar('T', bound='EC2AMIRestoreTarget')
 
@@ -33,7 +34,7 @@ class EC2AMIRestoreTarget:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'description': 'description',
         'ebs_block_device_mappings': 'ebs_block_device_mappings',
         'environment_id': 'environment_id',
@@ -43,27 +44,27 @@ class EC2AMIRestoreTarget:
 
     def __init__(
         self,
-        description: str = None,
-        ebs_block_device_mappings: Sequence[
-            ec2_restore_ebs_block_device_mapping.EC2RestoreEbsBlockDeviceMapping
-        ] = None,
-        environment_id: str = None,
-        name: str = None,
-        tags: Sequence[aws_tag_common_model.AwsTagCommonModel] = None,
+        description: str | None = None,
+        ebs_block_device_mappings: (
+            Sequence[ec2_restore_ebs_block_device_mapping_.EC2RestoreEbsBlockDeviceMapping] | None
+        ) = None,
+        environment_id: str | None = None,
+        name: str | None = None,
+        tags: Sequence[aws_tag_common_model_.AwsTagCommonModel] | None = None,
     ) -> None:
         """Constructor for the EC2AMIRestoreTarget class."""
 
         # Initialize members of the class
-        self.description: str = description
-        self.ebs_block_device_mappings: Sequence[
-            ec2_restore_ebs_block_device_mapping.EC2RestoreEbsBlockDeviceMapping
-        ] = ebs_block_device_mappings
-        self.environment_id: str = environment_id
-        self.name: str = name
-        self.tags: Sequence[aws_tag_common_model.AwsTagCommonModel] = tags
+        self.description: str | None = description
+        self.ebs_block_device_mappings: (
+            Sequence[ec2_restore_ebs_block_device_mapping_.EC2RestoreEbsBlockDeviceMapping] | None
+        ) = ebs_block_device_mappings
+        self.environment_id: str | None = environment_id
+        self.name: str | None = name
+        self.tags: Sequence[aws_tag_common_model_.AwsTagCommonModel] | None = tags
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -74,28 +75,43 @@ class EC2AMIRestoreTarget:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        description = dictionary.get('description')
-        ebs_block_device_mappings = None
-        if dictionary.get('ebs_block_device_mappings'):
-            ebs_block_device_mappings = list()
-            for value in dictionary.get('ebs_block_device_mappings'):
-                ebs_block_device_mappings.append(
-                    ec2_restore_ebs_block_device_mapping.EC2RestoreEbsBlockDeviceMapping.from_dictionary(
+        val = dictionary.get('description', None)
+        val_description = val
+
+        val = dictionary.get('ebs_block_device_mappings', None)
+
+        val_ebs_block_device_mappings = None
+        if val:
+            val_ebs_block_device_mappings = list()
+            for value in val:
+                val_ebs_block_device_mappings.append(
+                    ec2_restore_ebs_block_device_mapping_.EC2RestoreEbsBlockDeviceMapping.from_dictionary(
                         value
                     )
                 )
 
-        environment_id = dictionary.get('environment_id')
-        name = dictionary.get('name')
-        tags = None
-        if dictionary.get('tags'):
-            tags = list()
-            for value in dictionary.get('tags'):
-                tags.append(aws_tag_common_model.AwsTagCommonModel.from_dictionary(value))
+        val = dictionary.get('environment_id', None)
+        val_environment_id = val
+
+        val = dictionary.get('name', None)
+        val_name = val
+
+        val = dictionary.get('tags', None)
+
+        val_tags = None
+        if val:
+            val_tags = list()
+            for value in val:
+                val_tags.append(aws_tag_common_model_.AwsTagCommonModel.from_dictionary(value))
 
         # Return an object of this model
-        return cls(description, ebs_block_device_mappings, environment_id, name, tags)
+        return cls(
+            val_description,
+            val_ebs_block_device_mappings,
+            val_environment_id,
+            val_name,
+            val_tags,
+        )

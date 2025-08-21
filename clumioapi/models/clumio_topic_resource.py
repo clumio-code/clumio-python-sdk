@@ -1,10 +1,10 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import policy_details
+from clumioapi.models import policy_details as policy_details_
 
 T = TypeVar('T', bound='ClumioTopicResource')
 
@@ -22,19 +22,21 @@ class ClumioTopicResource:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'policies': 'policies', 'steps': 'steps'}
+    _names: dict[str, str] = {'policies': 'policies', 'steps': 'steps'}
 
     def __init__(
-        self, policies: Sequence[policy_details.PolicyDetails] = None, steps: str = None
+        self,
+        policies: Sequence[policy_details_.PolicyDetails] | None = None,
+        steps: str | None = None,
     ) -> None:
         """Constructor for the ClumioTopicResource class."""
 
         # Initialize members of the class
-        self.policies: Sequence[policy_details.PolicyDetails] = policies
-        self.steps: str = steps
+        self.policies: Sequence[policy_details_.PolicyDetails] | None = policies
+        self.steps: str | None = steps
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -45,16 +47,22 @@ class ClumioTopicResource:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        policies = None
-        if dictionary.get('policies'):
-            policies = list()
-            for value in dictionary.get('policies'):
-                policies.append(policy_details.PolicyDetails.from_dictionary(value))
+        val = dictionary.get('policies', None)
 
-        steps = dictionary.get('steps')
+        val_policies = None
+        if val:
+            val_policies = list()
+            for value in val:
+                val_policies.append(policy_details_.PolicyDetails.from_dictionary(value))
+
+        val = dictionary.get('steps', None)
+        val_steps = val
+
         # Return an object of this model
-        return cls(policies, steps)
+        return cls(
+            val_policies,
+            val_steps,
+        )

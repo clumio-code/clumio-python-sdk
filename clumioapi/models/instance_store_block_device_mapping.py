@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -29,7 +29,7 @@ class InstanceStoreBlockDeviceMapping:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'encryption': 'encryption',
         'is_nvme': 'is_nvme',
         'name': 'name',
@@ -40,25 +40,25 @@ class InstanceStoreBlockDeviceMapping:
 
     def __init__(
         self,
-        encryption: str = None,
-        is_nvme: bool = None,
-        name: str = None,
-        size: int = None,
-        p_type: str = None,
-        virtual_name: str = None,
+        encryption: str | None = None,
+        is_nvme: bool | None = None,
+        name: str | None = None,
+        size: int | None = None,
+        p_type: str | None = None,
+        virtual_name: str | None = None,
     ) -> None:
         """Constructor for the InstanceStoreBlockDeviceMapping class."""
 
         # Initialize members of the class
-        self.encryption: str = encryption
-        self.is_nvme: bool = is_nvme
-        self.name: str = name
-        self.size: int = size
-        self.p_type: str = p_type
-        self.virtual_name: str = virtual_name
+        self.encryption: str | None = encryption
+        self.is_nvme: bool | None = is_nvme
+        self.name: str | None = name
+        self.size: int | None = size
+        self.p_type: str | None = p_type
+        self.virtual_name: str | None = virtual_name
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -69,15 +69,33 @@ class InstanceStoreBlockDeviceMapping:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        encryption = dictionary.get('encryption')
-        is_nvme = dictionary.get('is_nvme')
-        name = dictionary.get('name')
-        size = dictionary.get('size')
-        p_type = dictionary.get('type')
-        virtual_name = dictionary.get('virtual_name')
+        val = dictionary.get('encryption', None)
+        val_encryption = val
+
+        val = dictionary.get('is_nvme', None)
+        val_is_nvme = val
+
+        val = dictionary.get('name', None)
+        val_name = val
+
+        val = dictionary.get('size', None)
+        val_size = val
+
+        val = dictionary.get('type', None)
+        val_p_type = val
+
+        val = dictionary.get('virtual_name', None)
+        val_virtual_name = val
+
         # Return an object of this model
-        return cls(encryption, is_nvme, name, size, p_type, virtual_name)
+        return cls(
+            val_encryption,
+            val_is_nvme,
+            val_name,
+            val_size,
+            val_p_type,
+            val_virtual_name,
+        )

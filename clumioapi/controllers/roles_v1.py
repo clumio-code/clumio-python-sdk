@@ -1,9 +1,9 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -47,30 +47,31 @@ class RolesV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/roles'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
-            errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing list_roles.', errors
+                'Error occurred while executing list_roles', error=http_error
             )
 
-        if self.config.raw_response:
-            return resp, list_roles_response.ListRolesResponse.from_dictionary(resp.json())
-        return list_roles_response.ListRolesResponse.from_dictionary(resp)
+        obj = list_roles_response.ListRolesResponse.from_dictionary(resp.json())
+        if raw_response:
+            return resp, obj
+        return obj
 
-    def read_role(self, role_id: str, **kwargs) -> Union[
+    def read_role(self, role_id: str | None = None, **kwargs) -> Union[
         read_role_response.ReadRoleResponse,
         tuple[requests.Response, Optional[read_role_response.ReadRoleResponse]],
     ]:
@@ -91,25 +92,26 @@ class RolesV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/roles/{role_id}'
         _url_path = api_helper.append_url_with_template_parameters(_url_path, {'role_id': role_id})
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
-            errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing read_role.', errors
+                'Error occurred while executing read_role', error=http_error
             )
 
-        if self.config.raw_response:
-            return resp, read_role_response.ReadRoleResponse.from_dictionary(resp.json())
-        return read_role_response.ReadRoleResponse.from_dictionary(resp)
+        obj = read_role_response.ReadRoleResponse.from_dictionary(resp.json())
+        if raw_response:
+            return resp, obj
+        return obj

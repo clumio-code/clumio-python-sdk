@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -18,16 +18,16 @@ class S3AccessControlTranslation:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'owner': 'owner'}
+    _names: dict[str, str] = {'owner': 'owner'}
 
-    def __init__(self, owner: str = None) -> None:
+    def __init__(self, owner: str | None = None) -> None:
         """Constructor for the S3AccessControlTranslation class."""
 
         # Initialize members of the class
-        self.owner: str = owner
+        self.owner: str | None = owner
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -38,10 +38,13 @@ class S3AccessControlTranslation:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        owner = dictionary.get('owner')
+        val = dictionary.get('owner', None)
+        val_owner = val
+
         # Return an object of this model
-        return cls(owner)
+        return cls(
+            val_owner,
+        )

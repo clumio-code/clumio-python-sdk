@@ -1,12 +1,13 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import ec2_mssql_database_embedded
-from clumioapi.models import ec2_mssql_database_links
-from clumioapi.models import protection_info
+from clumioapi.models import backup_status_info as backup_status_info_
+from clumioapi.models import ec2_mssql_database_embedded as ec2_mssql_database_embedded_
+from clumioapi.models import ec2_mssql_database_links as ec2_mssql_database_links_
+from clumioapi.models import protection_info as protection_info_
 
 T = TypeVar('T', bound='EC2MSSQLDatabase')
 
@@ -30,13 +31,8 @@ class EC2MSSQLDatabase:
             a standalone database.
         aws_region:
             The AWS region associated with the EC2 instance the database resides in.
-        compliance_status:
-            The policy compliance status of the resource. If the database is not protected,
-            then this field has a value of `null`. Refer to
-
-            the Compliance Status table
-
-            for a complete list of compliance statuses.
+        backup_status_info:
+            The backup status information applied to this resource.
         environment_id:
             The Clumio-assigned ID of the AWS environment associated with the EC2 MSSQL
             database.
@@ -101,14 +97,14 @@ class EC2MSSQLDatabase:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'embedded': '_embedded',
         'links': '_links',
         'account_native_id': 'account_native_id',
         'availability_group_id': 'availability_group_id',
         'availability_group_name': 'availability_group_name',
         'aws_region': 'aws_region',
-        'compliance_status': 'compliance_status',
+        'backup_status_info': 'backup_status_info',
         'environment_id': 'environment_id',
         'failover_cluster_id': 'failover_cluster_id',
         'failover_cluster_name': 'failover_cluster_name',
@@ -135,75 +131,75 @@ class EC2MSSQLDatabase:
 
     def __init__(
         self,
-        embedded: ec2_mssql_database_embedded.EC2MSSQLDatabaseEmbedded = None,
-        links: ec2_mssql_database_links.EC2MSSQLDatabaseLinks = None,
-        account_native_id: str = None,
-        availability_group_id: str = None,
-        availability_group_name: str = None,
-        aws_region: str = None,
-        compliance_status: str = None,
-        environment_id: str = None,
-        failover_cluster_id: str = None,
-        failover_cluster_name: str = None,
-        failover_cluster_protection_status: str = None,
-        host_connection_id: str = None,
-        host_endpoint: str = None,
-        host_id: str = None,
-        p_id: str = None,
-        instance_id: str = None,
-        instance_name: str = None,
-        is_supported: bool = None,
-        last_backup_timestamp: str = None,
-        last_bulk_recovery_model_log_backup_timestamp: str = None,
-        last_full_recovery_model_log_backup_timestamp: str = None,
-        name: str = None,
-        organizational_unit_id: str = None,
-        protection_info: protection_info.ProtectionInfo = None,
-        recovery_model: str = None,
-        size: float = None,
-        status: str = None,
-        p_type: str = None,
-        unsupported_reason: str = None,
+        embedded: ec2_mssql_database_embedded_.EC2MSSQLDatabaseEmbedded | None = None,
+        links: ec2_mssql_database_links_.EC2MSSQLDatabaseLinks | None = None,
+        account_native_id: str | None = None,
+        availability_group_id: str | None = None,
+        availability_group_name: str | None = None,
+        aws_region: str | None = None,
+        backup_status_info: backup_status_info_.BackupStatusInfo | None = None,
+        environment_id: str | None = None,
+        failover_cluster_id: str | None = None,
+        failover_cluster_name: str | None = None,
+        failover_cluster_protection_status: str | None = None,
+        host_connection_id: str | None = None,
+        host_endpoint: str | None = None,
+        host_id: str | None = None,
+        p_id: str | None = None,
+        instance_id: str | None = None,
+        instance_name: str | None = None,
+        is_supported: bool | None = None,
+        last_backup_timestamp: str | None = None,
+        last_bulk_recovery_model_log_backup_timestamp: str | None = None,
+        last_full_recovery_model_log_backup_timestamp: str | None = None,
+        name: str | None = None,
+        organizational_unit_id: str | None = None,
+        protection_info: protection_info_.ProtectionInfo | None = None,
+        recovery_model: str | None = None,
+        size: float | None = None,
+        status: str | None = None,
+        p_type: str | None = None,
+        unsupported_reason: str | None = None,
     ) -> None:
         """Constructor for the EC2MSSQLDatabase class."""
 
         # Initialize members of the class
-        self.embedded: ec2_mssql_database_embedded.EC2MSSQLDatabaseEmbedded = embedded
-        self.links: ec2_mssql_database_links.EC2MSSQLDatabaseLinks = links
-        self.account_native_id: str = account_native_id
-        self.availability_group_id: str = availability_group_id
-        self.availability_group_name: str = availability_group_name
-        self.aws_region: str = aws_region
-        self.compliance_status: str = compliance_status
-        self.environment_id: str = environment_id
-        self.failover_cluster_id: str = failover_cluster_id
-        self.failover_cluster_name: str = failover_cluster_name
-        self.failover_cluster_protection_status: str = failover_cluster_protection_status
-        self.host_connection_id: str = host_connection_id
-        self.host_endpoint: str = host_endpoint
-        self.host_id: str = host_id
-        self.p_id: str = p_id
-        self.instance_id: str = instance_id
-        self.instance_name: str = instance_name
-        self.is_supported: bool = is_supported
-        self.last_backup_timestamp: str = last_backup_timestamp
-        self.last_bulk_recovery_model_log_backup_timestamp: str = (
+        self.embedded: ec2_mssql_database_embedded_.EC2MSSQLDatabaseEmbedded | None = embedded
+        self.links: ec2_mssql_database_links_.EC2MSSQLDatabaseLinks | None = links
+        self.account_native_id: str | None = account_native_id
+        self.availability_group_id: str | None = availability_group_id
+        self.availability_group_name: str | None = availability_group_name
+        self.aws_region: str | None = aws_region
+        self.backup_status_info: backup_status_info_.BackupStatusInfo | None = backup_status_info
+        self.environment_id: str | None = environment_id
+        self.failover_cluster_id: str | None = failover_cluster_id
+        self.failover_cluster_name: str | None = failover_cluster_name
+        self.failover_cluster_protection_status: str | None = failover_cluster_protection_status
+        self.host_connection_id: str | None = host_connection_id
+        self.host_endpoint: str | None = host_endpoint
+        self.host_id: str | None = host_id
+        self.p_id: str | None = p_id
+        self.instance_id: str | None = instance_id
+        self.instance_name: str | None = instance_name
+        self.is_supported: bool | None = is_supported
+        self.last_backup_timestamp: str | None = last_backup_timestamp
+        self.last_bulk_recovery_model_log_backup_timestamp: str | None = (
             last_bulk_recovery_model_log_backup_timestamp
         )
-        self.last_full_recovery_model_log_backup_timestamp: str = (
+        self.last_full_recovery_model_log_backup_timestamp: str | None = (
             last_full_recovery_model_log_backup_timestamp
         )
-        self.name: str = name
-        self.organizational_unit_id: str = organizational_unit_id
-        self.protection_info: protection_info.ProtectionInfo = protection_info
-        self.recovery_model: str = recovery_model
-        self.size: float = size
-        self.status: str = status
-        self.p_type: str = p_type
-        self.unsupported_reason: str = unsupported_reason
+        self.name: str | None = name
+        self.organizational_unit_id: str | None = organizational_unit_id
+        self.protection_info: protection_info_.ProtectionInfo | None = protection_info
+        self.recovery_model: str | None = recovery_model
+        self.size: float | None = size
+        self.status: str | None = status
+        self.p_type: str | None = p_type
+        self.unsupported_reason: str | None = unsupported_reason
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -214,92 +210,125 @@ class EC2MSSQLDatabase:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = '_embedded'
-        embedded = (
-            ec2_mssql_database_embedded.EC2MSSQLDatabaseEmbedded.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('_embedded', None)
+        val_embedded = ec2_mssql_database_embedded_.EC2MSSQLDatabaseEmbedded.from_dictionary(val)
 
-        key = '_links'
-        links = (
-            ec2_mssql_database_links.EC2MSSQLDatabaseLinks.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('_links', None)
+        val_links = ec2_mssql_database_links_.EC2MSSQLDatabaseLinks.from_dictionary(val)
 
-        account_native_id = dictionary.get('account_native_id')
-        availability_group_id = dictionary.get('availability_group_id')
-        availability_group_name = dictionary.get('availability_group_name')
-        aws_region = dictionary.get('aws_region')
-        compliance_status = dictionary.get('compliance_status')
-        environment_id = dictionary.get('environment_id')
-        failover_cluster_id = dictionary.get('failover_cluster_id')
-        failover_cluster_name = dictionary.get('failover_cluster_name')
-        failover_cluster_protection_status = dictionary.get('failover_cluster_protection_status')
-        host_connection_id = dictionary.get('host_connection_id')
-        host_endpoint = dictionary.get('host_endpoint')
-        host_id = dictionary.get('host_id')
-        p_id = dictionary.get('id')
-        instance_id = dictionary.get('instance_id')
-        instance_name = dictionary.get('instance_name')
-        is_supported = dictionary.get('is_supported')
-        last_backup_timestamp = dictionary.get('last_backup_timestamp')
-        last_bulk_recovery_model_log_backup_timestamp = dictionary.get(
-            'last_bulk_recovery_model_log_backup_timestamp'
-        )
-        last_full_recovery_model_log_backup_timestamp = dictionary.get(
-            'last_full_recovery_model_log_backup_timestamp'
-        )
-        name = dictionary.get('name')
-        organizational_unit_id = dictionary.get('organizational_unit_id')
-        key = 'protection_info'
-        p_protection_info = (
-            protection_info.ProtectionInfo.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('account_native_id', None)
+        val_account_native_id = val
 
-        recovery_model = dictionary.get('recovery_model')
-        size = dictionary.get('size')
-        status = dictionary.get('status')
-        p_type = dictionary.get('type')
-        unsupported_reason = dictionary.get('unsupported_reason')
+        val = dictionary.get('availability_group_id', None)
+        val_availability_group_id = val
+
+        val = dictionary.get('availability_group_name', None)
+        val_availability_group_name = val
+
+        val = dictionary.get('aws_region', None)
+        val_aws_region = val
+
+        val = dictionary.get('backup_status_info', None)
+        val_backup_status_info = backup_status_info_.BackupStatusInfo.from_dictionary(val)
+
+        val = dictionary.get('environment_id', None)
+        val_environment_id = val
+
+        val = dictionary.get('failover_cluster_id', None)
+        val_failover_cluster_id = val
+
+        val = dictionary.get('failover_cluster_name', None)
+        val_failover_cluster_name = val
+
+        val = dictionary.get('failover_cluster_protection_status', None)
+        val_failover_cluster_protection_status = val
+
+        val = dictionary.get('host_connection_id', None)
+        val_host_connection_id = val
+
+        val = dictionary.get('host_endpoint', None)
+        val_host_endpoint = val
+
+        val = dictionary.get('host_id', None)
+        val_host_id = val
+
+        val = dictionary.get('id', None)
+        val_p_id = val
+
+        val = dictionary.get('instance_id', None)
+        val_instance_id = val
+
+        val = dictionary.get('instance_name', None)
+        val_instance_name = val
+
+        val = dictionary.get('is_supported', None)
+        val_is_supported = val
+
+        val = dictionary.get('last_backup_timestamp', None)
+        val_last_backup_timestamp = val
+
+        val = dictionary.get('last_bulk_recovery_model_log_backup_timestamp', None)
+        val_last_bulk_recovery_model_log_backup_timestamp = val
+
+        val = dictionary.get('last_full_recovery_model_log_backup_timestamp', None)
+        val_last_full_recovery_model_log_backup_timestamp = val
+
+        val = dictionary.get('name', None)
+        val_name = val
+
+        val = dictionary.get('organizational_unit_id', None)
+        val_organizational_unit_id = val
+
+        val = dictionary.get('protection_info', None)
+        val_protection_info = protection_info_.ProtectionInfo.from_dictionary(val)
+
+        val = dictionary.get('recovery_model', None)
+        val_recovery_model = val
+
+        val = dictionary.get('size', None)
+        val_size = val
+
+        val = dictionary.get('status', None)
+        val_status = val
+
+        val = dictionary.get('type', None)
+        val_p_type = val
+
+        val = dictionary.get('unsupported_reason', None)
+        val_unsupported_reason = val
+
         # Return an object of this model
         return cls(
-            embedded,
-            links,
-            account_native_id,
-            availability_group_id,
-            availability_group_name,
-            aws_region,
-            compliance_status,
-            environment_id,
-            failover_cluster_id,
-            failover_cluster_name,
-            failover_cluster_protection_status,
-            host_connection_id,
-            host_endpoint,
-            host_id,
-            p_id,
-            instance_id,
-            instance_name,
-            is_supported,
-            last_backup_timestamp,
-            last_bulk_recovery_model_log_backup_timestamp,
-            last_full_recovery_model_log_backup_timestamp,
-            name,
-            organizational_unit_id,
-            p_protection_info,
-            recovery_model,
-            size,
-            status,
-            p_type,
-            unsupported_reason,
+            val_embedded,
+            val_links,
+            val_account_native_id,
+            val_availability_group_id,
+            val_availability_group_name,
+            val_aws_region,
+            val_backup_status_info,
+            val_environment_id,
+            val_failover_cluster_id,
+            val_failover_cluster_name,
+            val_failover_cluster_protection_status,
+            val_host_connection_id,
+            val_host_endpoint,
+            val_host_id,
+            val_p_id,
+            val_instance_id,
+            val_instance_name,
+            val_is_supported,
+            val_last_backup_timestamp,
+            val_last_bulk_recovery_model_log_backup_timestamp,
+            val_last_full_recovery_model_log_backup_timestamp,
+            val_name,
+            val_organizational_unit_id,
+            val_protection_info,
+            val_recovery_model,
+            val_size,
+            val_status,
+            val_p_type,
+            val_unsupported_reason,
         )

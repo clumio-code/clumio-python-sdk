@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -22,17 +22,19 @@ class EmailRecipientsDataAccessOption:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'message': 'message', 'recipient_emails': 'recipient_emails'}
+    _names: dict[str, str] = {'message': 'message', 'recipient_emails': 'recipient_emails'}
 
-    def __init__(self, message: str = None, recipient_emails: Sequence[str] = None) -> None:
+    def __init__(
+        self, message: str | None = None, recipient_emails: Sequence[str] | None = None
+    ) -> None:
         """Constructor for the EmailRecipientsDataAccessOption class."""
 
         # Initialize members of the class
-        self.message: str = message
-        self.recipient_emails: Sequence[str] = recipient_emails
+        self.message: str | None = message
+        self.recipient_emails: Sequence[str] | None = recipient_emails
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -43,11 +45,17 @@ class EmailRecipientsDataAccessOption:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        message = dictionary.get('message')
-        recipient_emails = dictionary.get('recipient_emails')
+        val = dictionary.get('message', None)
+        val_message = val
+
+        val = dictionary.get('recipient_emails', None)
+        val_recipient_emails = val
+
         # Return an object of this model
-        return cls(message, recipient_emails)
+        return cls(
+            val_message,
+            val_recipient_emails,
+        )

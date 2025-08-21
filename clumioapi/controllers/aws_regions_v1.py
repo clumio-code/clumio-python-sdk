@@ -1,9 +1,9 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -29,7 +29,9 @@ class AwsRegionsV1Controller(base_controller.BaseController):
         if config.custom_headers != None:
             self.headers.update(config.custom_headers)
 
-    def list_connection_aws_regions(self, limit: int = None, start: str = None, **kwargs) -> Union[
+    def list_connection_aws_regions(
+        self, limit: int | None = None, start: str | None = None, **kwargs
+    ) -> Union[
         list_aws_regions_response.ListAWSRegionsResponse,
         tuple[requests.Response, Optional[list_aws_regions_response.ListAWSRegionsResponse]],
     ]:
@@ -54,28 +56,27 @@ class AwsRegionsV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/connections/aws/regions'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'limit': limit, 'start': start}
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
-            errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing list_connection_aws_regions.', errors
+                'Error occurred while executing list_connection_aws_regions', error=http_error
             )
 
-        if self.config.raw_response:
-            return resp, list_aws_regions_response.ListAWSRegionsResponse.from_dictionary(
-                resp.json()
-            )
-        return list_aws_regions_response.ListAWSRegionsResponse.from_dictionary(resp)
+        obj = list_aws_regions_response.ListAWSRegionsResponse.from_dictionary(resp.json())
+        if raw_response:
+            return resp, obj
+        return obj

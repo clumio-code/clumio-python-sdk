@@ -1,10 +1,10 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import on_demand_setting
+from clumioapi.models import on_demand_setting as on_demand_setting_
 
 T = TypeVar('T', bound='CreateBackupAwsEbsVolumeV1Request')
 
@@ -20,19 +20,21 @@ class CreateBackupAwsEbsVolumeV1Request:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'settings': 'settings', 'volume_id': 'volume_id'}
+    _names: dict[str, str] = {'settings': 'settings', 'volume_id': 'volume_id'}
 
     def __init__(
-        self, settings: on_demand_setting.OnDemandSetting = None, volume_id: str = None
+        self,
+        settings: on_demand_setting_.OnDemandSetting | None = None,
+        volume_id: str | None = None,
     ) -> None:
         """Constructor for the CreateBackupAwsEbsVolumeV1Request class."""
 
         # Initialize members of the class
-        self.settings: on_demand_setting.OnDemandSetting = settings
-        self.volume_id: str = volume_id
+        self.settings: on_demand_setting_.OnDemandSetting | None = settings
+        self.volume_id: str | None = volume_id
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -43,17 +45,17 @@ class CreateBackupAwsEbsVolumeV1Request:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = 'settings'
-        settings = (
-            on_demand_setting.OnDemandSetting.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('settings', None)
+        val_settings = on_demand_setting_.OnDemandSetting.from_dictionary(val)
 
-        volume_id = dictionary.get('volume_id')
+        val = dictionary.get('volume_id', None)
+        val_volume_id = val
+
         # Return an object of this model
-        return cls(settings, volume_id)
+        return cls(
+            val_settings,
+            val_volume_id,
+        )

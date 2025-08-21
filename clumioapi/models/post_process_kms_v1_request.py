@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -19,6 +19,8 @@ class PostProcessKmsV1Request:
             The AWS region associated with the connection. For example, `us-east-1`.
         created_multi_region_cmk:
             Whether the CMK was created or an existing CMK was used.
+        intermediate_role_arn:
+            Role arn to be assumed before accessing ClumioRole in customer account.
         multi_region_cmk_key_id:
             The multi-region CMK Key ID.
         request_type:
@@ -37,10 +39,11 @@ class PostProcessKmsV1Request:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'account_native_id': 'account_native_id',
         'aws_region': 'aws_region',
         'created_multi_region_cmk': 'created_multi_region_cmk',
+        'intermediate_role_arn': 'intermediate_role_arn',
         'multi_region_cmk_key_id': 'multi_region_cmk_key_id',
         'request_type': 'request_type',
         'role_arn': 'role_arn',
@@ -52,33 +55,35 @@ class PostProcessKmsV1Request:
 
     def __init__(
         self,
-        account_native_id: str = None,
-        aws_region: str = None,
-        created_multi_region_cmk: bool = None,
-        multi_region_cmk_key_id: str = None,
-        request_type: str = None,
-        role_arn: str = None,
-        role_external_id: str = None,
-        role_id: str = None,
-        token: str = None,
-        version: int = None,
+        account_native_id: str | None = None,
+        aws_region: str | None = None,
+        created_multi_region_cmk: bool | None = None,
+        intermediate_role_arn: str | None = None,
+        multi_region_cmk_key_id: str | None = None,
+        request_type: str | None = None,
+        role_arn: str | None = None,
+        role_external_id: str | None = None,
+        role_id: str | None = None,
+        token: str | None = None,
+        version: int | None = None,
     ) -> None:
         """Constructor for the PostProcessKmsV1Request class."""
 
         # Initialize members of the class
-        self.account_native_id: str = account_native_id
-        self.aws_region: str = aws_region
-        self.created_multi_region_cmk: bool = created_multi_region_cmk
-        self.multi_region_cmk_key_id: str = multi_region_cmk_key_id
-        self.request_type: str = request_type
-        self.role_arn: str = role_arn
-        self.role_external_id: str = role_external_id
-        self.role_id: str = role_id
-        self.token: str = token
-        self.version: int = version
+        self.account_native_id: str | None = account_native_id
+        self.aws_region: str | None = aws_region
+        self.created_multi_region_cmk: bool | None = created_multi_region_cmk
+        self.intermediate_role_arn: str | None = intermediate_role_arn
+        self.multi_region_cmk_key_id: str | None = multi_region_cmk_key_id
+        self.request_type: str | None = request_type
+        self.role_arn: str | None = role_arn
+        self.role_external_id: str | None = role_external_id
+        self.role_id: str | None = role_id
+        self.token: str | None = token
+        self.version: int | None = version
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -89,30 +94,53 @@ class PostProcessKmsV1Request:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        account_native_id = dictionary.get('account_native_id')
-        aws_region = dictionary.get('aws_region')
-        created_multi_region_cmk = dictionary.get('created_multi_region_cmk')
-        multi_region_cmk_key_id = dictionary.get('multi_region_cmk_key_id')
-        request_type = dictionary.get('request_type')
-        role_arn = dictionary.get('role_arn')
-        role_external_id = dictionary.get('role_external_id')
-        role_id = dictionary.get('role_id')
-        token = dictionary.get('token')
-        version = dictionary.get('version')
+        val = dictionary.get('account_native_id', None)
+        val_account_native_id = val
+
+        val = dictionary.get('aws_region', None)
+        val_aws_region = val
+
+        val = dictionary.get('created_multi_region_cmk', None)
+        val_created_multi_region_cmk = val
+
+        val = dictionary.get('intermediate_role_arn', None)
+        val_intermediate_role_arn = val
+
+        val = dictionary.get('multi_region_cmk_key_id', None)
+        val_multi_region_cmk_key_id = val
+
+        val = dictionary.get('request_type', None)
+        val_request_type = val
+
+        val = dictionary.get('role_arn', None)
+        val_role_arn = val
+
+        val = dictionary.get('role_external_id', None)
+        val_role_external_id = val
+
+        val = dictionary.get('role_id', None)
+        val_role_id = val
+
+        val = dictionary.get('token', None)
+        val_token = val
+
+        val = dictionary.get('version', None)
+        val_version = val
+
         # Return an object of this model
         return cls(
-            account_native_id,
-            aws_region,
-            created_multi_region_cmk,
-            multi_region_cmk_key_id,
-            request_type,
-            role_arn,
-            role_external_id,
-            role_id,
-            token,
-            version,
+            val_account_native_id,
+            val_aws_region,
+            val_created_multi_region_cmk,
+            val_intermediate_role_arn,
+            val_multi_region_cmk_key_id,
+            val_request_type,
+            val_role_arn,
+            val_role_external_id,
+            val_role_id,
+            val_token,
+            val_version,
         )
