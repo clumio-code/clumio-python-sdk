@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -21,17 +21,17 @@ class UpdateProtectionGroupInstantAccessEndpointV1Request:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'expiry_timestamp': 'expiry_timestamp', 'name': 'name'}
+    _names: dict[str, str] = {'expiry_timestamp': 'expiry_timestamp', 'name': 'name'}
 
-    def __init__(self, expiry_timestamp: str = None, name: str = None) -> None:
+    def __init__(self, expiry_timestamp: str | None = None, name: str | None = None) -> None:
         """Constructor for the UpdateProtectionGroupInstantAccessEndpointV1Request class."""
 
         # Initialize members of the class
-        self.expiry_timestamp: str = expiry_timestamp
-        self.name: str = name
+        self.expiry_timestamp: str | None = expiry_timestamp
+        self.name: str | None = name
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -42,11 +42,17 @@ class UpdateProtectionGroupInstantAccessEndpointV1Request:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        expiry_timestamp = dictionary.get('expiry_timestamp')
-        name = dictionary.get('name')
+        val = dictionary.get('expiry_timestamp', None)
+        val_expiry_timestamp = val
+
+        val = dictionary.get('name', None)
+        val_name = val
+
         # Return an object of this model
-        return cls(expiry_timestamp, name)
+        return cls(
+            val_expiry_timestamp,
+            val_name,
+        )

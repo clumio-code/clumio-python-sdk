@@ -3,7 +3,7 @@
 #
 
 import json
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -32,11 +32,11 @@ class AwsEbsVolumesV1Controller(base_controller.BaseController):
 
     def list_aws_ebs_volumes(
         self,
-        limit: int = None,
-        start: str = None,
-        filter: str = None,
-        embed: str = None,
-        lookback_days: int = None,
+        limit: int | None = None,
+        start: str | None = None,
+        filter: str | None = None,
+        embed: str | None = None,
+        lookback_days: int | None = None,
         **kwargs,
     ) -> Union[
         list_ebs_volumes_response.ListEbsVolumesResponse,
@@ -162,7 +162,7 @@ class AwsEbsVolumesV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/datasources/aws/ebs-volumes'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {
             'limit': limit,
             'start': start,
@@ -171,31 +171,34 @@ class AwsEbsVolumesV1Controller(base_controller.BaseController):
             'lookback_days': lookback_days,
         }
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
-            errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing list_aws_ebs_volumes.', errors
+                'Error occurred while executing list_aws_ebs_volumes', error=http_error
             )
 
-        if self.config.raw_response:
-            return resp, list_ebs_volumes_response.ListEbsVolumesResponse.from_dictionary(
-                resp.json()
-            )
-        return list_ebs_volumes_response.ListEbsVolumesResponse.from_dictionary(resp)
+        obj = list_ebs_volumes_response.ListEbsVolumesResponse.from_dictionary(resp.json())
+        if raw_response:
+            return resp, obj
+        return obj
 
     def read_aws_ebs_volume(
-        self, volume_id: str, lookback_days: int = None, embed: str = None, **kwargs
+        self,
+        volume_id: str | None = None,
+        lookback_days: int | None = None,
+        embed: str | None = None,
+        **kwargs,
     ) -> Union[
         read_ebs_volume_response.ReadEbsVolumeResponse,
         tuple[requests.Response, Optional[read_ebs_volume_response.ReadEbsVolumeResponse]],
@@ -234,26 +237,27 @@ class AwsEbsVolumesV1Controller(base_controller.BaseController):
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'volume_id': volume_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'lookback_days': lookback_days, 'embed': embed}
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
-            errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing read_aws_ebs_volume.', errors
+                'Error occurred while executing read_aws_ebs_volume', error=http_error
             )
 
-        if self.config.raw_response:
-            return resp, read_ebs_volume_response.ReadEbsVolumeResponse.from_dictionary(resp.json())
-        return read_ebs_volume_response.ReadEbsVolumeResponse.from_dictionary(resp)
+        obj = read_ebs_volume_response.ReadEbsVolumeResponse.from_dictionary(resp.json())
+        if raw_response:
+            return resp, obj
+        return obj

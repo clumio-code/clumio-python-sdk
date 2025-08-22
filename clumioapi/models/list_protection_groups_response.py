@@ -1,11 +1,11 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import protection_group_list_embedded
-from clumioapi.models import protection_group_list_links
+from clumioapi.models import protection_group_list_embedded as protection_group_list_embedded_
+from clumioapi.models import protection_group_list_links as protection_group_list_links_
 
 T = TypeVar('T', bound='ListProtectionGroupsResponse')
 
@@ -32,7 +32,7 @@ class ListProtectionGroupsResponse:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'embedded': '_embedded',
         'links': '_links',
         'current_count': 'current_count',
@@ -44,27 +44,27 @@ class ListProtectionGroupsResponse:
 
     def __init__(
         self,
-        embedded: protection_group_list_embedded.ProtectionGroupListEmbedded = None,
-        links: protection_group_list_links.ProtectionGroupListLinks = None,
-        current_count: int = None,
-        limit: int = None,
-        start: str = None,
-        total_count: int = None,
-        total_pages_count: int = None,
+        embedded: protection_group_list_embedded_.ProtectionGroupListEmbedded | None = None,
+        links: protection_group_list_links_.ProtectionGroupListLinks | None = None,
+        current_count: int | None = None,
+        limit: int | None = None,
+        start: str | None = None,
+        total_count: int | None = None,
+        total_pages_count: int | None = None,
     ) -> None:
         """Constructor for the ListProtectionGroupsResponse class."""
 
         # Initialize members of the class
-        self.embedded: protection_group_list_embedded.ProtectionGroupListEmbedded = embedded
-        self.links: protection_group_list_links.ProtectionGroupListLinks = links
-        self.current_count: int = current_count
-        self.limit: int = limit
-        self.start: str = start
-        self.total_count: int = total_count
-        self.total_pages_count: int = total_pages_count
+        self.embedded: protection_group_list_embedded_.ProtectionGroupListEmbedded | None = embedded
+        self.links: protection_group_list_links_.ProtectionGroupListLinks | None = links
+        self.current_count: int | None = current_count
+        self.limit: int | None = limit
+        self.start: str | None = start
+        self.total_count: int | None = total_count
+        self.total_pages_count: int | None = total_pages_count
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -75,32 +75,39 @@ class ListProtectionGroupsResponse:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = '_embedded'
-        embedded = (
-            protection_group_list_embedded.ProtectionGroupListEmbedded.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
+        val = dictionary.get('_embedded', None)
+        val_embedded = protection_group_list_embedded_.ProtectionGroupListEmbedded.from_dictionary(
+            val
         )
 
-        key = '_links'
-        links = (
-            protection_group_list_links.ProtectionGroupListLinks.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('_links', None)
+        val_links = protection_group_list_links_.ProtectionGroupListLinks.from_dictionary(val)
 
-        current_count = dictionary.get('current_count')
-        limit = dictionary.get('limit')
-        start = dictionary.get('start')
-        total_count = dictionary.get('total_count')
-        total_pages_count = dictionary.get('total_pages_count')
+        val = dictionary.get('current_count', None)
+        val_current_count = val
+
+        val = dictionary.get('limit', None)
+        val_limit = val
+
+        val = dictionary.get('start', None)
+        val_start = val
+
+        val = dictionary.get('total_count', None)
+        val_total_count = val
+
+        val = dictionary.get('total_pages_count', None)
+        val_total_pages_count = val
+
         # Return an object of this model
-        return cls(embedded, links, current_count, limit, start, total_count, total_pages_count)
+        return cls(
+            val_embedded,
+            val_links,
+            val_current_count,
+            val_limit,
+            val_start,
+            val_total_count,
+            val_total_pages_count,
+        )

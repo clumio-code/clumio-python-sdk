@@ -1,10 +1,10 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import email_download_data_access_option
+from clumioapi.models import email_download_data_access_option as email_download_data_access_option_
 
 T = TypeVar('T', bound='FileRestoreTarget')
 
@@ -36,21 +36,21 @@ class FileRestoreTarget:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'direct_download': 'direct_download', 'email': 'email'}
+    _names: dict[str, str] = {'direct_download': 'direct_download', 'email': 'email'}
 
     def __init__(
         self,
-        direct_download: object = None,
-        email: email_download_data_access_option.EmailDownloadDataAccessOption = None,
+        direct_download: object | None = None,
+        email: email_download_data_access_option_.EmailDownloadDataAccessOption | None = None,
     ) -> None:
         """Constructor for the FileRestoreTarget class."""
 
         # Initialize members of the class
-        self.direct_download: object = direct_download
-        self.email: email_download_data_access_option.EmailDownloadDataAccessOption = email
+        self.direct_download: object | None = direct_download
+        self.email: email_download_data_access_option_.EmailDownloadDataAccessOption | None = email
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -61,19 +61,19 @@ class FileRestoreTarget:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        direct_download = dictionary.get('direct_download')
-        key = 'email'
-        email = (
-            email_download_data_access_option.EmailDownloadDataAccessOption.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
+        val = dictionary.get('direct_download', None)
+        val_direct_download = val
+
+        val = dictionary.get('email', None)
+        val_email = (
+            email_download_data_access_option_.EmailDownloadDataAccessOption.from_dictionary(val)
         )
 
         # Return an object of this model
-        return cls(direct_download, email)
+        return cls(
+            val_direct_download,
+            val_email,
+        )

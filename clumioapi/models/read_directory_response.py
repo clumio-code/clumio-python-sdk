@@ -1,11 +1,11 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import directory_browse_embedded
-from clumioapi.models import directory_browse_links
+from clumioapi.models import directory_browse_embedded as directory_browse_embedded_
+from clumioapi.models import directory_browse_links as directory_browse_links_
 
 T = TypeVar('T', bound='ReadDirectoryResponse')
 
@@ -27,7 +27,7 @@ class ReadDirectoryResponse:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'embedded': '_embedded',
         'links': '_links',
         'current_count': 'current_count',
@@ -37,23 +37,23 @@ class ReadDirectoryResponse:
 
     def __init__(
         self,
-        embedded: directory_browse_embedded.DirectoryBrowseEmbedded = None,
-        links: directory_browse_links.DirectoryBrowseLinks = None,
-        current_count: int = None,
-        limit: int = None,
-        start: str = None,
+        embedded: directory_browse_embedded_.DirectoryBrowseEmbedded | None = None,
+        links: directory_browse_links_.DirectoryBrowseLinks | None = None,
+        current_count: int | None = None,
+        limit: int | None = None,
+        start: str | None = None,
     ) -> None:
         """Constructor for the ReadDirectoryResponse class."""
 
         # Initialize members of the class
-        self.embedded: directory_browse_embedded.DirectoryBrowseEmbedded = embedded
-        self.links: directory_browse_links.DirectoryBrowseLinks = links
-        self.current_count: int = current_count
-        self.limit: int = limit
-        self.start: str = start
+        self.embedded: directory_browse_embedded_.DirectoryBrowseEmbedded | None = embedded
+        self.links: directory_browse_links_.DirectoryBrowseLinks | None = links
+        self.current_count: int | None = current_count
+        self.limit: int | None = limit
+        self.start: str | None = start
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -64,26 +64,29 @@ class ReadDirectoryResponse:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = '_embedded'
-        embedded = (
-            directory_browse_embedded.DirectoryBrowseEmbedded.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('_embedded', None)
+        val_embedded = directory_browse_embedded_.DirectoryBrowseEmbedded.from_dictionary(val)
 
-        key = '_links'
-        links = (
-            directory_browse_links.DirectoryBrowseLinks.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('_links', None)
+        val_links = directory_browse_links_.DirectoryBrowseLinks.from_dictionary(val)
 
-        current_count = dictionary.get('current_count')
-        limit = dictionary.get('limit')
-        start = dictionary.get('start')
+        val = dictionary.get('current_count', None)
+        val_current_count = val
+
+        val = dictionary.get('limit', None)
+        val_limit = val
+
+        val = dictionary.get('start', None)
+        val_start = val
+
         # Return an object of this model
-        return cls(embedded, links, current_count, limit, start)
+        return cls(
+            val_embedded,
+            val_links,
+            val_current_count,
+            val_limit,
+            val_start,
+        )

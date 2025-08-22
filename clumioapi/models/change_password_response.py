@@ -1,10 +1,10 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import hateoas_common_links
+from clumioapi.models import hateoas_common_links as hateoas_common_links_
 
 T = TypeVar('T', bound='ChangePasswordResponse')
 
@@ -18,16 +18,16 @@ class ChangePasswordResponse:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'links': '_links'}
+    _names: dict[str, str] = {'links': '_links'}
 
-    def __init__(self, links: hateoas_common_links.HateoasCommonLinks = None) -> None:
+    def __init__(self, links: hateoas_common_links_.HateoasCommonLinks | None = None) -> None:
         """Constructor for the ChangePasswordResponse class."""
 
         # Initialize members of the class
-        self.links: hateoas_common_links.HateoasCommonLinks = links
+        self.links: hateoas_common_links_.HateoasCommonLinks | None = links
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -38,16 +38,13 @@ class ChangePasswordResponse:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = '_links'
-        links = (
-            hateoas_common_links.HateoasCommonLinks.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('_links', None)
+        val_links = hateoas_common_links_.HateoasCommonLinks.from_dictionary(val)
 
         # Return an object of this model
-        return cls(links)
+        return cls(
+            val_links,
+        )

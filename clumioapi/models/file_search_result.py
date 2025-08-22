@@ -1,10 +1,10 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import list_file_versions_hateoas_links
+from clumioapi.models import list_file_versions_hateoas_links as list_file_versions_hateoas_links_
 
 T = TypeVar('T', bound='FileSearchResult')
 
@@ -30,23 +30,27 @@ class FileSearchResult:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'links': '_links', 'path': 'path', 'search_result_id': 'search_result_id'}
+    _names: dict[str, str] = {
+        'links': '_links',
+        'path': 'path',
+        'search_result_id': 'search_result_id',
+    }
 
     def __init__(
         self,
-        links: list_file_versions_hateoas_links.ListFileVersionsHateoasLinks = None,
-        path: str = None,
-        search_result_id: str = None,
+        links: list_file_versions_hateoas_links_.ListFileVersionsHateoasLinks | None = None,
+        path: str | None = None,
+        search_result_id: str | None = None,
     ) -> None:
         """Constructor for the FileSearchResult class."""
 
         # Initialize members of the class
-        self.links: list_file_versions_hateoas_links.ListFileVersionsHateoasLinks = links
-        self.path: str = path
-        self.search_result_id: str = search_result_id
+        self.links: list_file_versions_hateoas_links_.ListFileVersionsHateoasLinks | None = links
+        self.path: str | None = path
+        self.search_result_id: str | None = search_result_id
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -57,20 +61,23 @@ class FileSearchResult:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = '_links'
-        links = (
-            list_file_versions_hateoas_links.ListFileVersionsHateoasLinks.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
+        val = dictionary.get('_links', None)
+        val_links = list_file_versions_hateoas_links_.ListFileVersionsHateoasLinks.from_dictionary(
+            val
         )
 
-        path = dictionary.get('path')
-        search_result_id = dictionary.get('search_result_id')
+        val = dictionary.get('path', None)
+        val_path = val
+
+        val = dictionary.get('search_result_id', None)
+        val_search_result_id = val
+
         # Return an object of this model
-        return cls(links, path, search_result_id)
+        return cls(
+            val_links,
+            val_path,
+            val_search_result_id,
+        )

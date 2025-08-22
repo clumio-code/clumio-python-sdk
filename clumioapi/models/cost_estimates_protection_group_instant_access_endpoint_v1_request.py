@@ -1,11 +1,12 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import s3_instant_access_source_pitr_options
-from clumioapi.models import source_object_filters
+from clumioapi.models import \
+    s3_instant_access_source_pitr_options as s3_instant_access_source_pitr_options_
+from clumioapi.models import source_object_filters as source_object_filters_
 
 T = TypeVar('T', bound='CostEstimatesProtectionGroupInstantAccessEndpointV1Request')
 
@@ -41,7 +42,7 @@ class CostEstimatesProtectionGroupInstantAccessEndpointV1Request:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'backup_id': 'backup_id',
         'is_sync': 'is_sync',
         'object_filters': 'object_filters',
@@ -51,23 +52,25 @@ class CostEstimatesProtectionGroupInstantAccessEndpointV1Request:
 
     def __init__(
         self,
-        backup_id: str = None,
-        is_sync: bool = None,
-        object_filters: source_object_filters.SourceObjectFilters = None,
-        pitr: s3_instant_access_source_pitr_options.S3InstantAccessSourcePitrOptions = None,
-        protection_group_s3_asset_id: str = None,
+        backup_id: str | None = None,
+        is_sync: bool | None = None,
+        object_filters: source_object_filters_.SourceObjectFilters | None = None,
+        pitr: s3_instant_access_source_pitr_options_.S3InstantAccessSourcePitrOptions | None = None,
+        protection_group_s3_asset_id: str | None = None,
     ) -> None:
         """Constructor for the CostEstimatesProtectionGroupInstantAccessEndpointV1Request class."""
 
         # Initialize members of the class
-        self.backup_id: str = backup_id
-        self.is_sync: bool = is_sync
-        self.object_filters: source_object_filters.SourceObjectFilters = object_filters
-        self.pitr: s3_instant_access_source_pitr_options.S3InstantAccessSourcePitrOptions = pitr
-        self.protection_group_s3_asset_id: str = protection_group_s3_asset_id
+        self.backup_id: str | None = backup_id
+        self.is_sync: bool | None = is_sync
+        self.object_filters: source_object_filters_.SourceObjectFilters | None = object_filters
+        self.pitr: (
+            s3_instant_access_source_pitr_options_.S3InstantAccessSourcePitrOptions | None
+        ) = pitr
+        self.protection_group_s3_asset_id: str | None = protection_group_s3_asset_id
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -78,28 +81,33 @@ class CostEstimatesProtectionGroupInstantAccessEndpointV1Request:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        backup_id = dictionary.get('backup_id')
-        is_sync = dictionary.get('is_sync')
-        key = 'object_filters'
-        object_filters = (
-            source_object_filters.SourceObjectFilters.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('backup_id', None)
+        val_backup_id = val
 
-        key = 'pitr'
-        pitr = (
-            s3_instant_access_source_pitr_options.S3InstantAccessSourcePitrOptions.from_dictionary(
-                dictionary.get(key)
+        val = dictionary.get('is_sync', None)
+        val_is_sync = val
+
+        val = dictionary.get('object_filters', None)
+        val_object_filters = source_object_filters_.SourceObjectFilters.from_dictionary(val)
+
+        val = dictionary.get('pitr', None)
+        val_pitr = (
+            s3_instant_access_source_pitr_options_.S3InstantAccessSourcePitrOptions.from_dictionary(
+                val
             )
-            if dictionary.get(key)
-            else None
         )
 
-        protection_group_s3_asset_id = dictionary.get('protection_group_s3_asset_id')
+        val = dictionary.get('protection_group_s3_asset_id', None)
+        val_protection_group_s3_asset_id = val
+
         # Return an object of this model
-        return cls(backup_id, is_sync, object_filters, pitr, protection_group_s3_asset_id)
+        return cls(
+            val_backup_id,
+            val_is_sync,
+            val_object_filters,
+            val_pitr,
+            val_protection_group_s3_asset_id,
+        )

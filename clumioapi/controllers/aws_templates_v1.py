@@ -1,9 +1,9 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -47,34 +47,34 @@ class AwsTemplatesV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/connections/aws/templates'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
-            errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing read_connection_templates.', errors
+                'Error occurred while executing read_connection_templates', error=http_error
             )
 
-        if self.config.raw_response:
-            return resp, read_aws_templates_v2_response.ReadAWSTemplatesV2Response.from_dictionary(
-                resp.json()
-            )
-        return read_aws_templates_v2_response.ReadAWSTemplatesV2Response.from_dictionary(resp)
+        obj = read_aws_templates_v2_response.ReadAWSTemplatesV2Response.from_dictionary(resp.json())
+        if raw_response:
+            return resp, obj
+        return obj
 
     def create_connection_template(
         self,
-        body: create_connection_template_v1_request.CreateConnectionTemplateV1Request = None,
+        return_group_token: bool | None = None,
+        body: create_connection_template_v1_request.CreateConnectionTemplateV1Request | None = None,
         **kwargs,
     ) -> Union[
         create_aws_template_v2_response.CreateAWSTemplateV2Response,
@@ -86,6 +86,8 @@ class AwsTemplatesV1Controller(base_controller.BaseController):
         to a given configuration of asset types.
 
         Args:
+            return_group_token:
+                If passed as true, then the API will return grouping token for the template.
             body:
 
         Returns:
@@ -100,31 +102,30 @@ class AwsTemplatesV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/connections/aws/templates'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
+        _query_parameters = {'return_group_token': return_group_token}
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.post(
+            resp: requests.Response = self.client.post(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
-            errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing create_connection_template.', errors
+                'Error occurred while executing create_connection_template', error=http_error
             )
 
-        if self.config.raw_response:
-            return (
-                resp,
-                create_aws_template_v2_response.CreateAWSTemplateV2Response.from_dictionary(
-                    resp.json()
-                ),
-            )
-        return create_aws_template_v2_response.CreateAWSTemplateV2Response.from_dictionary(resp)
+        obj = create_aws_template_v2_response.CreateAWSTemplateV2Response.from_dictionary(
+            resp.json()
+        )
+        if raw_response:
+            return resp, obj
+        return obj

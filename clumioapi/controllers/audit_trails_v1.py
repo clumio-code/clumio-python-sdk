@@ -1,9 +1,9 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -30,7 +30,11 @@ class AuditTrailsV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def list_audit_trails(
-        self, limit: int = None, start: str = None, filter: str = None, **kwargs
+        self,
+        limit: int | None = None,
+        start: str | None = None,
+        filter: str | None = None,
+        **kwargs,
     ) -> Union[
         list_audit_trails_response.ListAuditTrailsResponse,
         tuple[requests.Response, Optional[list_audit_trails_response.ListAuditTrailsResponse]],
@@ -189,9 +193,9 @@ class AuditTrailsV1Controller(base_controller.BaseController):
                 |                        |                  | The value(s) or name(s)          |
                 |                        |                  | associated with the parent       |
                 |                        |                  | entities affected by             |
-                |                        |                  | the compliance event. For        |
-                |                        |                  | example, the parent entity value |
-                |                        |                  | associated with                  |
+                |                        |                  | the event. For example, the      |
+                |                        |                  | parent entity value associated   |
+                |                        |                  | with                             |
                 |                        |                  | primary entity type              |
                 |                        |                  | "aws_ebs_volume" is              |
                 |                        |                  | "891106093485/us-west-2"         |
@@ -199,8 +203,8 @@ class AuditTrailsV1Controller(base_controller.BaseController):
                 |                        |                  | the name of the AWS Account      |
                 |                        |                  | Region. For example,             |
                 |                        |                  |                                  |
-                |                        |                  | filter={"primary_entity.value":{ |
-                |                        |                  | "$in":["891106093485/us-         |
+                |                        |                  | filter={"parent_entity.value":{" |
+                |                        |                  | $in":["891106093485/us-          |
                 |                        |                  | west-2"]}}                       |
                 |                        |                  |                                  |
                 |                        |                  |                                  |
@@ -210,7 +214,7 @@ class AuditTrailsV1Controller(base_controller.BaseController):
                 |                        |                  | parent entities which are        |
                 |                        |                  | associated with the              |
                 |                        |                  | primary entity affected by the   |
-                |                        |                  | compliance event. For example,   |
+                |                        |                  | event. For example,              |
                 |                        |                  |                                  |
                 |                        |                  | filter={"parent_entity.id":{"$in |
                 |                        |                  | ":["9c2934fc-                    |
@@ -243,28 +247,27 @@ class AuditTrailsV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/audit-trails'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'limit': limit, 'start': start, 'filter': filter}
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
-            errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing list_audit_trails.', errors
+                'Error occurred while executing list_audit_trails', error=http_error
             )
 
-        if self.config.raw_response:
-            return resp, list_audit_trails_response.ListAuditTrailsResponse.from_dictionary(
-                resp.json()
-            )
-        return list_audit_trails_response.ListAuditTrailsResponse.from_dictionary(resp)
+        obj = list_audit_trails_response.ListAuditTrailsResponse.from_dictionary(resp.json())
+        if raw_response:
+            return resp, obj
+        return obj

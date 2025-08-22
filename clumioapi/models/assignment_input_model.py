@@ -1,10 +1,10 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import assignment_entity
+from clumioapi.models import assignment_entity as assignment_entity_
 
 T = TypeVar('T', bound='AssignmentInputModel')
 
@@ -27,23 +27,23 @@ class AssignmentInputModel:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'action': 'action', 'entity': 'entity', 'policy_id': 'policy_id'}
+    _names: dict[str, str] = {'action': 'action', 'entity': 'entity', 'policy_id': 'policy_id'}
 
     def __init__(
         self,
-        action: str = None,
-        entity: assignment_entity.AssignmentEntity = None,
-        policy_id: str = None,
+        action: str | None = None,
+        entity: assignment_entity_.AssignmentEntity | None = None,
+        policy_id: str | None = None,
     ) -> None:
         """Constructor for the AssignmentInputModel class."""
 
         # Initialize members of the class
-        self.action: str = action
-        self.entity: assignment_entity.AssignmentEntity = entity
-        self.policy_id: str = policy_id
+        self.action: str | None = action
+        self.entity: assignment_entity_.AssignmentEntity | None = entity
+        self.policy_id: str | None = policy_id
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -54,18 +54,21 @@ class AssignmentInputModel:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        action = dictionary.get('action')
-        key = 'entity'
-        entity = (
-            assignment_entity.AssignmentEntity.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('action', None)
+        val_action = val
 
-        policy_id = dictionary.get('policy_id')
+        val = dictionary.get('entity', None)
+        val_entity = assignment_entity_.AssignmentEntity.from_dictionary(val)
+
+        val = dictionary.get('policy_id', None)
+        val_policy_id = val
+
         # Return an object of this model
-        return cls(action, entity, policy_id)
+        return cls(
+            val_action,
+            val_entity,
+            val_policy_id,
+        )

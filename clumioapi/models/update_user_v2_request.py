@@ -1,10 +1,10 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import entity_group_assignment_updates
+from clumioapi.models import entity_group_assignment_updates as entity_group_assignment_updates_
 
 T = TypeVar('T', bound='UpdateUserV2Request')
 
@@ -27,7 +27,7 @@ class UpdateUserV2Request:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'access_control_configuration_updates': 'access_control_configuration_updates',
         'full_name': 'full_name',
         'is_enabled': 'is_enabled',
@@ -35,21 +35,23 @@ class UpdateUserV2Request:
 
     def __init__(
         self,
-        access_control_configuration_updates: entity_group_assignment_updates.EntityGroupAssignmentUpdates = None,
-        full_name: str = None,
-        is_enabled: bool = None,
+        access_control_configuration_updates: (
+            entity_group_assignment_updates_.EntityGroupAssignmentUpdates | None
+        ) = None,
+        full_name: str | None = None,
+        is_enabled: bool | None = None,
     ) -> None:
         """Constructor for the UpdateUserV2Request class."""
 
         # Initialize members of the class
         self.access_control_configuration_updates: (
-            entity_group_assignment_updates.EntityGroupAssignmentUpdates
+            entity_group_assignment_updates_.EntityGroupAssignmentUpdates | None
         ) = access_control_configuration_updates
-        self.full_name: str = full_name
-        self.is_enabled: bool = is_enabled
+        self.full_name: str | None = full_name
+        self.is_enabled: bool | None = is_enabled
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -60,20 +62,23 @@ class UpdateUserV2Request:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = 'access_control_configuration_updates'
-        access_control_configuration_updates = (
-            entity_group_assignment_updates.EntityGroupAssignmentUpdates.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
+        val = dictionary.get('access_control_configuration_updates', None)
+        val_access_control_configuration_updates = (
+            entity_group_assignment_updates_.EntityGroupAssignmentUpdates.from_dictionary(val)
         )
 
-        full_name = dictionary.get('full_name')
-        is_enabled = dictionary.get('is_enabled')
+        val = dictionary.get('full_name', None)
+        val_full_name = val
+
+        val = dictionary.get('is_enabled', None)
+        val_is_enabled = val
+
         # Return an object of this model
-        return cls(access_control_configuration_updates, full_name, is_enabled)
+        return cls(
+            val_access_control_configuration_updates,
+            val_full_name,
+            val_is_enabled,
+        )

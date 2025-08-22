@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -23,18 +23,20 @@ class S3InstantAccessEndpointStat:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'count': 'count', 'name': 'name', 'unit': 'unit'}
+    _names: dict[str, str] = {'count': 'count', 'name': 'name', 'unit': 'unit'}
 
-    def __init__(self, count: int = None, name: str = None, unit: str = None) -> None:
+    def __init__(
+        self, count: int | None = None, name: str | None = None, unit: str | None = None
+    ) -> None:
         """Constructor for the S3InstantAccessEndpointStat class."""
 
         # Initialize members of the class
-        self.count: int = count
-        self.name: str = name
-        self.unit: str = unit
+        self.count: int | None = count
+        self.name: str | None = name
+        self.unit: str | None = unit
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -45,12 +47,21 @@ class S3InstantAccessEndpointStat:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        count = dictionary.get('count')
-        name = dictionary.get('name')
-        unit = dictionary.get('unit')
+        val = dictionary.get('count', None)
+        val_count = val
+
+        val = dictionary.get('name', None)
+        val_name = val
+
+        val = dictionary.get('unit', None)
+        val_unit = val
+
         # Return an object of this model
-        return cls(count, name, unit)
+        return cls(
+            val_count,
+            val_name,
+            val_unit,
+        )

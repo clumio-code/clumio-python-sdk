@@ -1,11 +1,11 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import hateoas_self_link
-from clumioapi.models import read_task_hateoas_link
+from clumioapi.models import hateoas_self_link as hateoas_self_link_
+from clumioapi.models import read_task_hateoas_link as read_task_hateoas_link_
 
 T = TypeVar('T', bound='EstimateCostS3InstantAccessEndpointAsyncResponseLinks')
 
@@ -25,7 +25,7 @@ class EstimateCostS3InstantAccessEndpointAsyncResponseLinks:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'p_self': '_self',
         'cost_estimates_details_protection_group_instant_access_endpoint': 'cost-estimates-details-protection-group-instant-access-endpoint',
         'read_task': 'read-task',
@@ -33,21 +33,21 @@ class EstimateCostS3InstantAccessEndpointAsyncResponseLinks:
 
     def __init__(
         self,
-        p_self: hateoas_self_link.HateoasSelfLink = None,
-        cost_estimates_details_protection_group_instant_access_endpoint: object = None,
-        read_task: read_task_hateoas_link.ReadTaskHateoasLink = None,
+        p_self: hateoas_self_link_.HateoasSelfLink | None = None,
+        cost_estimates_details_protection_group_instant_access_endpoint: object | None = None,
+        read_task: read_task_hateoas_link_.ReadTaskHateoasLink | None = None,
     ) -> None:
         """Constructor for the EstimateCostS3InstantAccessEndpointAsyncResponseLinks class."""
 
         # Initialize members of the class
-        self.p_self: hateoas_self_link.HateoasSelfLink = p_self
-        self.cost_estimates_details_protection_group_instant_access_endpoint: object = (
+        self.p_self: hateoas_self_link_.HateoasSelfLink | None = p_self
+        self.cost_estimates_details_protection_group_instant_access_endpoint: object | None = (
             cost_estimates_details_protection_group_instant_access_endpoint
         )
-        self.read_task: read_task_hateoas_link.ReadTaskHateoasLink = read_task
+        self.read_task: read_task_hateoas_link_.ReadTaskHateoasLink | None = read_task
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -58,28 +58,23 @@ class EstimateCostS3InstantAccessEndpointAsyncResponseLinks:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = '_self'
-        p_self = (
-            hateoas_self_link.HateoasSelfLink.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('_self', None)
+        val_p_self = hateoas_self_link_.HateoasSelfLink.from_dictionary(val)
 
-        cost_estimates_details_protection_group_instant_access_endpoint = dictionary.get(
-            'cost-estimates-details-protection-group-instant-access-endpoint'
+        val = dictionary.get(
+            'cost-estimates-details-protection-group-instant-access-endpoint', None
         )
-        key = 'read-task'
-        read_task = (
-            read_task_hateoas_link.ReadTaskHateoasLink.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val_cost_estimates_details_protection_group_instant_access_endpoint = val
+
+        val = dictionary.get('read-task', None)
+        val_read_task = read_task_hateoas_link_.ReadTaskHateoasLink.from_dictionary(val)
 
         # Return an object of this model
         return cls(
-            p_self, cost_estimates_details_protection_group_instant_access_endpoint, read_task
+            val_p_self,
+            val_cost_estimates_details_protection_group_instant_access_endpoint,
+            val_read_task,
         )

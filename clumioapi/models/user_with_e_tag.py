@@ -1,12 +1,12 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import role_for_organizational_units
-from clumioapi.models import user_embedded
-from clumioapi.models import user_links
+from clumioapi.models import role_for_organizational_units as role_for_organizational_units_
+from clumioapi.models import user_embedded as user_embedded_
+from clumioapi.models import user_links as user_links_
 
 T = TypeVar('T', bound='UserWithETag')
 
@@ -28,8 +28,8 @@ class UserWithETag:
         email:
             The email address of the Clumio user.
         full_name:
-            The first and last name of the Clumio user. The name appears in the User
-            Management screen and is used to identify the user.
+            The first and last name of the Clumio user. The name appears in the
+            User Management screen and is used to identify the user.
         p_id:
             The Clumio-assigned ID of the Clumio user.
         inviter:
@@ -43,19 +43,22 @@ class UserWithETag:
             If `true`, the user is in "Activated" or "Invited" status in Clumio.
             Users in "Activated" status can log in to Clumio.
             Users in "Invited" status have been invited to log in to Clumio via an email
-            invitation and the invitation
-            is pending acceptance from the user.
+            invitation and
+            the invitation is pending acceptance from the user.
             If `false`, the user has been manually suspended and cannot log in to Clumio
             until another Clumio user reactivates the account.
         last_activity_timestamp:
-            The timestamp of when the user was last active in the Clumio system. Represented
-            in RFC-3339 format.
+            The timestamp of when the user was last active in the Clumio system.
+            Represented in RFC-3339 format.
+        last_password_change_timestamp:
+            The last password change time of the Clumio user. Represented in RFC-3339
+            format.
         organizational_unit_count:
             The number of organizational units accessible to the user.
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'embedded': '_embedded',
         'etag': '_etag',
         'links': '_links',
@@ -67,46 +70,49 @@ class UserWithETag:
         'is_confirmed': 'is_confirmed',
         'is_enabled': 'is_enabled',
         'last_activity_timestamp': 'last_activity_timestamp',
+        'last_password_change_timestamp': 'last_password_change_timestamp',
         'organizational_unit_count': 'organizational_unit_count',
     }
 
     def __init__(
         self,
-        embedded: user_embedded.UserEmbedded = None,
-        etag: str = None,
-        links: user_links.UserLinks = None,
-        access_control_configuration: Sequence[
-            role_for_organizational_units.RoleForOrganizationalUnits
-        ] = None,
-        email: str = None,
-        full_name: str = None,
-        p_id: str = None,
-        inviter: str = None,
-        is_confirmed: bool = None,
-        is_enabled: bool = None,
-        last_activity_timestamp: str = None,
-        organizational_unit_count: int = None,
+        embedded: user_embedded_.UserEmbedded | None = None,
+        etag: str | None = None,
+        links: user_links_.UserLinks | None = None,
+        access_control_configuration: (
+            Sequence[role_for_organizational_units_.RoleForOrganizationalUnits] | None
+        ) = None,
+        email: str | None = None,
+        full_name: str | None = None,
+        p_id: str | None = None,
+        inviter: str | None = None,
+        is_confirmed: bool | None = None,
+        is_enabled: bool | None = None,
+        last_activity_timestamp: str | None = None,
+        last_password_change_timestamp: str | None = None,
+        organizational_unit_count: int | None = None,
     ) -> None:
         """Constructor for the UserWithETag class."""
 
         # Initialize members of the class
-        self.embedded: user_embedded.UserEmbedded = embedded
-        self.etag: str = etag
-        self.links: user_links.UserLinks = links
-        self.access_control_configuration: Sequence[
-            role_for_organizational_units.RoleForOrganizationalUnits
-        ] = access_control_configuration
-        self.email: str = email
-        self.full_name: str = full_name
-        self.p_id: str = p_id
-        self.inviter: str = inviter
-        self.is_confirmed: bool = is_confirmed
-        self.is_enabled: bool = is_enabled
-        self.last_activity_timestamp: str = last_activity_timestamp
-        self.organizational_unit_count: int = organizational_unit_count
+        self.embedded: user_embedded_.UserEmbedded | None = embedded
+        self.etag: str | None = etag
+        self.links: user_links_.UserLinks | None = links
+        self.access_control_configuration: (
+            Sequence[role_for_organizational_units_.RoleForOrganizationalUnits] | None
+        ) = access_control_configuration
+        self.email: str | None = email
+        self.full_name: str | None = full_name
+        self.p_id: str | None = p_id
+        self.inviter: str | None = inviter
+        self.is_confirmed: bool | None = is_confirmed
+        self.is_enabled: bool | None = is_enabled
+        self.last_activity_timestamp: str | None = last_activity_timestamp
+        self.last_password_change_timestamp: str | None = last_password_change_timestamp
+        self.organizational_unit_count: int | None = organizational_unit_count
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -117,53 +123,68 @@ class UserWithETag:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = '_embedded'
-        embedded = (
-            user_embedded.UserEmbedded.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('_embedded', None)
+        val_embedded = user_embedded_.UserEmbedded.from_dictionary(val)
 
-        etag = dictionary.get('_etag')
-        key = '_links'
-        links = (
-            user_links.UserLinks.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('_etag', None)
+        val_etag = val
 
-        access_control_configuration = None
-        if dictionary.get('access_control_configuration'):
-            access_control_configuration = list()
-            for value in dictionary.get('access_control_configuration'):
-                access_control_configuration.append(
-                    role_for_organizational_units.RoleForOrganizationalUnits.from_dictionary(value)
+        val = dictionary.get('_links', None)
+        val_links = user_links_.UserLinks.from_dictionary(val)
+
+        val = dictionary.get('access_control_configuration', None)
+
+        val_access_control_configuration = None
+        if val:
+            val_access_control_configuration = list()
+            for value in val:
+                val_access_control_configuration.append(
+                    role_for_organizational_units_.RoleForOrganizationalUnits.from_dictionary(value)
                 )
 
-        email = dictionary.get('email')
-        full_name = dictionary.get('full_name')
-        p_id = dictionary.get('id')
-        inviter = dictionary.get('inviter')
-        is_confirmed = dictionary.get('is_confirmed')
-        is_enabled = dictionary.get('is_enabled')
-        last_activity_timestamp = dictionary.get('last_activity_timestamp')
-        organizational_unit_count = dictionary.get('organizational_unit_count')
+        val = dictionary.get('email', None)
+        val_email = val
+
+        val = dictionary.get('full_name', None)
+        val_full_name = val
+
+        val = dictionary.get('id', None)
+        val_p_id = val
+
+        val = dictionary.get('inviter', None)
+        val_inviter = val
+
+        val = dictionary.get('is_confirmed', None)
+        val_is_confirmed = val
+
+        val = dictionary.get('is_enabled', None)
+        val_is_enabled = val
+
+        val = dictionary.get('last_activity_timestamp', None)
+        val_last_activity_timestamp = val
+
+        val = dictionary.get('last_password_change_timestamp', None)
+        val_last_password_change_timestamp = val
+
+        val = dictionary.get('organizational_unit_count', None)
+        val_organizational_unit_count = val
+
         # Return an object of this model
         return cls(
-            embedded,
-            etag,
-            links,
-            access_control_configuration,
-            email,
-            full_name,
-            p_id,
-            inviter,
-            is_confirmed,
-            is_enabled,
-            last_activity_timestamp,
-            organizational_unit_count,
+            val_embedded,
+            val_etag,
+            val_links,
+            val_access_control_configuration,
+            val_email,
+            val_full_name,
+            val_p_id,
+            val_inviter,
+            val_is_confirmed,
+            val_is_enabled,
+            val_last_activity_timestamp,
+            val_last_password_change_timestamp,
+            val_organizational_unit_count,
         )

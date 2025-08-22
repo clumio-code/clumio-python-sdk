@@ -1,11 +1,12 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import event_rules
-from clumioapi.models import service_roles
+from clumioapi.models import event_rules as event_rules_
+from clumioapi.models import service_instance_profiles as service_instance_profiles_
+from clumioapi.models import service_roles as service_roles_
 
 T = TypeVar('T', bound='Resources')
 
@@ -25,38 +26,45 @@ class Resources:
             ARN of the support role which will be used by the Clumio support team.
         event_rules:
 
+        service_instance_profiles:
+
         service_roles:
 
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'clumio_event_pub_arn': 'clumio_event_pub_arn',
         'clumio_iam_role_arn': 'clumio_iam_role_arn',
         'clumio_support_role_arn': 'clumio_support_role_arn',
         'event_rules': 'event_rules',
+        'service_instance_profiles': 'service_instance_profiles',
         'service_roles': 'service_roles',
     }
 
     def __init__(
         self,
-        clumio_event_pub_arn: str = None,
-        clumio_iam_role_arn: str = None,
-        clumio_support_role_arn: str = None,
-        event_rules: event_rules.EventRules = None,
-        service_roles: service_roles.ServiceRoles = None,
+        clumio_event_pub_arn: str | None = None,
+        clumio_iam_role_arn: str | None = None,
+        clumio_support_role_arn: str | None = None,
+        event_rules: event_rules_.EventRules | None = None,
+        service_instance_profiles: service_instance_profiles_.ServiceInstanceProfiles | None = None,
+        service_roles: service_roles_.ServiceRoles | None = None,
     ) -> None:
         """Constructor for the Resources class."""
 
         # Initialize members of the class
-        self.clumio_event_pub_arn: str = clumio_event_pub_arn
-        self.clumio_iam_role_arn: str = clumio_iam_role_arn
-        self.clumio_support_role_arn: str = clumio_support_role_arn
-        self.event_rules: event_rules.EventRules = event_rules
-        self.service_roles: service_roles.ServiceRoles = service_roles
+        self.clumio_event_pub_arn: str | None = clumio_event_pub_arn
+        self.clumio_iam_role_arn: str | None = clumio_iam_role_arn
+        self.clumio_support_role_arn: str | None = clumio_support_role_arn
+        self.event_rules: event_rules_.EventRules | None = event_rules
+        self.service_instance_profiles: (
+            service_instance_profiles_.ServiceInstanceProfiles | None
+        ) = service_instance_profiles
+        self.service_roles: service_roles_.ServiceRoles | None = service_roles
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -67,32 +75,35 @@ class Resources:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        clumio_event_pub_arn = dictionary.get('clumio_event_pub_arn')
-        clumio_iam_role_arn = dictionary.get('clumio_iam_role_arn')
-        clumio_support_role_arn = dictionary.get('clumio_support_role_arn')
-        key = 'event_rules'
-        p_event_rules = (
-            event_rules.EventRules.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
+        val = dictionary.get('clumio_event_pub_arn', None)
+        val_clumio_event_pub_arn = val
+
+        val = dictionary.get('clumio_iam_role_arn', None)
+        val_clumio_iam_role_arn = val
+
+        val = dictionary.get('clumio_support_role_arn', None)
+        val_clumio_support_role_arn = val
+
+        val = dictionary.get('event_rules', None)
+        val_event_rules = event_rules_.EventRules.from_dictionary(val)
+
+        val = dictionary.get('service_instance_profiles', None)
+        val_service_instance_profiles = (
+            service_instance_profiles_.ServiceInstanceProfiles.from_dictionary(val)
         )
 
-        key = 'service_roles'
-        p_service_roles = (
-            service_roles.ServiceRoles.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('service_roles', None)
+        val_service_roles = service_roles_.ServiceRoles.from_dictionary(val)
 
         # Return an object of this model
         return cls(
-            clumio_event_pub_arn,
-            clumio_iam_role_arn,
-            clumio_support_role_arn,
-            p_event_rules,
-            p_service_roles,
+            val_clumio_event_pub_arn,
+            val_clumio_iam_role_arn,
+            val_clumio_support_role_arn,
+            val_event_rules,
+            val_service_instance_profiles,
+            val_service_roles,
         )

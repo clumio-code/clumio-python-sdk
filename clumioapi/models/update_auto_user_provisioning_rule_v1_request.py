@@ -1,10 +1,10 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import rule_provision
+from clumioapi.models import rule_provision as rule_provision_
 
 T = TypeVar('T', bound='UpdateAutoUserProvisioningRuleV1Request')
 
@@ -74,23 +74,23 @@ class UpdateAutoUserProvisioningRuleV1Request:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'condition': 'condition', 'name': 'name', 'provision': 'provision'}
+    _names: dict[str, str] = {'condition': 'condition', 'name': 'name', 'provision': 'provision'}
 
     def __init__(
         self,
-        condition: str = None,
-        name: str = None,
-        provision: rule_provision.RuleProvision = None,
+        condition: str | None = None,
+        name: str | None = None,
+        provision: rule_provision_.RuleProvision | None = None,
     ) -> None:
         """Constructor for the UpdateAutoUserProvisioningRuleV1Request class."""
 
         # Initialize members of the class
-        self.condition: str = condition
-        self.name: str = name
-        self.provision: rule_provision.RuleProvision = provision
+        self.condition: str | None = condition
+        self.name: str | None = name
+        self.provision: rule_provision_.RuleProvision | None = provision
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -101,18 +101,21 @@ class UpdateAutoUserProvisioningRuleV1Request:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        condition = dictionary.get('condition')
-        name = dictionary.get('name')
-        key = 'provision'
-        provision = (
-            rule_provision.RuleProvision.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('condition', None)
+        val_condition = val
+
+        val = dictionary.get('name', None)
+        val_name = val
+
+        val = dictionary.get('provision', None)
+        val_provision = rule_provision_.RuleProvision.from_dictionary(val)
 
         # Return an object of this model
-        return cls(condition, name, provision)
+        return cls(
+            val_condition,
+            val_name,
+            val_provision,
+        )

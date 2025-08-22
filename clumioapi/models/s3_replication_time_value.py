@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -19,16 +19,16 @@ class S3ReplicationTimeValue:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'minutes': 'minutes'}
+    _names: dict[str, str] = {'minutes': 'minutes'}
 
-    def __init__(self, minutes: int = None) -> None:
+    def __init__(self, minutes: int | None = None) -> None:
         """Constructor for the S3ReplicationTimeValue class."""
 
         # Initialize members of the class
-        self.minutes: int = minutes
+        self.minutes: int | None = minutes
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -39,10 +39,13 @@ class S3ReplicationTimeValue:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        minutes = dictionary.get('minutes')
+        val = dictionary.get('minutes', None)
+        val_minutes = val
+
         # Return an object of this model
-        return cls(minutes)
+        return cls(
+            val_minutes,
+        )

@@ -1,9 +1,9 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -31,7 +31,11 @@ class BackupFilesystemsV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def list_backup_filesystems(
-        self, backup_id: str, limit: int = None, start: str = None, **kwargs
+        self,
+        backup_id: str | None = None,
+        limit: int | None = None,
+        start: str | None = None,
+        **kwargs,
     ) -> Union[
         list_file_systems_response.ListFileSystemsResponse,
         tuple[requests.Response, Optional[list_file_systems_response.ListFileSystemsResponse]],
@@ -60,33 +64,34 @@ class BackupFilesystemsV1Controller(base_controller.BaseController):
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'backup_id': backup_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'limit': limit, 'start': start}
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
-            errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing list_backup_filesystems.', errors
+                'Error occurred while executing list_backup_filesystems', error=http_error
             )
 
-        if self.config.raw_response:
-            return resp, list_file_systems_response.ListFileSystemsResponse.from_dictionary(
-                resp.json()
-            )
-        return list_file_systems_response.ListFileSystemsResponse.from_dictionary(resp)
+        obj = list_file_systems_response.ListFileSystemsResponse.from_dictionary(resp.json())
+        if raw_response:
+            return resp, obj
+        return obj
 
-    def read_filesystem(self, filesystem_id: str, backup_id: str, **kwargs) -> Union[
+    def read_filesystem(
+        self, filesystem_id: str | None = None, backup_id: str | None = None, **kwargs
+    ) -> Union[
         read_file_system_response.ReadFileSystemResponse,
         tuple[requests.Response, Optional[read_file_system_response.ReadFileSystemResponse]],
     ]:
@@ -111,27 +116,26 @@ class BackupFilesystemsV1Controller(base_controller.BaseController):
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'filesystem_id': filesystem_id, 'backup_id': backup_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
-            errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing read_filesystem.', errors
+                'Error occurred while executing read_filesystem', error=http_error
             )
 
-        if self.config.raw_response:
-            return resp, read_file_system_response.ReadFileSystemResponse.from_dictionary(
-                resp.json()
-            )
-        return read_file_system_response.ReadFileSystemResponse.from_dictionary(resp)
+        obj = read_file_system_response.ReadFileSystemResponse.from_dictionary(resp.json())
+        if raw_response:
+            return resp, obj
+        return obj
