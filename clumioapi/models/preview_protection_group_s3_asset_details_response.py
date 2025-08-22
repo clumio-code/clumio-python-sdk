@@ -1,11 +1,13 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import object
-from clumioapi.models import preview_protection_group_s3_asset_details_links
+from clumioapi.models import object as object_
+from clumioapi.models import \
+    preview_protection_group_s3_asset_details_links as \
+    preview_protection_group_s3_asset_details_links_
 
 T = TypeVar('T', bound='PreviewProtectionGroupS3AssetDetailsResponse')
 
@@ -23,25 +25,29 @@ class PreviewProtectionGroupS3AssetDetailsResponse:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'etag': '_etag', 'links': '_links', 'objects': 'objects'}
+    _names: dict[str, str] = {'etag': '_etag', 'links': '_links', 'objects': 'objects'}
 
     def __init__(
         self,
-        etag: str = None,
-        links: preview_protection_group_s3_asset_details_links.PreviewProtectionGroupS3AssetDetailsLinks = None,
-        objects: Sequence[object.Object] = None,
+        etag: str | None = None,
+        links: (
+            preview_protection_group_s3_asset_details_links_.PreviewProtectionGroupS3AssetDetailsLinks
+            | None
+        ) = None,
+        objects: Sequence[object_.Object] | None = None,
     ) -> None:
         """Constructor for the PreviewProtectionGroupS3AssetDetailsResponse class."""
 
         # Initialize members of the class
-        self.etag: str = etag
+        self.etag: str | None = etag
         self.links: (
-            preview_protection_group_s3_asset_details_links.PreviewProtectionGroupS3AssetDetailsLinks
+            preview_protection_group_s3_asset_details_links_.PreviewProtectionGroupS3AssetDetailsLinks
+            | None
         ) = links
-        self.objects: Sequence[object.Object] = objects
+        self.objects: Sequence[object_.Object] | None = objects
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -52,25 +58,28 @@ class PreviewProtectionGroupS3AssetDetailsResponse:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        etag = dictionary.get('_etag')
-        key = '_links'
-        links = (
-            preview_protection_group_s3_asset_details_links.PreviewProtectionGroupS3AssetDetailsLinks.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
+        val = dictionary.get('_etag', None)
+        val_etag = val
+
+        val = dictionary.get('_links', None)
+        val_links = preview_protection_group_s3_asset_details_links_.PreviewProtectionGroupS3AssetDetailsLinks.from_dictionary(
+            val
         )
 
-        objects = None
-        if dictionary.get('objects'):
-            objects = list()
-            for value in dictionary.get('objects'):
-                objects.append(object.Object.from_dictionary(value))
+        val = dictionary.get('objects', None)
+
+        val_objects = None
+        if val:
+            val_objects = list()
+            for value in val:
+                val_objects.append(object_.Object.from_dictionary(value))
 
         # Return an object of this model
-        return cls(etag, links, objects)
+        return cls(
+            val_etag,
+            val_links,
+            val_objects,
+        )

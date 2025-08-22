@@ -1,16 +1,18 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import aws_tag_model
-from clumioapi.models import bucket_links
-from clumioapi.models import s3_buckets_inventory_summary_bucket_size_breakdown
-from clumioapi.models import s3_cloudwatch_metrics
-from clumioapi.models import s3_encryption_output
-from clumioapi.models import s3_replication_output
-from clumioapi.models import s3_versioning_output
+from clumioapi.models import aws_tag_model as aws_tag_model_
+from clumioapi.models import bucket_links as bucket_links_
+from clumioapi.models import \
+    s3_buckets_inventory_summary_bucket_size_breakdown as \
+    s3_buckets_inventory_summary_bucket_size_breakdown_
+from clumioapi.models import s3_cloudwatch_metrics as s3_cloudwatch_metrics_
+from clumioapi.models import s3_encryption_output as s3_encryption_output_
+from clumioapi.models import s3_replication_output as s3_replication_output_
+from clumioapi.models import s3_versioning_output as s3_versioning_output_
 
 T = TypeVar('T', bound='ReadBucketResponse')
 
@@ -51,6 +53,8 @@ class ReadBucketResponse:
             The Replication enablement state for the S3 bucket.
         is_versioning_enabled:
             The Versioning enablement state for the S3 bucket.
+        last_backtrack_sync_timestamp:
+            Time of the last S3 Backtrack sync in RFC-3339 format.
         last_backup_timestamp:
             Time of the last backup in RFC-3339 format.
         last_continuous_backup_timestamp:
@@ -75,7 +79,7 @@ class ReadBucketResponse:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'embedded': '_embedded',
         'etag': '_etag',
         'links': '_links',
@@ -91,6 +95,7 @@ class ReadBucketResponse:
         'is_encryption_enabled': 'is_encryption_enabled',
         'is_replication_enabled': 'is_replication_enabled',
         'is_versioning_enabled': 'is_versioning_enabled',
+        'last_backtrack_sync_timestamp': 'last_backtrack_sync_timestamp',
         'last_backup_timestamp': 'last_backup_timestamp',
         'last_continuous_backup_timestamp': 'last_continuous_backup_timestamp',
         'name': 'name',
@@ -105,65 +110,79 @@ class ReadBucketResponse:
 
     def __init__(
         self,
-        embedded: object = None,
-        etag: str = None,
-        links: bucket_links.BucketLinks = None,
-        account_native_id: str = None,
-        aws_region: str = None,
-        bucket_size_bytes_breakdown: s3_buckets_inventory_summary_bucket_size_breakdown.S3BucketsInventorySummaryBucketSizeBreakdown = None,
-        cloudwatch_metrics: s3_cloudwatch_metrics.S3CloudwatchMetrics = None,
-        creation_timestamp: str = None,
-        encryption_setting: s3_encryption_output.S3EncryptionOutput = None,
-        environment_id: str = None,
-        event_bridge_enabled: bool = None,
-        p_id: str = None,
-        is_encryption_enabled: bool = None,
-        is_replication_enabled: bool = None,
-        is_versioning_enabled: bool = None,
-        last_backup_timestamp: str = None,
-        last_continuous_backup_timestamp: str = None,
-        name: str = None,
-        object_count: int = None,
-        organizational_unit_id: str = None,
-        protection_group_count: int = None,
-        replication_setting: s3_replication_output.S3ReplicationOutput = None,
-        size_bytes: int = None,
-        tags: Sequence[aws_tag_model.AwsTagModel] = None,
-        versioning_setting: s3_versioning_output.S3VersioningOutput = None,
+        embedded: object | None = None,
+        etag: str | None = None,
+        links: bucket_links_.BucketLinks | None = None,
+        account_native_id: str | None = None,
+        aws_region: str | None = None,
+        bucket_size_bytes_breakdown: (
+            s3_buckets_inventory_summary_bucket_size_breakdown_.S3BucketsInventorySummaryBucketSizeBreakdown
+            | None
+        ) = None,
+        cloudwatch_metrics: s3_cloudwatch_metrics_.S3CloudwatchMetrics | None = None,
+        creation_timestamp: str | None = None,
+        encryption_setting: s3_encryption_output_.S3EncryptionOutput | None = None,
+        environment_id: str | None = None,
+        event_bridge_enabled: bool | None = None,
+        p_id: str | None = None,
+        is_encryption_enabled: bool | None = None,
+        is_replication_enabled: bool | None = None,
+        is_versioning_enabled: bool | None = None,
+        last_backtrack_sync_timestamp: str | None = None,
+        last_backup_timestamp: str | None = None,
+        last_continuous_backup_timestamp: str | None = None,
+        name: str | None = None,
+        object_count: int | None = None,
+        organizational_unit_id: str | None = None,
+        protection_group_count: int | None = None,
+        replication_setting: s3_replication_output_.S3ReplicationOutput | None = None,
+        size_bytes: int | None = None,
+        tags: Sequence[aws_tag_model_.AwsTagModel] | None = None,
+        versioning_setting: s3_versioning_output_.S3VersioningOutput | None = None,
     ) -> None:
         """Constructor for the ReadBucketResponse class."""
 
         # Initialize members of the class
-        self.embedded: object = embedded
-        self.etag: str = etag
-        self.links: bucket_links.BucketLinks = links
-        self.account_native_id: str = account_native_id
-        self.aws_region: str = aws_region
+        self.embedded: object | None = embedded
+        self.etag: str | None = etag
+        self.links: bucket_links_.BucketLinks | None = links
+        self.account_native_id: str | None = account_native_id
+        self.aws_region: str | None = aws_region
         self.bucket_size_bytes_breakdown: (
-            s3_buckets_inventory_summary_bucket_size_breakdown.S3BucketsInventorySummaryBucketSizeBreakdown
+            s3_buckets_inventory_summary_bucket_size_breakdown_.S3BucketsInventorySummaryBucketSizeBreakdown
+            | None
         ) = bucket_size_bytes_breakdown
-        self.cloudwatch_metrics: s3_cloudwatch_metrics.S3CloudwatchMetrics = cloudwatch_metrics
-        self.creation_timestamp: str = creation_timestamp
-        self.encryption_setting: s3_encryption_output.S3EncryptionOutput = encryption_setting
-        self.environment_id: str = environment_id
-        self.event_bridge_enabled: bool = event_bridge_enabled
-        self.p_id: str = p_id
-        self.is_encryption_enabled: bool = is_encryption_enabled
-        self.is_replication_enabled: bool = is_replication_enabled
-        self.is_versioning_enabled: bool = is_versioning_enabled
-        self.last_backup_timestamp: str = last_backup_timestamp
-        self.last_continuous_backup_timestamp: str = last_continuous_backup_timestamp
-        self.name: str = name
-        self.object_count: int = object_count
-        self.organizational_unit_id: str = organizational_unit_id
-        self.protection_group_count: int = protection_group_count
-        self.replication_setting: s3_replication_output.S3ReplicationOutput = replication_setting
-        self.size_bytes: int = size_bytes
-        self.tags: Sequence[aws_tag_model.AwsTagModel] = tags
-        self.versioning_setting: s3_versioning_output.S3VersioningOutput = versioning_setting
+        self.cloudwatch_metrics: s3_cloudwatch_metrics_.S3CloudwatchMetrics | None = (
+            cloudwatch_metrics
+        )
+        self.creation_timestamp: str | None = creation_timestamp
+        self.encryption_setting: s3_encryption_output_.S3EncryptionOutput | None = (
+            encryption_setting
+        )
+        self.environment_id: str | None = environment_id
+        self.event_bridge_enabled: bool | None = event_bridge_enabled
+        self.p_id: str | None = p_id
+        self.is_encryption_enabled: bool | None = is_encryption_enabled
+        self.is_replication_enabled: bool | None = is_replication_enabled
+        self.is_versioning_enabled: bool | None = is_versioning_enabled
+        self.last_backtrack_sync_timestamp: str | None = last_backtrack_sync_timestamp
+        self.last_backup_timestamp: str | None = last_backup_timestamp
+        self.last_continuous_backup_timestamp: str | None = last_continuous_backup_timestamp
+        self.name: str | None = name
+        self.object_count: int | None = object_count
+        self.organizational_unit_id: str | None = organizational_unit_id
+        self.protection_group_count: int | None = protection_group_count
+        self.replication_setting: s3_replication_output_.S3ReplicationOutput | None = (
+            replication_setting
+        )
+        self.size_bytes: int | None = size_bytes
+        self.tags: Sequence[aws_tag_model_.AwsTagModel] | None = tags
+        self.versioning_setting: s3_versioning_output_.S3VersioningOutput | None = (
+            versioning_setting
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -174,103 +193,120 @@ class ReadBucketResponse:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        embedded = dictionary.get('_embedded')
-        etag = dictionary.get('_etag')
-        key = '_links'
-        links = (
-            bucket_links.BucketLinks.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
+        val = dictionary.get('_embedded', None)
+        val_embedded = val
+
+        val = dictionary.get('_etag', None)
+        val_etag = val
+
+        val = dictionary.get('_links', None)
+        val_links = bucket_links_.BucketLinks.from_dictionary(val)
+
+        val = dictionary.get('account_native_id', None)
+        val_account_native_id = val
+
+        val = dictionary.get('aws_region', None)
+        val_aws_region = val
+
+        val = dictionary.get('bucket_size_bytes_breakdown', None)
+        val_bucket_size_bytes_breakdown = s3_buckets_inventory_summary_bucket_size_breakdown_.S3BucketsInventorySummaryBucketSizeBreakdown.from_dictionary(
+            val
         )
 
-        account_native_id = dictionary.get('account_native_id')
-        aws_region = dictionary.get('aws_region')
-        key = 'bucket_size_bytes_breakdown'
-        bucket_size_bytes_breakdown = (
-            s3_buckets_inventory_summary_bucket_size_breakdown.S3BucketsInventorySummaryBucketSizeBreakdown.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('cloudwatch_metrics', None)
+        val_cloudwatch_metrics = s3_cloudwatch_metrics_.S3CloudwatchMetrics.from_dictionary(val)
 
-        key = 'cloudwatch_metrics'
-        cloudwatch_metrics = (
-            s3_cloudwatch_metrics.S3CloudwatchMetrics.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('creation_timestamp', None)
+        val_creation_timestamp = val
 
-        creation_timestamp = dictionary.get('creation_timestamp')
-        key = 'encryption_setting'
-        encryption_setting = (
-            s3_encryption_output.S3EncryptionOutput.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('encryption_setting', None)
+        val_encryption_setting = s3_encryption_output_.S3EncryptionOutput.from_dictionary(val)
 
-        environment_id = dictionary.get('environment_id')
-        event_bridge_enabled = dictionary.get('event_bridge_enabled')
-        p_id = dictionary.get('id')
-        is_encryption_enabled = dictionary.get('is_encryption_enabled')
-        is_replication_enabled = dictionary.get('is_replication_enabled')
-        is_versioning_enabled = dictionary.get('is_versioning_enabled')
-        last_backup_timestamp = dictionary.get('last_backup_timestamp')
-        last_continuous_backup_timestamp = dictionary.get('last_continuous_backup_timestamp')
-        name = dictionary.get('name')
-        object_count = dictionary.get('object_count')
-        organizational_unit_id = dictionary.get('organizational_unit_id')
-        protection_group_count = dictionary.get('protection_group_count')
-        key = 'replication_setting'
-        replication_setting = (
-            s3_replication_output.S3ReplicationOutput.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('environment_id', None)
+        val_environment_id = val
 
-        size_bytes = dictionary.get('size_bytes')
-        tags = None
-        if dictionary.get('tags'):
-            tags = list()
-            for value in dictionary.get('tags'):
-                tags.append(aws_tag_model.AwsTagModel.from_dictionary(value))
+        val = dictionary.get('event_bridge_enabled', None)
+        val_event_bridge_enabled = val
 
-        key = 'versioning_setting'
-        versioning_setting = (
-            s3_versioning_output.S3VersioningOutput.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('id', None)
+        val_p_id = val
+
+        val = dictionary.get('is_encryption_enabled', None)
+        val_is_encryption_enabled = val
+
+        val = dictionary.get('is_replication_enabled', None)
+        val_is_replication_enabled = val
+
+        val = dictionary.get('is_versioning_enabled', None)
+        val_is_versioning_enabled = val
+
+        val = dictionary.get('last_backtrack_sync_timestamp', None)
+        val_last_backtrack_sync_timestamp = val
+
+        val = dictionary.get('last_backup_timestamp', None)
+        val_last_backup_timestamp = val
+
+        val = dictionary.get('last_continuous_backup_timestamp', None)
+        val_last_continuous_backup_timestamp = val
+
+        val = dictionary.get('name', None)
+        val_name = val
+
+        val = dictionary.get('object_count', None)
+        val_object_count = val
+
+        val = dictionary.get('organizational_unit_id', None)
+        val_organizational_unit_id = val
+
+        val = dictionary.get('protection_group_count', None)
+        val_protection_group_count = val
+
+        val = dictionary.get('replication_setting', None)
+        val_replication_setting = s3_replication_output_.S3ReplicationOutput.from_dictionary(val)
+
+        val = dictionary.get('size_bytes', None)
+        val_size_bytes = val
+
+        val = dictionary.get('tags', None)
+
+        val_tags = None
+        if val:
+            val_tags = list()
+            for value in val:
+                val_tags.append(aws_tag_model_.AwsTagModel.from_dictionary(value))
+
+        val = dictionary.get('versioning_setting', None)
+        val_versioning_setting = s3_versioning_output_.S3VersioningOutput.from_dictionary(val)
 
         # Return an object of this model
         return cls(
-            embedded,
-            etag,
-            links,
-            account_native_id,
-            aws_region,
-            bucket_size_bytes_breakdown,
-            cloudwatch_metrics,
-            creation_timestamp,
-            encryption_setting,
-            environment_id,
-            event_bridge_enabled,
-            p_id,
-            is_encryption_enabled,
-            is_replication_enabled,
-            is_versioning_enabled,
-            last_backup_timestamp,
-            last_continuous_backup_timestamp,
-            name,
-            object_count,
-            organizational_unit_id,
-            protection_group_count,
-            replication_setting,
-            size_bytes,
-            tags,
-            versioning_setting,
+            val_embedded,
+            val_etag,
+            val_links,
+            val_account_native_id,
+            val_aws_region,
+            val_bucket_size_bytes_breakdown,
+            val_cloudwatch_metrics,
+            val_creation_timestamp,
+            val_encryption_setting,
+            val_environment_id,
+            val_event_bridge_enabled,
+            val_p_id,
+            val_is_encryption_enabled,
+            val_is_replication_enabled,
+            val_is_versioning_enabled,
+            val_last_backtrack_sync_timestamp,
+            val_last_backup_timestamp,
+            val_last_continuous_backup_timestamp,
+            val_name,
+            val_object_count,
+            val_organizational_unit_id,
+            val_protection_group_count,
+            val_replication_setting,
+            val_size_bytes,
+            val_tags,
+            val_versioning_setting,
         )

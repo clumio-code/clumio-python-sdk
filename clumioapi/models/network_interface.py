@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -15,6 +15,8 @@ class NetworkInterface:
             The device index for the network interface.
         network_interface_native_id:
             The AWS-assigned ID for the network interface.
+        public_ip:
+            The public IP v4 address of the network interface if one was assigned.
         security_group_native_ids:
             The AWS-assigned IDs for the security groups associated with this network
             interface.
@@ -25,9 +27,10 @@ class NetworkInterface:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'device_index': 'device_index',
         'network_interface_native_id': 'network_interface_native_id',
+        'public_ip': 'public_ip',
         'security_group_native_ids': 'security_group_native_ids',
         'subnet_native_id': 'subnet_native_id',
         'virtual_name': 'virtual_name',
@@ -35,23 +38,25 @@ class NetworkInterface:
 
     def __init__(
         self,
-        device_index: int = None,
-        network_interface_native_id: str = None,
-        security_group_native_ids: Sequence[str] = None,
-        subnet_native_id: str = None,
-        virtual_name: str = None,
+        device_index: int | None = None,
+        network_interface_native_id: str | None = None,
+        public_ip: str | None = None,
+        security_group_native_ids: Sequence[str] | None = None,
+        subnet_native_id: str | None = None,
+        virtual_name: str | None = None,
     ) -> None:
         """Constructor for the NetworkInterface class."""
 
         # Initialize members of the class
-        self.device_index: int = device_index
-        self.network_interface_native_id: str = network_interface_native_id
-        self.security_group_native_ids: Sequence[str] = security_group_native_ids
-        self.subnet_native_id: str = subnet_native_id
-        self.virtual_name: str = virtual_name
+        self.device_index: int | None = device_index
+        self.network_interface_native_id: str | None = network_interface_native_id
+        self.public_ip: str | None = public_ip
+        self.security_group_native_ids: Sequence[str] | None = security_group_native_ids
+        self.subnet_native_id: str | None = subnet_native_id
+        self.virtual_name: str | None = virtual_name
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -62,20 +67,33 @@ class NetworkInterface:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        device_index = dictionary.get('device_index')
-        network_interface_native_id = dictionary.get('network_interface_native_id')
-        security_group_native_ids = dictionary.get('security_group_native_ids')
-        subnet_native_id = dictionary.get('subnet_native_id')
-        virtual_name = dictionary.get('virtual_name')
+        val = dictionary.get('device_index', None)
+        val_device_index = val
+
+        val = dictionary.get('network_interface_native_id', None)
+        val_network_interface_native_id = val
+
+        val = dictionary.get('public_ip', None)
+        val_public_ip = val
+
+        val = dictionary.get('security_group_native_ids', None)
+        val_security_group_native_ids = val
+
+        val = dictionary.get('subnet_native_id', None)
+        val_subnet_native_id = val
+
+        val = dictionary.get('virtual_name', None)
+        val_virtual_name = val
+
         # Return an object of this model
         return cls(
-            device_index,
-            network_interface_native_id,
-            security_group_native_ids,
-            subnet_native_id,
-            virtual_name,
+            val_device_index,
+            val_network_interface_native_id,
+            val_public_ip,
+            val_security_group_native_ids,
+            val_subnet_native_id,
+            val_virtual_name,
         )

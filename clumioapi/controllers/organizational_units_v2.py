@@ -1,9 +1,9 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -38,7 +38,11 @@ class OrganizationalUnitsV2Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def list_organizational_units(
-        self, limit: int = None, start: str = None, filter: str = None, **kwargs
+        self,
+        limit: int | None = None,
+        start: str | None = None,
+        filter: str | None = None,
+        **kwargs,
     ) -> Union[
         list_organizational_units_response.ListOrganizationalUnitsResponse,
         tuple[
@@ -85,41 +89,37 @@ class OrganizationalUnitsV2Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/organizational-units'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'limit': limit, 'start': start, 'filter': filter}
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
-            errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing list_organizational_units.', errors
+                'Error occurred while executing list_organizational_units', error=http_error
             )
 
-        if self.config.raw_response:
-            return (
-                resp,
-                list_organizational_units_response.ListOrganizationalUnitsResponse.from_dictionary(
-                    resp.json()
-                ),
-            )
-        return list_organizational_units_response.ListOrganizationalUnitsResponse.from_dictionary(
-            resp
+        obj = list_organizational_units_response.ListOrganizationalUnitsResponse.from_dictionary(
+            resp.json()
         )
+        if raw_response:
+            return resp, obj
+        return obj
 
     def create_organizational_unit(
         self,
-        embed: str = None,
-        body: create_organizational_unit_v2_request.CreateOrganizationalUnitV2Request = None,
+        embed: str | None = None,
+        body: create_organizational_unit_v2_request.CreateOrganizationalUnitV2Request | None = None,
         **kwargs,
     ) -> Union[
         Union[
@@ -169,12 +169,13 @@ class OrganizationalUnitsV2Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/organizational-units'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'embed': embed}
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.post(
+            resp: requests.Response = self.client.post(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -183,37 +184,38 @@ class OrganizationalUnitsV2Controller(base_controller.BaseController):
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
-            errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing create_organizational_unit.', errors
+                'Error occurred while executing create_organizational_unit', error=http_error
             )
-        unmarshalled_dict = json.loads(resp.text)
-        if resp.status_code == 200:
-            if self.config.raw_response:
-                return (
-                    resp,
-                    create_organizational_unit_no_task_response.CreateOrganizationalUnitNoTaskResponse.from_dictionary(
-                        unmarshalled_dict
-                    ),
-                )
-            return create_organizational_unit_no_task_response.CreateOrganizationalUnitNoTaskResponse.from_dictionary(
-                unmarshalled_dict
-            )
-        if resp.status_code == 202:
-            if self.config.raw_response:
-                return (
-                    resp,
-                    create_organizational_unit_response.CreateOrganizationalUnitResponse.from_dictionary(
-                        unmarshalled_dict
-                    ),
-                )
-            return create_organizational_unit_response.CreateOrganizationalUnitResponse.from_dictionary(
-                unmarshalled_dict
-            )
+        text_unmarshalled_dict = json.loads(resp.text)
 
-    def read_organizational_unit(self, id: str, embed: str = None, **kwargs) -> Union[
+        obj: Any
+
+        obj = create_organizational_unit_no_task_response.CreateOrganizationalUnitNoTaskResponse.from_dictionary(
+            text_unmarshalled_dict
+        )
+        if resp.status_code == 200:
+            if raw_response:
+                return resp, obj
+            return obj
+
+        obj = create_organizational_unit_response.CreateOrganizationalUnitResponse.from_dictionary(
+            text_unmarshalled_dict
+        )
+        if resp.status_code == 202:
+            if raw_response:
+                return resp, obj
+            return obj
+
+        raise RuntimeError(
+            f'Code should be unreachable; Unexpected response code: {resp.status_code}. '
+        )
+
+    def read_organizational_unit(
+        self, id: str | None = None, embed: str | None = None, **kwargs
+    ) -> Union[
         read_organizational_unit_response.ReadOrganizationalUnitResponse,
         tuple[
             requests.Response,
@@ -249,38 +251,36 @@ class OrganizationalUnitsV2Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/organizational-units/{id}'
         _url_path = api_helper.append_url_with_template_parameters(_url_path, {'id': id})
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'embed': embed}
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
-            errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing read_organizational_unit.', errors
+                'Error occurred while executing read_organizational_unit', error=http_error
             )
 
-        if self.config.raw_response:
-            return (
-                resp,
-                read_organizational_unit_response.ReadOrganizationalUnitResponse.from_dictionary(
-                    resp.json()
-                ),
-            )
-        return read_organizational_unit_response.ReadOrganizationalUnitResponse.from_dictionary(
-            resp
+        obj = read_organizational_unit_response.ReadOrganizationalUnitResponse.from_dictionary(
+            resp.json()
         )
+        if raw_response:
+            return resp, obj
+        return obj
 
-    def delete_organizational_unit(self, id: str, embed: str = None, **kwargs) -> Union[
+    def delete_organizational_unit(
+        self, id: str | None = None, embed: str | None = None, **kwargs
+    ) -> Union[
         delete_organizational_unit_response.DeleteOrganizationalUnitResponse,
         tuple[
             requests.Response,
@@ -316,42 +316,38 @@ class OrganizationalUnitsV2Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/organizational-units/{id}'
         _url_path = api_helper.append_url_with_template_parameters(_url_path, {'id': id})
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'embed': embed}
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.delete(
+            resp: requests.Response = self.client.delete(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
-            errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing delete_organizational_unit.', errors
+                'Error occurred while executing delete_organizational_unit', error=http_error
             )
 
-        if self.config.raw_response:
-            return (
-                resp,
-                delete_organizational_unit_response.DeleteOrganizationalUnitResponse.from_dictionary(
-                    resp.json()
-                ),
-            )
-        return delete_organizational_unit_response.DeleteOrganizationalUnitResponse.from_dictionary(
-            resp
+        obj = delete_organizational_unit_response.DeleteOrganizationalUnitResponse.from_dictionary(
+            resp.json()
         )
+        if raw_response:
+            return resp, obj
+        return obj
 
     def patch_organizational_unit(
         self,
-        id: str,
-        embed: str = None,
-        body: patch_organizational_unit_v2_request.PatchOrganizationalUnitV2Request = None,
+        id: str | None = None,
+        embed: str | None = None,
+        body: patch_organizational_unit_v2_request.PatchOrganizationalUnitV2Request | None = None,
         **kwargs,
     ) -> Union[
         Union[
@@ -406,12 +402,13 @@ class OrganizationalUnitsV2Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/organizational-units/{id}'
         _url_path = api_helper.append_url_with_template_parameters(_url_path, {'id': id})
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'embed': embed}
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.patch(
+            resp: requests.Response = self.client.patch(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -420,34 +417,31 @@ class OrganizationalUnitsV2Controller(base_controller.BaseController):
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
-            errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing patch_organizational_unit.', errors
+                'Error occurred while executing patch_organizational_unit', error=http_error
             )
-        unmarshalled_dict = json.loads(resp.text)
+        text_unmarshalled_dict = json.loads(resp.text)
+
+        obj: Any
+
+        obj = patch_organizational_unit_no_task_response.PatchOrganizationalUnitNoTaskResponse.from_dictionary(
+            text_unmarshalled_dict
+        )
         if resp.status_code == 200:
-            if self.config.raw_response:
-                return (
-                    resp,
-                    patch_organizational_unit_no_task_response.PatchOrganizationalUnitNoTaskResponse.from_dictionary(
-                        unmarshalled_dict
-                    ),
-                )
-            return patch_organizational_unit_no_task_response.PatchOrganizationalUnitNoTaskResponse.from_dictionary(
-                unmarshalled_dict
-            )
+            if raw_response:
+                return resp, obj
+            return obj
+
+        obj = patch_organizational_unit_response.PatchOrganizationalUnitResponse.from_dictionary(
+            text_unmarshalled_dict
+        )
         if resp.status_code == 202:
-            if self.config.raw_response:
-                return (
-                    resp,
-                    patch_organizational_unit_response.PatchOrganizationalUnitResponse.from_dictionary(
-                        unmarshalled_dict
-                    ),
-                )
-            return (
-                patch_organizational_unit_response.PatchOrganizationalUnitResponse.from_dictionary(
-                    unmarshalled_dict
-                )
-            )
+            if raw_response:
+                return resp, obj
+            return obj
+
+        raise RuntimeError(
+            f'Code should be unreachable; Unexpected response code: {resp.status_code}. '
+        )

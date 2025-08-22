@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -38,7 +38,7 @@ class CreateUserV1Request:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'assigned_role': 'assigned_role',
         'email': 'email',
         'full_name': 'full_name',
@@ -47,21 +47,21 @@ class CreateUserV1Request:
 
     def __init__(
         self,
-        assigned_role: str = None,
-        email: str = None,
-        full_name: str = None,
-        organizational_unit_ids: Sequence[str] = None,
+        assigned_role: str | None = None,
+        email: str | None = None,
+        full_name: str | None = None,
+        organizational_unit_ids: Sequence[str] | None = None,
     ) -> None:
         """Constructor for the CreateUserV1Request class."""
 
         # Initialize members of the class
-        self.assigned_role: str = assigned_role
-        self.email: str = email
-        self.full_name: str = full_name
-        self.organizational_unit_ids: Sequence[str] = organizational_unit_ids
+        self.assigned_role: str | None = assigned_role
+        self.email: str | None = email
+        self.full_name: str | None = full_name
+        self.organizational_unit_ids: Sequence[str] | None = organizational_unit_ids
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -72,13 +72,25 @@ class CreateUserV1Request:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        assigned_role = dictionary.get('assigned_role')
-        email = dictionary.get('email')
-        full_name = dictionary.get('full_name')
-        organizational_unit_ids = dictionary.get('organizational_unit_ids')
+        val = dictionary.get('assigned_role', None)
+        val_assigned_role = val
+
+        val = dictionary.get('email', None)
+        val_email = val
+
+        val = dictionary.get('full_name', None)
+        val_full_name = val
+
+        val = dictionary.get('organizational_unit_ids', None)
+        val_organizational_unit_ids = val
+
         # Return an object of this model
-        return cls(assigned_role, email, full_name, organizational_unit_ids)
+        return cls(
+            val_assigned_role,
+            val_email,
+            val_full_name,
+            val_organizational_unit_ids,
+        )

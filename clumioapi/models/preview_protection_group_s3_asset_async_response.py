@@ -1,10 +1,11 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import preview_protection_group_s3_asset_async_links
+from clumioapi.models import \
+    preview_protection_group_s3_asset_async_links as preview_protection_group_s3_asset_async_links_
 
 T = TypeVar('T', bound='PreviewProtectionGroupS3AssetAsyncResponse')
 
@@ -28,25 +29,29 @@ class PreviewProtectionGroupS3AssetAsyncResponse:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'links': '_links', 'preview_id': 'preview_id', 'task_id': 'task_id'}
+    _names: dict[str, str] = {'links': '_links', 'preview_id': 'preview_id', 'task_id': 'task_id'}
 
     def __init__(
         self,
-        links: preview_protection_group_s3_asset_async_links.PreviewProtectionGroupS3AssetAsyncLinks = None,
-        preview_id: str = None,
-        task_id: str = None,
+        links: (
+            preview_protection_group_s3_asset_async_links_.PreviewProtectionGroupS3AssetAsyncLinks
+            | None
+        ) = None,
+        preview_id: str | None = None,
+        task_id: str | None = None,
     ) -> None:
         """Constructor for the PreviewProtectionGroupS3AssetAsyncResponse class."""
 
         # Initialize members of the class
         self.links: (
-            preview_protection_group_s3_asset_async_links.PreviewProtectionGroupS3AssetAsyncLinks
+            preview_protection_group_s3_asset_async_links_.PreviewProtectionGroupS3AssetAsyncLinks
+            | None
         ) = links
-        self.preview_id: str = preview_id
-        self.task_id: str = task_id
+        self.preview_id: str | None = preview_id
+        self.task_id: str | None = task_id
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -57,20 +62,23 @@ class PreviewProtectionGroupS3AssetAsyncResponse:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = '_links'
-        links = (
-            preview_protection_group_s3_asset_async_links.PreviewProtectionGroupS3AssetAsyncLinks.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
+        val = dictionary.get('_links', None)
+        val_links = preview_protection_group_s3_asset_async_links_.PreviewProtectionGroupS3AssetAsyncLinks.from_dictionary(
+            val
         )
 
-        preview_id = dictionary.get('preview_id')
-        task_id = dictionary.get('task_id')
+        val = dictionary.get('preview_id', None)
+        val_preview_id = val
+
+        val = dictionary.get('task_id', None)
+        val_task_id = val
+
         # Return an object of this model
-        return cls(links, preview_id, task_id)
+        return cls(
+            val_links,
+            val_preview_id,
+            val_task_id,
+        )

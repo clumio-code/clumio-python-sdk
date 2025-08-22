@@ -1,9 +1,9 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -37,11 +37,11 @@ class PolicyRulesV1Controller(base_controller.BaseController):
 
     def list_policy_rules(
         self,
-        limit: int = None,
-        start: str = None,
-        organizational_unit_id: str = None,
-        sort: str = None,
-        filter: str = None,
+        limit: int | None = None,
+        start: str | None = None,
+        organizational_unit_id: str | None = None,
+        sort: str | None = None,
+        filter: str | None = None,
         **kwargs,
     ) -> Union[
         list_rules_response.ListRulesResponse,
@@ -108,7 +108,7 @@ class PolicyRulesV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/policies/rules'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {
             'limit': limit,
             'start': start,
@@ -117,29 +117,30 @@ class PolicyRulesV1Controller(base_controller.BaseController):
             'filter': filter,
         }
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
-            errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing list_policy_rules.', errors
+                'Error occurred while executing list_policy_rules', error=http_error
             )
 
-        if self.config.raw_response:
-            return resp, list_rules_response.ListRulesResponse.from_dictionary(resp.json())
-        return list_rules_response.ListRulesResponse.from_dictionary(resp)
+        obj = list_rules_response.ListRulesResponse.from_dictionary(resp.json())
+        if raw_response:
+            return resp, obj
+        return obj
 
     def create_policy_rule(
-        self, body: create_policy_rule_v1_request.CreatePolicyRuleV1Request = None, **kwargs
+        self, body: create_policy_rule_v1_request.CreatePolicyRuleV1Request | None = None, **kwargs
     ) -> Union[
         create_rule_response.CreateRuleResponse,
         tuple[requests.Response, Optional[create_rule_response.CreateRuleResponse]],
@@ -165,31 +166,32 @@ class PolicyRulesV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/policies/rules'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.post(
+            resp: requests.Response = self.client.post(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
-            errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing create_policy_rule.', errors
+                'Error occurred while executing create_policy_rule', error=http_error
             )
 
-        if self.config.raw_response:
-            return resp, create_rule_response.CreateRuleResponse.from_dictionary(resp.json())
-        return create_rule_response.CreateRuleResponse.from_dictionary(resp)
+        obj = create_rule_response.CreateRuleResponse.from_dictionary(resp.json())
+        if raw_response:
+            return resp, obj
+        return obj
 
-    def read_policy_rule(self, rule_id: str, **kwargs) -> Union[
+    def read_policy_rule(self, rule_id: str | None = None, **kwargs) -> Union[
         read_rule_response.ReadRuleResponse,
         tuple[requests.Response, Optional[read_rule_response.ReadRuleResponse]],
     ]:
@@ -210,33 +212,34 @@ class PolicyRulesV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/policies/rules/{rule_id}'
         _url_path = api_helper.append_url_with_template_parameters(_url_path, {'rule_id': rule_id})
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
-            errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing read_policy_rule.', errors
+                'Error occurred while executing read_policy_rule', error=http_error
             )
 
-        if self.config.raw_response:
-            return resp, read_rule_response.ReadRuleResponse.from_dictionary(resp.json())
-        return read_rule_response.ReadRuleResponse.from_dictionary(resp)
+        obj = read_rule_response.ReadRuleResponse.from_dictionary(resp.json())
+        if raw_response:
+            return resp, obj
+        return obj
 
     def update_policy_rule(
         self,
-        rule_id: str,
-        body: update_policy_rule_v1_request.UpdatePolicyRuleV1Request = None,
+        rule_id: str | None = None,
+        body: update_policy_rule_v1_request.UpdatePolicyRuleV1Request | None = None,
         **kwargs,
     ) -> Union[
         update_rule_response.UpdateRuleResponse,
@@ -261,31 +264,34 @@ class PolicyRulesV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/policies/rules/{rule_id}'
         _url_path = api_helper.append_url_with_template_parameters(_url_path, {'rule_id': rule_id})
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.put(
+            resp: requests.Response = self.client.put(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
-            errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing update_policy_rule.', errors
+                'Error occurred while executing update_policy_rule', error=http_error
             )
 
-        if self.config.raw_response:
-            return resp, update_rule_response.UpdateRuleResponse.from_dictionary(resp.json())
-        return update_rule_response.UpdateRuleResponse.from_dictionary(resp)
+        obj = update_rule_response.UpdateRuleResponse.from_dictionary(resp.json())
+        if raw_response:
+            return resp, obj
+        return obj
 
-    def delete_policy_rule(self, rule_id: str, body: object = None, **kwargs) -> Union[
+    def delete_policy_rule(
+        self, rule_id: str | None = None, body: object | None = None, **kwargs
+    ) -> Union[
         delete_rule_response.DeleteRuleResponse,
         tuple[requests.Response, Optional[delete_rule_response.DeleteRuleResponse]],
     ]:
@@ -308,26 +314,27 @@ class PolicyRulesV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/policies/rules/{rule_id}'
         _url_path = api_helper.append_url_with_template_parameters(_url_path, {'rule_id': rule_id})
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.delete(
+            resp: requests.Response = self.client.delete(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
-            errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing delete_policy_rule.', errors
+                'Error occurred while executing delete_policy_rule', error=http_error
             )
 
-        if self.config.raw_response:
-            return resp, delete_rule_response.DeleteRuleResponse.from_dictionary(resp.json())
-        return delete_rule_response.DeleteRuleResponse.from_dictionary(resp)
+        obj = delete_rule_response.DeleteRuleResponse.from_dictionary(resp.json())
+        if raw_response:
+            return resp, obj
+        return obj

@@ -1,12 +1,13 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import update_entities
-from clumioapi.models import update_protection_group_assignments
-from clumioapi.models import update_user_assignments_with_role
+from clumioapi.models import update_entities as update_entities_
+from clumioapi.models import \
+    update_protection_group_assignments as update_protection_group_assignments_
+from clumioapi.models import update_user_assignments_with_role as update_user_assignments_with_role_
 
 T = TypeVar('T', bound='PatchOrganizationalUnitV2Request')
 
@@ -34,7 +35,7 @@ class PatchOrganizationalUnitV2Request:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'description': 'description',
         'entities': 'entities',
         'name': 'name',
@@ -44,25 +45,27 @@ class PatchOrganizationalUnitV2Request:
 
     def __init__(
         self,
-        description: str = None,
-        entities: update_entities.UpdateEntities = None,
-        name: str = None,
-        protection_groups: update_protection_group_assignments.UpdateProtectionGroupAssignments = None,
-        users: update_user_assignments_with_role.UpdateUserAssignmentsWithRole = None,
+        description: str | None = None,
+        entities: update_entities_.UpdateEntities | None = None,
+        name: str | None = None,
+        protection_groups: (
+            update_protection_group_assignments_.UpdateProtectionGroupAssignments | None
+        ) = None,
+        users: update_user_assignments_with_role_.UpdateUserAssignmentsWithRole | None = None,
     ) -> None:
         """Constructor for the PatchOrganizationalUnitV2Request class."""
 
         # Initialize members of the class
-        self.description: str = description
-        self.entities: update_entities.UpdateEntities = entities
-        self.name: str = name
+        self.description: str | None = description
+        self.entities: update_entities_.UpdateEntities | None = entities
+        self.name: str | None = name
         self.protection_groups: (
-            update_protection_group_assignments.UpdateProtectionGroupAssignments
+            update_protection_group_assignments_.UpdateProtectionGroupAssignments | None
         ) = protection_groups
-        self.users: update_user_assignments_with_role.UpdateUserAssignmentsWithRole = users
+        self.users: update_user_assignments_with_role_.UpdateUserAssignmentsWithRole | None = users
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -73,36 +76,35 @@ class PatchOrganizationalUnitV2Request:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        description = dictionary.get('description')
-        key = 'entities'
-        entities = (
-            update_entities.UpdateEntities.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
+        val = dictionary.get('description', None)
+        val_description = val
+
+        val = dictionary.get('entities', None)
+        val_entities = update_entities_.UpdateEntities.from_dictionary(val)
+
+        val = dictionary.get('name', None)
+        val_name = val
+
+        val = dictionary.get('protection_groups', None)
+        val_protection_groups = (
+            update_protection_group_assignments_.UpdateProtectionGroupAssignments.from_dictionary(
+                val
+            )
         )
 
-        name = dictionary.get('name')
-        key = 'protection_groups'
-        protection_groups = (
-            update_protection_group_assignments.UpdateProtectionGroupAssignments.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
-        )
-
-        key = 'users'
-        users = (
-            update_user_assignments_with_role.UpdateUserAssignmentsWithRole.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
+        val = dictionary.get('users', None)
+        val_users = (
+            update_user_assignments_with_role_.UpdateUserAssignmentsWithRole.from_dictionary(val)
         )
 
         # Return an object of this model
-        return cls(description, entities, name, protection_groups, users)
+        return cls(
+            val_description,
+            val_entities,
+            val_name,
+            val_protection_groups,
+            val_users,
+        )

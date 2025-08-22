@@ -1,9 +1,9 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -33,7 +33,12 @@ class BackupAwsEc2InstancesV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def list_backup_aws_ec2_instances(
-        self, limit: int = None, start: str = None, sort: str = None, filter: str = None, **kwargs
+        self,
+        limit: int | None = None,
+        start: str | None = None,
+        sort: str | None = None,
+        filter: str | None = None,
+        **kwargs,
     ) -> Union[
         list_ec2_backups_response.ListEC2BackupsResponse,
         tuple[requests.Response, Optional[list_ec2_backups_response.ListEC2BackupsResponse]],
@@ -98,36 +103,37 @@ class BackupAwsEc2InstancesV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/backups/aws/ec2-instances'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'limit': limit, 'start': start, 'sort': sort, 'filter': filter}
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
-            errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing list_backup_aws_ec2_instances.', errors
+                'Error occurred while executing list_backup_aws_ec2_instances', error=http_error
             )
 
-        if self.config.raw_response:
-            return resp, list_ec2_backups_response.ListEC2BackupsResponse.from_dictionary(
-                resp.json()
-            )
-        return list_ec2_backups_response.ListEC2BackupsResponse.from_dictionary(resp)
+        obj = list_ec2_backups_response.ListEC2BackupsResponse.from_dictionary(resp.json())
+        if raw_response:
+            return resp, obj
+        return obj
 
     def create_backup_aws_ec2_instance(
         self,
-        embed: str = None,
-        body: create_backup_aws_ec2_instance_v1_request.CreateBackupAwsEc2InstanceV1Request = None,
+        embed: str | None = None,
+        body: (
+            create_backup_aws_ec2_instance_v1_request.CreateBackupAwsEc2InstanceV1Request | None
+        ) = None,
         **kwargs,
     ) -> Union[
         on_demand_ec2_backup_response.OnDemandEC2BackupResponse,
@@ -164,34 +170,33 @@ class BackupAwsEc2InstancesV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/backups/aws/ec2-instances'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'embed': embed}
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.post(
+            resp: requests.Response = self.client.post(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
-            errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing create_backup_aws_ec2_instance.', errors
+                'Error occurred while executing create_backup_aws_ec2_instance', error=http_error
             )
 
-        if self.config.raw_response:
-            return resp, on_demand_ec2_backup_response.OnDemandEC2BackupResponse.from_dictionary(
-                resp.json()
-            )
-        return on_demand_ec2_backup_response.OnDemandEC2BackupResponse.from_dictionary(resp)
+        obj = on_demand_ec2_backup_response.OnDemandEC2BackupResponse.from_dictionary(resp.json())
+        if raw_response:
+            return resp, obj
+        return obj
 
-    def read_backup_aws_ec2_instance(self, backup_id: str, **kwargs) -> Union[
+    def read_backup_aws_ec2_instance(self, backup_id: str | None = None, **kwargs) -> Union[
         read_ec2_backup_response.ReadEC2BackupResponse,
         tuple[requests.Response, Optional[read_ec2_backup_response.ReadEC2BackupResponse]],
     ]:
@@ -214,25 +219,26 @@ class BackupAwsEc2InstancesV1Controller(base_controller.BaseController):
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'backup_id': backup_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
-            errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing read_backup_aws_ec2_instance.', errors
+                'Error occurred while executing read_backup_aws_ec2_instance', error=http_error
             )
 
-        if self.config.raw_response:
-            return resp, read_ec2_backup_response.ReadEC2BackupResponse.from_dictionary(resp.json())
-        return read_ec2_backup_response.ReadEC2BackupResponse.from_dictionary(resp)
+        obj = read_ec2_backup_response.ReadEC2BackupResponse.from_dictionary(resp.json())
+        if raw_response:
+            return resp, obj
+        return obj

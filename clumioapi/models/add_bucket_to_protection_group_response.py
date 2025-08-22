@@ -1,8 +1,10 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+
+from clumioapi.models import backup_tier_stat as backup_tier_stat_
 
 T = TypeVar('T', bound='AddBucketToProtectionGroupResponse')
 
@@ -21,6 +23,8 @@ class AddBucketToProtectionGroupResponse:
             The AWS region associated with the DynamoDB table.
         backup_target_aws_region:
             The backup target AWS region associated with the protection group S3 asset.
+        backup_tier_stats:
+            TotalBackedUpSizeBytes, TotalBackedUpObjectCount for each backup tier
         bucket_id:
             The Clumio-assigned ID of the bucket
         bucket_name:
@@ -58,12 +62,13 @@ class AddBucketToProtectionGroupResponse:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'account_native_id': 'account_native_id',
         'added_by_bucket_rule': 'added_by_bucket_rule',
         'added_by_user': 'added_by_user',
         'aws_region': 'aws_region',
         'backup_target_aws_region': 'backup_target_aws_region',
+        'backup_tier_stats': 'backup_tier_stats',
         'bucket_id': 'bucket_id',
         'bucket_name': 'bucket_name',
         'created_timestamp': 'created_timestamp',
@@ -82,51 +87,55 @@ class AddBucketToProtectionGroupResponse:
 
     def __init__(
         self,
-        account_native_id: str = None,
-        added_by_bucket_rule: bool = None,
-        added_by_user: bool = None,
-        aws_region: str = None,
-        backup_target_aws_region: str = None,
-        bucket_id: str = None,
-        bucket_name: str = None,
-        created_timestamp: str = None,
-        environment_id: str = None,
-        group_id: str = None,
-        group_name: str = None,
-        p_id: str = None,
-        is_deleted: bool = None,
-        last_backup_timestamp: str = None,
-        last_continuous_backup_timestamp: str = None,
-        organizational_unit_id: str = None,
-        total_backed_up_object_count: int = None,
-        total_backed_up_size_bytes: int = None,
-        unsupported_reason: str = None,
+        account_native_id: str | None = None,
+        added_by_bucket_rule: bool | None = None,
+        added_by_user: bool | None = None,
+        aws_region: str | None = None,
+        backup_target_aws_region: str | None = None,
+        backup_tier_stats: Sequence[backup_tier_stat_.BackupTierStat] | None = None,
+        bucket_id: str | None = None,
+        bucket_name: str | None = None,
+        created_timestamp: str | None = None,
+        environment_id: str | None = None,
+        group_id: str | None = None,
+        group_name: str | None = None,
+        p_id: str | None = None,
+        is_deleted: bool | None = None,
+        last_backup_timestamp: str | None = None,
+        last_continuous_backup_timestamp: str | None = None,
+        organizational_unit_id: str | None = None,
+        total_backed_up_object_count: int | None = None,
+        total_backed_up_size_bytes: int | None = None,
+        unsupported_reason: str | None = None,
     ) -> None:
         """Constructor for the AddBucketToProtectionGroupResponse class."""
 
         # Initialize members of the class
-        self.account_native_id: str = account_native_id
-        self.added_by_bucket_rule: bool = added_by_bucket_rule
-        self.added_by_user: bool = added_by_user
-        self.aws_region: str = aws_region
-        self.backup_target_aws_region: str = backup_target_aws_region
-        self.bucket_id: str = bucket_id
-        self.bucket_name: str = bucket_name
-        self.created_timestamp: str = created_timestamp
-        self.environment_id: str = environment_id
-        self.group_id: str = group_id
-        self.group_name: str = group_name
-        self.p_id: str = p_id
-        self.is_deleted: bool = is_deleted
-        self.last_backup_timestamp: str = last_backup_timestamp
-        self.last_continuous_backup_timestamp: str = last_continuous_backup_timestamp
-        self.organizational_unit_id: str = organizational_unit_id
-        self.total_backed_up_object_count: int = total_backed_up_object_count
-        self.total_backed_up_size_bytes: int = total_backed_up_size_bytes
-        self.unsupported_reason: str = unsupported_reason
+        self.account_native_id: str | None = account_native_id
+        self.added_by_bucket_rule: bool | None = added_by_bucket_rule
+        self.added_by_user: bool | None = added_by_user
+        self.aws_region: str | None = aws_region
+        self.backup_target_aws_region: str | None = backup_target_aws_region
+        self.backup_tier_stats: Sequence[backup_tier_stat_.BackupTierStat] | None = (
+            backup_tier_stats
+        )
+        self.bucket_id: str | None = bucket_id
+        self.bucket_name: str | None = bucket_name
+        self.created_timestamp: str | None = created_timestamp
+        self.environment_id: str | None = environment_id
+        self.group_id: str | None = group_id
+        self.group_name: str | None = group_name
+        self.p_id: str | None = p_id
+        self.is_deleted: bool | None = is_deleted
+        self.last_backup_timestamp: str | None = last_backup_timestamp
+        self.last_continuous_backup_timestamp: str | None = last_continuous_backup_timestamp
+        self.organizational_unit_id: str | None = organizational_unit_id
+        self.total_backed_up_object_count: int | None = total_backed_up_object_count
+        self.total_backed_up_size_bytes: int | None = total_backed_up_size_bytes
+        self.unsupported_reason: str | None = unsupported_reason
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -137,48 +146,96 @@ class AddBucketToProtectionGroupResponse:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        account_native_id = dictionary.get('account_native_id')
-        added_by_bucket_rule = dictionary.get('added_by_bucket_rule')
-        added_by_user = dictionary.get('added_by_user')
-        aws_region = dictionary.get('aws_region')
-        backup_target_aws_region = dictionary.get('backup_target_aws_region')
-        bucket_id = dictionary.get('bucket_id')
-        bucket_name = dictionary.get('bucket_name')
-        created_timestamp = dictionary.get('created_timestamp')
-        environment_id = dictionary.get('environment_id')
-        group_id = dictionary.get('group_id')
-        group_name = dictionary.get('group_name')
-        p_id = dictionary.get('id')
-        is_deleted = dictionary.get('is_deleted')
-        last_backup_timestamp = dictionary.get('last_backup_timestamp')
-        last_continuous_backup_timestamp = dictionary.get('last_continuous_backup_timestamp')
-        organizational_unit_id = dictionary.get('organizational_unit_id')
-        total_backed_up_object_count = dictionary.get('total_backed_up_object_count')
-        total_backed_up_size_bytes = dictionary.get('total_backed_up_size_bytes')
-        unsupported_reason = dictionary.get('unsupported_reason')
+        val = dictionary.get('account_native_id', None)
+        val_account_native_id = val
+
+        val = dictionary.get('added_by_bucket_rule', None)
+        val_added_by_bucket_rule = val
+
+        val = dictionary.get('added_by_user', None)
+        val_added_by_user = val
+
+        val = dictionary.get('aws_region', None)
+        val_aws_region = val
+
+        val = dictionary.get('backup_target_aws_region', None)
+        val_backup_target_aws_region = val
+
+        val = dictionary.get('backup_tier_stats', None)
+
+        val_backup_tier_stats = None
+        if val:
+            val_backup_tier_stats = list()
+            for value in val:
+                val_backup_tier_stats.append(
+                    backup_tier_stat_.BackupTierStat.from_dictionary(value)
+                )
+
+        val = dictionary.get('bucket_id', None)
+        val_bucket_id = val
+
+        val = dictionary.get('bucket_name', None)
+        val_bucket_name = val
+
+        val = dictionary.get('created_timestamp', None)
+        val_created_timestamp = val
+
+        val = dictionary.get('environment_id', None)
+        val_environment_id = val
+
+        val = dictionary.get('group_id', None)
+        val_group_id = val
+
+        val = dictionary.get('group_name', None)
+        val_group_name = val
+
+        val = dictionary.get('id', None)
+        val_p_id = val
+
+        val = dictionary.get('is_deleted', None)
+        val_is_deleted = val
+
+        val = dictionary.get('last_backup_timestamp', None)
+        val_last_backup_timestamp = val
+
+        val = dictionary.get('last_continuous_backup_timestamp', None)
+        val_last_continuous_backup_timestamp = val
+
+        val = dictionary.get('organizational_unit_id', None)
+        val_organizational_unit_id = val
+
+        val = dictionary.get('total_backed_up_object_count', None)
+        val_total_backed_up_object_count = val
+
+        val = dictionary.get('total_backed_up_size_bytes', None)
+        val_total_backed_up_size_bytes = val
+
+        val = dictionary.get('unsupported_reason', None)
+        val_unsupported_reason = val
+
         # Return an object of this model
         return cls(
-            account_native_id,
-            added_by_bucket_rule,
-            added_by_user,
-            aws_region,
-            backup_target_aws_region,
-            bucket_id,
-            bucket_name,
-            created_timestamp,
-            environment_id,
-            group_id,
-            group_name,
-            p_id,
-            is_deleted,
-            last_backup_timestamp,
-            last_continuous_backup_timestamp,
-            organizational_unit_id,
-            total_backed_up_object_count,
-            total_backed_up_size_bytes,
-            unsupported_reason,
+            val_account_native_id,
+            val_added_by_bucket_rule,
+            val_added_by_user,
+            val_aws_region,
+            val_backup_target_aws_region,
+            val_backup_tier_stats,
+            val_bucket_id,
+            val_bucket_name,
+            val_created_timestamp,
+            val_environment_id,
+            val_group_id,
+            val_group_name,
+            val_p_id,
+            val_is_deleted,
+            val_last_backup_timestamp,
+            val_last_continuous_backup_timestamp,
+            val_organizational_unit_id,
+            val_total_backed_up_object_count,
+            val_total_backed_up_size_bytes,
+            val_unsupported_reason,
         )
