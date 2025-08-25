@@ -1,0 +1,11 @@
+@import 'theme.css';       /* for the Read the Docs theme */
+
+.wy-nav-content {
+    /* The default is 800px, we have long names setting 1200px */
+    max-width: 1200px;
+}
+
+.wy-table-responsive table td {
+    white-space: normal;
+}
+

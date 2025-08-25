@@ -1,0 +1,35 @@
+clumioapi.models.update\_policy\_response\_links.UpdatePolicyResponseLinks
+==========================================================================
+
+.. currentmodule:: clumioapi.models.update_policy_response_links
+
+.. autoclass:: UpdatePolicyResponseLinks
+   :members:
+   :show-inheritance:
+   :inherited-members:
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~UpdatePolicyResponseLinks.__init__
+      ~UpdatePolicyResponseLinks.dict
+      ~UpdatePolicyResponseLinks.from_dictionary
+      ~UpdatePolicyResponseLinks.from_response
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~UpdatePolicyResponseLinks.ReadTask
+      ~UpdatePolicyResponseLinks.Self
+   
+   
