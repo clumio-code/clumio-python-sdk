@@ -1,11 +1,11 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import rds_resource_restore_source
-from clumioapi.models import rds_resource_restore_target
+from clumioapi.models import rds_resource_restore_source as rds_resource_restore_source_
+from clumioapi.models import rds_resource_restore_target as rds_resource_restore_target_
 
 T = TypeVar('T', bound='RestoreAwsRdsResourceV1Request')
 
@@ -22,21 +22,21 @@ class RestoreAwsRdsResourceV1Request:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'source': 'source', 'target': 'target'}
+    _names: dict[str, str] = {'source': 'source', 'target': 'target'}
 
     def __init__(
         self,
-        source: rds_resource_restore_source.RdsResourceRestoreSource = None,
-        target: rds_resource_restore_target.RdsResourceRestoreTarget = None,
+        source: rds_resource_restore_source_.RdsResourceRestoreSource | None = None,
+        target: rds_resource_restore_target_.RdsResourceRestoreTarget | None = None,
     ) -> None:
         """Constructor for the RestoreAwsRdsResourceV1Request class."""
 
         # Initialize members of the class
-        self.source: rds_resource_restore_source.RdsResourceRestoreSource = source
-        self.target: rds_resource_restore_target.RdsResourceRestoreTarget = target
+        self.source: rds_resource_restore_source_.RdsResourceRestoreSource | None = source
+        self.target: rds_resource_restore_target_.RdsResourceRestoreTarget | None = target
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -47,27 +47,17 @@ class RestoreAwsRdsResourceV1Request:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = 'source'
-        source = (
-            rds_resource_restore_source.RdsResourceRestoreSource.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('source', None)
+        val_source = rds_resource_restore_source_.RdsResourceRestoreSource.from_dictionary(val)
 
-        key = 'target'
-        target = (
-            rds_resource_restore_target.RdsResourceRestoreTarget.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('target', None)
+        val_target = rds_resource_restore_target_.RdsResourceRestoreTarget.from_dictionary(val)
 
         # Return an object of this model
-        return cls(source, target)
+        return cls(
+            val_source,
+            val_target,
+        )

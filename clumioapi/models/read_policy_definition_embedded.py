@@ -1,0 +1,47 @@
+#
+# Copyright 2023. Clumio, A Commvault Company.
+#
+
+from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+
+T = TypeVar('T', bound='ReadPolicyDefinitionEmbedded')
+
+
+class ReadPolicyDefinitionEmbedded:
+    """Implementation of the 'ReadPolicyDefinitionEmbedded' model.
+
+    Embeds the associated policy of a protected resource in the response if
+    requested using the `embed` query parameter. Unprotected resources will not have
+    an associated policy.
+
+    Attributes:
+    """
+
+    # Create a mapping from Model property names to API property names
+    _names: dict[str, str] = {}
+
+    def __init__(
+        self,
+    ) -> None:
+        """Constructor for the ReadPolicyDefinitionEmbedded class."""
+
+        # Initialize members of the class
+
+    @classmethod
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+        """Creates an instance of this model from a dictionary
+
+        Args:
+            dictionary: A dictionary representation of the object as obtained
+                from the deserialization of the server's response. The keys
+                MUST match property names in the API description.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+
+        dictionary = dictionary or {}
+        # Extract variables from the dictionary
+
+        # Return an object of this model
+        return cls()

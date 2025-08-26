@@ -1,12 +1,13 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import ec2_mssql_restore_from_backup_options
-from clumioapi.models import ec2_mssql_restore_to_aag_options
-from clumioapi.models import ec2_mssqlpitr_options
+from clumioapi.models import \
+    ec2_mssql_restore_from_backup_options as ec2_mssql_restore_from_backup_options_
+from clumioapi.models import ec2_mssql_restore_to_aag_options as ec2_mssql_restore_to_aag_options_
+from clumioapi.models import ec2_mssqlpitr_options as ec2_mssqlpitr_options_
 
 T = TypeVar('T', bound='EC2MSSQLRestoreSource')
 
@@ -28,25 +29,33 @@ class EC2MSSQLRestoreSource:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'backup': 'backup', 'pitr': 'pitr', 'restore_to_aag': 'restore_to_aag'}
+    _names: dict[str, str] = {
+        'backup': 'backup',
+        'pitr': 'pitr',
+        'restore_to_aag': 'restore_to_aag',
+    }
 
     def __init__(
         self,
-        backup: ec2_mssql_restore_from_backup_options.EC2MSSQLRestoreFromBackupOptions = None,
-        pitr: ec2_mssqlpitr_options.EC2MSSQLPITROptions = None,
-        restore_to_aag: ec2_mssql_restore_to_aag_options.EC2MSSQLRestoreToAAGOptions = None,
+        backup: (
+            ec2_mssql_restore_from_backup_options_.EC2MSSQLRestoreFromBackupOptions | None
+        ) = None,
+        pitr: ec2_mssqlpitr_options_.EC2MSSQLPITROptions | None = None,
+        restore_to_aag: ec2_mssql_restore_to_aag_options_.EC2MSSQLRestoreToAAGOptions | None = None,
     ) -> None:
         """Constructor for the EC2MSSQLRestoreSource class."""
 
         # Initialize members of the class
-        self.backup: ec2_mssql_restore_from_backup_options.EC2MSSQLRestoreFromBackupOptions = backup
-        self.pitr: ec2_mssqlpitr_options.EC2MSSQLPITROptions = pitr
-        self.restore_to_aag: ec2_mssql_restore_to_aag_options.EC2MSSQLRestoreToAAGOptions = (
-            restore_to_aag
-        )
+        self.backup: (
+            ec2_mssql_restore_from_backup_options_.EC2MSSQLRestoreFromBackupOptions | None
+        ) = backup
+        self.pitr: ec2_mssqlpitr_options_.EC2MSSQLPITROptions | None = pitr
+        self.restore_to_aag: (
+            ec2_mssql_restore_to_aag_options_.EC2MSSQLRestoreToAAGOptions | None
+        ) = restore_to_aag
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -57,34 +66,27 @@ class EC2MSSQLRestoreSource:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = 'backup'
-        backup = (
-            ec2_mssql_restore_from_backup_options.EC2MSSQLRestoreFromBackupOptions.from_dictionary(
-                dictionary.get(key)
+        val = dictionary.get('backup', None)
+        val_backup = (
+            ec2_mssql_restore_from_backup_options_.EC2MSSQLRestoreFromBackupOptions.from_dictionary(
+                val
             )
-            if dictionary.get(key)
-            else None
         )
 
-        key = 'pitr'
-        pitr = (
-            ec2_mssqlpitr_options.EC2MSSQLPITROptions.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('pitr', None)
+        val_pitr = ec2_mssqlpitr_options_.EC2MSSQLPITROptions.from_dictionary(val)
 
-        key = 'restore_to_aag'
-        restore_to_aag = (
-            ec2_mssql_restore_to_aag_options.EC2MSSQLRestoreToAAGOptions.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
+        val = dictionary.get('restore_to_aag', None)
+        val_restore_to_aag = (
+            ec2_mssql_restore_to_aag_options_.EC2MSSQLRestoreToAAGOptions.from_dictionary(val)
         )
 
         # Return an object of this model
-        return cls(backup, pitr, restore_to_aag)
+        return cls(
+            val_backup,
+            val_pitr,
+            val_restore_to_aag,
+        )

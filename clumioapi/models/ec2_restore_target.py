@@ -1,12 +1,12 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import ec2_ami_restore_target
-from clumioapi.models import ec2_instance_restore_target
-from clumioapi.models import ec2_volumes_restore_target
+from clumioapi.models import ec2_ami_restore_target as ec2_ami_restore_target_
+from clumioapi.models import ec2_instance_restore_target as ec2_instance_restore_target_
+from clumioapi.models import ec2_volumes_restore_target as ec2_volumes_restore_target_
 
 T = TypeVar('T', bound='EC2RestoreTarget')
 
@@ -27,7 +27,7 @@ class EC2RestoreTarget:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'ami_restore_target': 'ami_restore_target',
         'instance_restore_target': 'instance_restore_target',
         'volumes_restore_target': 'volumes_restore_target',
@@ -35,23 +35,27 @@ class EC2RestoreTarget:
 
     def __init__(
         self,
-        ami_restore_target: ec2_ami_restore_target.EC2AMIRestoreTarget = None,
-        instance_restore_target: ec2_instance_restore_target.EC2InstanceRestoreTarget = None,
-        volumes_restore_target: ec2_volumes_restore_target.EC2VolumesRestoreTarget = None,
+        ami_restore_target: ec2_ami_restore_target_.EC2AMIRestoreTarget | None = None,
+        instance_restore_target: (
+            ec2_instance_restore_target_.EC2InstanceRestoreTarget | None
+        ) = None,
+        volumes_restore_target: ec2_volumes_restore_target_.EC2VolumesRestoreTarget | None = None,
     ) -> None:
         """Constructor for the EC2RestoreTarget class."""
 
         # Initialize members of the class
-        self.ami_restore_target: ec2_ami_restore_target.EC2AMIRestoreTarget = ami_restore_target
-        self.instance_restore_target: ec2_instance_restore_target.EC2InstanceRestoreTarget = (
-            instance_restore_target
+        self.ami_restore_target: ec2_ami_restore_target_.EC2AMIRestoreTarget | None = (
+            ami_restore_target
         )
-        self.volumes_restore_target: ec2_volumes_restore_target.EC2VolumesRestoreTarget = (
+        self.instance_restore_target: (
+            ec2_instance_restore_target_.EC2InstanceRestoreTarget | None
+        ) = instance_restore_target
+        self.volumes_restore_target: ec2_volumes_restore_target_.EC2VolumesRestoreTarget | None = (
             volumes_restore_target
         )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -62,32 +66,25 @@ class EC2RestoreTarget:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = 'ami_restore_target'
-        ami_restore_target = (
-            ec2_ami_restore_target.EC2AMIRestoreTarget.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
+        val = dictionary.get('ami_restore_target', None)
+        val_ami_restore_target = ec2_ami_restore_target_.EC2AMIRestoreTarget.from_dictionary(val)
+
+        val = dictionary.get('instance_restore_target', None)
+        val_instance_restore_target = (
+            ec2_instance_restore_target_.EC2InstanceRestoreTarget.from_dictionary(val)
         )
 
-        key = 'instance_restore_target'
-        instance_restore_target = (
-            ec2_instance_restore_target.EC2InstanceRestoreTarget.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
-        )
-
-        key = 'volumes_restore_target'
-        volumes_restore_target = (
-            ec2_volumes_restore_target.EC2VolumesRestoreTarget.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
+        val = dictionary.get('volumes_restore_target', None)
+        val_volumes_restore_target = (
+            ec2_volumes_restore_target_.EC2VolumesRestoreTarget.from_dictionary(val)
         )
 
         # Return an object of this model
-        return cls(ami_restore_target, instance_restore_target, volumes_restore_target)
+        return cls(
+            val_ami_restore_target,
+            val_instance_restore_target,
+            val_volumes_restore_target,
+        )

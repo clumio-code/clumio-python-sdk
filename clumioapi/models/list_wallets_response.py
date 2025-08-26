@@ -1,11 +1,11 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import wallet_list_embedded
-from clumioapi.models import wallet_list_links
+from clumioapi.models import wallet_list_embedded as wallet_list_embedded_
+from clumioapi.models import wallet_list_links as wallet_list_links_
 
 T = TypeVar('T', bound='ListWalletsResponse')
 
@@ -27,7 +27,7 @@ class ListWalletsResponse:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'embedded': '_embedded',
         'links': '_links',
         'current_count': 'current_count',
@@ -37,23 +37,23 @@ class ListWalletsResponse:
 
     def __init__(
         self,
-        embedded: wallet_list_embedded.WalletListEmbedded = None,
-        links: wallet_list_links.WalletListLinks = None,
-        current_count: int = None,
-        limit: int = None,
-        start: str = None,
+        embedded: wallet_list_embedded_.WalletListEmbedded | None = None,
+        links: wallet_list_links_.WalletListLinks | None = None,
+        current_count: int | None = None,
+        limit: int | None = None,
+        start: str | None = None,
     ) -> None:
         """Constructor for the ListWalletsResponse class."""
 
         # Initialize members of the class
-        self.embedded: wallet_list_embedded.WalletListEmbedded = embedded
-        self.links: wallet_list_links.WalletListLinks = links
-        self.current_count: int = current_count
-        self.limit: int = limit
-        self.start: str = start
+        self.embedded: wallet_list_embedded_.WalletListEmbedded | None = embedded
+        self.links: wallet_list_links_.WalletListLinks | None = links
+        self.current_count: int | None = current_count
+        self.limit: int | None = limit
+        self.start: str | None = start
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -64,26 +64,29 @@ class ListWalletsResponse:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = '_embedded'
-        embedded = (
-            wallet_list_embedded.WalletListEmbedded.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('_embedded', None)
+        val_embedded = wallet_list_embedded_.WalletListEmbedded.from_dictionary(val)
 
-        key = '_links'
-        links = (
-            wallet_list_links.WalletListLinks.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('_links', None)
+        val_links = wallet_list_links_.WalletListLinks.from_dictionary(val)
 
-        current_count = dictionary.get('current_count')
-        limit = dictionary.get('limit')
-        start = dictionary.get('start')
+        val = dictionary.get('current_count', None)
+        val_current_count = val
+
+        val = dictionary.get('limit', None)
+        val_limit = val
+
+        val = dictionary.get('start', None)
+        val_start = val
+
         # Return an object of this model
-        return cls(embedded, links, current_count, limit, start)
+        return cls(
+            val_embedded,
+            val_links,
+            val_current_count,
+            val_limit,
+            val_start,
+        )

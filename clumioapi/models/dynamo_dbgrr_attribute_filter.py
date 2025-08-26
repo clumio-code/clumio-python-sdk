@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -110,25 +110,30 @@ class DynamoDBGRRAttributeFilter:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'condition': 'condition', 'name': 'name', 'p_type': 'type', 'values': 'values'}
+    _names: dict[str, str] = {
+        'condition': 'condition',
+        'name': 'name',
+        'p_type': 'type',
+        'values': 'values',
+    }
 
     def __init__(
         self,
-        condition: str = None,
-        name: str = None,
-        p_type: str = None,
-        values: Sequence[str] = None,
+        condition: str | None = None,
+        name: str | None = None,
+        p_type: str | None = None,
+        values: Sequence[str] | None = None,
     ) -> None:
         """Constructor for the DynamoDBGRRAttributeFilter class."""
 
         # Initialize members of the class
-        self.condition: str = condition
-        self.name: str = name
-        self.p_type: str = p_type
-        self.values: Sequence[str] = values
+        self.condition: str | None = condition
+        self.name: str | None = name
+        self.p_type: str | None = p_type
+        self.values: Sequence[str] | None = values
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -139,13 +144,25 @@ class DynamoDBGRRAttributeFilter:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        condition = dictionary.get('condition')
-        name = dictionary.get('name')
-        p_type = dictionary.get('type')
-        values = dictionary.get('values')
+        val = dictionary.get('condition', None)
+        val_condition = val
+
+        val = dictionary.get('name', None)
+        val_name = val
+
+        val = dictionary.get('type', None)
+        val_p_type = val
+
+        val = dictionary.get('values', None)
+        val_values = val
+
         # Return an object of this model
-        return cls(condition, name, p_type, values)
+        return cls(
+            val_condition,
+            val_name,
+            val_p_type,
+            val_values,
+        )

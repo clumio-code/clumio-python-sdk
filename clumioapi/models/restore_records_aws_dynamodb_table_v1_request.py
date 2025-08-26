@@ -1,12 +1,12 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import dynamo_db_grr_source
-from clumioapi.models import dynamo_db_grr_target
-from clumioapi.models import dynamo_dbgrr_query_filter
+from clumioapi.models import dynamo_db_grr_source as dynamo_db_grr_source_
+from clumioapi.models import dynamo_db_grr_target as dynamo_db_grr_target_
+from clumioapi.models import dynamo_dbgrr_query_filter as dynamo_dbgrr_query_filter_
 
 T = TypeVar('T', bound='RestoreRecordsAwsDynamodbTableV1Request')
 
@@ -33,23 +33,27 @@ class RestoreRecordsAwsDynamodbTableV1Request:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'query_filter': 'query_filter', 'source': 'source', 'target': 'target'}
+    _names: dict[str, str] = {
+        'query_filter': 'query_filter',
+        'source': 'source',
+        'target': 'target',
+    }
 
     def __init__(
         self,
-        query_filter: dynamo_dbgrr_query_filter.DynamoDBGRRQueryFilter = None,
-        source: dynamo_db_grr_source.DynamoDBGrrSource = None,
-        target: dynamo_db_grr_target.DynamoDBGrrTarget = None,
+        query_filter: dynamo_dbgrr_query_filter_.DynamoDBGRRQueryFilter | None = None,
+        source: dynamo_db_grr_source_.DynamoDBGrrSource | None = None,
+        target: dynamo_db_grr_target_.DynamoDBGrrTarget | None = None,
     ) -> None:
         """Constructor for the RestoreRecordsAwsDynamodbTableV1Request class."""
 
         # Initialize members of the class
-        self.query_filter: dynamo_dbgrr_query_filter.DynamoDBGRRQueryFilter = query_filter
-        self.source: dynamo_db_grr_source.DynamoDBGrrSource = source
-        self.target: dynamo_db_grr_target.DynamoDBGrrTarget = target
+        self.query_filter: dynamo_dbgrr_query_filter_.DynamoDBGRRQueryFilter | None = query_filter
+        self.source: dynamo_db_grr_source_.DynamoDBGrrSource | None = source
+        self.target: dynamo_db_grr_target_.DynamoDBGrrTarget | None = target
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -60,30 +64,21 @@ class RestoreRecordsAwsDynamodbTableV1Request:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = 'query_filter'
-        query_filter = (
-            dynamo_dbgrr_query_filter.DynamoDBGRRQueryFilter.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('query_filter', None)
+        val_query_filter = dynamo_dbgrr_query_filter_.DynamoDBGRRQueryFilter.from_dictionary(val)
 
-        key = 'source'
-        source = (
-            dynamo_db_grr_source.DynamoDBGrrSource.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('source', None)
+        val_source = dynamo_db_grr_source_.DynamoDBGrrSource.from_dictionary(val)
 
-        key = 'target'
-        target = (
-            dynamo_db_grr_target.DynamoDBGrrTarget.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('target', None)
+        val_target = dynamo_db_grr_target_.DynamoDBGrrTarget.from_dictionary(val)
 
         # Return an object of this model
-        return cls(query_filter, source, target)
+        return cls(
+            val_query_filter,
+            val_source,
+            val_target,
+        )

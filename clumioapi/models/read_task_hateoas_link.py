@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -23,18 +23,20 @@ class ReadTaskHateoasLink:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'href': 'href', 'templated': 'templated', 'p_type': 'type'}
+    _names: dict[str, str] = {'href': 'href', 'templated': 'templated', 'p_type': 'type'}
 
-    def __init__(self, href: str = None, templated: bool = None, p_type: str = None) -> None:
+    def __init__(
+        self, href: str | None = None, templated: bool | None = None, p_type: str | None = None
+    ) -> None:
         """Constructor for the ReadTaskHateoasLink class."""
 
         # Initialize members of the class
-        self.href: str = href
-        self.templated: bool = templated
-        self.p_type: str = p_type
+        self.href: str | None = href
+        self.templated: bool | None = templated
+        self.p_type: str | None = p_type
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -45,12 +47,21 @@ class ReadTaskHateoasLink:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        href = dictionary.get('href')
-        templated = dictionary.get('templated')
-        p_type = dictionary.get('type')
+        val = dictionary.get('href', None)
+        val_href = val
+
+        val = dictionary.get('templated', None)
+        val_templated = val
+
+        val = dictionary.get('type', None)
+        val_p_type = val
+
         # Return an object of this model
-        return cls(href, templated, p_type)
+        return cls(
+            val_href,
+            val_templated,
+            val_p_type,
+        )

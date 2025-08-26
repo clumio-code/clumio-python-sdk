@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -18,17 +18,17 @@ class SingleErrorResponse:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'error_code': 'error_code', 'error_message': 'error_message'}
+    _names: dict[str, str] = {'error_code': 'error_code', 'error_message': 'error_message'}
 
-    def __init__(self, error_code: int = None, error_message: str = None) -> None:
+    def __init__(self, error_code: int | None = None, error_message: str | None = None) -> None:
         """Constructor for the SingleErrorResponse class."""
 
         # Initialize members of the class
-        self.error_code: int = error_code
-        self.error_message: str = error_message
+        self.error_code: int | None = error_code
+        self.error_message: str | None = error_message
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -39,11 +39,17 @@ class SingleErrorResponse:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        error_code = dictionary.get('error_code')
-        error_message = dictionary.get('error_message')
+        val = dictionary.get('error_code', None)
+        val_error_code = val
+
+        val = dictionary.get('error_message', None)
+        val_error_message = val
+
         # Return an object of this model
-        return cls(error_code, error_message)
+        return cls(
+            val_error_code,
+            val_error_message,
+        )

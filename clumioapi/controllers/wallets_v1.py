@@ -1,9 +1,9 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -33,7 +33,7 @@ class WalletsV1Controller(base_controller.BaseController):
         if config.custom_headers != None:
             self.headers.update(config.custom_headers)
 
-    def list_wallets(self, limit: int = None, start: str = None, **kwargs) -> Union[
+    def list_wallets(self, limit: int | None = None, start: str | None = None, **kwargs) -> Union[
         list_wallets_response.ListWalletsResponse,
         tuple[requests.Response, Optional[list_wallets_response.ListWalletsResponse]],
     ]:
@@ -58,32 +58,33 @@ class WalletsV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/wallets'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'limit': limit, 'start': start}
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
-            errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing list_wallets.', errors
+                'Error occurred while executing list_wallets', error=http_error
             )
 
-        if self.config.raw_response:
-            return resp, list_wallets_response.ListWalletsResponse.from_dictionary(resp.json())
-        return list_wallets_response.ListWalletsResponse.from_dictionary(resp)
+        obj = list_wallets_response.ListWalletsResponse.from_dictionary(resp.json())
+        if raw_response:
+            return resp, obj
+        return obj
 
     def create_wallet(
-        self, body: create_wallet_v1_request.CreateWalletV1Request = None, **kwargs
+        self, body: create_wallet_v1_request.CreateWalletV1Request | None = None, **kwargs
     ) -> Union[
         create_wallet_response.CreateWalletResponse,
         tuple[requests.Response, Optional[create_wallet_response.CreateWalletResponse]],
@@ -105,31 +106,32 @@ class WalletsV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/wallets'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.post(
+            resp: requests.Response = self.client.post(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
-            errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing create_wallet.', errors
+                'Error occurred while executing create_wallet', error=http_error
             )
 
-        if self.config.raw_response:
-            return resp, create_wallet_response.CreateWalletResponse.from_dictionary(resp.json())
-        return create_wallet_response.CreateWalletResponse.from_dictionary(resp)
+        obj = create_wallet_response.CreateWalletResponse.from_dictionary(resp.json())
+        if raw_response:
+            return resp, obj
+        return obj
 
-    def read_wallet(self, wallet_id: str, **kwargs) -> Union[
+    def read_wallet(self, wallet_id: str | None = None, **kwargs) -> Union[
         read_wallet_response.ReadWalletResponse,
         tuple[requests.Response, Optional[read_wallet_response.ReadWalletResponse]],
     ]:
@@ -152,31 +154,32 @@ class WalletsV1Controller(base_controller.BaseController):
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'wallet_id': wallet_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
-            errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing read_wallet.', errors
+                'Error occurred while executing read_wallet', error=http_error
             )
 
-        if self.config.raw_response:
-            return resp, read_wallet_response.ReadWalletResponse.from_dictionary(resp.json())
-        return read_wallet_response.ReadWalletResponse.from_dictionary(resp)
+        obj = read_wallet_response.ReadWalletResponse.from_dictionary(resp.json())
+        if raw_response:
+            return resp, obj
+        return obj
 
     def delete_wallet(
-        self, wallet_id: str, **kwargs
+        self, wallet_id: str | None = None, **kwargs
     ) -> Union[object, tuple[requests.Response, Optional[object]]]:
         """Delete the wallet with the specified id.
 
@@ -197,30 +200,30 @@ class WalletsV1Controller(base_controller.BaseController):
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'wallet_id': wallet_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.delete(
+            resp: requests.Response = self.client.delete(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
-            errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing delete_wallet.', errors
+                'Error occurred while executing delete_wallet', error=http_error
             )
 
-        if self.config.raw_response:
+        if raw_response:
             return resp, resp.json()
         return resp
 
-    def refresh_wallet(self, wallet_id: str, **kwargs) -> Union[
+    def refresh_wallet(self, wallet_id: str | None = None, **kwargs) -> Union[
         refresh_wallet_response.RefreshWalletResponse,
         tuple[requests.Response, Optional[refresh_wallet_response.RefreshWalletResponse]],
     ]:
@@ -244,25 +247,26 @@ class WalletsV1Controller(base_controller.BaseController):
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'wallet_id': wallet_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.post(
+            resp: requests.Response = self.client.post(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
-            errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing refresh_wallet.', errors
+                'Error occurred while executing refresh_wallet', error=http_error
             )
 
-        if self.config.raw_response:
-            return resp, refresh_wallet_response.RefreshWalletResponse.from_dictionary(resp.json())
-        return refresh_wallet_response.RefreshWalletResponse.from_dictionary(resp)
+        obj = refresh_wallet_response.RefreshWalletResponse.from_dictionary(resp.json())
+        if raw_response:
+            return resp, obj
+        return obj

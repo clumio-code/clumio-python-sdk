@@ -25,7 +25,7 @@ class OperationInfo:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'backup_status': 'backup_status',
         'last_failed_policy_start_timestamp': 'last_failed_policy_start_timestamp',
         'last_successful_policy_start_timestamp': 'last_successful_policy_start_timestamp',
@@ -34,21 +34,23 @@ class OperationInfo:
 
     def __init__(
         self,
-        backup_status: str = None,
-        last_failed_policy_start_timestamp: str = None,
-        last_successful_policy_start_timestamp: str = None,
-        operation: str = None,
+        backup_status: str | None = None,
+        last_failed_policy_start_timestamp: str | None = None,
+        last_successful_policy_start_timestamp: str | None = None,
+        operation: str | None = None,
     ) -> None:
         """Constructor for the OperationInfo class."""
 
         # Initialize members of the class
-        self.backup_status: str = backup_status
-        self.last_failed_policy_start_timestamp: str = last_failed_policy_start_timestamp
-        self.last_successful_policy_start_timestamp: str = last_successful_policy_start_timestamp
-        self.operation: str = operation
+        self.backup_status: str | None = backup_status
+        self.last_failed_policy_start_timestamp: str | None = last_failed_policy_start_timestamp
+        self.last_successful_policy_start_timestamp: str | None = (
+            last_successful_policy_start_timestamp
+        )
+        self.operation: str | None = operation
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -59,18 +61,21 @@ class OperationInfo:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        val_backup_status = dictionary.get('backup_status')
-        val_last_failed_policy_start_timestamp = dictionary.get(
-            'last_failed_policy_start_timestamp'
-        )
-        val_last_successful_policy_start_timestamp = dictionary.get(
-            'last_successful_policy_start_timestamp'
-        )
-        val_operation = dictionary.get('operation')
+        val = dictionary.get('backup_status', None)
+        val_backup_status = val
+
+        val = dictionary.get('last_failed_policy_start_timestamp', None)
+        val_last_failed_policy_start_timestamp = val
+
+        val = dictionary.get('last_successful_policy_start_timestamp', None)
+        val_last_successful_policy_start_timestamp = val
+
+        val = dictionary.get('operation', None)
+        val_operation = val
+
         # Return an object of this model
         return cls(
             val_backup_status,

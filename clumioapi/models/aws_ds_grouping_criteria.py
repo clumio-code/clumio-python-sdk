@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -27,17 +27,17 @@ class AwsDsGroupingCriteria:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'is_editable': 'is_editable', 'p_type': 'type'}
+    _names: dict[str, str] = {'is_editable': 'is_editable', 'p_type': 'type'}
 
-    def __init__(self, is_editable: bool = None, p_type: str = None) -> None:
+    def __init__(self, is_editable: bool | None = None, p_type: str | None = None) -> None:
         """Constructor for the AwsDsGroupingCriteria class."""
 
         # Initialize members of the class
-        self.is_editable: bool = is_editable
-        self.p_type: str = p_type
+        self.is_editable: bool | None = is_editable
+        self.p_type: str | None = p_type
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -48,11 +48,17 @@ class AwsDsGroupingCriteria:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        is_editable = dictionary.get('is_editable')
-        p_type = dictionary.get('type')
+        val = dictionary.get('is_editable', None)
+        val_is_editable = val
+
+        val = dictionary.get('type', None)
+        val_p_type = val
+
         # Return an object of this model
-        return cls(is_editable, p_type)
+        return cls(
+            val_is_editable,
+            val_p_type,
+        )

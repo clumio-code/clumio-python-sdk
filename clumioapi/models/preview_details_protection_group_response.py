@@ -1,11 +1,12 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import object
-from clumioapi.models import preview_details_protection_group_links
+from clumioapi.models import object as object_
+from clumioapi.models import \
+    preview_details_protection_group_links as preview_details_protection_group_links_
 
 T = TypeVar('T', bound='PreviewDetailsProtectionGroupResponse')
 
@@ -23,25 +24,27 @@ class PreviewDetailsProtectionGroupResponse:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'etag': '_etag', 'links': '_links', 'objects': 'objects'}
+    _names: dict[str, str] = {'etag': '_etag', 'links': '_links', 'objects': 'objects'}
 
     def __init__(
         self,
-        etag: str = None,
-        links: preview_details_protection_group_links.PreviewDetailsProtectionGroupLinks = None,
-        objects: Sequence[object.Object] = None,
+        etag: str | None = None,
+        links: (
+            preview_details_protection_group_links_.PreviewDetailsProtectionGroupLinks | None
+        ) = None,
+        objects: Sequence[object_.Object] | None = None,
     ) -> None:
         """Constructor for the PreviewDetailsProtectionGroupResponse class."""
 
         # Initialize members of the class
-        self.etag: str = etag
-        self.links: preview_details_protection_group_links.PreviewDetailsProtectionGroupLinks = (
-            links
-        )
-        self.objects: Sequence[object.Object] = objects
+        self.etag: str | None = etag
+        self.links: (
+            preview_details_protection_group_links_.PreviewDetailsProtectionGroupLinks | None
+        ) = links
+        self.objects: Sequence[object_.Object] | None = objects
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -52,25 +55,28 @@ class PreviewDetailsProtectionGroupResponse:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        etag = dictionary.get('_etag')
-        key = '_links'
-        links = (
-            preview_details_protection_group_links.PreviewDetailsProtectionGroupLinks.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
+        val = dictionary.get('_etag', None)
+        val_etag = val
+
+        val = dictionary.get('_links', None)
+        val_links = preview_details_protection_group_links_.PreviewDetailsProtectionGroupLinks.from_dictionary(
+            val
         )
 
-        objects = None
-        if dictionary.get('objects'):
-            objects = list()
-            for value in dictionary.get('objects'):
-                objects.append(object.Object.from_dictionary(value))
+        val = dictionary.get('objects', None)
+
+        val_objects = None
+        if val:
+            val_objects = list()
+            for value in val:
+                val_objects.append(object_.Object.from_dictionary(value))
 
         # Return an object of this model
-        return cls(etag, links, objects)
+        return cls(
+            val_etag,
+            val_links,
+            val_objects,
+        )

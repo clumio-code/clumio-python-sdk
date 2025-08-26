@@ -1,9 +1,9 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -33,7 +33,12 @@ class BackupProtectionGroupsV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def list_backup_protection_groups(
-        self, limit: int = None, start: str = None, sort: str = None, filter: str = None, **kwargs
+        self,
+        limit: int | None = None,
+        start: str | None = None,
+        sort: str | None = None,
+        filter: str | None = None,
+        **kwargs,
     ) -> Union[
         list_protection_group_backups_response.ListProtectionGroupBackupsResponse,
         tuple[
@@ -98,39 +103,40 @@ class BackupProtectionGroupsV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/backups/protection-groups'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'limit': limit, 'start': start, 'sort': sort, 'filter': filter}
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
-            errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing list_backup_protection_groups.', errors
+                'Error occurred while executing list_backup_protection_groups', error=http_error
             )
 
-        if self.config.raw_response:
-            return (
-                resp,
-                list_protection_group_backups_response.ListProtectionGroupBackupsResponse.from_dictionary(
-                    resp.json()
-                ),
-            )
-        return list_protection_group_backups_response.ListProtectionGroupBackupsResponse.from_dictionary(
-            resp
+        obj = list_protection_group_backups_response.ListProtectionGroupBackupsResponse.from_dictionary(
+            resp.json()
         )
+        if raw_response:
+            return resp, obj
+        return obj
 
     def list_backup_protection_group_s3_assets(
-        self, limit: int = None, start: str = None, sort: str = None, filter: str = None, **kwargs
+        self,
+        limit: int | None = None,
+        start: str | None = None,
+        sort: str | None = None,
+        filter: str | None = None,
+        **kwargs,
     ) -> Union[
         list_protection_group_s3_asset_backups_response.ListProtectionGroupS3AssetBackupsResponse,
         tuple[
@@ -212,38 +218,37 @@ class BackupProtectionGroupsV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/backups/protection-groups/s3-assets'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'limit': limit, 'start': start, 'sort': sort, 'filter': filter}
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
-            errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing list_backup_protection_group_s3_assets.', errors
+                'Error occurred while executing list_backup_protection_group_s3_assets',
+                error=http_error,
             )
 
-        if self.config.raw_response:
-            return (
-                resp,
-                list_protection_group_s3_asset_backups_response.ListProtectionGroupS3AssetBackupsResponse.from_dictionary(
-                    resp.json()
-                ),
-            )
-        return list_protection_group_s3_asset_backups_response.ListProtectionGroupS3AssetBackupsResponse.from_dictionary(
-            resp
+        obj = list_protection_group_s3_asset_backups_response.ListProtectionGroupS3AssetBackupsResponse.from_dictionary(
+            resp.json()
         )
+        if raw_response:
+            return resp, obj
+        return obj
 
-    def read_backup_protection_group_s3_asset(self, backup_id: str, **kwargs) -> Union[
+    def read_backup_protection_group_s3_asset(
+        self, backup_id: str | None = None, **kwargs
+    ) -> Union[
         read_protection_group_s3_asset_backup_response.ReadProtectionGroupS3AssetBackupResponse,
         tuple[
             requests.Response,
@@ -271,37 +276,34 @@ class BackupProtectionGroupsV1Controller(base_controller.BaseController):
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'backup_id': backup_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
-            errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing read_backup_protection_group_s3_asset.', errors
+                'Error occurred while executing read_backup_protection_group_s3_asset',
+                error=http_error,
             )
 
-        if self.config.raw_response:
-            return (
-                resp,
-                read_protection_group_s3_asset_backup_response.ReadProtectionGroupS3AssetBackupResponse.from_dictionary(
-                    resp.json()
-                ),
-            )
-        return read_protection_group_s3_asset_backup_response.ReadProtectionGroupS3AssetBackupResponse.from_dictionary(
-            resp
+        obj = read_protection_group_s3_asset_backup_response.ReadProtectionGroupS3AssetBackupResponse.from_dictionary(
+            resp.json()
         )
+        if raw_response:
+            return resp, obj
+        return obj
 
-    def read_backup_protection_group(self, backup_id: str, **kwargs) -> Union[
+    def read_backup_protection_group(self, backup_id: str | None = None, **kwargs) -> Union[
         read_protection_group_backup_response.ReadProtectionGroupBackupResponse,
         tuple[
             requests.Response,
@@ -327,34 +329,30 @@ class BackupProtectionGroupsV1Controller(base_controller.BaseController):
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'backup_id': backup_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
-            errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing read_backup_protection_group.', errors
+                'Error occurred while executing read_backup_protection_group', error=http_error
             )
 
-        if self.config.raw_response:
-            return (
-                resp,
-                read_protection_group_backup_response.ReadProtectionGroupBackupResponse.from_dictionary(
-                    resp.json()
-                ),
-            )
-        return (
+        obj = (
             read_protection_group_backup_response.ReadProtectionGroupBackupResponse.from_dictionary(
-                resp
+                resp.json()
             )
         )
+        if raw_response:
+            return resp, obj
+        return obj

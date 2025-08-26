@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -18,16 +18,16 @@ class EC2MSSQLDatabaseBackupEmbedded:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'read_aws_environment': 'read-aws-environment'}
+    _names: dict[str, str] = {'read_aws_environment': 'read-aws-environment'}
 
-    def __init__(self, read_aws_environment: object = None) -> None:
+    def __init__(self, read_aws_environment: object | None = None) -> None:
         """Constructor for the EC2MSSQLDatabaseBackupEmbedded class."""
 
         # Initialize members of the class
-        self.read_aws_environment: object = read_aws_environment
+        self.read_aws_environment: object | None = read_aws_environment
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -38,10 +38,13 @@ class EC2MSSQLDatabaseBackupEmbedded:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        read_aws_environment = dictionary.get('read-aws-environment')
+        val = dictionary.get('read-aws-environment', None)
+        val_read_aws_environment = val
+
         # Return an object of this model
-        return cls(read_aws_environment)
+        return cls(
+            val_read_aws_environment,
+        )

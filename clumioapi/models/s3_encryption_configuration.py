@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -21,16 +21,16 @@ class S3EncryptionConfiguration:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'replica_kms_key_id': 'replica_kms_key_id'}
+    _names: dict[str, str] = {'replica_kms_key_id': 'replica_kms_key_id'}
 
-    def __init__(self, replica_kms_key_id: str = None) -> None:
+    def __init__(self, replica_kms_key_id: str | None = None) -> None:
         """Constructor for the S3EncryptionConfiguration class."""
 
         # Initialize members of the class
-        self.replica_kms_key_id: str = replica_kms_key_id
+        self.replica_kms_key_id: str | None = replica_kms_key_id
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -41,10 +41,13 @@ class S3EncryptionConfiguration:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        replica_kms_key_id = dictionary.get('replica_kms_key_id')
+        val = dictionary.get('replica_kms_key_id', None)
+        val_replica_kms_key_id = val
+
         # Return an object of this model
-        return cls(replica_kms_key_id)
+        return cls(
+            val_replica_kms_key_id,
+        )

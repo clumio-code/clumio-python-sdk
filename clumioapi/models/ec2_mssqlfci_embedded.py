@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -13,6 +13,9 @@ class EC2MSSQLFCIEmbedded:
     Embedded responses related to the resource.
 
     Attributes:
+        get_ec2_mssql_failover_cluster_backup_status_stats:
+            FCIBackupStatusStats contain information about the backup status of the
+            databases in the cluster
         get_ec2_mssql_failover_cluster_hosts_info:
             ConnectedHostsInfo contains information about the hosts associated with the
             cluster
@@ -25,7 +28,8 @@ class EC2MSSQLFCIEmbedded:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
+        'get_ec2_mssql_failover_cluster_backup_status_stats': 'get-ec2-mssql-failover-cluster-backup-status-stats',
         'get_ec2_mssql_failover_cluster_hosts_info': 'get-ec2-mssql-failover-cluster-hosts-info',
         'get_ec2_mssql_failover_cluster_stats': 'get-ec2-mssql-failover-cluster-stats',
         'read_policy_definition': 'read-policy-definition',
@@ -33,21 +37,27 @@ class EC2MSSQLFCIEmbedded:
 
     def __init__(
         self,
-        get_ec2_mssql_failover_cluster_hosts_info: object = None,
-        get_ec2_mssql_failover_cluster_stats: object = None,
-        read_policy_definition: object = None,
+        get_ec2_mssql_failover_cluster_backup_status_stats: object | None = None,
+        get_ec2_mssql_failover_cluster_hosts_info: object | None = None,
+        get_ec2_mssql_failover_cluster_stats: object | None = None,
+        read_policy_definition: object | None = None,
     ) -> None:
         """Constructor for the EC2MSSQLFCIEmbedded class."""
 
         # Initialize members of the class
-        self.get_ec2_mssql_failover_cluster_hosts_info: object = (
+        self.get_ec2_mssql_failover_cluster_backup_status_stats: object | None = (
+            get_ec2_mssql_failover_cluster_backup_status_stats
+        )
+        self.get_ec2_mssql_failover_cluster_hosts_info: object | None = (
             get_ec2_mssql_failover_cluster_hosts_info
         )
-        self.get_ec2_mssql_failover_cluster_stats: object = get_ec2_mssql_failover_cluster_stats
-        self.read_policy_definition: object = read_policy_definition
+        self.get_ec2_mssql_failover_cluster_stats: object | None = (
+            get_ec2_mssql_failover_cluster_stats
+        )
+        self.read_policy_definition: object | None = read_policy_definition
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -58,20 +68,25 @@ class EC2MSSQLFCIEmbedded:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        get_ec2_mssql_failover_cluster_hosts_info = dictionary.get(
-            'get-ec2-mssql-failover-cluster-hosts-info'
-        )
-        get_ec2_mssql_failover_cluster_stats = dictionary.get(
-            'get-ec2-mssql-failover-cluster-stats'
-        )
-        read_policy_definition = dictionary.get('read-policy-definition')
+        val = dictionary.get('get-ec2-mssql-failover-cluster-backup-status-stats', None)
+        val_get_ec2_mssql_failover_cluster_backup_status_stats = val
+
+        val = dictionary.get('get-ec2-mssql-failover-cluster-hosts-info', None)
+        val_get_ec2_mssql_failover_cluster_hosts_info = val
+
+        val = dictionary.get('get-ec2-mssql-failover-cluster-stats', None)
+        val_get_ec2_mssql_failover_cluster_stats = val
+
+        val = dictionary.get('read-policy-definition', None)
+        val_read_policy_definition = val
+
         # Return an object of this model
         return cls(
-            get_ec2_mssql_failover_cluster_hosts_info,
-            get_ec2_mssql_failover_cluster_stats,
-            read_policy_definition,
+            val_get_ec2_mssql_failover_cluster_backup_status_stats,
+            val_get_ec2_mssql_failover_cluster_hosts_info,
+            val_get_ec2_mssql_failover_cluster_stats,
+            val_read_policy_definition,
         )

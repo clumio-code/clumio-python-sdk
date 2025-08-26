@@ -1,11 +1,11 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import option_groups_links
-from clumioapi.models import option_model
+from clumioapi.models import option_groups_links as option_groups_links_
+from clumioapi.models import option_model as option_model_
 
 T = TypeVar('T', bound='OptionGroups')
 
@@ -49,7 +49,7 @@ class OptionGroups:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'embedded': '_embedded',
         'links': '_links',
         'engine': 'engine',
@@ -66,37 +66,43 @@ class OptionGroups:
 
     def __init__(
         self,
-        embedded: object = None,
-        links: option_groups_links.OptionGroupsLinks = None,
-        engine: str = None,
-        engine_version: str = None,
-        has_additional_non_permanent_options: bool = None,
-        has_additional_non_persistent_options: bool = None,
-        has_additional_permanent_options: bool = None,
-        has_additional_persistent_options: bool = None,
-        is_compatible: bool = None,
-        minimum_required_minor_engine_version: str = None,
-        name: str = None,
-        options: Sequence[option_model.OptionModel] = None,
+        embedded: object | None = None,
+        links: option_groups_links_.OptionGroupsLinks | None = None,
+        engine: str | None = None,
+        engine_version: str | None = None,
+        has_additional_non_permanent_options: bool | None = None,
+        has_additional_non_persistent_options: bool | None = None,
+        has_additional_permanent_options: bool | None = None,
+        has_additional_persistent_options: bool | None = None,
+        is_compatible: bool | None = None,
+        minimum_required_minor_engine_version: str | None = None,
+        name: str | None = None,
+        options: Sequence[option_model_.OptionModel] | None = None,
     ) -> None:
         """Constructor for the OptionGroups class."""
 
         # Initialize members of the class
-        self.embedded: object = embedded
-        self.links: option_groups_links.OptionGroupsLinks = links
-        self.engine: str = engine
-        self.engine_version: str = engine_version
-        self.has_additional_non_permanent_options: bool = has_additional_non_permanent_options
-        self.has_additional_non_persistent_options: bool = has_additional_non_persistent_options
-        self.has_additional_permanent_options: bool = has_additional_permanent_options
-        self.has_additional_persistent_options: bool = has_additional_persistent_options
-        self.is_compatible: bool = is_compatible
-        self.minimum_required_minor_engine_version: str = minimum_required_minor_engine_version
-        self.name: str = name
-        self.options: Sequence[option_model.OptionModel] = options
+        self.embedded: object | None = embedded
+        self.links: option_groups_links_.OptionGroupsLinks | None = links
+        self.engine: str | None = engine
+        self.engine_version: str | None = engine_version
+        self.has_additional_non_permanent_options: bool | None = (
+            has_additional_non_permanent_options
+        )
+        self.has_additional_non_persistent_options: bool | None = (
+            has_additional_non_persistent_options
+        )
+        self.has_additional_permanent_options: bool | None = has_additional_permanent_options
+        self.has_additional_persistent_options: bool | None = has_additional_persistent_options
+        self.is_compatible: bool | None = is_compatible
+        self.minimum_required_minor_engine_version: str | None = (
+            minimum_required_minor_engine_version
+        )
+        self.name: str | None = name
+        self.options: Sequence[option_model_.OptionModel] | None = options
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -107,51 +113,62 @@ class OptionGroups:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        embedded = dictionary.get('_embedded')
-        key = '_links'
-        links = (
-            option_groups_links.OptionGroupsLinks.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('_embedded', None)
+        val_embedded = val
 
-        engine = dictionary.get('engine')
-        engine_version = dictionary.get('engine_version')
-        has_additional_non_permanent_options = dictionary.get(
-            'has_additional_non_permanent_options'
-        )
-        has_additional_non_persistent_options = dictionary.get(
-            'has_additional_non_persistent_options'
-        )
-        has_additional_permanent_options = dictionary.get('has_additional_permanent_options')
-        has_additional_persistent_options = dictionary.get('has_additional_persistent_options')
-        is_compatible = dictionary.get('is_compatible')
-        minimum_required_minor_engine_version = dictionary.get(
-            'minimum_required_minor_engine_version'
-        )
-        name = dictionary.get('name')
-        options = None
-        if dictionary.get('options'):
-            options = list()
-            for value in dictionary.get('options'):
-                options.append(option_model.OptionModel.from_dictionary(value))
+        val = dictionary.get('_links', None)
+        val_links = option_groups_links_.OptionGroupsLinks.from_dictionary(val)
+
+        val = dictionary.get('engine', None)
+        val_engine = val
+
+        val = dictionary.get('engine_version', None)
+        val_engine_version = val
+
+        val = dictionary.get('has_additional_non_permanent_options', None)
+        val_has_additional_non_permanent_options = val
+
+        val = dictionary.get('has_additional_non_persistent_options', None)
+        val_has_additional_non_persistent_options = val
+
+        val = dictionary.get('has_additional_permanent_options', None)
+        val_has_additional_permanent_options = val
+
+        val = dictionary.get('has_additional_persistent_options', None)
+        val_has_additional_persistent_options = val
+
+        val = dictionary.get('is_compatible', None)
+        val_is_compatible = val
+
+        val = dictionary.get('minimum_required_minor_engine_version', None)
+        val_minimum_required_minor_engine_version = val
+
+        val = dictionary.get('name', None)
+        val_name = val
+
+        val = dictionary.get('options', None)
+
+        val_options = None
+        if val:
+            val_options = list()
+            for value in val:
+                val_options.append(option_model_.OptionModel.from_dictionary(value))
 
         # Return an object of this model
         return cls(
-            embedded,
-            links,
-            engine,
-            engine_version,
-            has_additional_non_permanent_options,
-            has_additional_non_persistent_options,
-            has_additional_permanent_options,
-            has_additional_persistent_options,
-            is_compatible,
-            minimum_required_minor_engine_version,
-            name,
-            options,
+            val_embedded,
+            val_links,
+            val_engine,
+            val_engine_version,
+            val_has_additional_non_permanent_options,
+            val_has_additional_non_persistent_options,
+            val_has_additional_permanent_options,
+            val_has_additional_persistent_options,
+            val_is_compatible,
+            val_minimum_required_minor_engine_version,
+            val_name,
+            val_options,
         )

@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -21,17 +21,19 @@ class UpdateProtectionGroupAssignments:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'assign': 'assign', 'unassign': 'unassign'}
+    _names: dict[str, str] = {'assign': 'assign', 'unassign': 'unassign'}
 
-    def __init__(self, assign: Sequence[str] = None, unassign: Sequence[str] = None) -> None:
+    def __init__(
+        self, assign: Sequence[str] | None = None, unassign: Sequence[str] | None = None
+    ) -> None:
         """Constructor for the UpdateProtectionGroupAssignments class."""
 
         # Initialize members of the class
-        self.assign: Sequence[str] = assign
-        self.unassign: Sequence[str] = unassign
+        self.assign: Sequence[str] | None = assign
+        self.unassign: Sequence[str] | None = unassign
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -42,11 +44,17 @@ class UpdateProtectionGroupAssignments:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        assign = dictionary.get('assign')
-        unassign = dictionary.get('unassign')
+        val = dictionary.get('assign', None)
+        val_assign = val
+
+        val = dictionary.get('unassign', None)
+        val_unassign = val
+
         # Return an object of this model
-        return cls(assign, unassign)
+        return cls(
+            val_assign,
+            val_unassign,
+        )

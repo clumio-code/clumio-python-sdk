@@ -1,12 +1,13 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import auto_user_provisioning_rule_embedded
-from clumioapi.models import auto_user_provisioning_rule_links
-from clumioapi.models import rule_provision
+from clumioapi.models import \
+    auto_user_provisioning_rule_embedded as auto_user_provisioning_rule_embedded_
+from clumioapi.models import auto_user_provisioning_rule_links as auto_user_provisioning_rule_links_
+from clumioapi.models import rule_provision as rule_provision_
 
 T = TypeVar('T', bound='ReadAutoUserProvisioningRuleResponse')
 
@@ -82,7 +83,7 @@ class ReadAutoUserProvisioningRuleResponse:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'embedded': '_embedded',
         'links': '_links',
         'condition': 'condition',
@@ -93,27 +94,29 @@ class ReadAutoUserProvisioningRuleResponse:
 
     def __init__(
         self,
-        embedded: auto_user_provisioning_rule_embedded.AutoUserProvisioningRuleEmbedded = None,
-        links: auto_user_provisioning_rule_links.AutoUserProvisioningRuleLinks = None,
-        condition: str = None,
-        name: str = None,
-        provision: rule_provision.RuleProvision = None,
-        rule_id: str = None,
+        embedded: (
+            auto_user_provisioning_rule_embedded_.AutoUserProvisioningRuleEmbedded | None
+        ) = None,
+        links: auto_user_provisioning_rule_links_.AutoUserProvisioningRuleLinks | None = None,
+        condition: str | None = None,
+        name: str | None = None,
+        provision: rule_provision_.RuleProvision | None = None,
+        rule_id: str | None = None,
     ) -> None:
         """Constructor for the ReadAutoUserProvisioningRuleResponse class."""
 
         # Initialize members of the class
-        self.embedded: auto_user_provisioning_rule_embedded.AutoUserProvisioningRuleEmbedded = (
-            embedded
-        )
-        self.links: auto_user_provisioning_rule_links.AutoUserProvisioningRuleLinks = links
-        self.condition: str = condition
-        self.name: str = name
-        self.provision: rule_provision.RuleProvision = provision
-        self.rule_id: str = rule_id
+        self.embedded: (
+            auto_user_provisioning_rule_embedded_.AutoUserProvisioningRuleEmbedded | None
+        ) = embedded
+        self.links: auto_user_provisioning_rule_links_.AutoUserProvisioningRuleLinks | None = links
+        self.condition: str | None = condition
+        self.name: str | None = name
+        self.provision: rule_provision_.RuleProvision | None = provision
+        self.rule_id: str | None = rule_id
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -124,37 +127,39 @@ class ReadAutoUserProvisioningRuleResponse:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = '_embedded'
-        embedded = (
-            auto_user_provisioning_rule_embedded.AutoUserProvisioningRuleEmbedded.from_dictionary(
-                dictionary.get(key)
+        val = dictionary.get('_embedded', None)
+        val_embedded = (
+            auto_user_provisioning_rule_embedded_.AutoUserProvisioningRuleEmbedded.from_dictionary(
+                val
             )
-            if dictionary.get(key)
-            else None
         )
 
-        key = '_links'
-        links = (
-            auto_user_provisioning_rule_links.AutoUserProvisioningRuleLinks.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
+        val = dictionary.get('_links', None)
+        val_links = (
+            auto_user_provisioning_rule_links_.AutoUserProvisioningRuleLinks.from_dictionary(val)
         )
 
-        condition = dictionary.get('condition')
-        name = dictionary.get('name')
-        key = 'provision'
-        provision = (
-            rule_provision.RuleProvision.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('condition', None)
+        val_condition = val
 
-        rule_id = dictionary.get('rule_id')
+        val = dictionary.get('name', None)
+        val_name = val
+
+        val = dictionary.get('provision', None)
+        val_provision = rule_provision_.RuleProvision.from_dictionary(val)
+
+        val = dictionary.get('rule_id', None)
+        val_rule_id = val
+
         # Return an object of this model
-        return cls(embedded, links, condition, name, provision, rule_id)
+        return cls(
+            val_embedded,
+            val_links,
+            val_condition,
+            val_name,
+            val_provision,
+            val_rule_id,
+        )

@@ -1,11 +1,11 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import entity_model
-from clumioapi.models import user_with_role
+from clumioapi.models import entity_model as entity_model_
+from clumioapi.models import user_with_role as user_with_role_
 
 T = TypeVar('T', bound='CreateOrganizationalUnitV2Request')
 
@@ -33,7 +33,7 @@ class CreateOrganizationalUnitV2Request:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'description': 'description',
         'entities': 'entities',
         'name': 'name',
@@ -43,23 +43,23 @@ class CreateOrganizationalUnitV2Request:
 
     def __init__(
         self,
-        description: str = None,
-        entities: Sequence[entity_model.EntityModel] = None,
-        name: str = None,
-        parent_id: str = None,
-        users: Sequence[user_with_role.UserWithRole] = None,
+        description: str | None = None,
+        entities: Sequence[entity_model_.EntityModel] | None = None,
+        name: str | None = None,
+        parent_id: str | None = None,
+        users: Sequence[user_with_role_.UserWithRole] | None = None,
     ) -> None:
         """Constructor for the CreateOrganizationalUnitV2Request class."""
 
         # Initialize members of the class
-        self.description: str = description
-        self.entities: Sequence[entity_model.EntityModel] = entities
-        self.name: str = name
-        self.parent_id: str = parent_id
-        self.users: Sequence[user_with_role.UserWithRole] = users
+        self.description: str | None = description
+        self.entities: Sequence[entity_model_.EntityModel] | None = entities
+        self.name: str | None = name
+        self.parent_id: str | None = parent_id
+        self.users: Sequence[user_with_role_.UserWithRole] | None = users
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -70,24 +70,39 @@ class CreateOrganizationalUnitV2Request:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        description = dictionary.get('description')
-        entities = None
-        if dictionary.get('entities'):
-            entities = list()
-            for value in dictionary.get('entities'):
-                entities.append(entity_model.EntityModel.from_dictionary(value))
+        val = dictionary.get('description', None)
+        val_description = val
 
-        name = dictionary.get('name')
-        parent_id = dictionary.get('parent_id')
-        users = None
-        if dictionary.get('users'):
-            users = list()
-            for value in dictionary.get('users'):
-                users.append(user_with_role.UserWithRole.from_dictionary(value))
+        val = dictionary.get('entities', None)
+
+        val_entities = None
+        if val:
+            val_entities = list()
+            for value in val:
+                val_entities.append(entity_model_.EntityModel.from_dictionary(value))
+
+        val = dictionary.get('name', None)
+        val_name = val
+
+        val = dictionary.get('parent_id', None)
+        val_parent_id = val
+
+        val = dictionary.get('users', None)
+
+        val_users = None
+        if val:
+            val_users = list()
+            for value in val:
+                val_users.append(user_with_role_.UserWithRole.from_dictionary(value))
 
         # Return an object of this model
-        return cls(description, entities, name, parent_id, users)
+        return cls(
+            val_description,
+            val_entities,
+            val_name,
+            val_parent_id,
+            val_users,
+        )

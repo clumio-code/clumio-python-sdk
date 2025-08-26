@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -24,17 +24,17 @@ class GrrTarget:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'preview': 'preview', 'query_statement': 'query_statement'}
+    _names: dict[str, str] = {'preview': 'preview', 'query_statement': 'query_statement'}
 
-    def __init__(self, preview: bool = None, query_statement: str = None) -> None:
+    def __init__(self, preview: bool | None = None, query_statement: str | None = None) -> None:
         """Constructor for the GrrTarget class."""
 
         # Initialize members of the class
-        self.preview: bool = preview
-        self.query_statement: str = query_statement
+        self.preview: bool | None = preview
+        self.query_statement: str | None = query_statement
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -45,11 +45,17 @@ class GrrTarget:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        preview = dictionary.get('preview')
-        query_statement = dictionary.get('query_statement')
+        val = dictionary.get('preview', None)
+        val_preview = val
+
+        val = dictionary.get('query_statement', None)
+        val_query_statement = val
+
         # Return an object of this model
-        return cls(preview, query_statement)
+        return cls(
+            val_preview,
+            val_query_statement,
+        )

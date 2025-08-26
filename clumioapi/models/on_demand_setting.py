@@ -1,11 +1,11 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import policy_advanced_settings
-from clumioapi.models import retention_backup_sla_param
+from clumioapi.models import policy_advanced_settings as policy_advanced_settings_
+from clumioapi.models import retention_backup_sla_param as retention_backup_sla_param_
 
 T = TypeVar('T', bound='OnDemandSetting')
 
@@ -28,7 +28,7 @@ class OnDemandSetting:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'advanced_settings': 'advanced_settings',
         'backup_aws_region': 'backup_aws_region',
         'retention_duration': 'retention_duration',
@@ -36,21 +36,23 @@ class OnDemandSetting:
 
     def __init__(
         self,
-        advanced_settings: policy_advanced_settings.PolicyAdvancedSettings = None,
-        backup_aws_region: str = None,
-        retention_duration: retention_backup_sla_param.RetentionBackupSLAParam = None,
+        advanced_settings: policy_advanced_settings_.PolicyAdvancedSettings | None = None,
+        backup_aws_region: str | None = None,
+        retention_duration: retention_backup_sla_param_.RetentionBackupSLAParam | None = None,
     ) -> None:
         """Constructor for the OnDemandSetting class."""
 
         # Initialize members of the class
-        self.advanced_settings: policy_advanced_settings.PolicyAdvancedSettings = advanced_settings
-        self.backup_aws_region: str = backup_aws_region
-        self.retention_duration: retention_backup_sla_param.RetentionBackupSLAParam = (
+        self.advanced_settings: policy_advanced_settings_.PolicyAdvancedSettings | None = (
+            advanced_settings
+        )
+        self.backup_aws_region: str | None = backup_aws_region
+        self.retention_duration: retention_backup_sla_param_.RetentionBackupSLAParam | None = (
             retention_duration
         )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -61,24 +63,25 @@ class OnDemandSetting:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = 'advanced_settings'
-        advanced_settings = (
-            policy_advanced_settings.PolicyAdvancedSettings.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
+        val = dictionary.get('advanced_settings', None)
+        val_advanced_settings = policy_advanced_settings_.PolicyAdvancedSettings.from_dictionary(
+            val
         )
 
-        backup_aws_region = dictionary.get('backup_aws_region')
-        key = 'retention_duration'
-        retention_duration = (
-            retention_backup_sla_param.RetentionBackupSLAParam.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
+        val = dictionary.get('backup_aws_region', None)
+        val_backup_aws_region = val
+
+        val = dictionary.get('retention_duration', None)
+        val_retention_duration = (
+            retention_backup_sla_param_.RetentionBackupSLAParam.from_dictionary(val)
         )
 
         # Return an object of this model
-        return cls(advanced_settings, backup_aws_region, retention_duration)
+        return cls(
+            val_advanced_settings,
+            val_backup_aws_region,
+            val_retention_duration,
+        )

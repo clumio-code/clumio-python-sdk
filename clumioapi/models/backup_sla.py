@@ -1,11 +1,11 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import retention_backup_sla_param
-from clumioapi.models import rpo_backup_sla_param
+from clumioapi.models import retention_backup_sla_param as retention_backup_sla_param_
+from clumioapi.models import rpo_backup_sla_param as rpo_backup_sla_param_
 
 T = TypeVar('T', bound='BackupSLA')
 
@@ -29,23 +29,26 @@ class BackupSLA:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'retention_duration': 'retention_duration', 'rpo_frequency': 'rpo_frequency'}
+    _names: dict[str, str] = {
+        'retention_duration': 'retention_duration',
+        'rpo_frequency': 'rpo_frequency',
+    }
 
     def __init__(
         self,
-        retention_duration: retention_backup_sla_param.RetentionBackupSLAParam = None,
-        rpo_frequency: rpo_backup_sla_param.RPOBackupSLAParam = None,
+        retention_duration: retention_backup_sla_param_.RetentionBackupSLAParam | None = None,
+        rpo_frequency: rpo_backup_sla_param_.RPOBackupSLAParam | None = None,
     ) -> None:
         """Constructor for the BackupSLA class."""
 
         # Initialize members of the class
-        self.retention_duration: retention_backup_sla_param.RetentionBackupSLAParam = (
+        self.retention_duration: retention_backup_sla_param_.RetentionBackupSLAParam | None = (
             retention_duration
         )
-        self.rpo_frequency: rpo_backup_sla_param.RPOBackupSLAParam = rpo_frequency
+        self.rpo_frequency: rpo_backup_sla_param_.RPOBackupSLAParam | None = rpo_frequency
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -56,23 +59,19 @@ class BackupSLA:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = 'retention_duration'
-        retention_duration = (
-            retention_backup_sla_param.RetentionBackupSLAParam.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
+        val = dictionary.get('retention_duration', None)
+        val_retention_duration = (
+            retention_backup_sla_param_.RetentionBackupSLAParam.from_dictionary(val)
         )
 
-        key = 'rpo_frequency'
-        rpo_frequency = (
-            rpo_backup_sla_param.RPOBackupSLAParam.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('rpo_frequency', None)
+        val_rpo_frequency = rpo_backup_sla_param_.RPOBackupSLAParam.from_dictionary(val)
 
         # Return an object of this model
-        return cls(retention_duration, rpo_frequency)
+        return cls(
+            val_retention_duration,
+            val_rpo_frequency,
+        )

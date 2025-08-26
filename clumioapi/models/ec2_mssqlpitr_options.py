@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -18,22 +18,36 @@ class EC2MSSQLPITROptions:
             Use the [GET /datasources/aws/ec2-mssql/databases](#operation/list-ec2-mssql-
             databases)
             endpoint to fetch valid values.
+        restore_to_latest:
+            If enabled, performs PITR till the latest possible time.
+            Either timestamp or restore_to_latest must be provided, but not both.
         timestamp:
             The point in time to be restored in RFC-3339 format.
+            Either timestamp or restore_to_latest must be provided, but not both.
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'database_id': 'database_id', 'timestamp': 'timestamp'}
+    _names: dict[str, str] = {
+        'database_id': 'database_id',
+        'restore_to_latest': 'restore_to_latest',
+        'timestamp': 'timestamp',
+    }
 
-    def __init__(self, database_id: str = None, timestamp: str = None) -> None:
+    def __init__(
+        self,
+        database_id: str | None = None,
+        restore_to_latest: bool | None = None,
+        timestamp: str | None = None,
+    ) -> None:
         """Constructor for the EC2MSSQLPITROptions class."""
 
         # Initialize members of the class
-        self.database_id: str = database_id
-        self.timestamp: str = timestamp
+        self.database_id: str | None = database_id
+        self.restore_to_latest: bool | None = restore_to_latest
+        self.timestamp: str | None = timestamp
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -44,11 +58,21 @@ class EC2MSSQLPITROptions:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        database_id = dictionary.get('database_id')
-        timestamp = dictionary.get('timestamp')
+        val = dictionary.get('database_id', None)
+        val_database_id = val
+
+        val = dictionary.get('restore_to_latest', None)
+        val_restore_to_latest = val
+
+        val = dictionary.get('timestamp', None)
+        val_timestamp = val
+
         # Return an object of this model
-        return cls(database_id, timestamp)
+        return cls(
+            val_database_id,
+            val_restore_to_latest,
+            val_timestamp,
+        )

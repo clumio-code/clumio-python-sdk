@@ -1,10 +1,10 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import aws_environment
+from clumioapi.models import aws_environment as aws_environment_
 
 T = TypeVar('T', bound='AWSEnvironmentListEmbedded')
 
@@ -20,16 +20,16 @@ class AWSEnvironmentListEmbedded:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'items': 'items'}
+    _names: dict[str, str] = {'items': 'items'}
 
-    def __init__(self, items: Sequence[aws_environment.AWSEnvironment] = None) -> None:
+    def __init__(self, items: Sequence[aws_environment_.AWSEnvironment] | None = None) -> None:
         """Constructor for the AWSEnvironmentListEmbedded class."""
 
         # Initialize members of the class
-        self.items: Sequence[aws_environment.AWSEnvironment] = items
+        self.items: Sequence[aws_environment_.AWSEnvironment] | None = items
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -40,15 +40,18 @@ class AWSEnvironmentListEmbedded:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        items = None
-        if dictionary.get('items'):
-            items = list()
-            for value in dictionary.get('items'):
-                items.append(aws_environment.AWSEnvironment.from_dictionary(value))
+        val = dictionary.get('items', None)
+
+        val_items = None
+        if val:
+            val_items = list()
+            for value in val:
+                val_items.append(aws_environment_.AWSEnvironment.from_dictionary(value))
 
         # Return an object of this model
-        return cls(items)
+        return cls(
+            val_items,
+        )

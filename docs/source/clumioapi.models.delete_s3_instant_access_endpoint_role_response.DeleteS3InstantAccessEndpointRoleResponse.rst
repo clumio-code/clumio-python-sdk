@@ -1,0 +1,26 @@
+clumioapi.models.delete\_s3\_instant\_access\_endpoint\_role\_response.DeleteS3InstantAccessEndpointRoleResponse
+================================================================================================================
+
+.. currentmodule:: clumioapi.models.delete_s3_instant_access_endpoint_role_response
+
+.. autoclass:: DeleteS3InstantAccessEndpointRoleResponse
+   :members:
+   :show-inheritance:
+   :inherited-members:
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~DeleteS3InstantAccessEndpointRoleResponse.__init__
+      ~DeleteS3InstantAccessEndpointRoleResponse.from_dictionary
+   
+   
+
+   
+   
+   
