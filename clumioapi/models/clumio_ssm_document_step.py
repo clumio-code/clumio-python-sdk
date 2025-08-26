@@ -1,55 +1,53 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
-from clumioapi.models import clumio_ssm_document_inputs
+from clumioapi.api_helper import camel_to_snake
+from clumioapi.models import clumio_ssm_document_inputs as clumio_ssm_document_inputs_
+import requests
 
 T = TypeVar('T', bound='ClumioSsmDocumentStep')
 
 
+@dataclasses.dataclass
 class ClumioSsmDocumentStep:
     """Implementation of the 'ClumioSsmDocumentStep' model.
 
     Details for each step present inside an ssm document
 
     Attributes:
-        action:
-            "action" refers to a unique action identified for this step
-        inputs:
+        Action:
+            "action" refers to a unique action identified for this step.
 
-        name:
-            "name" refers to name of that step
-        precondition:
-            "preconditon" is used for targeting a OS or validating input parameters
+        Inputs:
+            .
+
+        Name:
+            "name" refers to name of that step.
+
+        Precondition:
+            "preconditon" is used for targeting a os or validating input parameters.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {
-        'action': 'action',
-        'inputs': 'inputs',
-        'name': 'name',
-        'precondition': 'precondition',
-    }
+    Action: str | None = None
+    Inputs: clumio_ssm_document_inputs_.ClumioSsmDocumentInputs | None = None
+    Name: str | None = None
+    Precondition: Mapping[str, Sequence[str]] | None = None
 
-    def __init__(
-        self,
-        action: str = None,
-        inputs: clumio_ssm_document_inputs.ClumioSsmDocumentInputs = None,
-        name: str = None,
-        precondition: Mapping[str, Sequence[str]] = None,
-    ) -> None:
-        """Constructor for the ClumioSsmDocumentStep class."""
-
-        # Initialize members of the class
-        self.action: str = action
-        self.inputs: clumio_ssm_document_inputs.ClumioSsmDocumentInputs = inputs
-        self.name: str = name
-        self.precondition: Mapping[str, Sequence[str]] = precondition
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -60,19 +58,40 @@ class ClumioSsmDocumentStep:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        action = dictionary.get('action')
-        key = 'inputs'
-        inputs = (
-            clumio_ssm_document_inputs.ClumioSsmDocumentInputs.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
+        val = dictionary.get('action', None)
+        val_action = val
+
+        val = dictionary.get('inputs', None)
+        val_inputs = clumio_ssm_document_inputs_.ClumioSsmDocumentInputs.from_dictionary(val)
+
+        val = dictionary.get('name', None)
+        val_name = val
+
+        val = dictionary.get('precondition', None)
+        val_precondition = val
+
+        # Return an object of this model
+        return cls(
+            val_action,
+            val_inputs,
+            val_name,
+            val_precondition,
         )
 
-        name = dictionary.get('name')
-        precondition = dictionary.get('precondition')
-        # Return an object of this model
-        return cls(action, inputs, name, precondition)
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

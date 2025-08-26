@@ -1,86 +1,71 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from clumioapi.exceptions import clumio_exception
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='CreateAwsConnectionV1Request')
 
-ProtectAssetTypesEnabledValues = [
-    'EBS',
-    'RDS',
-    'DynamoDB',
-    'EC2MSSQL',
-    'S3',
-]
 
-
+@dataclasses.dataclass
 class CreateAwsConnectionV1Request:
     """Implementation of the 'CreateAwsConnectionV1Request' model.
 
-    Attributes:
-        account_native_id:
-            The AWS-assigned ID of the account associated with the connection.
-        aws_region:
-            The AWS region associated with the connection. For example, `us-east-1`.
-        description:
-            The user-provided description for this connection.
-        organizational_unit_id:
-            The Clumio-assigned ID of the organizational unit associated with the
-            AWS environment. If this parameter is not provided, then the value
-            defaults to the first organizational unit assigned to the requesting
-            user. For more information about organizational units, refer to the
-            Organizational-Units documentation.
-        protect_asset_types_enabled:
-            The asset types enabled for protect.
-            Valid values are any of ["EBS", "RDS", "DynamoDB", "EC2MSSQL", "S3"].
-        services_enabled:
-            The services to be enabled for this configuration. Valid values are
-            ["discover"], ["discover", "protect"]. This is only set when the
-            registration is created, the enabled services are obtained directly from
-            the installed template after that. (Deprecated as all connections will have
-            both discover and protect enabled)
+        Attributes:
+            AccountNativeId:
+                The aws-assigned id of the account associated with the connection.
+
+            AwsRegion:
+                The aws region associated with the connection. for example, `us-east-1`.
+
+            Description:
+                The user-provided description for this connection.
+
+            OrganizationalUnitId:
+                The clumio-assigned id of the organizational unit associated with the
+    aws environment. if this parameter is not provided, then the value
+    defaults to the first organizational unit assigned to the requesting
+    user. for more information about organizational units, refer to the
+    organizational-units documentation.
+
+            ProtectAssetTypesEnabled:
+                The asset types enabled for protect.
+    valid values are any of ["ec2/ebs", "rds", "dynamodb", "ec2mssql", "s3", "ebs", "icebergonglue"].
+
+    note -
+    1. ec2/ebs is required for ec2mssql.
+    2. ebs as a value is deprecated in favor of ec2/ebs.
+
+            ServicesEnabled:
+                The services to be enabled for this configuration. valid values are
+    ["discover"], ["discover", "protect"]. this is only set when the
+    registration is created, the enabled services are obtained directly from
+    the installed template after that. (deprecated as all connections will have
+    both discover and protect enabled).
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {
-        'account_native_id': 'account_native_id',
-        'aws_region': 'aws_region',
-        'description': 'description',
-        'organizational_unit_id': 'organizational_unit_id',
-        'protect_asset_types_enabled': 'protect_asset_types_enabled',
-        'services_enabled': 'services_enabled',
-    }
+    AccountNativeId: str | None = None
+    AwsRegion: str | None = None
+    Description: str | None = None
+    OrganizationalUnitId: str | None = None
+    ProtectAssetTypesEnabled: Sequence[str] | None = None
+    ServicesEnabled: Sequence[str] | None = None
 
-    def __init__(
-        self,
-        account_native_id: str = None,
-        aws_region: str = None,
-        description: str = None,
-        organizational_unit_id: str = None,
-        protect_asset_types_enabled: Sequence[str] = None,
-        services_enabled: Sequence[str] = None,
-    ) -> None:
-        """Constructor for the CreateAwsConnectionV1Request class."""
-
-        # Initialize members of the class
-        self.account_native_id: str = account_native_id
-        self.aws_region: str = aws_region
-        self.description: str = description
-        self.organizational_unit_id: str = organizational_unit_id
-
-        for enum_value in protect_asset_types_enabled:
-            if enum_value not in ProtectAssetTypesEnabledValues:
-                raise clumio_exception.ClumioException(
-                    f'Invalid value for protect_asset_types_enabled: {enum_value}. Valid values are { ProtectAssetTypesEnabledValues }.',
-                    None,
-                )
-        self.protect_asset_types_enabled: Sequence[str] = protect_asset_types_enabled
-        self.services_enabled: Sequence[str] = services_enabled
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -91,22 +76,48 @@ class CreateAwsConnectionV1Request:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        account_native_id = dictionary.get('account_native_id')
-        aws_region = dictionary.get('aws_region')
-        description = dictionary.get('description')
-        organizational_unit_id = dictionary.get('organizational_unit_id')
-        protect_asset_types_enabled = dictionary.get('protect_asset_types_enabled')
-        services_enabled = dictionary.get('services_enabled')
+        val = dictionary.get('account_native_id', None)
+        val_account_native_id = val
+
+        val = dictionary.get('aws_region', None)
+        val_aws_region = val
+
+        val = dictionary.get('description', None)
+        val_description = val
+
+        val = dictionary.get('organizational_unit_id', None)
+        val_organizational_unit_id = val
+
+        val = dictionary.get('protect_asset_types_enabled', None)
+        val_protect_asset_types_enabled = val
+
+        val = dictionary.get('services_enabled', None)
+        val_services_enabled = val
+
         # Return an object of this model
         return cls(
-            account_native_id,
-            aws_region,
-            description,
-            organizational_unit_id,
-            protect_asset_types_enabled,
-            services_enabled,
+            val_account_native_id,
+            val_aws_region,
+            val_description,
+            val_organizational_unit_id,
+            val_protect_asset_types_enabled,
+            val_services_enabled,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

@@ -1,73 +1,68 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='EC2MSSQLRestoreTarget')
 
 
+@dataclasses.dataclass
 class EC2MSSQLRestoreTarget:
     """Implementation of the 'EC2MSSQLRestoreTarget' model.
 
-    The configuration of the EC2 MSSQL database to which the data has to be
-    restored.
+        The configuration of the EC2 MSSQL database to which the data has to be
+        restored.
 
-    Attributes:
-        data_files_path:
-            The target location within the instance to restore data files. For example,
-            `C:\\Programe Files\\clumio\restored-data-files\\`. If this field is empty, we
-            will restore data files into the same location as the source database.
-        database_name:
-            The user-assigned name of the database.
-        final_database_state:
-            Final database state after clumio restored the database. If final_database_state
-            is set to empty then clumio will make database in online state.
-            Possible vales are `RESTORING` or `ONLINE`
-        instance_id:
-            The Clumio-assigned ID of the instance to restore the database into.
-            Use the [GET /datasources/aws/ec2-mssql/instances](#operation/list-ec2-mssql-
-            instances) to fetch valid values.
-        log_files_path:
-            The target location within the instance to restore log files. For example,
-            `C:\\Programe Files\\clumio\restored-log-files\\`. If this field is empty, we
-            will restore log files into the same location as the source database.
-        restore_as_new_database:
-            The boolean value representing if the database has to be restored as new
-            database.
+        Attributes:
+            DataFilesPath:
+                The target location within the instance to restore data files. for example,
+    `c:\\programe files\\clumio\restored-data-files\\`. if this field is empty, we
+    will restore data files into the same location as the source database.
+
+            DatabaseName:
+                The user-assigned name of the database.
+
+            FinalDatabaseState:
+                Final database state after clumio restored the database. if final_database_state
+    is set to empty then clumio will make database in online state.
+    possible vales are `restoring` or `online`.
+
+            InstanceId:
+                The clumio-assigned id of the instance to restore the database into.
+    use the [get /datasources/aws/ec2-mssql/instances](#operation/list-ec2-mssql-instances) to fetch valid values.
+
+            LogFilesPath:
+                The target location within the instance to restore log files. for example,
+    `c:\\programe files\\clumio\restored-log-files\\`. if this field is empty, we
+    will restore log files into the same location as the source database.
+
+            RestoreAsNewDatabase:
+                The boolean value representing if the database has to be restored as new database.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {
-        'data_files_path': 'data_files_path',
-        'database_name': 'database_name',
-        'final_database_state': 'final_database_state',
-        'instance_id': 'instance_id',
-        'log_files_path': 'log_files_path',
-        'restore_as_new_database': 'restore_as_new_database',
-    }
+    DataFilesPath: str | None = None
+    DatabaseName: str | None = None
+    FinalDatabaseState: str | None = None
+    InstanceId: str | None = None
+    LogFilesPath: str | None = None
+    RestoreAsNewDatabase: bool | None = None
 
-    def __init__(
-        self,
-        data_files_path: str = None,
-        database_name: str = None,
-        final_database_state: str = None,
-        instance_id: str = None,
-        log_files_path: str = None,
-        restore_as_new_database: bool = None,
-    ) -> None:
-        """Constructor for the EC2MSSQLRestoreTarget class."""
-
-        # Initialize members of the class
-        self.data_files_path: str = data_files_path
-        self.database_name: str = database_name
-        self.final_database_state: str = final_database_state
-        self.instance_id: str = instance_id
-        self.log_files_path: str = log_files_path
-        self.restore_as_new_database: bool = restore_as_new_database
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -78,22 +73,48 @@ class EC2MSSQLRestoreTarget:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        data_files_path = dictionary.get('data_files_path')
-        database_name = dictionary.get('database_name')
-        final_database_state = dictionary.get('final_database_state')
-        instance_id = dictionary.get('instance_id')
-        log_files_path = dictionary.get('log_files_path')
-        restore_as_new_database = dictionary.get('restore_as_new_database')
+        val = dictionary.get('data_files_path', None)
+        val_data_files_path = val
+
+        val = dictionary.get('database_name', None)
+        val_database_name = val
+
+        val = dictionary.get('final_database_state', None)
+        val_final_database_state = val
+
+        val = dictionary.get('instance_id', None)
+        val_instance_id = val
+
+        val = dictionary.get('log_files_path', None)
+        val_log_files_path = val
+
+        val = dictionary.get('restore_as_new_database', None)
+        val_restore_as_new_database = val
+
         # Return an object of this model
         return cls(
-            data_files_path,
-            database_name,
-            final_database_state,
-            instance_id,
-            log_files_path,
-            restore_as_new_database,
+            val_data_files_path,
+            val_database_name,
+            val_final_database_state,
+            val_instance_id,
+            val_log_files_path,
+            val_restore_as_new_database,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

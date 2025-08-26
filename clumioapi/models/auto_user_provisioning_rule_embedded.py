@@ -1,38 +1,45 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='AutoUserProvisioningRuleEmbedded')
 
 
+@dataclasses.dataclass
 class AutoUserProvisioningRuleEmbedded:
     """Implementation of the 'AutoUserProvisioningRuleEmbedded' model.
 
-    Embedded responses related to the resource.
+        Embedded responses related to the resource.
 
-    Attributes:
-        read_organizational_unit:
-            Embeds the associated organizational units for the OU UUIDs in the response
-            if requested using the `embed` query parameter.
-        read_role:
-            Embeds the associated role for the role UUID in the response if requested using
-            the `embed` query parameter.
+        Attributes:
+            ReadOrganizationalUnit:
+                Embeds the associated organizational units for the ou uuids in the response
+    if requested using the `embed` query parameter.
+
+            ReadRole:
+                Embeds the associated role for the role uuid in the response if requested using the `embed` query parameter.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {'read_organizational_unit': 'read-organizational-unit', 'read_role': 'read-role'}
+    ReadOrganizationalUnit: object | None = None
+    ReadRole: object | None = None
 
-    def __init__(self, read_organizational_unit: object = None, read_role: object = None) -> None:
-        """Constructor for the AutoUserProvisioningRuleEmbedded class."""
-
-        # Initialize members of the class
-        self.read_organizational_unit: object = read_organizational_unit
-        self.read_role: object = read_role
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -43,11 +50,32 @@ class AutoUserProvisioningRuleEmbedded:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        read_organizational_unit = dictionary.get('read-organizational-unit')
-        read_role = dictionary.get('read-role')
+        val = dictionary.get('read-organizational-unit', None)
+        val_read_organizational_unit = val
+
+        val = dictionary.get('read-role', None)
+        val_read_role = val
+
         # Return an object of this model
-        return cls(read_organizational_unit, read_role)
+        return cls(
+            val_read_organizational_unit,
+            val_read_role,
+        )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

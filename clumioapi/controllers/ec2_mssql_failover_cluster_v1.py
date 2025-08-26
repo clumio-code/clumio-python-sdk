@@ -1,9 +1,10 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
-from typing import Optional, Union
+from typing import Any, Iterator, Optional, Union
+import urllib.parse
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -29,50 +30,92 @@ class Ec2MssqlFailoverClusterV1Controller(base_controller.BaseController):
         if config.custom_headers != None:
             self.headers.update(config.custom_headers)
 
-    def read_ec2_mssql_failover_cluster(self, failover_cluster_id: str, **kwargs) -> Union[
-        read_ec2_mssqlfci_response.ReadEC2MSSQLFCIResponse,
-        tuple[requests.Response, Optional[read_ec2_mssqlfci_response.ReadEC2MSSQLFCIResponse]],
-    ]:
+    def read_ec2_mssql_failover_cluster(
+        self,
+        failover_cluster_id: str | None = None,
+        embed: str | None = None,
+        lookback_days: int | None = None,
+        **kwargs,
+    ) -> read_ec2_mssqlfci_response.ReadEC2MSSQLFCIResponse:
         """Returns a representation of the specified failover cluster.
 
         Args:
             failover_cluster_id:
                 Performs the operation on the fci with the specified ID.
-        Returns:
-            requests.Response: Raw Response from the API if config.raw_response is set to True.
-            read_ec2_mssqlfci_response.ReadEC2MSSQLFCIResponse: Response from the API.
-        Raises:
-            ClumioException: An error occured while executing the API.
-                This exception includes the HTTP response code, an error
-                message, and the HTTP body that was received in the request.
+            embed:
+                Embeds the details of an associated resource. Set the parameter to one of the
+                following embeddable links to include additional details associated with the
+                resource.
+
+                +---------------------------------------+--------------------------------------+
+                |            Embeddable Link            |             Description              |
+                +=======================================+======================================+
+                | read-policy-definition                | Embeds the definition of the policy  |
+                |                                       | associated with this resource.       |
+                |                                       | Unprotected resources will not have  |
+                |                                       | an associated policy. For example,   |
+                |                                       | embed=read-policy-definition.        |
+                +---------------------------------------+--------------------------------------+
+                | get-ec2-mssql-failover-cluster-stats  | Embeds the stats information         |
+                |                                       | associated with failover cluster.    |
+                |                                       | For example, embed=get-ec2-mssql-    |
+                |                                       | failover-cluster-stats.              |
+                +---------------------------------------+--------------------------------------+
+                | get-ec2-mssql-failover-cluster-hosts- | Embeds the stats information         |
+                | info                                  | associated with Hosts part of        |
+                |                                       | failover cluster. For example,       |
+                |                                       | embed=get-ec2-mssql-failover-        |
+                |                                       | cluster-hosts-info.                  |
+                +---------------------------------------+--------------------------------------+
+                | get-ec2-mssql-stats-backup-status     | Embeds the backup statistics for     |
+                |                                       | each resource into the response. For |
+                |                                       | example, embed=get-ec2-mssql-stats-  |
+                |                                       | backup-status                        |
+                +---------------------------------------+--------------------------------------+
+
+            lookback_days:
+                Calculate backup status for the last `lookback_days` days.
         """
+
+        def get_instance_from_response(response: requests.Response) -> Any:
+            return read_ec2_mssqlfci_response.ReadEC2MSSQLFCIResponse.from_response(response)
 
         # Prepare query URL
         _url_path = '/datasources/aws/ec2-mssql/failover-clusters/{failover_cluster_id}'
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'failover_cluster_id': failover_cluster_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
+        _query_parameters = {'embed': embed, 'lookback_days': lookback_days}
 
+        resp_instance: read_ec2_mssqlfci_response.ReadEC2MSSQLFCIResponse
         # Execute request
+        resp: requests.Response
         try:
             resp = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
-        except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
-                return http_error.response, None
-            errors = self.client.get_error_message(http_error.response)
-            raise clumio_exception.ClumioException(
-                'Error occurred while executing read_ec2_mssql_failover_cluster.', errors
-            )
+        except requests.exceptions.HTTPError as e:
+            resp = e.response
 
-        if self.config.raw_response:
-            return resp, read_ec2_mssqlfci_response.ReadEC2MSSQLFCIResponse.from_dictionary(
-                resp.json()
+        if not resp.ok:
+            error_str = (
+                f'read_ec2_mssql_failover_cluster for url {urllib.parse.unquote(resp.url)} failed.'
             )
-        return read_ec2_mssqlfci_response.ReadEC2MSSQLFCIResponse.from_dictionary(resp)
+            raise clumio_exception.ClumioException(error_str, resp=resp)
+
+        resp_instance = get_instance_from_response(resp)
+
+        return resp_instance
+
+
+class Ec2MssqlFailoverClusterV1ControllerPaginator(base_controller.BaseController):
+    """A Controller to access Endpoints for ec2-mssql-failover-cluster resource with pagination."""
+
+    def __init__(self, config: configuration.Configuration) -> None:
+        super().__init__(config)
+        self.controller = Ec2MssqlFailoverClusterV1Controller(config)

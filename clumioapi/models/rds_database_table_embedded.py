@@ -1,37 +1,40 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='RDSDatabaseTableEmbedded')
 
 
+@dataclasses.dataclass
 class RDSDatabaseTableEmbedded:
     """Implementation of the 'RDSDatabaseTableEmbedded' model.
 
     Embedded responses related to the resource.
 
     Attributes:
-        read_backup_aws_rds_resource_database_table_columns:
-            Add resource specific HATEOAS embedded
+        ReadBackupAwsRdsResourceDatabaseTableColumns:
+            Add resource specific hateoas embedded.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {
-        'read_backup_aws_rds_resource_database_table_columns': 'read-backup-aws-rds-resource-database-table-columns'
-    }
+    ReadBackupAwsRdsResourceDatabaseTableColumns: object | None = None
 
-    def __init__(self, read_backup_aws_rds_resource_database_table_columns: object = None) -> None:
-        """Constructor for the RDSDatabaseTableEmbedded class."""
-
-        # Initialize members of the class
-        self.read_backup_aws_rds_resource_database_table_columns: object = (
-            read_backup_aws_rds_resource_database_table_columns
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
         )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -42,12 +45,28 @@ class RDSDatabaseTableEmbedded:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        read_backup_aws_rds_resource_database_table_columns = dictionary.get(
-            'read-backup-aws-rds-resource-database-table-columns'
-        )
+        val = dictionary.get('read-backup-aws-rds-resource-database-table-columns', None)
+        val_read_backup_aws_rds_resource_database_table_columns = val
+
         # Return an object of this model
-        return cls(read_backup_aws_rds_resource_database_table_columns)
+        return cls(
+            val_read_backup_aws_rds_resource_database_table_columns,
+        )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

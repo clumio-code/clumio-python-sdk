@@ -1,50 +1,50 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='S3InstantAccessSourcePitrOptions')
 
 
+@dataclasses.dataclass
 class S3InstantAccessSourcePitrOptions:
     """Implementation of the 'S3InstantAccessSourcePitrOptions' model.
 
-    The parameters to initiate a point-in-time creation of S3 instant access
-    endpoint.<br>Note that only one of either `backup_id` or `pitr` must be
-    provided.
+        The parameters to initiate a point-in-time creation of S3 instant access
+        endpoint.<br>Note that only one of either `backup_id` or `pitr` must be
+        provided.
 
-    Attributes:
-        restore_end_timestamp:
-            The end time of the period in which the objects must be restored in RFC-3339
-            format.
-            Objects modified before this given time will be restored.
-            If `restore_end_timestamp` is provided without `restore_start_timestamp`, then
-            it is the same
-            as a point-in-time restore.
-        restore_start_timestamp:
-            The start time of the period in which the objects must be restored in RFC-3339
-            format.
-            Objects modified since the given time will be restored.
+        Attributes:
+            RestoreEndTimestamp:
+                The end time of the period in which the objects must be restored in rfc-3339 format.
+    objects modified before this given time will be restored.
+    if `restore_end_timestamp` is provided without `restore_start_timestamp`, then it is the same
+    as a point-in-time restore.
+
+            RestoreStartTimestamp:
+                The start time of the period in which the objects must be restored in rfc-3339 format.
+    objects modified since the given time will be restored.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {
-        'restore_end_timestamp': 'restore_end_timestamp',
-        'restore_start_timestamp': 'restore_start_timestamp',
-    }
+    RestoreEndTimestamp: str | None = None
+    RestoreStartTimestamp: str | None = None
 
-    def __init__(
-        self, restore_end_timestamp: str = None, restore_start_timestamp: str = None
-    ) -> None:
-        """Constructor for the S3InstantAccessSourcePitrOptions class."""
-
-        # Initialize members of the class
-        self.restore_end_timestamp: str = restore_end_timestamp
-        self.restore_start_timestamp: str = restore_start_timestamp
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -55,11 +55,32 @@ class S3InstantAccessSourcePitrOptions:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        restore_end_timestamp = dictionary.get('restore_end_timestamp')
-        restore_start_timestamp = dictionary.get('restore_start_timestamp')
+        val = dictionary.get('restore_end_timestamp', None)
+        val_restore_end_timestamp = val
+
+        val = dictionary.get('restore_start_timestamp', None)
+        val_restore_start_timestamp = val
+
         # Return an object of this model
-        return cls(restore_end_timestamp, restore_start_timestamp)
+        return cls(
+            val_restore_end_timestamp,
+            val_restore_start_timestamp,
+        )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

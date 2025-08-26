@@ -1,41 +1,45 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
-from clumioapi.models import download_shared_file_links
+from clumioapi.api_helper import camel_to_snake
+from clumioapi.models import download_shared_file_links as download_shared_file_links_
+import requests
 
 T = TypeVar('T', bound='DownloadSharedFileResponse')
 
 
+@dataclasses.dataclass
 class DownloadSharedFileResponse:
     """Implementation of the 'DownloadSharedFileResponse' model.
 
-    Attributes:
-        links:
-            URLs to pages related to the resource.
-        download_url:
-            A download link that lets you directly download the file. The link expires
-            24 hours after file restore.
+        Attributes:
+            Links:
+                Urls to pages related to the resource.
+
+            DownloadUrl:
+                A download link that lets you directly download the file. the link expires
+    24 hours after file restore.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {'links': '_links', 'download_url': 'download_url'}
+    Links: download_shared_file_links_.DownloadSharedFileLinks | None = None
+    DownloadUrl: str | None = None
+    raw_response: Optional[requests.Response] = None
 
-    def __init__(
-        self,
-        links: download_shared_file_links.DownloadSharedFileLinks = None,
-        download_url: str = None,
-    ) -> None:
-        """Constructor for the DownloadSharedFileResponse class."""
-
-        # Initialize members of the class
-        self.links: download_shared_file_links.DownloadSharedFileLinks = links
-        self.download_url: str = download_url
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -46,17 +50,33 @@ class DownloadSharedFileResponse:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = '_links'
-        links = (
-            download_shared_file_links.DownloadSharedFileLinks.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
+        val = dictionary.get('_links', None)
+        val_links = download_shared_file_links_.DownloadSharedFileLinks.from_dictionary(val)
+
+        val = dictionary.get('download_url', None)
+        val_download_url = val
+
+        # Return an object of this model
+        return cls(
+            val_links,
+            val_download_url,
         )
 
-        download_url = dictionary.get('download_url')
-        # Return an object of this model
-        return cls(links, download_url)
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        model_instance.raw_response = response
+        return model_instance

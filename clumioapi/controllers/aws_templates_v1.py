@@ -1,9 +1,10 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
-from typing import Optional, Union
+from typing import Any, Iterator, Optional, Union
+import urllib.parse
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -35,96 +36,96 @@ class AwsTemplatesV1Controller(base_controller.BaseController):
         """Returns the AWS CloudFormation and Terraform templates available to install to
         connect
         to Clumio.
-        Returns:
-            requests.Response: Raw Response from the API if config.raw_response is set to True.
-            read_aws_templates_v2_response.ReadAWSTemplatesV2Response: Response from the API.
-        Raises:
-            ClumioException: An error occured while executing the API.
-                This exception includes the HTTP response code, an error
-                message, and the HTTP body that was received in the request.
         """
+
+        def get_instance_from_response(response: requests.Response) -> Any:
+            return read_aws_templates_v2_response.ReadAWSTemplatesV2Response.from_response(response)
 
         # Prepare query URL
         _url_path = '/connections/aws/templates'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
+        resp_instance: read_aws_templates_v2_response.ReadAWSTemplatesV2Response
         # Execute request
+        resp: requests.Response
         try:
             resp = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
-        except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
-                return http_error.response, None
-            errors = self.client.get_error_message(http_error.response)
-            raise clumio_exception.ClumioException(
-                'Error occurred while executing read_connection_templates.', errors
-            )
+        except requests.exceptions.HTTPError as e:
+            resp = e.response
 
-        if self.config.raw_response:
-            return resp, read_aws_templates_v2_response.ReadAWSTemplatesV2Response.from_dictionary(
-                resp.json()
+        if not resp.ok:
+            error_str = (
+                f'read_connection_templates for url {urllib.parse.unquote(resp.url)} failed.'
             )
-        return read_aws_templates_v2_response.ReadAWSTemplatesV2Response.from_dictionary(resp)
+            raise clumio_exception.ClumioException(error_str, resp=resp)
+
+        resp_instance = get_instance_from_response(resp)
+
+        return resp_instance
 
     def create_connection_template(
         self,
-        body: create_connection_template_v1_request.CreateConnectionTemplateV1Request = None,
+        return_group_token: bool | None = None,
+        body: create_connection_template_v1_request.CreateConnectionTemplateV1Request | None = None,
         **kwargs,
-    ) -> Union[
-        create_aws_template_v2_response.CreateAWSTemplateV2Response,
-        tuple[
-            requests.Response, Optional[create_aws_template_v2_response.CreateAWSTemplateV2Response]
-        ],
-    ]:
+    ) -> create_aws_template_v2_response.CreateAWSTemplateV2Response:
         """Returns the URLs for AWS CloudFormation and terraform templates  corresponding
         to a given configuration of asset types.
 
         Args:
+            return_group_token:
+                If passed as true, then the API will return grouping token for the template.
             body:
 
-        Returns:
-            requests.Response: Raw Response from the API if config.raw_response is set to True.
-            create_aws_template_v2_response.CreateAWSTemplateV2Response: Response from the API.
-        Raises:
-            ClumioException: An error occured while executing the API.
-                This exception includes the HTTP response code, an error
-                message, and the HTTP body that was received in the request.
         """
+
+        def get_instance_from_response(response: requests.Response) -> Any:
+            return create_aws_template_v2_response.CreateAWSTemplateV2Response.from_response(
+                response
+            )
 
         # Prepare query URL
         _url_path = '/connections/aws/templates'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
+        _query_parameters = {'return_group_token': return_group_token}
 
+        resp_instance: create_aws_template_v2_response.CreateAWSTemplateV2Response
         # Execute request
+        resp: requests.Response
         try:
             resp = self.client.post(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                json=api_helper.to_dictionary(body),
-                raw_response=self.config.raw_response,
+                json=body.dict() if body else None,
+                raw_response=True,
                 **kwargs,
             )
-        except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
-                return http_error.response, None
-            errors = self.client.get_error_message(http_error.response)
-            raise clumio_exception.ClumioException(
-                'Error occurred while executing create_connection_template.', errors
-            )
+        except requests.exceptions.HTTPError as e:
+            resp = e.response
 
-        if self.config.raw_response:
-            return (
-                resp,
-                create_aws_template_v2_response.CreateAWSTemplateV2Response.from_dictionary(
-                    resp.json()
-                ),
+        if not resp.ok:
+            error_str = (
+                f'create_connection_template for url {urllib.parse.unquote(resp.url)} failed.'
             )
-        return create_aws_template_v2_response.CreateAWSTemplateV2Response.from_dictionary(resp)
+            raise clumio_exception.ClumioException(error_str, resp=resp)
+
+        resp_instance = get_instance_from_response(resp)
+
+        return resp_instance
+
+
+class AwsTemplatesV1ControllerPaginator(base_controller.BaseController):
+    """A Controller to access Endpoints for aws-templates resource with pagination."""
+
+    def __init__(self, config: configuration.Configuration) -> None:
+        super().__init__(config)
+        self.controller = AwsTemplatesV1Controller(config)

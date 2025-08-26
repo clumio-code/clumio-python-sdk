@@ -1,14 +1,16 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
-from typing import Optional, Union
+from typing import Any, Iterator, Optional, Union
+import urllib.parse
 
 from clumioapi import api_helper
 from clumioapi import configuration
 from clumioapi import sdk_version
 from clumioapi.controllers import base_controller
+from clumioapi.controllers.types import ec2_mssql_failover_clusters_types
 from clumioapi.exceptions import clumio_exception
 from clumioapi.models import list_ec2_mssqlfc_is_response
 import requests
@@ -30,16 +32,21 @@ class Ec2MssqlFailoverClustersV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def list_ec2_mssql_failover_clusters(
-        self, limit: int = None, start: str = None, filter: str = None, embed: str = None, **kwargs
-    ) -> Union[
-        list_ec2_mssqlfc_is_response.ListEC2MSSQLFCIsResponse,
-        tuple[requests.Response, Optional[list_ec2_mssqlfc_is_response.ListEC2MSSQLFCIsResponse]],
-    ]:
+        self,
+        limit: int | None = None,
+        start: str | None = None,
+        filter: (
+            ec2_mssql_failover_clusters_types.ListEc2MssqlFailoverClustersV1FilterT | None
+        ) = None,
+        embed: str | None = None,
+        lookback_days: int | None = None,
+        **kwargs,
+    ) -> list_ec2_mssqlfc_is_response.ListEC2MSSQLFCIsResponse:
         """Returns a list of failover clusters.
 
         Args:
             limit:
-                Limits the size of the response on each page to the specified number of items.
+                Limits the size of the items returned in the response.
             start:
                 Sets the page number used to browse the collection.
                 Pages are indexed starting from 1 (i.e., `start=1`).
@@ -96,41 +103,156 @@ class Ec2MssqlFailoverClustersV1Controller(base_controller.BaseController):
                 |                                       | embed=get-ec2-mssql-failover-        |
                 |                                       | cluster-hosts-info.                  |
                 +---------------------------------------+--------------------------------------+
+                | get-ec2-mssql-stats-backup-status     | Embeds the backup statistics for     |
+                |                                       | each resource into the response. For |
+                |                                       | example, embed=get-ec2-mssql-stats-  |
+                |                                       | backup-status                        |
+                +---------------------------------------+--------------------------------------+
 
-        Returns:
-            requests.Response: Raw Response from the API if config.raw_response is set to True.
-            list_ec2_mssqlfc_is_response.ListEC2MSSQLFCIsResponse: Response from the API.
-        Raises:
-            ClumioException: An error occured while executing the API.
-                This exception includes the HTTP response code, an error
-                message, and the HTTP body that was received in the request.
+            lookback_days:
+                Calculate backup status for the last `lookback_days` days.
         """
+
+        def get_instance_from_response(response: requests.Response) -> Any:
+            return list_ec2_mssqlfc_is_response.ListEC2MSSQLFCIsResponse.from_response(response)
 
         # Prepare query URL
         _url_path = '/datasources/aws/ec2-mssql/failover-clusters'
 
-        _query_parameters = {}
-        _query_parameters = {'limit': limit, 'start': start, 'filter': filter, 'embed': embed}
+        _query_parameters: dict[str, Any] = {}
+        _query_parameters = {
+            'limit': limit,
+            'start': start,
+            'filter': filter.query_str if filter else None,
+            'embed': embed,
+            'lookback_days': lookback_days,
+        }
 
+        resp_instance: list_ec2_mssqlfc_is_response.ListEC2MSSQLFCIsResponse
         # Execute request
+        resp: requests.Response
         try:
             resp = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
-        except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
-                return http_error.response, None
-            errors = self.client.get_error_message(http_error.response)
-            raise clumio_exception.ClumioException(
-                'Error occurred while executing list_ec2_mssql_failover_clusters.', errors
-            )
+        except requests.exceptions.HTTPError as e:
+            resp = e.response
 
-        if self.config.raw_response:
-            return resp, list_ec2_mssqlfc_is_response.ListEC2MSSQLFCIsResponse.from_dictionary(
-                resp.json()
+        if not resp.ok:
+            error_str = (
+                f'list_ec2_mssql_failover_clusters for url {urllib.parse.unquote(resp.url)} failed.'
             )
-        return list_ec2_mssqlfc_is_response.ListEC2MSSQLFCIsResponse.from_dictionary(resp)
+            raise clumio_exception.ClumioException(error_str, resp=resp)
+
+        resp_instance = get_instance_from_response(resp)
+
+        return resp_instance
+
+
+class Ec2MssqlFailoverClustersV1ControllerPaginator(base_controller.BaseController):
+    """A Controller to access Endpoints for ec2-mssql-failover-clusters resource with pagination."""
+
+    def __init__(self, config: configuration.Configuration) -> None:
+        super().__init__(config)
+        self.controller = Ec2MssqlFailoverClustersV1Controller(config)
+
+    def list_ec2_mssql_failover_clusters(
+        self,
+        limit: int | None = None,
+        start: str | None = None,
+        filter: (
+            ec2_mssql_failover_clusters_types.ListEc2MssqlFailoverClustersV1FilterT | None
+        ) = None,
+        embed: str | None = None,
+        lookback_days: int | None = None,
+        **kwargs,
+    ) -> Iterator[list_ec2_mssqlfc_is_response.ListEC2MSSQLFCIsResponse]:
+        """Returns a list of failover clusters.
+
+        Args:
+            limit:
+                Limits the size of the items returned in the response.
+            start:
+                Sets the page number used to browse the collection.
+                Pages are indexed starting from 1 (i.e., `start=1`).
+            filter:
+                Narrows down the results to only the items that satisfy the filter criteria. The
+                following table lists
+                the supported filter fields for this resource and the filter conditions that can
+                be applied on those fields:
+
+                +---------------------------+------------------+-------------------------------+
+                |           Field           | Filter Condition |          Description          |
+                +===========================+==================+===============================+
+                | name                      | $contains        | Filter fci based on the name  |
+                |                           |                  | of the cluster.               |
+                +---------------------------+------------------+-------------------------------+
+                | environment_id            | $eq              | Filter fci based on the       |
+                |                           |                  | environment ID.               |
+                +---------------------------+------------------+-------------------------------+
+                | protection_info.policy_id | $eq              | Filter fci based on the       |
+                |                           |                  | policy id                     |
+                +---------------------------+------------------+-------------------------------+
+                | protection_status         | $eq              | Filter fci whose protection   |
+                |                           |                  | status is equal to the given  |
+                |                           |                  | string.                       |
+                +---------------------------+------------------+-------------------------------+
+                | account_ids               | $in              | Filter FCIs which belong to   |
+                |                           |                  | any one or more of the        |
+                |                           |                  | accounts in the list of       |
+                |                           |                  | account_ids.                  |
+                +---------------------------+------------------+-------------------------------+
+
+            embed:
+                Embeds the details of an associated resource. Set the parameter to one of the
+                following embeddable links to include additional details associated with the
+                resource.
+
+                +---------------------------------------+--------------------------------------+
+                |            Embeddable Link            |             Description              |
+                +=======================================+======================================+
+                | read-policy-definition                | Embeds the definition of the policy  |
+                |                                       | associated with this resource.       |
+                |                                       | Unprotected resources will not have  |
+                |                                       | an associated policy. For example,   |
+                |                                       | embed=read-policy-definition.        |
+                +---------------------------------------+--------------------------------------+
+                | get-ec2-mssql-failover-cluster-stats  | Embeds the stats information         |
+                |                                       | associated with failover cluster.    |
+                |                                       | For example, embed=get-ec2-mssql-    |
+                |                                       | failover-cluster-stats.              |
+                +---------------------------------------+--------------------------------------+
+                | get-ec2-mssql-failover-cluster-hosts- | Embeds the stats information         |
+                | info                                  | associated with Hosts part of        |
+                |                                       | failover cluster. For example,       |
+                |                                       | embed=get-ec2-mssql-failover-        |
+                |                                       | cluster-hosts-info.                  |
+                +---------------------------------------+--------------------------------------+
+                | get-ec2-mssql-stats-backup-status     | Embeds the backup statistics for     |
+                |                                       | each resource into the response. For |
+                |                                       | example, embed=get-ec2-mssql-stats-  |
+                |                                       | backup-status                        |
+                +---------------------------------------+--------------------------------------+
+
+            lookback_days:
+                Calculate backup status for the last `lookback_days` days.
+        """
+        start = start or '1'
+        while True:
+            response = self.controller.list_ec2_mssql_failover_clusters(
+                limit=limit,
+                start=start,
+                filter=filter,
+                embed=embed,
+                lookback_days=lookback_days,
+                **kwargs,
+            )
+            yield response
+            if not response.Links.Next.Href:  # type: ignore
+                break
+
+            start = str(int(start) + 1)

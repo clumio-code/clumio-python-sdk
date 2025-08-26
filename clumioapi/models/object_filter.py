@@ -1,80 +1,58 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
-from clumioapi.models import prefix_filter
+from clumioapi.api_helper import camel_to_snake
+from clumioapi.models import prefix_filter as prefix_filter_
+import requests
 
 T = TypeVar('T', bound='ObjectFilter')
 
 
+@dataclasses.dataclass
 class ObjectFilter:
     """Implementation of the 'ObjectFilter' model.
 
-    ObjectFilterdefines which objects will be backed up.
+        ObjectFilterdefines which objects will be backed up.
 
-    Attributes:
-        exclude_prefix_expressions:
-            A list of desired object prefixes to exclude in this protection group's backups.
-            An object that matches any of these prefixes will not be in the backup, even if
-            it
-            matches an include expression. A wildcard * can be used to match any number of
-            characters, except for the / character that is used as a folder separator, and
-            must
-            be matched explicitly. If an asterisk * needs to be matched explicitly, escape
-            the
-            asterisk with \\*.
-        include_prefix_expressions:
-            A list of desired object prefixes to include in this protection group's backups.
-            If this input is non-empty, an object must match one of the given prefixes to be
-            included in the backup. A wildcard * can be used to match any number of
-            characters,
-            except for the / character that is used as a folder separator, and must be
-            matched
-            explicitly. If an asterisk * needs to be matched explicitly, escape the asterisk
-            with \\*.
-        latest_version_only:
-            Whether to back up only the latest object version.
-        prefix_filters:
-            DEPRECATED: Please use the new include_prefix_expressions and
-            exclude_prefix_expressions fields to specify all desired prefix constraints. Any
-            prefix filters here will be converted to the new expression fields.
-        storage_classes:
-            Storage class to include in the backup. If not specified, then all objects
-            across all storage
-            classes will be backed up. Valid values are: `S3 Standard`, `S3 Standard-IA`,
-            `S3 Intelligent-Tiering`, and `S3 One Zone-IA`.
+        Attributes:
+            EarliestLastModifiedTimestamp:
+                The cutoff date for inclusion objects from the backup. any object with a last modified
+    date after or equal  than this value will  be included in the backup. this is useful for
+    filtering out old or irrelevant objects based on their modification timestamps.
+    earliestlastmodifiedtimestamp support rfc-3339 format.
+
+            LatestVersionOnly:
+                Whether to back up only the latest object version.
+
+            PrefixFilters:
+                A list of prefixes to include or exclude in this protection group's backups.
+    if not specified, then all objects will be backed up.
+
+            StorageClasses:
+                `s3 standard`, `s3 standard-ia`,
+    `s3 intelligent-tiering`, and `s3 one zone-ia`.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {
-        'exclude_prefix_expressions': 'exclude_prefix_expressions',
-        'include_prefix_expressions': 'include_prefix_expressions',
-        'latest_version_only': 'latest_version_only',
-        'prefix_filters': 'prefix_filters',
-        'storage_classes': 'storage_classes',
-    }
+    EarliestLastModifiedTimestamp: str | None = None
+    LatestVersionOnly: bool | None = None
+    PrefixFilters: Sequence[prefix_filter_.PrefixFilter] | None = None
+    StorageClasses: Sequence[str] | None = None
 
-    def __init__(
-        self,
-        exclude_prefix_expressions: Sequence[str] = None,
-        include_prefix_expressions: Sequence[str] = None,
-        latest_version_only: bool = None,
-        prefix_filters: Sequence[prefix_filter.PrefixFilter] = None,
-        storage_classes: Sequence[str] = None,
-    ) -> None:
-        """Constructor for the ObjectFilter class."""
-
-        # Initialize members of the class
-        self.exclude_prefix_expressions: Sequence[str] = exclude_prefix_expressions
-        self.include_prefix_expressions: Sequence[str] = include_prefix_expressions
-        self.latest_version_only: bool = latest_version_only
-        self.prefix_filters: Sequence[prefix_filter.PrefixFilter] = prefix_filters
-        self.storage_classes: Sequence[str] = storage_classes
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -85,25 +63,44 @@ class ObjectFilter:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        exclude_prefix_expressions = dictionary.get('exclude_prefix_expressions')
-        include_prefix_expressions = dictionary.get('include_prefix_expressions')
-        latest_version_only = dictionary.get('latest_version_only')
-        prefix_filters = None
-        if dictionary.get('prefix_filters'):
-            prefix_filters = list()
-            for value in dictionary.get('prefix_filters'):
-                prefix_filters.append(prefix_filter.PrefixFilter.from_dictionary(value))
+        val = dictionary.get('earliest_last_modified_timestamp', None)
+        val_earliest_last_modified_timestamp = val
 
-        storage_classes = dictionary.get('storage_classes')
+        val = dictionary.get('latest_version_only', None)
+        val_latest_version_only = val
+
+        val = dictionary.get('prefix_filters', None)
+
+        val_prefix_filters = []
+        if val:
+            for value in val:
+                val_prefix_filters.append(prefix_filter_.PrefixFilter.from_dictionary(value))
+
+        val = dictionary.get('storage_classes', None)
+        val_storage_classes = val
+
         # Return an object of this model
         return cls(
-            exclude_prefix_expressions,
-            include_prefix_expressions,
-            latest_version_only,
-            prefix_filters,
-            storage_classes,
+            val_earliest_last_modified_timestamp,
+            val_latest_version_only,
+            val_prefix_filters,
+            val_storage_classes,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

@@ -1,32 +1,39 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='UpdateUserProfileV1Request')
 
 
+@dataclasses.dataclass
 class UpdateUserProfileV1Request:
     """Implementation of the 'UpdateUserProfileV1Request' model.
 
-    Attributes:
-        full_name:
-            The full name of the user that is to replace the existing full name.
-            For example, enter the user's first name and last name.
+        Attributes:
+            FullName:
+                The full name of the user that is to replace the existing full name.
+    for example, enter the user's first name and last name.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {'full_name': 'full_name'}
+    FullName: str | None = None
 
-    def __init__(self, full_name: str = None) -> None:
-        """Constructor for the UpdateUserProfileV1Request class."""
-
-        # Initialize members of the class
-        self.full_name: str = full_name
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -37,10 +44,28 @@ class UpdateUserProfileV1Request:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        full_name = dictionary.get('full_name')
+        val = dictionary.get('full_name', None)
+        val_full_name = val
+
         # Return an object of this model
-        return cls(full_name)
+        return cls(
+            val_full_name,
+        )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

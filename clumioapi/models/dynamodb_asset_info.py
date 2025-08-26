@@ -1,33 +1,40 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='DynamodbAssetInfo')
 
 
+@dataclasses.dataclass
 class DynamodbAssetInfo:
     """Implementation of the 'DynamodbAssetInfo' model.
 
     DynamodbAssetInfoThe installed information for the DynamoDB feature.
 
     Attributes:
-        installed_template_version:
+        InstalledTemplateVersion:
             The current version of the feature.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {'installed_template_version': 'installed_template_version'}
+    InstalledTemplateVersion: str | None = None
 
-    def __init__(self, installed_template_version: str = None) -> None:
-        """Constructor for the DynamodbAssetInfo class."""
-
-        # Initialize members of the class
-        self.installed_template_version: str = installed_template_version
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -38,10 +45,28 @@ class DynamodbAssetInfo:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        installed_template_version = dictionary.get('installed_template_version')
+        val = dictionary.get('installed_template_version', None)
+        val_installed_template_version = val
+
         # Return an object of this model
-        return cls(installed_template_version)
+        return cls(
+            val_installed_template_version,
+        )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

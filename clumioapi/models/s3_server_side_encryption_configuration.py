@@ -1,38 +1,41 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
-from clumioapi.models import s3_server_side_encryption_rule
+from clumioapi.api_helper import camel_to_snake
+from clumioapi.models import s3_server_side_encryption_rule as s3_server_side_encryption_rule_
+import requests
 
 T = TypeVar('T', bound='S3ServerSideEncryptionConfiguration')
 
 
+@dataclasses.dataclass
 class S3ServerSideEncryptionConfiguration:
     """Implementation of the 'S3ServerSideEncryptionConfiguration' model.
 
     Specifies the default server-side-encryption configuration.
 
     Attributes:
-        rules:
-            Container for information about a particular server-side encryption
-            configuration rule.
+        Rules:
+            Container for information about a particular server-side encryption configuration rule.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {'rules': 'rules'}
+    Rules: Sequence[s3_server_side_encryption_rule_.S3ServerSideEncryptionRule] | None = None
 
-    def __init__(
-        self, rules: Sequence[s3_server_side_encryption_rule.S3ServerSideEncryptionRule] = None
-    ) -> None:
-        """Constructor for the S3ServerSideEncryptionConfiguration class."""
-
-        # Initialize members of the class
-        self.rules: Sequence[s3_server_side_encryption_rule.S3ServerSideEncryptionRule] = rules
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -43,17 +46,36 @@ class S3ServerSideEncryptionConfiguration:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        rules = None
-        if dictionary.get('rules'):
-            rules = list()
-            for value in dictionary.get('rules'):
-                rules.append(
-                    s3_server_side_encryption_rule.S3ServerSideEncryptionRule.from_dictionary(value)
+        val = dictionary.get('rules', None)
+
+        val_rules = []
+        if val:
+            for value in val:
+                val_rules.append(
+                    s3_server_side_encryption_rule_.S3ServerSideEncryptionRule.from_dictionary(
+                        value
+                    )
                 )
 
         # Return an object of this model
-        return cls(rules)
+        return cls(
+            val_rules,
+        )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

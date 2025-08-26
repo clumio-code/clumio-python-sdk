@@ -1,63 +1,61 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
-from clumioapi.models import read_task_hateoas_outer_embedded
-from clumioapi.models import restore_file_links
+from clumioapi.api_helper import camel_to_snake
+from clumioapi.models import read_task_hateoas_outer_embedded as read_task_hateoas_outer_embedded_
+from clumioapi.models import restore_file_links as restore_file_links_
+import requests
 
 T = TypeVar('T', bound='RestoreFileResponse')
 
 
+@dataclasses.dataclass
 class RestoreFileResponse:
     """Implementation of the 'RestoreFileResponse' model.
 
-    Attributes:
-        embedded:
-            Embedded responses related to the resource.
-        links:
-            URLs to pages related to the resource.
-        p_id:
-            The Clumio-assigned ID of the restored file.
-        passcode:
-            The passcode that the end-user must use to access the restored
-            file, in the case the restored file was emailed to the end-user as part
-            of transparent data access.
-        task_id:
-            The Clumio-assigned ID of the task created by this restore request.
-            The progress of the task can be monitored using the
-            `GET /tasks/{task_id}` endpoint.
+        Attributes:
+            Embedded:
+                Embedded responses related to the resource.
+
+            Links:
+                Urls to pages related to the resource.
+
+            Id:
+                The clumio-assigned id of the restored file.
+
+            Passcode:
+                The passcode that the end-user must use to access the restored
+    file, in the case the restored file was emailed to the end-user as part
+    of transparent data access.
+
+            TaskId:
+                The clumio-assigned id of the task created by this restore request.
+    the progress of the task can be monitored using the
+    `get /tasks/{task_id}` endpoint.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {
-        'embedded': '_embedded',
-        'links': '_links',
-        'p_id': 'id',
-        'passcode': 'passcode',
-        'task_id': 'task_id',
-    }
+    Embedded: read_task_hateoas_outer_embedded_.ReadTaskHateoasOuterEmbedded | None = None
+    Links: restore_file_links_.RestoreFileLinks | None = None
+    Id: str | None = None
+    Passcode: str | None = None
+    TaskId: str | None = None
+    raw_response: Optional[requests.Response] = None
 
-    def __init__(
-        self,
-        embedded: read_task_hateoas_outer_embedded.ReadTaskHateoasOuterEmbedded = None,
-        links: restore_file_links.RestoreFileLinks = None,
-        p_id: str = None,
-        passcode: str = None,
-        task_id: str = None,
-    ) -> None:
-        """Constructor for the RestoreFileResponse class."""
-
-        # Initialize members of the class
-        self.embedded: read_task_hateoas_outer_embedded.ReadTaskHateoasOuterEmbedded = embedded
-        self.links: restore_file_links.RestoreFileLinks = links
-        self.p_id: str = p_id
-        self.passcode: str = passcode
-        self.task_id: str = task_id
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -68,28 +66,47 @@ class RestoreFileResponse:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = '_embedded'
-        embedded = (
-            read_task_hateoas_outer_embedded.ReadTaskHateoasOuterEmbedded.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
+        val = dictionary.get('_embedded', None)
+        val_embedded = (
+            read_task_hateoas_outer_embedded_.ReadTaskHateoasOuterEmbedded.from_dictionary(val)
         )
 
-        key = '_links'
-        links = (
-            restore_file_links.RestoreFileLinks.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('_links', None)
+        val_links = restore_file_links_.RestoreFileLinks.from_dictionary(val)
 
-        p_id = dictionary.get('id')
-        passcode = dictionary.get('passcode')
-        task_id = dictionary.get('task_id')
+        val = dictionary.get('id', None)
+        val_id = val
+
+        val = dictionary.get('passcode', None)
+        val_passcode = val
+
+        val = dictionary.get('task_id', None)
+        val_task_id = val
+
         # Return an object of this model
-        return cls(embedded, links, p_id, passcode, task_id)
+        return cls(
+            val_embedded,
+            val_links,
+            val_id,
+            val_passcode,
+            val_task_id,
+        )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        model_instance.raw_response = response
+        return model_instance

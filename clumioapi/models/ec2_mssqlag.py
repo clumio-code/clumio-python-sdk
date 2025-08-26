@@ -1,73 +1,65 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
-from clumioapi.models import ec2_mssqlag_embedded
-from clumioapi.models import ec2_mssqlag_links
-from clumioapi.models import protection_info
+from clumioapi.api_helper import camel_to_snake
+from clumioapi.models import ec2_mssqlag_embedded as ec2_mssqlag_embedded_
+from clumioapi.models import ec2_mssqlag_links as ec2_mssqlag_links_
+from clumioapi.models import protection_info as protection_info_
+import requests
 
 T = TypeVar('T', bound='EC2MSSQLAG')
 
 
+@dataclasses.dataclass
 class EC2MSSQLAG:
     """Implementation of the 'EC2MSSQLAG' model.
 
     Attributes:
-        embedded:
+        Embedded:
             Embedded responses related to the resource.
-        links:
-            URLs to pages related to the resource.
-        p_id:
-            The Clumio-assigned ID of the availability group.
-        name:
-            The Microsoft SQL-assigned name of the availability group.
-        organizational_unit_id:
-            The Clumio-assigned ID of the organizational unit associated with the
-            availability group.
-        protection_info:
-            The protection policy applied to this resource. If the resource is not
-            protected, then this field has a value of `null`.
-        status:
-            The status of the availability group, Possible values include 'active' and
-            'inactive'.
+
+        Links:
+            Urls to pages related to the resource.
+
+        Id:
+            The clumio-assigned id of the availability group.
+
+        Name:
+            The microsoft sql-assigned name of the availability group.
+
+        OrganizationalUnitId:
+            The clumio-assigned id of the organizational unit associated with the availability group.
+
+        ProtectionInfo:
+            The protection policy applied to this resource. if the resource is not protected, then this field has a value of `null`.
+
+        Status:
+            The status of the availability group, possible values include 'active' and 'inactive'.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {
-        'embedded': '_embedded',
-        'links': '_links',
-        'p_id': 'id',
-        'name': 'name',
-        'organizational_unit_id': 'organizational_unit_id',
-        'protection_info': 'protection_info',
-        'status': 'status',
-    }
+    Embedded: ec2_mssqlag_embedded_.EC2MSSQLAGEmbedded | None = None
+    Links: ec2_mssqlag_links_.EC2MSSQLAGLinks | None = None
+    Id: str | None = None
+    Name: str | None = None
+    OrganizationalUnitId: str | None = None
+    ProtectionInfo: protection_info_.ProtectionInfo | None = None
+    Status: str | None = None
 
-    def __init__(
-        self,
-        embedded: ec2_mssqlag_embedded.EC2MSSQLAGEmbedded = None,
-        links: ec2_mssqlag_links.EC2MSSQLAGLinks = None,
-        p_id: str = None,
-        name: str = None,
-        organizational_unit_id: str = None,
-        protection_info: protection_info.ProtectionInfo = None,
-        status: str = None,
-    ) -> None:
-        """Constructor for the EC2MSSQLAG class."""
-
-        # Initialize members of the class
-        self.embedded: ec2_mssqlag_embedded.EC2MSSQLAGEmbedded = embedded
-        self.links: ec2_mssqlag_links.EC2MSSQLAGLinks = links
-        self.p_id: str = p_id
-        self.name: str = name
-        self.organizational_unit_id: str = organizational_unit_id
-        self.protection_info: protection_info.ProtectionInfo = protection_info
-        self.status: str = status
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -78,34 +70,52 @@ class EC2MSSQLAG:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = '_embedded'
-        embedded = (
-            ec2_mssqlag_embedded.EC2MSSQLAGEmbedded.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('_embedded', None)
+        val_embedded = ec2_mssqlag_embedded_.EC2MSSQLAGEmbedded.from_dictionary(val)
 
-        key = '_links'
-        links = (
-            ec2_mssqlag_links.EC2MSSQLAGLinks.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('_links', None)
+        val_links = ec2_mssqlag_links_.EC2MSSQLAGLinks.from_dictionary(val)
 
-        p_id = dictionary.get('id')
-        name = dictionary.get('name')
-        organizational_unit_id = dictionary.get('organizational_unit_id')
-        key = 'protection_info'
-        p_protection_info = (
-            protection_info.ProtectionInfo.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('id', None)
+        val_id = val
 
-        status = dictionary.get('status')
+        val = dictionary.get('name', None)
+        val_name = val
+
+        val = dictionary.get('organizational_unit_id', None)
+        val_organizational_unit_id = val
+
+        val = dictionary.get('protection_info', None)
+        val_protection_info = protection_info_.ProtectionInfo.from_dictionary(val)
+
+        val = dictionary.get('status', None)
+        val_status = val
+
         # Return an object of this model
-        return cls(embedded, links, p_id, name, organizational_unit_id, p_protection_info, status)
+        return cls(
+            val_embedded,
+            val_links,
+            val_id,
+            val_name,
+            val_organizational_unit_id,
+            val_protection_info,
+            val_status,
+        )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

@@ -1,84 +1,81 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='PostProcessKmsV1Request')
 
 
+@dataclasses.dataclass
 class PostProcessKmsV1Request:
     """Implementation of the 'PostProcessKmsV1Request' model.
 
-    The body of the request.
+        The body of the request.
 
-    Attributes:
-        account_native_id:
-            The AWS-assigned ID of the account associated with the connection.
-        aws_region:
-            The AWS region associated with the connection. For example, `us-east-1`.
-        created_multi_region_cmk:
-            Whether the CMK was created or an existing CMK was used.
-        multi_region_cmk_key_id:
-            The multi-region CMK Key ID.
-        request_type:
-            Indicates whether this is a Create, Update or Delete request.
-        role_arn:
-            The ARN of the role.
-        role_external_id:
-            The external ID to use with the role.
-        role_id:
-            The ID of the role.
-        token:
-            The 36-character Clumio AWS integration ID token used to identify the
-            installation of the CloudFormation/Terraform template on the account.
-        version:
-            The cloudformation/terraform template version used.
+        Attributes:
+            AccountNativeId:
+                The aws-assigned id of the account associated with the connection.
+
+            AwsRegion:
+                The aws region associated with the connection. for example, `us-east-1`.
+
+            CreatedMultiRegionCmk:
+                Whether the cmk was created or an existing cmk was used.
+
+            IntermediateRoleArn:
+                Role arn to be assumed before accessing clumiorole in customer account.
+
+            MultiRegionCmkKeyId:
+                The multi-region cmk key id.
+
+            RequestType:
+                Indicates whether this is a create, update or delete request.
+
+            RoleArn:
+                The arn of the role.
+
+            RoleExternalId:
+                The external id to use with the role.
+
+            RoleId:
+                The id of the role.
+
+            Token:
+                The 36-character clumio aws integration id token used to identify the
+    installation of the cloudformation/terraform template on the account.
+
+            Version:
+                The cloudformation/terraform template version used.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {
-        'account_native_id': 'account_native_id',
-        'aws_region': 'aws_region',
-        'created_multi_region_cmk': 'created_multi_region_cmk',
-        'multi_region_cmk_key_id': 'multi_region_cmk_key_id',
-        'request_type': 'request_type',
-        'role_arn': 'role_arn',
-        'role_external_id': 'role_external_id',
-        'role_id': 'role_id',
-        'token': 'token',
-        'version': 'version',
-    }
+    AccountNativeId: str | None = None
+    AwsRegion: str | None = None
+    CreatedMultiRegionCmk: bool | None = None
+    IntermediateRoleArn: str | None = None
+    MultiRegionCmkKeyId: str | None = None
+    RequestType: str | None = None
+    RoleArn: str | None = None
+    RoleExternalId: str | None = None
+    RoleId: str | None = None
+    Token: str | None = None
+    Version: int | None = None
 
-    def __init__(
-        self,
-        account_native_id: str = None,
-        aws_region: str = None,
-        created_multi_region_cmk: bool = None,
-        multi_region_cmk_key_id: str = None,
-        request_type: str = None,
-        role_arn: str = None,
-        role_external_id: str = None,
-        role_id: str = None,
-        token: str = None,
-        version: int = None,
-    ) -> None:
-        """Constructor for the PostProcessKmsV1Request class."""
-
-        # Initialize members of the class
-        self.account_native_id: str = account_native_id
-        self.aws_region: str = aws_region
-        self.created_multi_region_cmk: bool = created_multi_region_cmk
-        self.multi_region_cmk_key_id: str = multi_region_cmk_key_id
-        self.request_type: str = request_type
-        self.role_arn: str = role_arn
-        self.role_external_id: str = role_external_id
-        self.role_id: str = role_id
-        self.token: str = token
-        self.version: int = version
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -89,30 +86,68 @@ class PostProcessKmsV1Request:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        account_native_id = dictionary.get('account_native_id')
-        aws_region = dictionary.get('aws_region')
-        created_multi_region_cmk = dictionary.get('created_multi_region_cmk')
-        multi_region_cmk_key_id = dictionary.get('multi_region_cmk_key_id')
-        request_type = dictionary.get('request_type')
-        role_arn = dictionary.get('role_arn')
-        role_external_id = dictionary.get('role_external_id')
-        role_id = dictionary.get('role_id')
-        token = dictionary.get('token')
-        version = dictionary.get('version')
+        val = dictionary.get('account_native_id', None)
+        val_account_native_id = val
+
+        val = dictionary.get('aws_region', None)
+        val_aws_region = val
+
+        val = dictionary.get('created_multi_region_cmk', None)
+        val_created_multi_region_cmk = val
+
+        val = dictionary.get('intermediate_role_arn', None)
+        val_intermediate_role_arn = val
+
+        val = dictionary.get('multi_region_cmk_key_id', None)
+        val_multi_region_cmk_key_id = val
+
+        val = dictionary.get('request_type', None)
+        val_request_type = val
+
+        val = dictionary.get('role_arn', None)
+        val_role_arn = val
+
+        val = dictionary.get('role_external_id', None)
+        val_role_external_id = val
+
+        val = dictionary.get('role_id', None)
+        val_role_id = val
+
+        val = dictionary.get('token', None)
+        val_token = val
+
+        val = dictionary.get('version', None)
+        val_version = val
+
         # Return an object of this model
         return cls(
-            account_native_id,
-            aws_region,
-            created_multi_region_cmk,
-            multi_region_cmk_key_id,
-            request_type,
-            role_arn,
-            role_external_id,
-            role_id,
-            token,
-            version,
+            val_account_native_id,
+            val_aws_region,
+            val_created_multi_region_cmk,
+            val_intermediate_role_arn,
+            val_multi_region_cmk_key_id,
+            val_request_type,
+            val_role_arn,
+            val_role_external_id,
+            val_role_id,
+            val_token,
+            val_version,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

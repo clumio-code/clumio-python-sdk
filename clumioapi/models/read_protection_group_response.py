@@ -1,184 +1,196 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
-from clumioapi.models import object_filter
-from clumioapi.models import protection_compliance_stats_with_seeding
-from clumioapi.models import protection_group_embedded
-from clumioapi.models import protection_group_links
-from clumioapi.models import protection_info_with_rule
+from clumioapi.api_helper import camel_to_snake
+from clumioapi.models import backup_status_stats as backup_status_stats_
+from clumioapi.models import backup_tier_stat as backup_tier_stat_
+from clumioapi.models import object_filter as object_filter_
+from clumioapi.models import protection_group_embedded as protection_group_embedded_
+from clumioapi.models import protection_group_links as protection_group_links_
+from clumioapi.models import protection_info_with_rule as protection_info_with_rule_
+from clumioapi.models import protection_stats as protection_stats_
+import requests
 
 T = TypeVar('T', bound='ReadProtectionGroupResponse')
 
 
+@dataclasses.dataclass
 class ReadProtectionGroupResponse:
     """Implementation of the 'ReadProtectionGroupResponse' model.
 
-    Attributes:
-        embedded:
-            Embedded responses related to the resource.
-        links:
-            URLs to pages related to the resource.
-        backup_target_aws_region:
-            The backup target AWS region associated with the protection group, empty if
-            in-region or not configured.
-        bucket_count:
-            Number of buckets
-        bucket_rule:
-            The following table describes the possible conditions for a bucket to be
-            automatically added to a protection group.
+        Attributes:
+            Embedded:
+                Embedded responses related to the resource.
 
-            +---------+----------------+---------------------------------------------------+
-            |  Field  | Rule Condition |                    Description                    |
-            +=========+================+===================================================+
-            | aws_tag | $eq            | Denotes the AWS tag(s) to conditionalize on       |
-            |         |                |                                                   |
-            |         |                | {"aws_tag":{"$eq":{"key":"Environment",           |
-            |         |                | "value":"Prod"}}}                                 |
-            |         |                |                                                   |
-            |         |                |                                                   |
-            +---------+----------------+---------------------------------------------------+
-        compliance_stats:
-            The compliance statistics of workloads associated with this entity.
-        created_timestamp:
-            Creation time of the protection group in RFC-3339 format.
-        description:
-            The user-assigned description of the protection group.
-        p_id:
-            The Clumio-assigned ID of the protection group.
-        is_backup_target_region_configured:
-            Whether the protection group already has a backup target configured by a policy,
-            or
-            is open to be protected by an in-region or out-of-region S3 policy.
-        is_deleted:
-            Determines whether the protection group is active or has been deleted. Deleted
-            protection
-            groups may be purged after some time once there are no active backups associated
-            with it.
-        last_backup_timestamp:
-            Time of the last backup in RFC-3339 format.
-        last_continuous_backup_timestamp:
-            Time of the last successful continuous backup in RFC-3339 format.
-        modified_timestamp:
-            Modified time of the protection group in RFC-3339 format.
-        name:
-            The user-assigned name of the protection group.
-        object_filter:
-            ObjectFilter
-            defines which objects will be backed up.
-        organizational_unit_id:
-            The Clumio-assigned ID of the organizational unit associated with the Protection
-            Group.
-        protection_info:
-            The protection policy applied to this resource. If the resource is not
-            protected, then this field has a value of `null`.
-        protection_status:
-            The protection status of the protection group. Possible values include
-            "protected",
-            "unprotected", and "unsupported". If the protection group does not support
-            backups, then
-            this field has a value of `unsupported`.
-        regions:
-            The list of AWS regions that this protection group is linked to
-        total_backed_up_object_count:
-            Cumulative count of all unexpired objects in each backup (any new or updated
-            since
-            the last backup) that have been backed up as part of this protection group
-        total_backed_up_size_bytes:
-            Cumulative size of all unexpired objects in each backup (any new or updated
-            since
-            the last backup) that have been backed up as part of this protection group
-        version:
-            Version of the protection group. The version number is incremented every time
-            a change is made to the protection group.
+            Links:
+                Urls to pages related to the resource.
+
+            BackupStatusStats:
+                Represents the aggregated stats for backup status.
+
+            BackupTargetAwsRegion:
+                The backup target aws region associated with the protection group, empty if
+    in-region or not configured.
+
+            BackupTierStats:
+                Totalbackedupsizebytes, totalbackedupobjectcount for each backup tier.
+
+            BucketCount:
+                Number of buckets.
+
+            BucketRule:
+                `{'$in':[{'key':'environment','value':'prod'}, {'key':'hello', 'value':'world'}]}`.
+
+    +-------------------+-----------------------------+----------------------------+
+    |       field       |       rule condition        |        description         |
+    +===================+=============================+============================+
+    | aws_tag           | $eq, $not_eq, $contains,    | supports filtering by aws  |
+    |                   | $not_contains, $all,        | tag(s) using the following |
+    |                   | $not_all, $in, $not_in      | operators. for example,    |
+    |                   |                             |                            |
+    |                   |                             | {"aws_tag":{"$eq":{"key":" |
+    |                   |                             | environment",              |
+    |                   |                             | "value":"prod"}}}          |
+    |                   |                             |                            |
+    |                   |                             |                            |
+    +-------------------+-----------------------------+----------------------------+
+    | account_native_id | $eq, $in                    |                            |
+    |                   |                             | this will be deprecated    |
+    |                   |                             | and use                    |
+    |                   |                             | aws_account_native_id      |
+    |                   |                             | instead.                   |
+    |                   |                             | supports filtering by aws  |
+    |                   |                             | account(s) using the       |
+    |                   |                             | following operators. for   |
+    |                   |                             | example,                   |
+    |                   |                             |                            |
+    |                   |                             | {"account_native_id":{"$in |
+    |                   |                             | ":["111111111111"]}}       |
+    |                   |                             |                            |
+    |                   |                             |                            |
+    +-------------------+-----------------------------+----------------------------+
+    | aws_region        | $eq, $in                    | supports filtering by aws  |
+    |                   |                             | region(s) using the        |
+    |                   |                             | following operators. for   |
+    |                   |                             | example,                   |
+    |                   |                             |                            |
+    |                   |                             | {"aws_region":{"$eq":"us-  |
+    |                   |                             | west-2"}}                  |
+    |                   |                             |                            |
+    |                   |                             |                            |
+    +-------------------+-----------------------------+----------------------------+
+    .
+
+            CreatedTimestamp:
+                Creation time of the protection group in rfc-3339 format.
+
+            Description:
+                The user-assigned description of the protection group.
+
+            EarliestAvailableBackupTimestamp:
+                Timestamp of the earliest protection group backup which has not expired yet. represented in
+    rfc-3339 format. only available for read api.
+
+            Id:
+                The clumio-assigned id of the protection group.
+
+            IsBackupTargetRegionConfigured:
+                Whether the protection group already has a backup target configured by a policy, or
+    is open to be protected by an in-region or out-of-region s3 policy.
+
+            IsDeleted:
+                Determines whether the protection group is active or has been deleted. deleted protection
+    groups may be purged after some time once there are no active backups associated with it.
+
+            LastBackupTimestamp:
+                Time of the last backup in rfc-3339 format.
+
+            LastContinuousBackupTimestamp:
+                Time of the last successful continuous backup in rfc-3339 format.
+
+            ModifiedTimestamp:
+                Modified time of the protection group in rfc-3339 format.
+
+            Name:
+                The user-assigned name of the protection group.
+
+            ObjectFilter:
+                Objectfilter
+    defines which objects will be backed up.
+
+            OrganizationalUnitId:
+                The clumio-assigned id of the organizational unit associated with the protection group.
+
+            ProtectionInfo:
+                The protection policy applied to this resource. if the resource is not protected, then this field has a value of `null`.
+
+            ProtectionStats:
+                .
+
+            ProtectionStatus:
+                The protection status of the protection group. possible values include "protected",
+    "unprotected", and "unsupported". if the protection group does not support backups, then
+    this field has a value of `unsupported`.
+
+            Regions:
+                The list of aws regions that this protection group is linked to.
+
+            TotalBackedUpObjectCount:
+                Cumulative count of all unexpired objects in each backup (any new or updated since
+    the last backup) that have been backed up as part of this protection group.
+
+            TotalBackedUpSizeBytes:
+                Cumulative size of all unexpired objects in each backup (any new or updated since
+    the last backup) that have been backed up as part of this protection group.
+
+            Version:
+                Version of the protection group. the version number is incremented every time
+    a change is made to the protection group.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {
-        'embedded': '_embedded',
-        'links': '_links',
-        'backup_target_aws_region': 'backup_target_aws_region',
-        'bucket_count': 'bucket_count',
-        'bucket_rule': 'bucket_rule',
-        'compliance_stats': 'compliance_stats',
-        'created_timestamp': 'created_timestamp',
-        'description': 'description',
-        'p_id': 'id',
-        'is_backup_target_region_configured': 'is_backup_target_region_configured',
-        'is_deleted': 'is_deleted',
-        'last_backup_timestamp': 'last_backup_timestamp',
-        'last_continuous_backup_timestamp': 'last_continuous_backup_timestamp',
-        'modified_timestamp': 'modified_timestamp',
-        'name': 'name',
-        'object_filter': 'object_filter',
-        'organizational_unit_id': 'organizational_unit_id',
-        'protection_info': 'protection_info',
-        'protection_status': 'protection_status',
-        'regions': 'regions',
-        'total_backed_up_object_count': 'total_backed_up_object_count',
-        'total_backed_up_size_bytes': 'total_backed_up_size_bytes',
-        'version': 'version',
-    }
+    Embedded: protection_group_embedded_.ProtectionGroupEmbedded | None = None
+    Links: protection_group_links_.ProtectionGroupLinks | None = None
+    BackupStatusStats: backup_status_stats_.BackupStatusStats | None = None
+    BackupTargetAwsRegion: str | None = None
+    BackupTierStats: Sequence[backup_tier_stat_.BackupTierStat] | None = None
+    BucketCount: int | None = None
+    BucketRule: str | None = None
+    CreatedTimestamp: str | None = None
+    Description: str | None = None
+    EarliestAvailableBackupTimestamp: str | None = None
+    Id: str | None = None
+    IsBackupTargetRegionConfigured: bool | None = None
+    IsDeleted: bool | None = None
+    LastBackupTimestamp: str | None = None
+    LastContinuousBackupTimestamp: str | None = None
+    ModifiedTimestamp: str | None = None
+    Name: str | None = None
+    ObjectFilter: object_filter_.ObjectFilter | None = None
+    OrganizationalUnitId: str | None = None
+    ProtectionInfo: protection_info_with_rule_.ProtectionInfoWithRule | None = None
+    ProtectionStats: protection_stats_.ProtectionStats | None = None
+    ProtectionStatus: str | None = None
+    Regions: Sequence[str] | None = None
+    TotalBackedUpObjectCount: int | None = None
+    TotalBackedUpSizeBytes: int | None = None
+    Version: int | None = None
+    raw_response: Optional[requests.Response] = None
 
-    def __init__(
-        self,
-        embedded: protection_group_embedded.ProtectionGroupEmbedded = None,
-        links: protection_group_links.ProtectionGroupLinks = None,
-        backup_target_aws_region: str = None,
-        bucket_count: int = None,
-        bucket_rule: str = None,
-        compliance_stats: protection_compliance_stats_with_seeding.ProtectionComplianceStatsWithSeeding = None,
-        created_timestamp: str = None,
-        description: str = None,
-        p_id: str = None,
-        is_backup_target_region_configured: bool = None,
-        is_deleted: bool = None,
-        last_backup_timestamp: str = None,
-        last_continuous_backup_timestamp: str = None,
-        modified_timestamp: str = None,
-        name: str = None,
-        object_filter: object_filter.ObjectFilter = None,
-        organizational_unit_id: str = None,
-        protection_info: protection_info_with_rule.ProtectionInfoWithRule = None,
-        protection_status: str = None,
-        regions: Sequence[str] = None,
-        total_backed_up_object_count: int = None,
-        total_backed_up_size_bytes: int = None,
-        version: int = None,
-    ) -> None:
-        """Constructor for the ReadProtectionGroupResponse class."""
-
-        # Initialize members of the class
-        self.embedded: protection_group_embedded.ProtectionGroupEmbedded = embedded
-        self.links: protection_group_links.ProtectionGroupLinks = links
-        self.backup_target_aws_region: str = backup_target_aws_region
-        self.bucket_count: int = bucket_count
-        self.bucket_rule: str = bucket_rule
-        self.compliance_stats: (
-            protection_compliance_stats_with_seeding.ProtectionComplianceStatsWithSeeding
-        ) = compliance_stats
-        self.created_timestamp: str = created_timestamp
-        self.description: str = description
-        self.p_id: str = p_id
-        self.is_backup_target_region_configured: bool = is_backup_target_region_configured
-        self.is_deleted: bool = is_deleted
-        self.last_backup_timestamp: str = last_backup_timestamp
-        self.last_continuous_backup_timestamp: str = last_continuous_backup_timestamp
-        self.modified_timestamp: str = modified_timestamp
-        self.name: str = name
-        self.object_filter: object_filter.ObjectFilter = object_filter
-        self.organizational_unit_id: str = organizational_unit_id
-        self.protection_info: protection_info_with_rule.ProtectionInfoWithRule = protection_info
-        self.protection_status: str = protection_status
-        self.regions: Sequence[str] = regions
-        self.total_backed_up_object_count: int = total_backed_up_object_count
-        self.total_backed_up_size_bytes: int = total_backed_up_size_bytes
-        self.version: int = version
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -189,88 +201,135 @@ class ReadProtectionGroupResponse:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = '_embedded'
-        embedded = (
-            protection_group_embedded.ProtectionGroupEmbedded.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('_embedded', None)
+        val_embedded = protection_group_embedded_.ProtectionGroupEmbedded.from_dictionary(val)
 
-        key = '_links'
-        links = (
-            protection_group_links.ProtectionGroupLinks.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('_links', None)
+        val_links = protection_group_links_.ProtectionGroupLinks.from_dictionary(val)
 
-        backup_target_aws_region = dictionary.get('backup_target_aws_region')
-        bucket_count = dictionary.get('bucket_count')
-        bucket_rule = dictionary.get('bucket_rule')
-        key = 'compliance_stats'
-        compliance_stats = (
-            protection_compliance_stats_with_seeding.ProtectionComplianceStatsWithSeeding.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('backup_status_stats', None)
+        val_backup_status_stats = backup_status_stats_.BackupStatusStats.from_dictionary(val)
 
-        created_timestamp = dictionary.get('created_timestamp')
-        description = dictionary.get('description')
-        p_id = dictionary.get('id')
-        is_backup_target_region_configured = dictionary.get('is_backup_target_region_configured')
-        is_deleted = dictionary.get('is_deleted')
-        last_backup_timestamp = dictionary.get('last_backup_timestamp')
-        last_continuous_backup_timestamp = dictionary.get('last_continuous_backup_timestamp')
-        modified_timestamp = dictionary.get('modified_timestamp')
-        name = dictionary.get('name')
-        key = 'object_filter'
-        p_object_filter = (
-            object_filter.ObjectFilter.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('backup_target_aws_region', None)
+        val_backup_target_aws_region = val
 
-        organizational_unit_id = dictionary.get('organizational_unit_id')
-        key = 'protection_info'
-        protection_info = (
-            protection_info_with_rule.ProtectionInfoWithRule.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('backup_tier_stats', None)
 
-        protection_status = dictionary.get('protection_status')
-        regions = dictionary.get('regions')
-        total_backed_up_object_count = dictionary.get('total_backed_up_object_count')
-        total_backed_up_size_bytes = dictionary.get('total_backed_up_size_bytes')
-        version = dictionary.get('version')
+        val_backup_tier_stats = []
+        if val:
+            for value in val:
+                val_backup_tier_stats.append(
+                    backup_tier_stat_.BackupTierStat.from_dictionary(value)
+                )
+
+        val = dictionary.get('bucket_count', None)
+        val_bucket_count = val
+
+        val = dictionary.get('bucket_rule', None)
+        val_bucket_rule = val
+
+        val = dictionary.get('created_timestamp', None)
+        val_created_timestamp = val
+
+        val = dictionary.get('description', None)
+        val_description = val
+
+        val = dictionary.get('earliest_available_backup_timestamp', None)
+        val_earliest_available_backup_timestamp = val
+
+        val = dictionary.get('id', None)
+        val_id = val
+
+        val = dictionary.get('is_backup_target_region_configured', None)
+        val_is_backup_target_region_configured = val
+
+        val = dictionary.get('is_deleted', None)
+        val_is_deleted = val
+
+        val = dictionary.get('last_backup_timestamp', None)
+        val_last_backup_timestamp = val
+
+        val = dictionary.get('last_continuous_backup_timestamp', None)
+        val_last_continuous_backup_timestamp = val
+
+        val = dictionary.get('modified_timestamp', None)
+        val_modified_timestamp = val
+
+        val = dictionary.get('name', None)
+        val_name = val
+
+        val = dictionary.get('object_filter', None)
+        val_object_filter = object_filter_.ObjectFilter.from_dictionary(val)
+
+        val = dictionary.get('organizational_unit_id', None)
+        val_organizational_unit_id = val
+
+        val = dictionary.get('protection_info', None)
+        val_protection_info = protection_info_with_rule_.ProtectionInfoWithRule.from_dictionary(val)
+
+        val = dictionary.get('protection_stats', None)
+        val_protection_stats = protection_stats_.ProtectionStats.from_dictionary(val)
+
+        val = dictionary.get('protection_status', None)
+        val_protection_status = val
+
+        val = dictionary.get('regions', None)
+        val_regions = val
+
+        val = dictionary.get('total_backed_up_object_count', None)
+        val_total_backed_up_object_count = val
+
+        val = dictionary.get('total_backed_up_size_bytes', None)
+        val_total_backed_up_size_bytes = val
+
+        val = dictionary.get('version', None)
+        val_version = val
+
         # Return an object of this model
         return cls(
-            embedded,
-            links,
-            backup_target_aws_region,
-            bucket_count,
-            bucket_rule,
-            compliance_stats,
-            created_timestamp,
-            description,
-            p_id,
-            is_backup_target_region_configured,
-            is_deleted,
-            last_backup_timestamp,
-            last_continuous_backup_timestamp,
-            modified_timestamp,
-            name,
-            p_object_filter,
-            organizational_unit_id,
-            protection_info,
-            protection_status,
-            regions,
-            total_backed_up_object_count,
-            total_backed_up_size_bytes,
-            version,
+            val_embedded,
+            val_links,
+            val_backup_status_stats,
+            val_backup_target_aws_region,
+            val_backup_tier_stats,
+            val_bucket_count,
+            val_bucket_rule,
+            val_created_timestamp,
+            val_description,
+            val_earliest_available_backup_timestamp,
+            val_id,
+            val_is_backup_target_region_configured,
+            val_is_deleted,
+            val_last_backup_timestamp,
+            val_last_continuous_backup_timestamp,
+            val_modified_timestamp,
+            val_name,
+            val_object_filter,
+            val_organizational_unit_id,
+            val_protection_info,
+            val_protection_stats,
+            val_protection_status,
+            val_regions,
+            val_total_backed_up_object_count,
+            val_total_backed_up_size_bytes,
+            val_version,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        model_instance.raw_response = response
+        return model_instance

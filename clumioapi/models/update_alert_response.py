@@ -1,144 +1,117 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
-from clumioapi.models import alert_embedded
-from clumioapi.models import alert_links
-from clumioapi.models import alert_parent_entity
-from clumioapi.models import alert_primary_entity
-from clumioapi.models import individual_alert_details
-from clumioapi.models import rest_entity
+from clumioapi.api_helper import camel_to_snake
+from clumioapi.models import alert_embedded as alert_embedded_
+from clumioapi.models import alert_links as alert_links_
+from clumioapi.models import alert_parent_entity as alert_parent_entity_
+from clumioapi.models import alert_primary_entity as alert_primary_entity_
+from clumioapi.models import individual_alert_details as individual_alert_details_
+from clumioapi.models import rest_entity as rest_entity_
+import requests
 
 T = TypeVar('T', bound='UpdateAlertResponse')
 
 
+@dataclasses.dataclass
 class UpdateAlertResponse:
     """Implementation of the 'UpdateAlertResponse' model.
 
-    Attributes:
-        embedded:
-            Embedded responses related to the resource.
-        etag:
-            The ETag value.
-        links:
-            URLs to pages related to the resource.
-        cause:
-            The issue that generated the alert. Each cause belongs to an alert type.
-        cleared_timestamp:
-            The timestamp of when the alert was cleared, either automatically by Clumio or
-            manually by a Clumio user.
-            Represented in RFC-3339 format. If this alert has not been cleared, then this
-            field has a value of `null`.
-        consolidated_alert_id:
-            The Clumio-assigned ID of the consolidated alert associated with this individual
-            alert. Alerts are consolidated based on matching parent entity, alert type, and
-            alert cause.
-        details:
-            Additional information about the alert.
-        p_id:
-            The Clumio-assigned ID of the individual alert.
-        notes:
-            A record of user-provided information about the alert.
-        parent_entity:
-            The parent object of the primary entity associated with or affected by the
-            alert. For example, "aws_environment" is the parent entity of primary entity
-            "aws_ebs_volume".
-        primary_entity:
-            The primary object associated with or affected by the alert. Examples of primary
-            entities include "aws_connection", "aws_ebs_volume" and "vmware_vm".
-        raised_count:
-            The number of times the alert has recurred for this primary entity.
-        raised_timestamp:
-            The timestamp of when the alert was raised. Represented in RFC-3339 format.
-        severity:
-            The alert severity level. Values include "error" and "warning".
-        status:
-            The individual alert status. An individual alert that is in "active" status is
-            one that is still open and has yet to be addressed.
-            An individual alert that is in "cleared" status is one that has been cleared,
-            either automatically by Clumio or manually by a Clumio user.
-        tags:
-            A list of associated objects for the alert.
-        p_type:
-            The general alert category. Some alert types may be associated with multiple
-            causes.
-            Refer to the Alert Type table for a complete list of alert types.
-        updated_timestamp:
-            The timestamp of when the alert was last updated. Represented in RFC-3339
-            format.
-            The alert is updated whenever there is a new occurrence of the same alert within
-            the same entity.
+        Attributes:
+            Embedded:
+                Embedded responses related to the resource.
+
+            Etag:
+                The etag value.
+
+            Links:
+                Urls to pages related to the resource.
+
+            Cause:
+                The issue that generated the alert. each cause belongs to an alert type.
+
+            ClearedTimestamp:
+                The timestamp of when the alert was cleared, either automatically by clumio or manually by a clumio user.
+    represented in rfc-3339 format. if this alert has not been cleared, then this field has a value of `null`.
+
+            ConsolidatedAlertId:
+                The clumio-assigned id of the consolidated alert associated with this individual alert. alerts are consolidated based on matching parent entity, alert type, and alert cause.
+
+            Details:
+                Additional information about the alert.
+
+            Id:
+                The clumio-assigned id of the individual alert.
+
+            Notes:
+                A record of user-provided information about the alert.
+
+            ParentEntity:
+                The parent object of the primary entity associated with or affected by the alert. for example, "aws_environment" is the parent entity of primary entity "aws_ebs_volume".
+
+            PrimaryEntity:
+                The primary object associated with or affected by the alert. examples of primary entities include "aws_connection", "aws_ebs_volume".
+
+            RaisedCount:
+                The number of times the alert has recurred for this primary entity.
+
+            RaisedTimestamp:
+                The timestamp of when the alert was raised. represented in rfc-3339 format.
+
+            Severity:
+                The alert severity level. values include "error" and "warning".
+
+            Status:
+                The individual alert status. an individual alert that is in "active" status is one that is still open and has yet to be addressed.
+    an individual alert that is in "cleared" status is one that has been cleared, either automatically by clumio or manually by a clumio user.
+
+            Tags:
+                A list of associated objects for the alert.
+
+            Type:
+                The general alert category. some alert types may be associated with multiple causes.
+    refer to the alert type table for a complete list of alert types.
+
+            UpdatedTimestamp:
+                The timestamp of when the alert was last updated. represented in rfc-3339 format.
+    the alert is updated whenever there is a new occurrence of the same alert within the same entity.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {
-        'embedded': '_embedded',
-        'etag': '_etag',
-        'links': '_links',
-        'cause': 'cause',
-        'cleared_timestamp': 'cleared_timestamp',
-        'consolidated_alert_id': 'consolidated_alert_id',
-        'details': 'details',
-        'p_id': 'id',
-        'notes': 'notes',
-        'parent_entity': 'parent_entity',
-        'primary_entity': 'primary_entity',
-        'raised_count': 'raised_count',
-        'raised_timestamp': 'raised_timestamp',
-        'severity': 'severity',
-        'status': 'status',
-        'tags': 'tags',
-        'p_type': 'type',
-        'updated_timestamp': 'updated_timestamp',
-    }
+    Embedded: alert_embedded_.AlertEmbedded | None = None
+    Etag: str | None = None
+    Links: alert_links_.AlertLinks | None = None
+    Cause: str | None = None
+    ClearedTimestamp: str | None = None
+    ConsolidatedAlertId: str | None = None
+    Details: individual_alert_details_.IndividualAlertDetails | None = None
+    Id: str | None = None
+    Notes: str | None = None
+    ParentEntity: alert_parent_entity_.AlertParentEntity | None = None
+    PrimaryEntity: alert_primary_entity_.AlertPrimaryEntity | None = None
+    RaisedCount: int | None = None
+    RaisedTimestamp: str | None = None
+    Severity: str | None = None
+    Status: str | None = None
+    Tags: Sequence[rest_entity_.RestEntity] | None = None
+    Type: str | None = None
+    UpdatedTimestamp: str | None = None
+    raw_response: Optional[requests.Response] = None
 
-    def __init__(
-        self,
-        embedded: alert_embedded.AlertEmbedded = None,
-        etag: str = None,
-        links: alert_links.AlertLinks = None,
-        cause: str = None,
-        cleared_timestamp: str = None,
-        consolidated_alert_id: str = None,
-        details: individual_alert_details.IndividualAlertDetails = None,
-        p_id: str = None,
-        notes: str = None,
-        parent_entity: alert_parent_entity.AlertParentEntity = None,
-        primary_entity: alert_primary_entity.AlertPrimaryEntity = None,
-        raised_count: int = None,
-        raised_timestamp: str = None,
-        severity: str = None,
-        status: str = None,
-        tags: Sequence[rest_entity.RestEntity] = None,
-        p_type: str = None,
-        updated_timestamp: str = None,
-    ) -> None:
-        """Constructor for the UpdateAlertResponse class."""
-
-        # Initialize members of the class
-        self.embedded: alert_embedded.AlertEmbedded = embedded
-        self.etag: str = etag
-        self.links: alert_links.AlertLinks = links
-        self.cause: str = cause
-        self.cleared_timestamp: str = cleared_timestamp
-        self.consolidated_alert_id: str = consolidated_alert_id
-        self.details: individual_alert_details.IndividualAlertDetails = details
-        self.p_id: str = p_id
-        self.notes: str = notes
-        self.parent_entity: alert_parent_entity.AlertParentEntity = parent_entity
-        self.primary_entity: alert_primary_entity.AlertPrimaryEntity = primary_entity
-        self.raised_count: int = raised_count
-        self.raised_timestamp: str = raised_timestamp
-        self.severity: str = severity
-        self.status: str = status
-        self.tags: Sequence[rest_entity.RestEntity] = tags
-        self.p_type: str = p_type
-        self.updated_timestamp: str = updated_timestamp
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -149,81 +122,101 @@ class UpdateAlertResponse:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = '_embedded'
-        embedded = (
-            alert_embedded.AlertEmbedded.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('_embedded', None)
+        val_embedded = alert_embedded_.AlertEmbedded.from_dictionary(val)
 
-        etag = dictionary.get('_etag')
-        key = '_links'
-        links = (
-            alert_links.AlertLinks.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('_etag', None)
+        val_etag = val
 
-        cause = dictionary.get('cause')
-        cleared_timestamp = dictionary.get('cleared_timestamp')
-        consolidated_alert_id = dictionary.get('consolidated_alert_id')
-        key = 'details'
-        details = (
-            individual_alert_details.IndividualAlertDetails.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('_links', None)
+        val_links = alert_links_.AlertLinks.from_dictionary(val)
 
-        p_id = dictionary.get('id')
-        notes = dictionary.get('notes')
-        key = 'parent_entity'
-        parent_entity = (
-            alert_parent_entity.AlertParentEntity.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('cause', None)
+        val_cause = val
 
-        key = 'primary_entity'
-        primary_entity = (
-            alert_primary_entity.AlertPrimaryEntity.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('cleared_timestamp', None)
+        val_cleared_timestamp = val
 
-        raised_count = dictionary.get('raised_count')
-        raised_timestamp = dictionary.get('raised_timestamp')
-        severity = dictionary.get('severity')
-        status = dictionary.get('status')
-        tags = None
-        if dictionary.get('tags'):
-            tags = list()
-            for value in dictionary.get('tags'):
-                tags.append(rest_entity.RestEntity.from_dictionary(value))
+        val = dictionary.get('consolidated_alert_id', None)
+        val_consolidated_alert_id = val
 
-        p_type = dictionary.get('type')
-        updated_timestamp = dictionary.get('updated_timestamp')
+        val = dictionary.get('details', None)
+        val_details = individual_alert_details_.IndividualAlertDetails.from_dictionary(val)
+
+        val = dictionary.get('id', None)
+        val_id = val
+
+        val = dictionary.get('notes', None)
+        val_notes = val
+
+        val = dictionary.get('parent_entity', None)
+        val_parent_entity = alert_parent_entity_.AlertParentEntity.from_dictionary(val)
+
+        val = dictionary.get('primary_entity', None)
+        val_primary_entity = alert_primary_entity_.AlertPrimaryEntity.from_dictionary(val)
+
+        val = dictionary.get('raised_count', None)
+        val_raised_count = val
+
+        val = dictionary.get('raised_timestamp', None)
+        val_raised_timestamp = val
+
+        val = dictionary.get('severity', None)
+        val_severity = val
+
+        val = dictionary.get('status', None)
+        val_status = val
+
+        val = dictionary.get('tags', None)
+
+        val_tags = []
+        if val:
+            for value in val:
+                val_tags.append(rest_entity_.RestEntity.from_dictionary(value))
+
+        val = dictionary.get('type', None)
+        val_type = val
+
+        val = dictionary.get('updated_timestamp', None)
+        val_updated_timestamp = val
+
         # Return an object of this model
         return cls(
-            embedded,
-            etag,
-            links,
-            cause,
-            cleared_timestamp,
-            consolidated_alert_id,
-            details,
-            p_id,
-            notes,
-            parent_entity,
-            primary_entity,
-            raised_count,
-            raised_timestamp,
-            severity,
-            status,
-            tags,
-            p_type,
-            updated_timestamp,
+            val_embedded,
+            val_etag,
+            val_links,
+            val_cause,
+            val_cleared_timestamp,
+            val_consolidated_alert_id,
+            val_details,
+            val_id,
+            val_notes,
+            val_parent_entity,
+            val_primary_entity,
+            val_raised_count,
+            val_raised_timestamp,
+            val_severity,
+            val_status,
+            val_tags,
+            val_type,
+            val_updated_timestamp,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        model_instance.raw_response = response
+        return model_instance

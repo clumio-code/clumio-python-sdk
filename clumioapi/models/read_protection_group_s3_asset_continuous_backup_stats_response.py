@@ -1,54 +1,65 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
-from clumioapi.models import protection_group_bucket_continuous_backup_stats
-from clumioapi.models import protection_group_bucket_continuous_backup_stats_links
+from clumioapi.api_helper import camel_to_snake
+from clumioapi.models import \
+    protection_group_bucket_continuous_backup_stats as \
+    protection_group_bucket_continuous_backup_stats_
+from clumioapi.models import \
+    protection_group_bucket_continuous_backup_stats_links as \
+    protection_group_bucket_continuous_backup_stats_links_
+import requests
 
 T = TypeVar('T', bound='ReadProtectionGroupS3AssetContinuousBackupStatsResponse')
 
 
+@dataclasses.dataclass
 class ReadProtectionGroupS3AssetContinuousBackupStatsResponse:
     """Implementation of the 'ReadProtectionGroupS3AssetContinuousBackupStatsResponse' model.
 
-    Attributes:
-        links:
-            ProtectionGroupBucketContinuousBackupStatsLinks
-            URLs to pages related to the resources.
-        bins:
-            The list of continuous backup statistics grouped by the given time interval.
-        total_stats:
-            ProtectionGroupBucketContinuousBackupStats
+        Attributes:
+            Links:
+                Protectiongroupbucketcontinuousbackupstatslinks
+    urls to pages related to the resources.
+
+            Bins:
+                The list of continuous backup statistics grouped by the given time interval.
+
+            TotalStats:
+                Protectiongroupbucketcontinuousbackupstats.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {'links': '_links', 'bins': 'bins', 'total_stats': 'total_stats'}
+    Links: (
+        protection_group_bucket_continuous_backup_stats_links_.ProtectionGroupBucketContinuousBackupStatsLinks
+        | None
+    ) = None
+    Bins: (
+        Sequence[
+            protection_group_bucket_continuous_backup_stats_.ProtectionGroupBucketContinuousBackupStats
+        ]
+        | None
+    ) = None
+    TotalStats: (
+        protection_group_bucket_continuous_backup_stats_.ProtectionGroupBucketContinuousBackupStats
+        | None
+    ) = None
+    raw_response: Optional[requests.Response] = None
 
-    def __init__(
-        self,
-        links: protection_group_bucket_continuous_backup_stats_links.ProtectionGroupBucketContinuousBackupStatsLinks = None,
-        bins: Sequence[
-            protection_group_bucket_continuous_backup_stats.ProtectionGroupBucketContinuousBackupStats
-        ] = None,
-        total_stats: protection_group_bucket_continuous_backup_stats.ProtectionGroupBucketContinuousBackupStats = None,
-    ) -> None:
-        """Constructor for the ReadProtectionGroupS3AssetContinuousBackupStatsResponse class."""
-
-        # Initialize members of the class
-        self.links: (
-            protection_group_bucket_continuous_backup_stats_links.ProtectionGroupBucketContinuousBackupStatsLinks
-        ) = links
-        self.bins: Sequence[
-            protection_group_bucket_continuous_backup_stats.ProtectionGroupBucketContinuousBackupStats
-        ] = bins
-        self.total_stats: (
-            protection_group_bucket_continuous_backup_stats.ProtectionGroupBucketContinuousBackupStats
-        ) = total_stats
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -59,37 +70,49 @@ class ReadProtectionGroupS3AssetContinuousBackupStatsResponse:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = '_links'
-        links = (
-            protection_group_bucket_continuous_backup_stats_links.ProtectionGroupBucketContinuousBackupStatsLinks.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
+        val = dictionary.get('_links', None)
+        val_links = protection_group_bucket_continuous_backup_stats_links_.ProtectionGroupBucketContinuousBackupStatsLinks.from_dictionary(
+            val
         )
 
-        bins = None
-        if dictionary.get('bins'):
-            bins = list()
-            for value in dictionary.get('bins'):
-                bins.append(
-                    protection_group_bucket_continuous_backup_stats.ProtectionGroupBucketContinuousBackupStats.from_dictionary(
+        val = dictionary.get('bins', None)
+
+        val_bins = []
+        if val:
+            for value in val:
+                val_bins.append(
+                    protection_group_bucket_continuous_backup_stats_.ProtectionGroupBucketContinuousBackupStats.from_dictionary(
                         value
                     )
                 )
 
-        key = 'total_stats'
-        total_stats = (
-            protection_group_bucket_continuous_backup_stats.ProtectionGroupBucketContinuousBackupStats.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
+        val = dictionary.get('total_stats', None)
+        val_total_stats = protection_group_bucket_continuous_backup_stats_.ProtectionGroupBucketContinuousBackupStats.from_dictionary(
+            val
         )
 
         # Return an object of this model
-        return cls(links, bins, total_stats)
+        return cls(
+            val_links,
+            val_bins,
+            val_total_stats,
+        )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        model_instance.raw_response = response
+        return model_instance

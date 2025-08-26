@@ -1,40 +1,45 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
-from clumioapi.models import policy_details
+from clumioapi.api_helper import camel_to_snake
+from clumioapi.models import policy_details as policy_details_
+import requests
 
 T = TypeVar('T', bound='ClumioTopicResource')
 
 
+@dataclasses.dataclass
 class ClumioTopicResource:
     """Implementation of the 'ClumioTopicResource' model.
 
     Details for the SNS Topic
 
     Attributes:
-        policies:
+        Policies:
             "policies" stores all the policies to be attached to the topic.
-        steps:
-            "steps" refers to commands to be executed
+
+        Steps:
+            "steps" refers to commands to be executed.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {'policies': 'policies', 'steps': 'steps'}
+    Policies: Sequence[policy_details_.PolicyDetails] | None = None
+    Steps: str | None = None
 
-    def __init__(
-        self, policies: Sequence[policy_details.PolicyDetails] = None, steps: str = None
-    ) -> None:
-        """Constructor for the ClumioTopicResource class."""
-
-        # Initialize members of the class
-        self.policies: Sequence[policy_details.PolicyDetails] = policies
-        self.steps: str = steps
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -45,16 +50,36 @@ class ClumioTopicResource:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        policies = None
-        if dictionary.get('policies'):
-            policies = list()
-            for value in dictionary.get('policies'):
-                policies.append(policy_details.PolicyDetails.from_dictionary(value))
+        val = dictionary.get('policies', None)
 
-        steps = dictionary.get('steps')
+        val_policies = []
+        if val:
+            for value in val:
+                val_policies.append(policy_details_.PolicyDetails.from_dictionary(value))
+
+        val = dictionary.get('steps', None)
+        val_steps = val
+
         # Return an object of this model
-        return cls(policies, steps)
+        return cls(
+            val_policies,
+            val_steps,
+        )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

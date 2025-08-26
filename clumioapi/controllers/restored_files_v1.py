@@ -1,14 +1,16 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
-from typing import Optional, Union
+from typing import Any, Iterator, Optional, Union
+import urllib.parse
 
 from clumioapi import api_helper
 from clumioapi import configuration
 from clumioapi import sdk_version
 from clumioapi.controllers import base_controller
+from clumioapi.controllers.types import restored_files_types
 from clumioapi.exceptions import clumio_exception
 from clumioapi.models import download_shared_file_response
 from clumioapi.models import download_shared_file_v1_request
@@ -37,16 +39,17 @@ class RestoredFilesV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def list_restored_files(
-        self, limit: int = None, start: str = None, filter: str = None, **kwargs
-    ) -> Union[
-        restored_files_response.RestoredFilesResponse,
-        tuple[requests.Response, Optional[restored_files_response.RestoredFilesResponse]],
-    ]:
+        self,
+        limit: int | None = None,
+        start: str | None = None,
+        filter: restored_files_types.ListRestoredFilesV1FilterT | None = None,
+        **kwargs,
+    ) -> restored_files_response.RestoredFilesResponse:
         """Gets the list of active restored files for an asset.
 
         Args:
             limit:
-                Limits the size of the response on each page to the specified number of items.
+                Limits the size of the items returned in the response.
             start:
                 Sets the page token used to browse the collection. Leave this parameter empty to
                 get the first page.
@@ -63,7 +66,7 @@ class RestoredFilesV1Controller(base_controller.BaseController):
                 | asset_type | $eq              | Required. The type of the asset within which |
                 |            |                  | to search for files. Possible values include |
                 |            |                  | aws_ebs_volume,                              |
-                |            |                  | aws_ec2_instance, vmware_vm and              |
+                |            |                  | aws_ec2_instance, aws_ec2_instance and       |
                 |            |                  | aws_dynamodb_table.                          |
                 +------------+------------------+----------------------------------------------+
                 | asset_id   | $eq              | Required. The Clumio-assigned ID of the      |
@@ -71,51 +74,49 @@ class RestoredFilesV1Controller(base_controller.BaseController):
                 |            |                  | within which to search for files.            |
                 +------------+------------------+----------------------------------------------+
 
-        Returns:
-            requests.Response: Raw Response from the API if config.raw_response is set to True.
-            restored_files_response.RestoredFilesResponse: Response from the API.
-        Raises:
-            ClumioException: An error occured while executing the API.
-                This exception includes the HTTP response code, an error
-                message, and the HTTP body that was received in the request.
         """
+
+        def get_instance_from_response(response: requests.Response) -> Any:
+            return restored_files_response.RestoredFilesResponse.from_response(response)
 
         # Prepare query URL
         _url_path = '/restores/files'
 
-        _query_parameters = {}
-        _query_parameters = {'limit': limit, 'start': start, 'filter': filter}
+        _query_parameters: dict[str, Any] = {}
+        _query_parameters = {
+            'limit': limit,
+            'start': start,
+            'filter': filter.query_str if filter else None,
+        }
 
+        resp_instance: restored_files_response.RestoredFilesResponse
         # Execute request
+        resp: requests.Response
         try:
             resp = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
-        except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
-                return http_error.response, None
-            errors = self.client.get_error_message(http_error.response)
-            raise clumio_exception.ClumioException(
-                'Error occurred while executing list_restored_files.', errors
-            )
+        except requests.exceptions.HTTPError as e:
+            resp = e.response
 
-        if self.config.raw_response:
-            return resp, restored_files_response.RestoredFilesResponse.from_dictionary(resp.json())
-        return restored_files_response.RestoredFilesResponse.from_dictionary(resp)
+        if not resp.ok:
+            error_str = f'list_restored_files for url {urllib.parse.unquote(resp.url)} failed.'
+            raise clumio_exception.ClumioException(error_str, resp=resp)
+
+        resp_instance = get_instance_from_response(resp)
+
+        return resp_instance
 
     def restore_files(
         self,
-        embed: str = None,
-        body: restore_files_v1_request.RestoreFilesV1Request = None,
+        embed: str | None = None,
+        body: restore_files_v1_request.RestoreFilesV1Request | None = None,
         **kwargs,
-    ) -> Union[
-        restore_file_response.RestoreFileResponse,
-        tuple[requests.Response, Optional[restore_file_response.RestoreFileResponse]],
-    ]:
+    ) -> restore_file_response.RestoreFileResponse:
         """Restores one or more files from the specified backup.
 
         Args:
@@ -133,102 +134,87 @@ class RestoredFilesV1Controller(base_controller.BaseController):
 
             body:
 
-        Returns:
-            requests.Response: Raw Response from the API if config.raw_response is set to True.
-            restore_file_response.RestoreFileResponse: Response from the API.
-        Raises:
-            ClumioException: An error occured while executing the API.
-                This exception includes the HTTP response code, an error
-                message, and the HTTP body that was received in the request.
         """
+
+        def get_instance_from_response(response: requests.Response) -> Any:
+            return restore_file_response.RestoreFileResponse.from_response(response)
 
         # Prepare query URL
         _url_path = '/restores/files'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'embed': embed}
 
+        resp_instance: restore_file_response.RestoreFileResponse
         # Execute request
+        resp: requests.Response
         try:
             resp = self.client.post(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                json=api_helper.to_dictionary(body),
-                raw_response=self.config.raw_response,
+                json=body.dict() if body else None,
+                raw_response=True,
                 **kwargs,
             )
-        except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
-                return http_error.response, None
-            errors = self.client.get_error_message(http_error.response)
-            raise clumio_exception.ClumioException(
-                'Error occurred while executing restore_files.', errors
-            )
+        except requests.exceptions.HTTPError as e:
+            resp = e.response
 
-        if self.config.raw_response:
-            return resp, restore_file_response.RestoreFileResponse.from_dictionary(resp.json())
-        return restore_file_response.RestoreFileResponse.from_dictionary(resp)
+        if not resp.ok:
+            error_str = f'restore_files for url {urllib.parse.unquote(resp.url)} failed.'
+            raise clumio_exception.ClumioException(error_str, resp=resp)
+
+        resp_instance = get_instance_from_response(resp)
+
+        return resp_instance
 
     def download_shared_file(
-        self, body: download_shared_file_v1_request.DownloadSharedFileV1Request = None, **kwargs
-    ) -> Union[
-        download_shared_file_response.DownloadSharedFileResponse,
-        tuple[
-            requests.Response, Optional[download_shared_file_response.DownloadSharedFileResponse]
-        ],
-    ]:
+        self,
+        body: download_shared_file_v1_request.DownloadSharedFileV1Request | None = None,
+        **kwargs,
+    ) -> download_shared_file_response.DownloadSharedFileResponse:
         """Downloads one or more restored files, bundled into a ZIP file, that another user
         shared with you by email.
 
         Args:
             body:
 
-        Returns:
-            requests.Response: Raw Response from the API if config.raw_response is set to True.
-            download_shared_file_response.DownloadSharedFileResponse: Response from the API.
-        Raises:
-            ClumioException: An error occured while executing the API.
-                This exception includes the HTTP response code, an error
-                message, and the HTTP body that was received in the request.
         """
+
+        def get_instance_from_response(response: requests.Response) -> Any:
+            return download_shared_file_response.DownloadSharedFileResponse.from_response(response)
 
         # Prepare query URL
         _url_path = '/restores/files/_download'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
+        resp_instance: download_shared_file_response.DownloadSharedFileResponse
         # Execute request
+        resp: requests.Response
         try:
             resp = self.client.post(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                json=api_helper.to_dictionary(body),
-                raw_response=self.config.raw_response,
+                json=body.dict() if body else None,
+                raw_response=True,
                 **kwargs,
             )
-        except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
-                return http_error.response, None
-            errors = self.client.get_error_message(http_error.response)
-            raise clumio_exception.ClumioException(
-                'Error occurred while executing download_shared_file.', errors
-            )
+        except requests.exceptions.HTTPError as e:
+            resp = e.response
 
-        if self.config.raw_response:
-            return resp, download_shared_file_response.DownloadSharedFileResponse.from_dictionary(
-                resp.json()
-            )
-        return download_shared_file_response.DownloadSharedFileResponse.from_dictionary(resp)
+        if not resp.ok:
+            error_str = f'download_shared_file for url {urllib.parse.unquote(resp.url)} failed.'
+            raise clumio_exception.ClumioException(error_str, resp=resp)
 
-    def generate_restored_file_passcode(self, restored_file_id: str, **kwargs) -> Union[
-        generate_restored_file_passcode_response.GenerateRestoredFilePasscodeResponse,
-        tuple[
-            requests.Response,
-            Optional[generate_restored_file_passcode_response.GenerateRestoredFilePasscodeResponse],
-        ],
-    ]:
+        resp_instance = get_instance_from_response(resp)
+
+        return resp_instance
+
+    def generate_restored_file_passcode(
+        self, restored_file_id: str | None = None, **kwargs
+    ) -> generate_restored_file_passcode_response.GenerateRestoredFilePasscodeResponse:
         """Generates a new passcode to access restored files shared by email. A passcode is
         automatically generated when you share restored files by email. Only regenerate
         a
@@ -239,62 +225,50 @@ class RestoredFilesV1Controller(base_controller.BaseController):
             restored_file_id:
                 Performs the operation on the restored file with the specified ID. Use
                 [GET /restores/files](#operation/list-restored-files) to fetch the `id` value.
-        Returns:
-            requests.Response: Raw Response from the API if config.raw_response is set to True.
-            generate_restored_file_passcode_response.GenerateRestoredFilePasscodeResponse: Response from the API.
-        Raises:
-            ClumioException: An error occured while executing the API.
-                This exception includes the HTTP response code, an error
-                message, and the HTTP body that was received in the request.
         """
+
+        def get_instance_from_response(response: requests.Response) -> Any:
+            return generate_restored_file_passcode_response.GenerateRestoredFilePasscodeResponse.from_response(
+                response
+            )
 
         # Prepare query URL
         _url_path = '/restores/files/{restored_file_id}/_generate_passcode'
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'restored_file_id': restored_file_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
+        resp_instance: generate_restored_file_passcode_response.GenerateRestoredFilePasscodeResponse
         # Execute request
+        resp: requests.Response
         try:
             resp = self.client.post(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
-        except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
-                return http_error.response, None
-            errors = self.client.get_error_message(http_error.response)
-            raise clumio_exception.ClumioException(
-                'Error occurred while executing generate_restored_file_passcode.', errors
-            )
+        except requests.exceptions.HTTPError as e:
+            resp = e.response
 
-        if self.config.raw_response:
-            return (
-                resp,
-                generate_restored_file_passcode_response.GenerateRestoredFilePasscodeResponse.from_dictionary(
-                    resp.json()
-                ),
+        if not resp.ok:
+            error_str = (
+                f'generate_restored_file_passcode for url {urllib.parse.unquote(resp.url)} failed.'
             )
-        return generate_restored_file_passcode_response.GenerateRestoredFilePasscodeResponse.from_dictionary(
-            resp
-        )
+            raise clumio_exception.ClumioException(error_str, resp=resp)
+
+        resp_instance = get_instance_from_response(resp)
+
+        return resp_instance
 
     def share_restored_file(
         self,
-        restored_file_id: str,
-        body: share_restored_file_v1_request.ShareRestoredFileV1Request = None,
+        restored_file_id: str | None = None,
+        body: share_restored_file_v1_request.ShareRestoredFileV1Request | None = None,
         **kwargs,
-    ) -> Union[
-        share_file_restore_email_response.ShareFileRestoreEmailResponse,
-        tuple[
-            requests.Response,
-            Optional[share_file_restore_email_response.ShareFileRestoreEmailResponse],
-        ],
-    ]:
+    ) -> share_file_restore_email_response.ShareFileRestoreEmailResponse:
         """Sends a downloadable link to the specified email recipient to access restored
         files
         shared by email. Restored files are initially sent by email using
@@ -312,45 +286,95 @@ class RestoredFilesV1Controller(base_controller.BaseController):
                 [GET/restores/files](#operation/list-restored-files) to fetch the `id` value.
             body:
 
-        Returns:
-            requests.Response: Raw Response from the API if config.raw_response is set to True.
-            share_file_restore_email_response.ShareFileRestoreEmailResponse: Response from the API.
-        Raises:
-            ClumioException: An error occured while executing the API.
-                This exception includes the HTTP response code, an error
-                message, and the HTTP body that was received in the request.
         """
+
+        def get_instance_from_response(response: requests.Response) -> Any:
+            return share_file_restore_email_response.ShareFileRestoreEmailResponse.from_response(
+                response
+            )
 
         # Prepare query URL
         _url_path = '/restores/files/{restored_file_id}/_share'
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'restored_file_id': restored_file_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
+        resp_instance: share_file_restore_email_response.ShareFileRestoreEmailResponse
         # Execute request
+        resp: requests.Response
         try:
             resp = self.client.post(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                json=api_helper.to_dictionary(body),
-                raw_response=self.config.raw_response,
+                json=body.dict() if body else None,
+                raw_response=True,
                 **kwargs,
             )
-        except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
-                return http_error.response, None
-            errors = self.client.get_error_message(http_error.response)
-            raise clumio_exception.ClumioException(
-                'Error occurred while executing share_restored_file.', errors
-            )
+        except requests.exceptions.HTTPError as e:
+            resp = e.response
 
-        if self.config.raw_response:
-            return (
-                resp,
-                share_file_restore_email_response.ShareFileRestoreEmailResponse.from_dictionary(
-                    resp.json()
-                ),
+        if not resp.ok:
+            error_str = f'share_restored_file for url {urllib.parse.unquote(resp.url)} failed.'
+            raise clumio_exception.ClumioException(error_str, resp=resp)
+
+        resp_instance = get_instance_from_response(resp)
+
+        return resp_instance
+
+
+class RestoredFilesV1ControllerPaginator(base_controller.BaseController):
+    """A Controller to access Endpoints for restored-files resource with pagination."""
+
+    def __init__(self, config: configuration.Configuration) -> None:
+        super().__init__(config)
+        self.controller = RestoredFilesV1Controller(config)
+
+    def list_restored_files(
+        self,
+        limit: int | None = None,
+        start: str | None = None,
+        filter: restored_files_types.ListRestoredFilesV1FilterT | None = None,
+        **kwargs,
+    ) -> Iterator[restored_files_response.RestoredFilesResponse]:
+        """Gets the list of active restored files for an asset.
+
+        Args:
+            limit:
+                Limits the size of the items returned in the response.
+            start:
+                Sets the page token used to browse the collection. Leave this parameter empty to
+                get the first page.
+                Other pages can be traversed using HATEOAS links.
+            filter:
+                Narrows down the results to only the items that satisfy the filter criteria. The
+                following table lists the supported filter fields for this resource and the
+                filter
+                conditions that can be applied on those fields:
+
+                +------------+------------------+----------------------------------------------+
+                |   Field    | Filter Condition |                 Description                  |
+                +============+==================+==============================================+
+                | asset_type | $eq              | Required. The type of the asset within which |
+                |            |                  | to search for files. Possible values include |
+                |            |                  | aws_ebs_volume,                              |
+                |            |                  | aws_ec2_instance, aws_ec2_instance and       |
+                |            |                  | aws_dynamodb_table.                          |
+                +------------+------------------+----------------------------------------------+
+                | asset_id   | $eq              | Required. The Clumio-assigned ID of the      |
+                |            |                  | asset                                        |
+                |            |                  | within which to search for files.            |
+                +------------+------------------+----------------------------------------------+
+
+        """
+        start = start or '1'
+        while True:
+            response = self.controller.list_restored_files(
+                limit=limit, start=start, filter=filter, **kwargs
             )
-        return share_file_restore_email_response.ShareFileRestoreEmailResponse.from_dictionary(resp)
+            yield response
+            if not response.Links.Next.Href:  # type: ignore
+                break
+
+            start = str(int(start) + 1)

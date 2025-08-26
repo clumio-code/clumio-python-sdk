@@ -1,39 +1,44 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
-from clumioapi.models import grr_source
-from clumioapi.models import grr_target
+from clumioapi.api_helper import camel_to_snake
+from clumioapi.models import grr_source as grr_source_
+from clumioapi.models import grr_target as grr_target_
+import requests
 
 T = TypeVar('T', bound='RestoreRdsRecordV1Request')
 
 
+@dataclasses.dataclass
 class RestoreRdsRecordV1Request:
     """Implementation of the 'RestoreRdsRecordV1Request' model.
 
     Attributes:
-        source:
-            The RDS database backup to be queried.
-        target:
-            The query to perform on the source RDS database.
+        Source:
+            The rds database backup to be queried.
+
+        Target:
+            The query to perform on the source rds database.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {'source': 'source', 'target': 'target'}
+    Source: grr_source_.GrrSource | None = None
+    Target: grr_target_.GrrTarget | None = None
 
-    def __init__(
-        self, source: grr_source.GrrSource = None, target: grr_target.GrrTarget = None
-    ) -> None:
-        """Constructor for the RestoreRdsRecordV1Request class."""
-
-        # Initialize members of the class
-        self.source: grr_source.GrrSource = source
-        self.target: grr_target.GrrTarget = target
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -44,23 +49,32 @@ class RestoreRdsRecordV1Request:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = 'source'
-        source = (
-            grr_source.GrrSource.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('source', None)
+        val_source = grr_source_.GrrSource.from_dictionary(val)
 
-        key = 'target'
-        target = (
-            grr_target.GrrTarget.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('target', None)
+        val_target = grr_target_.GrrTarget.from_dictionary(val)
 
         # Return an object of this model
-        return cls(source, target)
+        return cls(
+            val_source,
+            val_target,
+        )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

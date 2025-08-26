@@ -1,44 +1,52 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='AwsTagModel')
 
 
+@dataclasses.dataclass
 class AwsTagModel:
     """Implementation of the 'AwsTagModel' model.
 
     A tag created through AWS console which can be applied to EBS volumes.
 
     Attributes:
-        p_id:
-            The Clumio-assigned ID of the AWS tag.
-        key:
-            The AWS-assigned tag key.
-        key_id:
-            The Clumio-assigned ID of the AWS key.
-        value:
-            The AWS-assigned tag value.
+        Id:
+            The clumio-assigned id of the aws tag.
+
+        Key:
+            The aws-assigned tag key.
+
+        KeyId:
+            The clumio-assigned id of the aws key.
+
+        Value:
+            The aws-assigned tag value.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {'p_id': 'id', 'key': 'key', 'key_id': 'key_id', 'value': 'value'}
+    Id: str | None = None
+    Key: str | None = None
+    KeyId: str | None = None
+    Value: str | None = None
 
-    def __init__(
-        self, p_id: str = None, key: str = None, key_id: str = None, value: str = None
-    ) -> None:
-        """Constructor for the AwsTagModel class."""
-
-        # Initialize members of the class
-        self.p_id: str = p_id
-        self.key: str = key
-        self.key_id: str = key_id
-        self.value: str = value
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -49,13 +57,40 @@ class AwsTagModel:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        p_id = dictionary.get('id')
-        key = dictionary.get('key')
-        key_id = dictionary.get('key_id')
-        value = dictionary.get('value')
+        val = dictionary.get('id', None)
+        val_id = val
+
+        val = dictionary.get('key', None)
+        val_key = val
+
+        val = dictionary.get('key_id', None)
+        val_key_id = val
+
+        val = dictionary.get('value', None)
+        val_value = val
+
         # Return an object of this model
-        return cls(p_id, key, key_id, value)
+        return cls(
+            val_id,
+            val_key,
+            val_key_id,
+            val_value,
+        )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

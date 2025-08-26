@@ -1,12 +1,16 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='EC2MSSQLLogBackupAdvancedSetting')
 
 
+@dataclasses.dataclass
 class EC2MSSQLLogBackupAdvancedSetting:
     """Implementation of the 'EC2MSSQLLogBackupAdvancedSetting' model.
 
@@ -15,35 +19,28 @@ class EC2MSSQLLogBackupAdvancedSetting:
     field is omitted from the response.
 
     Attributes:
-        alternative_replica:
-            The alternative replica for MSSQL log backups. This setting only applies to
-            Availability Group databases. Possible values include `"primary"`,
-            `"sync_secondary"`, and `"stop"`. If `"stop"` is provided, then backups will not
-            attempt to switch to a different replica when the preferred replica is
-            unavailable. Otherwise, recurring backups will attempt to use either the primary
-            replica or the secondary replica accordingly.
-        preferred_replica:
-            The primary preferred replica for MSSQL log backups. This setting only applies
-            to Availability Group databases. Possible values include `"primary"` and
-            `"sync_secondary"`. Recurring backup will first attempt to use either the
-            primary replica or the secondary replica accordingly.
+        AlternativeReplica:
+            The alternative replica for mssql log backups. this setting only applies to availability group databases. possible values include `"primary"`, `"sync_secondary"`, and `"stop"`. if `"stop"` is provided, then backups will not attempt to switch to a different replica when the preferred replica is unavailable. otherwise, recurring backups will attempt to use either the primary replica or the secondary replica accordingly.
+
+        PreferredReplica:
+            The primary preferred replica for mssql log backups. this setting only applies to availability group databases. possible values include `"primary"` and `"sync_secondary"`. recurring backup will first attempt to use either the primary replica or the secondary replica accordingly.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {
-        'alternative_replica': 'alternative_replica',
-        'preferred_replica': 'preferred_replica',
-    }
+    AlternativeReplica: str | None = None
+    PreferredReplica: str | None = None
 
-    def __init__(self, alternative_replica: str = None, preferred_replica: str = None) -> None:
-        """Constructor for the EC2MSSQLLogBackupAdvancedSetting class."""
-
-        # Initialize members of the class
-        self.alternative_replica: str = alternative_replica
-        self.preferred_replica: str = preferred_replica
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -54,11 +51,32 @@ class EC2MSSQLLogBackupAdvancedSetting:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        alternative_replica = dictionary.get('alternative_replica')
-        preferred_replica = dictionary.get('preferred_replica')
+        val = dictionary.get('alternative_replica', None)
+        val_alternative_replica = val
+
+        val = dictionary.get('preferred_replica', None)
+        val_preferred_replica = val
+
         # Return an object of this model
-        return cls(alternative_replica, preferred_replica)
+        return cls(
+            val_alternative_replica,
+            val_preferred_replica,
+        )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

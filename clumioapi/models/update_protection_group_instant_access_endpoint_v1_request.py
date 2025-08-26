@@ -1,37 +1,43 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='UpdateProtectionGroupInstantAccessEndpointV1Request')
 
 
+@dataclasses.dataclass
 class UpdateProtectionGroupInstantAccessEndpointV1Request:
     """Implementation of the 'UpdateProtectionGroupInstantAccessEndpointV1Request' model.
 
-    Attributes:
-        expiry_timestamp:
-            The time that this endpoint expires, in RFC-3339 format. This will revert to
-            default if no
-            state passed.
-        name:
-            The user-assigned name of the S3 instant access endpoint. This will be removed
-            if left empty.
+        Attributes:
+            ExpiryTimestamp:
+                The time that this endpoint expires, in rfc-3339 format. this will revert to default if no
+    state passed.
+
+            Name:
+                The user-assigned name of the s3 instant access endpoint. this will be removed if left empty.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {'expiry_timestamp': 'expiry_timestamp', 'name': 'name'}
+    ExpiryTimestamp: str | None = None
+    Name: str | None = None
 
-    def __init__(self, expiry_timestamp: str = None, name: str = None) -> None:
-        """Constructor for the UpdateProtectionGroupInstantAccessEndpointV1Request class."""
-
-        # Initialize members of the class
-        self.expiry_timestamp: str = expiry_timestamp
-        self.name: str = name
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -42,11 +48,32 @@ class UpdateProtectionGroupInstantAccessEndpointV1Request:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        expiry_timestamp = dictionary.get('expiry_timestamp')
-        name = dictionary.get('name')
+        val = dictionary.get('expiry_timestamp', None)
+        val_expiry_timestamp = val
+
+        val = dictionary.get('name', None)
+        val_name = val
+
         # Return an object of this model
-        return cls(expiry_timestamp, name)
+        return cls(
+            val_expiry_timestamp,
+            val_name,
+        )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

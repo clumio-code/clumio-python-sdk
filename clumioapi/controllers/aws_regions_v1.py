@@ -1,9 +1,10 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
-from typing import Optional, Union
+from typing import Any, Iterator, Optional, Union
+import urllib.parse
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -29,53 +30,81 @@ class AwsRegionsV1Controller(base_controller.BaseController):
         if config.custom_headers != None:
             self.headers.update(config.custom_headers)
 
-    def list_connection_aws_regions(self, limit: int = None, start: str = None, **kwargs) -> Union[
-        list_aws_regions_response.ListAWSRegionsResponse,
-        tuple[requests.Response, Optional[list_aws_regions_response.ListAWSRegionsResponse]],
-    ]:
+    def list_connection_aws_regions(
+        self, limit: int | None = None, start: str | None = None, **kwargs
+    ) -> list_aws_regions_response.ListAWSRegionsResponse:
         """Returns a list of valid regions for creating AWS connections
 
         Args:
             limit:
-                Limits the size of the response on each page to the specified number of items.
+                Limits the size of the items returned in the response.
             start:
                 Sets the page token used to browse the collection. Leave this parameter empty to
                 get the first page.
                 Other pages can be traversed using HATEOAS links.
-        Returns:
-            requests.Response: Raw Response from the API if config.raw_response is set to True.
-            list_aws_regions_response.ListAWSRegionsResponse: Response from the API.
-        Raises:
-            ClumioException: An error occured while executing the API.
-                This exception includes the HTTP response code, an error
-                message, and the HTTP body that was received in the request.
         """
+
+        def get_instance_from_response(response: requests.Response) -> Any:
+            return list_aws_regions_response.ListAWSRegionsResponse.from_response(response)
 
         # Prepare query URL
         _url_path = '/connections/aws/regions'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'limit': limit, 'start': start}
 
+        resp_instance: list_aws_regions_response.ListAWSRegionsResponse
         # Execute request
+        resp: requests.Response
         try:
             resp = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
-        except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
-                return http_error.response, None
-            errors = self.client.get_error_message(http_error.response)
-            raise clumio_exception.ClumioException(
-                'Error occurred while executing list_connection_aws_regions.', errors
-            )
+        except requests.exceptions.HTTPError as e:
+            resp = e.response
 
-        if self.config.raw_response:
-            return resp, list_aws_regions_response.ListAWSRegionsResponse.from_dictionary(
-                resp.json()
+        if not resp.ok:
+            error_str = (
+                f'list_connection_aws_regions for url {urllib.parse.unquote(resp.url)} failed.'
             )
-        return list_aws_regions_response.ListAWSRegionsResponse.from_dictionary(resp)
+            raise clumio_exception.ClumioException(error_str, resp=resp)
+
+        resp_instance = get_instance_from_response(resp)
+
+        return resp_instance
+
+
+class AwsRegionsV1ControllerPaginator(base_controller.BaseController):
+    """A Controller to access Endpoints for aws-regions resource with pagination."""
+
+    def __init__(self, config: configuration.Configuration) -> None:
+        super().__init__(config)
+        self.controller = AwsRegionsV1Controller(config)
+
+    def list_connection_aws_regions(
+        self, limit: int | None = None, start: str | None = None, **kwargs
+    ) -> Iterator[list_aws_regions_response.ListAWSRegionsResponse]:
+        """Returns a list of valid regions for creating AWS connections
+
+        Args:
+            limit:
+                Limits the size of the items returned in the response.
+            start:
+                Sets the page token used to browse the collection. Leave this parameter empty to
+                get the first page.
+                Other pages can be traversed using HATEOAS links.
+        """
+        start = start or '1'
+        while True:
+            response = self.controller.list_connection_aws_regions(
+                limit=limit, start=start, **kwargs
+            )
+            yield response
+            if not response.Links.Next.Href:  # type: ignore
+                break
+
+            start = str(int(start) + 1)

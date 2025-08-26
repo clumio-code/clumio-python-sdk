@@ -1,66 +1,92 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
-from clumioapi.models import object_filter
+from clumioapi.api_helper import camel_to_snake
+from clumioapi.models import object_filter as object_filter_
+import requests
 
 T = TypeVar('T', bound='UpdateProtectionGroupV1Request')
 
 
+@dataclasses.dataclass
 class UpdateProtectionGroupV1Request:
     """Implementation of the 'UpdateProtectionGroupV1Request' model.
 
-    Attributes:
-        bucket_rule:
-            The following table describes the possible conditions for a bucket to be
-            automatically added to a protection group.
+        Attributes:
+            BucketRule:
+                `{'$in':[{'key':'environment','value':'prod'}, {'key':'hello', 'value':'world'}]}`.
 
-            +---------+----------------+---------------------------------------------------+
-            |  Field  | Rule Condition |                    Description                    |
-            +=========+================+===================================================+
-            | aws_tag | $eq            | Denotes the AWS tag(s) to conditionalize on       |
-            |         |                |                                                   |
-            |         |                | {"aws_tag":{"$eq":{"key":"Environment",           |
-            |         |                | "value":"Prod"}}}                                 |
-            |         |                |                                                   |
-            |         |                |                                                   |
-            +---------+----------------+---------------------------------------------------+
-        description:
-            The user-assigned description of the protection group.
-        name:
-            The user-assigned name of the protection group.
-        object_filter:
-            ObjectFilter
-            defines which objects will be backed up.
+    +-------------------+-----------------------------+----------------------------+
+    |       field       |       rule condition        |        description         |
+    +===================+=============================+============================+
+    | aws_tag           | $eq, $not_eq, $contains,    | supports filtering by aws  |
+    |                   | $not_contains, $all,        | tag(s) using the following |
+    |                   | $not_all, $in, $not_in      | operators. for example,    |
+    |                   |                             |                            |
+    |                   |                             | {"aws_tag":{"$eq":{"key":" |
+    |                   |                             | environment",              |
+    |                   |                             | "value":"prod"}}}          |
+    |                   |                             |                            |
+    |                   |                             |                            |
+    +-------------------+-----------------------------+----------------------------+
+    | account_native_id | $eq, $in                    |                            |
+    |                   |                             | this will be deprecated    |
+    |                   |                             | and use                    |
+    |                   |                             | aws_account_native_id      |
+    |                   |                             | instead.                   |
+    |                   |                             | supports filtering by aws  |
+    |                   |                             | account(s) using the       |
+    |                   |                             | following operators. for   |
+    |                   |                             | example,                   |
+    |                   |                             |                            |
+    |                   |                             | {"account_native_id":{"$in |
+    |                   |                             | ":["111111111111"]}}       |
+    |                   |                             |                            |
+    |                   |                             |                            |
+    +-------------------+-----------------------------+----------------------------+
+    | aws_region        | $eq, $in                    | supports filtering by aws  |
+    |                   |                             | region(s) using the        |
+    |                   |                             | following operators. for   |
+    |                   |                             | example,                   |
+    |                   |                             |                            |
+    |                   |                             | {"aws_region":{"$eq":"us-  |
+    |                   |                             | west-2"}}                  |
+    |                   |                             |                            |
+    |                   |                             |                            |
+    +-------------------+-----------------------------+----------------------------+
+    .
+
+            Description:
+                The user-assigned description of the protection group.
+
+            Name:
+                The user-assigned name of the protection group.
+
+            ObjectFilter:
+                Objectfilter
+    defines which objects will be backed up.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {
-        'bucket_rule': 'bucket_rule',
-        'description': 'description',
-        'name': 'name',
-        'object_filter': 'object_filter',
-    }
+    BucketRule: str | None = None
+    Description: str | None = None
+    Name: str | None = None
+    ObjectFilter: object_filter_.ObjectFilter | None = None
 
-    def __init__(
-        self,
-        bucket_rule: str = None,
-        description: str = None,
-        name: str = None,
-        object_filter: object_filter.ObjectFilter = None,
-    ) -> None:
-        """Constructor for the UpdateProtectionGroupV1Request class."""
-
-        # Initialize members of the class
-        self.bucket_rule: str = bucket_rule
-        self.description: str = description
-        self.name: str = name
-        self.object_filter: object_filter.ObjectFilter = object_filter
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -71,19 +97,40 @@ class UpdateProtectionGroupV1Request:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        bucket_rule = dictionary.get('bucket_rule')
-        description = dictionary.get('description')
-        name = dictionary.get('name')
-        key = 'object_filter'
-        p_object_filter = (
-            object_filter.ObjectFilter.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('bucket_rule', None)
+        val_bucket_rule = val
+
+        val = dictionary.get('description', None)
+        val_description = val
+
+        val = dictionary.get('name', None)
+        val_name = val
+
+        val = dictionary.get('object_filter', None)
+        val_object_filter = object_filter_.ObjectFilter.from_dictionary(val)
 
         # Return an object of this model
-        return cls(bucket_rule, description, name, p_object_filter)
+        return cls(
+            val_bucket_rule,
+            val_description,
+            val_name,
+            val_object_filter,
+        )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

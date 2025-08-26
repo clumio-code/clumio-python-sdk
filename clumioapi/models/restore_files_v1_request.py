@@ -1,51 +1,49 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
-from clumioapi.models import file_restore_source
-from clumioapi.models import file_restore_target
+from clumioapi.api_helper import camel_to_snake
+from clumioapi.models import file_restore_source as file_restore_source_
+from clumioapi.models import file_restore_target as file_restore_target_
+import requests
 
 T = TypeVar('T', bound='RestoreFilesV1Request')
 
 
+@dataclasses.dataclass
 class RestoreFilesV1Request:
     """Implementation of the 'RestoreFilesV1Request' model.
 
-    Attributes:
-        source:
-            The files to be restored and from which backup they are to be restored from.
-        target:
-            The destination information for the file level restore, representing the access
-            option
-            for the restored file. Users can access the restored file by direct download or
-            by
-            email. The direct download (`direct_download`) option allows users to directly
-            download
-            the restored file from the Clumio UI. The email (`email`) option allows users to
-            access
-            the restored file using a downloadable link they receive by email. If a target
-            is not
-            specified, then `target` defaults to `direct_download`.
+        Attributes:
+            Source:
+                The files to be restored and from which backup they are to be restored from.
+
+            Target:
+                The destination information for the file level restore, representing the access option
+    for the restored file. users can access the restored file by direct download or by
+    email. the direct download (`direct_download`) option allows users to directly download
+    the restored file from the clumio ui. the email (`email`) option allows users to access
+    the restored file using a downloadable link they receive by email. if a target is not
+    specified, then `target` defaults to `direct_download`.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {'source': 'source', 'target': 'target'}
+    Source: file_restore_source_.FileRestoreSource | None = None
+    Target: file_restore_target_.FileRestoreTarget | None = None
 
-    def __init__(
-        self,
-        source: file_restore_source.FileRestoreSource = None,
-        target: file_restore_target.FileRestoreTarget = None,
-    ) -> None:
-        """Constructor for the RestoreFilesV1Request class."""
-
-        # Initialize members of the class
-        self.source: file_restore_source.FileRestoreSource = source
-        self.target: file_restore_target.FileRestoreTarget = target
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -56,23 +54,32 @@ class RestoreFilesV1Request:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = 'source'
-        source = (
-            file_restore_source.FileRestoreSource.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('source', None)
+        val_source = file_restore_source_.FileRestoreSource.from_dictionary(val)
 
-        key = 'target'
-        target = (
-            file_restore_target.FileRestoreTarget.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('target', None)
+        val_target = file_restore_target_.FileRestoreTarget.from_dictionary(val)
 
         # Return an object of this model
-        return cls(source, target)
+        return cls(
+            val_source,
+            val_target,
+        )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

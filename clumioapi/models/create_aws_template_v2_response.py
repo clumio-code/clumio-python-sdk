@@ -1,66 +1,66 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
-from clumioapi.models import categorised_resources
-from clumioapi.models import template_configuration_v2
-from clumioapi.models import template_links
+from clumioapi.api_helper import camel_to_snake
+from clumioapi.models import categorised_resources as categorised_resources_
+from clumioapi.models import template_configuration_v2 as template_configuration_v2_
+from clumioapi.models import template_links as template_links_
+import requests
 
 T = TypeVar('T', bound='CreateAWSTemplateV2Response')
 
 
+@dataclasses.dataclass
 class CreateAWSTemplateV2Response:
     """Implementation of the 'CreateAWSTemplateV2Response' model.
 
     Attributes:
-        links:
-            URLs to pages related to the resource.
-        cloudformation_url:
-            The latest available URL for the template.
-        config:
-            The configuration of the given template
-        deployable_cloudformation_url:
-            The latest available URL for the deployable template.
-        resources:
-            Categorised Resources, based on the generated template, to be created manually
-            by the user
-        terraform_url:
-            The latest available URL for the terraform template.
+        Links:
+            Urls to pages related to the resource.
+
+        CloudformationUrl:
+            The latest available url for the template.
+
+        Config:
+            The configuration of the given template.
+
+        DeployableCloudformationUrl:
+            The latest available url for the deployable template.
+
+        GroupToken:
+            Ignore.
+
+        Resources:
+            Categorised resources, based on the generated template, to be created manually by the user.
+
+        TerraformUrl:
+            The latest available url for the terraform template.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {
-        'links': '_links',
-        'cloudformation_url': 'cloudformation_url',
-        'config': 'config',
-        'deployable_cloudformation_url': 'deployable_cloudformation_url',
-        'resources': 'resources',
-        'terraform_url': 'terraform_url',
-    }
+    Links: template_links_.TemplateLinks | None = None
+    CloudformationUrl: str | None = None
+    Config: template_configuration_v2_.TemplateConfigurationV2 | None = None
+    DeployableCloudformationUrl: str | None = None
+    GroupToken: str | None = None
+    Resources: categorised_resources_.CategorisedResources | None = None
+    TerraformUrl: str | None = None
+    raw_response: Optional[requests.Response] = None
 
-    def __init__(
-        self,
-        links: template_links.TemplateLinks = None,
-        cloudformation_url: str = None,
-        config: template_configuration_v2.TemplateConfigurationV2 = None,
-        deployable_cloudformation_url: str = None,
-        resources: categorised_resources.CategorisedResources = None,
-        terraform_url: str = None,
-    ) -> None:
-        """Constructor for the CreateAWSTemplateV2Response class."""
-
-        # Initialize members of the class
-        self.links: template_links.TemplateLinks = links
-        self.cloudformation_url: str = cloudformation_url
-        self.config: template_configuration_v2.TemplateConfigurationV2 = config
-        self.deployable_cloudformation_url: str = deployable_cloudformation_url
-        self.resources: categorised_resources.CategorisedResources = resources
-        self.terraform_url: str = terraform_url
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -71,40 +71,53 @@ class CreateAWSTemplateV2Response:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = '_links'
-        links = (
-            template_links.TemplateLinks.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('_links', None)
+        val_links = template_links_.TemplateLinks.from_dictionary(val)
 
-        cloudformation_url = dictionary.get('cloudformation_url')
-        key = 'config'
-        config = (
-            template_configuration_v2.TemplateConfigurationV2.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('cloudformation_url', None)
+        val_cloudformation_url = val
 
-        deployable_cloudformation_url = dictionary.get('deployable_cloudformation_url')
-        key = 'resources'
-        resources = (
-            categorised_resources.CategorisedResources.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('config', None)
+        val_config = template_configuration_v2_.TemplateConfigurationV2.from_dictionary(val)
 
-        terraform_url = dictionary.get('terraform_url')
+        val = dictionary.get('deployable_cloudformation_url', None)
+        val_deployable_cloudformation_url = val
+
+        val = dictionary.get('group_token', None)
+        val_group_token = val
+
+        val = dictionary.get('resources', None)
+        val_resources = categorised_resources_.CategorisedResources.from_dictionary(val)
+
+        val = dictionary.get('terraform_url', None)
+        val_terraform_url = val
+
         # Return an object of this model
         return cls(
-            links,
-            cloudformation_url,
-            config,
-            deployable_cloudformation_url,
-            resources,
-            terraform_url,
+            val_links,
+            val_cloudformation_url,
+            val_config,
+            val_deployable_cloudformation_url,
+            val_group_token,
+            val_resources,
+            val_terraform_url,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        model_instance.raw_response = response
+        return model_instance

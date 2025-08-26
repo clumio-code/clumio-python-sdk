@@ -1,15 +1,20 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
-from clumioapi.models import rds_resource_restore_source_air_gap_options
-from clumioapi.models import rds_resource_restore_source_pitr_options
+from clumioapi.api_helper import camel_to_snake
+from clumioapi.models import \
+    rds_resource_restore_source_air_gap_options as rds_resource_restore_source_air_gap_options_
+from clumioapi.models import \
+    rds_resource_restore_source_pitr_options as rds_resource_restore_source_pitr_options_
+import requests
 
 T = TypeVar('T', bound='RdsResourceRestoreSource')
 
 
+@dataclasses.dataclass
 class RdsResourceRestoreSource:
     """Implementation of the 'RdsResourceRestoreSource' model.
 
@@ -17,32 +22,32 @@ class RdsResourceRestoreSource:
     should be set.
 
     Attributes:
-        backup:
-            The parameters for initiating an RDS restore from a backup.
-        snapshot:
-            The parameters for initiating an RDS restore from a snapshot.
+        Backup:
+            The parameters for initiating an rds restore from a backup.
+
+        Snapshot:
+            The parameters for initiating an rds restore from a snapshot.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {'backup': 'backup', 'snapshot': 'snapshot'}
+    Backup: (
+        rds_resource_restore_source_air_gap_options_.RdsResourceRestoreSourceAirGapOptions | None
+    ) = None
+    Snapshot: (
+        rds_resource_restore_source_pitr_options_.RdsResourceRestoreSourcePitrOptions | None
+    ) = None
 
-    def __init__(
-        self,
-        backup: rds_resource_restore_source_air_gap_options.RdsResourceRestoreSourceAirGapOptions = None,
-        snapshot: rds_resource_restore_source_pitr_options.RdsResourceRestoreSourcePitrOptions = None,
-    ) -> None:
-        """Constructor for the RdsResourceRestoreSource class."""
-
-        # Initialize members of the class
-        self.backup: (
-            rds_resource_restore_source_air_gap_options.RdsResourceRestoreSourceAirGapOptions
-        ) = backup
-        self.snapshot: (
-            rds_resource_restore_source_pitr_options.RdsResourceRestoreSourcePitrOptions
-        ) = snapshot
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -53,27 +58,36 @@ class RdsResourceRestoreSource:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = 'backup'
-        backup = (
-            rds_resource_restore_source_air_gap_options.RdsResourceRestoreSourceAirGapOptions.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
+        val = dictionary.get('backup', None)
+        val_backup = rds_resource_restore_source_air_gap_options_.RdsResourceRestoreSourceAirGapOptions.from_dictionary(
+            val
         )
 
-        key = 'snapshot'
-        snapshot = (
-            rds_resource_restore_source_pitr_options.RdsResourceRestoreSourcePitrOptions.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
+        val = dictionary.get('snapshot', None)
+        val_snapshot = rds_resource_restore_source_pitr_options_.RdsResourceRestoreSourcePitrOptions.from_dictionary(
+            val
         )
 
         # Return an object of this model
-        return cls(backup, snapshot)
+        return cls(
+            val_backup,
+            val_snapshot,
+        )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

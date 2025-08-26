@@ -1,73 +1,67 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
-from clumioapi.models import s3_instant_access_source_pitr_options
-from clumioapi.models import source_object_filters
+from clumioapi.api_helper import camel_to_snake
+from clumioapi.models import \
+    s3_instant_access_source_pitr_options as s3_instant_access_source_pitr_options_
+from clumioapi.models import source_object_filters as source_object_filters_
+import requests
 
 T = TypeVar('T', bound='CostEstimatesProtectionGroupInstantAccessEndpointV1Request')
 
 
+@dataclasses.dataclass
 class CostEstimatesProtectionGroupInstantAccessEndpointV1Request:
     """Implementation of the 'CostEstimatesProtectionGroupInstantAccessEndpointV1Request' model.
 
-    Attributes:
-        backup_id:
-            The Clumio-assigned ID of the protection group S3 asset backup or protection
-            group backup to
-            be restored. Use the endpoints
-            [GET /backups/protection-groups/s3-assets](#operation/list-backup-protection-
-            group-s3-assets)
-            for protection group S3 asset backup, and
-            [GET /backups/protection-groups](#operation/list-backup-protection-groups)
-            for protection group backups to fetch valid values.
-            Note that only one of either `backup_id` or `pitr` must be provided.
-        is_sync:
-            Whether to wait for the operation to complete.
-        object_filters:
-            Search for or restore only objects that pass the source object filter.
-        pitr:
-            The parameters to initiate a point-in-time creation of S3 instant access
-            endpoint.
-            Note that only one of either `backup_id` or `pitr` must be provided.
-        protection_group_s3_asset_id:
-            Clumio-assigned ID of protection group S3 asset, representing the
-            bucket within the protection group to restore from. Use the
-            [GET /datasources/protection-groups/s3-assets](#operation/list-protection-
-            group-s3-assets)
-            endpoint to fetch valid values.
+        Attributes:
+            BackupId:
+                The clumio-assigned id of the protection group s3 asset backup or protection group backup to
+    be restored. use the endpoints
+    [get /backups/protection-groups/s3-assets](#operation/list-backup-protection-group-s3-assets)
+    for protection group s3 asset backup, and
+    [get /backups/protection-groups](#operation/list-backup-protection-groups)
+    for protection group backups to fetch valid values.
+    note that only one of either `backup_id` or `pitr` must be provided.
+
+            IsSync:
+                Whether to wait for the operation to complete.
+
+            ObjectFilters:
+                Search for or restore only objects that pass the source object filter.
+
+            Pitr:
+                The parameters to initiate a point-in-time creation of s3 instant access endpoint.
+    note that only one of either `backup_id` or `pitr` must be provided.
+
+            ProtectionGroupS3AssetId:
+                Clumio-assigned id of protection group s3 asset, representing the
+    bucket within the protection group to restore from. use the
+    [get /datasources/protection-groups/s3-assets](#operation/list-protection-group-s3-assets)
+    endpoint to fetch valid values.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {
-        'backup_id': 'backup_id',
-        'is_sync': 'is_sync',
-        'object_filters': 'object_filters',
-        'pitr': 'pitr',
-        'protection_group_s3_asset_id': 'protection_group_s3_asset_id',
-    }
+    BackupId: str | None = None
+    IsSync: bool | None = None
+    ObjectFilters: source_object_filters_.SourceObjectFilters | None = None
+    Pitr: s3_instant_access_source_pitr_options_.S3InstantAccessSourcePitrOptions | None = None
+    ProtectionGroupS3AssetId: str | None = None
 
-    def __init__(
-        self,
-        backup_id: str = None,
-        is_sync: bool = None,
-        object_filters: source_object_filters.SourceObjectFilters = None,
-        pitr: s3_instant_access_source_pitr_options.S3InstantAccessSourcePitrOptions = None,
-        protection_group_s3_asset_id: str = None,
-    ) -> None:
-        """Constructor for the CostEstimatesProtectionGroupInstantAccessEndpointV1Request class."""
-
-        # Initialize members of the class
-        self.backup_id: str = backup_id
-        self.is_sync: bool = is_sync
-        self.object_filters: source_object_filters.SourceObjectFilters = object_filters
-        self.pitr: s3_instant_access_source_pitr_options.S3InstantAccessSourcePitrOptions = pitr
-        self.protection_group_s3_asset_id: str = protection_group_s3_asset_id
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -78,28 +72,48 @@ class CostEstimatesProtectionGroupInstantAccessEndpointV1Request:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        backup_id = dictionary.get('backup_id')
-        is_sync = dictionary.get('is_sync')
-        key = 'object_filters'
-        object_filters = (
-            source_object_filters.SourceObjectFilters.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('backup_id', None)
+        val_backup_id = val
 
-        key = 'pitr'
-        pitr = (
-            s3_instant_access_source_pitr_options.S3InstantAccessSourcePitrOptions.from_dictionary(
-                dictionary.get(key)
+        val = dictionary.get('is_sync', None)
+        val_is_sync = val
+
+        val = dictionary.get('object_filters', None)
+        val_object_filters = source_object_filters_.SourceObjectFilters.from_dictionary(val)
+
+        val = dictionary.get('pitr', None)
+        val_pitr = (
+            s3_instant_access_source_pitr_options_.S3InstantAccessSourcePitrOptions.from_dictionary(
+                val
             )
-            if dictionary.get(key)
-            else None
         )
 
-        protection_group_s3_asset_id = dictionary.get('protection_group_s3_asset_id')
+        val = dictionary.get('protection_group_s3_asset_id', None)
+        val_protection_group_s3_asset_id = val
+
         # Return an object of this model
-        return cls(backup_id, is_sync, object_filters, pitr, protection_group_s3_asset_id)
+        return cls(
+            val_backup_id,
+            val_is_sync,
+            val_object_filters,
+            val_pitr,
+            val_protection_group_s3_asset_id,
+        )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

@@ -1,58 +1,56 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
-from clumioapi.models import hateoas_first_link
-from clumioapi.models import hateoas_link
-from clumioapi.models import hateoas_next_link
-from clumioapi.models import hateoas_self_link
+from clumioapi.api_helper import camel_to_snake
+from clumioapi.models import hateoas_first_link as hateoas_first_link_
+from clumioapi.models import hateoas_link as hateoas_link_
+from clumioapi.models import hateoas_next_link as hateoas_next_link_
+from clumioapi.models import hateoas_self_link as hateoas_self_link_
+import requests
 
 T = TypeVar('T', bound='PolicyListLinks')
 
 
+@dataclasses.dataclass
 class PolicyListLinks:
     """Implementation of the 'PolicyListLinks' model.
 
     URLs to pages related to the resource.
 
     Attributes:
-        first:
-            The HATEOAS link to the first page of results.
-        p_next:
-            The HATEOAS link to the next page of results.
-        p_self:
-            The HATEOAS link to this resource.
-        create_policy_definition:
-            A resource-specific HATEOAS link.
+        First:
+            The hateoas link to the first page of results.
+
+        Next:
+            The hateoas link to the next page of results.
+
+        Self:
+            The hateoas link to this resource.
+
+        CreatePolicyDefinition:
+            A resource-specific hateoas link.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {
-        'first': '_first',
-        'p_next': '_next',
-        'p_self': '_self',
-        'create_policy_definition': 'create-policy-definition',
-    }
+    First: hateoas_first_link_.HateoasFirstLink | None = None
+    Next: hateoas_next_link_.HateoasNextLink | None = None
+    Self: hateoas_self_link_.HateoasSelfLink | None = None
+    CreatePolicyDefinition: hateoas_link_.HateoasLink | None = None
 
-    def __init__(
-        self,
-        first: hateoas_first_link.HateoasFirstLink = None,
-        p_next: hateoas_next_link.HateoasNextLink = None,
-        p_self: hateoas_self_link.HateoasSelfLink = None,
-        create_policy_definition: hateoas_link.HateoasLink = None,
-    ) -> None:
-        """Constructor for the PolicyListLinks class."""
-
-        # Initialize members of the class
-        self.first: hateoas_first_link.HateoasFirstLink = first
-        self.p_next: hateoas_next_link.HateoasNextLink = p_next
-        self.p_self: hateoas_self_link.HateoasSelfLink = p_self
-        self.create_policy_definition: hateoas_link.HateoasLink = create_policy_definition
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -63,37 +61,40 @@ class PolicyListLinks:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = '_first'
-        first = (
-            hateoas_first_link.HateoasFirstLink.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('_first', None)
+        val_first = hateoas_first_link_.HateoasFirstLink.from_dictionary(val)
 
-        key = '_next'
-        p_next = (
-            hateoas_next_link.HateoasNextLink.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('_next', None)
+        val_next = hateoas_next_link_.HateoasNextLink.from_dictionary(val)
 
-        key = '_self'
-        p_self = (
-            hateoas_self_link.HateoasSelfLink.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('_self', None)
+        val_self = hateoas_self_link_.HateoasSelfLink.from_dictionary(val)
 
-        key = 'create-policy-definition'
-        create_policy_definition = (
-            hateoas_link.HateoasLink.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('create-policy-definition', None)
+        val_create_policy_definition = hateoas_link_.HateoasLink.from_dictionary(val)
 
         # Return an object of this model
-        return cls(first, p_next, p_self, create_policy_definition)
+        return cls(
+            val_first,
+            val_next,
+            val_self,
+            val_create_policy_definition,
+        )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

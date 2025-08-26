@@ -1,42 +1,44 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
-from clumioapi.models import ec2_restore_source
-from clumioapi.models import ec2_restore_target
+from clumioapi.api_helper import camel_to_snake
+from clumioapi.models import ec2_restore_source as ec2_restore_source_
+from clumioapi.models import ec2_restore_target as ec2_restore_target_
+import requests
 
 T = TypeVar('T', bound='RestoreAwsEc2InstanceV1Request')
 
 
+@dataclasses.dataclass
 class RestoreAwsEc2InstanceV1Request:
     """Implementation of the 'RestoreAwsEc2InstanceV1Request' model.
 
     Attributes:
-        source:
-            The EC2 instance backup to be restored.
-        target:
-            The target configuration per EC2 restore type. Only one of these fields should
-            be set.
+        Source:
+            The ec2 instance backup to be restored.
+
+        Target:
+            The target configuration per ec2 restore type. only one of these fields should be set.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {'source': 'source', 'target': 'target'}
+    Source: ec2_restore_source_.EC2RestoreSource | None = None
+    Target: ec2_restore_target_.EC2RestoreTarget | None = None
 
-    def __init__(
-        self,
-        source: ec2_restore_source.EC2RestoreSource = None,
-        target: ec2_restore_target.EC2RestoreTarget = None,
-    ) -> None:
-        """Constructor for the RestoreAwsEc2InstanceV1Request class."""
-
-        # Initialize members of the class
-        self.source: ec2_restore_source.EC2RestoreSource = source
-        self.target: ec2_restore_target.EC2RestoreTarget = target
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -47,23 +49,32 @@ class RestoreAwsEc2InstanceV1Request:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = 'source'
-        source = (
-            ec2_restore_source.EC2RestoreSource.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('source', None)
+        val_source = ec2_restore_source_.EC2RestoreSource.from_dictionary(val)
 
-        key = 'target'
-        target = (
-            ec2_restore_target.EC2RestoreTarget.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('target', None)
+        val_target = ec2_restore_target_.EC2RestoreTarget.from_dictionary(val)
 
         # Return an object of this model
-        return cls(source, target)
+        return cls(
+            val_source,
+            val_target,
+        )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

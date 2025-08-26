@@ -1,40 +1,48 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='ListFileVersionsHateoasLink')
 
 
+@dataclasses.dataclass
 class ListFileVersionsHateoasLink:
     """Implementation of the 'ListFileVersionsHateoasLink' model.
 
     A HATEOAS link to the file versions associated with this resource.
 
     Attributes:
-        href:
-            The URI for the referenced operation.
-        templated:
-            Determines whether the "href" link is a URI template. If set to `true`, the
-            "href" link is a URI template.
-        p_type:
-            The HTTP method to be used with the "href" link for the referenced operation.
+        Href:
+            The uri for the referenced operation.
+
+        Templated:
+            Determines whether the "href" link is a uri template. if set to `true`, the "href" link is a uri template.
+
+        Type:
+            The http method to be used with the "href" link for the referenced operation.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {'href': 'href', 'templated': 'templated', 'p_type': 'type'}
+    Href: str | None = None
+    Templated: bool | None = None
+    Type: str | None = None
 
-    def __init__(self, href: str = None, templated: bool = None, p_type: str = None) -> None:
-        """Constructor for the ListFileVersionsHateoasLink class."""
-
-        # Initialize members of the class
-        self.href: str = href
-        self.templated: bool = templated
-        self.p_type: str = p_type
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -45,12 +53,36 @@ class ListFileVersionsHateoasLink:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        href = dictionary.get('href')
-        templated = dictionary.get('templated')
-        p_type = dictionary.get('type')
+        val = dictionary.get('href', None)
+        val_href = val
+
+        val = dictionary.get('templated', None)
+        val_templated = val
+
+        val = dictionary.get('type', None)
+        val_type = val
+
         # Return an object of this model
-        return cls(href, templated, p_type)
+        return cls(
+            val_href,
+            val_templated,
+            val_type,
+        )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

@@ -1,12 +1,16 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='PolicyEmbedded')
 
 
+@dataclasses.dataclass
 class PolicyEmbedded:
     """Implementation of the 'PolicyEmbedded' model.
 
@@ -14,35 +18,24 @@ class PolicyEmbedded:
     resource,as defined by the embeddable link specified.
 
     Attributes:
-        read_policy_aws_ebs_volumes_compliance_stats:
-            Embeds the EBS compliance statistics into the response.
-        read_policy_vmware_vms_compliance_stats:
-            Embeds the VM compliance statisticss into the response.
+        ReadPolicyAwsEbsVolumesProtectionStats:
+            Embeds the ebs protection statistics into the response.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {
-        'read_policy_aws_ebs_volumes_compliance_stats': 'read-policy-aws-ebs-volumes-compliance-stats',
-        'read_policy_vmware_vms_compliance_stats': 'read-policy-vmware-vms-compliance-stats',
-    }
+    ReadPolicyAwsEbsVolumesProtectionStats: object | None = None
 
-    def __init__(
-        self,
-        read_policy_aws_ebs_volumes_compliance_stats: object = None,
-        read_policy_vmware_vms_compliance_stats: object = None,
-    ) -> None:
-        """Constructor for the PolicyEmbedded class."""
-
-        # Initialize members of the class
-        self.read_policy_aws_ebs_volumes_compliance_stats: object = (
-            read_policy_aws_ebs_volumes_compliance_stats
-        )
-        self.read_policy_vmware_vms_compliance_stats: object = (
-            read_policy_vmware_vms_compliance_stats
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
         )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -53,17 +46,28 @@ class PolicyEmbedded:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        read_policy_aws_ebs_volumes_compliance_stats = dictionary.get(
-            'read-policy-aws-ebs-volumes-compliance-stats'
-        )
-        read_policy_vmware_vms_compliance_stats = dictionary.get(
-            'read-policy-vmware-vms-compliance-stats'
-        )
+        val = dictionary.get('read-policy-aws-ebs-volumes-protection-stats', None)
+        val_read_policy_aws_ebs_volumes_protection_stats = val
+
         # Return an object of this model
         return cls(
-            read_policy_aws_ebs_volumes_compliance_stats, read_policy_vmware_vms_compliance_stats
+            val_read_policy_aws_ebs_volumes_protection_stats,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

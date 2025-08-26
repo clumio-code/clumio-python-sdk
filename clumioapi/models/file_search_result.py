@@ -1,52 +1,53 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
-from clumioapi.models import list_file_versions_hateoas_links
+from clumioapi.api_helper import camel_to_snake
+from clumioapi.models import list_file_versions_hateoas_links as list_file_versions_hateoas_links_
+import requests
 
 T = TypeVar('T', bound='FileSearchResult')
 
 
+@dataclasses.dataclass
 class FileSearchResult:
     """Implementation of the 'FileSearchResult' model.
 
-    Attributes:
-        links:
-            URLs to pages related to the resource.
-        path:
-            The full file path.
-        search_result_id:
-            The Clumio-assigned ID representing a collection of one or more versions of the
-            same
-            file backed up at different times. This ID cannot be used to restore the
-            file. To restore the file, use the
-            [GET /backups/files/search/{search_result_id}/versions](#operation/list-file-
-            versions)
-            endpoint to retrieve particular versions of this file that can be restored.
-            Then, use the backup ID, filesystem ID, and file path as parameters for the
-            [POST /restores/files](#operation/restore-files) endpoint.
+        Attributes:
+            Links:
+                Urls to pages related to the resource.
+
+            Path:
+                The full file path.
+
+            SearchResultId:
+                The clumio-assigned id representing a collection of one or more versions of the same
+    file backed up at different times. this id cannot be used to restore the
+    file. to restore the file, use the
+    [get /backups/files/search/{search_result_id}/versions](#operation/list-file-versions)
+    endpoint to retrieve particular versions of this file that can be restored.
+    then, use the backup id, filesystem id, and file path as parameters for the
+    [post /restores/files](#operation/restore-files) endpoint.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {'links': '_links', 'path': 'path', 'search_result_id': 'search_result_id'}
+    Links: list_file_versions_hateoas_links_.ListFileVersionsHateoasLinks | None = None
+    Path: str | None = None
+    SearchResultId: str | None = None
 
-    def __init__(
-        self,
-        links: list_file_versions_hateoas_links.ListFileVersionsHateoasLinks = None,
-        path: str = None,
-        search_result_id: str = None,
-    ) -> None:
-        """Constructor for the FileSearchResult class."""
-
-        # Initialize members of the class
-        self.links: list_file_versions_hateoas_links.ListFileVersionsHateoasLinks = links
-        self.path: str = path
-        self.search_result_id: str = search_result_id
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -57,20 +58,38 @@ class FileSearchResult:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = '_links'
-        links = (
-            list_file_versions_hateoas_links.ListFileVersionsHateoasLinks.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
+        val = dictionary.get('_links', None)
+        val_links = list_file_versions_hateoas_links_.ListFileVersionsHateoasLinks.from_dictionary(
+            val
         )
 
-        path = dictionary.get('path')
-        search_result_id = dictionary.get('search_result_id')
+        val = dictionary.get('path', None)
+        val_path = val
+
+        val = dictionary.get('search_result_id', None)
+        val_search_result_id = val
+
         # Return an object of this model
-        return cls(links, path, search_result_id)
+        return cls(
+            val_links,
+            val_path,
+            val_search_result_id,
+        )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

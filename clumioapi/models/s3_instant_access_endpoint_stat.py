@@ -1,12 +1,16 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='S3InstantAccessEndpointStat')
 
 
+@dataclasses.dataclass
 class S3InstantAccessEndpointStat:
     """Implementation of the 'S3InstantAccessEndpointStat' model.
 
@@ -14,27 +18,32 @@ class S3InstantAccessEndpointStat:
     endpoint.S3InstantAccessEndpointStat swagger: model S3InstantAccessEndpointStat
 
     Attributes:
-        count:
+        Count:
             The unit counts of the metric.
-        name:
+
+        Name:
             The name of the metric.
-        unit:
+
+        Unit:
             Unit of the metric.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {'count': 'count', 'name': 'name', 'unit': 'unit'}
+    Count: int | None = None
+    Name: str | None = None
+    Unit: str | None = None
 
-    def __init__(self, count: int = None, name: str = None, unit: str = None) -> None:
-        """Constructor for the S3InstantAccessEndpointStat class."""
-
-        # Initialize members of the class
-        self.count: int = count
-        self.name: str = name
-        self.unit: str = unit
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -45,12 +54,36 @@ class S3InstantAccessEndpointStat:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        count = dictionary.get('count')
-        name = dictionary.get('name')
-        unit = dictionary.get('unit')
+        val = dictionary.get('count', None)
+        val_count = val
+
+        val = dictionary.get('name', None)
+        val_name = val
+
+        val = dictionary.get('unit', None)
+        val_unit = val
+
         # Return an object of this model
-        return cls(count, name, unit)
+        return cls(
+            val_count,
+            val_name,
+            val_unit,
+        )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

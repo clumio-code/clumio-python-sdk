@@ -1,39 +1,46 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='ConnectionRegion')
 
 
+@dataclasses.dataclass
 class ConnectionRegion:
     """Implementation of the 'ConnectionRegion' model.
 
     Attributes:
-        p_id:
-            The ID of the aws region.
-        is_data_plane_region:
-            Boolean that notes which regions can be designated as targets
-        name:
-            Name is a user friendly name of the AWS region.
+        Id:
+            The id of the aws region.
+
+        IsDataPlaneRegion:
+            Boolean that notes which regions can be designated as targets.
+
+        Name:
+            Name is a user friendly name of the aws region.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {'p_id': 'id', 'is_data_plane_region': 'is_data_plane_region', 'name': 'name'}
+    Id: str | None = None
+    IsDataPlaneRegion: bool | None = None
+    Name: str | None = None
 
-    def __init__(
-        self, p_id: str = None, is_data_plane_region: bool = None, name: str = None
-    ) -> None:
-        """Constructor for the ConnectionRegion class."""
-
-        # Initialize members of the class
-        self.p_id: str = p_id
-        self.is_data_plane_region: bool = is_data_plane_region
-        self.name: str = name
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -44,12 +51,36 @@ class ConnectionRegion:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        p_id = dictionary.get('id')
-        is_data_plane_region = dictionary.get('is_data_plane_region')
-        name = dictionary.get('name')
+        val = dictionary.get('id', None)
+        val_id = val
+
+        val = dictionary.get('is_data_plane_region', None)
+        val_is_data_plane_region = val
+
+        val = dictionary.get('name', None)
+        val_name = val
+
         # Return an object of this model
-        return cls(p_id, is_data_plane_region, name)
+        return cls(
+            val_id,
+            val_is_data_plane_region,
+            val_name,
+        )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

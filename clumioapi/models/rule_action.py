@@ -1,35 +1,41 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
-from clumioapi.models import assign_policy_action
+from clumioapi.api_helper import camel_to_snake
+from clumioapi.models import assign_policy_action as assign_policy_action_
+import requests
 
 T = TypeVar('T', bound='RuleAction')
 
 
+@dataclasses.dataclass
 class RuleAction:
     """Implementation of the 'RuleAction' model.
 
     An action to be applied subject to the rule criteria.
 
     Attributes:
-        assign_policy:
+        AssignPolicy:
             Apply a policy to assets.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {'assign_policy': 'assign_policy'}
+    AssignPolicy: assign_policy_action_.AssignPolicyAction | None = None
 
-    def __init__(self, assign_policy: assign_policy_action.AssignPolicyAction = None) -> None:
-        """Constructor for the RuleAction class."""
-
-        # Initialize members of the class
-        self.assign_policy: assign_policy_action.AssignPolicyAction = assign_policy
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -40,16 +46,28 @@ class RuleAction:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = 'assign_policy'
-        assign_policy = (
-            assign_policy_action.AssignPolicyAction.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('assign_policy', None)
+        val_assign_policy = assign_policy_action_.AssignPolicyAction.from_dictionary(val)
 
         # Return an object of this model
-        return cls(assign_policy)
+        return cls(
+            val_assign_policy,
+        )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

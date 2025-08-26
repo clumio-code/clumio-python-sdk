@@ -1,56 +1,54 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
-from clumioapi.models import hateoas_link
-from clumioapi.models import hateoas_self_link
+from clumioapi.api_helper import camel_to_snake
+from clumioapi.models import hateoas_link as hateoas_link_
+from clumioapi.models import hateoas_self_link as hateoas_self_link_
+import requests
 
 T = TypeVar('T', bound='OrganizationalUnitLinks')
 
 
+@dataclasses.dataclass
 class OrganizationalUnitLinks:
     """Implementation of the 'OrganizationalUnitLinks' model.
 
     URLs to pages related to the resource.
 
     Attributes:
-        p_self:
-            The HATEOAS link to this resource.
-        delete_organizational_unit:
-            A resource-specific HATEOAS link.
-        patch_organizational_unit:
-            A resource-specific HATEOAS link.
-        read_task:
-            A resource-specific HATEOAS link.
+        Self:
+            The hateoas link to this resource.
+
+        DeleteOrganizationalUnit:
+            A resource-specific hateoas link.
+
+        PatchOrganizationalUnit:
+            A resource-specific hateoas link.
+
+        ReadTask:
+            A resource-specific hateoas link.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {
-        'p_self': '_self',
-        'delete_organizational_unit': 'delete-organizational-unit',
-        'patch_organizational_unit': 'patch-organizational-unit',
-        'read_task': 'read-task',
-    }
+    Self: hateoas_self_link_.HateoasSelfLink | None = None
+    DeleteOrganizationalUnit: hateoas_link_.HateoasLink | None = None
+    PatchOrganizationalUnit: hateoas_link_.HateoasLink | None = None
+    ReadTask: hateoas_link_.HateoasLink | None = None
 
-    def __init__(
-        self,
-        p_self: hateoas_self_link.HateoasSelfLink = None,
-        delete_organizational_unit: hateoas_link.HateoasLink = None,
-        patch_organizational_unit: hateoas_link.HateoasLink = None,
-        read_task: hateoas_link.HateoasLink = None,
-    ) -> None:
-        """Constructor for the OrganizationalUnitLinks class."""
-
-        # Initialize members of the class
-        self.p_self: hateoas_self_link.HateoasSelfLink = p_self
-        self.delete_organizational_unit: hateoas_link.HateoasLink = delete_organizational_unit
-        self.patch_organizational_unit: hateoas_link.HateoasLink = patch_organizational_unit
-        self.read_task: hateoas_link.HateoasLink = read_task
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -61,37 +59,40 @@ class OrganizationalUnitLinks:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = '_self'
-        p_self = (
-            hateoas_self_link.HateoasSelfLink.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('_self', None)
+        val_self = hateoas_self_link_.HateoasSelfLink.from_dictionary(val)
 
-        key = 'delete-organizational-unit'
-        delete_organizational_unit = (
-            hateoas_link.HateoasLink.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('delete-organizational-unit', None)
+        val_delete_organizational_unit = hateoas_link_.HateoasLink.from_dictionary(val)
 
-        key = 'patch-organizational-unit'
-        patch_organizational_unit = (
-            hateoas_link.HateoasLink.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('patch-organizational-unit', None)
+        val_patch_organizational_unit = hateoas_link_.HateoasLink.from_dictionary(val)
 
-        key = 'read-task'
-        read_task = (
-            hateoas_link.HateoasLink.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('read-task', None)
+        val_read_task = hateoas_link_.HateoasLink.from_dictionary(val)
 
         # Return an object of this model
-        return cls(p_self, delete_organizational_unit, patch_organizational_unit, read_task)
+        return cls(
+            val_self,
+            val_delete_organizational_unit,
+            val_patch_organizational_unit,
+            val_read_task,
+        )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

@@ -1,57 +1,54 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
-from clumioapi.models import aws_tag_common_model
+from clumioapi.api_helper import camel_to_snake
+from clumioapi.models import aws_tag_common_model as aws_tag_common_model_
+import requests
 
 T = TypeVar('T', bound='EC2RestoreEbsBlockDeviceMapping')
 
 
+@dataclasses.dataclass
 class EC2RestoreEbsBlockDeviceMapping:
     """Implementation of the 'EC2RestoreEbsBlockDeviceMapping' model.
 
-    Attributes:
-        kms_key_native_id:
-            The AWS-assigned ID for a customer managed KMS key under which the
-            EBS volume is encrypted.
-        name:
-            The device name where the EBS volume is attached to the instance, needed by
-            instance_restore_target and ami_restore_target restore type and by
-            volumes_restore_target
-            when target_instance_native_id is provided.
-        tags:
-            The AWS tags to be applied to the volume.
-        volume_native_id:
-            The AWS-assigned ID of the backed-up volume.
+        Attributes:
+            KmsKeyNativeId:
+                The aws-assigned id for a customer managed kms key under which the
+    ebs volume is encrypted.
+
+            Name:
+                The device name where the ebs volume is attached to the instance, needed by
+    instance_restore_target and ami_restore_target restore type and by volumes_restore_target
+    when target_instance_native_id is provided.
+
+            Tags:
+                The aws tags to be applied to the volume.
+
+            VolumeNativeId:
+                The aws-assigned id of the backed-up volume.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {
-        'kms_key_native_id': 'kms_key_native_id',
-        'name': 'name',
-        'tags': 'tags',
-        'volume_native_id': 'volume_native_id',
-    }
+    KmsKeyNativeId: str | None = None
+    Name: str | None = None
+    Tags: Sequence[aws_tag_common_model_.AwsTagCommonModel] | None = None
+    VolumeNativeId: str | None = None
 
-    def __init__(
-        self,
-        kms_key_native_id: str = None,
-        name: str = None,
-        tags: Sequence[aws_tag_common_model.AwsTagCommonModel] = None,
-        volume_native_id: str = None,
-    ) -> None:
-        """Constructor for the EC2RestoreEbsBlockDeviceMapping class."""
-
-        # Initialize members of the class
-        self.kms_key_native_id: str = kms_key_native_id
-        self.name: str = name
-        self.tags: Sequence[aws_tag_common_model.AwsTagCommonModel] = tags
-        self.volume_native_id: str = volume_native_id
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -62,18 +59,44 @@ class EC2RestoreEbsBlockDeviceMapping:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        kms_key_native_id = dictionary.get('kms_key_native_id')
-        name = dictionary.get('name')
-        tags = None
-        if dictionary.get('tags'):
-            tags = list()
-            for value in dictionary.get('tags'):
-                tags.append(aws_tag_common_model.AwsTagCommonModel.from_dictionary(value))
+        val = dictionary.get('kms_key_native_id', None)
+        val_kms_key_native_id = val
 
-        volume_native_id = dictionary.get('volume_native_id')
+        val = dictionary.get('name', None)
+        val_name = val
+
+        val = dictionary.get('tags', None)
+
+        val_tags = []
+        if val:
+            for value in val:
+                val_tags.append(aws_tag_common_model_.AwsTagCommonModel.from_dictionary(value))
+
+        val = dictionary.get('volume_native_id', None)
+        val_volume_native_id = val
+
         # Return an object of this model
-        return cls(kms_key_native_id, name, tags, volume_native_id)
+        return cls(
+            val_kms_key_native_id,
+            val_name,
+            val_tags,
+            val_volume_native_id,
+        )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

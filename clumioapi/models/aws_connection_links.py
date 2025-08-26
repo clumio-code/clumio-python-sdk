@@ -1,51 +1,50 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
-from clumioapi.models import hateoas_link
-from clumioapi.models import hateoas_self_link
+from clumioapi.api_helper import camel_to_snake
+from clumioapi.models import hateoas_link as hateoas_link_
+from clumioapi.models import hateoas_self_link as hateoas_self_link_
+import requests
 
 T = TypeVar('T', bound='AWSConnectionLinks')
 
 
+@dataclasses.dataclass
 class AWSConnectionLinks:
     """Implementation of the 'AWSConnectionLinks' model.
 
     URLs to pages related to the resource.
 
     Attributes:
-        p_self:
-            The HATEOAS link to this resource.
-        delete_connection_aws:
-            A resource-specific HATEOAS link.
-        read_organizational_unit:
-            A resource-specific HATEOAS link.
+        Self:
+            The hateoas link to this resource.
+
+        DeleteConnectionAws:
+            A resource-specific hateoas link.
+
+        ReadOrganizationalUnit:
+            A resource-specific hateoas link.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {
-        'p_self': '_self',
-        'delete_connection_aws': 'delete-connection-aws',
-        'read_organizational_unit': 'read-organizational-unit',
-    }
+    Self: hateoas_self_link_.HateoasSelfLink | None = None
+    DeleteConnectionAws: hateoas_link_.HateoasLink | None = None
+    ReadOrganizationalUnit: hateoas_link_.HateoasLink | None = None
 
-    def __init__(
-        self,
-        p_self: hateoas_self_link.HateoasSelfLink = None,
-        delete_connection_aws: hateoas_link.HateoasLink = None,
-        read_organizational_unit: hateoas_link.HateoasLink = None,
-    ) -> None:
-        """Constructor for the AWSConnectionLinks class."""
-
-        # Initialize members of the class
-        self.p_self: hateoas_self_link.HateoasSelfLink = p_self
-        self.delete_connection_aws: hateoas_link.HateoasLink = delete_connection_aws
-        self.read_organizational_unit: hateoas_link.HateoasLink = read_organizational_unit
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -56,30 +55,36 @@ class AWSConnectionLinks:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = '_self'
-        p_self = (
-            hateoas_self_link.HateoasSelfLink.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('_self', None)
+        val_self = hateoas_self_link_.HateoasSelfLink.from_dictionary(val)
 
-        key = 'delete-connection-aws'
-        delete_connection_aws = (
-            hateoas_link.HateoasLink.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('delete-connection-aws', None)
+        val_delete_connection_aws = hateoas_link_.HateoasLink.from_dictionary(val)
 
-        key = 'read-organizational-unit'
-        read_organizational_unit = (
-            hateoas_link.HateoasLink.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('read-organizational-unit', None)
+        val_read_organizational_unit = hateoas_link_.HateoasLink.from_dictionary(val)
 
         # Return an object of this model
-        return cls(p_self, delete_connection_aws, read_organizational_unit)
+        return cls(
+            val_self,
+            val_delete_connection_aws,
+            val_read_organizational_unit,
+        )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

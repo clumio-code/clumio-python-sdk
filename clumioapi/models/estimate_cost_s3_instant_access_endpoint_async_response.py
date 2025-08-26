@@ -1,51 +1,58 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
-from clumioapi.models import estimate_cost_s3_instant_access_endpoint_async_response_links
+from clumioapi.api_helper import camel_to_snake
+from clumioapi.models import \
+    estimate_cost_s3_instant_access_endpoint_async_response_links as \
+    estimate_cost_s3_instant_access_endpoint_async_response_links_
+import requests
 
 T = TypeVar('T', bound='EstimateCostS3InstantAccessEndpointAsyncResponse')
 
 
+@dataclasses.dataclass
 class EstimateCostS3InstantAccessEndpointAsyncResponse:
     """Implementation of the 'EstimateCostS3InstantAccessEndpointAsyncResponse' model.
 
-    Success (Async)
+        Success (Async)
 
-    Attributes:
-        links:
-            URLs to pages related to the resource.
-        estimate_id:
-            The identifier for the requested estimate which is used to fetch results.
-        task_id:
-            The Clumio-assigned ID of the task created by this restore request.
-            The progress of the task can be monitored using the
-            `GET /tasks/{task_id}` endpoint.
-            Note that this field is given only for async request.
+        Attributes:
+            Links:
+                Urls to pages related to the resource.
+
+            EstimateId:
+                The identifier for the requested estimate which is used to fetch results.
+
+            TaskId:
+                The clumio-assigned id of the task created by this restore request.
+    the progress of the task can be monitored using the
+    `get /tasks/{task_id}` endpoint.
+    note that this field is given only for async request.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {'links': '_links', 'estimate_id': 'estimate_id', 'task_id': 'task_id'}
+    Links: (
+        estimate_cost_s3_instant_access_endpoint_async_response_links_.EstimateCostS3InstantAccessEndpointAsyncResponseLinks
+        | None
+    ) = None
+    EstimateId: str | None = None
+    TaskId: str | None = None
+    raw_response: Optional[requests.Response] = None
 
-    def __init__(
-        self,
-        links: estimate_cost_s3_instant_access_endpoint_async_response_links.EstimateCostS3InstantAccessEndpointAsyncResponseLinks = None,
-        estimate_id: str = None,
-        task_id: str = None,
-    ) -> None:
-        """Constructor for the EstimateCostS3InstantAccessEndpointAsyncResponse class."""
-
-        # Initialize members of the class
-        self.links: (
-            estimate_cost_s3_instant_access_endpoint_async_response_links.EstimateCostS3InstantAccessEndpointAsyncResponseLinks
-        ) = links
-        self.estimate_id: str = estimate_id
-        self.task_id: str = task_id
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -56,20 +63,39 @@ class EstimateCostS3InstantAccessEndpointAsyncResponse:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = '_links'
-        links = (
-            estimate_cost_s3_instant_access_endpoint_async_response_links.EstimateCostS3InstantAccessEndpointAsyncResponseLinks.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
+        val = dictionary.get('_links', None)
+        val_links = estimate_cost_s3_instant_access_endpoint_async_response_links_.EstimateCostS3InstantAccessEndpointAsyncResponseLinks.from_dictionary(
+            val
         )
 
-        estimate_id = dictionary.get('estimate_id')
-        task_id = dictionary.get('task_id')
+        val = dictionary.get('estimate_id', None)
+        val_estimate_id = val
+
+        val = dictionary.get('task_id', None)
+        val_task_id = val
+
         # Return an object of this model
-        return cls(links, estimate_id, task_id)
+        return cls(
+            val_links,
+            val_estimate_id,
+            val_task_id,
+        )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        model_instance.raw_response = response
+        return model_instance

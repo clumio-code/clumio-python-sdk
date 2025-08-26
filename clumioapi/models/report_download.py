@@ -1,77 +1,70 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='ReportDownload')
 
 
+@dataclasses.dataclass
 class ReportDownload:
     """Implementation of the 'ReportDownload' model.
 
     Attributes:
-        download_link:
-            The link to the actual CSV report.
-        end_timestamp:
+        DownloadLink:
+            The link to the actual csv report.
+
+        EndTimestamp:
             The time when the request was completed.
-        expiration_timestamp:
-            The time when this report CSV will expire and not be available for download.
-        file_name:
-            The name of CSV file.
-        filters:
+
+        ExpirationTimestamp:
+            The time when this report csv will expire and not be available for download.
+
+        FileName:
+            The name of csv file.
+
+        Filters:
             The filters applied to the report when download was initiated.
-        p_id:
+
+        Id:
             The id of the report that uniquely identifies the report.
-        start_timestamp:
+
+        StartTimestamp:
             The time when the request was made.
-        task_id:
-            The Clumio-assigned ID of the task which generated the restored file.
-        p_type:
-            The type of report this CSV Download is associated with.
-            The possible values include "activity" and "compliance".
+
+        TaskId:
+            The clumio-assigned id of the task which generated the restored file.
+
+        Type:
+            ["activity"].
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {
-        'download_link': 'download_link',
-        'end_timestamp': 'end_timestamp',
-        'expiration_timestamp': 'expiration_timestamp',
-        'file_name': 'file_name',
-        'filters': 'filters',
-        'p_id': 'id',
-        'start_timestamp': 'start_timestamp',
-        'task_id': 'task_id',
-        'p_type': 'type',
-    }
+    DownloadLink: str | None = None
+    EndTimestamp: str | None = None
+    ExpirationTimestamp: str | None = None
+    FileName: str | None = None
+    Filters: str | None = None
+    Id: str | None = None
+    StartTimestamp: str | None = None
+    TaskId: str | None = None
+    Type: str | None = None
 
-    def __init__(
-        self,
-        download_link: str = None,
-        end_timestamp: str = None,
-        expiration_timestamp: str = None,
-        file_name: str = None,
-        filters: str = None,
-        p_id: str = None,
-        start_timestamp: str = None,
-        task_id: str = None,
-        p_type: str = None,
-    ) -> None:
-        """Constructor for the ReportDownload class."""
-
-        # Initialize members of the class
-        self.download_link: str = download_link
-        self.end_timestamp: str = end_timestamp
-        self.expiration_timestamp: str = expiration_timestamp
-        self.file_name: str = file_name
-        self.filters: str = filters
-        self.p_id: str = p_id
-        self.start_timestamp: str = start_timestamp
-        self.task_id: str = task_id
-        self.p_type: str = p_type
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -82,28 +75,60 @@ class ReportDownload:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        download_link = dictionary.get('download_link')
-        end_timestamp = dictionary.get('end_timestamp')
-        expiration_timestamp = dictionary.get('expiration_timestamp')
-        file_name = dictionary.get('file_name')
-        filters = dictionary.get('filters')
-        p_id = dictionary.get('id')
-        start_timestamp = dictionary.get('start_timestamp')
-        task_id = dictionary.get('task_id')
-        p_type = dictionary.get('type')
+        val = dictionary.get('download_link', None)
+        val_download_link = val
+
+        val = dictionary.get('end_timestamp', None)
+        val_end_timestamp = val
+
+        val = dictionary.get('expiration_timestamp', None)
+        val_expiration_timestamp = val
+
+        val = dictionary.get('file_name', None)
+        val_file_name = val
+
+        val = dictionary.get('filters', None)
+        val_filters = val
+
+        val = dictionary.get('id', None)
+        val_id = val
+
+        val = dictionary.get('start_timestamp', None)
+        val_start_timestamp = val
+
+        val = dictionary.get('task_id', None)
+        val_task_id = val
+
+        val = dictionary.get('type', None)
+        val_type = val
+
         # Return an object of this model
         return cls(
-            download_link,
-            end_timestamp,
-            expiration_timestamp,
-            file_name,
-            filters,
-            p_id,
-            start_timestamp,
-            task_id,
-            p_type,
+            val_download_link,
+            val_end_timestamp,
+            val_expiration_timestamp,
+            val_file_name,
+            val_filters,
+            val_id,
+            val_start_timestamp,
+            val_task_id,
+            val_type,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

@@ -1,39 +1,48 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='OptionSetting')
 
 
+@dataclasses.dataclass
 class OptionSetting:
     """Implementation of the 'OptionSetting' model.
 
     OptionSetting denotes the Model for OptionSetting
 
     Attributes:
-        description:
-            The AWS-assigned description of the RDS option setting.
-        name:
-            The AWS-assigned name of the RDS option setting.
-        value:
-            Value of the option setting
+        Description:
+            The aws-assigned description of the rds option setting.
+
+        Name:
+            The aws-assigned name of the rds option setting.
+
+        Value:
+            Value of the option setting.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {'description': 'description', 'name': 'name', 'value': 'value'}
+    Description: str | None = None
+    Name: str | None = None
+    Value: str | None = None
 
-    def __init__(self, description: str = None, name: str = None, value: str = None) -> None:
-        """Constructor for the OptionSetting class."""
-
-        # Initialize members of the class
-        self.description: str = description
-        self.name: str = name
-        self.value: str = value
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -44,12 +53,36 @@ class OptionSetting:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        description = dictionary.get('description')
-        name = dictionary.get('name')
-        value = dictionary.get('value')
+        val = dictionary.get('description', None)
+        val_description = val
+
+        val = dictionary.get('name', None)
+        val_name = val
+
+        val = dictionary.get('value', None)
+        val_value = val
+
         # Return an object of this model
-        return cls(description, name, value)
+        return cls(
+            val_description,
+            val_name,
+            val_value,
+        )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

@@ -1,57 +1,59 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
-from clumioapi.models import estimate_cost_s3_instant_access_endpoint_sync_response_links
+from clumioapi.api_helper import camel_to_snake
+from clumioapi.models import \
+    estimate_cost_s3_instant_access_endpoint_sync_response_links as \
+    estimate_cost_s3_instant_access_endpoint_sync_response_links_
+import requests
 
 T = TypeVar('T', bound='EstimateCostS3InstantAccessEndpointSyncResponse')
 
 
+@dataclasses.dataclass
 class EstimateCostS3InstantAccessEndpointSyncResponse:
     """Implementation of the 'EstimateCostS3InstantAccessEndpointSyncResponse' model.
 
     Success (Sync)
 
     Attributes:
-        links:
-            URLs to pages related to the resource.
-        estimated_cost:
+        Links:
+            Urls to pages related to the resource.
+
+        EstimatedCost:
             The estimated cost for instant access endpoint.
-        total_object_count:
+
+        TotalObjectCount:
             The count of objects to be restored.
-        total_object_size:
+
+        TotalObjectSize:
             The total size in bytes of objects to be restored.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {
-        'links': '_links',
-        'estimated_cost': 'estimated_cost',
-        'total_object_count': 'total_object_count',
-        'total_object_size': 'total_object_size',
-    }
+    Links: (
+        estimate_cost_s3_instant_access_endpoint_sync_response_links_.EstimateCostS3InstantAccessEndpointSyncResponseLinks
+        | None
+    ) = None
+    EstimatedCost: float | None = None
+    TotalObjectCount: int | None = None
+    TotalObjectSize: int | None = None
+    raw_response: Optional[requests.Response] = None
 
-    def __init__(
-        self,
-        links: estimate_cost_s3_instant_access_endpoint_sync_response_links.EstimateCostS3InstantAccessEndpointSyncResponseLinks = None,
-        estimated_cost: float = None,
-        total_object_count: int = None,
-        total_object_size: int = None,
-    ) -> None:
-        """Constructor for the EstimateCostS3InstantAccessEndpointSyncResponse class."""
-
-        # Initialize members of the class
-        self.links: (
-            estimate_cost_s3_instant_access_endpoint_sync_response_links.EstimateCostS3InstantAccessEndpointSyncResponseLinks
-        ) = links
-        self.estimated_cost: float = estimated_cost
-        self.total_object_count: int = total_object_count
-        self.total_object_size: int = total_object_size
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -62,21 +64,43 @@ class EstimateCostS3InstantAccessEndpointSyncResponse:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = '_links'
-        links = (
-            estimate_cost_s3_instant_access_endpoint_sync_response_links.EstimateCostS3InstantAccessEndpointSyncResponseLinks.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
+        val = dictionary.get('_links', None)
+        val_links = estimate_cost_s3_instant_access_endpoint_sync_response_links_.EstimateCostS3InstantAccessEndpointSyncResponseLinks.from_dictionary(
+            val
         )
 
-        estimated_cost = dictionary.get('estimated_cost')
-        total_object_count = dictionary.get('total_object_count')
-        total_object_size = dictionary.get('total_object_size')
+        val = dictionary.get('estimated_cost', None)
+        val_estimated_cost = val
+
+        val = dictionary.get('total_object_count', None)
+        val_total_object_count = val
+
+        val = dictionary.get('total_object_size', None)
+        val_total_object_size = val
+
         # Return an object of this model
-        return cls(links, estimated_cost, total_object_count, total_object_size)
+        return cls(
+            val_links,
+            val_estimated_cost,
+            val_total_object_count,
+            val_total_object_size,
+        )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        model_instance.raw_response = response
+        return model_instance

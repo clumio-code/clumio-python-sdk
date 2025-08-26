@@ -1,11 +1,13 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
+import contextlib
 from typing import Any, Mapping, Optional
 
 from clumioapi import api_helper
 from clumioapi import configuration
+import requests
 import rest3client
 
 
@@ -18,9 +20,7 @@ class BaseController:
             A user can use his own custom HttpClient as well.
     """
 
-    client: rest3client.RESTclient = None
-
-    global_headers: Mapping[str, Any] = {'user-agent': 'CLUMIOSDK'}
+    client: rest3client.RESTclient
 
     def __init__(self, config: configuration.Configuration) -> None:
         """Constructor of the class."""

@@ -1,37 +1,41 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
-from clumioapi.models import ec2_mssql_database_pitr_interval
+from clumioapi.api_helper import camel_to_snake
+from clumioapi.models import ec2_mssql_database_pitr_interval as ec2_mssql_database_pitr_interval_
+import requests
 
 T = TypeVar('T', bound='EC2MssqlDatabasePitrIntervalListEmbedded')
 
 
+@dataclasses.dataclass
 class EC2MssqlDatabasePitrIntervalListEmbedded:
     """Implementation of the 'EC2MssqlDatabasePitrIntervalListEmbedded' model.
 
     Embedded responses related to the resource.
 
     Attributes:
-        items:
+        Items:
             A collection of requested items.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {'items': 'items'}
+    Items: Sequence[ec2_mssql_database_pitr_interval_.EC2MssqlDatabasePitrInterval] | None = None
 
-    def __init__(
-        self, items: Sequence[ec2_mssql_database_pitr_interval.EC2MssqlDatabasePitrInterval] = None
-    ) -> None:
-        """Constructor for the EC2MssqlDatabasePitrIntervalListEmbedded class."""
-
-        # Initialize members of the class
-        self.items: Sequence[ec2_mssql_database_pitr_interval.EC2MssqlDatabasePitrInterval] = items
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -42,19 +46,36 @@ class EC2MssqlDatabasePitrIntervalListEmbedded:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        items = None
-        if dictionary.get('items'):
-            items = list()
-            for value in dictionary.get('items'):
-                items.append(
-                    ec2_mssql_database_pitr_interval.EC2MssqlDatabasePitrInterval.from_dictionary(
+        val = dictionary.get('items', None)
+
+        val_items = []
+        if val:
+            for value in val:
+                val_items.append(
+                    ec2_mssql_database_pitr_interval_.EC2MssqlDatabasePitrInterval.from_dictionary(
                         value
                     )
                 )
 
         # Return an object of this model
-        return cls(items)
+        return cls(
+            val_items,
+        )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

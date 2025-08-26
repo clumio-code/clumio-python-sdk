@@ -1,54 +1,51 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='ClumioRuleResource')
 
 
+@dataclasses.dataclass
 class ClumioRuleResource:
     """Implementation of the 'ClumioRuleResource' model.
 
-    Attributes:
-        description:
-            "description" is optional
-        event_pattern:
-            "event_pattern" has stringified JSON blob. The user has to JSONify it and then
-            paste
-            the JSONified blob in aws console while creating the rule.
-        steps:
-            "steps" refers to commands to be executed
-        targets:
-            "targets" is a string that essentially stores the target for the rule. It
-            generally is an ARN.
+        Attributes:
+            Description:
+                "description" is optional.
+
+            EventPattern:
+                "event_pattern" has stringified json blob. the user has to jsonify it and then paste
+    the jsonified blob in aws console while creating the rule.
+
+            Steps:
+                "steps" refers to commands to be executed.
+
+            Targets:
+                "targets" is a string that essentially stores the target for the rule. it generally is an arn.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {
-        'description': 'description',
-        'event_pattern': 'event_pattern',
-        'steps': 'steps',
-        'targets': 'targets',
-    }
+    Description: str | None = None
+    EventPattern: object | None = None
+    Steps: str | None = None
+    Targets: Sequence[object] | None = None
 
-    def __init__(
-        self,
-        description: str = None,
-        event_pattern: object = None,
-        steps: str = None,
-        targets: Sequence[object] = None,
-    ) -> None:
-        """Constructor for the ClumioRuleResource class."""
-
-        # Initialize members of the class
-        self.description: str = description
-        self.event_pattern: object = event_pattern
-        self.steps: str = steps
-        self.targets: Sequence[object] = targets
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -59,13 +56,40 @@ class ClumioRuleResource:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        description = dictionary.get('description')
-        event_pattern = dictionary.get('event_pattern')
-        steps = dictionary.get('steps')
-        targets = dictionary.get('targets')
+        val = dictionary.get('description', None)
+        val_description = val
+
+        val = dictionary.get('event_pattern', None)
+        val_event_pattern = val
+
+        val = dictionary.get('steps', None)
+        val_steps = val
+
+        val = dictionary.get('targets', None)
+        val_targets = val
+
         # Return an object of this model
-        return cls(description, event_pattern, steps, targets)
+        return cls(
+            val_description,
+            val_event_pattern,
+            val_steps,
+            val_targets,
+        )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

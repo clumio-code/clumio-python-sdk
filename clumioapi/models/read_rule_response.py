@@ -1,158 +1,118 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
-from clumioapi.models import rule_action
-from clumioapi.models import rule_embedded
-from clumioapi.models import rule_links
-from clumioapi.models import rule_priority
+from clumioapi.api_helper import camel_to_snake
+from clumioapi.models import rule_action as rule_action_
+from clumioapi.models import rule_embedded as rule_embedded_
+from clumioapi.models import rule_links as rule_links_
+from clumioapi.models import rule_priority as rule_priority_
+import requests
 
 T = TypeVar('T', bound='ReadRuleResponse')
 
 
+@dataclasses.dataclass
 class ReadRuleResponse:
     """Implementation of the 'ReadRuleResponse' model.
 
-    Attributes:
-        embedded:
-            Embedded responses related to the resource.
-        links:
-            URLs to pages related to the resource.
-        action:
-            An action to be applied subject to the rule criteria.
-        condition:
-            The following table describes the possible conditions for a rule.
+        Attributes:
+            Embedded:
+                Embedded responses related to the resource.
 
-            +-----------------------+---------------------------+--------------------------+
-            |         Field         |      Rule Condition       |       Description        |
-            +=======================+===========================+==========================+
-            | aws_account_native_id | $eq, $in                  | Denotes the AWS account  |
-            |                       |                           | to conditionalize on     |
-            |                       |                           |                          |
-            |                       |                           | {"aws_account_native_id" |
-            |                       |                           | :{"$eq":"111111111111"}} |
-            |                       |                           |                          |
-            |                       |                           |                          |
-            |                       |                           | {"aws_account_native_id" |
-            |                       |                           | :{"$in":["111111111111", |
-            |                       |                           | "222222222222"]}}        |
-            |                       |                           |                          |
-            |                       |                           |                          |
-            +-----------------------+---------------------------+--------------------------+
-            | aws_region            | $eq, $in                  | Denotes the AWS region   |
-            |                       |                           | to conditionalize on     |
-            |                       |                           |                          |
-            |                       |                           | {"aws_region":{"$eq":"us |
-            |                       |                           | -west-2"}}               |
-            |                       |                           |                          |
-            |                       |                           |                          |
-            |                       |                           | {"aws_region":{"$in":["u |
-            |                       |                           | s-west-2", "us-          |
-            |                       |                           | east-1"]}}               |
-            |                       |                           |                          |
-            |                       |                           |                          |
-            +-----------------------+---------------------------+--------------------------+
-            | aws_tag               | $eq, $in, $all, $contains | Denotes the AWS tag(s)   |
-            |                       |                           | to conditionalize on.    |
-            |                       |                           | Max 100 tags allowed in  |
-            |                       |                           | each rule                |
-            |                       |                           | and tag key can be upto  |
-            |                       |                           | 128 characters and value |
-            |                       |                           | can be upto 256          |
-            |                       |                           | characters long.         |
-            |                       |                           |                          |
-            |                       |                           | {"aws_tag":{"$eq":{"key" |
-            |                       |                           | :"Environment",          |
-            |                       |                           | "value":"Prod"}}}        |
-            |                       |                           |                          |
-            |                       |                           |                          |
-            |                       |                           | {"aws_tag":{"$in":[{"key |
-            |                       |                           | ":"Environment",         |
-            |                       |                           | "value":"Prod"},         |
-            |                       |                           | {"key":"Hello",          |
-            |                       |                           | "value":"World"}]}}      |
-            |                       |                           |                          |
-            |                       |                           |                          |
-            |                       |                           | {"aws_tag":{"$all":[{"ke |
-            |                       |                           | y":"Environment",        |
-            |                       |                           | "value":"Prod"},         |
-            |                       |                           | {"key":"Hello",          |
-            |                       |                           | "value":"World"}]}}      |
-            |                       |                           |                          |
-            |                       |                           |                          |
-            |                       |                           | {"aws_tag":{"$contains": |
-            |                       |                           | {"key":"Environment",    |
-            |                       |                           | "value":"Prod"}}}        |
-            |                       |                           |                          |
-            |                       |                           |                          |
-            +-----------------------+---------------------------+--------------------------+
-            | entity_type           | $eq, $in                  | Denotes the AWS entity   |
-            |                       |                           | type to conditionalize   |
-            |                       |                           | on. (Required)           |
-            |                       |                           |                          |
-            |                       |                           | {"entity_type":{"$eq":"a |
-            |                       |                           | ws_rds_instance"}}       |
-            |                       |                           |                          |
-            |                       |                           |                          |
-            |                       |                           | {"entity_type":{"$in":[" |
-            |                       |                           | aws_rds_instance",       |
-            |                       |                           | "aws_ebs_volume", "aws_e |
-            |                       |                           | c2_instance","aws_dynamo |
-            |                       |                           | db_table",               |
-            |                       |                           | "aws_rds_cluster"]}}     |
-            |                       |                           |                          |
-            |                       |                           |                          |
-            +-----------------------+---------------------------+--------------------------+
-        p_id:
-            The Clumio-assigned ID of the policy rule.
-        name:
-            Name of the rule. Max 100 characters.
-        organizational_unit_id:
-            The Clumio-assigned ID of the organizational unit (OU) to which the policy rule
-            belongs.
-        priority:
-            A priority relative to other rules.
+            Links:
+                Urls to pages related to the resource.
+
+            Action:
+                An action to be applied subject to the rule criteria.
+
+            Condition:
+                |
+    |                       |                           | {"key":"environment",    |
+    |                       |                           | "value":"prod"}}}        |
+    |                       |                           |                          |
+    |                       |                           |                          |
+    |                       |                           | {"aws_tag":{"$not_eq":{" |
+    |                       |                           | key":"environment",      |
+    |                       |                           | "value":"prod"}}}        |
+    |                       |                           |                          |
+    |                       |                           |                          |
+    |                       |                           | {"aws_tag":{"$not_in":[{ |
+    |                       |                           | "key":"environment",     |
+    |                       |                           | "value":"prod"},         |
+    |                       |                           | {"key":"hello",          |
+    |                       |                           | "value":"world"}]}}      |
+    |                       |                           |                          |
+    |                       |                           |                          |
+    |                       |                           | {"aws_tag":{"$not_all":[ |
+    |                       |                           | {"key":"environment",    |
+    |                       |                           | "value":"prod"},         |
+    |                       |                           | {"key":"hello",          |
+    |                       |                           | "value":"world"}]}}      |
+    |                       |                           |                          |
+    |                       |                           |                          |
+    |                       |                           | {"aws_tag":{"$not_contai |
+    |                       |                           | ns":{"key":"environment" |
+    |                       |                           | , "value":"prod"}}}      |
+    |                       |                           |                          |
+    |                       |                           |                          |
+    +-----------------------+---------------------------+--------------------------+
+    | entity_type           | $eq, $in                  | denotes the aws entity   |
+    |                       |                           | type to conditionalize   |
+    |                       |                           | on. (required)           |
+    |                       |                           |                          |
+    |                       |                           | {"entity_type":{"$eq":"a |
+    |                       |                           | ws_rds_instance"}}       |
+    |                       |                           |                          |
+    |                       |                           |                          |
+    |                       |                           | {"entity_type":{"$in":[" |
+    |                       |                           | aws_rds_instance",       |
+    |                       |                           | "aws_ebs_volume", "aws_e |
+    |                       |                           | c2_instance","aws_dynamo |
+    |                       |                           | db_table",               |
+    |                       |                           | "aws_rds_cluster"]}}     |
+    |                       |                           |                          |
+    |                       |                           |                          |
+    +-----------------------+---------------------------+--------------------------+
+    .
+
+            Id:
+                The clumio-assigned id of the policy rule.
+
+            Name:
+                Name of the rule. max 100 characters.
+
+            OrganizationalUnitId:
+                The clumio-assigned id of the organizational unit (ou) to which the policy rule belongs.
+
+            Priority:
+                A priority relative to other rules.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {
-        'embedded': '_embedded',
-        'links': '_links',
-        'action': 'action',
-        'condition': 'condition',
-        'p_id': 'id',
-        'name': 'name',
-        'organizational_unit_id': 'organizational_unit_id',
-        'priority': 'priority',
-    }
+    Embedded: rule_embedded_.RuleEmbedded | None = None
+    Links: rule_links_.RuleLinks | None = None
+    Action: rule_action_.RuleAction | None = None
+    Condition: str | None = None
+    Id: str | None = None
+    Name: str | None = None
+    OrganizationalUnitId: str | None = None
+    Priority: rule_priority_.RulePriority | None = None
+    raw_response: Optional[requests.Response] = None
 
-    def __init__(
-        self,
-        embedded: rule_embedded.RuleEmbedded = None,
-        links: rule_links.RuleLinks = None,
-        action: rule_action.RuleAction = None,
-        condition: str = None,
-        p_id: str = None,
-        name: str = None,
-        organizational_unit_id: str = None,
-        priority: rule_priority.RulePriority = None,
-    ) -> None:
-        """Constructor for the ReadRuleResponse class."""
-
-        # Initialize members of the class
-        self.embedded: rule_embedded.RuleEmbedded = embedded
-        self.links: rule_links.RuleLinks = links
-        self.action: rule_action.RuleAction = action
-        self.condition: str = condition
-        self.p_id: str = p_id
-        self.name: str = name
-        self.organizational_unit_id: str = organizational_unit_id
-        self.priority: rule_priority.RulePriority = priority
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -163,41 +123,57 @@ class ReadRuleResponse:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = '_embedded'
-        embedded = (
-            rule_embedded.RuleEmbedded.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('_embedded', None)
+        val_embedded = rule_embedded_.RuleEmbedded.from_dictionary(val)
 
-        key = '_links'
-        links = (
-            rule_links.RuleLinks.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('_links', None)
+        val_links = rule_links_.RuleLinks.from_dictionary(val)
 
-        key = 'action'
-        action = (
-            rule_action.RuleAction.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('action', None)
+        val_action = rule_action_.RuleAction.from_dictionary(val)
 
-        condition = dictionary.get('condition')
-        p_id = dictionary.get('id')
-        name = dictionary.get('name')
-        organizational_unit_id = dictionary.get('organizational_unit_id')
-        key = 'priority'
-        priority = (
-            rule_priority.RulePriority.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('condition', None)
+        val_condition = val
+
+        val = dictionary.get('id', None)
+        val_id = val
+
+        val = dictionary.get('name', None)
+        val_name = val
+
+        val = dictionary.get('organizational_unit_id', None)
+        val_organizational_unit_id = val
+
+        val = dictionary.get('priority', None)
+        val_priority = rule_priority_.RulePriority.from_dictionary(val)
 
         # Return an object of this model
-        return cls(embedded, links, action, condition, p_id, name, organizational_unit_id, priority)
+        return cls(
+            val_embedded,
+            val_links,
+            val_action,
+            val_condition,
+            val_id,
+            val_name,
+            val_organizational_unit_id,
+            val_priority,
+        )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        model_instance.raw_response = response
+        return model_instance

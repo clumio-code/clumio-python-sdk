@@ -1,35 +1,43 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='ErrorModel')
 
 
+@dataclasses.dataclass
 class ErrorModel:
     """Implementation of the 'ErrorModel' model.
 
-    Attributes:
-        error_code:
-            ErrorCode is a short string describing the error, if any.
-        error_message:
-            ErrorMessage is a longer description explaining the error, if any, and how to
-            fix it.
+        Attributes:
+            ErrorCode:
+                Errorcode is a short string describing the error, if any.
+
+            ErrorMessage:
+                Errormessage is a longer description explaining the error, if any, and how to
+    fix it.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {'error_code': 'error_code', 'error_message': 'error_message'}
+    ErrorCode: str | None = None
+    ErrorMessage: str | None = None
 
-    def __init__(self, error_code: str = None, error_message: str = None) -> None:
-        """Constructor for the ErrorModel class."""
-
-        # Initialize members of the class
-        self.error_code: str = error_code
-        self.error_message: str = error_message
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -40,11 +48,32 @@ class ErrorModel:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        error_code = dictionary.get('error_code')
-        error_message = dictionary.get('error_message')
+        val = dictionary.get('error_code', None)
+        val_error_code = val
+
+        val = dictionary.get('error_message', None)
+        val_error_message = val
+
         # Return an object of this model
-        return cls(error_code, error_message)
+        return cls(
+            val_error_code,
+            val_error_message,
+        )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

@@ -1,41 +1,45 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
-from clumioapi.models import rds_database_table_column
-from clumioapi.models import rds_database_table_column_links
+from clumioapi.api_helper import camel_to_snake
+from clumioapi.models import rds_database_table_column as rds_database_table_column_
+from clumioapi.models import rds_database_table_column_links as rds_database_table_column_links_
+import requests
 
 T = TypeVar('T', bound='ReadRDSDatabaseTableColumnsResponse')
 
 
+@dataclasses.dataclass
 class ReadRDSDatabaseTableColumnsResponse:
     """Implementation of the 'ReadRDSDatabaseTableColumnsResponse' model.
 
     Attributes:
-        links:
-            URLs to pages related to the resource.
-        columns:
-            The columns of the table with the specified ID.
+        Links:
+            Urls to pages related to the resource.
+
+        Columns:
+            The columns of the table with the specified id.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {'links': '_links', 'columns': 'columns'}
+    Links: rds_database_table_column_links_.RDSDatabaseTableColumnLinks | None = None
+    Columns: Sequence[rds_database_table_column_.RDSDatabaseTableColumn] | None = None
+    raw_response: Optional[requests.Response] = None
 
-    def __init__(
-        self,
-        links: rds_database_table_column_links.RDSDatabaseTableColumnLinks = None,
-        columns: Sequence[rds_database_table_column.RDSDatabaseTableColumn] = None,
-    ) -> None:
-        """Constructor for the ReadRDSDatabaseTableColumnsResponse class."""
-
-        # Initialize members of the class
-        self.links: rds_database_table_column_links.RDSDatabaseTableColumnLinks = links
-        self.columns: Sequence[rds_database_table_column.RDSDatabaseTableColumn] = columns
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -46,26 +50,41 @@ class ReadRDSDatabaseTableColumnsResponse:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = '_links'
-        links = (
-            rds_database_table_column_links.RDSDatabaseTableColumnLinks.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
+        val = dictionary.get('_links', None)
+        val_links = rds_database_table_column_links_.RDSDatabaseTableColumnLinks.from_dictionary(
+            val
         )
 
-        columns = None
-        if dictionary.get('columns'):
-            columns = list()
-            for value in dictionary.get('columns'):
-                columns.append(
-                    rds_database_table_column.RDSDatabaseTableColumn.from_dictionary(value)
+        val = dictionary.get('columns', None)
+
+        val_columns = []
+        if val:
+            for value in val:
+                val_columns.append(
+                    rds_database_table_column_.RDSDatabaseTableColumn.from_dictionary(value)
                 )
 
         # Return an object of this model
-        return cls(links, columns)
+        return cls(
+            val_links,
+            val_columns,
+        )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        model_instance.raw_response = response
+        return model_instance

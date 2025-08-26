@@ -1,119 +1,93 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
-from clumioapi.models import auto_user_provisioning_rule_embedded
-from clumioapi.models import auto_user_provisioning_rule_links
-from clumioapi.models import rule_provision
+from clumioapi.api_helper import camel_to_snake
+from clumioapi.models import \
+    auto_user_provisioning_rule_embedded as auto_user_provisioning_rule_embedded_
+from clumioapi.models import auto_user_provisioning_rule_links as auto_user_provisioning_rule_links_
+from clumioapi.models import rule_provision as rule_provision_
+import requests
 
 T = TypeVar('T', bound='UpdateAutoUserProvisioningRuleResponse')
 
 
+@dataclasses.dataclass
 class UpdateAutoUserProvisioningRuleResponse:
     """Implementation of the 'UpdateAutoUserProvisioningRuleResponse' model.
 
-    Attributes:
-        embedded:
-            Embedded responses related to the resource.
-        links:
-            URLs to pages related to the resource.
-        condition:
-            The following table describes the possible conditions for a rule.
+        Attributes:
+            Embedded:
+                Embedded responses related to the resource.
 
-            +--------------------------+-------------------------+-------------------------+
-            |     Group Selection      |     Rule Condition      |       Description       |
-            +==========================+=========================+=========================+
-            | This group               |                         | User must belong to the |
-            |                          |                         | specified group.        |
-            |                          | {"user.groups":{"$eq":" |                         |
-            |                          | Admin"}}                |                         |
-            |                          |                         |                         |
-            |                          |                         |                         |
-            +--------------------------+-------------------------+-------------------------+
-            | ANY of these groups      |                         | User must belong to at  |
-            |                          |                         | least one of the        |
-            |                          | {"user.groups":{"$in":[ | specified groups.       |
-            |                          | "Admin", "Eng",         |                         |
-            |                          | "Sales"]}}              |                         |
-            |                          |                         |                         |
-            |                          |                         |                         |
-            +--------------------------+-------------------------+-------------------------+
-            | ALL of these groups      |                         | User must belong to all |
-            |                          |                         | the specified groups.   |
-            |                          | {"user.groups":{"$all": |                         |
-            |                          | ["Admin", "Eng",        |                         |
-            |                          | "Sales"]}}              |                         |
-            |                          |                         |                         |
-            |                          |                         |                         |
-            +--------------------------+-------------------------+-------------------------+
-            | Group CONTAINS this      |                         | User's group must       |
-            | keyword                  |                         | contain the specified   |
-            |                          | {"user.groups":{"$conta | keyword.                |
-            |                          | ins":{"$in":["Admin"]}} |                         |
-            |                          | }                       |                         |
-            |                          |                         |                         |
-            |                          |                         |                         |
-            +--------------------------+-------------------------+-------------------------+
-            | Group CONTAINS ANY of    |                         | User's group must       |
-            | these keywords           |                         | contain at least one of |
-            |                          | {"user.groups":{"$conta | the specified keywords. |
-            |                          | ins":{"$in":["Admin",   |                         |
-            |                          | "Eng", "Sales"]}}}      |                         |
-            |                          |                         |                         |
-            |                          |                         |                         |
-            +--------------------------+-------------------------+-------------------------+
-            | Group CONTAINS ALL of    |                         | User's group must       |
-            | these keywords           |                         | contain all the         |
-            |                          | {"user.groups":{"$conta | specified keywords.     |
-            |                          | ins":{"$all":["Admin",  |                         |
-            |                          | "Eng", "Sales"]}}}      |                         |
-            |                          |                         |                         |
-            |                          |                         |                         |
-            +--------------------------+-------------------------+-------------------------+
-        name:
-            Unique name assigned to the rule.
-        provision:
-            Specifies the role and the organizational units to be assigned to the user
-            subject to the rule criteria.
-        rule_id:
-            The Clumio-assigned ID of the rule.
+            Links:
+                Urls to pages related to the resource.
+
+            Condition:
+                |                         |
+    |                          | ["admin", "eng",        |                         |
+    |                          | "sales"]}}              |                         |
+    |                          |                         |                         |
+    |                          |                         |                         |
+    +--------------------------+-------------------------+-------------------------+
+    | group contains this      |                         | user's group must       |
+    | keyword                  |                         | contain the specified   |
+    |                          | {"user.groups":{"$conta | keyword.                |
+    |                          | ins":{"$in":["admin"]}} |                         |
+    |                          | }                       |                         |
+    |                          |                         |                         |
+    |                          |                         |                         |
+    +--------------------------+-------------------------+-------------------------+
+    | group contains any of    |                         | user's group must       |
+    | these keywords           |                         | contain at least one of |
+    |                          | {"user.groups":{"$conta | the specified keywords. |
+    |                          | ins":{"$in":["admin",   |                         |
+    |                          | "eng", "sales"]}}}      |                         |
+    |                          |                         |                         |
+    |                          |                         |                         |
+    +--------------------------+-------------------------+-------------------------+
+    | group contains all of    |                         | user's group must       |
+    | these keywords           |                         | contain all the         |
+    |                          | {"user.groups":{"$conta | specified keywords.     |
+    |                          | ins":{"$all":["admin",  |                         |
+    |                          | "eng", "sales"]}}}      |                         |
+    |                          |                         |                         |
+    |                          |                         |                         |
+    +--------------------------+-------------------------+-------------------------+
+    .
+
+            Name:
+                Unique name assigned to the rule.
+
+            Provision:
+                Specifies the role and the organizational units to be assigned to the user subject to the rule criteria.
+
+            RuleId:
+                The clumio-assigned id of the rule.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {
-        'embedded': '_embedded',
-        'links': '_links',
-        'condition': 'condition',
-        'name': 'name',
-        'provision': 'provision',
-        'rule_id': 'rule_id',
-    }
+    Embedded: auto_user_provisioning_rule_embedded_.AutoUserProvisioningRuleEmbedded | None = None
+    Links: auto_user_provisioning_rule_links_.AutoUserProvisioningRuleLinks | None = None
+    Condition: str | None = None
+    Name: str | None = None
+    Provision: rule_provision_.RuleProvision | None = None
+    RuleId: str | None = None
+    raw_response: Optional[requests.Response] = None
 
-    def __init__(
-        self,
-        embedded: auto_user_provisioning_rule_embedded.AutoUserProvisioningRuleEmbedded = None,
-        links: auto_user_provisioning_rule_links.AutoUserProvisioningRuleLinks = None,
-        condition: str = None,
-        name: str = None,
-        provision: rule_provision.RuleProvision = None,
-        rule_id: str = None,
-    ) -> None:
-        """Constructor for the UpdateAutoUserProvisioningRuleResponse class."""
-
-        # Initialize members of the class
-        self.embedded: auto_user_provisioning_rule_embedded.AutoUserProvisioningRuleEmbedded = (
-            embedded
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
         )
-        self.links: auto_user_provisioning_rule_links.AutoUserProvisioningRuleLinks = links
-        self.condition: str = condition
-        self.name: str = name
-        self.provision: rule_provision.RuleProvision = provision
-        self.rule_id: str = rule_id
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -124,37 +98,55 @@ class UpdateAutoUserProvisioningRuleResponse:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = '_embedded'
-        embedded = (
-            auto_user_provisioning_rule_embedded.AutoUserProvisioningRuleEmbedded.from_dictionary(
-                dictionary.get(key)
+        val = dictionary.get('_embedded', None)
+        val_embedded = (
+            auto_user_provisioning_rule_embedded_.AutoUserProvisioningRuleEmbedded.from_dictionary(
+                val
             )
-            if dictionary.get(key)
-            else None
         )
 
-        key = '_links'
-        links = (
-            auto_user_provisioning_rule_links.AutoUserProvisioningRuleLinks.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
+        val = dictionary.get('_links', None)
+        val_links = (
+            auto_user_provisioning_rule_links_.AutoUserProvisioningRuleLinks.from_dictionary(val)
         )
 
-        condition = dictionary.get('condition')
-        name = dictionary.get('name')
-        key = 'provision'
-        provision = (
-            rule_provision.RuleProvision.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('condition', None)
+        val_condition = val
 
-        rule_id = dictionary.get('rule_id')
+        val = dictionary.get('name', None)
+        val_name = val
+
+        val = dictionary.get('provision', None)
+        val_provision = rule_provision_.RuleProvision.from_dictionary(val)
+
+        val = dictionary.get('rule_id', None)
+        val_rule_id = val
+
         # Return an object of this model
-        return cls(embedded, links, condition, name, provision, rule_id)
+        return cls(
+            val_embedded,
+            val_links,
+            val_condition,
+            val_name,
+            val_provision,
+            val_rule_id,
+        )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        model_instance.raw_response = response
+        return model_instance

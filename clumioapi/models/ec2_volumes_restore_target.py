@@ -1,65 +1,60 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
-from clumioapi.models import ec2_restore_ebs_block_device_mapping
+from clumioapi.api_helper import camel_to_snake
+from clumioapi.models import \
+    ec2_restore_ebs_block_device_mapping as ec2_restore_ebs_block_device_mapping_
+import requests
 
 T = TypeVar('T', bound='EC2VolumesRestoreTarget')
 
 
+@dataclasses.dataclass
 class EC2VolumesRestoreTarget:
     """Implementation of the 'EC2VolumesRestoreTarget' model.
 
-    The target configuration for the volumes to be restored.
+        The target configuration for the volumes to be restored.
 
-    Attributes:
-        aws_az:
-            The availability zone for restoring the volumes unattached. Either this or
-            target_instance_native_id needs to be specified.
-        ebs_block_device_mappings:
-            Block device mappings chosen for the EBS volumes being restored.
-        environment_id:
-            The Clumio-assigned ID of the AWS environment to be used as the restore
-            destination.
-            Use the [GET /datasources/aws/environments](#operation/list-aws-environments)
-            endpoint
-            to fetch valid values.
-        target_instance_native_id:
-            The aws native ID of the EC2 instance to be used to attach the restored volumes.
-            If not present, then aws_az need to be specified.
+        Attributes:
+            AwsAz:
+                The availability zone for restoring the volumes unattached. either this or
+    target_instance_native_id needs to be specified.
+
+            EbsBlockDeviceMappings:
+                Block device mappings chosen for the ebs volumes being restored.
+
+            EnvironmentId:
+                The clumio-assigned id of the aws environment to be used as the restore destination.
+    use the [get /datasources/aws/environments](#operation/list-aws-environments) endpoint
+    to fetch valid values.
+
+            TargetInstanceNativeId:
+                The aws native id of the ec2 instance to be used to attach the restored volumes.
+    if not present, then aws_az need to be specified.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {
-        'aws_az': 'aws_az',
-        'ebs_block_device_mappings': 'ebs_block_device_mappings',
-        'environment_id': 'environment_id',
-        'target_instance_native_id': 'target_instance_native_id',
-    }
+    AwsAz: str | None = None
+    EbsBlockDeviceMappings: (
+        Sequence[ec2_restore_ebs_block_device_mapping_.EC2RestoreEbsBlockDeviceMapping] | None
+    ) = None
+    EnvironmentId: str | None = None
+    TargetInstanceNativeId: str | None = None
 
-    def __init__(
-        self,
-        aws_az: str = None,
-        ebs_block_device_mappings: Sequence[
-            ec2_restore_ebs_block_device_mapping.EC2RestoreEbsBlockDeviceMapping
-        ] = None,
-        environment_id: str = None,
-        target_instance_native_id: str = None,
-    ) -> None:
-        """Constructor for the EC2VolumesRestoreTarget class."""
-
-        # Initialize members of the class
-        self.aws_az: str = aws_az
-        self.ebs_block_device_mappings: Sequence[
-            ec2_restore_ebs_block_device_mapping.EC2RestoreEbsBlockDeviceMapping
-        ] = ebs_block_device_mappings
-        self.environment_id: str = environment_id
-        self.target_instance_native_id: str = target_instance_native_id
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -70,22 +65,48 @@ class EC2VolumesRestoreTarget:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        aws_az = dictionary.get('aws_az')
-        ebs_block_device_mappings = None
-        if dictionary.get('ebs_block_device_mappings'):
-            ebs_block_device_mappings = list()
-            for value in dictionary.get('ebs_block_device_mappings'):
-                ebs_block_device_mappings.append(
-                    ec2_restore_ebs_block_device_mapping.EC2RestoreEbsBlockDeviceMapping.from_dictionary(
+        val = dictionary.get('aws_az', None)
+        val_aws_az = val
+
+        val = dictionary.get('ebs_block_device_mappings', None)
+
+        val_ebs_block_device_mappings = []
+        if val:
+            for value in val:
+                val_ebs_block_device_mappings.append(
+                    ec2_restore_ebs_block_device_mapping_.EC2RestoreEbsBlockDeviceMapping.from_dictionary(
                         value
                     )
                 )
 
-        environment_id = dictionary.get('environment_id')
-        target_instance_native_id = dictionary.get('target_instance_native_id')
+        val = dictionary.get('environment_id', None)
+        val_environment_id = val
+
+        val = dictionary.get('target_instance_native_id', None)
+        val_target_instance_native_id = val
+
         # Return an object of this model
-        return cls(aws_az, ebs_block_device_mappings, environment_id, target_instance_native_id)
+        return cls(
+            val_aws_az,
+            val_ebs_block_device_mappings,
+            val_environment_id,
+            val_target_instance_native_id,
+        )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

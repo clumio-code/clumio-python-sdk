@@ -1,18 +1,21 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
-from clumioapi.models import clumio_role_resource
-from clumioapi.models import clumio_rule_resource
-from clumioapi.models import clumio_ssm_document_resource
-from clumioapi.models import clumio_topic_resource
-from clumioapi.models import policy_details
+from clumioapi.api_helper import camel_to_snake
+from clumioapi.models import clumio_role_resource as clumio_role_resource_
+from clumioapi.models import clumio_rule_resource as clumio_rule_resource_
+from clumioapi.models import clumio_ssm_document_resource as clumio_ssm_document_resource_
+from clumioapi.models import clumio_topic_resource as clumio_topic_resource_
+from clumioapi.models import policy_details as policy_details_
+import requests
 
 T = TypeVar('T', bound='CategorisedResources')
 
 
+@dataclasses.dataclass
 class CategorisedResources:
     """Implementation of the 'CategorisedResources' model.
 
@@ -20,49 +23,42 @@ class CategorisedResources:
     by the user
 
     Attributes:
-        policies:
-            Consists of policies that are not attached to any other resource (Roles, Topics,
-            Rules)
-        roles:
-            Consists of the IAM Roles and the attached policies
-        rules:
-            Consists of the EventBridge Rules
-        ssm_documents:
-            Consists of SSM Documents
-        topics:
-            Consists of the SNS Topics
+        Policies:
+            Consists of policies that are not attached to any other resource (roles, topics, rules).
+
+        Roles:
+            Consists of the iam roles and the attached policies.
+
+        Rules:
+            Consists of the eventbridge rules.
+
+        SsmDocuments:
+            Consists of ssm documents.
+
+        Topics:
+            Consists of the sns topics.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {
-        'policies': 'policies',
-        'roles': 'roles',
-        'rules': 'rules',
-        'ssm_documents': 'ssm_documents',
-        'topics': 'topics',
-    }
+    Policies: Mapping[str, policy_details_.PolicyDetails] | None = None
+    Roles: Mapping[str, clumio_role_resource_.ClumioRoleResource] | None = None
+    Rules: Mapping[str, clumio_rule_resource_.ClumioRuleResource] | None = None
+    SsmDocuments: Mapping[str, clumio_ssm_document_resource_.ClumioSsmDocumentResource] | None = (
+        None
+    )
+    Topics: Mapping[str, clumio_topic_resource_.ClumioTopicResource] | None = None
 
-    def __init__(
-        self,
-        policies: Mapping[str, policy_details.PolicyDetails] = None,
-        roles: Mapping[str, clumio_role_resource.ClumioRoleResource] = None,
-        rules: Mapping[str, clumio_rule_resource.ClumioRuleResource] = None,
-        ssm_documents: Mapping[str, clumio_ssm_document_resource.ClumioSsmDocumentResource] = None,
-        topics: Mapping[str, clumio_topic_resource.ClumioTopicResource] = None,
-    ) -> None:
-        """Constructor for the CategorisedResources class."""
-
-        # Initialize members of the class
-        self.policies: Mapping[str, policy_details.PolicyDetails] = policies
-        self.roles: Mapping[str, clumio_role_resource.ClumioRoleResource] = roles
-        self.rules: Mapping[str, clumio_rule_resource.ClumioRuleResource] = rules
-        self.ssm_documents: Mapping[str, clumio_ssm_document_resource.ClumioSsmDocumentResource] = (
-            ssm_documents
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
         )
-        self.topics: Mapping[str, clumio_topic_resource.ClumioTopicResource] = topics
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -73,39 +69,56 @@ class CategorisedResources:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        policies: Dict[str, policy_details.PolicyDetails] = {}
-        for key, value in dictionary.get('policies').items():
-            policies[key] = policy_details.PolicyDetails.from_dictionary(value) if value else None
+        val = dictionary.get('policies', None)
+        val_policies: Dict[str, policy_details_.PolicyDetails] = {}
+        for key, value in val.items():
+            val_policies[key] = policy_details_.PolicyDetails.from_dictionary(value)
 
-        roles: Dict[str, clumio_role_resource.ClumioRoleResource] = {}
-        for key, value in dictionary.get('roles').items():
-            roles[key] = (
-                clumio_role_resource.ClumioRoleResource.from_dictionary(value) if value else None
+        val = dictionary.get('roles', None)
+        val_roles: Dict[str, clumio_role_resource_.ClumioRoleResource] = {}
+        for key, value in val.items():
+            val_roles[key] = clumio_role_resource_.ClumioRoleResource.from_dictionary(value)
+
+        val = dictionary.get('rules', None)
+        val_rules: Dict[str, clumio_rule_resource_.ClumioRuleResource] = {}
+        for key, value in val.items():
+            val_rules[key] = clumio_rule_resource_.ClumioRuleResource.from_dictionary(value)
+
+        val = dictionary.get('ssm_documents', None)
+        val_ssm_documents: Dict[str, clumio_ssm_document_resource_.ClumioSsmDocumentResource] = {}
+        for key, value in val.items():
+            val_ssm_documents[key] = (
+                clumio_ssm_document_resource_.ClumioSsmDocumentResource.from_dictionary(value)
             )
 
-        rules: Dict[str, clumio_rule_resource.ClumioRuleResource] = {}
-        for key, value in dictionary.get('rules').items():
-            rules[key] = (
-                clumio_rule_resource.ClumioRuleResource.from_dictionary(value) if value else None
-            )
-
-        ssm_documents: Dict[str, clumio_ssm_document_resource.ClumioSsmDocumentResource] = {}
-        for key, value in dictionary.get('ssm_documents').items():
-            ssm_documents[key] = (
-                clumio_ssm_document_resource.ClumioSsmDocumentResource.from_dictionary(value)
-                if value
-                else None
-            )
-
-        topics: Dict[str, clumio_topic_resource.ClumioTopicResource] = {}
-        for key, value in dictionary.get('topics').items():
-            topics[key] = (
-                clumio_topic_resource.ClumioTopicResource.from_dictionary(value) if value else None
-            )
+        val = dictionary.get('topics', None)
+        val_topics: Dict[str, clumio_topic_resource_.ClumioTopicResource] = {}
+        for key, value in val.items():
+            val_topics[key] = clumio_topic_resource_.ClumioTopicResource.from_dictionary(value)
 
         # Return an object of this model
-        return cls(policies, roles, rules, ssm_documents, topics)
+        return cls(
+            val_policies,
+            val_roles,
+            val_rules,
+            val_ssm_documents,
+            val_topics,
+        )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

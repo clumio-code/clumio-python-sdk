@@ -1,81 +1,66 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
-from clumioapi.models import aws_tag_common_model
+from clumioapi.api_helper import camel_to_snake
+from clumioapi.models import aws_tag_common_model as aws_tag_common_model_
+import requests
 
 T = TypeVar('T', bound='EBSRestoreTarget')
 
 
+@dataclasses.dataclass
 class EBSRestoreTarget:
     """Implementation of the 'EBSRestoreTarget' model.
 
-    The configuration of the EBS volume to be restored.
+        The configuration of the EBS volume to be restored.
 
-    Attributes:
-        aws_az:
-            The availability zone into which the EBS volume is restored. For example, `us-
-            west-2a`.
-            Use the [GET /datasources/aws/environments](#operation/list-aws-environments)
-            endpoint to fetch valid values.
-        environment_id:
-            The Clumio-assigned ID of the AWS environment to be used as the restore
-            destination. Use the [GET /datasources/aws/environments](#operation/list-aws-
-            environments) endpoint to fetch valid values.
-        iops:
-            Iops of the volume to be restored.
-            Iops field is only applicable if volume_type is gp3, io1, io2.
-        kms_key_native_id:
-            The KMS encryption key ID used to encrypt the EBS volume data. The KMS
-            encryption key ID is stored in the AWS cloud as part of your AWS account.
-        tags:
-            The AWS tags to be applied to the restored volume. The tags are stored in the
-            AWS cloud as part of your AWS account.
-            An EBS volume can be have multiple tags. The target volume will not inherit any
-            tags that were applied
-            to the original volume. To find the tags that were applied to the original
-            volume,
-            use the [GET /backups/aws/ebs-volumes](#operation/list-aws-ebs-volumes) endpoint
-            to display the original volume's tag keys (`tags.key`) and tag values
-            (`tags.value`).
-        p_type:
-            Type of the volume to restore as.
-            Allowed Values: gp2, gp3, io1, io2, sc1, st1, standard.
+        Attributes:
+            AwsAz:
+                The availability zone into which the ebs volume is restored. for example, `us-west-2a`.
+    use the [get /datasources/aws/environments](#operation/list-aws-environments) endpoint to fetch valid values.
+
+            EnvironmentId:
+                The clumio-assigned id of the aws environment to be used as the restore destination. use the [get /datasources/aws/environments](#operation/list-aws-environments) endpoint to fetch valid values.
+
+            Iops:
+                Iops of the volume to be restored.
+    iops field is only applicable if volume_type is gp3, io1, io2.
+
+            KmsKeyNativeId:
+                The kms encryption key id used to encrypt the ebs volume data. the kms encryption key id is stored in the aws cloud as part of your aws account.
+
+            Tags:
+                The aws tags to be applied to the restored volume. the tags are stored in the aws cloud as part of your aws account.
+    an ebs volume can be have multiple tags. the target volume will not inherit any tags that were applied
+    to the original volume. to find the tags that were applied to the original volume,
+    use the [get /backups/aws/ebs-volumes](#operation/list-aws-ebs-volumes) endpoint to display the original volume's tag keys (`tags.key`) and tag values (`tags.value`).
+
+            Type:
+                Gp2, gp3, io1, io2, sc1, st1, standard.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {
-        'aws_az': 'aws_az',
-        'environment_id': 'environment_id',
-        'iops': 'iops',
-        'kms_key_native_id': 'kms_key_native_id',
-        'tags': 'tags',
-        'p_type': 'type',
-    }
+    AwsAz: str | None = None
+    EnvironmentId: str | None = None
+    Iops: int | None = None
+    KmsKeyNativeId: str | None = None
+    Tags: Sequence[aws_tag_common_model_.AwsTagCommonModel] | None = None
+    Type: str | None = None
 
-    def __init__(
-        self,
-        aws_az: str = None,
-        environment_id: str = None,
-        iops: int = None,
-        kms_key_native_id: str = None,
-        tags: Sequence[aws_tag_common_model.AwsTagCommonModel] = None,
-        p_type: str = None,
-    ) -> None:
-        """Constructor for the EBSRestoreTarget class."""
-
-        # Initialize members of the class
-        self.aws_az: str = aws_az
-        self.environment_id: str = environment_id
-        self.iops: int = iops
-        self.kms_key_native_id: str = kms_key_native_id
-        self.tags: Sequence[aws_tag_common_model.AwsTagCommonModel] = tags
-        self.p_type: str = p_type
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -86,20 +71,52 @@ class EBSRestoreTarget:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        aws_az = dictionary.get('aws_az')
-        environment_id = dictionary.get('environment_id')
-        iops = dictionary.get('iops')
-        kms_key_native_id = dictionary.get('kms_key_native_id')
-        tags = None
-        if dictionary.get('tags'):
-            tags = list()
-            for value in dictionary.get('tags'):
-                tags.append(aws_tag_common_model.AwsTagCommonModel.from_dictionary(value))
+        val = dictionary.get('aws_az', None)
+        val_aws_az = val
 
-        p_type = dictionary.get('type')
+        val = dictionary.get('environment_id', None)
+        val_environment_id = val
+
+        val = dictionary.get('iops', None)
+        val_iops = val
+
+        val = dictionary.get('kms_key_native_id', None)
+        val_kms_key_native_id = val
+
+        val = dictionary.get('tags', None)
+
+        val_tags = []
+        if val:
+            for value in val:
+                val_tags.append(aws_tag_common_model_.AwsTagCommonModel.from_dictionary(value))
+
+        val = dictionary.get('type', None)
+        val_type = val
+
         # Return an object of this model
-        return cls(aws_az, environment_id, iops, kms_key_native_id, tags, p_type)
+        return cls(
+            val_aws_az,
+            val_environment_id,
+            val_iops,
+            val_kms_key_native_id,
+            val_tags,
+            val_type,
+        )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

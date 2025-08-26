@@ -1,66 +1,61 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
-from clumioapi.models import directory_links
+from clumioapi.api_helper import camel_to_snake
+from clumioapi.models import directory_links as directory_links_
+import requests
 
 T = TypeVar('T', bound='Directory')
 
 
+@dataclasses.dataclass
 class Directory:
     """Implementation of the 'Directory' model.
 
-    Attributes:
-        links:
-            URLs to pages related to the resource.
-        directory_id:
-            The directory ID of the file. If the file is not a directory, then this field
-            has
-            a value of `null`.
-        is_directory:
-            Determines whether or not this file is a directory. If true, then this file
-            is a directory.
-        modified_timestamp:
-            The timestamp of when this file was last modified.
-        name:
-            Name of this file.
-        size:
-            Size of this file, in bytes.
+        Attributes:
+            Links:
+                Urls to pages related to the resource.
+
+            DirectoryId:
+                The directory id of the file. if the file is not a directory, then this field has
+    a value of `null`.
+
+            IsDirectory:
+                Determines whether or not this file is a directory. if true, then this file
+    is a directory.
+
+            ModifiedTimestamp:
+                The timestamp of when this file was last modified.
+
+            Name:
+                Name of this file.
+
+            Size:
+                Size of this file, in bytes.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {
-        'links': '_links',
-        'directory_id': 'directory_id',
-        'is_directory': 'is_directory',
-        'modified_timestamp': 'modified_timestamp',
-        'name': 'name',
-        'size': 'size',
-    }
+    Links: directory_links_.DirectoryLinks | None = None
+    DirectoryId: str | None = None
+    IsDirectory: bool | None = None
+    ModifiedTimestamp: str | None = None
+    Name: str | None = None
+    Size: int | None = None
 
-    def __init__(
-        self,
-        links: directory_links.DirectoryLinks = None,
-        directory_id: str = None,
-        is_directory: bool = None,
-        modified_timestamp: str = None,
-        name: str = None,
-        size: int = None,
-    ) -> None:
-        """Constructor for the Directory class."""
-
-        # Initialize members of the class
-        self.links: directory_links.DirectoryLinks = links
-        self.directory_id: str = directory_id
-        self.is_directory: bool = is_directory
-        self.modified_timestamp: str = modified_timestamp
-        self.name: str = name
-        self.size: int = size
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -71,21 +66,48 @@ class Directory:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = '_links'
-        links = (
-            directory_links.DirectoryLinks.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
+        val = dictionary.get('_links', None)
+        val_links = directory_links_.DirectoryLinks.from_dictionary(val)
+
+        val = dictionary.get('directory_id', None)
+        val_directory_id = val
+
+        val = dictionary.get('is_directory', None)
+        val_is_directory = val
+
+        val = dictionary.get('modified_timestamp', None)
+        val_modified_timestamp = val
+
+        val = dictionary.get('name', None)
+        val_name = val
+
+        val = dictionary.get('size', None)
+        val_size = val
+
+        # Return an object of this model
+        return cls(
+            val_links,
+            val_directory_id,
+            val_is_directory,
+            val_modified_timestamp,
+            val_name,
+            val_size,
         )
 
-        directory_id = dictionary.get('directory_id')
-        is_directory = dictionary.get('is_directory')
-        modified_timestamp = dictionary.get('modified_timestamp')
-        name = dictionary.get('name')
-        size = dictionary.get('size')
-        # Return an object of this model
-        return cls(links, directory_id, is_directory, modified_timestamp, name, size)
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

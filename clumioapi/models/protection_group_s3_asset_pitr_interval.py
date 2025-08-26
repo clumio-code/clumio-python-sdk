@@ -1,34 +1,42 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='ProtectionGroupS3AssetPitrInterval')
 
 
+@dataclasses.dataclass
 class ProtectionGroupS3AssetPitrInterval:
     """Implementation of the 'ProtectionGroupS3AssetPitrInterval' model.
 
     Attributes:
-        end_timestamp:
-            The end time of the interval, represented in RFC3339 format.
-        start_timestamp:
-            The start time of the interval, represented in RFC3339 format.
+        EndTimestamp:
+            The end time of the interval, represented in rfc3339 format.
+
+        StartTimestamp:
+            The start time of the interval, represented in rfc3339 format.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {'end_timestamp': 'end_timestamp', 'start_timestamp': 'start_timestamp'}
+    EndTimestamp: str | None = None
+    StartTimestamp: str | None = None
 
-    def __init__(self, end_timestamp: str = None, start_timestamp: str = None) -> None:
-        """Constructor for the ProtectionGroupS3AssetPitrInterval class."""
-
-        # Initialize members of the class
-        self.end_timestamp: str = end_timestamp
-        self.start_timestamp: str = start_timestamp
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -39,11 +47,32 @@ class ProtectionGroupS3AssetPitrInterval:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        val_end_timestamp = dictionary.get('end_timestamp')
-        val_start_timestamp = dictionary.get('start_timestamp')
+        val = dictionary.get('end_timestamp', None)
+        val_end_timestamp = val
+
+        val = dictionary.get('start_timestamp', None)
+        val_start_timestamp = val
+
         # Return an object of this model
-        return cls(val_end_timestamp, val_start_timestamp)
+        return cls(
+            val_end_timestamp,
+            val_start_timestamp,
+        )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

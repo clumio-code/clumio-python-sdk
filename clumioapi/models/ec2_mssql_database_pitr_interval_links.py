@@ -1,35 +1,41 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
-from clumioapi.models import hateoas_link
+from clumioapi.api_helper import camel_to_snake
+from clumioapi.models import hateoas_link as hateoas_link_
+import requests
 
 T = TypeVar('T', bound='EC2MssqlDatabasePitrIntervalLinks')
 
 
+@dataclasses.dataclass
 class EC2MssqlDatabasePitrIntervalLinks:
     """Implementation of the 'EC2MssqlDatabasePitrIntervalLinks' model.
 
     URLs to pages related to the resource.
 
     Attributes:
-        restore_ec2_mssql_database:
-            A resource-specific HATEOAS link.
+        RestoreEc2MssqlDatabase:
+            A resource-specific hateoas link.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {'restore_ec2_mssql_database': 'restore-ec2-mssql-database'}
+    RestoreEc2MssqlDatabase: hateoas_link_.HateoasLink | None = None
 
-    def __init__(self, restore_ec2_mssql_database: hateoas_link.HateoasLink = None) -> None:
-        """Constructor for the EC2MssqlDatabasePitrIntervalLinks class."""
-
-        # Initialize members of the class
-        self.restore_ec2_mssql_database: hateoas_link.HateoasLink = restore_ec2_mssql_database
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -40,16 +46,28 @@ class EC2MssqlDatabasePitrIntervalLinks:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = 'restore-ec2-mssql-database'
-        restore_ec2_mssql_database = (
-            hateoas_link.HateoasLink.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('restore-ec2-mssql-database', None)
+        val_restore_ec2_mssql_database = hateoas_link_.HateoasLink.from_dictionary(val)
 
         # Return an object of this model
-        return cls(restore_ec2_mssql_database)
+        return cls(
+            val_restore_ec2_mssql_database,
+        )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

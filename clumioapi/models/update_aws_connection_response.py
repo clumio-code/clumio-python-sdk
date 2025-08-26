@@ -1,170 +1,185 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
-from clumioapi.models import aws_connection_links
-from clumioapi.models import consolidated_config
-from clumioapi.models import discover_config
-from clumioapi.models import protect_config
+from clumioapi.api_helper import camel_to_snake
+from clumioapi.models import aws_connection_links as aws_connection_links_
+from clumioapi.models import connection_resources_resp as connection_resources_resp_
+from clumioapi.models import consolidated_config as consolidated_config_
+from clumioapi.models import discover_config as discover_config_
+from clumioapi.models import protect_config as protect_config_
+import requests
 
 T = TypeVar('T', bound='UpdateAWSConnectionResponse')
 
 
+@dataclasses.dataclass
 class UpdateAWSConnectionResponse:
     """Implementation of the 'UpdateAWSConnectionResponse' model.
 
-    Attributes:
-        links:
-            URLs to pages related to the resource.
-        account_name:
-            The alias given to the account on AWS.
-        account_native_id:
-            The AWS-assigned ID of the account associated with the connection.
-        aws_region:
-            The AWS region associated with the connection. For example, `us-east-1`.
-        clumio_aws_account_id:
-            AWS account ID of the Clumio control plane.
-        clumio_aws_region:
-            AWS region of the Clumio control plane
-        config:
-            The consolidated configuration of the Clumio Cloud Protect and Clumio Cloud
-            Discover products for this connection.
-            If this connection is deprecated to use unconsolidated configuration, then this
-            field has a
-            value of `null`.
-        connection_status:
-            The status of the connection. Possible values include "connecting",
-            "connected", and "unlinked".
-        created_timestamp:
-            The timestamp of when the connection was created.
-        data_plane_account_id:
-            AWS account ID of the data plane for the connection.
-        description:
-            The user-provided description for this connection.
-        discover:
-            The configuration of the Clumio Discover product for this connection.
-            If this connection is not configured for Clumio Discover, then this field has a
-            value of `null`.
-        external_id:
-            Clumio assigned external ID of the connection or of the associated connection
-            group.
-        p_id:
-            The Clumio-assigned ID of the connection.
-        namespace:
-            K8S Namespace
-        organizational_unit_id:
-            The Clumio-assigned ID of the organizational unit associated with the
-            AWS environment. If this parameter is not provided, then the value
-            defaults to the first organizational unit assigned to the requesting
-            user. For more information about organizational units, refer to the
-            Organizational-Units documentation.
-        protect:
-            The configuration of the Clumio Cloud Protect product for this connection.
-            If this connection is not configured for Clumio Cloud Protect, then this field
-            has a
-            value of `null`.
-        protect_asset_types_enabled:
-            The asset types enabled for protect.
-            Valid values are any of ["EBS", "RDS", "DynamoDB", "EC2MSSQL", "S3"].
-        services_enabled:
-            The services to be enabled for this configuration. Valid values are
-            ["discover"], ["discover", "protect"]. This is only set when the
-            registration is created, the enabled services are obtained directly from
-            the installed template after that. (Deprecated as all connections will have
-            both discover and protect enabled)
-        stack_arn:
-            The Amazon Resource Name of the installed CloudFormation stack in this AWS
-            account
-        stack_name:
-            The name given to the installed CloudFormation stack on AWS.
-        token:
-            The 36-character Clumio AWS integration ID token used to identify the
-            installation of the CloudFormation template on the account. This value
-            will be pasted into the ClumioToken field when creating the
-            CloudFormation stack.
+        Attributes:
+            Links:
+                Urls to pages related to the resource.
+
+            AccountName:
+                The alias given to the account on aws.
+
+            AccountNativeId:
+                The aws-assigned id of the account associated with the connection.
+
+            AwsRegion:
+                The aws region associated with the connection. for example, `us-east-1`.
+
+            ClumioAwsAccountId:
+                Aws account id of the clumio control plane.
+
+            ClumioAwsRegion:
+                Aws region of the clumio control plane.
+
+            Config:
+                The consolidated configuration of the clumio cloud protect and clumio cloud discover products for this connection.
+    if this connection is deprecated to use unconsolidated configuration, then this field has a
+    value of `null`.
+
+            ConnectionGroupId:
+                Clumio assigned id of the associated connection group.
+
+            ConnectionManagementStatus:
+                Management status of connection.
+
+            ConnectionStatus:
+                The status of the connection considering all the deployments made for it.
+
+            CreatedTimestamp:
+                The timestamp of when the connection was created.
+
+            DataPlaneAccountId:
+                Aws account id of the data plane for the connection.
+
+            DeploymentType:
+                The deployment method with which the currently active connection was established.
+
+            Description:
+                The user-provided description for this connection.
+
+            Discover:
+                The configuration of the clumio discover product for this connection.
+    if this connection is not configured for clumio discover, then this field has a
+    value of `null`.
+
+            ExternalId:
+                Clumio assigned external id of the connection or of the associated connection group.
+
+            Id:
+                The clumio-assigned id of the connection.
+
+            IngestionStatus:
+                Status denoting whether ingestion has started for the connection.
+    valid values are "initial", "in_progress", "failed", "completed".
+
+            Namespace:
+                K8s namespace.
+
+            OrganizationalUnitId:
+                The clumio-assigned id of the organizational unit associated with the
+    aws environment. if this parameter is not provided, then the value
+    defaults to the first organizational unit assigned to the requesting
+    user. for more information about organizational units, refer to the
+    organizational-units documentation.
+
+            Protect:
+                The configuration of the clumio cloud protect product for this connection.
+    if this connection is not configured for clumio cloud protect, then this field has a
+    value of `null`.
+
+            ProtectAssetTypesEnabled:
+                The asset types enabled for protect.
+    valid values are any of ["ec2/ebs", "rds", "dynamodb", "ec2mssql", "s3", "ebs", "icebergonglue"].
+
+    note -
+    1. ec2/ebs is required for ec2mssql.
+    2. ebs as a value is deprecated in favor of ec2/ebs.
+
+            Resources:
+                .
+
+            RetiredStackArn:
+                The amazon resource name of the stale cloudformation stack when the connection was migrated to connection groups.
+    note - this has to be removed from aws as well to delete the connection completely.
+
+            ServicesEnabled:
+                The services to be enabled for this configuration. valid values are
+    ["discover"], ["discover", "protect"]. this is only set when the
+    registration is created, the enabled services are obtained directly from
+    the installed template after that. (deprecated as all connections will have
+    both discover and protect enabled).
+
+            StackArn:
+                The amazon resource name of the installed and active cloudformation stack(if any) in aws.
+
+            StackName:
+                The name given to the installed and active cloudformation stack(if any) in aws.
+
+            TargetSetupStatus:
+                Status denoting whether target setup has started for the connection.
+    valid values are "initial", "in_progress", "failed", "completed".
+
+            TemplatePermissionSet:
+                .
+
+            Token:
+                The 36-character clumio aws integration id token used to identify the
+    installation of the cloudformation template on the account. this value
+    will be pasted into the clumiotoken field when creating the
+    cloudformation stack.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {
-        'links': '_links',
-        'account_name': 'account_name',
-        'account_native_id': 'account_native_id',
-        'aws_region': 'aws_region',
-        'clumio_aws_account_id': 'clumio_aws_account_id',
-        'clumio_aws_region': 'clumio_aws_region',
-        'config': 'config',
-        'connection_status': 'connection_status',
-        'created_timestamp': 'created_timestamp',
-        'data_plane_account_id': 'data_plane_account_id',
-        'description': 'description',
-        'discover': 'discover',
-        'external_id': 'external_id',
-        'p_id': 'id',
-        'namespace': 'namespace',
-        'organizational_unit_id': 'organizational_unit_id',
-        'protect': 'protect',
-        'protect_asset_types_enabled': 'protect_asset_types_enabled',
-        'services_enabled': 'services_enabled',
-        'stack_arn': 'stack_arn',
-        'stack_name': 'stack_name',
-        'token': 'token',
-    }
+    Links: aws_connection_links_.AWSConnectionLinks | None = None
+    AccountName: str | None = None
+    AccountNativeId: str | None = None
+    AwsRegion: str | None = None
+    ClumioAwsAccountId: str | None = None
+    ClumioAwsRegion: str | None = None
+    Config: consolidated_config_.ConsolidatedConfig | None = None
+    ConnectionGroupId: str | None = None
+    ConnectionManagementStatus: str | None = None
+    ConnectionStatus: str | None = None
+    CreatedTimestamp: str | None = None
+    DataPlaneAccountId: str | None = None
+    DeploymentType: str | None = None
+    Description: str | None = None
+    Discover: discover_config_.DiscoverConfig | None = None
+    ExternalId: str | None = None
+    Id: str | None = None
+    IngestionStatus: str | None = None
+    Namespace: str | None = None
+    OrganizationalUnitId: str | None = None
+    Protect: protect_config_.ProtectConfig | None = None
+    ProtectAssetTypesEnabled: Sequence[str] | None = None
+    Resources: connection_resources_resp_.ConnectionResourcesResp | None = None
+    RetiredStackArn: str | None = None
+    ServicesEnabled: Sequence[str] | None = None
+    StackArn: str | None = None
+    StackName: str | None = None
+    TargetSetupStatus: str | None = None
+    TemplatePermissionSet: str | None = None
+    Token: str | None = None
+    raw_response: Optional[requests.Response] = None
 
-    def __init__(
-        self,
-        links: aws_connection_links.AWSConnectionLinks = None,
-        account_name: str = None,
-        account_native_id: str = None,
-        aws_region: str = None,
-        clumio_aws_account_id: str = None,
-        clumio_aws_region: str = None,
-        config: consolidated_config.ConsolidatedConfig = None,
-        connection_status: str = None,
-        created_timestamp: str = None,
-        data_plane_account_id: str = None,
-        description: str = None,
-        discover: discover_config.DiscoverConfig = None,
-        external_id: str = None,
-        p_id: str = None,
-        namespace: str = None,
-        organizational_unit_id: str = None,
-        protect: protect_config.ProtectConfig = None,
-        protect_asset_types_enabled: Sequence[str] = None,
-        services_enabled: Sequence[str] = None,
-        stack_arn: str = None,
-        stack_name: str = None,
-        token: str = None,
-    ) -> None:
-        """Constructor for the UpdateAWSConnectionResponse class."""
-
-        # Initialize members of the class
-        self.links: aws_connection_links.AWSConnectionLinks = links
-        self.account_name: str = account_name
-        self.account_native_id: str = account_native_id
-        self.aws_region: str = aws_region
-        self.clumio_aws_account_id: str = clumio_aws_account_id
-        self.clumio_aws_region: str = clumio_aws_region
-        self.config: consolidated_config.ConsolidatedConfig = config
-        self.connection_status: str = connection_status
-        self.created_timestamp: str = created_timestamp
-        self.data_plane_account_id: str = data_plane_account_id
-        self.description: str = description
-        self.discover: discover_config.DiscoverConfig = discover
-        self.external_id: str = external_id
-        self.p_id: str = p_id
-        self.namespace: str = namespace
-        self.organizational_unit_id: str = organizational_unit_id
-        self.protect: protect_config.ProtectConfig = protect
-        self.protect_asset_types_enabled: Sequence[str] = protect_asset_types_enabled
-        self.services_enabled: Sequence[str] = services_enabled
-        self.stack_arn: str = stack_arn
-        self.stack_name: str = stack_name
-        self.token: str = token
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -175,78 +190,145 @@ class UpdateAWSConnectionResponse:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = '_links'
-        links = (
-            aws_connection_links.AWSConnectionLinks.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('_links', None)
+        val_links = aws_connection_links_.AWSConnectionLinks.from_dictionary(val)
 
-        account_name = dictionary.get('account_name')
-        account_native_id = dictionary.get('account_native_id')
-        aws_region = dictionary.get('aws_region')
-        clumio_aws_account_id = dictionary.get('clumio_aws_account_id')
-        clumio_aws_region = dictionary.get('clumio_aws_region')
-        key = 'config'
-        config = (
-            consolidated_config.ConsolidatedConfig.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('account_name', None)
+        val_account_name = val
 
-        connection_status = dictionary.get('connection_status')
-        created_timestamp = dictionary.get('created_timestamp')
-        data_plane_account_id = dictionary.get('data_plane_account_id')
-        description = dictionary.get('description')
-        key = 'discover'
-        discover = (
-            discover_config.DiscoverConfig.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('account_native_id', None)
+        val_account_native_id = val
 
-        external_id = dictionary.get('external_id')
-        p_id = dictionary.get('id')
-        namespace = dictionary.get('namespace')
-        organizational_unit_id = dictionary.get('organizational_unit_id')
-        key = 'protect'
-        protect = (
-            protect_config.ProtectConfig.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('aws_region', None)
+        val_aws_region = val
 
-        protect_asset_types_enabled = dictionary.get('protect_asset_types_enabled')
-        services_enabled = dictionary.get('services_enabled')
-        stack_arn = dictionary.get('stack_arn')
-        stack_name = dictionary.get('stack_name')
-        token = dictionary.get('token')
+        val = dictionary.get('clumio_aws_account_id', None)
+        val_clumio_aws_account_id = val
+
+        val = dictionary.get('clumio_aws_region', None)
+        val_clumio_aws_region = val
+
+        val = dictionary.get('config', None)
+        val_config = consolidated_config_.ConsolidatedConfig.from_dictionary(val)
+
+        val = dictionary.get('connection_group_id', None)
+        val_connection_group_id = val
+
+        val = dictionary.get('connection_management_status', None)
+        val_connection_management_status = val
+
+        val = dictionary.get('connection_status', None)
+        val_connection_status = val
+
+        val = dictionary.get('created_timestamp', None)
+        val_created_timestamp = val
+
+        val = dictionary.get('data_plane_account_id', None)
+        val_data_plane_account_id = val
+
+        val = dictionary.get('deployment_type', None)
+        val_deployment_type = val
+
+        val = dictionary.get('description', None)
+        val_description = val
+
+        val = dictionary.get('discover', None)
+        val_discover = discover_config_.DiscoverConfig.from_dictionary(val)
+
+        val = dictionary.get('external_id', None)
+        val_external_id = val
+
+        val = dictionary.get('id', None)
+        val_id = val
+
+        val = dictionary.get('ingestion_status', None)
+        val_ingestion_status = val
+
+        val = dictionary.get('namespace', None)
+        val_namespace = val
+
+        val = dictionary.get('organizational_unit_id', None)
+        val_organizational_unit_id = val
+
+        val = dictionary.get('protect', None)
+        val_protect = protect_config_.ProtectConfig.from_dictionary(val)
+
+        val = dictionary.get('protect_asset_types_enabled', None)
+        val_protect_asset_types_enabled = val
+
+        val = dictionary.get('resources', None)
+        val_resources = connection_resources_resp_.ConnectionResourcesResp.from_dictionary(val)
+
+        val = dictionary.get('retired_stack_arn', None)
+        val_retired_stack_arn = val
+
+        val = dictionary.get('services_enabled', None)
+        val_services_enabled = val
+
+        val = dictionary.get('stack_arn', None)
+        val_stack_arn = val
+
+        val = dictionary.get('stack_name', None)
+        val_stack_name = val
+
+        val = dictionary.get('target_setup_status', None)
+        val_target_setup_status = val
+
+        val = dictionary.get('template_permission_set', None)
+        val_template_permission_set = val
+
+        val = dictionary.get('token', None)
+        val_token = val
+
         # Return an object of this model
         return cls(
-            links,
-            account_name,
-            account_native_id,
-            aws_region,
-            clumio_aws_account_id,
-            clumio_aws_region,
-            config,
-            connection_status,
-            created_timestamp,
-            data_plane_account_id,
-            description,
-            discover,
-            external_id,
-            p_id,
-            namespace,
-            organizational_unit_id,
-            protect,
-            protect_asset_types_enabled,
-            services_enabled,
-            stack_arn,
-            stack_name,
-            token,
+            val_links,
+            val_account_name,
+            val_account_native_id,
+            val_aws_region,
+            val_clumio_aws_account_id,
+            val_clumio_aws_region,
+            val_config,
+            val_connection_group_id,
+            val_connection_management_status,
+            val_connection_status,
+            val_created_timestamp,
+            val_data_plane_account_id,
+            val_deployment_type,
+            val_description,
+            val_discover,
+            val_external_id,
+            val_id,
+            val_ingestion_status,
+            val_namespace,
+            val_organizational_unit_id,
+            val_protect,
+            val_protect_asset_types_enabled,
+            val_resources,
+            val_retired_stack_arn,
+            val_services_enabled,
+            val_stack_arn,
+            val_stack_name,
+            val_target_setup_status,
+            val_template_permission_set,
+            val_token,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        model_instance.raw_response = response
+        return model_instance

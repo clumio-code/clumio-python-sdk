@@ -1,9 +1,10 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
-from typing import Optional, Union
+from typing import Any, Iterator, Optional, Union
+import urllib.parse
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -34,101 +35,89 @@ class GeneralSettingsV2Controller(base_controller.BaseController):
     def read_general_settings(self, **kwargs):
         """Retrieves organization-wide setting details, including password and security
         settings.
-        Returns:
-            requests.Response: Raw Response from the API if config.raw_response is set to True.
-            read_general_settings_response_v2.ReadGeneralSettingsResponseV2: Response from the API.
-        Raises:
-            ClumioException: An error occured while executing the API.
-                This exception includes the HTTP response code, an error
-                message, and the HTTP body that was received in the request.
         """
+
+        def get_instance_from_response(response: requests.Response) -> Any:
+            return read_general_settings_response_v2.ReadGeneralSettingsResponseV2.from_response(
+                response
+            )
 
         # Prepare query URL
         _url_path = '/settings/general'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
+        resp_instance: read_general_settings_response_v2.ReadGeneralSettingsResponseV2
         # Execute request
+        resp: requests.Response
         try:
             resp = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
-        except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
-                return http_error.response, None
-            errors = self.client.get_error_message(http_error.response)
-            raise clumio_exception.ClumioException(
-                'Error occurred while executing read_general_settings.', errors
-            )
+        except requests.exceptions.HTTPError as e:
+            resp = e.response
 
-        if self.config.raw_response:
-            return (
-                resp,
-                read_general_settings_response_v2.ReadGeneralSettingsResponseV2.from_dictionary(
-                    resp.json()
-                ),
-            )
-        return read_general_settings_response_v2.ReadGeneralSettingsResponseV2.from_dictionary(resp)
+        if not resp.ok:
+            error_str = f'read_general_settings for url {urllib.parse.unquote(resp.url)} failed.'
+            raise clumio_exception.ClumioException(error_str, resp=resp)
+
+        resp_instance = get_instance_from_response(resp)
+
+        return resp_instance
 
     def update_general_settings(
         self,
-        body: update_general_settings_v2_request.UpdateGeneralSettingsV2Request = None,
+        body: update_general_settings_v2_request.UpdateGeneralSettingsV2Request | None = None,
         **kwargs,
-    ) -> Union[
-        patch_general_settings_response_v2.PatchGeneralSettingsResponseV2,
-        tuple[
-            requests.Response,
-            Optional[patch_general_settings_response_v2.PatchGeneralSettingsResponseV2],
-        ],
-    ]:
+    ) -> patch_general_settings_response_v2.PatchGeneralSettingsResponseV2:
         """Updates organization-wide settings, including password and security settings.
 
         Args:
             body:
 
-        Returns:
-            requests.Response: Raw Response from the API if config.raw_response is set to True.
-            patch_general_settings_response_v2.PatchGeneralSettingsResponseV2: Response from the API.
-        Raises:
-            ClumioException: An error occured while executing the API.
-                This exception includes the HTTP response code, an error
-                message, and the HTTP body that was received in the request.
         """
+
+        def get_instance_from_response(response: requests.Response) -> Any:
+            return patch_general_settings_response_v2.PatchGeneralSettingsResponseV2.from_response(
+                response
+            )
 
         # Prepare query URL
         _url_path = '/settings/general'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
+        resp_instance: patch_general_settings_response_v2.PatchGeneralSettingsResponseV2
         # Execute request
+        resp: requests.Response
         try:
             resp = self.client.patch(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                json=api_helper.to_dictionary(body),
-                raw_response=self.config.raw_response,
+                json=body.dict() if body else None,
+                raw_response=True,
                 **kwargs,
             )
-        except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
-                return http_error.response, None
-            errors = self.client.get_error_message(http_error.response)
-            raise clumio_exception.ClumioException(
-                'Error occurred while executing update_general_settings.', errors
-            )
+        except requests.exceptions.HTTPError as e:
+            resp = e.response
 
-        if self.config.raw_response:
-            return (
-                resp,
-                patch_general_settings_response_v2.PatchGeneralSettingsResponseV2.from_dictionary(
-                    resp.json()
-                ),
-            )
-        return patch_general_settings_response_v2.PatchGeneralSettingsResponseV2.from_dictionary(
-            resp
-        )
+        if not resp.ok:
+            error_str = f'update_general_settings for url {urllib.parse.unquote(resp.url)} failed.'
+            raise clumio_exception.ClumioException(error_str, resp=resp)
+
+        resp_instance = get_instance_from_response(resp)
+
+        return resp_instance
+
+
+class GeneralSettingsV2ControllerPaginator(base_controller.BaseController):
+    """A Controller to access Endpoints for general-settings resource with pagination."""
+
+    def __init__(self, config: configuration.Configuration) -> None:
+        super().__init__(config)
+        self.controller = GeneralSettingsV2Controller(config)

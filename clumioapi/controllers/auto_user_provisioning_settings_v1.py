@@ -1,9 +1,10 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
-from typing import Optional, Union
+from typing import Any, Iterator, Optional, Union
+import urllib.parse
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -32,106 +33,96 @@ class AutoUserProvisioningSettingsV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def read_auto_user_provisioning_setting(self, **kwargs):
-        """Returns a representation of the auto user provisioning settings.
-        Returns:
-            requests.Response: Raw Response from the API if config.raw_response is set to True.
-            read_auto_user_provisioning_setting_response.ReadAutoUserProvisioningSettingResponse: Response from the API.
-        Raises:
-            ClumioException: An error occured while executing the API.
-                This exception includes the HTTP response code, an error
-                message, and the HTTP body that was received in the request.
-        """
+        """Returns a representation of the auto user provisioning settings."""
+
+        def get_instance_from_response(response: requests.Response) -> Any:
+            return read_auto_user_provisioning_setting_response.ReadAutoUserProvisioningSettingResponse.from_response(
+                response
+            )
 
         # Prepare query URL
         _url_path = '/settings/auto-user-provisioning'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
+        resp_instance: (
+            read_auto_user_provisioning_setting_response.ReadAutoUserProvisioningSettingResponse
+        )
         # Execute request
+        resp: requests.Response
         try:
             resp = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
-        except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
-                return http_error.response, None
-            errors = self.client.get_error_message(http_error.response)
-            raise clumio_exception.ClumioException(
-                'Error occurred while executing read_auto_user_provisioning_setting.', errors
-            )
+        except requests.exceptions.HTTPError as e:
+            resp = e.response
 
-        if self.config.raw_response:
-            return (
-                resp,
-                read_auto_user_provisioning_setting_response.ReadAutoUserProvisioningSettingResponse.from_dictionary(
-                    resp.json()
-                ),
-            )
-        return read_auto_user_provisioning_setting_response.ReadAutoUserProvisioningSettingResponse.from_dictionary(
-            resp
-        )
+        if not resp.ok:
+            error_str = f'read_auto_user_provisioning_setting for url {urllib.parse.unquote(resp.url)} failed.'
+            raise clumio_exception.ClumioException(error_str, resp=resp)
+
+        resp_instance = get_instance_from_response(resp)
+
+        return resp_instance
 
     def update_auto_user_provisioning_setting(
         self,
-        body: update_auto_user_provisioning_setting_v1_request.UpdateAutoUserProvisioningSettingV1Request = None,
+        body: (
+            update_auto_user_provisioning_setting_v1_request.UpdateAutoUserProvisioningSettingV1Request
+            | None
+        ) = None,
         **kwargs,
-    ) -> Union[
-        update_auto_user_provisioning_setting_response.UpdateAutoUserProvisioningSettingResponse,
-        tuple[
-            requests.Response,
-            Optional[
-                update_auto_user_provisioning_setting_response.UpdateAutoUserProvisioningSettingResponse
-            ],
-        ],
-    ]:
+    ) -> update_auto_user_provisioning_setting_response.UpdateAutoUserProvisioningSettingResponse:
         """Update the auto user provisioning settings.
 
         Args:
             body:
 
-        Returns:
-            requests.Response: Raw Response from the API if config.raw_response is set to True.
-            update_auto_user_provisioning_setting_response.UpdateAutoUserProvisioningSettingResponse: Response from the API.
-        Raises:
-            ClumioException: An error occured while executing the API.
-                This exception includes the HTTP response code, an error
-                message, and the HTTP body that was received in the request.
         """
+
+        def get_instance_from_response(response: requests.Response) -> Any:
+            return update_auto_user_provisioning_setting_response.UpdateAutoUserProvisioningSettingResponse.from_response(
+                response
+            )
 
         # Prepare query URL
         _url_path = '/settings/auto-user-provisioning'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
+        resp_instance: (
+            update_auto_user_provisioning_setting_response.UpdateAutoUserProvisioningSettingResponse
+        )
         # Execute request
+        resp: requests.Response
         try:
             resp = self.client.put(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                json=api_helper.to_dictionary(body),
-                raw_response=self.config.raw_response,
+                json=body.dict() if body else None,
+                raw_response=True,
                 **kwargs,
             )
-        except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
-                return http_error.response, None
-            errors = self.client.get_error_message(http_error.response)
-            raise clumio_exception.ClumioException(
-                'Error occurred while executing update_auto_user_provisioning_setting.', errors
-            )
+        except requests.exceptions.HTTPError as e:
+            resp = e.response
 
-        if self.config.raw_response:
-            return (
-                resp,
-                update_auto_user_provisioning_setting_response.UpdateAutoUserProvisioningSettingResponse.from_dictionary(
-                    resp.json()
-                ),
-            )
-        return update_auto_user_provisioning_setting_response.UpdateAutoUserProvisioningSettingResponse.from_dictionary(
-            resp
-        )
+        if not resp.ok:
+            error_str = f'update_auto_user_provisioning_setting for url {urllib.parse.unquote(resp.url)} failed.'
+            raise clumio_exception.ClumioException(error_str, resp=resp)
+
+        resp_instance = get_instance_from_response(resp)
+
+        return resp_instance
+
+
+class AutoUserProvisioningSettingsV1ControllerPaginator(base_controller.BaseController):
+    """A Controller to access Endpoints for auto-user-provisioning-settings resource with pagination."""
+
+    def __init__(self, config: configuration.Configuration) -> None:
+        super().__init__(config)
+        self.controller = AutoUserProvisioningSettingsV1Controller(config)

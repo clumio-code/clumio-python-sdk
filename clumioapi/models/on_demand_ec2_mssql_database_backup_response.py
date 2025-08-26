@@ -1,52 +1,59 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
-from clumioapi.models import create_on_demand_ec2_mssql_database_backup_response_links
-from clumioapi.models import hateoas_self_link
-from clumioapi.models import read_task_hateoas_outer_embedded
+from clumioapi.api_helper import camel_to_snake
+from clumioapi.models import \
+    create_on_demand_ec2_mssql_database_backup_response_links as \
+    create_on_demand_ec2_mssql_database_backup_response_links_
+from clumioapi.models import hateoas_self_link as hateoas_self_link_
+from clumioapi.models import read_task_hateoas_outer_embedded as read_task_hateoas_outer_embedded_
+import requests
 
 T = TypeVar('T', bound='OnDemandEC2MSSQLDatabaseBackupResponse')
 
 
+@dataclasses.dataclass
 class OnDemandEC2MSSQLDatabaseBackupResponse:
     """Implementation of the 'OnDemandEC2MSSQLDatabaseBackupResponse' model.
 
     Attributes:
-        embedded:
+        Embedded:
             Embedded responses related to the resource.
-        links:
-            URLs to pages related to the resource.
-        p_self:
-            The HATEOAS link to this resource.
-        task_id:
-            Task Id
+
+        Links:
+            Urls to pages related to the resource.
+
+        Self:
+            The hateoas link to this resource.
+
+        TaskId:
+            Task id.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {'embedded': '_embedded', 'links': '_links', 'p_self': '_self', 'task_id': 'task_id'}
+    Embedded: read_task_hateoas_outer_embedded_.ReadTaskHateoasOuterEmbedded | None = None
+    Links: (
+        create_on_demand_ec2_mssql_database_backup_response_links_.CreateOnDemandEC2MSSQLDatabaseBackupResponseLinks
+        | None
+    ) = None
+    Self: hateoas_self_link_.HateoasSelfLink | None = None
+    TaskId: str | None = None
+    raw_response: Optional[requests.Response] = None
 
-    def __init__(
-        self,
-        embedded: read_task_hateoas_outer_embedded.ReadTaskHateoasOuterEmbedded = None,
-        links: create_on_demand_ec2_mssql_database_backup_response_links.CreateOnDemandEC2MSSQLDatabaseBackupResponseLinks = None,
-        p_self: hateoas_self_link.HateoasSelfLink = None,
-        task_id: str = None,
-    ) -> None:
-        """Constructor for the OnDemandEC2MSSQLDatabaseBackupResponse class."""
-
-        # Initialize members of the class
-        self.embedded: read_task_hateoas_outer_embedded.ReadTaskHateoasOuterEmbedded = embedded
-        self.links: (
-            create_on_demand_ec2_mssql_database_backup_response_links.CreateOnDemandEC2MSSQLDatabaseBackupResponseLinks
-        ) = links
-        self.p_self: hateoas_self_link.HateoasSelfLink = p_self
-        self.task_id: str = task_id
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -57,35 +64,45 @@ class OnDemandEC2MSSQLDatabaseBackupResponse:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = '_embedded'
-        embedded = (
-            read_task_hateoas_outer_embedded.ReadTaskHateoasOuterEmbedded.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
+        val = dictionary.get('_embedded', None)
+        val_embedded = (
+            read_task_hateoas_outer_embedded_.ReadTaskHateoasOuterEmbedded.from_dictionary(val)
         )
 
-        key = '_links'
-        links = (
-            create_on_demand_ec2_mssql_database_backup_response_links.CreateOnDemandEC2MSSQLDatabaseBackupResponseLinks.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
+        val = dictionary.get('_links', None)
+        val_links = create_on_demand_ec2_mssql_database_backup_response_links_.CreateOnDemandEC2MSSQLDatabaseBackupResponseLinks.from_dictionary(
+            val
         )
 
-        key = '_self'
-        p_self = (
-            hateoas_self_link.HateoasSelfLink.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('_self', None)
+        val_self = hateoas_self_link_.HateoasSelfLink.from_dictionary(val)
 
-        task_id = dictionary.get('task_id')
+        val = dictionary.get('task_id', None)
+        val_task_id = val
+
         # Return an object of this model
-        return cls(embedded, links, p_self, task_id)
+        return cls(
+            val_embedded,
+            val_links,
+            val_self,
+            val_task_id,
+        )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        model_instance.raw_response = response
+        return model_instance

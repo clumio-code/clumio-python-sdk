@@ -1,40 +1,47 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='FileDescriptor')
 
 
+@dataclasses.dataclass
 class FileDescriptor:
     """Implementation of the 'FileDescriptor' model.
 
-    Specifies a file/directory by providing path and file system.
+        Specifies a file/directory by providing path and file system.
 
-    Attributes:
-        filesystem_id:
-            The Clumio-assigned ID of the filesystem within which to restore the file. Use
-            [ GET /backups/files/search/{search_result_id}/versions](#operation/list-file-
-            versions)
-            to fetch the value.
-        path:
-            The path of the file to be restored. Use
-            [GET /backups/files/search](#operation/list-files) to fetch the value.
+        Attributes:
+            FilesystemId:
+                The clumio-assigned id of the filesystem within which to restore the file. use
+    [ get /backups/files/search/{search_result_id}/versions](#operation/list-file-versions)
+    to fetch the value.
+
+            Path:
+                The path of the file to be restored. use
+    [get /backups/files/search](#operation/list-files) to fetch the value.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {'filesystem_id': 'filesystem_id', 'path': 'path'}
+    FilesystemId: str | None = None
+    Path: str | None = None
 
-    def __init__(self, filesystem_id: str = None, path: str = None) -> None:
-        """Constructor for the FileDescriptor class."""
-
-        # Initialize members of the class
-        self.filesystem_id: str = filesystem_id
-        self.path: str = path
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -45,11 +52,32 @@ class FileDescriptor:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        filesystem_id = dictionary.get('filesystem_id')
-        path = dictionary.get('path')
+        val = dictionary.get('filesystem_id', None)
+        val_filesystem_id = val
+
+        val = dictionary.get('path', None)
+        val_path = val
+
         # Return an object of this model
-        return cls(filesystem_id, path)
+        return cls(
+            val_filesystem_id,
+            val_path,
+        )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

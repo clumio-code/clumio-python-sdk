@@ -1,39 +1,41 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
-from clumioapi.models import list_file_versions_hateoas_link
+from clumioapi.api_helper import camel_to_snake
+from clumioapi.models import list_file_versions_hateoas_link as list_file_versions_hateoas_link_
+import requests
 
 T = TypeVar('T', bound='ListFileVersionsHateoasLinks')
 
 
+@dataclasses.dataclass
 class ListFileVersionsHateoasLinks:
     """Implementation of the 'ListFileVersionsHateoasLinks' model.
 
     URLs to pages related to the resource.
 
     Attributes:
-        list_file_versions:
-            A HATEOAS link to the file versions associated with this resource.
+        ListFileVersions:
+            A hateoas link to the file versions associated with this resource.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {'list_file_versions': 'list-file-versions'}
+    ListFileVersions: list_file_versions_hateoas_link_.ListFileVersionsHateoasLink | None = None
 
-    def __init__(
-        self, list_file_versions: list_file_versions_hateoas_link.ListFileVersionsHateoasLink = None
-    ) -> None:
-        """Constructor for the ListFileVersionsHateoasLinks class."""
-
-        # Initialize members of the class
-        self.list_file_versions: list_file_versions_hateoas_link.ListFileVersionsHateoasLink = (
-            list_file_versions
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
         )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -44,18 +46,30 @@ class ListFileVersionsHateoasLinks:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = 'list-file-versions'
-        list_file_versions = (
-            list_file_versions_hateoas_link.ListFileVersionsHateoasLink.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
+        val = dictionary.get('list-file-versions', None)
+        val_list_file_versions = (
+            list_file_versions_hateoas_link_.ListFileVersionsHateoasLink.from_dictionary(val)
         )
 
         # Return an object of this model
-        return cls(list_file_versions)
+        return cls(
+            val_list_file_versions,
+        )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

@@ -1,39 +1,44 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='ProvisionedThroughput')
 
 
+@dataclasses.dataclass
 class ProvisionedThroughput:
     """Implementation of the 'ProvisionedThroughput' model.
 
     Represents the provisioned throughput settings for a DynamoDB table.
 
     Attributes:
-        read_capacity_units:
+        ReadCapacityUnits:
             The maximum number of strongly consistent reads consumed per second.
-        write_capacity_units:
+
+        WriteCapacityUnits:
             The maximum number of writes consumed per second.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {
-        'read_capacity_units': 'read_capacity_units',
-        'write_capacity_units': 'write_capacity_units',
-    }
+    ReadCapacityUnits: int | None = None
+    WriteCapacityUnits: int | None = None
 
-    def __init__(self, read_capacity_units: int = None, write_capacity_units: int = None) -> None:
-        """Constructor for the ProvisionedThroughput class."""
-
-        # Initialize members of the class
-        self.read_capacity_units: int = read_capacity_units
-        self.write_capacity_units: int = write_capacity_units
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -44,11 +49,32 @@ class ProvisionedThroughput:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        read_capacity_units = dictionary.get('read_capacity_units')
-        write_capacity_units = dictionary.get('write_capacity_units')
+        val = dictionary.get('read_capacity_units', None)
+        val_read_capacity_units = val
+
+        val = dictionary.get('write_capacity_units', None)
+        val_write_capacity_units = val
+
         # Return an object of this model
-        return cls(read_capacity_units, write_capacity_units)
+        return cls(
+            val_read_capacity_units,
+            val_write_capacity_units,
+        )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

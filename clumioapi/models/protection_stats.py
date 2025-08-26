@@ -1,46 +1,46 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='ProtectionStats')
 
 
+@dataclasses.dataclass
 class ProtectionStats:
     """Implementation of the 'ProtectionStats' model.
 
     Attributes:
-        deactivated_count:
+        DeactivatedCount:
             The total number of entities associated with deactivated policies.
-        protected_count:
+
+        ProtectedCount:
             The number of entities with protection applied.
-        unprotected_count:
+
+        UnprotectedCount:
             The number of entities without protection applied.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {
-        'deactivated_count': 'deactivated_count',
-        'protected_count': 'protected_count',
-        'unprotected_count': 'unprotected_count',
-    }
+    DeactivatedCount: int | None = None
+    ProtectedCount: int | None = None
+    UnprotectedCount: int | None = None
 
-    def __init__(
-        self,
-        deactivated_count: int = None,
-        protected_count: int = None,
-        unprotected_count: int = None,
-    ) -> None:
-        """Constructor for the ProtectionStats class."""
-
-        # Initialize members of the class
-        self.deactivated_count: int = deactivated_count
-        self.protected_count: int = protected_count
-        self.unprotected_count: int = unprotected_count
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -51,12 +51,36 @@ class ProtectionStats:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        val_deactivated_count = dictionary.get('deactivated_count')
-        val_protected_count = dictionary.get('protected_count')
-        val_unprotected_count = dictionary.get('unprotected_count')
+        val = dictionary.get('deactivated_count', None)
+        val_deactivated_count = val
+
+        val = dictionary.get('protected_count', None)
+        val_protected_count = val
+
+        val = dictionary.get('unprotected_count', None)
+        val_unprotected_count = val
+
         # Return an object of this model
-        return cls(val_deactivated_count, val_protected_count, val_unprotected_count)
+        return cls(
+            val_deactivated_count,
+            val_protected_count,
+            val_unprotected_count,
+        )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

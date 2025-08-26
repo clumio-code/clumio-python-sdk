@@ -1,72 +1,67 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
-from clumioapi.models import protection_group_bucket_list_embedded
-from clumioapi.models import protection_group_bucket_list_links
+from clumioapi.api_helper import camel_to_snake
+from clumioapi.models import \
+    protection_group_bucket_list_embedded as protection_group_bucket_list_embedded_
+from clumioapi.models import \
+    protection_group_bucket_list_links as protection_group_bucket_list_links_
+import requests
 
 T = TypeVar('T', bound='ListProtectionGroupS3AssetsResponse')
 
 
+@dataclasses.dataclass
 class ListProtectionGroupS3AssetsResponse:
     """Implementation of the 'ListProtectionGroupS3AssetsResponse' model.
 
     Attributes:
-        embedded:
+        Embedded:
             Embedded responses related to the resource.
-        links:
-            URLs to pages related to the resource.
-        current_count:
+
+        Links:
+            Urls to pages related to the resource.
+
+        CurrentCount:
             The number of items listed on the current page.
-        limit:
+
+        Limit:
             The maximum number of items displayed per page in the response.
-        start:
-            The page number used to get this response.
-            Pages are indexed starting from 1 (i.e., `"start": "1"`).
-        total_count:
+
+        Start:
+            "1"`).
+
+        TotalCount:
             The total number of items, summed across all pages.
-        total_pages_count:
+
+        TotalPagesCount:
             The total number of pages of results.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {
-        'embedded': '_embedded',
-        'links': '_links',
-        'current_count': 'current_count',
-        'limit': 'limit',
-        'start': 'start',
-        'total_count': 'total_count',
-        'total_pages_count': 'total_pages_count',
-    }
+    Embedded: protection_group_bucket_list_embedded_.ProtectionGroupBucketListEmbedded | None = None
+    Links: protection_group_bucket_list_links_.ProtectionGroupBucketListLinks | None = None
+    CurrentCount: int | None = None
+    Limit: int | None = None
+    Start: str | None = None
+    TotalCount: int | None = None
+    TotalPagesCount: int | None = None
+    raw_response: Optional[requests.Response] = None
 
-    def __init__(
-        self,
-        embedded: protection_group_bucket_list_embedded.ProtectionGroupBucketListEmbedded = None,
-        links: protection_group_bucket_list_links.ProtectionGroupBucketListLinks = None,
-        current_count: int = None,
-        limit: int = None,
-        start: str = None,
-        total_count: int = None,
-        total_pages_count: int = None,
-    ) -> None:
-        """Constructor for the ListProtectionGroupS3AssetsResponse class."""
-
-        # Initialize members of the class
-        self.embedded: protection_group_bucket_list_embedded.ProtectionGroupBucketListEmbedded = (
-            embedded
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
         )
-        self.links: protection_group_bucket_list_links.ProtectionGroupBucketListLinks = links
-        self.current_count: int = current_count
-        self.limit: int = limit
-        self.start: str = start
-        self.total_count: int = total_count
-        self.total_pages_count: int = total_pages_count
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -77,32 +72,57 @@ class ListProtectionGroupS3AssetsResponse:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = '_embedded'
-        embedded = (
-            protection_group_bucket_list_embedded.ProtectionGroupBucketListEmbedded.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
+        val = dictionary.get('_embedded', None)
+        val_embedded = protection_group_bucket_list_embedded_.ProtectionGroupBucketListEmbedded.from_dictionary(
+            val
         )
 
-        key = '_links'
-        links = (
-            protection_group_bucket_list_links.ProtectionGroupBucketListLinks.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
+        val = dictionary.get('_links', None)
+        val_links = (
+            protection_group_bucket_list_links_.ProtectionGroupBucketListLinks.from_dictionary(val)
         )
 
-        current_count = dictionary.get('current_count')
-        limit = dictionary.get('limit')
-        start = dictionary.get('start')
-        total_count = dictionary.get('total_count')
-        total_pages_count = dictionary.get('total_pages_count')
+        val = dictionary.get('current_count', None)
+        val_current_count = val
+
+        val = dictionary.get('limit', None)
+        val_limit = val
+
+        val = dictionary.get('start', None)
+        val_start = val
+
+        val = dictionary.get('total_count', None)
+        val_total_count = val
+
+        val = dictionary.get('total_pages_count', None)
+        val_total_pages_count = val
+
         # Return an object of this model
-        return cls(embedded, links, current_count, limit, start, total_count, total_pages_count)
+        return cls(
+            val_embedded,
+            val_links,
+            val_current_count,
+            val_limit,
+            val_start,
+            val_total_count,
+            val_total_pages_count,
+        )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        model_instance.raw_response = response
+        return model_instance

@@ -1,58 +1,60 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
-from clumioapi.models import email_recipients_data_access_option
+from clumioapi.api_helper import camel_to_snake
+from clumioapi.models import \
+    email_recipients_data_access_option as email_recipients_data_access_option_
+import requests
 
 T = TypeVar('T', bound='DynamoDBGrrTarget')
 
 
+@dataclasses.dataclass
 class DynamoDBGrrTarget:
     """Implementation of the 'DynamoDBGrrTarget' model.
 
-    The destination information for the operation, representing the access optionfor
-    the query results. Users can access the query results by direct download or
-    byemail. The direct download (`direct_download`) option allows users to directly
-    downloadthe restored file from the Clumio UI. The email (`email`) option allows
-    users to accessthe restored file using a downloadable link they receive by
-    email. If a target is notspecified, then `target` defaults to `direct_download`.
+        The destination information for the operation, representing the access optionfor
+        the query results. Users can access the query results by direct download or
+        byemail. The direct download (`direct_download`) option allows users to directly
+        downloadthe restored file from the Clumio UI. The email (`email`) option allows
+        users to accessthe restored file using a downloadable link they receive by
+        email. If a target is notspecified, then `target` defaults to `direct_download`.
 
-    Attributes:
-        direct_download:
-            Specifies the Clumio UI as the restore target for direct download. Optionally
-            set
-            `direct_download: {}`. If a target is not specified, then `target` defaults to
-            `direct_download`.
-        email:
-            Specifies a download link (accessible via emails) as the restore target. If not
-            specified, `target` defaults to `direct_download`.
-        preview:
-            Determines whether the query is preview only. If `true`, a preview of the
-            query results will be provided in the response immediately.
-            If `false` or omitted, a task will be queued to make results
-            of the query available for asynchronous download.
+        Attributes:
+            DirectDownload:
+                {}`. if a target is not specified, then `target` defaults to
+    `direct_download`.
+
+            Email:
+                Specifies a download link (accessible via emails) as the restore target. if not
+    specified, `target` defaults to `direct_download`.
+
+            Preview:
+                Determines whether the query is preview only. if `true`, a preview of the
+    query results will be provided in the response immediately.
+    if `false` or omitted, a task will be queued to make results
+    of the query available for asynchronous download.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {'direct_download': 'direct_download', 'email': 'email', 'preview': 'preview'}
+    DirectDownload: object | None = None
+    Email: email_recipients_data_access_option_.EmailRecipientsDataAccessOption | None = None
+    Preview: bool | None = None
 
-    def __init__(
-        self,
-        direct_download: object = None,
-        email: email_recipients_data_access_option.EmailRecipientsDataAccessOption = None,
-        preview: bool = None,
-    ) -> None:
-        """Constructor for the DynamoDBGrrTarget class."""
-
-        # Initialize members of the class
-        self.direct_download: object = direct_download
-        self.email: email_recipients_data_access_option.EmailRecipientsDataAccessOption = email
-        self.preview: bool = preview
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -63,20 +65,40 @@ class DynamoDBGrrTarget:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        direct_download = dictionary.get('direct_download')
-        key = 'email'
-        email = (
-            email_recipients_data_access_option.EmailRecipientsDataAccessOption.from_dictionary(
-                dictionary.get(key)
+        val = dictionary.get('direct_download', None)
+        val_direct_download = val
+
+        val = dictionary.get('email', None)
+        val_email = (
+            email_recipients_data_access_option_.EmailRecipientsDataAccessOption.from_dictionary(
+                val
             )
-            if dictionary.get(key)
-            else None
         )
 
-        preview = dictionary.get('preview')
+        val = dictionary.get('preview', None)
+        val_preview = val
+
         # Return an object of this model
-        return cls(direct_download, email, preview)
+        return cls(
+            val_direct_download,
+            val_email,
+            val_preview,
+        )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

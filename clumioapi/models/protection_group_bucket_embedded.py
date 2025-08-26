@@ -1,45 +1,46 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='ProtectionGroupBucketEmbedded')
 
 
+@dataclasses.dataclass
 class ProtectionGroupBucketEmbedded:
     """Implementation of the 'ProtectionGroupBucketEmbedded' model.
 
-    Embedded responses related to the resource.
+        Embedded responses related to the resource.
 
-    Attributes:
-        read_organizational_unit:
-            This embed is for internal use only since an embed results in additional HTTP
-            calls. "embeds" can affect the performance of "list" API calls as an embed is
-            processed once per item in the result list.
-        read_policy_definition:
-            Embeds the associated policy of a protected resource in the response if
-            requested using the `embed` query parameter. Unprotected resources will not have
-            an associated policy.
+        Attributes:
+            ReadOrganizationalUnit:
+                This embed is for internal use only since an embed results in additional http
+    calls. "embeds" can affect the performance of "list" api calls as an embed is
+    processed once per item in the result list.
+
+            ReadPolicyDefinition:
+                Embeds the associated policy of a protected resource in the response if requested using the `embed` query parameter. unprotected resources will not have an associated policy.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {
-        'read_organizational_unit': 'read-organizational-unit',
-        'read_policy_definition': 'read-policy-definition',
-    }
+    ReadOrganizationalUnit: object | None = None
+    ReadPolicyDefinition: object | None = None
 
-    def __init__(
-        self, read_organizational_unit: object = None, read_policy_definition: object = None
-    ) -> None:
-        """Constructor for the ProtectionGroupBucketEmbedded class."""
-
-        # Initialize members of the class
-        self.read_organizational_unit: object = read_organizational_unit
-        self.read_policy_definition: object = read_policy_definition
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -50,11 +51,32 @@ class ProtectionGroupBucketEmbedded:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        read_organizational_unit = dictionary.get('read-organizational-unit')
-        read_policy_definition = dictionary.get('read-policy-definition')
+        val = dictionary.get('read-organizational-unit', None)
+        val_read_organizational_unit = val
+
+        val = dictionary.get('read-policy-definition', None)
+        val_read_policy_definition = val
+
         # Return an object of this model
-        return cls(read_organizational_unit, read_policy_definition)
+        return cls(
+            val_read_organizational_unit,
+            val_read_policy_definition,
+        )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

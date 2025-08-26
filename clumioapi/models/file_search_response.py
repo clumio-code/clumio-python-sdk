@@ -1,59 +1,57 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
-from clumioapi.models import file_search_list_embedded
-from clumioapi.models import file_search_list_links
+from clumioapi.api_helper import camel_to_snake
+from clumioapi.models import file_search_list_embedded as file_search_list_embedded_
+from clumioapi.models import file_search_list_links as file_search_list_links_
+import requests
 
 T = TypeVar('T', bound='FileSearchResponse')
 
 
+@dataclasses.dataclass
 class FileSearchResponse:
     """Implementation of the 'FileSearchResponse' model.
 
     Attributes:
-        embedded:
+        Embedded:
             Embedded responses related to the resource.
-        links:
-            URLs to pages related to the resource.
-        current_count:
+
+        Links:
+            Urls to pages related to the resource.
+
+        CurrentCount:
             The number of items listed on the current page.
-        limit:
+
+        Limit:
             The maximum number of items displayed per page in the response.
-        start:
+
+        Start:
             The page token used to get this response.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {
-        'embedded': '_embedded',
-        'links': '_links',
-        'current_count': 'current_count',
-        'limit': 'limit',
-        'start': 'start',
-    }
+    Embedded: file_search_list_embedded_.FileSearchListEmbedded | None = None
+    Links: file_search_list_links_.FileSearchListLinks | None = None
+    CurrentCount: int | None = None
+    Limit: int | None = None
+    Start: str | None = None
+    raw_response: Optional[requests.Response] = None
 
-    def __init__(
-        self,
-        embedded: file_search_list_embedded.FileSearchListEmbedded = None,
-        links: file_search_list_links.FileSearchListLinks = None,
-        current_count: int = None,
-        limit: int = None,
-        start: str = None,
-    ) -> None:
-        """Constructor for the FileSearchResponse class."""
-
-        # Initialize members of the class
-        self.embedded: file_search_list_embedded.FileSearchListEmbedded = embedded
-        self.links: file_search_list_links.FileSearchListLinks = links
-        self.current_count: int = current_count
-        self.limit: int = limit
-        self.start: str = start
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -64,26 +62,45 @@ class FileSearchResponse:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = '_embedded'
-        embedded = (
-            file_search_list_embedded.FileSearchListEmbedded.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('_embedded', None)
+        val_embedded = file_search_list_embedded_.FileSearchListEmbedded.from_dictionary(val)
 
-        key = '_links'
-        links = (
-            file_search_list_links.FileSearchListLinks.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('_links', None)
+        val_links = file_search_list_links_.FileSearchListLinks.from_dictionary(val)
 
-        current_count = dictionary.get('current_count')
-        limit = dictionary.get('limit')
-        start = dictionary.get('start')
+        val = dictionary.get('current_count', None)
+        val_current_count = val
+
+        val = dictionary.get('limit', None)
+        val_limit = val
+
+        val = dictionary.get('start', None)
+        val_start = val
+
         # Return an object of this model
-        return cls(embedded, links, current_count, limit, start)
+        return cls(
+            val_embedded,
+            val_links,
+            val_current_count,
+            val_limit,
+            val_start,
+        )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        model_instance.raw_response = response
+        return model_instance

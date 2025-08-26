@@ -1,14 +1,17 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
-from clumioapi.models import rds_database_table_column
+from clumioapi.api_helper import camel_to_snake
+from clumioapi.models import rds_database_table_column as rds_database_table_column_
+import requests
 
 T = TypeVar('T', bound='RDSLogicalPreviewQueryResult')
 
 
+@dataclasses.dataclass
 class RDSLogicalPreviewQueryResult:
     """Implementation of the 'RDSLogicalPreviewQueryResult' model.
 
@@ -17,28 +20,28 @@ class RDSLogicalPreviewQueryResult:
     for download asynchronously.
 
     Attributes:
-        columns:
+        Columns:
             The columns of the previewed query result.
-        rows:
+
+        Rows:
             The rows of the previewed query result.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {'columns': 'columns', 'rows': 'rows'}
+    Columns: Sequence[rds_database_table_column_.RDSDatabaseTableColumn] | None = None
+    Rows: Sequence[Sequence[str]] | None = None
 
-    def __init__(
-        self,
-        columns: Sequence[rds_database_table_column.RDSDatabaseTableColumn] = None,
-        rows: Sequence[Sequence[str]] = None,
-    ) -> None:
-        """Constructor for the RDSLogicalPreviewQueryResult class."""
-
-        # Initialize members of the class
-        self.columns: Sequence[rds_database_table_column.RDSDatabaseTableColumn] = columns
-        self.rows: Sequence[Sequence[str]] = rows
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -49,18 +52,38 @@ class RDSLogicalPreviewQueryResult:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        columns = None
-        if dictionary.get('columns'):
-            columns = list()
-            for value in dictionary.get('columns'):
-                columns.append(
-                    rds_database_table_column.RDSDatabaseTableColumn.from_dictionary(value)
+        val = dictionary.get('columns', None)
+
+        val_columns = []
+        if val:
+            for value in val:
+                val_columns.append(
+                    rds_database_table_column_.RDSDatabaseTableColumn.from_dictionary(value)
                 )
 
-        rows = dictionary.get('rows')
+        val = dictionary.get('rows', None)
+        val_rows = val
+
         # Return an object of this model
-        return cls(columns, rows)
+        return cls(
+            val_columns,
+            val_rows,
+        )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

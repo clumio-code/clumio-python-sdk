@@ -1,36 +1,42 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='RdsResourceRestoreSourceAirGapOptions')
 
 
+@dataclasses.dataclass
 class RdsResourceRestoreSourceAirGapOptions:
     """Implementation of the 'RdsResourceRestoreSourceAirGapOptions' model.
 
-    The parameters for initiating an RDS restore from a backup.
+        The parameters for initiating an RDS restore from a backup.
 
-    Attributes:
-        backup_id:
-            The Clumio-assigned ID of the RDS backup to be restored.
-            Use the [GET /backups/aws/rds-resources](#operation/list-backup-aws-rds-
-            resources)
-            endpoint to fetch valid values.
+        Attributes:
+            BackupId:
+                The clumio-assigned id of the rds backup to be restored.
+    use the [get /backups/aws/rds-resources](#operation/list-backup-aws-rds-resources)
+    endpoint to fetch valid values.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {'backup_id': 'backup_id'}
+    BackupId: str | None = None
 
-    def __init__(self, backup_id: str = None) -> None:
-        """Constructor for the RdsResourceRestoreSourceAirGapOptions class."""
-
-        # Initialize members of the class
-        self.backup_id: str = backup_id
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -41,10 +47,28 @@ class RdsResourceRestoreSourceAirGapOptions:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        backup_id = dictionary.get('backup_id')
+        val = dictionary.get('backup_id', None)
+        val_backup_id = val
+
         # Return an object of this model
-        return cls(backup_id)
+        return cls(
+            val_backup_id,
+        )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

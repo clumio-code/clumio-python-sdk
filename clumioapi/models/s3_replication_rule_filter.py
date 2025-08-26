@@ -1,50 +1,53 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
-from clumioapi.models import s3_replication_rule_and_operator
-from clumioapi.models import s3_tag
+from clumioapi.api_helper import camel_to_snake
+from clumioapi.models import s3_replication_rule_and_operator as s3_replication_rule_and_operator_
+from clumioapi.models import s3_tag as s3_tag_
+import requests
 
 T = TypeVar('T', bound='S3ReplicationRuleFilter')
 
 
+@dataclasses.dataclass
 class S3ReplicationRuleFilter:
     """Implementation of the 'S3ReplicationRuleFilter' model.
 
-    A filter that identifies the subset of objectsto which the replication rule
-    applies.
+        A filter that identifies the subset of objectsto which the replication rule
+        applies.
 
-    Attributes:
-        p_and:
-            A container for specifying rule filters. The filters
-            determine the subset of objects to which the rule applies.
-        prefix:
-            An object key name prefix that identifies the
-            subset of objects to which the rule applies.
-        tag:
-            A container of a key value name pair.
+        Attributes:
+            And:
+                A container for specifying rule filters. the filters
+    determine the subset of objects to which the rule applies.
+
+            Prefix:
+                An object key name prefix that identifies the
+    subset of objects to which the rule applies.
+
+            Tag:
+                A container of a key value name pair.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {'p_and': 'and', 'prefix': 'prefix', 'tag': 'tag'}
+    And: s3_replication_rule_and_operator_.S3ReplicationRuleAndOperator | None = None
+    Prefix: str | None = None
+    Tag: s3_tag_.S3Tag | None = None
 
-    def __init__(
-        self,
-        p_and: s3_replication_rule_and_operator.S3ReplicationRuleAndOperator = None,
-        prefix: str = None,
-        tag: s3_tag.S3Tag = None,
-    ) -> None:
-        """Constructor for the S3ReplicationRuleFilter class."""
-
-        # Initialize members of the class
-        self.p_and: s3_replication_rule_and_operator.S3ReplicationRuleAndOperator = p_and
-        self.prefix: str = prefix
-        self.tag: s3_tag.S3Tag = tag
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -55,22 +58,38 @@ class S3ReplicationRuleFilter:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = 'and'
-        p_and = (
-            s3_replication_rule_and_operator.S3ReplicationRuleAndOperator.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
+        val = dictionary.get('and', None)
+        val_and = s3_replication_rule_and_operator_.S3ReplicationRuleAndOperator.from_dictionary(
+            val
         )
 
-        prefix = dictionary.get('prefix')
-        key = 'tag'
-        tag = s3_tag.S3Tag.from_dictionary(dictionary.get(key)) if dictionary.get(key) else None
+        val = dictionary.get('prefix', None)
+        val_prefix = val
+
+        val = dictionary.get('tag', None)
+        val_tag = s3_tag_.S3Tag.from_dictionary(val)
 
         # Return an object of this model
-        return cls(p_and, prefix, tag)
+        return cls(
+            val_and,
+            val_prefix,
+            val_tag,
+        )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

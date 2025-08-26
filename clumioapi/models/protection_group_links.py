@@ -1,72 +1,70 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
-from clumioapi.models import hateoas_link
-from clumioapi.models import hateoas_self_link
-from clumioapi.models import read_policy_definition_hateoas_link
+from clumioapi.api_helper import camel_to_snake
+from clumioapi.models import hateoas_link as hateoas_link_
+from clumioapi.models import hateoas_self_link as hateoas_self_link_
+from clumioapi.models import \
+    read_policy_definition_hateoas_link as read_policy_definition_hateoas_link_
+import requests
 
 T = TypeVar('T', bound='ProtectionGroupLinks')
 
 
+@dataclasses.dataclass
 class ProtectionGroupLinks:
     """Implementation of the 'ProtectionGroupLinks' model.
 
     URLs to pages related to the resource.
 
     Attributes:
-        p_self:
-            The HATEOAS link to this resource.
-        add_bucket_protection_group:
-            A resource-specific HATEOAS link.
-        delete_bucket_protection_group:
-            A resource-specific HATEOAS link.
-        read_organizational_unit:
-            A resource-specific HATEOAS link.
-        read_policy_definition:
-            A HATEOAS link to the policy protecting this resource. Will be omitted for
-            unprotected entities.
-        update_protection_group:
-            A resource-specific HATEOAS link.
+        Self:
+            The hateoas link to this resource.
+
+        AddBucketProtectionGroup:
+            A resource-specific hateoas link.
+
+        DeleteBucketProtectionGroup:
+            A resource-specific hateoas link.
+
+        ListBackupProtectionGroups:
+            A resource-specific hateoas link.
+
+        ReadOrganizationalUnit:
+            A resource-specific hateoas link.
+
+        ReadPolicyDefinition:
+            A hateoas link to the policy protecting this resource. will be omitted for unprotected entities.
+
+        UpdateProtectionGroup:
+            A resource-specific hateoas link.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {
-        'p_self': '_self',
-        'add_bucket_protection_group': 'add-bucket-protection-group',
-        'delete_bucket_protection_group': 'delete-bucket-protection-group',
-        'read_organizational_unit': 'read-organizational-unit',
-        'read_policy_definition': 'read-policy-definition',
-        'update_protection_group': 'update-protection-group',
-    }
+    Self: hateoas_self_link_.HateoasSelfLink | None = None
+    AddBucketProtectionGroup: hateoas_link_.HateoasLink | None = None
+    DeleteBucketProtectionGroup: hateoas_link_.HateoasLink | None = None
+    ListBackupProtectionGroups: hateoas_link_.HateoasLink | None = None
+    ReadOrganizationalUnit: hateoas_link_.HateoasLink | None = None
+    ReadPolicyDefinition: (
+        read_policy_definition_hateoas_link_.ReadPolicyDefinitionHateoasLink | None
+    ) = None
+    UpdateProtectionGroup: hateoas_link_.HateoasLink | None = None
 
-    def __init__(
-        self,
-        p_self: hateoas_self_link.HateoasSelfLink = None,
-        add_bucket_protection_group: hateoas_link.HateoasLink = None,
-        delete_bucket_protection_group: hateoas_link.HateoasLink = None,
-        read_organizational_unit: hateoas_link.HateoasLink = None,
-        read_policy_definition: read_policy_definition_hateoas_link.ReadPolicyDefinitionHateoasLink = None,
-        update_protection_group: hateoas_link.HateoasLink = None,
-    ) -> None:
-        """Constructor for the ProtectionGroupLinks class."""
-
-        # Initialize members of the class
-        self.p_self: hateoas_self_link.HateoasSelfLink = p_self
-        self.add_bucket_protection_group: hateoas_link.HateoasLink = add_bucket_protection_group
-        self.delete_bucket_protection_group: hateoas_link.HateoasLink = (
-            delete_bucket_protection_group
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
         )
-        self.read_organizational_unit: hateoas_link.HateoasLink = read_organizational_unit
-        self.read_policy_definition: (
-            read_policy_definition_hateoas_link.ReadPolicyDefinitionHateoasLink
-        ) = read_policy_definition
-        self.update_protection_group: hateoas_link.HateoasLink = update_protection_group
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -77,60 +75,56 @@ class ProtectionGroupLinks:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = '_self'
-        p_self = (
-            hateoas_self_link.HateoasSelfLink.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('_self', None)
+        val_self = hateoas_self_link_.HateoasSelfLink.from_dictionary(val)
 
-        key = 'add-bucket-protection-group'
-        add_bucket_protection_group = (
-            hateoas_link.HateoasLink.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('add-bucket-protection-group', None)
+        val_add_bucket_protection_group = hateoas_link_.HateoasLink.from_dictionary(val)
 
-        key = 'delete-bucket-protection-group'
-        delete_bucket_protection_group = (
-            hateoas_link.HateoasLink.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('delete-bucket-protection-group', None)
+        val_delete_bucket_protection_group = hateoas_link_.HateoasLink.from_dictionary(val)
 
-        key = 'read-organizational-unit'
-        read_organizational_unit = (
-            hateoas_link.HateoasLink.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('list-backup-protection-groups', None)
+        val_list_backup_protection_groups = hateoas_link_.HateoasLink.from_dictionary(val)
 
-        key = 'read-policy-definition'
-        read_policy_definition = (
-            read_policy_definition_hateoas_link.ReadPolicyDefinitionHateoasLink.from_dictionary(
-                dictionary.get(key)
+        val = dictionary.get('read-organizational-unit', None)
+        val_read_organizational_unit = hateoas_link_.HateoasLink.from_dictionary(val)
+
+        val = dictionary.get('read-policy-definition', None)
+        val_read_policy_definition = (
+            read_policy_definition_hateoas_link_.ReadPolicyDefinitionHateoasLink.from_dictionary(
+                val
             )
-            if dictionary.get(key)
-            else None
         )
 
-        key = 'update-protection-group'
-        update_protection_group = (
-            hateoas_link.HateoasLink.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('update-protection-group', None)
+        val_update_protection_group = hateoas_link_.HateoasLink.from_dictionary(val)
 
         # Return an object of this model
         return cls(
-            p_self,
-            add_bucket_protection_group,
-            delete_bucket_protection_group,
-            read_organizational_unit,
-            read_policy_definition,
-            update_protection_group,
+            val_self,
+            val_add_bucket_protection_group,
+            val_delete_bucket_protection_group,
+            val_list_backup_protection_groups,
+            val_read_organizational_unit,
+            val_read_policy_definition,
+            val_update_protection_group,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

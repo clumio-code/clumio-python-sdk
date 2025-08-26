@@ -1,46 +1,47 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
-from clumioapi.models import role_for_organizational_units
+from clumioapi.api_helper import camel_to_snake
+from clumioapi.models import role_for_organizational_units as role_for_organizational_units_
+import requests
 
 T = TypeVar('T', bound='EntityGroupAssignmentUpdates')
 
 
+@dataclasses.dataclass
 class EntityGroupAssignmentUpdates:
     """Implementation of the 'EntityGroupAssignmentUpdates' model.
 
-    Updates to the organizational units along with the role assigned to the user.
+        Updates to the organizational units along with the role assigned to the user.
 
-    Attributes:
-        add:
-            The Clumio-assigned IDs of the organizational units, with the Clumio-assigned ID
-            of the role
-            to be assigned to the user.
-        remove:
-            The Clumio-assigned IDs of the organizational units, with the Clumio-assigned ID
-            of the role
-            to be unassigned to the user.
+        Attributes:
+            Add:
+                The clumio-assigned ids of the organizational units, with the clumio-assigned id of the role
+    to be assigned to the user.
+
+            Remove:
+                The clumio-assigned ids of the organizational units, with the clumio-assigned id of the role
+    to be unassigned to the user.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {'add': 'add', 'remove': 'remove'}
+    Add: Sequence[role_for_organizational_units_.RoleForOrganizationalUnits] | None = None
+    Remove: Sequence[role_for_organizational_units_.RoleForOrganizationalUnits] | None = None
 
-    def __init__(
-        self,
-        add: Sequence[role_for_organizational_units.RoleForOrganizationalUnits] = None,
-        remove: Sequence[role_for_organizational_units.RoleForOrganizationalUnits] = None,
-    ) -> None:
-        """Constructor for the EntityGroupAssignmentUpdates class."""
-
-        # Initialize members of the class
-        self.add: Sequence[role_for_organizational_units.RoleForOrganizationalUnits] = add
-        self.remove: Sequence[role_for_organizational_units.RoleForOrganizationalUnits] = remove
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -51,25 +52,44 @@ class EntityGroupAssignmentUpdates:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        add = None
-        if dictionary.get('add'):
-            add = list()
-            for value in dictionary.get('add'):
-                add.append(
-                    role_for_organizational_units.RoleForOrganizationalUnits.from_dictionary(value)
+        val = dictionary.get('add', None)
+
+        val_add = []
+        if val:
+            for value in val:
+                val_add.append(
+                    role_for_organizational_units_.RoleForOrganizationalUnits.from_dictionary(value)
                 )
 
-        remove = None
-        if dictionary.get('remove'):
-            remove = list()
-            for value in dictionary.get('remove'):
-                remove.append(
-                    role_for_organizational_units.RoleForOrganizationalUnits.from_dictionary(value)
+        val = dictionary.get('remove', None)
+
+        val_remove = []
+        if val:
+            for value in val:
+                val_remove.append(
+                    role_for_organizational_units_.RoleForOrganizationalUnits.from_dictionary(value)
                 )
 
         # Return an object of this model
-        return cls(add, remove)
+        return cls(
+            val_add,
+            val_remove,
+        )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

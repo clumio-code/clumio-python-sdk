@@ -1,31 +1,38 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='UpdateAutoUserProvisioningSettingV1Request')
 
 
+@dataclasses.dataclass
 class UpdateAutoUserProvisioningSettingV1Request:
     """Implementation of the 'UpdateAutoUserProvisioningSettingV1Request' model.
 
     Attributes:
-        is_enabled:
+        IsEnabled:
             Whether auto user provisioning is enabled or not.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {'is_enabled': 'is_enabled'}
+    IsEnabled: bool | None = None
 
-    def __init__(self, is_enabled: bool = None) -> None:
-        """Constructor for the UpdateAutoUserProvisioningSettingV1Request class."""
-
-        # Initialize members of the class
-        self.is_enabled: bool = is_enabled
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -36,10 +43,28 @@ class UpdateAutoUserProvisioningSettingV1Request:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        is_enabled = dictionary.get('is_enabled')
+        val = dictionary.get('is_enabled', None)
+        val_is_enabled = val
+
         # Return an object of this model
-        return cls(is_enabled)
+        return cls(
+            val_is_enabled,
+        )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

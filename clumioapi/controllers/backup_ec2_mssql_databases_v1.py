@@ -1,14 +1,16 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
-from typing import Optional, Union
+from typing import Any, Iterator, Optional, Union
+import urllib.parse
 
 from clumioapi import api_helper
 from clumioapi import configuration
 from clumioapi import sdk_version
 from clumioapi.controllers import base_controller
+from clumioapi.controllers.types import backup_ec2_mssql_databases_types
 from clumioapi.exceptions import clumio_exception
 from clumioapi.models import create_backup_ec2_mssql_database_v1_request
 from clumioapi.models import list_ec2_mssql_database_backups_response
@@ -34,24 +36,18 @@ class BackupEc2MssqlDatabasesV1Controller(base_controller.BaseController):
 
     def list_backup_ec2_mssql_databases(
         self,
-        limit: int = None,
-        start: str = None,
-        sort: str = None,
-        filter: str = None,
-        embed: str = None,
+        limit: int | None = None,
+        start: str | None = None,
+        sort: str | None = None,
+        filter: backup_ec2_mssql_databases_types.ListBackupEc2MssqlDatabasesV1FilterT | None = None,
+        embed: str | None = None,
         **kwargs,
-    ) -> Union[
-        list_ec2_mssql_database_backups_response.ListEC2MSSQLDatabaseBackupsResponse,
-        tuple[
-            requests.Response,
-            Optional[list_ec2_mssql_database_backups_response.ListEC2MSSQLDatabaseBackupsResponse],
-        ],
-    ]:
+    ) -> list_ec2_mssql_database_backups_response.ListEC2MSSQLDatabaseBackupsResponse:
         """Retrieve a list of EC2 MSSQL database backups.
 
         Args:
             limit:
-                Limits the size of the response on each page to the specified number of items.
+                Limits the size of the items returned in the response.
             start:
                 Sets the page number used to browse the collection.
                 Pages are indexed starting from 1 (i.e., `start=1`).
@@ -109,69 +105,57 @@ class BackupEc2MssqlDatabasesV1Controller(base_controller.BaseController):
                 |                      | response. For example, embed=read-aws-environment     |
                 +----------------------+-------------------------------------------------------+
 
-        Returns:
-            requests.Response: Raw Response from the API if config.raw_response is set to True.
-            list_ec2_mssql_database_backups_response.ListEC2MSSQLDatabaseBackupsResponse: Response from the API.
-        Raises:
-            ClumioException: An error occured while executing the API.
-                This exception includes the HTTP response code, an error
-                message, and the HTTP body that was received in the request.
         """
+
+        def get_instance_from_response(response: requests.Response) -> Any:
+            return list_ec2_mssql_database_backups_response.ListEC2MSSQLDatabaseBackupsResponse.from_response(
+                response
+            )
 
         # Prepare query URL
         _url_path = '/backups/aws/ec2-mssql/databases'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {
             'limit': limit,
             'start': start,
             'sort': sort,
-            'filter': filter,
+            'filter': filter.query_str if filter else None,
             'embed': embed,
         }
 
+        resp_instance: list_ec2_mssql_database_backups_response.ListEC2MSSQLDatabaseBackupsResponse
         # Execute request
+        resp: requests.Response
         try:
             resp = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
-        except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
-                return http_error.response, None
-            errors = self.client.get_error_message(http_error.response)
-            raise clumio_exception.ClumioException(
-                'Error occurred while executing list_backup_ec2_mssql_databases.', errors
-            )
+        except requests.exceptions.HTTPError as e:
+            resp = e.response
 
-        if self.config.raw_response:
-            return (
-                resp,
-                list_ec2_mssql_database_backups_response.ListEC2MSSQLDatabaseBackupsResponse.from_dictionary(
-                    resp.json()
-                ),
+        if not resp.ok:
+            error_str = (
+                f'list_backup_ec2_mssql_databases for url {urllib.parse.unquote(resp.url)} failed.'
             )
-        return list_ec2_mssql_database_backups_response.ListEC2MSSQLDatabaseBackupsResponse.from_dictionary(
-            resp
-        )
+            raise clumio_exception.ClumioException(error_str, resp=resp)
+
+        resp_instance = get_instance_from_response(resp)
+
+        return resp_instance
 
     def create_backup_ec2_mssql_database(
         self,
-        embed: str = None,
-        body: create_backup_ec2_mssql_database_v1_request.CreateBackupEc2MssqlDatabaseV1Request = None,
+        embed: str | None = None,
+        body: (
+            create_backup_ec2_mssql_database_v1_request.CreateBackupEc2MssqlDatabaseV1Request | None
+        ) = None,
         **kwargs,
-    ) -> Union[
-        on_demand_ec2_mssql_database_backup_response.OnDemandEC2MSSQLDatabaseBackupResponse,
-        tuple[
-            requests.Response,
-            Optional[
-                on_demand_ec2_mssql_database_backup_response.OnDemandEC2MSSQLDatabaseBackupResponse
-            ],
-        ],
-    ]:
+    ) -> on_demand_ec2_mssql_database_backup_response.OnDemandEC2MSSQLDatabaseBackupResponse:
         """Performs an on-demand backup for the specified EC2 MSSQL asset.
 
         Args:
@@ -189,57 +173,49 @@ class BackupEc2MssqlDatabasesV1Controller(base_controller.BaseController):
 
             body:
 
-        Returns:
-            requests.Response: Raw Response from the API if config.raw_response is set to True.
-            on_demand_ec2_mssql_database_backup_response.OnDemandEC2MSSQLDatabaseBackupResponse: Response from the API.
-        Raises:
-            ClumioException: An error occured while executing the API.
-                This exception includes the HTTP response code, an error
-                message, and the HTTP body that was received in the request.
         """
+
+        def get_instance_from_response(response: requests.Response) -> Any:
+            return on_demand_ec2_mssql_database_backup_response.OnDemandEC2MSSQLDatabaseBackupResponse.from_response(
+                response
+            )
 
         # Prepare query URL
         _url_path = '/backups/aws/ec2-mssql/databases'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'embed': embed}
 
+        resp_instance: (
+            on_demand_ec2_mssql_database_backup_response.OnDemandEC2MSSQLDatabaseBackupResponse
+        )
         # Execute request
+        resp: requests.Response
         try:
             resp = self.client.post(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                json=api_helper.to_dictionary(body),
-                raw_response=self.config.raw_response,
+                json=body.dict() if body else None,
+                raw_response=True,
                 **kwargs,
             )
-        except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
-                return http_error.response, None
-            errors = self.client.get_error_message(http_error.response)
-            raise clumio_exception.ClumioException(
-                'Error occurred while executing create_backup_ec2_mssql_database.', errors
-            )
+        except requests.exceptions.HTTPError as e:
+            resp = e.response
 
-        if self.config.raw_response:
-            return (
-                resp,
-                on_demand_ec2_mssql_database_backup_response.OnDemandEC2MSSQLDatabaseBackupResponse.from_dictionary(
-                    resp.json()
-                ),
+        if not resp.ok:
+            error_str = (
+                f'create_backup_ec2_mssql_database for url {urllib.parse.unquote(resp.url)} failed.'
             )
-        return on_demand_ec2_mssql_database_backup_response.OnDemandEC2MSSQLDatabaseBackupResponse.from_dictionary(
-            resp
-        )
+            raise clumio_exception.ClumioException(error_str, resp=resp)
 
-    def read_backup_ec2_mssql_database(self, backup_id: str, **kwargs) -> Union[
-        read_ec2_mssql_database_backup_response.ReadEC2MSSQLDatabaseBackupResponse,
-        tuple[
-            requests.Response,
-            Optional[read_ec2_mssql_database_backup_response.ReadEC2MSSQLDatabaseBackupResponse],
-        ],
-    ]:
+        resp_instance = get_instance_from_response(resp)
+
+        return resp_instance
+
+    def read_backup_ec2_mssql_database(
+        self, backup_id: str | None = None, **kwargs
+    ) -> read_ec2_mssql_database_backup_response.ReadEC2MSSQLDatabaseBackupResponse:
         """Returns a representation of the specified EC2 MSSQL database backup.
 
         Args:
@@ -248,46 +224,131 @@ class BackupEc2MssqlDatabasesV1Controller(base_controller.BaseController):
                 [GET /backups/aws/ec2-mssql/databases](#operation/list-backup-ec2-mssql-
                 databases)
                 endpoint to fetch valid values.
-        Returns:
-            requests.Response: Raw Response from the API if config.raw_response is set to True.
-            read_ec2_mssql_database_backup_response.ReadEC2MSSQLDatabaseBackupResponse: Response from the API.
-        Raises:
-            ClumioException: An error occured while executing the API.
-                This exception includes the HTTP response code, an error
-                message, and the HTTP body that was received in the request.
         """
+
+        def get_instance_from_response(response: requests.Response) -> Any:
+            return read_ec2_mssql_database_backup_response.ReadEC2MSSQLDatabaseBackupResponse.from_response(
+                response
+            )
 
         # Prepare query URL
         _url_path = '/backups/aws/ec2-mssql/databases/{backup_id}'
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'backup_id': backup_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
+        resp_instance: read_ec2_mssql_database_backup_response.ReadEC2MSSQLDatabaseBackupResponse
         # Execute request
+        resp: requests.Response
         try:
             resp = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
-        except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
-                return http_error.response, None
-            errors = self.client.get_error_message(http_error.response)
-            raise clumio_exception.ClumioException(
-                'Error occurred while executing read_backup_ec2_mssql_database.', errors
-            )
+        except requests.exceptions.HTTPError as e:
+            resp = e.response
 
-        if self.config.raw_response:
-            return (
-                resp,
-                read_ec2_mssql_database_backup_response.ReadEC2MSSQLDatabaseBackupResponse.from_dictionary(
-                    resp.json()
-                ),
+        if not resp.ok:
+            error_str = (
+                f'read_backup_ec2_mssql_database for url {urllib.parse.unquote(resp.url)} failed.'
             )
-        return read_ec2_mssql_database_backup_response.ReadEC2MSSQLDatabaseBackupResponse.from_dictionary(
-            resp
-        )
+            raise clumio_exception.ClumioException(error_str, resp=resp)
+
+        resp_instance = get_instance_from_response(resp)
+
+        return resp_instance
+
+
+class BackupEc2MssqlDatabasesV1ControllerPaginator(base_controller.BaseController):
+    """A Controller to access Endpoints for backup-ec2-mssql-databases resource with pagination."""
+
+    def __init__(self, config: configuration.Configuration) -> None:
+        super().__init__(config)
+        self.controller = BackupEc2MssqlDatabasesV1Controller(config)
+
+    def list_backup_ec2_mssql_databases(
+        self,
+        limit: int | None = None,
+        start: str | None = None,
+        sort: str | None = None,
+        filter: backup_ec2_mssql_databases_types.ListBackupEc2MssqlDatabasesV1FilterT | None = None,
+        embed: str | None = None,
+        **kwargs,
+    ) -> Iterator[list_ec2_mssql_database_backups_response.ListEC2MSSQLDatabaseBackupsResponse]:
+        """Retrieve a list of EC2 MSSQL database backups.
+
+        Args:
+            limit:
+                Limits the size of the items returned in the response.
+            start:
+                Sets the page number used to browse the collection.
+                Pages are indexed starting from 1 (i.e., `start=1`).
+            sort:
+                Returns the list of backups in the order specified. Set `sort` to the name of
+                the sort field by
+                which to sort in ascending order. To sort the list in reverse order, prefix the
+                field name
+                with a minus sign (`-`). Only one field may be sorted at a time.
+
+                The following table lists the supported sort fields for this resource:
+
+                +-----------------+------------------------------------------------------------+
+                |   Sort Field    |                        Description                         |
+                +=================+============================================================+
+                | start_timestamp | Sorts the backups in ascending timestamp order (oldest     |
+                |                 | first). For example, sort=start_timestamp                  |
+                +-----------------+------------------------------------------------------------+
+
+                If a sort order is not specified, the individual rules are sorted by
+                "start_timestamp" in descending timestamp order (newest first).
+            filter:
+                Narrows down the results to only the items that satisfy the filter criteria. The
+                following table lists
+                the supported filter fields for this resource and the filter conditions that can
+                be applied on those fields:
+
+                +-----------------+------------------+-----------------------------------------+
+                |      Field      | Filter Condition |               Description               |
+                +=================+==================+=========================================+
+                | database_id     | $eq              | Filter database backups whose database  |
+                |                 |                  | ID equal the specified string.          |
+                +-----------------+------------------+-----------------------------------------+
+                | start_timestamp | $lte, $gt        | Filter database backups whose start     |
+                |                 |                  | timestamp is "less than or equal to" or |
+                |                 |                  | "greater than" a given timestamp.       |
+                +-----------------+------------------+-----------------------------------------+
+                | type            | $in              | Filter a particular type of database    |
+                |                 |                  | backups. Possible values include        |
+                |                 |                  | `ec2_mssql_database_backup`, `ec2_mssql |
+                |                 |                  | _log_backup_full_recovery_model` and    |
+                |                 |                  | `ec2_mssql_log_backup_bulk_logged_model |
+                |                 |                  | `.                                      |
+                +-----------------+------------------+-----------------------------------------+
+
+            embed:
+                Embeds the details of an associated resource. Set the parameter to one of the
+                following embeddable links to include additional details associated with the
+                resource.
+
+                +----------------------+-------------------------------------------------------+
+                |   Embeddable Link    |                      Description                      |
+                +======================+=======================================================+
+                | read-aws-environment | Embeds the associated AWS Environment details in the  |
+                |                      | response. For example, embed=read-aws-environment     |
+                +----------------------+-------------------------------------------------------+
+
+        """
+        start = start or '1'
+        while True:
+            response = self.controller.list_backup_ec2_mssql_databases(
+                limit=limit, start=start, sort=sort, filter=filter, embed=embed, **kwargs
+            )
+            yield response
+            if not response.Links.Next.Href:  # type: ignore
+                break
+
+            start = str(int(start) + 1)

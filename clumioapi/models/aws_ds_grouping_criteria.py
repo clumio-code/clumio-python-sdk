@@ -1,43 +1,52 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='AwsDsGroupingCriteria')
 
 
+@dataclasses.dataclass
 class AwsDsGroupingCriteria:
     """Implementation of the 'AwsDsGroupingCriteria' model.
 
-    The entity type used to group organizational units for AWS resources.
+        The entity type used to group organizational units for AWS resources.
 
-    Attributes:
-        is_editable:
-            Determines whether or not this data group is editable. If false, then an
-            organizational unit uses this data group.
-            To edit this data group, all organizational units using it must be deleted.
-        p_type:
+        Attributes:
+            IsEditable:
+                Determines whether or not this data group is editable. if false, then an
+    organizational unit uses this data group.
+    to edit this data group, all organizational units using it must be deleted.
 
-            +-----------------+-------------------------+
-            |   Entity Type   |         Details         |
-            +=================+=========================+
-            | aws_environment | AWS account and region. |
-            +-----------------+-------------------------+
+            Type:
+
+    +-----------------+-------------------------+
+    |   entity type   |         details         |
+    +=================+=========================+
+    | aws_environment | aws account and region. |
+    +-----------------+-------------------------+
+    .
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {'is_editable': 'is_editable', 'p_type': 'type'}
+    IsEditable: bool | None = None
+    Type: str | None = None
 
-    def __init__(self, is_editable: bool = None, p_type: str = None) -> None:
-        """Constructor for the AwsDsGroupingCriteria class."""
-
-        # Initialize members of the class
-        self.is_editable: bool = is_editable
-        self.p_type: str = p_type
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -48,11 +57,32 @@ class AwsDsGroupingCriteria:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        is_editable = dictionary.get('is_editable')
-        p_type = dictionary.get('type')
+        val = dictionary.get('is_editable', None)
+        val_is_editable = val
+
+        val = dictionary.get('type', None)
+        val_type = val
+
         # Return an object of this model
-        return cls(is_editable, p_type)
+        return cls(
+            val_is_editable,
+            val_type,
+        )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

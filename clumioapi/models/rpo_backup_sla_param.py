@@ -1,12 +1,16 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='RPOBackupSLAParam')
 
 
+@dataclasses.dataclass
 class RPOBackupSLAParam:
     """Implementation of the 'RPOBackupSLAParam' model.
 
@@ -17,29 +21,32 @@ class RPOBackupSLAParam:
     field empty.
 
     Attributes:
-        offsets:
-            The weekday in decimal of the Weekly SLA parameter. Valid values are integers
-            from 0 to 6, incidates Sunday, Monday, ..., Saturday. For example, to configure
-            backup on every Monday, set `unit="weekly"`, `value=1`, and `offsets={1}`.
-        unit:
-            The measurement unit of the SLA parameter.
-        value:
-            The measurement value of the SLA parameter.
+        Offsets:
+            The weekday in decimal of the weekly sla parameter. valid values are integers from 0 to 6, incidates sunday, monday, ..., saturday. for example, to configure backup on every monday, set `unit="weekly"`, `value=1`, and `offsets={1}`.
+
+        Unit:
+            The measurement unit of the sla parameter.
+
+        Value:
+            The measurement value of the sla parameter.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {'offsets': 'offsets', 'unit': 'unit', 'value': 'value'}
+    Offsets: Sequence[int] | None = None
+    Unit: str | None = None
+    Value: int | None = None
 
-    def __init__(self, offsets: Sequence[int] = None, unit: str = None, value: int = None) -> None:
-        """Constructor for the RPOBackupSLAParam class."""
-
-        # Initialize members of the class
-        self.offsets: Sequence[int] = offsets
-        self.unit: str = unit
-        self.value: int = value
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -50,12 +57,36 @@ class RPOBackupSLAParam:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        offsets = dictionary.get('offsets')
-        unit = dictionary.get('unit')
-        value = dictionary.get('value')
+        val = dictionary.get('offsets', None)
+        val_offsets = val
+
+        val = dictionary.get('unit', None)
+        val_unit = val
+
+        val = dictionary.get('value', None)
+        val_value = val
+
         # Return an object of this model
-        return cls(offsets, unit, value)
+        return cls(
+            val_offsets,
+            val_unit,
+            val_value,
+        )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

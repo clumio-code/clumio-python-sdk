@@ -1,71 +1,73 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
-from clumioapi.models import protection_group_s3_asset_pitr_interval_list_embedded
-from clumioapi.models import protection_group_s3_asset_pitr_interval_list_links
+from clumioapi.api_helper import camel_to_snake
+from clumioapi.models import \
+    protection_group_s3_asset_pitr_interval_list_embedded as \
+    protection_group_s3_asset_pitr_interval_list_embedded_
+from clumioapi.models import \
+    protection_group_s3_asset_pitr_interval_list_links as \
+    protection_group_s3_asset_pitr_interval_list_links_
+import requests
 
 T = TypeVar('T', bound='ListProtectionGroupS3AssetPitrIntervalsResponse')
 
 
+@dataclasses.dataclass
 class ListProtectionGroupS3AssetPitrIntervalsResponse:
     """Implementation of the 'ListProtectionGroupS3AssetPitrIntervalsResponse' model.
 
     ListProtectionGroupS3AssetPitrIntervalsResponse represents the success response
 
     Attributes:
-        embedded:
+        Embedded:
             Embedded responses related to the resource.
-        links:
-            URLs to pages related to the resource.
-        current_count:
+
+        Links:
+            Urls to pages related to the resource.
+
+        CurrentCount:
             The number of items listed on the current page.
-        filter_applied:
-            The filter used in the request. The filter includes both manually-specified and
-            system-generated filters.
-        limit:
+
+        FilterApplied:
+            The filter used in the request. the filter includes both manually-specified and system-generated filters.
+
+        Limit:
             The maximum number of items displayed per page in the response.
-        start:
+
+        Start:
             The page token used to get this response.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {
-        'embedded': '_embedded',
-        'links': '_links',
-        'current_count': 'current_count',
-        'filter_applied': 'filter_applied',
-        'limit': 'limit',
-        'start': 'start',
-    }
+    Embedded: (
+        protection_group_s3_asset_pitr_interval_list_embedded_.ProtectionGroupS3AssetPitrIntervalListEmbedded
+        | None
+    ) = None
+    Links: (
+        protection_group_s3_asset_pitr_interval_list_links_.ProtectionGroupS3AssetPitrIntervalListLinks
+        | None
+    ) = None
+    CurrentCount: int | None = None
+    FilterApplied: str | None = None
+    Limit: int | None = None
+    Start: str | None = None
+    raw_response: Optional[requests.Response] = None
 
-    def __init__(
-        self,
-        embedded: protection_group_s3_asset_pitr_interval_list_embedded.ProtectionGroupS3AssetPitrIntervalListEmbedded = None,
-        links: protection_group_s3_asset_pitr_interval_list_links.ProtectionGroupS3AssetPitrIntervalListLinks = None,
-        current_count: int = None,
-        filter_applied: str = None,
-        limit: int = None,
-        start: str = None,
-    ) -> None:
-        """Constructor for the ListProtectionGroupS3AssetPitrIntervalsResponse class."""
-
-        # Initialize members of the class
-        self.embedded: (
-            protection_group_s3_asset_pitr_interval_list_embedded.ProtectionGroupS3AssetPitrIntervalListEmbedded
-        ) = embedded
-        self.links: (
-            protection_group_s3_asset_pitr_interval_list_links.ProtectionGroupS3AssetPitrIntervalListLinks
-        ) = links
-        self.current_count: int = current_count
-        self.filter_applied: str = filter_applied
-        self.limit: int = limit
-        self.start: str = start
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -76,33 +78,53 @@ class ListProtectionGroupS3AssetPitrIntervalsResponse:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = '_embedded'
-        val_embedded = (
-            protection_group_s3_asset_pitr_interval_list_embedded.ProtectionGroupS3AssetPitrIntervalListEmbedded.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
+        val = dictionary.get('_embedded', None)
+        val_embedded = protection_group_s3_asset_pitr_interval_list_embedded_.ProtectionGroupS3AssetPitrIntervalListEmbedded.from_dictionary(
+            val
         )
 
-        key = '_links'
-        val_links = (
-            protection_group_s3_asset_pitr_interval_list_links.ProtectionGroupS3AssetPitrIntervalListLinks.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
+        val = dictionary.get('_links', None)
+        val_links = protection_group_s3_asset_pitr_interval_list_links_.ProtectionGroupS3AssetPitrIntervalListLinks.from_dictionary(
+            val
         )
 
-        val_current_count = dictionary.get('current_count')
-        val_filter_applied = dictionary.get('filter_applied')
-        val_limit = dictionary.get('limit')
-        val_start = dictionary.get('start')
+        val = dictionary.get('current_count', None)
+        val_current_count = val
+
+        val = dictionary.get('filter_applied', None)
+        val_filter_applied = val
+
+        val = dictionary.get('limit', None)
+        val_limit = val
+
+        val = dictionary.get('start', None)
+        val_start = val
+
         # Return an object of this model
         return cls(
-            val_embedded, val_links, val_current_count, val_filter_applied, val_limit, val_start
+            val_embedded,
+            val_links,
+            val_current_count,
+            val_filter_applied,
+            val_limit,
+            val_start,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        model_instance.raw_response = response
+        return model_instance

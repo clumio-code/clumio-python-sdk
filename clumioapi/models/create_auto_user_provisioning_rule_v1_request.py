@@ -1,96 +1,77 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
-from clumioapi.models import rule_provision
+from clumioapi.api_helper import camel_to_snake
+from clumioapi.models import rule_provision as rule_provision_
+import requests
 
 T = TypeVar('T', bound='CreateAutoUserProvisioningRuleV1Request')
 
 
+@dataclasses.dataclass
 class CreateAutoUserProvisioningRuleV1Request:
     """Implementation of the 'CreateAutoUserProvisioningRuleV1Request' model.
 
-    Attributes:
-        condition:
-            The following table describes the possible conditions for a rule.
+        Attributes:
+            Condition:
+                |                         |
+    |                          | ["admin", "eng",        |                         |
+    |                          | "sales"]}}              |                         |
+    |                          |                         |                         |
+    |                          |                         |                         |
+    +--------------------------+-------------------------+-------------------------+
+    | group contains this      |                         | user's group must       |
+    | keyword                  |                         | contain the specified   |
+    |                          | {"user.groups":{"$conta | keyword.                |
+    |                          | ins":{"$in":["admin"]}} |                         |
+    |                          | }                       |                         |
+    |                          |                         |                         |
+    |                          |                         |                         |
+    +--------------------------+-------------------------+-------------------------+
+    | group contains any of    |                         | user's group must       |
+    | these keywords           |                         | contain at least one of |
+    |                          | {"user.groups":{"$conta | the specified keywords. |
+    |                          | ins":{"$in":["admin",   |                         |
+    |                          | "eng", "sales"]}}}      |                         |
+    |                          |                         |                         |
+    |                          |                         |                         |
+    +--------------------------+-------------------------+-------------------------+
+    | group contains all of    |                         | user's group must       |
+    | these keywords           |                         | contain all the         |
+    |                          | {"user.groups":{"$conta | specified keywords.     |
+    |                          | ins":{"$all":["admin",  |                         |
+    |                          | "eng", "sales"]}}}      |                         |
+    |                          |                         |                         |
+    |                          |                         |                         |
+    +--------------------------+-------------------------+-------------------------+
+    .
 
-            +--------------------------+-------------------------+-------------------------+
-            |     Group Selection      |     Rule Condition      |       Description       |
-            +==========================+=========================+=========================+
-            | This group               |                         | User must belong to the |
-            |                          |                         | specified group.        |
-            |                          | {"user.groups":{"$eq":" |                         |
-            |                          | Admin"}}                |                         |
-            |                          |                         |                         |
-            |                          |                         |                         |
-            +--------------------------+-------------------------+-------------------------+
-            | ANY of these groups      |                         | User must belong to at  |
-            |                          |                         | least one of the        |
-            |                          | {"user.groups":{"$in":[ | specified groups.       |
-            |                          | "Admin", "Eng",         |                         |
-            |                          | "Sales"]}}              |                         |
-            |                          |                         |                         |
-            |                          |                         |                         |
-            +--------------------------+-------------------------+-------------------------+
-            | ALL of these groups      |                         | User must belong to all |
-            |                          |                         | the specified groups.   |
-            |                          | {"user.groups":{"$all": |                         |
-            |                          | ["Admin", "Eng",        |                         |
-            |                          | "Sales"]}}              |                         |
-            |                          |                         |                         |
-            |                          |                         |                         |
-            +--------------------------+-------------------------+-------------------------+
-            | Group CONTAINS this      |                         | User's group must       |
-            | keyword                  |                         | contain the specified   |
-            |                          | {"user.groups":{"$conta | keyword.                |
-            |                          | ins":{"$in":["Admin"]}} |                         |
-            |                          | }                       |                         |
-            |                          |                         |                         |
-            |                          |                         |                         |
-            +--------------------------+-------------------------+-------------------------+
-            | Group CONTAINS ANY of    |                         | User's group must       |
-            | these keywords           |                         | contain at least one of |
-            |                          | {"user.groups":{"$conta | the specified keywords. |
-            |                          | ins":{"$in":["Admin",   |                         |
-            |                          | "Eng", "Sales"]}}}      |                         |
-            |                          |                         |                         |
-            |                          |                         |                         |
-            +--------------------------+-------------------------+-------------------------+
-            | Group CONTAINS ALL of    |                         | User's group must       |
-            | these keywords           |                         | contain all the         |
-            |                          | {"user.groups":{"$conta | specified keywords.     |
-            |                          | ins":{"$all":["Admin",  |                         |
-            |                          | "Eng", "Sales"]}}}      |                         |
-            |                          |                         |                         |
-            |                          |                         |                         |
-            +--------------------------+-------------------------+-------------------------+
-        name:
-            Unique name assigned to the rule.
-        provision:
-            Specifies the role and the organizational units to be assigned to the user
-            subject to the rule criteria.
+            Name:
+                Unique name assigned to the rule.
+
+            Provision:
+                Specifies the role and the organizational units to be assigned to the user subject to the rule criteria.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {'condition': 'condition', 'name': 'name', 'provision': 'provision'}
+    Condition: str | None = None
+    Name: str | None = None
+    Provision: rule_provision_.RuleProvision | None = None
 
-    def __init__(
-        self,
-        condition: str = None,
-        name: str = None,
-        provision: rule_provision.RuleProvision = None,
-    ) -> None:
-        """Constructor for the CreateAutoUserProvisioningRuleV1Request class."""
-
-        # Initialize members of the class
-        self.condition: str = condition
-        self.name: str = name
-        self.provision: rule_provision.RuleProvision = provision
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -101,18 +82,36 @@ class CreateAutoUserProvisioningRuleV1Request:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        condition = dictionary.get('condition')
-        name = dictionary.get('name')
-        key = 'provision'
-        provision = (
-            rule_provision.RuleProvision.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('condition', None)
+        val_condition = val
+
+        val = dictionary.get('name', None)
+        val_name = val
+
+        val = dictionary.get('provision', None)
+        val_provision = rule_provision_.RuleProvision.from_dictionary(val)
 
         # Return an object of this model
-        return cls(condition, name, provision)
+        return cls(
+            val_condition,
+            val_name,
+            val_provision,
+        )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

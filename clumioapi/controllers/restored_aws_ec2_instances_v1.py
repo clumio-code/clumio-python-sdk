@@ -1,9 +1,10 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
-from typing import Optional, Union
+from typing import Any, Iterator, Optional, Union
+import urllib.parse
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -32,13 +33,10 @@ class RestoredAwsEc2InstancesV1Controller(base_controller.BaseController):
 
     def restore_aws_ec2_instance(
         self,
-        embed: str = None,
-        body: restore_aws_ec2_instance_v1_request.RestoreAwsEc2InstanceV1Request = None,
+        embed: str | None = None,
+        body: restore_aws_ec2_instance_v1_request.RestoreAwsEc2InstanceV1Request | None = None,
         **kwargs,
-    ) -> Union[
-        restore_ec2_response.RestoreEC2Response,
-        tuple[requests.Response, Optional[restore_ec2_response.RestoreEC2Response]],
-    ]:
+    ) -> restore_ec2_response.RestoreEC2Response:
         """Restores the specified EC2 instance backup to the specified target destination.
 
         Args:
@@ -56,39 +54,44 @@ class RestoredAwsEc2InstancesV1Controller(base_controller.BaseController):
 
             body:
 
-        Returns:
-            requests.Response: Raw Response from the API if config.raw_response is set to True.
-            restore_ec2_response.RestoreEC2Response: Response from the API.
-        Raises:
-            ClumioException: An error occured while executing the API.
-                This exception includes the HTTP response code, an error
-                message, and the HTTP body that was received in the request.
         """
+
+        def get_instance_from_response(response: requests.Response) -> Any:
+            return restore_ec2_response.RestoreEC2Response.from_response(response)
 
         # Prepare query URL
         _url_path = '/restores/aws/ec2-instances'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'embed': embed}
 
+        resp_instance: restore_ec2_response.RestoreEC2Response
         # Execute request
+        resp: requests.Response
         try:
             resp = self.client.post(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                json=api_helper.to_dictionary(body),
-                raw_response=self.config.raw_response,
+                json=body.dict() if body else None,
+                raw_response=True,
                 **kwargs,
             )
-        except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
-                return http_error.response, None
-            errors = self.client.get_error_message(http_error.response)
-            raise clumio_exception.ClumioException(
-                'Error occurred while executing restore_aws_ec2_instance.', errors
-            )
+        except requests.exceptions.HTTPError as e:
+            resp = e.response
 
-        if self.config.raw_response:
-            return resp, restore_ec2_response.RestoreEC2Response.from_dictionary(resp.json())
-        return restore_ec2_response.RestoreEC2Response.from_dictionary(resp)
+        if not resp.ok:
+            error_str = f'restore_aws_ec2_instance for url {urllib.parse.unquote(resp.url)} failed.'
+            raise clumio_exception.ClumioException(error_str, resp=resp)
+
+        resp_instance = get_instance_from_response(resp)
+
+        return resp_instance
+
+
+class RestoredAwsEc2InstancesV1ControllerPaginator(base_controller.BaseController):
+    """A Controller to access Endpoints for restored-aws-ec2-instances resource with pagination."""
+
+    def __init__(self, config: configuration.Configuration) -> None:
+        super().__init__(config)
+        self.controller = RestoredAwsEc2InstancesV1Controller(config)

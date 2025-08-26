@@ -1,63 +1,73 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
-from clumioapi.models import provisioned_throughput_override
-from clumioapi.models import replica_global_secondary_index_description
+from clumioapi.api_helper import camel_to_snake
+from clumioapi.models import on_demand_throughput_override as on_demand_throughput_override_
+from clumioapi.models import provisioned_throughput_override as provisioned_throughput_override_
+from clumioapi.models import \
+    replica_global_secondary_index_description as replica_global_secondary_index_description_
+import requests
 
 T = TypeVar('T', bound='ReplicaDescription')
 
 
+@dataclasses.dataclass
 class ReplicaDescription:
     """Implementation of the 'ReplicaDescription' model.
 
-    Contains the details of the replica.
+        Contains the details of the replica.
 
-    Attributes:
-        global_secondary_indexes:
-            The replica-specific global secondary index settings.
-        kms_master_key_id:
-            The AWS KMS key of the replica that will be used for AWS KMS encryption.
-        provisioned_throughput_override:
-            Replica-specific provisioned throughput settings. If not specified, uses the
-            source table's provisioned throughput settings.
-        region_name:
-            The name of the Region.
+        Attributes:
+            GlobalSecondaryIndexes:
+                The replica-specific global secondary index settings.
+
+            KmsMasterKeyId:
+                The aws kms key of the replica that will be used for aws kms encryption.
+
+            OnDemandThroughputOverride:
+                Replica-specific ondemand throughput settings. if not specified, uses the source table's ondemand throughput settings.
+
+            ProvisionedThroughputOverride:
+                Replica-specific provisioned throughput settings. if not specified, uses the source table's provisioned throughput settings.
+
+            RegionName:
+                The name of the region.
+
+            ReplicaTableClass:
+                Replica-specific table class summary.
+    possible values are `standard` or `standard_infrequent_access`. this is defaulted to the
+    `standard` storage class if empty.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {
-        'global_secondary_indexes': 'global_secondary_indexes',
-        'kms_master_key_id': 'kms_master_key_id',
-        'provisioned_throughput_override': 'provisioned_throughput_override',
-        'region_name': 'region_name',
-    }
+    GlobalSecondaryIndexes: (
+        Sequence[replica_global_secondary_index_description_.ReplicaGlobalSecondaryIndexDescription]
+        | None
+    ) = None
+    KmsMasterKeyId: str | None = None
+    OnDemandThroughputOverride: on_demand_throughput_override_.OnDemandThroughputOverride | None = (
+        None
+    )
+    ProvisionedThroughputOverride: (
+        provisioned_throughput_override_.ProvisionedThroughputOverride | None
+    ) = None
+    RegionName: str | None = None
+    ReplicaTableClass: str | None = None
 
-    def __init__(
-        self,
-        global_secondary_indexes: Sequence[
-            replica_global_secondary_index_description.ReplicaGlobalSecondaryIndexDescription
-        ] = None,
-        kms_master_key_id: str = None,
-        provisioned_throughput_override: provisioned_throughput_override.ProvisionedThroughputOverride = None,
-        region_name: str = None,
-    ) -> None:
-        """Constructor for the ReplicaDescription class."""
-
-        # Initialize members of the class
-        self.global_secondary_indexes: Sequence[
-            replica_global_secondary_index_description.ReplicaGlobalSecondaryIndexDescription
-        ] = global_secondary_indexes
-        self.kms_master_key_id: str = kms_master_key_id
-        self.provisioned_throughput_override: (
-            provisioned_throughput_override.ProvisionedThroughputOverride
-        ) = provisioned_throughput_override
-        self.region_name: str = region_name
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -68,35 +78,60 @@ class ReplicaDescription:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        global_secondary_indexes = None
-        if dictionary.get('global_secondary_indexes'):
-            global_secondary_indexes = list()
-            for value in dictionary.get('global_secondary_indexes'):
-                global_secondary_indexes.append(
-                    replica_global_secondary_index_description.ReplicaGlobalSecondaryIndexDescription.from_dictionary(
+        val = dictionary.get('global_secondary_indexes', None)
+
+        val_global_secondary_indexes = []
+        if val:
+            for value in val:
+                val_global_secondary_indexes.append(
+                    replica_global_secondary_index_description_.ReplicaGlobalSecondaryIndexDescription.from_dictionary(
                         value
                     )
                 )
 
-        kms_master_key_id = dictionary.get('kms_master_key_id')
-        key = 'provisioned_throughput_override'
-        p_provisioned_throughput_override = (
-            provisioned_throughput_override.ProvisionedThroughputOverride.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
+        val = dictionary.get('kms_master_key_id', None)
+        val_kms_master_key_id = val
+
+        val = dictionary.get('on_demand_throughput_override', None)
+        val_on_demand_throughput_override = (
+            on_demand_throughput_override_.OnDemandThroughputOverride.from_dictionary(val)
         )
 
-        region_name = dictionary.get('region_name')
+        val = dictionary.get('provisioned_throughput_override', None)
+        val_provisioned_throughput_override = (
+            provisioned_throughput_override_.ProvisionedThroughputOverride.from_dictionary(val)
+        )
+
+        val = dictionary.get('region_name', None)
+        val_region_name = val
+
+        val = dictionary.get('replica_table_class', None)
+        val_replica_table_class = val
+
         # Return an object of this model
         return cls(
-            global_secondary_indexes,
-            kms_master_key_id,
-            p_provisioned_throughput_override,
-            region_name,
+            val_global_secondary_indexes,
+            val_kms_master_key_id,
+            val_on_demand_throughput_override,
+            val_provisioned_throughput_override,
+            val_region_name,
+            val_replica_table_class,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

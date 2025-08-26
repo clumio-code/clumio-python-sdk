@@ -1,88 +1,93 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
-from clumioapi.models import dynamodb_asset_info
-from clumioapi.models import ebs_asset_info
-from clumioapi.models import ec2_mssql_protect_config
-from clumioapi.models import rds_asset_info
-from clumioapi.models import s3_asset_info
-from clumioapi.models import warm_tier_protect_config
+from clumioapi.api_helper import camel_to_snake
+from clumioapi.models import dynamodb_asset_info as dynamodb_asset_info_
+from clumioapi.models import ebs_asset_info as ebs_asset_info_
+from clumioapi.models import ec2_asset_info as ec2_asset_info_
+from clumioapi.models import ec2_mssql_protect_config as ec2_mssql_protect_config_
+from clumioapi.models import iceberg_on_glue_asset_info as iceberg_on_glue_asset_info_
+from clumioapi.models import rds_asset_info as rds_asset_info_
+from clumioapi.models import s3_asset_info as s3_asset_info_
+from clumioapi.models import warm_tier_protect_config as warm_tier_protect_config_
+import requests
 
 T = TypeVar('T', bound='ConsolidatedConfig')
 
 
+@dataclasses.dataclass
 class ConsolidatedConfig:
     """Implementation of the 'ConsolidatedConfig' model.
 
-    The consolidated configuration of the Clumio Cloud Protect and Clumio Cloud
-    Discover products for this connection.If this connection is deprecated to use
-    unconsolidated configuration, then this field has avalue of `null`.
+        The consolidated configuration of the Clumio Cloud Protect and Clumio Cloud
+        Discover products for this connection.If this connection is deprecated to use
+        unconsolidated configuration, then this field has avalue of `null`.
 
-    Attributes:
-        asset_types_enabled:
-            The asset types supported on the current version of the feature
-        dynamodb:
-            DynamodbAssetInfo
-            The installed information for the DynamoDB feature.
-        ebs:
-            EbsAssetInfo
-            The installed information for the EBS feature.
-        ec2_mssql:
-            EC2MSSQLProtectConfig
-            The installed information for the EC2_MSSQL feature.
-        installed_template_version:
-            The current version of the feature.
-        rds:
-            RdsAssetInfo
-            The installed information for the RDS feature.
-        s3:
-            S3AssetInfo
-            The installed information for the S3 feature.
-        warm_tier_protect:
-            The configuration of the Clumio Cloud Warm-Tier Protect product for this
-            connection.
+        Attributes:
+            AssetTypesEnabled:
+                The asset types supported on the current version of the feature.
+
+            Dynamodb:
+                Dynamodbassetinfo
+    the installed information for the dynamodb feature.
+
+            Ebs:
+                Ebsassetinfo
+    the installed information for the ebs feature.
+
+            Ec2:
+                Ec2assetinfo
+    the installed information for the ec2 feature.
+
+            Ec2Mssql:
+                Ec2mssqlprotectconfig
+    the installed information for the ec2_mssql feature.
+
+            IcebergOnGlue:
+                Icebergonglueassetinfo
+    the installed information for the iceberg on aws glue feature.
+
+            InstalledTemplateVersion:
+                The current version of the feature.
+
+            Rds:
+                Rdsassetinfo
+    the installed information for the rds feature.
+
+            S3:
+                S3assetinfo
+    the installed information for the s3 feature.
+
+            WarmTierProtect:
+                The configuration of the clumio cloud warm-tier protect product for this connection.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {
-        'asset_types_enabled': 'asset_types_enabled',
-        'dynamodb': 'dynamodb',
-        'ebs': 'ebs',
-        'ec2_mssql': 'ec2_mssql',
-        'installed_template_version': 'installed_template_version',
-        'rds': 'rds',
-        's3': 's3',
-        'warm_tier_protect': 'warm_tier_protect',
-    }
+    AssetTypesEnabled: Sequence[str] | None = None
+    Dynamodb: dynamodb_asset_info_.DynamodbAssetInfo | None = None
+    Ebs: ebs_asset_info_.EbsAssetInfo | None = None
+    Ec2: ec2_asset_info_.Ec2AssetInfo | None = None
+    Ec2Mssql: ec2_mssql_protect_config_.EC2MSSQLProtectConfig | None = None
+    IcebergOnGlue: iceberg_on_glue_asset_info_.IcebergOnGlueAssetInfo | None = None
+    InstalledTemplateVersion: str | None = None
+    Rds: rds_asset_info_.RdsAssetInfo | None = None
+    S3: s3_asset_info_.S3AssetInfo | None = None
+    WarmTierProtect: warm_tier_protect_config_.WarmTierProtectConfig | None = None
 
-    def __init__(
-        self,
-        asset_types_enabled: Sequence[str] = None,
-        dynamodb: dynamodb_asset_info.DynamodbAssetInfo = None,
-        ebs: ebs_asset_info.EbsAssetInfo = None,
-        ec2_mssql: ec2_mssql_protect_config.EC2MSSQLProtectConfig = None,
-        installed_template_version: str = None,
-        rds: rds_asset_info.RdsAssetInfo = None,
-        s3: s3_asset_info.S3AssetInfo = None,
-        warm_tier_protect: warm_tier_protect_config.WarmTierProtectConfig = None,
-    ) -> None:
-        """Constructor for the ConsolidatedConfig class."""
-
-        # Initialize members of the class
-        self.asset_types_enabled: Sequence[str] = asset_types_enabled
-        self.dynamodb: dynamodb_asset_info.DynamodbAssetInfo = dynamodb
-        self.ebs: ebs_asset_info.EbsAssetInfo = ebs
-        self.ec2_mssql: ec2_mssql_protect_config.EC2MSSQLProtectConfig = ec2_mssql
-        self.installed_template_version: str = installed_template_version
-        self.rds: rds_asset_info.RdsAssetInfo = rds
-        self.s3: s3_asset_info.S3AssetInfo = s3
-        self.warm_tier_protect: warm_tier_protect_config.WarmTierProtectConfig = warm_tier_protect
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -93,62 +98,66 @@ class ConsolidatedConfig:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        asset_types_enabled = dictionary.get('asset_types_enabled')
-        key = 'dynamodb'
-        dynamodb = (
-            dynamodb_asset_info.DynamodbAssetInfo.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
+        val = dictionary.get('asset_types_enabled', None)
+        val_asset_types_enabled = val
+
+        val = dictionary.get('dynamodb', None)
+        val_dynamodb = dynamodb_asset_info_.DynamodbAssetInfo.from_dictionary(val)
+
+        val = dictionary.get('ebs', None)
+        val_ebs = ebs_asset_info_.EbsAssetInfo.from_dictionary(val)
+
+        val = dictionary.get('ec2', None)
+        val_ec2 = ec2_asset_info_.Ec2AssetInfo.from_dictionary(val)
+
+        val = dictionary.get('ec2_mssql', None)
+        val_ec2_mssql = ec2_mssql_protect_config_.EC2MSSQLProtectConfig.from_dictionary(val)
+
+        val = dictionary.get('iceberg_on_glue', None)
+        val_iceberg_on_glue = iceberg_on_glue_asset_info_.IcebergOnGlueAssetInfo.from_dictionary(
+            val
         )
 
-        key = 'ebs'
-        ebs = (
-            ebs_asset_info.EbsAssetInfo.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('installed_template_version', None)
+        val_installed_template_version = val
 
-        key = 'ec2_mssql'
-        ec2_mssql = (
-            ec2_mssql_protect_config.EC2MSSQLProtectConfig.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('rds', None)
+        val_rds = rds_asset_info_.RdsAssetInfo.from_dictionary(val)
 
-        installed_template_version = dictionary.get('installed_template_version')
-        key = 'rds'
-        rds = (
-            rds_asset_info.RdsAssetInfo.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('s3', None)
+        val_s3 = s3_asset_info_.S3AssetInfo.from_dictionary(val)
 
-        key = 's3'
-        s3 = (
-            s3_asset_info.S3AssetInfo.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
-
-        key = 'warm_tier_protect'
-        warm_tier_protect = (
-            warm_tier_protect_config.WarmTierProtectConfig.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('warm_tier_protect', None)
+        val_warm_tier_protect = warm_tier_protect_config_.WarmTierProtectConfig.from_dictionary(val)
 
         # Return an object of this model
         return cls(
-            asset_types_enabled,
-            dynamodb,
-            ebs,
-            ec2_mssql,
-            installed_template_version,
-            rds,
-            s3,
-            warm_tier_protect,
+            val_asset_types_enabled,
+            val_dynamodb,
+            val_ebs,
+            val_ec2,
+            val_ec2_mssql,
+            val_iceberg_on_glue,
+            val_installed_template_version,
+            val_rds,
+            val_s3,
+            val_warm_tier_protect,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

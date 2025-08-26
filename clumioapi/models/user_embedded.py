@@ -1,35 +1,41 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
-from clumioapi.models import role_model
+from clumioapi.api_helper import camel_to_snake
+from clumioapi.models import role_model as role_model_
+import requests
 
 T = TypeVar('T', bound='UserEmbedded')
 
 
+@dataclasses.dataclass
 class UserEmbedded:
     """Implementation of the 'UserEmbedded' model.
 
     Embedded responses related to the resource.
 
     Attributes:
-        read_role:
-            Embeds the associated Role details in the response
+        ReadRole:
+            Embeds the associated role details in the response.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {'read_role': 'read-role'}
+    ReadRole: Sequence[role_model_.RoleModel] | None = None
 
-    def __init__(self, read_role: Sequence[role_model.RoleModel] = None) -> None:
-        """Constructor for the UserEmbedded class."""
-
-        # Initialize members of the class
-        self.read_role: Sequence[role_model.RoleModel] = read_role
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -40,15 +46,32 @@ class UserEmbedded:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        read_role = None
-        if dictionary.get('read-role'):
-            read_role = list()
-            for value in dictionary.get('read-role'):
-                read_role.append(role_model.RoleModel.from_dictionary(value))
+        val = dictionary.get('read-role', None)
+
+        val_read_role = []
+        if val:
+            for value in val:
+                val_read_role.append(role_model_.RoleModel.from_dictionary(value))
 
         # Return an object of this model
-        return cls(read_role)
+        return cls(
+            val_read_role,
+        )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

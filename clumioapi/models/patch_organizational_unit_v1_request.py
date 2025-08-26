@@ -1,57 +1,54 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
-from clumioapi.models import update_entities
-from clumioapi.models import update_user_assignments
+from clumioapi.api_helper import camel_to_snake
+from clumioapi.models import update_entities as update_entities_
+from clumioapi.models import update_user_assignments as update_user_assignments_
+import requests
 
 T = TypeVar('T', bound='PatchOrganizationalUnitV1Request')
 
 
+@dataclasses.dataclass
 class PatchOrganizationalUnitV1Request:
     """Implementation of the 'PatchOrganizationalUnitV1Request' model.
 
-    Attributes:
-        description:
-            A description of the organizational unit.
-        entities:
-            Updates to the entities in the organizational unit.
-            Adding or removing entities from the OU is an asynchronous operation.
-            The response has a task ID which can be used to track the progress of the
-            operation.
-        name:
-            Unique name assigned to the organizational unit.
-        users:
-            Updates to the user assignments.
+        Attributes:
+            Description:
+                A description of the organizational unit.
+
+            Entities:
+                Updates to the entities in the organizational unit.
+    adding or removing entities from the ou is an asynchronous operation.
+    the response has a task id which can be used to track the progress of the operation.
+
+            Name:
+                Unique name assigned to the organizational unit.
+
+            Users:
+                Updates to the user assignments.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {
-        'description': 'description',
-        'entities': 'entities',
-        'name': 'name',
-        'users': 'users',
-    }
+    Description: str | None = None
+    Entities: update_entities_.UpdateEntities | None = None
+    Name: str | None = None
+    Users: update_user_assignments_.UpdateUserAssignments | None = None
 
-    def __init__(
-        self,
-        description: str = None,
-        entities: update_entities.UpdateEntities = None,
-        name: str = None,
-        users: update_user_assignments.UpdateUserAssignments = None,
-    ) -> None:
-        """Constructor for the PatchOrganizationalUnitV1Request class."""
-
-        # Initialize members of the class
-        self.description: str = description
-        self.entities: update_entities.UpdateEntities = entities
-        self.name: str = name
-        self.users: update_user_assignments.UpdateUserAssignments = users
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -62,25 +59,40 @@ class PatchOrganizationalUnitV1Request:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        description = dictionary.get('description')
-        key = 'entities'
-        entities = (
-            update_entities.UpdateEntities.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('description', None)
+        val_description = val
 
-        name = dictionary.get('name')
-        key = 'users'
-        users = (
-            update_user_assignments.UpdateUserAssignments.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('entities', None)
+        val_entities = update_entities_.UpdateEntities.from_dictionary(val)
+
+        val = dictionary.get('name', None)
+        val_name = val
+
+        val = dictionary.get('users', None)
+        val_users = update_user_assignments_.UpdateUserAssignments.from_dictionary(val)
 
         # Return an object of this model
-        return cls(description, entities, name, users)
+        return cls(
+            val_description,
+            val_entities,
+            val_name,
+            val_users,
+        )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

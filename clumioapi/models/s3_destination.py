@@ -1,81 +1,74 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
-from clumioapi.models import s3_access_control_translation
-from clumioapi.models import s3_encryption_configuration
-from clumioapi.models import s3_metrics
-from clumioapi.models import s3_replication_time
+from clumioapi.api_helper import camel_to_snake
+from clumioapi.models import s3_access_control_translation as s3_access_control_translation_
+from clumioapi.models import s3_encryption_configuration as s3_encryption_configuration_
+from clumioapi.models import s3_metrics as s3_metrics_
+from clumioapi.models import s3_replication_time as s3_replication_time_
+import requests
 
 T = TypeVar('T', bound='S3Destination')
 
 
+@dataclasses.dataclass
 class S3Destination:
     """Implementation of the 'S3Destination' model.
 
-    Specifies information about where to publish analysis or configuration results.
+        Specifies information about where to publish analysis or configuration results.
 
-    Attributes:
-        access_control_translation:
-            A container for information about access control for replicas.
-        account:
-            Destination bucket owner account ID.
-        bucket:
-            The Amazon Resource Name (ARN) of the bucket where
-            you want Amazon S3 to store the results.
-        encryption_configuration:
-            Specifies encryption-related information for an Amazon S3 bucket
-            that is a destination for replicated objects.
-        metrics:
-            A container specifying replication metrics-related settings
-            enabling replication metrics and events.
-        replication_time:
-            A container specifying S3 Replication Time Control (S3 RTC)
-            related information.
-        storage_class:
-            The storage class to use when replicating objects.
+        Attributes:
+            AccessControlTranslation:
+                A container for information about access control for replicas.
+
+            Account:
+                Destination bucket owner account id.
+
+            Bucket:
+                The amazon resource name (arn) of the bucket where
+    you want amazon s3 to store the results.
+
+            EncryptionConfiguration:
+                Specifies encryption-related information for an amazon s3 bucket
+    that is a destination for replicated objects.
+
+            Metrics:
+                A container specifying replication metrics-related settings
+    enabling replication metrics and events.
+
+            ReplicationTime:
+                A container specifying s3 replication time control (s3 rtc)
+    related information.
+
+            StorageClass:
+                The storage class to use when replicating objects.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {
-        'access_control_translation': 'access_control_translation',
-        'account': 'account',
-        'bucket': 'bucket',
-        'encryption_configuration': 'encryption_configuration',
-        'metrics': 'metrics',
-        'replication_time': 'replication_time',
-        'storage_class': 'storage_class',
-    }
+    AccessControlTranslation: s3_access_control_translation_.S3AccessControlTranslation | None = (
+        None
+    )
+    Account: str | None = None
+    Bucket: str | None = None
+    EncryptionConfiguration: s3_encryption_configuration_.S3EncryptionConfiguration | None = None
+    Metrics: s3_metrics_.S3Metrics | None = None
+    ReplicationTime: s3_replication_time_.S3ReplicationTime | None = None
+    StorageClass: str | None = None
 
-    def __init__(
-        self,
-        access_control_translation: s3_access_control_translation.S3AccessControlTranslation = None,
-        account: str = None,
-        bucket: str = None,
-        encryption_configuration: s3_encryption_configuration.S3EncryptionConfiguration = None,
-        metrics: s3_metrics.S3Metrics = None,
-        replication_time: s3_replication_time.S3ReplicationTime = None,
-        storage_class: str = None,
-    ) -> None:
-        """Constructor for the S3Destination class."""
-
-        # Initialize members of the class
-        self.access_control_translation: (
-            s3_access_control_translation.S3AccessControlTranslation
-        ) = access_control_translation
-        self.account: str = account
-        self.bucket: str = bucket
-        self.encryption_configuration: s3_encryption_configuration.S3EncryptionConfiguration = (
-            encryption_configuration
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
         )
-        self.metrics: s3_metrics.S3Metrics = metrics
-        self.replication_time: s3_replication_time.S3ReplicationTime = replication_time
-        self.storage_class: str = storage_class
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -86,52 +79,56 @@ class S3Destination:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = 'access_control_translation'
-        access_control_translation = (
-            s3_access_control_translation.S3AccessControlTranslation.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
+        val = dictionary.get('access_control_translation', None)
+        val_access_control_translation = (
+            s3_access_control_translation_.S3AccessControlTranslation.from_dictionary(val)
         )
 
-        account = dictionary.get('account')
-        bucket = dictionary.get('bucket')
-        key = 'encryption_configuration'
-        encryption_configuration = (
-            s3_encryption_configuration.S3EncryptionConfiguration.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
+        val = dictionary.get('account', None)
+        val_account = val
+
+        val = dictionary.get('bucket', None)
+        val_bucket = val
+
+        val = dictionary.get('encryption_configuration', None)
+        val_encryption_configuration = (
+            s3_encryption_configuration_.S3EncryptionConfiguration.from_dictionary(val)
         )
 
-        key = 'metrics'
-        metrics = (
-            s3_metrics.S3Metrics.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('metrics', None)
+        val_metrics = s3_metrics_.S3Metrics.from_dictionary(val)
 
-        key = 'replication_time'
-        replication_time = (
-            s3_replication_time.S3ReplicationTime.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('replication_time', None)
+        val_replication_time = s3_replication_time_.S3ReplicationTime.from_dictionary(val)
 
-        storage_class = dictionary.get('storage_class')
+        val = dictionary.get('storage_class', None)
+        val_storage_class = val
+
         # Return an object of this model
         return cls(
-            access_control_translation,
-            account,
-            bucket,
-            encryption_configuration,
-            metrics,
-            replication_time,
-            storage_class,
+            val_access_control_translation,
+            val_account,
+            val_bucket,
+            val_encryption_configuration,
+            val_metrics,
+            val_replication_time,
+            val_storage_class,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

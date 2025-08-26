@@ -1,39 +1,47 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='RoleForOrganizationalUnits')
 
 
+@dataclasses.dataclass
 class RoleForOrganizationalUnits:
     """Implementation of the 'RoleForOrganizationalUnits' model.
 
-    The organizational units assigned to the user, with the specified role.
+        The organizational units assigned to the user, with the specified role.
 
-    Attributes:
-        organizational_unit_ids:
-            The Clumio-assigned IDs of the organizational units assigned to the user.
-            Use the [GET /organizational-units](#operation/list-organizational-units)
-            endpoint to fetch valid values.
-        role_id:
-            The Clumio-assigned ID of the role assigned to the user.
-            Use the [GET /roles](#operation/list-roles) endpoint to fetch valid values.
+        Attributes:
+            OrganizationalUnitIds:
+                The clumio-assigned ids of the organizational units assigned to the user.
+    use the [get /organizational-units](#operation/list-organizational-units) endpoint to fetch
+    valid values.
+
+            RoleId:
+                The clumio-assigned id of the role assigned to the user.
+    use the [get /roles](#operation/list-roles) endpoint to fetch valid values.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {'organizational_unit_ids': 'organizational_unit_ids', 'role_id': 'role_id'}
+    OrganizationalUnitIds: Sequence[str] | None = None
+    RoleId: str | None = None
 
-    def __init__(self, organizational_unit_ids: Sequence[str] = None, role_id: str = None) -> None:
-        """Constructor for the RoleForOrganizationalUnits class."""
-
-        # Initialize members of the class
-        self.organizational_unit_ids: Sequence[str] = organizational_unit_ids
-        self.role_id: str = role_id
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -44,11 +52,32 @@ class RoleForOrganizationalUnits:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        organizational_unit_ids = dictionary.get('organizational_unit_ids')
-        role_id = dictionary.get('role_id')
+        val = dictionary.get('organizational_unit_ids', None)
+        val_organizational_unit_ids = val
+
+        val = dictionary.get('role_id', None)
+        val_role_id = val
+
         # Return an object of this model
-        return cls(organizational_unit_ids, role_id)
+        return cls(
+            val_organizational_unit_ids,
+            val_role_id,
+        )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

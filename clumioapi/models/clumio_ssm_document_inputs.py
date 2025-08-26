@@ -1,35 +1,42 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='ClumioSsmDocumentInputs')
 
 
+@dataclasses.dataclass
 class ClumioSsmDocumentInputs:
     """Implementation of the 'ClumioSsmDocumentInputs' model.
 
     Attributes:
-        runCommand:
-            "runCommand" is an array of stringified commands.
-        timeoutSeconds:
-            "timeoutSeconds" is a stringified number denoting the timeout for command
-            execution
+        Runcommand:
+            "runcommand" is an array of stringified commands.
+
+        Timeoutseconds:
+            "timeoutseconds" is a stringified number denoting the timeout for command execution.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {'runCommand': 'runCommand', 'timeoutSeconds': 'timeoutSeconds'}
+    Runcommand: Sequence[str] | None = None
+    Timeoutseconds: str | None = None
 
-    def __init__(self, runCommand: Sequence[str] = None, timeoutSeconds: str = None) -> None:
-        """Constructor for the ClumioSsmDocumentInputs class."""
-
-        # Initialize members of the class
-        self.runCommand: Sequence[str] = runCommand
-        self.timeoutSeconds: str = timeoutSeconds
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -40,11 +47,32 @@ class ClumioSsmDocumentInputs:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        runCommand = dictionary.get('runCommand')
-        timeoutSeconds = dictionary.get('timeoutSeconds')
+        val = dictionary.get('runCommand', None)
+        val_runCommand = val
+
+        val = dictionary.get('timeoutSeconds', None)
+        val_timeoutSeconds = val
+
         # Return an object of this model
-        return cls(runCommand, timeoutSeconds)
+        return cls(
+            val_runCommand,
+            val_timeoutSeconds,
+        )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

@@ -1,46 +1,51 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
-from clumioapi.models import object
-from clumioapi.models import preview_protection_group_s3_asset_sync_links
+from clumioapi.api_helper import camel_to_snake
+from clumioapi.models import object as object_
+from clumioapi.models import \
+    preview_protection_group_s3_asset_sync_links as preview_protection_group_s3_asset_sync_links_
+import requests
 
 T = TypeVar('T', bound='PreviewProtectionGroupS3AssetSyncResponse')
 
 
+@dataclasses.dataclass
 class PreviewProtectionGroupS3AssetSyncResponse:
     """Implementation of the 'PreviewProtectionGroupS3AssetSyncResponse' model.
 
-    Success (Sync)
+        Success (Sync)
 
-    Attributes:
-        links:
-            URLs to pages related to the resource.
-        objects:
-            The fetched objects as a result of the preview.
-            Note that this field is given only for sync request.
+        Attributes:
+            Links:
+                Urls to pages related to the resource.
+
+            Objects:
+                The fetched objects as a result of the preview.
+    note that this field is given only for sync request.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {'links': '_links', 'objects': 'objects'}
+    Links: (
+        preview_protection_group_s3_asset_sync_links_.PreviewProtectionGroupS3AssetSyncLinks | None
+    ) = None
+    Objects: Sequence[object_.Object] | None = None
+    raw_response: Optional[requests.Response] = None
 
-    def __init__(
-        self,
-        links: preview_protection_group_s3_asset_sync_links.PreviewProtectionGroupS3AssetSyncLinks = None,
-        objects: Sequence[object.Object] = None,
-    ) -> None:
-        """Constructor for the PreviewProtectionGroupS3AssetSyncResponse class."""
-
-        # Initialize members of the class
-        self.links: (
-            preview_protection_group_s3_asset_sync_links.PreviewProtectionGroupS3AssetSyncLinks
-        ) = links
-        self.objects: Sequence[object.Object] = objects
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -51,24 +56,39 @@ class PreviewProtectionGroupS3AssetSyncResponse:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = '_links'
-        links = (
-            preview_protection_group_s3_asset_sync_links.PreviewProtectionGroupS3AssetSyncLinks.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
+        val = dictionary.get('_links', None)
+        val_links = preview_protection_group_s3_asset_sync_links_.PreviewProtectionGroupS3AssetSyncLinks.from_dictionary(
+            val
         )
 
-        objects = None
-        if dictionary.get('objects'):
-            objects = list()
-            for value in dictionary.get('objects'):
-                objects.append(object.Object.from_dictionary(value))
+        val = dictionary.get('objects', None)
+
+        val_objects = []
+        if val:
+            for value in val:
+                val_objects.append(object_.Object.from_dictionary(value))
 
         # Return an object of this model
-        return cls(links, objects)
+        return cls(
+            val_links,
+            val_objects,
+        )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        model_instance.raw_response = response
+        return model_instance

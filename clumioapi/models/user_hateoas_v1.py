@@ -1,107 +1,94 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
-from clumioapi.models import user_embedded_v1
-from clumioapi.models import user_links
+from clumioapi.api_helper import camel_to_snake
+from clumioapi.models import user_embedded_v1 as user_embedded_v1_
+from clumioapi.models import user_links as user_links_
+import requests
 
 T = TypeVar('T', bound='UserHateoasV1')
 
 
+@dataclasses.dataclass
 class UserHateoasV1:
     """Implementation of the 'UserHateoasV1' model.
 
-    Attributes:
-        embedded:
-            Embedded responses related to the resource.
-        links:
-            URLs to pages related to the resource.
-        assigned_organizational_unit_ids:
-            The list of organizational unit IDs assigned to the user.
-            This attribute will be available when reading a single user and not when listing
-            users.
-        assigned_role:
-            Assigned Role for the user.
-        email:
-            The email address of the Clumio user.
-        full_name:
-            The first and last name of the Clumio user. The name appears in the User
-            Management screen and is used to identify the user.
-        p_id:
-            The Clumio-assigned ID of the Clumio user.
-        inviter:
-            The ID number of the user who sent the email invitation.
-        is_confirmed:
-            Determines whether the user has activated their Clumio account.
-            If `true`, the user has activated the account.
-        is_enabled:
-            Determines whether the user is enabled (in "Activated" or "Invited" status) in
-            Clumio.
-            If `true`, the user is in "Activated" or "Invited" status in Clumio.
-            Users in "Activated" status can log in to Clumio.
-            Users in "Invited" status have been invited to log in to Clumio via an email
-            invitation and the invitation
-            is pending acceptance from the user.
-            If `false`, the user has been manually suspended and cannot log in to Clumio
-            until another Clumio user reactivates the account.
-        last_activity_timestamp:
-            The timestamp of when the user was last active in the Clumio system. Represented
-            in RFC-3339 format.
-        organizational_unit_count:
-            The number of organizational units accessible to the user.
+        Attributes:
+            Embedded:
+                Embedded responses related to the resource.
+
+            Links:
+                Urls to pages related to the resource.
+
+            AssignedOrganizationalUnitIds:
+                The list of organizational unit ids assigned to the user.
+    this attribute will be available when reading a single user and not when listing users.
+
+            AssignedRole:
+                Assigned role for the user.
+
+            Email:
+                The email address of the clumio user.
+
+            FullName:
+                The first and last name of the clumio user. the name appears in the
+    user management screen and is used to identify the user.
+
+            Id:
+                The clumio-assigned id of the clumio user.
+
+            Inviter:
+                The id number of the user who sent the email invitation.
+
+            IsConfirmed:
+                Determines whether the user has activated their clumio account.
+    if `true`, the user has activated the account.
+
+            IsEnabled:
+                Determines whether the user is enabled (in "activated" or "invited" status) in clumio.
+    if `true`, the user is in "activated" or "invited" status in clumio.
+    users in "activated" status can log in to clumio.
+    users in "invited" status have been invited to log in to clumio via an email invitation and
+    the invitation is pending acceptance from the user.
+    if `false`, the user has been manually suspended and cannot log in to clumio
+    until another clumio user reactivates the account.
+
+            LastActivityTimestamp:
+                The timestamp of when the user was last active in the clumio system.
+    represented in rfc-3339 format.
+
+            OrganizationalUnitCount:
+                The number of organizational units accessible to the user.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {
-        'embedded': '_embedded',
-        'links': '_links',
-        'assigned_organizational_unit_ids': 'assigned_organizational_unit_ids',
-        'assigned_role': 'assigned_role',
-        'email': 'email',
-        'full_name': 'full_name',
-        'p_id': 'id',
-        'inviter': 'inviter',
-        'is_confirmed': 'is_confirmed',
-        'is_enabled': 'is_enabled',
-        'last_activity_timestamp': 'last_activity_timestamp',
-        'organizational_unit_count': 'organizational_unit_count',
-    }
+    Embedded: user_embedded_v1_.UserEmbeddedV1 | None = None
+    Links: user_links_.UserLinks | None = None
+    AssignedOrganizationalUnitIds: Sequence[str] | None = None
+    AssignedRole: str | None = None
+    Email: str | None = None
+    FullName: str | None = None
+    Id: str | None = None
+    Inviter: str | None = None
+    IsConfirmed: bool | None = None
+    IsEnabled: bool | None = None
+    LastActivityTimestamp: str | None = None
+    OrganizationalUnitCount: int | None = None
 
-    def __init__(
-        self,
-        embedded: user_embedded_v1.UserEmbeddedV1 = None,
-        links: user_links.UserLinks = None,
-        assigned_organizational_unit_ids: Sequence[str] = None,
-        assigned_role: str = None,
-        email: str = None,
-        full_name: str = None,
-        p_id: str = None,
-        inviter: str = None,
-        is_confirmed: bool = None,
-        is_enabled: bool = None,
-        last_activity_timestamp: str = None,
-        organizational_unit_count: int = None,
-    ) -> None:
-        """Constructor for the UserHateoasV1 class."""
-
-        # Initialize members of the class
-        self.embedded: user_embedded_v1.UserEmbeddedV1 = embedded
-        self.links: user_links.UserLinks = links
-        self.assigned_organizational_unit_ids: Sequence[str] = assigned_organizational_unit_ids
-        self.assigned_role: str = assigned_role
-        self.email: str = email
-        self.full_name: str = full_name
-        self.p_id: str = p_id
-        self.inviter: str = inviter
-        self.is_confirmed: bool = is_confirmed
-        self.is_enabled: bool = is_enabled
-        self.last_activity_timestamp: str = last_activity_timestamp
-        self.organizational_unit_count: int = organizational_unit_count
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -112,46 +99,72 @@ class UserHateoasV1:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = '_embedded'
-        embedded = (
-            user_embedded_v1.UserEmbeddedV1.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('_embedded', None)
+        val_embedded = user_embedded_v1_.UserEmbeddedV1.from_dictionary(val)
 
-        key = '_links'
-        links = (
-            user_links.UserLinks.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('_links', None)
+        val_links = user_links_.UserLinks.from_dictionary(val)
 
-        assigned_organizational_unit_ids = dictionary.get('assigned_organizational_unit_ids')
-        assigned_role = dictionary.get('assigned_role')
-        email = dictionary.get('email')
-        full_name = dictionary.get('full_name')
-        p_id = dictionary.get('id')
-        inviter = dictionary.get('inviter')
-        is_confirmed = dictionary.get('is_confirmed')
-        is_enabled = dictionary.get('is_enabled')
-        last_activity_timestamp = dictionary.get('last_activity_timestamp')
-        organizational_unit_count = dictionary.get('organizational_unit_count')
+        val = dictionary.get('assigned_organizational_unit_ids', None)
+        val_assigned_organizational_unit_ids = val
+
+        val = dictionary.get('assigned_role', None)
+        val_assigned_role = val
+
+        val = dictionary.get('email', None)
+        val_email = val
+
+        val = dictionary.get('full_name', None)
+        val_full_name = val
+
+        val = dictionary.get('id', None)
+        val_id = val
+
+        val = dictionary.get('inviter', None)
+        val_inviter = val
+
+        val = dictionary.get('is_confirmed', None)
+        val_is_confirmed = val
+
+        val = dictionary.get('is_enabled', None)
+        val_is_enabled = val
+
+        val = dictionary.get('last_activity_timestamp', None)
+        val_last_activity_timestamp = val
+
+        val = dictionary.get('organizational_unit_count', None)
+        val_organizational_unit_count = val
+
         # Return an object of this model
         return cls(
-            embedded,
-            links,
-            assigned_organizational_unit_ids,
-            assigned_role,
-            email,
-            full_name,
-            p_id,
-            inviter,
-            is_confirmed,
-            is_enabled,
-            last_activity_timestamp,
-            organizational_unit_count,
+            val_embedded,
+            val_links,
+            val_assigned_organizational_unit_ids,
+            val_assigned_role,
+            val_email,
+            val_full_name,
+            val_id,
+            val_inviter,
+            val_is_confirmed,
+            val_is_enabled,
+            val_last_activity_timestamp,
+            val_organizational_unit_count,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

@@ -1,53 +1,52 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='S3InstantAccessEndpointRole')
 
 
+@dataclasses.dataclass
 class S3InstantAccessEndpointRole:
     """Implementation of the 'S3InstantAccessEndpointRole' model.
 
     IAM role which is allowed access to the OLAP endpoint.
 
     Attributes:
-        alias:
-            The alias of the IAM role given by the user in the UI.
-        arn:
-            The ARN of the IAM role.
-        p_id:
-            The ID of the IAM role. Used as an identifier in the API URL.
-        last_modified_timestamp:
-            The time when the role was last modified, in RFC-3339 format.
+        Alias:
+            The alias of the iam role given by the user in the ui.
+
+        Arn:
+            The arn of the iam role.
+
+        Id:
+            The id of the iam role. used as an identifier in the api url.
+
+        LastModifiedTimestamp:
+            The time when the role was last modified, in rfc-3339 format.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {
-        'alias': 'alias',
-        'arn': 'arn',
-        'p_id': 'id',
-        'last_modified_timestamp': 'last_modified_timestamp',
-    }
+    Alias: str | None = None
+    Arn: str | None = None
+    Id: str | None = None
+    LastModifiedTimestamp: str | None = None
 
-    def __init__(
-        self,
-        alias: str = None,
-        arn: str = None,
-        p_id: str = None,
-        last_modified_timestamp: str = None,
-    ) -> None:
-        """Constructor for the S3InstantAccessEndpointRole class."""
-
-        # Initialize members of the class
-        self.alias: str = alias
-        self.arn: str = arn
-        self.p_id: str = p_id
-        self.last_modified_timestamp: str = last_modified_timestamp
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -58,13 +57,40 @@ class S3InstantAccessEndpointRole:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        alias = dictionary.get('alias')
-        arn = dictionary.get('arn')
-        p_id = dictionary.get('id')
-        last_modified_timestamp = dictionary.get('last_modified_timestamp')
+        val = dictionary.get('alias', None)
+        val_alias = val
+
+        val = dictionary.get('arn', None)
+        val_arn = val
+
+        val = dictionary.get('id', None)
+        val_id = val
+
+        val = dictionary.get('last_modified_timestamp', None)
+        val_last_modified_timestamp = val
+
         # Return an object of this model
-        return cls(alias, arn, p_id, last_modified_timestamp)
+        return cls(
+            val_alias,
+            val_arn,
+            val_id,
+            val_last_modified_timestamp,
+        )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

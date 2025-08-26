@@ -1,113 +1,104 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
-from clumioapi.models import aws_environment_embedded
-from clumioapi.models import aws_environment_links
-from clumioapi.models import consolidated_config
+from clumioapi.api_helper import camel_to_snake
+from clumioapi.models import aws_environment_embedded as aws_environment_embedded_
+from clumioapi.models import aws_environment_links as aws_environment_links_
+from clumioapi.models import consolidated_config as consolidated_config_
+import requests
 
 T = TypeVar('T', bound='ReadAWSEnvironmentResponse')
 
 
+@dataclasses.dataclass
 class ReadAWSEnvironmentResponse:
     """Implementation of the 'ReadAWSEnvironmentResponse' model.
 
-    Attributes:
-        embedded:
-            Embedded responses related to the resource.
-        links:
-            URLs to pages related to the resource.
-        account_name:
-            The name given to the account.
-        account_native_id:
-            The AWS-assigned ID of the account associated with the environment.
-        aws_az:
-            The valid AWS availability zones for the environment. For example, `us_west-2a`.
-        aws_region:
-            The AWS region associated with the environment. For example, `us-west-2`.
-        config:
-            The consolidated configuration of the Clumio Cloud Protect and Clumio Cloud
-            Discover products for this connection.
-            If this connection is deprecated to use unconsolidated configuration, then this
-            field has a
-            value of `null`.
-        connection_id:
-            The Clumio-assigned ID of the connection associated with the environment.
-        connection_status:
-            The status of the connection to the environment, which is mediated by a
-            CloudFormation stack.
-        description:
-            The user-provided account description.
-        p_id:
-            The Clumio-assigned ID of the environment.
-        organizational_unit_id:
-            The Clumio-assigned ID of the organizational unit associated with the
-            environment.
-        services_enabled:
-            The AWS services enabled for this environment. Possible values include "ebs",
-            "rds" and "dynamodb".
-        template_version:
-            The Clumio CloudFormation template version used to deploy the CloudFormation
-            stack.
+        Attributes:
+            Embedded:
+                Embedded responses related to the resource.
+
+            Links:
+                Urls to pages related to the resource.
+
+            AccountName:
+                The name given to the account.
+
+            AccountNativeId:
+                The aws-assigned id of the account associated with the environment.
+
+            AwsAz:
+                The valid aws availability zones for the environment. for example, `us_west-2a`.
+
+            AwsRegion:
+                The aws region associated with the environment. for example, `us-west-2`.
+
+            Config:
+                The consolidated configuration of the clumio cloud protect and clumio cloud discover products for this connection.
+    if this connection is deprecated to use unconsolidated configuration, then this field has a
+    value of `null`.
+
+            ConnectionGroupId:
+                Clumio assigned id of the associated connection group (if any).
+
+            ConnectionId:
+                The clumio-assigned id of the connection associated with the environment.
+
+            ConnectionManagementStatus:
+                Management status of connection for the environment.
+
+            ConnectionStatus:
+                The status of the connection to the environment.
+
+            Description:
+                The user-provided account description.
+
+            Id:
+                The clumio-assigned id of the environment.
+
+            OrganizationalUnitId:
+                The clumio-assigned id of the organizational unit associated with the environment.
+
+            ServicesEnabled:
+                The aws services enabled for this environment. possible values include "ebs", "rds" and "dynamodb".
+
+            TemplateVersion:
+                The clumio cloudformation template version used to deploy the cloudformation stack.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {
-        'embedded': '_embedded',
-        'links': '_links',
-        'account_name': 'account_name',
-        'account_native_id': 'account_native_id',
-        'aws_az': 'aws_az',
-        'aws_region': 'aws_region',
-        'config': 'config',
-        'connection_id': 'connection_id',
-        'connection_status': 'connection_status',
-        'description': 'description',
-        'p_id': 'id',
-        'organizational_unit_id': 'organizational_unit_id',
-        'services_enabled': 'services_enabled',
-        'template_version': 'template_version',
-    }
+    Embedded: aws_environment_embedded_.AWSEnvironmentEmbedded | None = None
+    Links: aws_environment_links_.AWSEnvironmentLinks | None = None
+    AccountName: str | None = None
+    AccountNativeId: str | None = None
+    AwsAz: Sequence[str] | None = None
+    AwsRegion: str | None = None
+    Config: consolidated_config_.ConsolidatedConfig | None = None
+    ConnectionGroupId: str | None = None
+    ConnectionId: str | None = None
+    ConnectionManagementStatus: str | None = None
+    ConnectionStatus: str | None = None
+    Description: str | None = None
+    Id: str | None = None
+    OrganizationalUnitId: str | None = None
+    ServicesEnabled: Sequence[str] | None = None
+    TemplateVersion: int | None = None
+    raw_response: Optional[requests.Response] = None
 
-    def __init__(
-        self,
-        embedded: aws_environment_embedded.AWSEnvironmentEmbedded = None,
-        links: aws_environment_links.AWSEnvironmentLinks = None,
-        account_name: str = None,
-        account_native_id: str = None,
-        aws_az: Sequence[str] = None,
-        aws_region: str = None,
-        config: consolidated_config.ConsolidatedConfig = None,
-        connection_id: str = None,
-        connection_status: str = None,
-        description: str = None,
-        p_id: str = None,
-        organizational_unit_id: str = None,
-        services_enabled: Sequence[str] = None,
-        template_version: int = None,
-    ) -> None:
-        """Constructor for the ReadAWSEnvironmentResponse class."""
-
-        # Initialize members of the class
-        self.embedded: aws_environment_embedded.AWSEnvironmentEmbedded = embedded
-        self.links: aws_environment_links.AWSEnvironmentLinks = links
-        self.account_name: str = account_name
-        self.account_native_id: str = account_native_id
-        self.aws_az: Sequence[str] = aws_az
-        self.aws_region: str = aws_region
-        self.config: consolidated_config.ConsolidatedConfig = config
-        self.connection_id: str = connection_id
-        self.connection_status: str = connection_status
-        self.description: str = description
-        self.p_id: str = p_id
-        self.organizational_unit_id: str = organizational_unit_id
-        self.services_enabled: Sequence[str] = services_enabled
-        self.template_version: int = template_version
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -118,56 +109,89 @@ class ReadAWSEnvironmentResponse:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = '_embedded'
-        embedded = (
-            aws_environment_embedded.AWSEnvironmentEmbedded.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('_embedded', None)
+        val_embedded = aws_environment_embedded_.AWSEnvironmentEmbedded.from_dictionary(val)
 
-        key = '_links'
-        links = (
-            aws_environment_links.AWSEnvironmentLinks.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('_links', None)
+        val_links = aws_environment_links_.AWSEnvironmentLinks.from_dictionary(val)
 
-        account_name = dictionary.get('account_name')
-        account_native_id = dictionary.get('account_native_id')
-        aws_az = dictionary.get('aws_az')
-        aws_region = dictionary.get('aws_region')
-        key = 'config'
-        config = (
-            consolidated_config.ConsolidatedConfig.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('account_name', None)
+        val_account_name = val
 
-        connection_id = dictionary.get('connection_id')
-        connection_status = dictionary.get('connection_status')
-        description = dictionary.get('description')
-        p_id = dictionary.get('id')
-        organizational_unit_id = dictionary.get('organizational_unit_id')
-        services_enabled = dictionary.get('services_enabled')
-        template_version = dictionary.get('template_version')
+        val = dictionary.get('account_native_id', None)
+        val_account_native_id = val
+
+        val = dictionary.get('aws_az', None)
+        val_aws_az = val
+
+        val = dictionary.get('aws_region', None)
+        val_aws_region = val
+
+        val = dictionary.get('config', None)
+        val_config = consolidated_config_.ConsolidatedConfig.from_dictionary(val)
+
+        val = dictionary.get('connection_group_id', None)
+        val_connection_group_id = val
+
+        val = dictionary.get('connection_id', None)
+        val_connection_id = val
+
+        val = dictionary.get('connection_management_status', None)
+        val_connection_management_status = val
+
+        val = dictionary.get('connection_status', None)
+        val_connection_status = val
+
+        val = dictionary.get('description', None)
+        val_description = val
+
+        val = dictionary.get('id', None)
+        val_id = val
+
+        val = dictionary.get('organizational_unit_id', None)
+        val_organizational_unit_id = val
+
+        val = dictionary.get('services_enabled', None)
+        val_services_enabled = val
+
+        val = dictionary.get('template_version', None)
+        val_template_version = val
+
         # Return an object of this model
         return cls(
-            embedded,
-            links,
-            account_name,
-            account_native_id,
-            aws_az,
-            aws_region,
-            config,
-            connection_id,
-            connection_status,
-            description,
-            p_id,
-            organizational_unit_id,
-            services_enabled,
-            template_version,
+            val_embedded,
+            val_links,
+            val_account_name,
+            val_account_native_id,
+            val_aws_az,
+            val_aws_region,
+            val_config,
+            val_connection_group_id,
+            val_connection_id,
+            val_connection_management_status,
+            val_connection_status,
+            val_description,
+            val_id,
+            val_organizational_unit_id,
+            val_services_enabled,
+            val_template_version,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        model_instance.raw_response = response
+        return model_instance

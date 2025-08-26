@@ -1,39 +1,52 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='EC2MSSQLPITROptions')
 
 
+@dataclasses.dataclass
 class EC2MSSQLPITROptions:
     """Implementation of the 'EC2MSSQLPITROptions' model.
 
-    A database backup at a specific point-in-time to be restored.
+        A database backup at a specific point-in-time to be restored.
 
-    Attributes:
-        database_id:
-            The Clumio-assigned ID of the MSSQL database to be restored.
-            Use the [GET /datasources/aws/ec2-mssql/databases](#operation/list-ec2-mssql-
-            databases)
-            endpoint to fetch valid values.
-        timestamp:
-            The point in time to be restored in RFC-3339 format.
+        Attributes:
+            DatabaseId:
+                The clumio-assigned id of the mssql database to be restored.
+    use the [get /datasources/aws/ec2-mssql/databases](#operation/list-ec2-mssql-databases)
+    endpoint to fetch valid values.
+
+            RestoreToLatest:
+                If enabled, performs pitr till the latest possible time.
+    either timestamp or restore_to_latest must be provided, but not both.
+
+            Timestamp:
+                The point in time to be restored in rfc-3339 format.
+    either timestamp or restore_to_latest must be provided, but not both.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {'database_id': 'database_id', 'timestamp': 'timestamp'}
+    DatabaseId: str | None = None
+    RestoreToLatest: bool | None = None
+    Timestamp: str | None = None
 
-    def __init__(self, database_id: str = None, timestamp: str = None) -> None:
-        """Constructor for the EC2MSSQLPITROptions class."""
-
-        # Initialize members of the class
-        self.database_id: str = database_id
-        self.timestamp: str = timestamp
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -44,11 +57,36 @@ class EC2MSSQLPITROptions:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        database_id = dictionary.get('database_id')
-        timestamp = dictionary.get('timestamp')
+        val = dictionary.get('database_id', None)
+        val_database_id = val
+
+        val = dictionary.get('restore_to_latest', None)
+        val_restore_to_latest = val
+
+        val = dictionary.get('timestamp', None)
+        val_timestamp = val
+
         # Return an object of this model
-        return cls(database_id, timestamp)
+        return cls(
+            val_database_id,
+            val_restore_to_latest,
+            val_timestamp,
+        )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

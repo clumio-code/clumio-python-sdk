@@ -1,45 +1,48 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='Projection')
 
 
+@dataclasses.dataclass
 class Projection:
     """Implementation of the 'Projection' model.
 
-    Represents attributes that are copied (projected) from the table into an index.
-    These are in addition to theprimary key attributes and index key attributes,
-    which are automatically projected.
+        Represents attributes that are copied (projected) from the table into an index.
+        These are in addition to theprimary key attributes and index key attributes,
+        which are automatically projected.
 
-    Attributes:
-        non_key_attributes:
-            Represents the non-key attribute names which will be projected into the index.
-            For [POST /restores/aws/dynamodb](#operation/restore-aws-dynamodb-table), this
-            must be empty if
-            'projection_type' is ALL or KEYS_ONLY, and non-empty if 'projection_type' is
-            INCLUDE.
-        projection_type:
-            The set of attributes that are projected into the index. Valid Values: ALL,
-            KEYS_ONLY, INCLUDE.
+        Attributes:
+            NonKeyAttributes:
+                Represents the non-key attribute names which will be projected into the index.
+    for [post /restores/aws/dynamodb](#operation/restore-aws-dynamodb-table), this must be empty if
+    'projection_type' is all or keys_only, and non-empty if 'projection_type' is include.
+
+            ProjectionType:
+                All, keys_only, include.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {'non_key_attributes': 'non_key_attributes', 'projection_type': 'projection_type'}
+    NonKeyAttributes: Sequence[str] | None = None
+    ProjectionType: str | None = None
 
-    def __init__(
-        self, non_key_attributes: Sequence[str] = None, projection_type: str = None
-    ) -> None:
-        """Constructor for the Projection class."""
-
-        # Initialize members of the class
-        self.non_key_attributes: Sequence[str] = non_key_attributes
-        self.projection_type: str = projection_type
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -50,11 +53,32 @@ class Projection:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        non_key_attributes = dictionary.get('non_key_attributes')
-        projection_type = dictionary.get('projection_type')
+        val = dictionary.get('non_key_attributes', None)
+        val_non_key_attributes = val
+
+        val = dictionary.get('projection_type', None)
+        val_projection_type = val
+
         # Return an object of this model
-        return cls(non_key_attributes, projection_type)
+        return cls(
+            val_non_key_attributes,
+            val_projection_type,
+        )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

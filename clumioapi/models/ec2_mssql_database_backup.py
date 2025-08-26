@@ -1,113 +1,98 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
-from clumioapi.models import ec2_mssql_database_backup_embedded
-from clumioapi.models import ec2_mssql_database_backup_links
-from clumioapi.models import mssql_database_file
+from clumioapi.api_helper import camel_to_snake
+from clumioapi.models import \
+    ec2_mssql_database_backup_embedded as ec2_mssql_database_backup_embedded_
+from clumioapi.models import ec2_mssql_database_backup_links as ec2_mssql_database_backup_links_
+from clumioapi.models import mssql_database_file as mssql_database_file_
+import requests
 
 T = TypeVar('T', bound='EC2MSSQLDatabaseBackup')
 
 
+@dataclasses.dataclass
 class EC2MSSQLDatabaseBackup:
     """Implementation of the 'EC2MSSQLDatabaseBackup' model.
 
     Attributes:
-        embedded:
+        Embedded:
             Embedded responses related to the resource.
-        links:
-            URLs to pages related to the resource.
-        database_files:
+
+        Links:
+            Urls to pages related to the resource.
+
+        DatabaseFiles:
             List of database files at the time of backup.
-        database_id:
-            The Clumio-assigned ID of the database associated with this backup.
-        engine:
-            The Microsoft SQL database engine at the time of backup.
-        engine_version:
-            The Microsoft SQL database engine version at the time of backup.
-        environment_id:
-            The Clumio-assigned ID of the AWS environment associated with the database at
-            the time of backup.
-        expiration_timestamp:
-            The timestamp of when this backup expires. Represented in RFC-3339 format.
-        host_endpoint:
-            The user-provided endpoint of the host containing the given database at the time
-            of backup.
-        host_id:
-            The Clumio-assigned ID of the host associated with the database at the time of
-            backup.
-        p_id:
-            The Clumio-assigned ID of the backup.
-        instance_id:
-            The Clumio-assigned instance id at the time of backup.
-        instance_name:
+
+        DatabaseId:
+            The clumio-assigned id of the database associated with this backup.
+
+        Engine:
+            The microsoft sql database engine at the time of backup.
+
+        EngineVersion:
+            The microsoft sql database engine version at the time of backup.
+
+        EnvironmentId:
+            The clumio-assigned id of the aws environment associated with the database at the time of backup.
+
+        ExpirationTimestamp:
+            The timestamp of when this backup expires. represented in rfc-3339 format.
+
+        HostEndpoint:
+            The user-provided endpoint of the host containing the given database at the time of backup.
+
+        HostId:
+            The clumio-assigned id of the host associated with the database at the time of backup.
+
+        Id:
+            The clumio-assigned id of the backup.
+
+        InstanceId:
+            The clumio-assigned instance id at the time of backup.
+
+        InstanceName:
             The instance name at the time of backup.
-        start_timestamp:
-            The timestamp of when this backup started. Represented in RFC-3339 format.
-        p_type:
+
+        StartTimestamp:
+            The timestamp of when this backup started. represented in rfc-3339 format.
+
+        Type:
             The type of backup.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {
-        'embedded': '_embedded',
-        'links': '_links',
-        'database_files': 'database_files',
-        'database_id': 'database_id',
-        'engine': 'engine',
-        'engine_version': 'engine_version',
-        'environment_id': 'environment_id',
-        'expiration_timestamp': 'expiration_timestamp',
-        'host_endpoint': 'host_endpoint',
-        'host_id': 'host_id',
-        'p_id': 'id',
-        'instance_id': 'instance_id',
-        'instance_name': 'instance_name',
-        'start_timestamp': 'start_timestamp',
-        'p_type': 'type',
-    }
+    Embedded: ec2_mssql_database_backup_embedded_.EC2MSSQLDatabaseBackupEmbedded | None = None
+    Links: ec2_mssql_database_backup_links_.EC2MSSQLDatabaseBackupLinks | None = None
+    DatabaseFiles: Sequence[mssql_database_file_.MssqlDatabaseFile] | None = None
+    DatabaseId: str | None = None
+    Engine: str | None = None
+    EngineVersion: str | None = None
+    EnvironmentId: str | None = None
+    ExpirationTimestamp: str | None = None
+    HostEndpoint: str | None = None
+    HostId: str | None = None
+    Id: str | None = None
+    InstanceId: str | None = None
+    InstanceName: str | None = None
+    StartTimestamp: str | None = None
+    Type: str | None = None
 
-    def __init__(
-        self,
-        embedded: ec2_mssql_database_backup_embedded.EC2MSSQLDatabaseBackupEmbedded = None,
-        links: ec2_mssql_database_backup_links.EC2MSSQLDatabaseBackupLinks = None,
-        database_files: Sequence[mssql_database_file.MssqlDatabaseFile] = None,
-        database_id: str = None,
-        engine: str = None,
-        engine_version: str = None,
-        environment_id: str = None,
-        expiration_timestamp: str = None,
-        host_endpoint: str = None,
-        host_id: str = None,
-        p_id: str = None,
-        instance_id: str = None,
-        instance_name: str = None,
-        start_timestamp: str = None,
-        p_type: str = None,
-    ) -> None:
-        """Constructor for the EC2MSSQLDatabaseBackup class."""
-
-        # Initialize members of the class
-        self.embedded: ec2_mssql_database_backup_embedded.EC2MSSQLDatabaseBackupEmbedded = embedded
-        self.links: ec2_mssql_database_backup_links.EC2MSSQLDatabaseBackupLinks = links
-        self.database_files: Sequence[mssql_database_file.MssqlDatabaseFile] = database_files
-        self.database_id: str = database_id
-        self.engine: str = engine
-        self.engine_version: str = engine_version
-        self.environment_id: str = environment_id
-        self.expiration_timestamp: str = expiration_timestamp
-        self.host_endpoint: str = host_endpoint
-        self.host_id: str = host_id
-        self.p_id: str = p_id
-        self.instance_id: str = instance_id
-        self.instance_name: str = instance_name
-        self.start_timestamp: str = start_timestamp
-        self.p_type: str = p_type
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -118,61 +103,94 @@ class EC2MSSQLDatabaseBackup:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = '_embedded'
-        embedded = (
-            ec2_mssql_database_backup_embedded.EC2MSSQLDatabaseBackupEmbedded.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
+        val = dictionary.get('_embedded', None)
+        val_embedded = (
+            ec2_mssql_database_backup_embedded_.EC2MSSQLDatabaseBackupEmbedded.from_dictionary(val)
         )
 
-        key = '_links'
-        links = (
-            ec2_mssql_database_backup_links.EC2MSSQLDatabaseBackupLinks.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
+        val = dictionary.get('_links', None)
+        val_links = ec2_mssql_database_backup_links_.EC2MSSQLDatabaseBackupLinks.from_dictionary(
+            val
         )
 
-        database_files = None
-        if dictionary.get('database_files'):
-            database_files = list()
-            for value in dictionary.get('database_files'):
-                database_files.append(mssql_database_file.MssqlDatabaseFile.from_dictionary(value))
+        val = dictionary.get('database_files', None)
 
-        database_id = dictionary.get('database_id')
-        engine = dictionary.get('engine')
-        engine_version = dictionary.get('engine_version')
-        environment_id = dictionary.get('environment_id')
-        expiration_timestamp = dictionary.get('expiration_timestamp')
-        host_endpoint = dictionary.get('host_endpoint')
-        host_id = dictionary.get('host_id')
-        p_id = dictionary.get('id')
-        instance_id = dictionary.get('instance_id')
-        instance_name = dictionary.get('instance_name')
-        start_timestamp = dictionary.get('start_timestamp')
-        p_type = dictionary.get('type')
+        val_database_files = []
+        if val:
+            for value in val:
+                val_database_files.append(
+                    mssql_database_file_.MssqlDatabaseFile.from_dictionary(value)
+                )
+
+        val = dictionary.get('database_id', None)
+        val_database_id = val
+
+        val = dictionary.get('engine', None)
+        val_engine = val
+
+        val = dictionary.get('engine_version', None)
+        val_engine_version = val
+
+        val = dictionary.get('environment_id', None)
+        val_environment_id = val
+
+        val = dictionary.get('expiration_timestamp', None)
+        val_expiration_timestamp = val
+
+        val = dictionary.get('host_endpoint', None)
+        val_host_endpoint = val
+
+        val = dictionary.get('host_id', None)
+        val_host_id = val
+
+        val = dictionary.get('id', None)
+        val_id = val
+
+        val = dictionary.get('instance_id', None)
+        val_instance_id = val
+
+        val = dictionary.get('instance_name', None)
+        val_instance_name = val
+
+        val = dictionary.get('start_timestamp', None)
+        val_start_timestamp = val
+
+        val = dictionary.get('type', None)
+        val_type = val
+
         # Return an object of this model
         return cls(
-            embedded,
-            links,
-            database_files,
-            database_id,
-            engine,
-            engine_version,
-            environment_id,
-            expiration_timestamp,
-            host_endpoint,
-            host_id,
-            p_id,
-            instance_id,
-            instance_name,
-            start_timestamp,
-            p_type,
+            val_embedded,
+            val_links,
+            val_database_files,
+            val_database_id,
+            val_engine,
+            val_engine_version,
+            val_environment_id,
+            val_expiration_timestamp,
+            val_host_endpoint,
+            val_host_id,
+            val_id,
+            val_instance_id,
+            val_instance_name,
+            val_start_timestamp,
+            val_type,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

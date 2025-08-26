@@ -1,13 +1,15 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
+import dataclasses
 import enum
 import json
+import re
 from typing import Any, Dict, Mapping
+from urllib import parse
 
 import jsonpickle
-from requests import utils
 
 """A Helper module for various functions associated with API Calls."""
 
@@ -65,49 +67,18 @@ def append_url_with_template_parameters(
             replace_value = ''
         elif isinstance(element, list):
             replace_value = '/'.join(
-                (utils.quote(str(x), safe='') if encode else str(x)) for x in element
+                (parse.quote(str(x), safe='') if encode else str(x)) for x in element
             )
         else:
-            replace_value = utils.quote(str(element), safe='') if encode else str(element)
+            replace_value = parse.quote(str(element), safe='') if encode else str(element)
 
         url = url.replace(f'{{{key}}}', str(replace_value))
 
     return url
 
 
-def to_dictionary(obj: Any) -> Dict[str, Any]:
-    """Creates a dictionary representation of a class instance. The
-    keys are taken from the API description and may differ from language
-    specific variable names of properties.
-
-    Args:
-        obj: The object to be converted into a dictionary.
-
-    Returns:
-        dictionary: A dictionary form of the model with properties in
-        their API formats.
-    """
-    dictionary = dict()
-    # Loop through all properties in this model
-    for name in obj._names:
-        value = getattr(obj, name)
-        attr_name = obj._names[name]
-        if isinstance(value, list):
-            dictionary[attr_name] = [_to_dictionary_or_value(item) for item in value]
-        elif isinstance(value, dict):
-            dictionary[attr_name] = {
-                child_key: _to_dictionary_or_value(child_value)
-                for child_key, child_value in value.items()
-            }
-        elif isinstance(value, enum.Enum):
-            dictionary[attr_name] = value.name
-        else:
-            dictionary[attr_name] = _to_dictionary_or_value(value)
-
-    # Return the result
-    return dictionary
-
-
-def _to_dictionary_or_value(item: Any) -> Any:
-    """Convert to dictionary if it has the attribute _names or return as is."""
-    return to_dictionary(item) if hasattr(item, '_names') else item
+def camel_to_snake(name: str) -> str:
+    """Utility to convert string from camel case to snake case."""
+    name = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', name)
+    name = re.sub('([a-z0-9])([A-Z])', r'\1_\2', name).lower()
+    return name.replace('__', '_')

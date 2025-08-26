@@ -1,48 +1,49 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
-from clumioapi.models import hateoas_common_links
-from clumioapi.models import rds_logical_preview_query_result
+from clumioapi.api_helper import camel_to_snake
+from clumioapi.models import hateoas_common_links as hateoas_common_links_
+from clumioapi.models import rds_logical_preview_query_result as rds_logical_preview_query_result_
+import requests
 
 T = TypeVar('T', bound='RestoreRecordPreviewResponse')
 
 
+@dataclasses.dataclass
 class RestoreRecordPreviewResponse:
     """Implementation of the 'RestoreRecordPreviewResponse' model.
 
-    Preview Success
+        Preview Success
 
-    Attributes:
-        links:
-            HateoasCommonLinks are the common fields for HATEOAS response.
-        preview_result:
-            The preview of the query result, if `preview:true` in the request.
-            If preview was not set to true in the request, then the result of the query will
-            be
-            available for download asynchronously.
+        Attributes:
+            Links:
+                Hateoascommonlinks are the common fields for hateoas response.
+
+            PreviewResult:
+                The preview of the query result, if `preview:true` in the request.
+    if preview was not set to true in the request, then the result of the query will be
+    available for download asynchronously.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {'links': '_links', 'preview_result': 'preview_result'}
+    Links: hateoas_common_links_.HateoasCommonLinks | None = None
+    PreviewResult: rds_logical_preview_query_result_.RDSLogicalPreviewQueryResult | None = None
+    raw_response: Optional[requests.Response] = None
 
-    def __init__(
-        self,
-        links: hateoas_common_links.HateoasCommonLinks = None,
-        preview_result: rds_logical_preview_query_result.RDSLogicalPreviewQueryResult = None,
-    ) -> None:
-        """Constructor for the RestoreRecordPreviewResponse class."""
-
-        # Initialize members of the class
-        self.links: hateoas_common_links.HateoasCommonLinks = links
-        self.preview_result: rds_logical_preview_query_result.RDSLogicalPreviewQueryResult = (
-            preview_result
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
         )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -53,25 +54,35 @@ class RestoreRecordPreviewResponse:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = '_links'
-        links = (
-            hateoas_common_links.HateoasCommonLinks.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('_links', None)
+        val_links = hateoas_common_links_.HateoasCommonLinks.from_dictionary(val)
 
-        key = 'preview_result'
-        preview_result = (
-            rds_logical_preview_query_result.RDSLogicalPreviewQueryResult.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
+        val = dictionary.get('preview_result', None)
+        val_preview_result = (
+            rds_logical_preview_query_result_.RDSLogicalPreviewQueryResult.from_dictionary(val)
         )
 
         # Return an object of this model
-        return cls(links, preview_result)
+        return cls(
+            val_links,
+            val_preview_result,
+        )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        model_instance.raw_response = response
+        return model_instance

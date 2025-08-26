@@ -1,41 +1,44 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
-from clumioapi.models import mssql_service_roles
-from clumioapi.models import s3_service_roles
+from clumioapi.api_helper import camel_to_snake
+from clumioapi.models import mssql_service_roles as mssql_service_roles_
+from clumioapi.models import s3_service_roles as s3_service_roles_
+import requests
 
 T = TypeVar('T', bound='ServiceRoles')
 
 
+@dataclasses.dataclass
 class ServiceRoles:
     """Implementation of the 'ServiceRoles' model.
 
     Attributes:
-        mssql:
+        Mssql:
+            .
 
-        s3:
+        S3:
+            .
 
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {'mssql': 'mssql', 's3': 's3'}
+    Mssql: mssql_service_roles_.MssqlServiceRoles | None = None
+    S3: s3_service_roles_.S3ServiceRoles | None = None
 
-    def __init__(
-        self,
-        mssql: mssql_service_roles.MssqlServiceRoles = None,
-        s3: s3_service_roles.S3ServiceRoles = None,
-    ) -> None:
-        """Constructor for the ServiceRoles class."""
-
-        # Initialize members of the class
-        self.mssql: mssql_service_roles.MssqlServiceRoles = mssql
-        self.s3: s3_service_roles.S3ServiceRoles = s3
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -46,23 +49,32 @@ class ServiceRoles:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = 'mssql'
-        mssql = (
-            mssql_service_roles.MssqlServiceRoles.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('mssql', None)
+        val_mssql = mssql_service_roles_.MssqlServiceRoles.from_dictionary(val)
 
-        key = 's3'
-        s3 = (
-            s3_service_roles.S3ServiceRoles.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('s3', None)
+        val_s3 = s3_service_roles_.S3ServiceRoles.from_dictionary(val)
 
         # Return an object of this model
-        return cls(mssql, s3)
+        return cls(
+            val_mssql,
+            val_s3,
+        )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

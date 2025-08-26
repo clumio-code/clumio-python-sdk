@@ -1,9 +1,10 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
-from typing import Optional, Union
+from typing import Any, Iterator, Optional, Union
+import urllib.parse
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -36,18 +37,13 @@ class RestoredProtectionGroupS3AssetsV1Controller(base_controller.BaseController
 
     def restore_protection_group_s3_asset(
         self,
-        embed: str = None,
-        body: restore_protection_group_s3_asset_v1_request.RestoreProtectionGroupS3AssetV1Request = None,
+        embed: str | None = None,
+        body: (
+            restore_protection_group_s3_asset_v1_request.RestoreProtectionGroupS3AssetV1Request
+            | None
+        ) = None,
         **kwargs,
-    ) -> Union[
-        restore_protection_group_s3_asset_response.RestoreProtectionGroupS3AssetResponse,
-        tuple[
-            requests.Response,
-            Optional[
-                restore_protection_group_s3_asset_response.RestoreProtectionGroupS3AssetResponse
-            ],
-        ],
-    ]:
+    ) -> restore_protection_group_s3_asset_response.RestoreProtectionGroupS3AssetResponse:
         """Restores the specified protection group S3 asset backup to the specified target
         destination.
 
@@ -66,69 +62,55 @@ class RestoredProtectionGroupS3AssetsV1Controller(base_controller.BaseController
 
             body:
 
-        Returns:
-            requests.Response: Raw Response from the API if config.raw_response is set to True.
-            restore_protection_group_s3_asset_response.RestoreProtectionGroupS3AssetResponse: Response from the API.
-        Raises:
-            ClumioException: An error occured while executing the API.
-                This exception includes the HTTP response code, an error
-                message, and the HTTP body that was received in the request.
         """
+
+        def get_instance_from_response(response: requests.Response) -> Any:
+            return restore_protection_group_s3_asset_response.RestoreProtectionGroupS3AssetResponse.from_response(
+                response
+            )
 
         # Prepare query URL
         _url_path = '/restores/protection-groups/s3-assets'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'embed': embed}
 
+        resp_instance: (
+            restore_protection_group_s3_asset_response.RestoreProtectionGroupS3AssetResponse
+        )
         # Execute request
+        resp: requests.Response
         try:
             resp = self.client.post(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                json=api_helper.to_dictionary(body),
-                raw_response=self.config.raw_response,
+                json=body.dict() if body else None,
+                raw_response=True,
                 **kwargs,
             )
-        except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
-                return http_error.response, None
-            errors = self.client.get_error_message(http_error.response)
-            raise clumio_exception.ClumioException(
-                'Error occurred while executing restore_protection_group_s3_asset.', errors
-            )
+        except requests.exceptions.HTTPError as e:
+            resp = e.response
 
-        if self.config.raw_response:
-            return (
-                resp,
-                restore_protection_group_s3_asset_response.RestoreProtectionGroupS3AssetResponse.from_dictionary(
-                    resp.json()
-                ),
-            )
-        return restore_protection_group_s3_asset_response.RestoreProtectionGroupS3AssetResponse.from_dictionary(
-            resp
-        )
+        if not resp.ok:
+            error_str = f'restore_protection_group_s3_asset for url {urllib.parse.unquote(resp.url)} failed.'
+            raise clumio_exception.ClumioException(error_str, resp=resp)
+
+        resp_instance = get_instance_from_response(resp)
+
+        return resp_instance
 
     def preview_protection_group_s3_asset(
         self,
-        protection_group_s3_asset_id: str,
-        body: preview_protection_group_s3_asset_v1_request.PreviewProtectionGroupS3AssetV1Request = None,
+        protection_group_s3_asset_id: str | None = None,
+        body: (
+            preview_protection_group_s3_asset_v1_request.PreviewProtectionGroupS3AssetV1Request
+            | None
+        ) = None,
         **kwargs,
     ) -> Union[
-        Union[
-            preview_protection_group_s3_asset_sync_response.PreviewProtectionGroupS3AssetSyncResponse,
-            preview_protection_group_s3_asset_async_response.PreviewProtectionGroupS3AssetAsyncResponse,
-        ],
-        tuple[
-            requests.Response,
-            Optional[
-                Union[
-                    preview_protection_group_s3_asset_sync_response.PreviewProtectionGroupS3AssetSyncResponse,
-                    preview_protection_group_s3_asset_async_response.PreviewProtectionGroupS3AssetAsyncResponse,
-                ]
-            ],
-        ],
+        preview_protection_group_s3_asset_sync_response.PreviewProtectionGroupS3AssetSyncResponse,
+        preview_protection_group_s3_asset_async_response.PreviewProtectionGroupS3AssetAsyncResponse,
     ]:
         """Preview a protection group S3 asset restore
 
@@ -137,74 +119,69 @@ class RestoredProtectionGroupS3AssetsV1Controller(base_controller.BaseController
                 Performs the operation on the ProtectionGroup with the specified ID.
             body:
 
-        Returns:
-            requests.Response: Raw Response from the API if config.raw_response is set to True.
-            Union[preview_protection_group_s3_asset_sync_response.PreviewProtectionGroupS3AssetSyncResponse, preview_protection_group_s3_asset_async_response.PreviewProtectionGroupS3AssetAsyncResponse]: Response from the API.
-        Raises:
-            ClumioException: An error occured while executing the API.
-                This exception includes the HTTP response code, an error
-                message, and the HTTP body that was received in the request.
         """
+
+        def get_instance_from_response(response: requests.Response) -> Any:
+
+            obj: Any
+
+            obj = preview_protection_group_s3_asset_sync_response.PreviewProtectionGroupS3AssetSyncResponse.from_response(
+                resp
+            )
+            if resp.status_code == 200:
+                return obj
+
+            obj = preview_protection_group_s3_asset_async_response.PreviewProtectionGroupS3AssetAsyncResponse.from_response(
+                resp
+            )
+            if resp.status_code == 202:
+                return obj
+
+            raise clumio_exception.ClumioException(
+                f'Unexpected response code for preview_protection_group_s3_asset.', resp=resp
+            )
 
         # Prepare query URL
         _url_path = '/restores/protection-groups/s3-assets/{protection_group_s3_asset_id}/previews'
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'protection_group_s3_asset_id': protection_group_s3_asset_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
+        resp_instance: Union[
+            preview_protection_group_s3_asset_sync_response.PreviewProtectionGroupS3AssetSyncResponse,
+            preview_protection_group_s3_asset_async_response.PreviewProtectionGroupS3AssetAsyncResponse,
+        ]
         # Execute request
+        resp: requests.Response
         try:
             resp = self.client.post(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                json=api_helper.to_dictionary(body),
+                json=body.dict() if body else None,
                 raw_response=True,
                 **kwargs,
             )
-        except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
-                return http_error.response, None
-            errors = self.client.get_error_message(http_error.response)
-            raise clumio_exception.ClumioException(
-                'Error occurred while executing preview_protection_group_s3_asset.', errors
-            )
-        unmarshalled_dict = json.loads(resp.text)
-        if resp.status_code == 200:
-            if self.config.raw_response:
-                return (
-                    resp,
-                    preview_protection_group_s3_asset_sync_response.PreviewProtectionGroupS3AssetSyncResponse.from_dictionary(
-                        unmarshalled_dict
-                    ),
-                )
-            return preview_protection_group_s3_asset_sync_response.PreviewProtectionGroupS3AssetSyncResponse.from_dictionary(
-                unmarshalled_dict
-            )
-        if resp.status_code == 202:
-            if self.config.raw_response:
-                return (
-                    resp,
-                    preview_protection_group_s3_asset_async_response.PreviewProtectionGroupS3AssetAsyncResponse.from_dictionary(
-                        unmarshalled_dict
-                    ),
-                )
-            return preview_protection_group_s3_asset_async_response.PreviewProtectionGroupS3AssetAsyncResponse.from_dictionary(
-                unmarshalled_dict
-            )
+        except requests.exceptions.HTTPError as e:
+            resp = e.response
+
+        if not resp.ok:
+            error_str = f'preview_protection_group_s3_asset for url {urllib.parse.unquote(resp.url)} failed.'
+            raise clumio_exception.ClumioException(error_str, resp=resp)
+
+        resp_instance = get_instance_from_response(resp)
+
+        return resp_instance
 
     def preview_details_protection_group_s3_asset(
-        self, protection_group_s3_asset_id: str, preview_id: str, **kwargs
-    ) -> Union[
-        preview_protection_group_s3_asset_details_response.PreviewProtectionGroupS3AssetDetailsResponse,
-        tuple[
-            requests.Response,
-            Optional[
-                preview_protection_group_s3_asset_details_response.PreviewProtectionGroupS3AssetDetailsResponse
-            ],
-        ],
-    ]:
+        self,
+        protection_group_s3_asset_id: str | None = None,
+        preview_id: str | None = None,
+        **kwargs,
+    ) -> (
+        preview_protection_group_s3_asset_details_response.PreviewProtectionGroupS3AssetDetailsResponse
+    ):
         """Details for protection group S3 asset restore preview
 
         Args:
@@ -212,14 +189,12 @@ class RestoredProtectionGroupS3AssetsV1Controller(base_controller.BaseController
                 Performs the operation on the ProtectionGroup with the specified ID.
             preview_id:
                 Performs the operation on the Preview with the specified ID.
-        Returns:
-            requests.Response: Raw Response from the API if config.raw_response is set to True.
-            preview_protection_group_s3_asset_details_response.PreviewProtectionGroupS3AssetDetailsResponse: Response from the API.
-        Raises:
-            ClumioException: An error occured while executing the API.
-                This exception includes the HTTP response code, an error
-                message, and the HTTP body that was received in the request.
         """
+
+        def get_instance_from_response(response: requests.Response) -> Any:
+            return preview_protection_group_s3_asset_details_response.PreviewProtectionGroupS3AssetDetailsResponse.from_response(
+                response
+            )
 
         # Prepare query URL
         _url_path = '/restores/protection-groups/s3-assets/{protection_group_s3_asset_id}/previews/{preview_id}'
@@ -230,32 +205,36 @@ class RestoredProtectionGroupS3AssetsV1Controller(base_controller.BaseController
                 'preview_id': preview_id,
             },
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
+        resp_instance: (
+            preview_protection_group_s3_asset_details_response.PreviewProtectionGroupS3AssetDetailsResponse
+        )
         # Execute request
+        resp: requests.Response
         try:
             resp = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
-        except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
-                return http_error.response, None
-            errors = self.client.get_error_message(http_error.response)
-            raise clumio_exception.ClumioException(
-                'Error occurred while executing preview_details_protection_group_s3_asset.', errors
-            )
+        except requests.exceptions.HTTPError as e:
+            resp = e.response
 
-        if self.config.raw_response:
-            return (
-                resp,
-                preview_protection_group_s3_asset_details_response.PreviewProtectionGroupS3AssetDetailsResponse.from_dictionary(
-                    resp.json()
-                ),
-            )
-        return preview_protection_group_s3_asset_details_response.PreviewProtectionGroupS3AssetDetailsResponse.from_dictionary(
-            resp
-        )
+        if not resp.ok:
+            error_str = f'preview_details_protection_group_s3_asset for url {urllib.parse.unquote(resp.url)} failed.'
+            raise clumio_exception.ClumioException(error_str, resp=resp)
+
+        resp_instance = get_instance_from_response(resp)
+
+        return resp_instance
+
+
+class RestoredProtectionGroupS3AssetsV1ControllerPaginator(base_controller.BaseController):
+    """A Controller to access Endpoints for restored-protection-group-s3-assets resource with pagination."""
+
+    def __init__(self, config: configuration.Configuration) -> None:
+        super().__init__(config)
+        self.controller = RestoredProtectionGroupS3AssetsV1Controller(config)

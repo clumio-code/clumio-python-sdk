@@ -1,44 +1,47 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
-from clumioapi.models import file_descriptor
+from clumioapi.api_helper import camel_to_snake
+from clumioapi.models import file_descriptor as file_descriptor_
+import requests
 
 T = TypeVar('T', bound='FileRestoreSource')
 
 
+@dataclasses.dataclass
 class FileRestoreSource:
     """Implementation of the 'FileRestoreSource' model.
 
-    The files to be restored and from which backup they are to be restored from.
+        The files to be restored and from which backup they are to be restored from.
 
-    Attributes:
-        backup_id:
-            The Clumio-assigned ID of the backup containing the files you want to restore.
-            Use
-            [ GET /backups/files/search/{search_result_id}/versions](#operation/list-file-
-            versions)
-            to fetch the value.
-        files:
-            The list of files to be restored.
+        Attributes:
+            BackupId:
+                The clumio-assigned id of the backup containing the files you want to restore. use
+    [ get /backups/files/search/{search_result_id}/versions](#operation/list-file-versions)
+    to fetch the value.
+
+            Files:
+                The list of files to be restored.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {'backup_id': 'backup_id', 'files': 'files'}
+    BackupId: str | None = None
+    Files: Sequence[file_descriptor_.FileDescriptor] | None = None
 
-    def __init__(
-        self, backup_id: str = None, files: Sequence[file_descriptor.FileDescriptor] = None
-    ) -> None:
-        """Constructor for the FileRestoreSource class."""
-
-        # Initialize members of the class
-        self.backup_id: str = backup_id
-        self.files: Sequence[file_descriptor.FileDescriptor] = files
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -49,16 +52,36 @@ class FileRestoreSource:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        backup_id = dictionary.get('backup_id')
-        files = None
-        if dictionary.get('files'):
-            files = list()
-            for value in dictionary.get('files'):
-                files.append(file_descriptor.FileDescriptor.from_dictionary(value))
+        val = dictionary.get('backup_id', None)
+        val_backup_id = val
+
+        val = dictionary.get('files', None)
+
+        val_files = []
+        if val:
+            for value in val:
+                val_files.append(file_descriptor_.FileDescriptor.from_dictionary(value))
 
         # Return an object of this model
-        return cls(backup_id, files)
+        return cls(
+            val_backup_id,
+            val_files,
+        )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

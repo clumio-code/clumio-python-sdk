@@ -1,195 +1,161 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
-from clumioapi.models import aws_tag_model
-from clumioapi.models import ebs_volume_embedded
-from clumioapi.models import ebs_volume_links
-from clumioapi.models import protection_info_with_rule
+from clumioapi.api_helper import camel_to_snake
+from clumioapi.models import aws_tag_model as aws_tag_model_
+from clumioapi.models import backup_status_info as backup_status_info_
+from clumioapi.models import ebs_volume_embedded as ebs_volume_embedded_
+from clumioapi.models import ebs_volume_links as ebs_volume_links_
+from clumioapi.models import protection_info_with_rule as protection_info_with_rule_
+import requests
 
 T = TypeVar('T', bound='ReadEbsVolumeResponse')
 
 
+@dataclasses.dataclass
 class ReadEbsVolumeResponse:
     """Implementation of the 'ReadEbsVolumeResponse' model.
 
-    Attributes:
-        embedded:
-            Embedded responses related to the resource.
-        links:
-            URLs to pages related to the resource.
-        account_native_id:
-            The AWS-assigned ID of the account associated with the EBS volume.
-        aws_az:
-            The AWS availability zone in which the EBS volume resides. For example,
-            `us-west-2a`.
-        aws_region:
-            The AWS region associated with the EBS volume.
-        compliance_status:
-            The compliance status of the protected EBS volume. Possible values include
-            "compliant" and "noncompliant". If the volume is not protected, then this field
-            has
-            a value of `null`.
-        deletion_timestamp:
-            The timestamp of when the volume was deleted. Represented in RFC-3339 format. If
-            this volume has not been deleted, then this field has a value of `null`.
-        direct_assignment_policy_id:
-            The Clumio-assigned ID of the policy directly assigned to the entity.
-        environment_id:
-            The Clumio-assigned ID of the AWS environment associated with the EBS volume.
-        has_direct_assignment:
-            Determines whether the table has a direct assignment.
-        p_id:
-            The Clumio-assigned ID of the EBS volume.
-        iops:
-            Iops of the volume.
-        is_deleted:
-            Determines whether the EBS volume has been deleted. If `true`, the volume has
-            been
-            deleted.
-        is_encrypted:
-            Determines whether the EBS volume is encrypted. If `true`, the volume is
-            encrypted.
-        is_supported:
-            Determines whether the EBS volume is supported for backups.
-        kms_key_native_id:
-            The AWS-assigned ID of the KMS key encrypting the EBS volume. If the volume is
-            unencrypted, then this field has a value of `null`.
-        last_backup_timestamp:
-            The timestamp of the most recent backup of the EBS volume. Represented in
-            RFC-3339
-            format. If the volume has never been backed up, then this field has a value of
-            `null`.
-        last_snapshot_timestamp:
-            The timestamp of the most recent snapshot of the EBS volume taken as part of
-            Snapshot Manager. Represented in RFC-3339 format. If the volume has never been
-            snapshotted, then this field has a value of `null`.
-        name:
-            The AWS-assigned name of the EBS volume.
-        organizational_unit_id:
-            The Clumio-assigned ID of the organizational unit associated with the EBS
-            volume.
-        protection_info:
-            The protection policy applied to this resource. If the resource is not
-            protected, then this field has a value of `null`.
-        protection_status:
-            The protection status of the EBS volume. Possible values include "protected",
-            "unprotected", and "unsupported". If the EBS volume does not support backups,
-            then
-            this field has a value of `unsupported`. If the volume has been deleted, then
-            this
-            field has a value of `null`.
-        size:
-            The size of the EBS volume. Measured in bytes (B).
-        tags:
-            The AWS tags applied to the EBS volume.
-        p_type:
-            The type of EBS volume. Possible values include "gp2", "io1", "st1", "sc1", and
-            "standard".
-        unsupported_reason:
-            The reason why protection is not available. If the volume is supported, then
-            this
-            field has a value of `null`.
-        volume_native_id:
-            The AWS-assigned ID of the EBS volume.
+        Attributes:
+            Embedded:
+                Embedded responses related to the resource.
+
+            Links:
+                Urls to pages related to the resource.
+
+            AccountNativeId:
+                The aws-assigned id of the account associated with the ebs volume.
+
+            AwsAz:
+                The aws availability zone in which the ebs volume resides. for example,
+    `us-west-2a`.
+
+            AwsRegion:
+                The aws region associated with the ebs volume.
+
+            BackupStatusInfo:
+                The backup status information applied to this resource.
+
+            DeletionTimestamp:
+                The timestamp of when the volume was deleted. represented in rfc-3339 format. if
+    this volume has not been deleted, then this field has a value of `null`.
+
+            DirectAssignmentPolicyId:
+                The clumio-assigned id of the policy directly assigned to the entity.
+
+            EnvironmentId:
+                The clumio-assigned id of the aws environment associated with the ebs volume.
+
+            HasDirectAssignment:
+                Determines whether the table has a direct assignment.
+
+            Id:
+                The clumio-assigned id of the ebs volume.
+
+            Iops:
+                Iops of the volume.
+
+            IsDeleted:
+                Determines whether the ebs volume has been deleted. if `true`, the volume has been
+    deleted.
+
+            IsEncrypted:
+                Determines whether the ebs volume is encrypted. if `true`, the volume is encrypted.
+
+            IsSupported:
+                Determines whether the ebs volume is supported for backups.
+
+            KmsKeyNativeId:
+                The aws-assigned id of the kms key encrypting the ebs volume. if the volume is
+    unencrypted, then this field has a value of `null`.
+
+            LastBackupTimestamp:
+                The timestamp of the most recent backup of the ebs volume. represented in rfc-3339
+    format. if the volume has never been backed up, then this field has a value of
+    `null`.
+
+            LastSnapshotTimestamp:
+                The timestamp of the most recent snapshot of the ebs volume taken as part of
+    snapshot manager. represented in rfc-3339 format. if the volume has never been
+    snapshotted, then this field has a value of `null`.
+
+            Name:
+                The aws-assigned name of the ebs volume.
+
+            OrganizationalUnitId:
+                The clumio-assigned id of the organizational unit associated with the ebs volume.
+
+            ProtectionInfo:
+                The protection policy applied to this resource. if the resource is not protected, then this field has a value of `null`.
+
+            ProtectionStatus:
+                The protection status of the ebs volume. possible values include "protected",
+    "unprotected", and "unsupported". if the ebs volume does not support backups, then
+    this field has a value of `unsupported`. if the volume has been deleted, then this
+    field has a value of `null`.
+
+            Size:
+                The size of the ebs volume. measured in bytes (b).
+
+            Tags:
+                The aws tags applied to the ebs volume.
+
+            Type:
+                The type of ebs volume. possible values include "gp2", "io1", "st1", "sc1", and
+    "standard".
+
+            UnsupportedReason:
+                The reason why protection is not available. if the volume is supported, then this
+    field has a value of `null`.
+
+            VolumeNativeId:
+                The aws-assigned id of the ebs volume.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {
-        'embedded': '_embedded',
-        'links': '_links',
-        'account_native_id': 'account_native_id',
-        'aws_az': 'aws_az',
-        'aws_region': 'aws_region',
-        'compliance_status': 'compliance_status',
-        'deletion_timestamp': 'deletion_timestamp',
-        'direct_assignment_policy_id': 'direct_assignment_policy_id',
-        'environment_id': 'environment_id',
-        'has_direct_assignment': 'has_direct_assignment',
-        'p_id': 'id',
-        'iops': 'iops',
-        'is_deleted': 'is_deleted',
-        'is_encrypted': 'is_encrypted',
-        'is_supported': 'is_supported',
-        'kms_key_native_id': 'kms_key_native_id',
-        'last_backup_timestamp': 'last_backup_timestamp',
-        'last_snapshot_timestamp': 'last_snapshot_timestamp',
-        'name': 'name',
-        'organizational_unit_id': 'organizational_unit_id',
-        'protection_info': 'protection_info',
-        'protection_status': 'protection_status',
-        'size': 'size',
-        'tags': 'tags',
-        'p_type': 'type',
-        'unsupported_reason': 'unsupported_reason',
-        'volume_native_id': 'volume_native_id',
-    }
+    Embedded: ebs_volume_embedded_.EbsVolumeEmbedded | None = None
+    Links: ebs_volume_links_.EbsVolumeLinks | None = None
+    AccountNativeId: str | None = None
+    AwsAz: str | None = None
+    AwsRegion: str | None = None
+    BackupStatusInfo: backup_status_info_.BackupStatusInfo | None = None
+    DeletionTimestamp: str | None = None
+    DirectAssignmentPolicyId: str | None = None
+    EnvironmentId: str | None = None
+    HasDirectAssignment: bool | None = None
+    Id: str | None = None
+    Iops: int | None = None
+    IsDeleted: bool | None = None
+    IsEncrypted: bool | None = None
+    IsSupported: bool | None = None
+    KmsKeyNativeId: str | None = None
+    LastBackupTimestamp: str | None = None
+    LastSnapshotTimestamp: str | None = None
+    Name: str | None = None
+    OrganizationalUnitId: str | None = None
+    ProtectionInfo: protection_info_with_rule_.ProtectionInfoWithRule | None = None
+    ProtectionStatus: str | None = None
+    Size: int | None = None
+    Tags: Sequence[aws_tag_model_.AwsTagModel] | None = None
+    Type: str | None = None
+    UnsupportedReason: str | None = None
+    VolumeNativeId: str | None = None
+    raw_response: Optional[requests.Response] = None
 
-    def __init__(
-        self,
-        embedded: ebs_volume_embedded.EbsVolumeEmbedded = None,
-        links: ebs_volume_links.EbsVolumeLinks = None,
-        account_native_id: str = None,
-        aws_az: str = None,
-        aws_region: str = None,
-        compliance_status: str = None,
-        deletion_timestamp: str = None,
-        direct_assignment_policy_id: str = None,
-        environment_id: str = None,
-        has_direct_assignment: bool = None,
-        p_id: str = None,
-        iops: int = None,
-        is_deleted: bool = None,
-        is_encrypted: bool = None,
-        is_supported: bool = None,
-        kms_key_native_id: str = None,
-        last_backup_timestamp: str = None,
-        last_snapshot_timestamp: str = None,
-        name: str = None,
-        organizational_unit_id: str = None,
-        protection_info: protection_info_with_rule.ProtectionInfoWithRule = None,
-        protection_status: str = None,
-        size: int = None,
-        tags: Sequence[aws_tag_model.AwsTagModel] = None,
-        p_type: str = None,
-        unsupported_reason: str = None,
-        volume_native_id: str = None,
-    ) -> None:
-        """Constructor for the ReadEbsVolumeResponse class."""
-
-        # Initialize members of the class
-        self.embedded: ebs_volume_embedded.EbsVolumeEmbedded = embedded
-        self.links: ebs_volume_links.EbsVolumeLinks = links
-        self.account_native_id: str = account_native_id
-        self.aws_az: str = aws_az
-        self.aws_region: str = aws_region
-        self.compliance_status: str = compliance_status
-        self.deletion_timestamp: str = deletion_timestamp
-        self.direct_assignment_policy_id: str = direct_assignment_policy_id
-        self.environment_id: str = environment_id
-        self.has_direct_assignment: bool = has_direct_assignment
-        self.p_id: str = p_id
-        self.iops: int = iops
-        self.is_deleted: bool = is_deleted
-        self.is_encrypted: bool = is_encrypted
-        self.is_supported: bool = is_supported
-        self.kms_key_native_id: str = kms_key_native_id
-        self.last_backup_timestamp: str = last_backup_timestamp
-        self.last_snapshot_timestamp: str = last_snapshot_timestamp
-        self.name: str = name
-        self.organizational_unit_id: str = organizational_unit_id
-        self.protection_info: protection_info_with_rule.ProtectionInfoWithRule = protection_info
-        self.protection_status: str = protection_status
-        self.size: int = size
-        self.tags: Sequence[aws_tag_model.AwsTagModel] = tags
-        self.p_type: str = p_type
-        self.unsupported_reason: str = unsupported_reason
-        self.volume_native_id: str = volume_native_id
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -200,87 +166,137 @@ class ReadEbsVolumeResponse:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = '_embedded'
-        embedded = (
-            ebs_volume_embedded.EbsVolumeEmbedded.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('_embedded', None)
+        val_embedded = ebs_volume_embedded_.EbsVolumeEmbedded.from_dictionary(val)
 
-        key = '_links'
-        links = (
-            ebs_volume_links.EbsVolumeLinks.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('_links', None)
+        val_links = ebs_volume_links_.EbsVolumeLinks.from_dictionary(val)
 
-        account_native_id = dictionary.get('account_native_id')
-        aws_az = dictionary.get('aws_az')
-        aws_region = dictionary.get('aws_region')
-        compliance_status = dictionary.get('compliance_status')
-        deletion_timestamp = dictionary.get('deletion_timestamp')
-        direct_assignment_policy_id = dictionary.get('direct_assignment_policy_id')
-        environment_id = dictionary.get('environment_id')
-        has_direct_assignment = dictionary.get('has_direct_assignment')
-        p_id = dictionary.get('id')
-        iops = dictionary.get('iops')
-        is_deleted = dictionary.get('is_deleted')
-        is_encrypted = dictionary.get('is_encrypted')
-        is_supported = dictionary.get('is_supported')
-        kms_key_native_id = dictionary.get('kms_key_native_id')
-        last_backup_timestamp = dictionary.get('last_backup_timestamp')
-        last_snapshot_timestamp = dictionary.get('last_snapshot_timestamp')
-        name = dictionary.get('name')
-        organizational_unit_id = dictionary.get('organizational_unit_id')
-        key = 'protection_info'
-        protection_info = (
-            protection_info_with_rule.ProtectionInfoWithRule.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('account_native_id', None)
+        val_account_native_id = val
 
-        protection_status = dictionary.get('protection_status')
-        size = dictionary.get('size')
-        tags = None
-        if dictionary.get('tags'):
-            tags = list()
-            for value in dictionary.get('tags'):
-                tags.append(aws_tag_model.AwsTagModel.from_dictionary(value))
+        val = dictionary.get('aws_az', None)
+        val_aws_az = val
 
-        p_type = dictionary.get('type')
-        unsupported_reason = dictionary.get('unsupported_reason')
-        volume_native_id = dictionary.get('volume_native_id')
+        val = dictionary.get('aws_region', None)
+        val_aws_region = val
+
+        val = dictionary.get('backup_status_info', None)
+        val_backup_status_info = backup_status_info_.BackupStatusInfo.from_dictionary(val)
+
+        val = dictionary.get('deletion_timestamp', None)
+        val_deletion_timestamp = val
+
+        val = dictionary.get('direct_assignment_policy_id', None)
+        val_direct_assignment_policy_id = val
+
+        val = dictionary.get('environment_id', None)
+        val_environment_id = val
+
+        val = dictionary.get('has_direct_assignment', None)
+        val_has_direct_assignment = val
+
+        val = dictionary.get('id', None)
+        val_id = val
+
+        val = dictionary.get('iops', None)
+        val_iops = val
+
+        val = dictionary.get('is_deleted', None)
+        val_is_deleted = val
+
+        val = dictionary.get('is_encrypted', None)
+        val_is_encrypted = val
+
+        val = dictionary.get('is_supported', None)
+        val_is_supported = val
+
+        val = dictionary.get('kms_key_native_id', None)
+        val_kms_key_native_id = val
+
+        val = dictionary.get('last_backup_timestamp', None)
+        val_last_backup_timestamp = val
+
+        val = dictionary.get('last_snapshot_timestamp', None)
+        val_last_snapshot_timestamp = val
+
+        val = dictionary.get('name', None)
+        val_name = val
+
+        val = dictionary.get('organizational_unit_id', None)
+        val_organizational_unit_id = val
+
+        val = dictionary.get('protection_info', None)
+        val_protection_info = protection_info_with_rule_.ProtectionInfoWithRule.from_dictionary(val)
+
+        val = dictionary.get('protection_status', None)
+        val_protection_status = val
+
+        val = dictionary.get('size', None)
+        val_size = val
+
+        val = dictionary.get('tags', None)
+
+        val_tags = []
+        if val:
+            for value in val:
+                val_tags.append(aws_tag_model_.AwsTagModel.from_dictionary(value))
+
+        val = dictionary.get('type', None)
+        val_type = val
+
+        val = dictionary.get('unsupported_reason', None)
+        val_unsupported_reason = val
+
+        val = dictionary.get('volume_native_id', None)
+        val_volume_native_id = val
+
         # Return an object of this model
         return cls(
-            embedded,
-            links,
-            account_native_id,
-            aws_az,
-            aws_region,
-            compliance_status,
-            deletion_timestamp,
-            direct_assignment_policy_id,
-            environment_id,
-            has_direct_assignment,
-            p_id,
-            iops,
-            is_deleted,
-            is_encrypted,
-            is_supported,
-            kms_key_native_id,
-            last_backup_timestamp,
-            last_snapshot_timestamp,
-            name,
-            organizational_unit_id,
-            protection_info,
-            protection_status,
-            size,
-            tags,
-            p_type,
-            unsupported_reason,
-            volume_native_id,
+            val_embedded,
+            val_links,
+            val_account_native_id,
+            val_aws_az,
+            val_aws_region,
+            val_backup_status_info,
+            val_deletion_timestamp,
+            val_direct_assignment_policy_id,
+            val_environment_id,
+            val_has_direct_assignment,
+            val_id,
+            val_iops,
+            val_is_deleted,
+            val_is_encrypted,
+            val_is_supported,
+            val_kms_key_native_id,
+            val_last_backup_timestamp,
+            val_last_snapshot_timestamp,
+            val_name,
+            val_organizational_unit_id,
+            val_protection_info,
+            val_protection_status,
+            val_size,
+            val_tags,
+            val_type,
+            val_unsupported_reason,
+            val_volume_native_id,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        model_instance.raw_response = response
+        return model_instance

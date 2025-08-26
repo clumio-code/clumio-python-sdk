@@ -1,56 +1,64 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
-from clumioapi.models import create_s3_instant_access_endpoint_response_embedded
-from clumioapi.models import create_s3_instant_access_endpoint_response_links
+from clumioapi.api_helper import camel_to_snake
+from clumioapi.models import \
+    create_s3_instant_access_endpoint_response_embedded as \
+    create_s3_instant_access_endpoint_response_embedded_
+from clumioapi.models import \
+    create_s3_instant_access_endpoint_response_links as \
+    create_s3_instant_access_endpoint_response_links_
+import requests
 
 T = TypeVar('T', bound='CreateS3InstantAccessEndpointResponse')
 
 
+@dataclasses.dataclass
 class CreateS3InstantAccessEndpointResponse:
     """Implementation of the 'CreateS3InstantAccessEndpointResponse' model.
 
-    Attributes:
-        embedded:
-            Embedded responses related to the resource.
-        links:
-            URLs to pages related to the resource.
-        p_id:
-            The Clumio-assigned ID of the S3 instant access endpoint.
-        task_id:
-            The Clumio-assigned ID of the task created by this instant access creation
-            request.
-            The progress of the task can be monitored using the `GET /tasks/{task_id}`
-            endpoint.
+        Attributes:
+            Embedded:
+                Embedded responses related to the resource.
+
+            Links:
+                Urls to pages related to the resource.
+
+            Id:
+                The clumio-assigned id of the s3 instant access endpoint.
+
+            TaskId:
+                The clumio-assigned id of the task created by this instant access creation request.
+    the progress of the task can be monitored using the `get /tasks/{task_id}` endpoint.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {'embedded': '_embedded', 'links': '_links', 'p_id': 'id', 'task_id': 'task_id'}
+    Embedded: (
+        create_s3_instant_access_endpoint_response_embedded_.CreateS3InstantAccessEndpointResponseEmbedded
+        | None
+    ) = None
+    Links: (
+        create_s3_instant_access_endpoint_response_links_.CreateS3InstantAccessEndpointResponseLinks
+        | None
+    ) = None
+    Id: str | None = None
+    TaskId: str | None = None
+    raw_response: Optional[requests.Response] = None
 
-    def __init__(
-        self,
-        embedded: create_s3_instant_access_endpoint_response_embedded.CreateS3InstantAccessEndpointResponseEmbedded = None,
-        links: create_s3_instant_access_endpoint_response_links.CreateS3InstantAccessEndpointResponseLinks = None,
-        p_id: str = None,
-        task_id: str = None,
-    ) -> None:
-        """Constructor for the CreateS3InstantAccessEndpointResponse class."""
-
-        # Initialize members of the class
-        self.embedded: (
-            create_s3_instant_access_endpoint_response_embedded.CreateS3InstantAccessEndpointResponseEmbedded
-        ) = embedded
-        self.links: (
-            create_s3_instant_access_endpoint_response_links.CreateS3InstantAccessEndpointResponseLinks
-        ) = links
-        self.p_id: str = p_id
-        self.task_id: str = task_id
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -61,29 +69,45 @@ class CreateS3InstantAccessEndpointResponse:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = '_embedded'
-        embedded = (
-            create_s3_instant_access_endpoint_response_embedded.CreateS3InstantAccessEndpointResponseEmbedded.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
+        val = dictionary.get('_embedded', None)
+        val_embedded = create_s3_instant_access_endpoint_response_embedded_.CreateS3InstantAccessEndpointResponseEmbedded.from_dictionary(
+            val
         )
 
-        key = '_links'
-        links = (
-            create_s3_instant_access_endpoint_response_links.CreateS3InstantAccessEndpointResponseLinks.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
+        val = dictionary.get('_links', None)
+        val_links = create_s3_instant_access_endpoint_response_links_.CreateS3InstantAccessEndpointResponseLinks.from_dictionary(
+            val
         )
 
-        p_id = dictionary.get('id')
-        task_id = dictionary.get('task_id')
+        val = dictionary.get('id', None)
+        val_id = val
+
+        val = dictionary.get('task_id', None)
+        val_task_id = val
+
         # Return an object of this model
-        return cls(embedded, links, p_id, task_id)
+        return cls(
+            val_embedded,
+            val_links,
+            val_id,
+            val_task_id,
+        )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        model_instance.raw_response = response
+        return model_instance

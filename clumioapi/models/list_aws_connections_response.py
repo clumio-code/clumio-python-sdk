@@ -1,65 +1,61 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
-from clumioapi.models import aws_connection_list_embedded
-from clumioapi.models import aws_connection_list_links
+from clumioapi.api_helper import camel_to_snake
+from clumioapi.models import aws_connection_list_embedded as aws_connection_list_embedded_
+from clumioapi.models import aws_connection_list_links as aws_connection_list_links_
+import requests
 
 T = TypeVar('T', bound='ListAWSConnectionsResponse')
 
 
+@dataclasses.dataclass
 class ListAWSConnectionsResponse:
     """Implementation of the 'ListAWSConnectionsResponse' model.
 
     Attributes:
-        embedded:
+        Embedded:
             Embedded responses related to the resource.
-        links:
-            URLs to pages related to the resource.
-        current_count:
+
+        Links:
+            Urls to pages related to the resource.
+
+        CurrentCount:
             The number of items listed on the current page.
-        filter_applied:
-            The filter used in the request. The filter includes both manually-specified and
-            system-generated filters.
-        limit:
+
+        FilterApplied:
+            The filter used in the request. the filter includes both manually-specified and system-generated filters.
+
+        Limit:
             The maximum number of items displayed per page in the response.
-        start:
+
+        Start:
             The page token used to get this response.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {
-        'embedded': '_embedded',
-        'links': '_links',
-        'current_count': 'current_count',
-        'filter_applied': 'filter_applied',
-        'limit': 'limit',
-        'start': 'start',
-    }
+    Embedded: aws_connection_list_embedded_.AWSConnectionListEmbedded | None = None
+    Links: aws_connection_list_links_.AWSConnectionListLinks | None = None
+    CurrentCount: int | None = None
+    FilterApplied: str | None = None
+    Limit: int | None = None
+    Start: str | None = None
+    raw_response: Optional[requests.Response] = None
 
-    def __init__(
-        self,
-        embedded: aws_connection_list_embedded.AWSConnectionListEmbedded = None,
-        links: aws_connection_list_links.AWSConnectionListLinks = None,
-        current_count: int = None,
-        filter_applied: str = None,
-        limit: int = None,
-        start: str = None,
-    ) -> None:
-        """Constructor for the ListAWSConnectionsResponse class."""
-
-        # Initialize members of the class
-        self.embedded: aws_connection_list_embedded.AWSConnectionListEmbedded = embedded
-        self.links: aws_connection_list_links.AWSConnectionListLinks = links
-        self.current_count: int = current_count
-        self.filter_applied: str = filter_applied
-        self.limit: int = limit
-        self.start: str = start
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v is not None}
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -70,29 +66,49 @@ class ListAWSConnectionsResponse:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
-
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = '_embedded'
-        embedded = (
-            aws_connection_list_embedded.AWSConnectionListEmbedded.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('_embedded', None)
+        val_embedded = aws_connection_list_embedded_.AWSConnectionListEmbedded.from_dictionary(val)
 
-        key = '_links'
-        links = (
-            aws_connection_list_links.AWSConnectionListLinks.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('_links', None)
+        val_links = aws_connection_list_links_.AWSConnectionListLinks.from_dictionary(val)
 
-        current_count = dictionary.get('current_count')
-        filter_applied = dictionary.get('filter_applied')
-        limit = dictionary.get('limit')
-        start = dictionary.get('start')
+        val = dictionary.get('current_count', None)
+        val_current_count = val
+
+        val = dictionary.get('filter_applied', None)
+        val_filter_applied = val
+
+        val = dictionary.get('limit', None)
+        val_limit = val
+
+        val = dictionary.get('start', None)
+        val_start = val
+
         # Return an object of this model
-        return cls(embedded, links, current_count, filter_applied, limit, start)
+        return cls(
+            val_embedded,
+            val_links,
+            val_current_count,
+            val_filter_applied,
+            val_limit,
+            val_start,
+        )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        model_instance.raw_response = response
+        return model_instance
