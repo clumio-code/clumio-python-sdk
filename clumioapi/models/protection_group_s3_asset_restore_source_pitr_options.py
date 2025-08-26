@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -31,7 +31,7 @@ class ProtectionGroupS3AssetRestoreSourcePitrOptions:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'protection_group_s3_asset_id': 'protection_group_s3_asset_id',
         'restore_end_timestamp': 'restore_end_timestamp',
         'restore_start_timestamp': 'restore_start_timestamp',
@@ -39,19 +39,19 @@ class ProtectionGroupS3AssetRestoreSourcePitrOptions:
 
     def __init__(
         self,
-        protection_group_s3_asset_id: str = None,
-        restore_end_timestamp: str = None,
-        restore_start_timestamp: str = None,
+        protection_group_s3_asset_id: str | None = None,
+        restore_end_timestamp: str | None = None,
+        restore_start_timestamp: str | None = None,
     ) -> None:
         """Constructor for the ProtectionGroupS3AssetRestoreSourcePitrOptions class."""
 
         # Initialize members of the class
-        self.protection_group_s3_asset_id: str = protection_group_s3_asset_id
-        self.restore_end_timestamp: str = restore_end_timestamp
-        self.restore_start_timestamp: str = restore_start_timestamp
+        self.protection_group_s3_asset_id: str | None = protection_group_s3_asset_id
+        self.restore_end_timestamp: str | None = restore_end_timestamp
+        self.restore_start_timestamp: str | None = restore_start_timestamp
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -62,12 +62,21 @@ class ProtectionGroupS3AssetRestoreSourcePitrOptions:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        protection_group_s3_asset_id = dictionary.get('protection_group_s3_asset_id')
-        restore_end_timestamp = dictionary.get('restore_end_timestamp')
-        restore_start_timestamp = dictionary.get('restore_start_timestamp')
+        val = dictionary.get('protection_group_s3_asset_id', None)
+        val_protection_group_s3_asset_id = val
+
+        val = dictionary.get('restore_end_timestamp', None)
+        val_restore_end_timestamp = val
+
+        val = dictionary.get('restore_start_timestamp', None)
+        val_restore_start_timestamp = val
+
         # Return an object of this model
-        return cls(protection_group_s3_asset_id, restore_end_timestamp, restore_start_timestamp)
+        return cls(
+            val_protection_group_s3_asset_id,
+            val_restore_end_timestamp,
+            val_restore_start_timestamp,
+        )

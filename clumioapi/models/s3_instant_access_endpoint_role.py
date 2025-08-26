@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -24,7 +24,7 @@ class S3InstantAccessEndpointRole:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'alias': 'alias',
         'arn': 'arn',
         'p_id': 'id',
@@ -33,21 +33,21 @@ class S3InstantAccessEndpointRole:
 
     def __init__(
         self,
-        alias: str = None,
-        arn: str = None,
-        p_id: str = None,
-        last_modified_timestamp: str = None,
+        alias: str | None = None,
+        arn: str | None = None,
+        p_id: str | None = None,
+        last_modified_timestamp: str | None = None,
     ) -> None:
         """Constructor for the S3InstantAccessEndpointRole class."""
 
         # Initialize members of the class
-        self.alias: str = alias
-        self.arn: str = arn
-        self.p_id: str = p_id
-        self.last_modified_timestamp: str = last_modified_timestamp
+        self.alias: str | None = alias
+        self.arn: str | None = arn
+        self.p_id: str | None = p_id
+        self.last_modified_timestamp: str | None = last_modified_timestamp
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -58,13 +58,25 @@ class S3InstantAccessEndpointRole:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        alias = dictionary.get('alias')
-        arn = dictionary.get('arn')
-        p_id = dictionary.get('id')
-        last_modified_timestamp = dictionary.get('last_modified_timestamp')
+        val = dictionary.get('alias', None)
+        val_alias = val
+
+        val = dictionary.get('arn', None)
+        val_arn = val
+
+        val = dictionary.get('id', None)
+        val_p_id = val
+
+        val = dictionary.get('last_modified_timestamp', None)
+        val_last_modified_timestamp = val
+
         # Return an object of this model
-        return cls(alias, arn, p_id, last_modified_timestamp)
+        return cls(
+            val_alias,
+            val_arn,
+            val_p_id,
+            val_last_modified_timestamp,
+        )

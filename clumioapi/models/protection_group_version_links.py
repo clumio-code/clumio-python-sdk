@@ -1,10 +1,10 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import hateoas_self_link
+from clumioapi.models import hateoas_self_link as hateoas_self_link_
 
 T = TypeVar('T', bound='ProtectionGroupVersionLinks')
 
@@ -20,16 +20,16 @@ class ProtectionGroupVersionLinks:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'p_self': '_self'}
+    _names: dict[str, str] = {'p_self': '_self'}
 
-    def __init__(self, p_self: hateoas_self_link.HateoasSelfLink = None) -> None:
+    def __init__(self, p_self: hateoas_self_link_.HateoasSelfLink | None = None) -> None:
         """Constructor for the ProtectionGroupVersionLinks class."""
 
         # Initialize members of the class
-        self.p_self: hateoas_self_link.HateoasSelfLink = p_self
+        self.p_self: hateoas_self_link_.HateoasSelfLink | None = p_self
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -40,16 +40,13 @@ class ProtectionGroupVersionLinks:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = '_self'
-        p_self = (
-            hateoas_self_link.HateoasSelfLink.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('_self', None)
+        val_p_self = hateoas_self_link_.HateoasSelfLink.from_dictionary(val)
 
         # Return an object of this model
-        return cls(p_self)
+        return cls(
+            val_p_self,
+        )

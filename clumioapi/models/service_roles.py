@@ -1,11 +1,11 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import mssql_service_roles
-from clumioapi.models import s3_service_roles
+from clumioapi.models import mssql_service_roles as mssql_service_roles_
+from clumioapi.models import s3_service_roles as s3_service_roles_
 
 T = TypeVar('T', bound='ServiceRoles')
 
@@ -21,21 +21,21 @@ class ServiceRoles:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'mssql': 'mssql', 's3': 's3'}
+    _names: dict[str, str] = {'mssql': 'mssql', 's3': 's3'}
 
     def __init__(
         self,
-        mssql: mssql_service_roles.MssqlServiceRoles = None,
-        s3: s3_service_roles.S3ServiceRoles = None,
+        mssql: mssql_service_roles_.MssqlServiceRoles | None = None,
+        s3: s3_service_roles_.S3ServiceRoles | None = None,
     ) -> None:
         """Constructor for the ServiceRoles class."""
 
         # Initialize members of the class
-        self.mssql: mssql_service_roles.MssqlServiceRoles = mssql
-        self.s3: s3_service_roles.S3ServiceRoles = s3
+        self.mssql: mssql_service_roles_.MssqlServiceRoles | None = mssql
+        self.s3: s3_service_roles_.S3ServiceRoles | None = s3
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -46,23 +46,17 @@ class ServiceRoles:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = 'mssql'
-        mssql = (
-            mssql_service_roles.MssqlServiceRoles.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('mssql', None)
+        val_mssql = mssql_service_roles_.MssqlServiceRoles.from_dictionary(val)
 
-        key = 's3'
-        s3 = (
-            s3_service_roles.S3ServiceRoles.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('s3', None)
+        val_s3 = s3_service_roles_.S3ServiceRoles.from_dictionary(val)
 
         # Return an object of this model
-        return cls(mssql, s3)
+        return cls(
+            val_mssql,
+            val_s3,
+        )

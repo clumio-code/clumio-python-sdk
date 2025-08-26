@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -39,7 +39,7 @@ class PostProcessAwsConnectionV1Request:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'account_native_id': 'account_native_id',
         'aws_region': 'aws_region',
         'clumio_event_pub_id': 'clumio_event_pub_id',
@@ -54,33 +54,33 @@ class PostProcessAwsConnectionV1Request:
 
     def __init__(
         self,
-        account_native_id: str = None,
-        aws_region: str = None,
-        clumio_event_pub_id: str = None,
-        configuration: str = None,
-        intermediate_role_arn: str = None,
-        properties: Mapping[str, str] = None,
-        request_type: str = None,
-        role_arn: str = None,
-        role_external_id: str = None,
-        token: str = None,
+        account_native_id: str | None = None,
+        aws_region: str | None = None,
+        clumio_event_pub_id: str | None = None,
+        configuration: str | None = None,
+        intermediate_role_arn: str | None = None,
+        properties: Mapping[str, str] | None = None,
+        request_type: str | None = None,
+        role_arn: str | None = None,
+        role_external_id: str | None = None,
+        token: str | None = None,
     ) -> None:
         """Constructor for the PostProcessAwsConnectionV1Request class."""
 
         # Initialize members of the class
-        self.account_native_id: str = account_native_id
-        self.aws_region: str = aws_region
-        self.clumio_event_pub_id: str = clumio_event_pub_id
-        self.configuration: str = configuration
-        self.intermediate_role_arn: str = intermediate_role_arn
-        self.properties: Mapping[str, str] = properties
-        self.request_type: str = request_type
-        self.role_arn: str = role_arn
-        self.role_external_id: str = role_external_id
-        self.token: str = token
+        self.account_native_id: str | None = account_native_id
+        self.aws_region: str | None = aws_region
+        self.clumio_event_pub_id: str | None = clumio_event_pub_id
+        self.configuration: str | None = configuration
+        self.intermediate_role_arn: str | None = intermediate_role_arn
+        self.properties: Mapping[str, str] | None = properties
+        self.request_type: str | None = request_type
+        self.role_arn: str | None = role_arn
+        self.role_external_id: str | None = role_external_id
+        self.token: str | None = token
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -91,30 +91,49 @@ class PostProcessAwsConnectionV1Request:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        account_native_id = dictionary.get('account_native_id')
-        aws_region = dictionary.get('aws_region')
-        clumio_event_pub_id = dictionary.get('clumio_event_pub_id')
-        configuration = dictionary.get('configuration')
-        intermediate_role_arn = dictionary.get('intermediate_role_arn')
-        properties = dictionary.get('properties')
-        request_type = dictionary.get('request_type')
-        role_arn = dictionary.get('role_arn')
-        role_external_id = dictionary.get('role_external_id')
-        token = dictionary.get('token')
+        val = dictionary.get('account_native_id', None)
+        val_account_native_id = val
+
+        val = dictionary.get('aws_region', None)
+        val_aws_region = val
+
+        val = dictionary.get('clumio_event_pub_id', None)
+        val_clumio_event_pub_id = val
+
+        val = dictionary.get('configuration', None)
+        val_configuration = val
+
+        val = dictionary.get('intermediate_role_arn', None)
+        val_intermediate_role_arn = val
+
+        val = dictionary.get('properties', None)
+        val_properties = val
+
+        val = dictionary.get('request_type', None)
+        val_request_type = val
+
+        val = dictionary.get('role_arn', None)
+        val_role_arn = val
+
+        val = dictionary.get('role_external_id', None)
+        val_role_external_id = val
+
+        val = dictionary.get('token', None)
+        val_token = val
+
         # Return an object of this model
         return cls(
-            account_native_id,
-            aws_region,
-            clumio_event_pub_id,
-            configuration,
-            intermediate_role_arn,
-            properties,
-            request_type,
-            role_arn,
-            role_external_id,
-            token,
+            val_account_native_id,
+            val_aws_region,
+            val_clumio_event_pub_id,
+            val_configuration,
+            val_intermediate_role_arn,
+            val_properties,
+            val_request_type,
+            val_role_arn,
+            val_role_external_id,
+            val_token,
         )

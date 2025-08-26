@@ -3,7 +3,7 @@
 #
 
 import json
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -39,10 +39,10 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
 
     def list_protection_groups(
         self,
-        limit: int = None,
-        start: str = None,
-        filter: str = None,
-        lookback_days: int = None,
+        limit: int | None = None,
+        start: str | None = None,
+        filter: str | None = None,
+        lookback_days: int | None = None,
         **kwargs,
     ) -> Union[
         list_protection_groups_response.ListProtectionGroupsResponse,
@@ -61,8 +61,9 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
                 Pages are indexed starting from 1 (i.e., `start=1`).
             filter:
                 Narrows down the results to only the items that satisfy the filter criteria. The
-                following table lists
-                the supported filter fields for this resource and the filter conditions that can
+                following
+                table lists the supported filter fields for this resource and the filter
+                conditions that can
                 be applied on those fields:
 
                 +---------------------------+------------------+-------------------------------+
@@ -73,18 +74,18 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
                 |                           |                  | "true" to retrieve deleted    |
                 |                           |                  | protection group. For         |
                 |                           |                  | example, filter={"is_deleted" |
-                |                           |                  | :{"$eq":true}} filter={"is_de |
-                |                           |                  | leted":{"$in":["true","false" |
-                |                           |                  | ]}}                           |
+                |                           |                  | :{"$eq":true}}                |
+                |                           |                  | filter={"is_deleted":{"$in":[ |
+                |                           |                  | "true","false"]}}             |
                 +---------------------------+------------------+-------------------------------+
                 | name                      | $contains, $eq   | The AWS-assigned name of this |
                 |                           |                  | resource, can use either the  |
                 |                           |                  | contains or exact equal       |
                 |                           |                  | operator. For example, filter |
                 |                           |                  | ={"name":{"$contains":"dev"}} |
-                |                           |                  | retrieves all protection      |
-                |                           |                  | groups with "dev" in their    |
-                |                           |                  | name.                         |
+                |                           |                  | retrieves all                 |
+                |                           |                  | protection groups with "dev"  |
+                |                           |                  | in their name.                |
                 +---------------------------+------------------+-------------------------------+
                 | protection_info.policy_id | $eq              | The Clumio-assigned ID of the |
                 |                           |                  | policy protecting this        |
@@ -101,13 +102,16 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
                 | organizational_unit_id    | $in              | Denotes the organizational    |
                 |                           |                  | unit IDs that can own the     |
                 |                           |                  | assets that are returned. For |
-                |                           |                  | example, filter={"organizatio |
-                |                           |                  | nal_unit_id":{"$in":["c764b15 |
-                |                           |                  | 2-5819-11ea-bb9f-             |
+                |                           |                  | example,                      |
+                |                           |                  | filter={"organizational_unit_ |
+                |                           |                  | id":{"$in":["c764b152-5819-   |
+                |                           |                  | 11ea-bb9f-                    |
                 |                           |                  | b2e1c9a040ad","c764abb6-5819- |
                 |                           |                  | 11ea-bb9f-b2e1c9a040ad"]}}    |
                 +---------------------------+------------------+-------------------------------+
 
+                For more information about filtering, refer to the Filtering section
+                of this guide.
             lookback_days:
                 Calculate backup status for the last `lookback_days` days.
         Returns:
@@ -122,7 +126,7 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/datasources/protection-groups'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {
             'limit': limit,
             'start': start,
@@ -130,33 +134,33 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
             'lookback_days': lookback_days,
         }
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
-            errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing list_protection_groups.', errors
+                'Error occurred while executing list_protection_groups', error=http_error
             )
 
-        if self.config.raw_response:
-            return (
-                resp,
-                list_protection_groups_response.ListProtectionGroupsResponse.from_dictionary(
-                    resp.json()
-                ),
-            )
-        return list_protection_groups_response.ListProtectionGroupsResponse.from_dictionary(resp)
+        obj = list_protection_groups_response.ListProtectionGroupsResponse.from_dictionary(
+            resp.json()
+        )
+        if raw_response:
+            return resp, obj
+        return obj
 
-    def read_protection_group(self, group_id: str, lookback_days: int = None, **kwargs) -> Union[
+    def read_protection_group(
+        self, group_id: str | None = None, lookback_days: int | None = None, **kwargs
+    ) -> Union[
         read_protection_group_response.ReadProtectionGroupResponse,
         tuple[
             requests.Response, Optional[read_protection_group_response.ReadProtectionGroupResponse]
@@ -183,35 +187,36 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'group_id': group_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'lookback_days': lookback_days}
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
-            errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing read_protection_group.', errors
+                'Error occurred while executing read_protection_group', error=http_error
             )
 
-        if self.config.raw_response:
-            return resp, read_protection_group_response.ReadProtectionGroupResponse.from_dictionary(
-                resp.json()
-            )
-        return read_protection_group_response.ReadProtectionGroupResponse.from_dictionary(resp)
+        obj = read_protection_group_response.ReadProtectionGroupResponse.from_dictionary(
+            resp.json()
+        )
+        if raw_response:
+            return resp, obj
+        return obj
 
     def create_protection_group(
         self,
-        body: create_protection_group_v1_request.CreateProtectionGroupV1Request = None,
+        body: create_protection_group_v1_request.CreateProtectionGroupV1Request | None = None,
         **kwargs,
     ) -> Union[
         create_protection_group_response.CreateProtectionGroupResponse,
@@ -245,39 +250,37 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/protection-groups'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.post(
+            resp: requests.Response = self.client.post(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
-            errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing create_protection_group.', errors
+                'Error occurred while executing create_protection_group', error=http_error
             )
 
-        if self.config.raw_response:
-            return (
-                resp,
-                create_protection_group_response.CreateProtectionGroupResponse.from_dictionary(
-                    resp.json()
-                ),
-            )
-        return create_protection_group_response.CreateProtectionGroupResponse.from_dictionary(resp)
+        obj = create_protection_group_response.CreateProtectionGroupResponse.from_dictionary(
+            resp.json()
+        )
+        if raw_response:
+            return resp, obj
+        return obj
 
     def update_protection_group(
         self,
-        group_id: str,
-        body: update_protection_group_v1_request.UpdateProtectionGroupV1Request = None,
+        group_id: str | None = None,
+        body: update_protection_group_v1_request.UpdateProtectionGroupV1Request | None = None,
         **kwargs,
     ) -> Union[
         update_protection_group_response.UpdateProtectionGroupResponse,
@@ -311,37 +314,35 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'group_id': group_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.put(
+            resp: requests.Response = self.client.put(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
-            errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing update_protection_group.', errors
+                'Error occurred while executing update_protection_group', error=http_error
             )
 
-        if self.config.raw_response:
-            return (
-                resp,
-                update_protection_group_response.UpdateProtectionGroupResponse.from_dictionary(
-                    resp.json()
-                ),
-            )
-        return update_protection_group_response.UpdateProtectionGroupResponse.from_dictionary(resp)
+        obj = update_protection_group_response.UpdateProtectionGroupResponse.from_dictionary(
+            resp.json()
+        )
+        if raw_response:
+            return resp, obj
+        return obj
 
     def delete_protection_group(
-        self, group_id: str, **kwargs
+        self, group_id: str | None = None, **kwargs
     ) -> Union[object, tuple[requests.Response, Optional[object]]]:
         """Marks a protection group as deleted by taking the protection group ID.
         Appearance
@@ -368,33 +369,35 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'group_id': group_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.delete(
+            resp: requests.Response = self.client.delete(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
-            errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing delete_protection_group.', errors
+                'Error occurred while executing delete_protection_group', error=http_error
             )
 
-        if self.config.raw_response:
+        if raw_response:
             return resp, resp.json()
         return resp
 
     def add_bucket_protection_group(
         self,
-        group_id: str,
-        body: add_bucket_protection_group_v1_request.AddBucketProtectionGroupV1Request = None,
+        group_id: str | None = None,
+        body: (
+            add_bucket_protection_group_v1_request.AddBucketProtectionGroupV1Request | None
+        ) = None,
         **kwargs,
     ) -> Union[
         add_bucket_to_protection_group_response.AddBucketToProtectionGroupResponse,
@@ -429,38 +432,36 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'group_id': group_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.post(
+            resp: requests.Response = self.client.post(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
-            errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing add_bucket_protection_group.', errors
+                'Error occurred while executing add_bucket_protection_group', error=http_error
             )
 
-        if self.config.raw_response:
-            return (
-                resp,
-                add_bucket_to_protection_group_response.AddBucketToProtectionGroupResponse.from_dictionary(
-                    resp.json()
-                ),
-            )
-        return add_bucket_to_protection_group_response.AddBucketToProtectionGroupResponse.from_dictionary(
-            resp
+        obj = add_bucket_to_protection_group_response.AddBucketToProtectionGroupResponse.from_dictionary(
+            resp.json()
         )
+        if raw_response:
+            return resp, obj
+        return obj
 
-    def delete_bucket_protection_group(self, group_id: str, bucket_id: str, **kwargs) -> Union[
+    def delete_bucket_protection_group(
+        self, group_id: str | None = None, bucket_id: str | None = None, **kwargs
+    ) -> Union[
         delete_bucket_from_protection_group_response.DeleteBucketFromProtectionGroupResponse,
         tuple[
             requests.Response,
@@ -496,32 +497,28 @@ class ProtectionGroupsV1Controller(base_controller.BaseController):
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'group_id': group_id, 'bucket_id': bucket_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.delete(
+            resp: requests.Response = self.client.delete(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
-            errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing delete_bucket_protection_group.', errors
+                'Error occurred while executing delete_bucket_protection_group', error=http_error
             )
 
-        if self.config.raw_response:
-            return (
-                resp,
-                delete_bucket_from_protection_group_response.DeleteBucketFromProtectionGroupResponse.from_dictionary(
-                    resp.json()
-                ),
-            )
-        return delete_bucket_from_protection_group_response.DeleteBucketFromProtectionGroupResponse.from_dictionary(
-            resp
+        obj = delete_bucket_from_protection_group_response.DeleteBucketFromProtectionGroupResponse.from_dictionary(
+            resp.json()
         )
+        if raw_response:
+            return resp, obj
+        return obj

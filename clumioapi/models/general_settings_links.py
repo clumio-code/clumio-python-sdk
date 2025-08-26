@@ -1,11 +1,11 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import hateoas_link
-from clumioapi.models import hateoas_self_link
+from clumioapi.models import hateoas_link as hateoas_link_
+from clumioapi.models import hateoas_self_link as hateoas_self_link_
 
 T = TypeVar('T', bound='GeneralSettingsLinks')
 
@@ -23,21 +23,24 @@ class GeneralSettingsLinks:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'p_self': '_self', 'update_general_settings': 'update-general-settings'}
+    _names: dict[str, str] = {
+        'p_self': '_self',
+        'update_general_settings': 'update-general-settings',
+    }
 
     def __init__(
         self,
-        p_self: hateoas_self_link.HateoasSelfLink = None,
-        update_general_settings: hateoas_link.HateoasLink = None,
+        p_self: hateoas_self_link_.HateoasSelfLink | None = None,
+        update_general_settings: hateoas_link_.HateoasLink | None = None,
     ) -> None:
         """Constructor for the GeneralSettingsLinks class."""
 
         # Initialize members of the class
-        self.p_self: hateoas_self_link.HateoasSelfLink = p_self
-        self.update_general_settings: hateoas_link.HateoasLink = update_general_settings
+        self.p_self: hateoas_self_link_.HateoasSelfLink | None = p_self
+        self.update_general_settings: hateoas_link_.HateoasLink | None = update_general_settings
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -48,23 +51,17 @@ class GeneralSettingsLinks:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = '_self'
-        p_self = (
-            hateoas_self_link.HateoasSelfLink.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('_self', None)
+        val_p_self = hateoas_self_link_.HateoasSelfLink.from_dictionary(val)
 
-        key = 'update-general-settings'
-        update_general_settings = (
-            hateoas_link.HateoasLink.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('update-general-settings', None)
+        val_update_general_settings = hateoas_link_.HateoasLink.from_dictionary(val)
 
         # Return an object of this model
-        return cls(p_self, update_general_settings)
+        return cls(
+            val_p_self,
+            val_update_general_settings,
+        )

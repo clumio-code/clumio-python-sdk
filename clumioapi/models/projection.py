@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -27,19 +27,22 @@ class Projection:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'non_key_attributes': 'non_key_attributes', 'projection_type': 'projection_type'}
+    _names: dict[str, str] = {
+        'non_key_attributes': 'non_key_attributes',
+        'projection_type': 'projection_type',
+    }
 
     def __init__(
-        self, non_key_attributes: Sequence[str] = None, projection_type: str = None
+        self, non_key_attributes: Sequence[str] | None = None, projection_type: str | None = None
     ) -> None:
         """Constructor for the Projection class."""
 
         # Initialize members of the class
-        self.non_key_attributes: Sequence[str] = non_key_attributes
-        self.projection_type: str = projection_type
+        self.non_key_attributes: Sequence[str] | None = non_key_attributes
+        self.projection_type: str | None = projection_type
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -50,11 +53,17 @@ class Projection:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        non_key_attributes = dictionary.get('non_key_attributes')
-        projection_type = dictionary.get('projection_type')
+        val = dictionary.get('non_key_attributes', None)
+        val_non_key_attributes = val
+
+        val = dictionary.get('projection_type', None)
+        val_projection_type = val
+
         # Return an object of this model
-        return cls(non_key_attributes, projection_type)
+        return cls(
+            val_non_key_attributes,
+            val_projection_type,
+        )

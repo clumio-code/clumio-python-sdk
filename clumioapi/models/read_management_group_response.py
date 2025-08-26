@@ -1,10 +1,10 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import management_group_links
+from clumioapi.models import management_group_links as management_group_links_
 
 T = TypeVar('T', bound='ReadManagementGroupResponse')
 
@@ -33,7 +33,7 @@ class ReadManagementGroupResponse:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'etag': '_etag',
         'links': '_links',
         'backup_across_subgroups': 'backup_across_subgroups',
@@ -45,27 +45,27 @@ class ReadManagementGroupResponse:
 
     def __init__(
         self,
-        etag: str = None,
-        links: management_group_links.ManagementGroupLinks = None,
-        backup_across_subgroups: bool = None,
-        p_id: str = None,
-        name: str = None,
-        p_type: str = None,
-        vcenter_id: str = None,
+        etag: str | None = None,
+        links: management_group_links_.ManagementGroupLinks | None = None,
+        backup_across_subgroups: bool | None = None,
+        p_id: str | None = None,
+        name: str | None = None,
+        p_type: str | None = None,
+        vcenter_id: str | None = None,
     ) -> None:
         """Constructor for the ReadManagementGroupResponse class."""
 
         # Initialize members of the class
-        self.etag: str = etag
-        self.links: management_group_links.ManagementGroupLinks = links
-        self.backup_across_subgroups: bool = backup_across_subgroups
-        self.p_id: str = p_id
-        self.name: str = name
-        self.p_type: str = p_type
-        self.vcenter_id: str = vcenter_id
+        self.etag: str | None = etag
+        self.links: management_group_links_.ManagementGroupLinks | None = links
+        self.backup_across_subgroups: bool | None = backup_across_subgroups
+        self.p_id: str | None = p_id
+        self.name: str | None = name
+        self.p_type: str | None = p_type
+        self.vcenter_id: str | None = vcenter_id
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -76,22 +76,37 @@ class ReadManagementGroupResponse:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        etag = dictionary.get('_etag')
-        key = '_links'
-        links = (
-            management_group_links.ManagementGroupLinks.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('_etag', None)
+        val_etag = val
 
-        backup_across_subgroups = dictionary.get('backup_across_subgroups')
-        p_id = dictionary.get('id')
-        name = dictionary.get('name')
-        p_type = dictionary.get('type')
-        vcenter_id = dictionary.get('vcenter_id')
+        val = dictionary.get('_links', None)
+        val_links = management_group_links_.ManagementGroupLinks.from_dictionary(val)
+
+        val = dictionary.get('backup_across_subgroups', None)
+        val_backup_across_subgroups = val
+
+        val = dictionary.get('id', None)
+        val_p_id = val
+
+        val = dictionary.get('name', None)
+        val_name = val
+
+        val = dictionary.get('type', None)
+        val_p_type = val
+
+        val = dictionary.get('vcenter_id', None)
+        val_vcenter_id = val
+
         # Return an object of this model
-        return cls(etag, links, backup_across_subgroups, p_id, name, p_type, vcenter_id)
+        return cls(
+            val_etag,
+            val_links,
+            val_backup_across_subgroups,
+            val_p_id,
+            val_name,
+            val_p_type,
+            val_vcenter_id,
+        )

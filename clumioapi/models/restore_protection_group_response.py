@@ -1,11 +1,11 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import read_task_hateoas_outer_embedded
-from clumioapi.models import restore_protection_group_links
+from clumioapi.models import read_task_hateoas_outer_embedded as read_task_hateoas_outer_embedded_
+from clumioapi.models import restore_protection_group_links as restore_protection_group_links_
 
 T = TypeVar('T', bound='RestoreProtectionGroupResponse')
 
@@ -25,23 +25,25 @@ class RestoreProtectionGroupResponse:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'embedded': '_embedded', 'links': '_links', 'task_id': 'task_id'}
+    _names: dict[str, str] = {'embedded': '_embedded', 'links': '_links', 'task_id': 'task_id'}
 
     def __init__(
         self,
-        embedded: read_task_hateoas_outer_embedded.ReadTaskHateoasOuterEmbedded = None,
-        links: restore_protection_group_links.RestoreProtectionGroupLinks = None,
-        task_id: str = None,
+        embedded: read_task_hateoas_outer_embedded_.ReadTaskHateoasOuterEmbedded | None = None,
+        links: restore_protection_group_links_.RestoreProtectionGroupLinks | None = None,
+        task_id: str | None = None,
     ) -> None:
         """Constructor for the RestoreProtectionGroupResponse class."""
 
         # Initialize members of the class
-        self.embedded: read_task_hateoas_outer_embedded.ReadTaskHateoasOuterEmbedded = embedded
-        self.links: restore_protection_group_links.RestoreProtectionGroupLinks = links
-        self.task_id: str = task_id
+        self.embedded: read_task_hateoas_outer_embedded_.ReadTaskHateoasOuterEmbedded | None = (
+            embedded
+        )
+        self.links: restore_protection_group_links_.RestoreProtectionGroupLinks | None = links
+        self.task_id: str | None = task_id
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -52,28 +54,23 @@ class RestoreProtectionGroupResponse:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = '_embedded'
-        embedded = (
-            read_task_hateoas_outer_embedded.ReadTaskHateoasOuterEmbedded.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
+        val = dictionary.get('_embedded', None)
+        val_embedded = (
+            read_task_hateoas_outer_embedded_.ReadTaskHateoasOuterEmbedded.from_dictionary(val)
         )
 
-        key = '_links'
-        links = (
-            restore_protection_group_links.RestoreProtectionGroupLinks.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('_links', None)
+        val_links = restore_protection_group_links_.RestoreProtectionGroupLinks.from_dictionary(val)
 
-        task_id = dictionary.get('task_id')
+        val = dictionary.get('task_id', None)
+        val_task_id = val
+
         # Return an object of this model
-        return cls(embedded, links, task_id)
+        return cls(
+            val_embedded,
+            val_links,
+            val_task_id,
+        )

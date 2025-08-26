@@ -24,7 +24,7 @@ class BackupStatusStats:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'failure_count': 'failure_count',
         'no_backup_count': 'no_backup_count',
         'partial_success_count': 'partial_success_count',
@@ -33,21 +33,21 @@ class BackupStatusStats:
 
     def __init__(
         self,
-        failure_count: int = None,
-        no_backup_count: int = None,
-        partial_success_count: int = None,
-        success_count: int = None,
+        failure_count: int | None = None,
+        no_backup_count: int | None = None,
+        partial_success_count: int | None = None,
+        success_count: int | None = None,
     ) -> None:
         """Constructor for the BackupStatusStats class."""
 
         # Initialize members of the class
-        self.failure_count: int = failure_count
-        self.no_backup_count: int = no_backup_count
-        self.partial_success_count: int = partial_success_count
-        self.success_count: int = success_count
+        self.failure_count: int | None = failure_count
+        self.no_backup_count: int | None = no_backup_count
+        self.partial_success_count: int | None = partial_success_count
+        self.success_count: int | None = success_count
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -58,15 +58,25 @@ class BackupStatusStats:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        val_failure_count = dictionary.get('failure_count')
-        val_no_backup_count = dictionary.get('no_backup_count')
-        val_partial_success_count = dictionary.get('partial_success_count')
-        val_success_count = dictionary.get('success_count')
+        val = dictionary.get('failure_count', None)
+        val_failure_count = val
+
+        val = dictionary.get('no_backup_count', None)
+        val_no_backup_count = val
+
+        val = dictionary.get('partial_success_count', None)
+        val_partial_success_count = val
+
+        val = dictionary.get('success_count', None)
+        val_success_count = val
+
         # Return an object of this model
         return cls(
-            val_failure_count, val_no_backup_count, val_partial_success_count, val_success_count
+            val_failure_count,
+            val_no_backup_count,
+            val_partial_success_count,
+            val_success_count,
         )

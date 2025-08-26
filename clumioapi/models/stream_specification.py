@@ -36,17 +36,17 @@ class StreamSpecification:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'enabled': 'enabled', 'view_type': 'view_type'}
+    _names: dict[str, str] = {'enabled': 'enabled', 'view_type': 'view_type'}
 
-    def __init__(self, enabled: bool = None, view_type: str = None) -> None:
+    def __init__(self, enabled: bool | None = None, view_type: str | None = None) -> None:
         """Constructor for the StreamSpecification class."""
 
         # Initialize members of the class
-        self.enabled: bool = enabled
-        self.view_type: str = view_type
+        self.enabled: bool | None = enabled
+        self.view_type: str | None = view_type
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -57,11 +57,17 @@ class StreamSpecification:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        val_enabled = dictionary.get('enabled')
-        val_view_type = dictionary.get('view_type')
+        val = dictionary.get('enabled', None)
+        val_enabled = val
+
+        val = dictionary.get('view_type', None)
+        val_view_type = val
+
         # Return an object of this model
-        return cls(val_enabled, val_view_type)
+        return cls(
+            val_enabled,
+            val_view_type,
+        )

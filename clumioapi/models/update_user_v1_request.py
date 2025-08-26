@@ -1,10 +1,11 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import entity_group_assignment_updates_v1
+from clumioapi.models import \
+    entity_group_assignment_updates_v1 as entity_group_assignment_updates_v1_
 
 T = TypeVar('T', bound='UpdateUserV1Request')
 
@@ -31,7 +32,7 @@ class UpdateUserV1Request:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'assigned_role': 'assigned_role',
         'full_name': 'full_name',
         'is_enabled': 'is_enabled',
@@ -40,23 +41,25 @@ class UpdateUserV1Request:
 
     def __init__(
         self,
-        assigned_role: str = None,
-        full_name: str = None,
-        is_enabled: bool = None,
-        organizational_unit_assignment_updates: entity_group_assignment_updates_v1.EntityGroupAssignmentUpdatesV1 = None,
+        assigned_role: str | None = None,
+        full_name: str | None = None,
+        is_enabled: bool | None = None,
+        organizational_unit_assignment_updates: (
+            entity_group_assignment_updates_v1_.EntityGroupAssignmentUpdatesV1 | None
+        ) = None,
     ) -> None:
         """Constructor for the UpdateUserV1Request class."""
 
         # Initialize members of the class
-        self.assigned_role: str = assigned_role
-        self.full_name: str = full_name
-        self.is_enabled: bool = is_enabled
+        self.assigned_role: str | None = assigned_role
+        self.full_name: str | None = full_name
+        self.is_enabled: bool | None = is_enabled
         self.organizational_unit_assignment_updates: (
-            entity_group_assignment_updates_v1.EntityGroupAssignmentUpdatesV1
+            entity_group_assignment_updates_v1_.EntityGroupAssignmentUpdatesV1 | None
         ) = organizational_unit_assignment_updates
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -67,21 +70,27 @@ class UpdateUserV1Request:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        assigned_role = dictionary.get('assigned_role')
-        full_name = dictionary.get('full_name')
-        is_enabled = dictionary.get('is_enabled')
-        key = 'organizational_unit_assignment_updates'
-        organizational_unit_assignment_updates = (
-            entity_group_assignment_updates_v1.EntityGroupAssignmentUpdatesV1.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
+        val = dictionary.get('assigned_role', None)
+        val_assigned_role = val
+
+        val = dictionary.get('full_name', None)
+        val_full_name = val
+
+        val = dictionary.get('is_enabled', None)
+        val_is_enabled = val
+
+        val = dictionary.get('organizational_unit_assignment_updates', None)
+        val_organizational_unit_assignment_updates = (
+            entity_group_assignment_updates_v1_.EntityGroupAssignmentUpdatesV1.from_dictionary(val)
         )
 
         # Return an object of this model
-        return cls(assigned_role, full_name, is_enabled, organizational_unit_assignment_updates)
+        return cls(
+            val_assigned_role,
+            val_full_name,
+            val_is_enabled,
+            val_organizational_unit_assignment_updates,
+        )

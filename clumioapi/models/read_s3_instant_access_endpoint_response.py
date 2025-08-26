@@ -1,13 +1,14 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import s3_instant_access_endpoint_embedded
-from clumioapi.models import s3_instant_access_endpoint_links
-from clumioapi.models import s3_instant_access_endpoint_role
-from clumioapi.models import s3_instant_access_endpoint_stat
+from clumioapi.models import \
+    s3_instant_access_endpoint_embedded as s3_instant_access_endpoint_embedded_
+from clumioapi.models import s3_instant_access_endpoint_links as s3_instant_access_endpoint_links_
+from clumioapi.models import s3_instant_access_endpoint_role as s3_instant_access_endpoint_role_
+from clumioapi.models import s3_instant_access_endpoint_stat as s3_instant_access_endpoint_stat_
 
 T = TypeVar('T', bound='ReadS3InstantAccessEndpointResponse')
 
@@ -68,7 +69,7 @@ class ReadS3InstantAccessEndpointResponse:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'embedded': '_embedded',
         'etag': '_etag',
         'links': '_links',
@@ -95,59 +96,65 @@ class ReadS3InstantAccessEndpointResponse:
 
     def __init__(
         self,
-        embedded: s3_instant_access_endpoint_embedded.S3InstantAccessEndpointEmbedded = None,
-        etag: str = None,
-        links: s3_instant_access_endpoint_links.S3InstantAccessEndpointLinks = None,
-        aws_account_id: str = None,
-        backup_region: str = None,
-        bucket_name: str = None,
-        created_timestamp: str = None,
-        endpoint_status: str = None,
-        expiry_timestamp: str = None,
-        p_id: str = None,
-        name: str = None,
-        objects_created_after: str = None,
-        objects_created_before: str = None,
-        organizational_unit_id: str = None,
-        protection_group_id: str = None,
-        protection_group_name: str = None,
-        protection_group_s3_asset_id: str = None,
-        region: str = None,
-        restore_timestamp: str = None,
-        roles: Sequence[s3_instant_access_endpoint_role.S3InstantAccessEndpointRole] = None,
-        stats: Sequence[s3_instant_access_endpoint_stat.S3InstantAccessEndpointStat] = None,
-        updated_timestamp: str = None,
+        embedded: (
+            s3_instant_access_endpoint_embedded_.S3InstantAccessEndpointEmbedded | None
+        ) = None,
+        etag: str | None = None,
+        links: s3_instant_access_endpoint_links_.S3InstantAccessEndpointLinks | None = None,
+        aws_account_id: str | None = None,
+        backup_region: str | None = None,
+        bucket_name: str | None = None,
+        created_timestamp: str | None = None,
+        endpoint_status: str | None = None,
+        expiry_timestamp: str | None = None,
+        p_id: str | None = None,
+        name: str | None = None,
+        objects_created_after: str | None = None,
+        objects_created_before: str | None = None,
+        organizational_unit_id: str | None = None,
+        protection_group_id: str | None = None,
+        protection_group_name: str | None = None,
+        protection_group_s3_asset_id: str | None = None,
+        region: str | None = None,
+        restore_timestamp: str | None = None,
+        roles: Sequence[s3_instant_access_endpoint_role_.S3InstantAccessEndpointRole] | None = None,
+        stats: Sequence[s3_instant_access_endpoint_stat_.S3InstantAccessEndpointStat] | None = None,
+        updated_timestamp: str | None = None,
     ) -> None:
         """Constructor for the ReadS3InstantAccessEndpointResponse class."""
 
         # Initialize members of the class
-        self.embedded: s3_instant_access_endpoint_embedded.S3InstantAccessEndpointEmbedded = (
-            embedded
-        )
-        self.etag: str = etag
-        self.links: s3_instant_access_endpoint_links.S3InstantAccessEndpointLinks = links
-        self.aws_account_id: str = aws_account_id
-        self.backup_region: str = backup_region
-        self.bucket_name: str = bucket_name
-        self.created_timestamp: str = created_timestamp
-        self.endpoint_status: str = endpoint_status
-        self.expiry_timestamp: str = expiry_timestamp
-        self.p_id: str = p_id
-        self.name: str = name
-        self.objects_created_after: str = objects_created_after
-        self.objects_created_before: str = objects_created_before
-        self.organizational_unit_id: str = organizational_unit_id
-        self.protection_group_id: str = protection_group_id
-        self.protection_group_name: str = protection_group_name
-        self.protection_group_s3_asset_id: str = protection_group_s3_asset_id
-        self.region: str = region
-        self.restore_timestamp: str = restore_timestamp
-        self.roles: Sequence[s3_instant_access_endpoint_role.S3InstantAccessEndpointRole] = roles
-        self.stats: Sequence[s3_instant_access_endpoint_stat.S3InstantAccessEndpointStat] = stats
-        self.updated_timestamp: str = updated_timestamp
+        self.embedded: (
+            s3_instant_access_endpoint_embedded_.S3InstantAccessEndpointEmbedded | None
+        ) = embedded
+        self.etag: str | None = etag
+        self.links: s3_instant_access_endpoint_links_.S3InstantAccessEndpointLinks | None = links
+        self.aws_account_id: str | None = aws_account_id
+        self.backup_region: str | None = backup_region
+        self.bucket_name: str | None = bucket_name
+        self.created_timestamp: str | None = created_timestamp
+        self.endpoint_status: str | None = endpoint_status
+        self.expiry_timestamp: str | None = expiry_timestamp
+        self.p_id: str | None = p_id
+        self.name: str | None = name
+        self.objects_created_after: str | None = objects_created_after
+        self.objects_created_before: str | None = objects_created_before
+        self.organizational_unit_id: str | None = organizational_unit_id
+        self.protection_group_id: str | None = protection_group_id
+        self.protection_group_name: str | None = protection_group_name
+        self.protection_group_s3_asset_id: str | None = protection_group_s3_asset_id
+        self.region: str | None = region
+        self.restore_timestamp: str | None = restore_timestamp
+        self.roles: (
+            Sequence[s3_instant_access_endpoint_role_.S3InstantAccessEndpointRole] | None
+        ) = roles
+        self.stats: (
+            Sequence[s3_instant_access_endpoint_stat_.S3InstantAccessEndpointStat] | None
+        ) = stats
+        self.updated_timestamp: str | None = updated_timestamp
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -158,88 +165,121 @@ class ReadS3InstantAccessEndpointResponse:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = '_embedded'
-        embedded = (
-            s3_instant_access_endpoint_embedded.S3InstantAccessEndpointEmbedded.from_dictionary(
-                dictionary.get(key)
+        val = dictionary.get('_embedded', None)
+        val_embedded = (
+            s3_instant_access_endpoint_embedded_.S3InstantAccessEndpointEmbedded.from_dictionary(
+                val
             )
-            if dictionary.get(key)
-            else None
         )
 
-        etag = dictionary.get('_etag')
-        key = '_links'
-        links = (
-            s3_instant_access_endpoint_links.S3InstantAccessEndpointLinks.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
+        val = dictionary.get('_etag', None)
+        val_etag = val
+
+        val = dictionary.get('_links', None)
+        val_links = s3_instant_access_endpoint_links_.S3InstantAccessEndpointLinks.from_dictionary(
+            val
         )
 
-        aws_account_id = dictionary.get('aws_account_id')
-        backup_region = dictionary.get('backup_region')
-        bucket_name = dictionary.get('bucket_name')
-        created_timestamp = dictionary.get('created_timestamp')
-        endpoint_status = dictionary.get('endpoint_status')
-        expiry_timestamp = dictionary.get('expiry_timestamp')
-        p_id = dictionary.get('id')
-        name = dictionary.get('name')
-        objects_created_after = dictionary.get('objects_created_after')
-        objects_created_before = dictionary.get('objects_created_before')
-        organizational_unit_id = dictionary.get('organizational_unit_id')
-        protection_group_id = dictionary.get('protection_group_id')
-        protection_group_name = dictionary.get('protection_group_name')
-        protection_group_s3_asset_id = dictionary.get('protection_group_s3_asset_id')
-        region = dictionary.get('region')
-        restore_timestamp = dictionary.get('restore_timestamp')
-        roles = None
-        if dictionary.get('roles'):
-            roles = list()
-            for value in dictionary.get('roles'):
-                roles.append(
-                    s3_instant_access_endpoint_role.S3InstantAccessEndpointRole.from_dictionary(
+        val = dictionary.get('aws_account_id', None)
+        val_aws_account_id = val
+
+        val = dictionary.get('backup_region', None)
+        val_backup_region = val
+
+        val = dictionary.get('bucket_name', None)
+        val_bucket_name = val
+
+        val = dictionary.get('created_timestamp', None)
+        val_created_timestamp = val
+
+        val = dictionary.get('endpoint_status', None)
+        val_endpoint_status = val
+
+        val = dictionary.get('expiry_timestamp', None)
+        val_expiry_timestamp = val
+
+        val = dictionary.get('id', None)
+        val_p_id = val
+
+        val = dictionary.get('name', None)
+        val_name = val
+
+        val = dictionary.get('objects_created_after', None)
+        val_objects_created_after = val
+
+        val = dictionary.get('objects_created_before', None)
+        val_objects_created_before = val
+
+        val = dictionary.get('organizational_unit_id', None)
+        val_organizational_unit_id = val
+
+        val = dictionary.get('protection_group_id', None)
+        val_protection_group_id = val
+
+        val = dictionary.get('protection_group_name', None)
+        val_protection_group_name = val
+
+        val = dictionary.get('protection_group_s3_asset_id', None)
+        val_protection_group_s3_asset_id = val
+
+        val = dictionary.get('region', None)
+        val_region = val
+
+        val = dictionary.get('restore_timestamp', None)
+        val_restore_timestamp = val
+
+        val = dictionary.get('roles', None)
+
+        val_roles = None
+        if val:
+            val_roles = list()
+            for value in val:
+                val_roles.append(
+                    s3_instant_access_endpoint_role_.S3InstantAccessEndpointRole.from_dictionary(
                         value
                     )
                 )
 
-        stats = None
-        if dictionary.get('stats'):
-            stats = list()
-            for value in dictionary.get('stats'):
-                stats.append(
-                    s3_instant_access_endpoint_stat.S3InstantAccessEndpointStat.from_dictionary(
+        val = dictionary.get('stats', None)
+
+        val_stats = None
+        if val:
+            val_stats = list()
+            for value in val:
+                val_stats.append(
+                    s3_instant_access_endpoint_stat_.S3InstantAccessEndpointStat.from_dictionary(
                         value
                     )
                 )
 
-        updated_timestamp = dictionary.get('updated_timestamp')
+        val = dictionary.get('updated_timestamp', None)
+        val_updated_timestamp = val
+
         # Return an object of this model
         return cls(
-            embedded,
-            etag,
-            links,
-            aws_account_id,
-            backup_region,
-            bucket_name,
-            created_timestamp,
-            endpoint_status,
-            expiry_timestamp,
-            p_id,
-            name,
-            objects_created_after,
-            objects_created_before,
-            organizational_unit_id,
-            protection_group_id,
-            protection_group_name,
-            protection_group_s3_asset_id,
-            region,
-            restore_timestamp,
-            roles,
-            stats,
-            updated_timestamp,
+            val_embedded,
+            val_etag,
+            val_links,
+            val_aws_account_id,
+            val_backup_region,
+            val_bucket_name,
+            val_created_timestamp,
+            val_endpoint_status,
+            val_expiry_timestamp,
+            val_p_id,
+            val_name,
+            val_objects_created_after,
+            val_objects_created_before,
+            val_organizational_unit_id,
+            val_protection_group_id,
+            val_protection_group_name,
+            val_protection_group_s3_asset_id,
+            val_region,
+            val_restore_timestamp,
+            val_roles,
+            val_stats,
+            val_updated_timestamp,
         )

@@ -1,10 +1,10 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import hateoas_link
+from clumioapi.models import hateoas_link as hateoas_link_
 
 T = TypeVar('T', bound='FileVersionHateoas')
 
@@ -20,16 +20,16 @@ class FileVersionHateoas:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'restore_files': 'restore-files'}
+    _names: dict[str, str] = {'restore_files': 'restore-files'}
 
-    def __init__(self, restore_files: hateoas_link.HateoasLink = None) -> None:
+    def __init__(self, restore_files: hateoas_link_.HateoasLink | None = None) -> None:
         """Constructor for the FileVersionHateoas class."""
 
         # Initialize members of the class
-        self.restore_files: hateoas_link.HateoasLink = restore_files
+        self.restore_files: hateoas_link_.HateoasLink | None = restore_files
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -40,16 +40,13 @@ class FileVersionHateoas:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = 'restore-files'
-        restore_files = (
-            hateoas_link.HateoasLink.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('restore-files', None)
+        val_restore_files = hateoas_link_.HateoasLink.from_dictionary(val)
 
         # Return an object of this model
-        return cls(restore_files)
+        return cls(
+            val_restore_files,
+        )

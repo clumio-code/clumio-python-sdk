@@ -1,11 +1,11 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import dynamo_db_table_restore_source
-from clumioapi.models import dynamo_db_table_restore_target
+from clumioapi.models import dynamo_db_table_restore_source as dynamo_db_table_restore_source_
+from clumioapi.models import dynamo_db_table_restore_target as dynamo_db_table_restore_target_
 
 T = TypeVar('T', bound='RestoreAwsDynamodbTableV1Request')
 
@@ -30,21 +30,21 @@ class RestoreAwsDynamodbTableV1Request:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'source': 'source', 'target': 'target'}
+    _names: dict[str, str] = {'source': 'source', 'target': 'target'}
 
     def __init__(
         self,
-        source: dynamo_db_table_restore_source.DynamoDBTableRestoreSource = None,
-        target: dynamo_db_table_restore_target.DynamoDBTableRestoreTarget = None,
+        source: dynamo_db_table_restore_source_.DynamoDBTableRestoreSource | None = None,
+        target: dynamo_db_table_restore_target_.DynamoDBTableRestoreTarget | None = None,
     ) -> None:
         """Constructor for the RestoreAwsDynamodbTableV1Request class."""
 
         # Initialize members of the class
-        self.source: dynamo_db_table_restore_source.DynamoDBTableRestoreSource = source
-        self.target: dynamo_db_table_restore_target.DynamoDBTableRestoreTarget = target
+        self.source: dynamo_db_table_restore_source_.DynamoDBTableRestoreSource | None = source
+        self.target: dynamo_db_table_restore_target_.DynamoDBTableRestoreTarget | None = target
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -55,27 +55,17 @@ class RestoreAwsDynamodbTableV1Request:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = 'source'
-        source = (
-            dynamo_db_table_restore_source.DynamoDBTableRestoreSource.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('source', None)
+        val_source = dynamo_db_table_restore_source_.DynamoDBTableRestoreSource.from_dictionary(val)
 
-        key = 'target'
-        target = (
-            dynamo_db_table_restore_target.DynamoDBTableRestoreTarget.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('target', None)
+        val_target = dynamo_db_table_restore_target_.DynamoDBTableRestoreTarget.from_dictionary(val)
 
         # Return an object of this model
-        return cls(source, target)
+        return cls(
+            val_source,
+            val_target,
+        )

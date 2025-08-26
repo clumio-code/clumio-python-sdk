@@ -1,11 +1,11 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import create_rule_response_links
-from clumioapi.models import rule
+from clumioapi.models import create_rule_response_links as create_rule_response_links_
+from clumioapi.models import rule as rule_
 
 T = TypeVar('T', bound='CreateRuleResponse')
 
@@ -23,23 +23,23 @@ class CreateRuleResponse:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'links': '_links', 'rule': 'rule', 'task_id': 'task_id'}
+    _names: dict[str, str] = {'links': '_links', 'rule': 'rule', 'task_id': 'task_id'}
 
     def __init__(
         self,
-        links: create_rule_response_links.CreateRuleResponseLinks = None,
-        rule: rule.Rule = None,
-        task_id: str = None,
+        links: create_rule_response_links_.CreateRuleResponseLinks | None = None,
+        rule: rule_.Rule | None = None,
+        task_id: str | None = None,
     ) -> None:
         """Constructor for the CreateRuleResponse class."""
 
         # Initialize members of the class
-        self.links: create_rule_response_links.CreateRuleResponseLinks = links
-        self.rule: rule.Rule = rule
-        self.task_id: str = task_id
+        self.links: create_rule_response_links_.CreateRuleResponseLinks | None = links
+        self.rule: rule_.Rule | None = rule
+        self.task_id: str | None = task_id
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -50,20 +50,21 @@ class CreateRuleResponse:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = '_links'
-        links = (
-            create_rule_response_links.CreateRuleResponseLinks.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('_links', None)
+        val_links = create_rule_response_links_.CreateRuleResponseLinks.from_dictionary(val)
 
-        key = 'rule'
-        p_rule = rule.Rule.from_dictionary(dictionary.get(key)) if dictionary.get(key) else None
+        val = dictionary.get('rule', None)
+        val_rule = rule_.Rule.from_dictionary(val)
 
-        task_id = dictionary.get('task_id')
+        val = dictionary.get('task_id', None)
+        val_task_id = val
+
         # Return an object of this model
-        return cls(links, p_rule, task_id)
+        return cls(
+            val_links,
+            val_rule,
+            val_task_id,
+        )

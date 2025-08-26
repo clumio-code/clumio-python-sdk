@@ -1,11 +1,11 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import rds_backup_database_list_embedded
-from clumioapi.models import rds_backup_database_list_links
+from clumioapi.models import rds_backup_database_list_embedded as rds_backup_database_list_embedded_
+from clumioapi.models import rds_backup_database_list_links as rds_backup_database_list_links_
 
 T = TypeVar('T', bound='ListRDSBackupDatabasesResponse')
 
@@ -27,7 +27,7 @@ class ListRDSBackupDatabasesResponse:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'embedded': '_embedded',
         'links': '_links',
         'current_count': 'current_count',
@@ -37,23 +37,25 @@ class ListRDSBackupDatabasesResponse:
 
     def __init__(
         self,
-        embedded: rds_backup_database_list_embedded.RDSBackupDatabaseListEmbedded = None,
-        links: rds_backup_database_list_links.RDSBackupDatabaseListLinks = None,
-        current_count: int = None,
-        limit: int = None,
-        start: str = None,
+        embedded: rds_backup_database_list_embedded_.RDSBackupDatabaseListEmbedded | None = None,
+        links: rds_backup_database_list_links_.RDSBackupDatabaseListLinks | None = None,
+        current_count: int | None = None,
+        limit: int | None = None,
+        start: str | None = None,
     ) -> None:
         """Constructor for the ListRDSBackupDatabasesResponse class."""
 
         # Initialize members of the class
-        self.embedded: rds_backup_database_list_embedded.RDSBackupDatabaseListEmbedded = embedded
-        self.links: rds_backup_database_list_links.RDSBackupDatabaseListLinks = links
-        self.current_count: int = current_count
-        self.limit: int = limit
-        self.start: str = start
+        self.embedded: rds_backup_database_list_embedded_.RDSBackupDatabaseListEmbedded | None = (
+            embedded
+        )
+        self.links: rds_backup_database_list_links_.RDSBackupDatabaseListLinks | None = links
+        self.current_count: int | None = current_count
+        self.limit: int | None = limit
+        self.start: str | None = start
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -64,30 +66,31 @@ class ListRDSBackupDatabasesResponse:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = '_embedded'
-        embedded = (
-            rds_backup_database_list_embedded.RDSBackupDatabaseListEmbedded.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
+        val = dictionary.get('_embedded', None)
+        val_embedded = (
+            rds_backup_database_list_embedded_.RDSBackupDatabaseListEmbedded.from_dictionary(val)
         )
 
-        key = '_links'
-        links = (
-            rds_backup_database_list_links.RDSBackupDatabaseListLinks.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('_links', None)
+        val_links = rds_backup_database_list_links_.RDSBackupDatabaseListLinks.from_dictionary(val)
 
-        current_count = dictionary.get('current_count')
-        limit = dictionary.get('limit')
-        start = dictionary.get('start')
+        val = dictionary.get('current_count', None)
+        val_current_count = val
+
+        val = dictionary.get('limit', None)
+        val_limit = val
+
+        val = dictionary.get('start', None)
+        val_start = val
+
         # Return an object of this model
-        return cls(embedded, links, current_count, limit, start)
+        return cls(
+            val_embedded,
+            val_links,
+            val_current_count,
+            val_limit,
+            val_start,
+        )

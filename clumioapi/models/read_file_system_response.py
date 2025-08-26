@@ -1,10 +1,10 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import hateoas_common_links
+from clumioapi.models import hateoas_common_links as hateoas_common_links_
 
 T = TypeVar('T', bound='ReadFileSystemResponse')
 
@@ -48,7 +48,7 @@ class ReadFileSystemResponse:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'links': '_links',
         'available': 'available',
         'filesystem_native_id': 'filesystem_native_id',
@@ -65,37 +65,37 @@ class ReadFileSystemResponse:
 
     def __init__(
         self,
-        links: hateoas_common_links.HateoasCommonLinks = None,
-        available: int = None,
-        filesystem_native_id: str = None,
-        p_id: str = None,
-        indexing_failed_reason: str = None,
-        is_encrypted: bool = None,
-        is_indexed: bool = None,
-        mount_path: str = None,
-        num_files_indexed: int = None,
-        size: int = None,
-        p_type: str = None,
-        used: int = None,
+        links: hateoas_common_links_.HateoasCommonLinks | None = None,
+        available: int | None = None,
+        filesystem_native_id: str | None = None,
+        p_id: str | None = None,
+        indexing_failed_reason: str | None = None,
+        is_encrypted: bool | None = None,
+        is_indexed: bool | None = None,
+        mount_path: str | None = None,
+        num_files_indexed: int | None = None,
+        size: int | None = None,
+        p_type: str | None = None,
+        used: int | None = None,
     ) -> None:
         """Constructor for the ReadFileSystemResponse class."""
 
         # Initialize members of the class
-        self.links: hateoas_common_links.HateoasCommonLinks = links
-        self.available: int = available
-        self.filesystem_native_id: str = filesystem_native_id
-        self.p_id: str = p_id
-        self.indexing_failed_reason: str = indexing_failed_reason
-        self.is_encrypted: bool = is_encrypted
-        self.is_indexed: bool = is_indexed
-        self.mount_path: str = mount_path
-        self.num_files_indexed: int = num_files_indexed
-        self.size: int = size
-        self.p_type: str = p_type
-        self.used: int = used
+        self.links: hateoas_common_links_.HateoasCommonLinks | None = links
+        self.available: int | None = available
+        self.filesystem_native_id: str | None = filesystem_native_id
+        self.p_id: str | None = p_id
+        self.indexing_failed_reason: str | None = indexing_failed_reason
+        self.is_encrypted: bool | None = is_encrypted
+        self.is_indexed: bool | None = is_indexed
+        self.mount_path: str | None = mount_path
+        self.num_files_indexed: int | None = num_files_indexed
+        self.size: int | None = size
+        self.p_type: str | None = p_type
+        self.used: int | None = used
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -106,40 +106,57 @@ class ReadFileSystemResponse:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = '_links'
-        links = (
-            hateoas_common_links.HateoasCommonLinks.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('_links', None)
+        val_links = hateoas_common_links_.HateoasCommonLinks.from_dictionary(val)
 
-        available = dictionary.get('available')
-        filesystem_native_id = dictionary.get('filesystem_native_id')
-        p_id = dictionary.get('id')
-        indexing_failed_reason = dictionary.get('indexing_failed_reason')
-        is_encrypted = dictionary.get('is_encrypted')
-        is_indexed = dictionary.get('is_indexed')
-        mount_path = dictionary.get('mount_path')
-        num_files_indexed = dictionary.get('num_files_indexed')
-        size = dictionary.get('size')
-        p_type = dictionary.get('type')
-        used = dictionary.get('used')
+        val = dictionary.get('available', None)
+        val_available = val
+
+        val = dictionary.get('filesystem_native_id', None)
+        val_filesystem_native_id = val
+
+        val = dictionary.get('id', None)
+        val_p_id = val
+
+        val = dictionary.get('indexing_failed_reason', None)
+        val_indexing_failed_reason = val
+
+        val = dictionary.get('is_encrypted', None)
+        val_is_encrypted = val
+
+        val = dictionary.get('is_indexed', None)
+        val_is_indexed = val
+
+        val = dictionary.get('mount_path', None)
+        val_mount_path = val
+
+        val = dictionary.get('num_files_indexed', None)
+        val_num_files_indexed = val
+
+        val = dictionary.get('size', None)
+        val_size = val
+
+        val = dictionary.get('type', None)
+        val_p_type = val
+
+        val = dictionary.get('used', None)
+        val_used = val
+
         # Return an object of this model
         return cls(
-            links,
-            available,
-            filesystem_native_id,
-            p_id,
-            indexing_failed_reason,
-            is_encrypted,
-            is_indexed,
-            mount_path,
-            num_files_indexed,
-            size,
-            p_type,
-            used,
+            val_links,
+            val_available,
+            val_filesystem_native_id,
+            val_p_id,
+            val_indexing_failed_reason,
+            val_is_encrypted,
+            val_is_indexed,
+            val_mount_path,
+            val_num_files_indexed,
+            val_size,
+            val_p_type,
+            val_used,
         )

@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -18,16 +18,16 @@ class AlertEmbedded:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'read_consolidated_alert': 'read-consolidated-alert'}
+    _names: dict[str, str] = {'read_consolidated_alert': 'read-consolidated-alert'}
 
-    def __init__(self, read_consolidated_alert: object = None) -> None:
+    def __init__(self, read_consolidated_alert: object | None = None) -> None:
         """Constructor for the AlertEmbedded class."""
 
         # Initialize members of the class
-        self.read_consolidated_alert: object = read_consolidated_alert
+        self.read_consolidated_alert: object | None = read_consolidated_alert
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -38,10 +38,13 @@ class AlertEmbedded:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        read_consolidated_alert = dictionary.get('read-consolidated-alert')
+        val = dictionary.get('read-consolidated-alert', None)
+        val_read_consolidated_alert = val
+
         # Return an object of this model
-        return cls(read_consolidated_alert)
+        return cls(
+            val_read_consolidated_alert,
+        )

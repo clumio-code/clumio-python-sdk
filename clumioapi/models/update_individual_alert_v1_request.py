@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
@@ -28,23 +28,22 @@ class UpdateIndividualAlertV1Request:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'notes': 'notes', 'status': 'status'}
+    _names: dict[str, str] = {'notes': 'notes', 'status': 'status'}
 
-    def __init__(self, notes: str = None, status: str = None) -> None:
+    def __init__(self, notes: str | None = None, status: str | None = None) -> None:
         """Constructor for the UpdateIndividualAlertV1Request class."""
 
         # Initialize members of the class
-        self.notes: str = notes
+        self.notes: str | None = notes
 
         if status not in StatusValues:
             raise clumio_exception.ClumioException(
-                f'Invalid value for status: { status }. Valid values are { StatusValues }.',
-                None,
+                f'Invalid value for status: { status }. Valid values are { StatusValues }.'
             )
-        self.status: str = status
+        self.status: str | None = status
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -55,11 +54,17 @@ class UpdateIndividualAlertV1Request:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        notes = dictionary.get('notes')
-        status = dictionary.get('status')
+        val = dictionary.get('notes', None)
+        val_notes = val
+
+        val = dictionary.get('status', None)
+        val_status = val
+
         # Return an object of this model
-        return cls(notes, status)
+        return cls(
+            val_notes,
+            val_status,
+        )

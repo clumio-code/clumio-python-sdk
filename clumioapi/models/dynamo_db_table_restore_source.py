@@ -1,11 +1,13 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import dynamo_db_restore_source_backup_options
-from clumioapi.models import dynamo_db_restore_source_pitr_options
+from clumioapi.models import \
+    dynamo_db_restore_source_backup_options as dynamo_db_restore_source_backup_options_
+from clumioapi.models import \
+    dynamo_db_restore_source_pitr_options as dynamo_db_restore_source_pitr_options_
 
 T = TypeVar('T', bound='DynamoDBTableRestoreSource')
 
@@ -25,25 +27,32 @@ class DynamoDBTableRestoreSource:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'continuous_backup': 'continuous_backup', 'securevault_backup': 'securevault_backup'}
+    _names: dict[str, str] = {
+        'continuous_backup': 'continuous_backup',
+        'securevault_backup': 'securevault_backup',
+    }
 
     def __init__(
         self,
-        continuous_backup: dynamo_db_restore_source_pitr_options.DynamoDBRestoreSourcePitrOptions = None,
-        securevault_backup: dynamo_db_restore_source_backup_options.DynamoDBRestoreSourceBackupOptions = None,
+        continuous_backup: (
+            dynamo_db_restore_source_pitr_options_.DynamoDBRestoreSourcePitrOptions | None
+        ) = None,
+        securevault_backup: (
+            dynamo_db_restore_source_backup_options_.DynamoDBRestoreSourceBackupOptions | None
+        ) = None,
     ) -> None:
         """Constructor for the DynamoDBTableRestoreSource class."""
 
         # Initialize members of the class
         self.continuous_backup: (
-            dynamo_db_restore_source_pitr_options.DynamoDBRestoreSourcePitrOptions
+            dynamo_db_restore_source_pitr_options_.DynamoDBRestoreSourcePitrOptions | None
         ) = continuous_backup
         self.securevault_backup: (
-            dynamo_db_restore_source_backup_options.DynamoDBRestoreSourceBackupOptions
+            dynamo_db_restore_source_backup_options_.DynamoDBRestoreSourceBackupOptions | None
         ) = securevault_backup
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -54,27 +63,23 @@ class DynamoDBTableRestoreSource:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = 'continuous_backup'
-        continuous_backup = (
-            dynamo_db_restore_source_pitr_options.DynamoDBRestoreSourcePitrOptions.from_dictionary(
-                dictionary.get(key)
+        val = dictionary.get('continuous_backup', None)
+        val_continuous_backup = (
+            dynamo_db_restore_source_pitr_options_.DynamoDBRestoreSourcePitrOptions.from_dictionary(
+                val
             )
-            if dictionary.get(key)
-            else None
         )
 
-        key = 'securevault_backup'
-        securevault_backup = (
-            dynamo_db_restore_source_backup_options.DynamoDBRestoreSourceBackupOptions.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
+        val = dictionary.get('securevault_backup', None)
+        val_securevault_backup = dynamo_db_restore_source_backup_options_.DynamoDBRestoreSourceBackupOptions.from_dictionary(
+            val
         )
 
         # Return an object of this model
-        return cls(continuous_backup, securevault_backup)
+        return cls(
+            val_continuous_backup,
+            val_securevault_backup,
+        )

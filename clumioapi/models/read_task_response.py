@@ -1,12 +1,12 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import task_links
-from clumioapi.models import task_parent_entity
-from clumioapi.models import task_primary_entity
+from clumioapi.models import task_links as task_links_
+from clumioapi.models import task_parent_entity as task_parent_entity_
+from clumioapi.models import task_primary_entity as task_primary_entity_
 
 T = TypeVar('T', bound='ReadTaskResponse')
 
@@ -69,8 +69,7 @@ class ReadTaskResponse:
         is_abortable:
             Determines whether or not this task can be aborted.
             A task can be aborted if its status is either "queued" or "in_progress".
-            Tasks of certain types including
-            "vmware_vm_backup_indexing" and "aws_ebs_volume_backup_indexing" cannot be
+            Tasks of certain types including "aws_ebs_volume_backup_indexing" cannot be
             aborted.
         parent_entity:
             The parent entity associated with the task.
@@ -91,7 +90,7 @@ class ReadTaskResponse:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'etag': '_etag',
         'links': '_links',
         'category': 'category',
@@ -110,41 +109,41 @@ class ReadTaskResponse:
 
     def __init__(
         self,
-        etag: str = None,
-        links: task_links.TaskLinks = None,
-        category: str = None,
-        created_timestamp: str = None,
-        end_timestamp: str = None,
-        genre: str = None,
-        p_id: str = None,
-        is_abortable: bool = None,
-        parent_entity: task_parent_entity.TaskParentEntity = None,
-        primary_entity: task_primary_entity.TaskPrimaryEntity = None,
-        progress_percentage: int = None,
-        start_timestamp: str = None,
-        status: str = None,
-        p_type: str = None,
+        etag: str | None = None,
+        links: task_links_.TaskLinks | None = None,
+        category: str | None = None,
+        created_timestamp: str | None = None,
+        end_timestamp: str | None = None,
+        genre: str | None = None,
+        p_id: str | None = None,
+        is_abortable: bool | None = None,
+        parent_entity: task_parent_entity_.TaskParentEntity | None = None,
+        primary_entity: task_primary_entity_.TaskPrimaryEntity | None = None,
+        progress_percentage: int | None = None,
+        start_timestamp: str | None = None,
+        status: str | None = None,
+        p_type: str | None = None,
     ) -> None:
         """Constructor for the ReadTaskResponse class."""
 
         # Initialize members of the class
-        self.etag: str = etag
-        self.links: task_links.TaskLinks = links
-        self.category: str = category
-        self.created_timestamp: str = created_timestamp
-        self.end_timestamp: str = end_timestamp
-        self.genre: str = genre
-        self.p_id: str = p_id
-        self.is_abortable: bool = is_abortable
-        self.parent_entity: task_parent_entity.TaskParentEntity = parent_entity
-        self.primary_entity: task_primary_entity.TaskPrimaryEntity = primary_entity
-        self.progress_percentage: int = progress_percentage
-        self.start_timestamp: str = start_timestamp
-        self.status: str = status
-        self.p_type: str = p_type
+        self.etag: str | None = etag
+        self.links: task_links_.TaskLinks | None = links
+        self.category: str | None = category
+        self.created_timestamp: str | None = created_timestamp
+        self.end_timestamp: str | None = end_timestamp
+        self.genre: str | None = genre
+        self.p_id: str | None = p_id
+        self.is_abortable: bool | None = is_abortable
+        self.parent_entity: task_parent_entity_.TaskParentEntity | None = parent_entity
+        self.primary_entity: task_primary_entity_.TaskPrimaryEntity | None = primary_entity
+        self.progress_percentage: int | None = progress_percentage
+        self.start_timestamp: str | None = start_timestamp
+        self.status: str | None = status
+        self.p_type: str | None = p_type
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -155,56 +154,65 @@ class ReadTaskResponse:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        etag = dictionary.get('_etag')
-        key = '_links'
-        links = (
-            task_links.TaskLinks.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('_etag', None)
+        val_etag = val
 
-        category = dictionary.get('category')
-        created_timestamp = dictionary.get('created_timestamp')
-        end_timestamp = dictionary.get('end_timestamp')
-        genre = dictionary.get('genre')
-        p_id = dictionary.get('id')
-        is_abortable = dictionary.get('is_abortable')
-        key = 'parent_entity'
-        parent_entity = (
-            task_parent_entity.TaskParentEntity.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('_links', None)
+        val_links = task_links_.TaskLinks.from_dictionary(val)
 
-        key = 'primary_entity'
-        primary_entity = (
-            task_primary_entity.TaskPrimaryEntity.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('category', None)
+        val_category = val
 
-        progress_percentage = dictionary.get('progress_percentage')
-        start_timestamp = dictionary.get('start_timestamp')
-        status = dictionary.get('status')
-        p_type = dictionary.get('type')
+        val = dictionary.get('created_timestamp', None)
+        val_created_timestamp = val
+
+        val = dictionary.get('end_timestamp', None)
+        val_end_timestamp = val
+
+        val = dictionary.get('genre', None)
+        val_genre = val
+
+        val = dictionary.get('id', None)
+        val_p_id = val
+
+        val = dictionary.get('is_abortable', None)
+        val_is_abortable = val
+
+        val = dictionary.get('parent_entity', None)
+        val_parent_entity = task_parent_entity_.TaskParentEntity.from_dictionary(val)
+
+        val = dictionary.get('primary_entity', None)
+        val_primary_entity = task_primary_entity_.TaskPrimaryEntity.from_dictionary(val)
+
+        val = dictionary.get('progress_percentage', None)
+        val_progress_percentage = val
+
+        val = dictionary.get('start_timestamp', None)
+        val_start_timestamp = val
+
+        val = dictionary.get('status', None)
+        val_status = val
+
+        val = dictionary.get('type', None)
+        val_p_type = val
+
         # Return an object of this model
         return cls(
-            etag,
-            links,
-            category,
-            created_timestamp,
-            end_timestamp,
-            genre,
-            p_id,
-            is_abortable,
-            parent_entity,
-            primary_entity,
-            progress_percentage,
-            start_timestamp,
-            status,
-            p_type,
+            val_etag,
+            val_links,
+            val_category,
+            val_created_timestamp,
+            val_end_timestamp,
+            val_genre,
+            val_p_id,
+            val_is_abortable,
+            val_parent_entity,
+            val_primary_entity,
+            val_progress_percentage,
+            val_start_timestamp,
+            val_status,
+            val_p_type,
         )

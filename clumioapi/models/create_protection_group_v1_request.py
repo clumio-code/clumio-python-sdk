@@ -1,10 +1,10 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import object_filter
+from clumioapi.models import object_filter as object_filter_
 
 T = TypeVar('T', bound='CreateProtectionGroupV1Request')
 
@@ -16,17 +16,50 @@ class CreateProtectionGroupV1Request:
         bucket_rule:
             The following table describes the possible conditions for a bucket to be
             automatically added to a protection group.
+            Denotes the properties to conditionalize on. For `$eq`, `$not_eq`, `$contains`
+            and `$not_contains` a single element is provided: `{'$eq':{'key':'Environment',
+            'value':'Prod'}}`. For all other operations, a list is provided:
+            `{'$in':[{'key':'Environment','value':'Prod'}, {'key':'Hello',
+            'value':'World'}]}`.
 
-            +---------+----------------+---------------------------------------------------+
-            |  Field  | Rule Condition |                    Description                    |
-            +=========+================+===================================================+
-            | aws_tag | $eq            | Denotes the AWS tag(s) to conditionalize on       |
-            |         |                |                                                   |
-            |         |                | {"aws_tag":{"$eq":{"key":"Environment",           |
-            |         |                | "value":"Prod"}}}                                 |
-            |         |                |                                                   |
-            |         |                |                                                   |
-            +---------+----------------+---------------------------------------------------+
+            +-------------------+-----------------------------+----------------------------+
+            |       Field       |       Rule Condition        |        Description         |
+            +===================+=============================+============================+
+            | aws_tag           | $eq, $not_eq, $contains,    | Supports filtering by AWS  |
+            |                   | $not_contains, $all,        | tag(s) using the following |
+            |                   | $not_all, $in, $not_in      | operators. For example,    |
+            |                   |                             |                            |
+            |                   |                             | {"aws_tag":{"$eq":{"key":" |
+            |                   |                             | Environment",              |
+            |                   |                             | "value":"Prod"}}}          |
+            |                   |                             |                            |
+            |                   |                             |                            |
+            +-------------------+-----------------------------+----------------------------+
+            | account_native_id | $eq, $in                    |                            |
+            |                   |                             | This will be deprecated    |
+            |                   |                             | and use                    |
+            |                   |                             | aws_account_native_id      |
+            |                   |                             | instead.                   |
+            |                   |                             | Supports filtering by AWS  |
+            |                   |                             | account(s) using the       |
+            |                   |                             | following operators. For   |
+            |                   |                             | example,                   |
+            |                   |                             |                            |
+            |                   |                             | {"account_native_id":{"$in |
+            |                   |                             | ":["111111111111"]}}       |
+            |                   |                             |                            |
+            |                   |                             |                            |
+            +-------------------+-----------------------------+----------------------------+
+            | aws_region        | $eq, $in                    | Supports filtering by AWS  |
+            |                   |                             | region(s) using the        |
+            |                   |                             | following operators. For   |
+            |                   |                             | example,                   |
+            |                   |                             |                            |
+            |                   |                             | {"aws_region":{"$eq":"us-  |
+            |                   |                             | west-2"}}                  |
+            |                   |                             |                            |
+            |                   |                             |                            |
+            +-------------------+-----------------------------+----------------------------+
         description:
             The user-assigned description of the protection group.
         name:
@@ -37,7 +70,7 @@ class CreateProtectionGroupV1Request:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'bucket_rule': 'bucket_rule',
         'description': 'description',
         'name': 'name',
@@ -46,21 +79,21 @@ class CreateProtectionGroupV1Request:
 
     def __init__(
         self,
-        bucket_rule: str = None,
-        description: str = None,
-        name: str = None,
-        object_filter: object_filter.ObjectFilter = None,
+        bucket_rule: str | None = None,
+        description: str | None = None,
+        name: str | None = None,
+        object_filter: object_filter_.ObjectFilter | None = None,
     ) -> None:
         """Constructor for the CreateProtectionGroupV1Request class."""
 
         # Initialize members of the class
-        self.bucket_rule: str = bucket_rule
-        self.description: str = description
-        self.name: str = name
-        self.object_filter: object_filter.ObjectFilter = object_filter
+        self.bucket_rule: str | None = bucket_rule
+        self.description: str | None = description
+        self.name: str | None = name
+        self.object_filter: object_filter_.ObjectFilter | None = object_filter
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -71,19 +104,25 @@ class CreateProtectionGroupV1Request:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        bucket_rule = dictionary.get('bucket_rule')
-        description = dictionary.get('description')
-        name = dictionary.get('name')
-        key = 'object_filter'
-        p_object_filter = (
-            object_filter.ObjectFilter.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('bucket_rule', None)
+        val_bucket_rule = val
+
+        val = dictionary.get('description', None)
+        val_description = val
+
+        val = dictionary.get('name', None)
+        val_name = val
+
+        val = dictionary.get('object_filter', None)
+        val_object_filter = object_filter_.ObjectFilter.from_dictionary(val)
 
         # Return an object of this model
-        return cls(bucket_rule, description, name, p_object_filter)
+        return cls(
+            val_bucket_rule,
+            val_description,
+            val_name,
+            val_object_filter,
+        )

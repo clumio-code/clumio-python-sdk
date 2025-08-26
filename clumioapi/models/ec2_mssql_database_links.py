@@ -1,12 +1,13 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import hateoas_link
-from clumioapi.models import hateoas_self_link
-from clumioapi.models import read_policy_definition_hateoas_link
+from clumioapi.models import hateoas_link as hateoas_link_
+from clumioapi.models import hateoas_self_link as hateoas_self_link_
+from clumioapi.models import \
+    read_policy_definition_hateoas_link as read_policy_definition_hateoas_link_
 
 T = TypeVar('T', bound='EC2MSSQLDatabaseLinks')
 
@@ -33,7 +34,7 @@ class EC2MSSQLDatabaseLinks:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'p_self': '_self',
         'create_backup_ec2_mssql_database': 'create-backup-ec2-mssql-database',
         'list_backup_ec2_mssql_databases': 'list-backup-ec2-mssql-databases',
@@ -44,31 +45,33 @@ class EC2MSSQLDatabaseLinks:
 
     def __init__(
         self,
-        p_self: hateoas_self_link.HateoasSelfLink = None,
-        create_backup_ec2_mssql_database: hateoas_link.HateoasLink = None,
-        list_backup_ec2_mssql_databases: hateoas_link.HateoasLink = None,
-        read_aws_ec2_instance: hateoas_link.HateoasLink = None,
-        read_aws_environment: hateoas_link.HateoasLink = None,
-        read_policy_definition: read_policy_definition_hateoas_link.ReadPolicyDefinitionHateoasLink = None,
+        p_self: hateoas_self_link_.HateoasSelfLink | None = None,
+        create_backup_ec2_mssql_database: hateoas_link_.HateoasLink | None = None,
+        list_backup_ec2_mssql_databases: hateoas_link_.HateoasLink | None = None,
+        read_aws_ec2_instance: hateoas_link_.HateoasLink | None = None,
+        read_aws_environment: hateoas_link_.HateoasLink | None = None,
+        read_policy_definition: (
+            read_policy_definition_hateoas_link_.ReadPolicyDefinitionHateoasLink | None
+        ) = None,
     ) -> None:
         """Constructor for the EC2MSSQLDatabaseLinks class."""
 
         # Initialize members of the class
-        self.p_self: hateoas_self_link.HateoasSelfLink = p_self
-        self.create_backup_ec2_mssql_database: hateoas_link.HateoasLink = (
+        self.p_self: hateoas_self_link_.HateoasSelfLink | None = p_self
+        self.create_backup_ec2_mssql_database: hateoas_link_.HateoasLink | None = (
             create_backup_ec2_mssql_database
         )
-        self.list_backup_ec2_mssql_databases: hateoas_link.HateoasLink = (
+        self.list_backup_ec2_mssql_databases: hateoas_link_.HateoasLink | None = (
             list_backup_ec2_mssql_databases
         )
-        self.read_aws_ec2_instance: hateoas_link.HateoasLink = read_aws_ec2_instance
-        self.read_aws_environment: hateoas_link.HateoasLink = read_aws_environment
+        self.read_aws_ec2_instance: hateoas_link_.HateoasLink | None = read_aws_ec2_instance
+        self.read_aws_environment: hateoas_link_.HateoasLink | None = read_aws_environment
         self.read_policy_definition: (
-            read_policy_definition_hateoas_link.ReadPolicyDefinitionHateoasLink
+            read_policy_definition_hateoas_link_.ReadPolicyDefinitionHateoasLink | None
         ) = read_policy_definition
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -79,60 +82,37 @@ class EC2MSSQLDatabaseLinks:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = '_self'
-        p_self = (
-            hateoas_self_link.HateoasSelfLink.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('_self', None)
+        val_p_self = hateoas_self_link_.HateoasSelfLink.from_dictionary(val)
 
-        key = 'create-backup-ec2-mssql-database'
-        create_backup_ec2_mssql_database = (
-            hateoas_link.HateoasLink.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('create-backup-ec2-mssql-database', None)
+        val_create_backup_ec2_mssql_database = hateoas_link_.HateoasLink.from_dictionary(val)
 
-        key = 'list-backup-ec2-mssql-databases'
-        list_backup_ec2_mssql_databases = (
-            hateoas_link.HateoasLink.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('list-backup-ec2-mssql-databases', None)
+        val_list_backup_ec2_mssql_databases = hateoas_link_.HateoasLink.from_dictionary(val)
 
-        key = 'read-aws-ec2-instance'
-        read_aws_ec2_instance = (
-            hateoas_link.HateoasLink.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('read-aws-ec2-instance', None)
+        val_read_aws_ec2_instance = hateoas_link_.HateoasLink.from_dictionary(val)
 
-        key = 'read-aws-environment'
-        read_aws_environment = (
-            hateoas_link.HateoasLink.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('read-aws-environment', None)
+        val_read_aws_environment = hateoas_link_.HateoasLink.from_dictionary(val)
 
-        key = 'read-policy-definition'
-        read_policy_definition = (
-            read_policy_definition_hateoas_link.ReadPolicyDefinitionHateoasLink.from_dictionary(
-                dictionary.get(key)
+        val = dictionary.get('read-policy-definition', None)
+        val_read_policy_definition = (
+            read_policy_definition_hateoas_link_.ReadPolicyDefinitionHateoasLink.from_dictionary(
+                val
             )
-            if dictionary.get(key)
-            else None
         )
 
         # Return an object of this model
         return cls(
-            p_self,
-            create_backup_ec2_mssql_database,
-            list_backup_ec2_mssql_databases,
-            read_aws_ec2_instance,
-            read_aws_environment,
-            read_policy_definition,
+            val_p_self,
+            val_create_backup_ec2_mssql_database,
+            val_list_backup_ec2_mssql_databases,
+            val_read_aws_ec2_instance,
+            val_read_aws_environment,
+            val_read_policy_definition,
         )

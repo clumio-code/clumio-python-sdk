@@ -1,9 +1,9 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -32,7 +32,9 @@ class ManagementGroupsV1Controller(base_controller.BaseController):
         if config.custom_headers != None:
             self.headers.update(config.custom_headers)
 
-    def list_management_groups(self, limit: int = None, start: str = None, **kwargs) -> Union[
+    def list_management_groups(
+        self, limit: int | None = None, start: str | None = None, **kwargs
+    ) -> Union[
         list_management_groups_response.ListManagementGroupsResponse,
         tuple[
             requests.Response,
@@ -60,36 +62,34 @@ class ManagementGroupsV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/management-groups'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'limit': limit, 'start': start}
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
-            errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing list_management_groups.', errors
+                'Error occurred while executing list_management_groups', error=http_error
             )
 
-        if self.config.raw_response:
-            return (
-                resp,
-                list_management_groups_response.ListManagementGroupsResponse.from_dictionary(
-                    resp.json()
-                ),
-            )
-        return list_management_groups_response.ListManagementGroupsResponse.from_dictionary(resp)
+        obj = list_management_groups_response.ListManagementGroupsResponse.from_dictionary(
+            resp.json()
+        )
+        if raw_response:
+            return resp, obj
+        return obj
 
-    def read_management_group(self, group_id: str, **kwargs) -> Union[
+    def read_management_group(self, group_id: str | None = None, **kwargs) -> Union[
         read_management_group_response.ReadManagementGroupResponse,
         tuple[
             requests.Response, Optional[read_management_group_response.ReadManagementGroupResponse]
@@ -118,35 +118,36 @@ class ManagementGroupsV1Controller(base_controller.BaseController):
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'group_id': group_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
-            errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing read_management_group.', errors
+                'Error occurred while executing read_management_group', error=http_error
             )
 
-        if self.config.raw_response:
-            return resp, read_management_group_response.ReadManagementGroupResponse.from_dictionary(
-                resp.json()
-            )
-        return read_management_group_response.ReadManagementGroupResponse.from_dictionary(resp)
+        obj = read_management_group_response.ReadManagementGroupResponse.from_dictionary(
+            resp.json()
+        )
+        if raw_response:
+            return resp, obj
+        return obj
 
     def update_management_group(
         self,
-        group_id: str,
-        body: update_management_group_v1_request.UpdateManagementGroupV1Request = None,
+        group_id: str | None = None,
+        body: update_management_group_v1_request.UpdateManagementGroupV1Request | None = None,
         **kwargs,
     ) -> Union[
         update_management_group_response.UpdateManagementGroupResponse,
@@ -176,31 +177,29 @@ class ManagementGroupsV1Controller(base_controller.BaseController):
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'group_id': group_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.put(
+            resp: requests.Response = self.client.put(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
                 json=api_helper.to_dictionary(body),
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
-            errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing update_management_group.', errors
+                'Error occurred while executing update_management_group', error=http_error
             )
 
-        if self.config.raw_response:
-            return (
-                resp,
-                update_management_group_response.UpdateManagementGroupResponse.from_dictionary(
-                    resp.json()
-                ),
-            )
-        return update_management_group_response.UpdateManagementGroupResponse.from_dictionary(resp)
+        obj = update_management_group_response.UpdateManagementGroupResponse.from_dictionary(
+            resp.json()
+        )
+        if raw_response:
+            return resp, obj
+        return obj
