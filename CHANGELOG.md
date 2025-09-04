@@ -1,3 +1,6 @@
+## 0.16.9
+Fixed AwsTag key. and import issue
+
 ## 0.16.6
 Fix error message handling while raising ClumioException
 

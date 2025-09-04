@@ -109,10 +109,10 @@ class AwsTag:
         val_key = dictionary.get('key')
         val_key_id = dictionary.get('key_id')
         val_organizational_unit_id = dictionary.get('organizational_unit_id')
-        key = 'protection_info'
+        p_key = 'protection_info'
         val_protection_info = (
-            protection_info_.ProtectionInfo.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
+            protection_info_.ProtectionInfo.from_dictionary(dictionary.get(p_key))
+            if dictionary.get(p_key)
             else None
         )
 
