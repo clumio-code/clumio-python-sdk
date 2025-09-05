@@ -1,10 +1,10 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import list_file_versions_hateoas_link
+from clumioapi.models import list_file_versions_hateoas_link as list_file_versions_hateoas_link_
 
 T = TypeVar('T', bound='ListFileVersionsHateoasLinks')
 
@@ -20,20 +20,23 @@ class ListFileVersionsHateoasLinks:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'list_file_versions': 'list-file-versions'}
+    _names: dict[str, str] = {'list_file_versions': 'list-file-versions'}
 
     def __init__(
-        self, list_file_versions: list_file_versions_hateoas_link.ListFileVersionsHateoasLink = None
+        self,
+        list_file_versions: (
+            list_file_versions_hateoas_link_.ListFileVersionsHateoasLink | None
+        ) = None,
     ) -> None:
         """Constructor for the ListFileVersionsHateoasLinks class."""
 
         # Initialize members of the class
-        self.list_file_versions: list_file_versions_hateoas_link.ListFileVersionsHateoasLink = (
-            list_file_versions
-        )
+        self.list_file_versions: (
+            list_file_versions_hateoas_link_.ListFileVersionsHateoasLink | None
+        ) = list_file_versions
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -44,18 +47,15 @@ class ListFileVersionsHateoasLinks:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = 'list-file-versions'
-        list_file_versions = (
-            list_file_versions_hateoas_link.ListFileVersionsHateoasLink.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
+        val = dictionary.get('list-file-versions', None)
+        val_list_file_versions = (
+            list_file_versions_hateoas_link_.ListFileVersionsHateoasLink.from_dictionary(val)
         )
 
         # Return an object of this model
-        return cls(list_file_versions)
+        return cls(
+            val_list_file_versions,
+        )

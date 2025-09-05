@@ -3,7 +3,7 @@
 #
 
 import json
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -32,11 +32,11 @@ class AwsRdsResourcesV1Controller(base_controller.BaseController):
 
     def list_aws_rds_resources(
         self,
-        limit: int = None,
-        start: str = None,
-        filter: str = None,
-        embed: str = None,
-        lookback_days: int = None,
+        limit: int | None = None,
+        start: str | None = None,
+        filter: str | None = None,
+        embed: str | None = None,
+        lookback_days: int | None = None,
         **kwargs,
     ) -> Union[
         list_rds_resources_response.ListRdsResourcesResponse,
@@ -52,31 +52,34 @@ class AwsRdsResourcesV1Controller(base_controller.BaseController):
                 Pages are indexed starting from 1 (i.e., `start=1`).
             filter:
                 Narrows down the results to only the items that satisfy the filter criteria. The
-                following table lists
-                the supported filter fields for this resource and the filter conditions that can
+                following
+                table lists the supported filter fields for this resource and the filter
+                conditions that can
                 be applied on those fields:
 
                 +---------------------------+------------------+-------------------------------+
                 |           Field           | Filter Condition |          Description          |
                 +===========================+==================+===============================+
                 | resource_native_id        | $eq              | The AWS-assigned ID of this   |
-                |                           |                  | resource. For example, filter |
-                |                           |                  | ={"resource_native_id":{"$eq" |
-                |                           |                  | :"db-                         |
+                |                           |                  | resource. For example,        |
+                |                           |                  | filter={"resource_native_id": |
+                |                           |                  | {"$eq":"db-                   |
                 |                           |                  | CRYU5ABKC4Y2IO3NZISYPIZNBA"}} |
                 +---------------------------+------------------+-------------------------------+
                 | name                      | $contains        | The AWS-assigned name of this |
-                |                           |                  | resource. For example, filter |
-                |                           |                  | ={"name":{"$contains":"dev"}} |
-                |                           |                  | retrieves all RDS resources   |
-                |                           |                  | with "dev" in their name.     |
+                |                           |                  | resource. For example,        |
+                |                           |                  | filter={"name":{"$contains":" |
+                |                           |                  | dev"}} retrieves all RDS      |
+                |                           |                  | resources with "dev" in       |
+                |                           |                  | their name.                   |
                 +---------------------------+------------------+-------------------------------+
                 | account_native_id         | $eq              | The AWS-assigned ID of the    |
                 |                           |                  | account to which this         |
                 |                           |                  | resource belongs. For         |
-                |                           |                  | example, filter={"account_nat |
-                |                           |                  | ive_id":{"$eq":"789901323485" |
-                |                           |                  | }} retrieves RDS resources    |
+                |                           |                  | example,                      |
+                |                           |                  | filter={"account_native_id":{ |
+                |                           |                  | "$eq":"789901323485"}}        |
+                |                           |                  | retrieves RDS resources       |
                 |                           |                  | across all regions in account |
                 |                           |                  | 789901323485.                 |
                 +---------------------------+------------------+-------------------------------+
@@ -85,34 +88,37 @@ class AwsRdsResourcesV1Controller(base_controller.BaseController):
                 +---------------------------+------------------+-------------------------------+
                 | engine                    | $eq              | The database engine of this   |
                 |                           |                  | resource. Possible values     |
-                |                           |                  | include postgres and mysql.   |
-                |                           |                  | For a full list of possible   |
-                |                           |                  | values, please refer to the   |
-                |                           |                  | AWS documentation.            |
+                |                           |                  | include postgres and          |
+                |                           |                  | mysql.                  For a |
+                |                           |                  | full list of possible values, |
+                |                           |                  | please refer to the AWS       |
+                |                           |                  | documentation.                |
                 +---------------------------+------------------+-------------------------------+
                 | tags.id                   | $all             | The Clumio-assigned ID(s) of  |
                 |                           |                  | AWS tag(s) applied to this    |
-                |                           |                  | resource. For example, filter |
-                |                           |                  | ={"tags.id":{"$all":["c764b15 |
-                |                           |                  | 2-5819-11ea-bb9f-             |
+                |                           |                  | resource. For example,        |
+                |                           |                  | filter={"tags.id":{"$all":["c |
+                |                           |                  | 764b152-5819-11ea-bb9f-       |
                 |                           |                  | b2e1c9a040ad","c764abb6-5819- |
                 |                           |                  | 11ea-bb9f-b2e1c9a040ad"]}}    |
                 |                           |                  | retrieves all RDS resources   |
                 |                           |                  | that are associated with the  |
                 |                           |                  | 2 AWS tags identified by      |
-                |                           |                  | these IDs. If multiple tags   |
-                |                           |                  | are specified, all of them    |
-                |                           |                  | must be applied to the same   |
-                |                           |                  | RDS resource.                 |
+                |                           |                  | these IDs.                    |
+                |                           |                  | If multiple tags are          |
+                |                           |                  | specified, all of them must   |
+                |                           |                  | be applied to the same RDS    |
+                |                           |                  | resource.                     |
                 +---------------------------+------------------+-------------------------------+
                 | type                      | $in              | The type of this resource.    |
                 |                           |                  | Possible values include       |
                 |                           |                  | aws_rds_cluster and           |
                 |                           |                  | aws_rds_instance. For         |
-                |                           |                  | example, filter={"type":{"$in |
-                |                           |                  | ":["aws_rds_cluster"]}}       |
-                |                           |                  | retrieves all RDS resources   |
-                |                           |                  | that are Aurora clusters.     |
+                |                           |                  | example,                      |
+                |                           |                  | filter={"type":{"$in":["aws_r |
+                |                           |                  | ds_cluster"]}} retrieves all  |
+                |                           |                  | RDS resources that            |
+                |                           |                  | are Aurora clusters.          |
                 +---------------------------+------------------+-------------------------------+
                 | protection_info.policy_id | $eq              | The Clumio-assigned ID of the |
                 |                           |                  | policy protecting this        |
@@ -139,20 +145,24 @@ class AwsRdsResourcesV1Controller(base_controller.BaseController):
                 |                           |                  | d":{"$in":["true","false"]}}  |
                 +---------------------------+------------------+-------------------------------+
 
+                For more information about filtering, refer to the Filtering section
+                of this guide.
             embed:
                 Embeds the details of each associated resource. Set the parameter to one of the
-                following embeddable links to include additional details associated with the
-                resource.
+                following
+                embeddable links to include additional details associated with the resource.
 
                 +------------------------+-----------------------------------------------------+
                 |    Embeddable Link     |                     Description                     |
                 +========================+=====================================================+
                 | read-policy-definition | Embeds the definition of the policy associated with |
-                |                        | this resource. Unprotected resources will not have  |
-                |                        | an associated policy. For example, embed=read-      |
-                |                        | policy-definition                                   |
+                |                        | this resource. Unprotected resources                |
+                |                        | will not have an associated policy. For example,    |
+                |                        | embed=read-policy-definition                        |
                 +------------------------+-----------------------------------------------------+
 
+                For more information about embedded links, refer to the Embedding
+                Referenced Resources section of this guide.
             lookback_days:
                 Calculate backup status for the last `lookback_days` days.
         Returns:
@@ -167,7 +177,7 @@ class AwsRdsResourcesV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/datasources/aws/rds-resources'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {
             'limit': limit,
             'start': start,
@@ -176,31 +186,34 @@ class AwsRdsResourcesV1Controller(base_controller.BaseController):
             'lookback_days': lookback_days,
         }
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
-            errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing list_aws_rds_resources.', errors
+                'Error occurred while executing list_aws_rds_resources', error=http_error
             )
 
-        if self.config.raw_response:
-            return resp, list_rds_resources_response.ListRdsResourcesResponse.from_dictionary(
-                resp.json()
-            )
-        return list_rds_resources_response.ListRdsResourcesResponse.from_dictionary(resp)
+        obj = list_rds_resources_response.ListRdsResourcesResponse.from_dictionary(resp.json())
+        if raw_response:
+            return resp, obj
+        return obj
 
     def read_aws_rds_resource(
-        self, resource_id: str, lookback_days: int = None, embed: str = None, **kwargs
+        self,
+        resource_id: str | None = None,
+        lookback_days: int | None = None,
+        embed: str | None = None,
+        **kwargs,
     ) -> Union[
         read_rds_resource_response.ReadRdsResourceResponse,
         tuple[requests.Response, Optional[read_rds_resource_response.ReadRdsResourceResponse]],
@@ -238,28 +251,27 @@ class AwsRdsResourcesV1Controller(base_controller.BaseController):
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'resource_id': resource_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'lookback_days': lookback_days, 'embed': embed}
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
-            errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing read_aws_rds_resource.', errors
+                'Error occurred while executing read_aws_rds_resource', error=http_error
             )
 
-        if self.config.raw_response:
-            return resp, read_rds_resource_response.ReadRdsResourceResponse.from_dictionary(
-                resp.json()
-            )
-        return read_rds_resource_response.ReadRdsResourceResponse.from_dictionary(resp)
+        obj = read_rds_resource_response.ReadRdsResourceResponse.from_dictionary(resp.json())
+        if raw_response:
+            return resp, obj
+        return obj

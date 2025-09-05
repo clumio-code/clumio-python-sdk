@@ -1,11 +1,11 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import alert_list_embedded
-from clumioapi.models import alert_list_links
+from clumioapi.models import alert_list_embedded as alert_list_embedded_
+from clumioapi.models import alert_list_links as alert_list_links_
 
 T = TypeVar('T', bound='ListAlertsResponse')
 
@@ -37,7 +37,7 @@ class ListAlertsResponse:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'embedded': '_embedded',
         'links': '_links',
         'current_count': 'current_count',
@@ -51,31 +51,31 @@ class ListAlertsResponse:
 
     def __init__(
         self,
-        embedded: alert_list_embedded.AlertListEmbedded = None,
-        links: alert_list_links.AlertListLinks = None,
-        current_count: int = None,
-        filter_applied: str = None,
-        limit: int = None,
-        sort_applied: str = None,
-        start: str = None,
-        total_count: int = None,
-        total_pages_count: int = None,
+        embedded: alert_list_embedded_.AlertListEmbedded | None = None,
+        links: alert_list_links_.AlertListLinks | None = None,
+        current_count: int | None = None,
+        filter_applied: str | None = None,
+        limit: int | None = None,
+        sort_applied: str | None = None,
+        start: str | None = None,
+        total_count: int | None = None,
+        total_pages_count: int | None = None,
     ) -> None:
         """Constructor for the ListAlertsResponse class."""
 
         # Initialize members of the class
-        self.embedded: alert_list_embedded.AlertListEmbedded = embedded
-        self.links: alert_list_links.AlertListLinks = links
-        self.current_count: int = current_count
-        self.filter_applied: str = filter_applied
-        self.limit: int = limit
-        self.sort_applied: str = sort_applied
-        self.start: str = start
-        self.total_count: int = total_count
-        self.total_pages_count: int = total_pages_count
+        self.embedded: alert_list_embedded_.AlertListEmbedded | None = embedded
+        self.links: alert_list_links_.AlertListLinks | None = links
+        self.current_count: int | None = current_count
+        self.filter_applied: str | None = filter_applied
+        self.limit: int | None = limit
+        self.sort_applied: str | None = sort_applied
+        self.start: str | None = start
+        self.total_count: int | None = total_count
+        self.total_pages_count: int | None = total_pages_count
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -86,40 +86,45 @@ class ListAlertsResponse:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = '_embedded'
-        embedded = (
-            alert_list_embedded.AlertListEmbedded.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('_embedded', None)
+        val_embedded = alert_list_embedded_.AlertListEmbedded.from_dictionary(val)
 
-        key = '_links'
-        links = (
-            alert_list_links.AlertListLinks.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('_links', None)
+        val_links = alert_list_links_.AlertListLinks.from_dictionary(val)
 
-        current_count = dictionary.get('current_count')
-        filter_applied = dictionary.get('filter_applied')
-        limit = dictionary.get('limit')
-        sort_applied = dictionary.get('sort_applied')
-        start = dictionary.get('start')
-        total_count = dictionary.get('total_count')
-        total_pages_count = dictionary.get('total_pages_count')
+        val = dictionary.get('current_count', None)
+        val_current_count = val
+
+        val = dictionary.get('filter_applied', None)
+        val_filter_applied = val
+
+        val = dictionary.get('limit', None)
+        val_limit = val
+
+        val = dictionary.get('sort_applied', None)
+        val_sort_applied = val
+
+        val = dictionary.get('start', None)
+        val_start = val
+
+        val = dictionary.get('total_count', None)
+        val_total_count = val
+
+        val = dictionary.get('total_pages_count', None)
+        val_total_pages_count = val
+
         # Return an object of this model
         return cls(
-            embedded,
-            links,
-            current_count,
-            filter_applied,
-            limit,
-            sort_applied,
-            start,
-            total_count,
-            total_pages_count,
+            val_embedded,
+            val_links,
+            val_current_count,
+            val_filter_applied,
+            val_limit,
+            val_sort_applied,
+            val_start,
+            val_total_count,
+            val_total_pages_count,
         )

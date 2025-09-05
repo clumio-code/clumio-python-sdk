@@ -1,10 +1,11 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import provisioned_throughput_override
+from clumioapi.models import on_demand_throughput_override as on_demand_throughput_override_
+from clumioapi.models import provisioned_throughput_override as provisioned_throughput_override_
 
 T = TypeVar('T', bound='ReplicaGlobalSecondaryIndexDescription')
 
@@ -17,32 +18,44 @@ class ReplicaGlobalSecondaryIndexDescription:
     Attributes:
         index_name:
             The name of the global secondary index.
+        on_demand_throughput_override:
+            Replica-specific ondemand throughput settings. If not specified, uses the source
+            table's ondemand throughput settings.
         provisioned_throughput_override:
             Replica-specific provisioned throughput settings. If not specified, uses the
             source table's provisioned throughput settings.
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'index_name': 'index_name',
+        'on_demand_throughput_override': 'on_demand_throughput_override',
         'provisioned_throughput_override': 'provisioned_throughput_override',
     }
 
     def __init__(
         self,
-        index_name: str = None,
-        provisioned_throughput_override: provisioned_throughput_override.ProvisionedThroughputOverride = None,
+        index_name: str | None = None,
+        on_demand_throughput_override: (
+            on_demand_throughput_override_.OnDemandThroughputOverride | None
+        ) = None,
+        provisioned_throughput_override: (
+            provisioned_throughput_override_.ProvisionedThroughputOverride | None
+        ) = None,
     ) -> None:
         """Constructor for the ReplicaGlobalSecondaryIndexDescription class."""
 
         # Initialize members of the class
-        self.index_name: str = index_name
+        self.index_name: str | None = index_name
+        self.on_demand_throughput_override: (
+            on_demand_throughput_override_.OnDemandThroughputOverride | None
+        ) = on_demand_throughput_override
         self.provisioned_throughput_override: (
-            provisioned_throughput_override.ProvisionedThroughputOverride
+            provisioned_throughput_override_.ProvisionedThroughputOverride | None
         ) = provisioned_throughput_override
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -53,19 +66,25 @@ class ReplicaGlobalSecondaryIndexDescription:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        index_name = dictionary.get('index_name')
-        key = 'provisioned_throughput_override'
-        p_provisioned_throughput_override = (
-            provisioned_throughput_override.ProvisionedThroughputOverride.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
+        val = dictionary.get('index_name', None)
+        val_index_name = val
+
+        val = dictionary.get('on_demand_throughput_override', None)
+        val_on_demand_throughput_override = (
+            on_demand_throughput_override_.OnDemandThroughputOverride.from_dictionary(val)
+        )
+
+        val = dictionary.get('provisioned_throughput_override', None)
+        val_provisioned_throughput_override = (
+            provisioned_throughput_override_.ProvisionedThroughputOverride.from_dictionary(val)
         )
 
         # Return an object of this model
-        return cls(index_name, p_provisioned_throughput_override)
+        return cls(
+            val_index_name,
+            val_on_demand_throughput_override,
+            val_provisioned_throughput_override,
+        )

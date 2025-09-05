@@ -1,13 +1,13 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import enum
 import json
 from typing import Any, Dict, Mapping
+from urllib import parse
 
 import jsonpickle
-from requests import utils
 
 """A Helper module for various functions associated with API Calls."""
 
@@ -65,10 +65,10 @@ def append_url_with_template_parameters(
             replace_value = ''
         elif isinstance(element, list):
             replace_value = '/'.join(
-                (utils.quote(str(x), safe='') if encode else str(x)) for x in element
+                (parse.quote(str(x), safe='') if encode else str(x)) for x in element
             )
         else:
-            replace_value = utils.quote(str(element), safe='') if encode else str(element)
+            replace_value = parse.quote(str(element), safe='') if encode else str(element)
 
         url = url.replace(f'{{{key}}}', str(replace_value))
 
@@ -87,7 +87,7 @@ def to_dictionary(obj: Any) -> Dict[str, Any]:
         dictionary: A dictionary form of the model with properties in
         their API formats.
     """
-    dictionary = dict()
+    dictionary: dict[str, Any] = dict()
     # Loop through all properties in this model
     for name in obj._names:
         value = getattr(obj, name)

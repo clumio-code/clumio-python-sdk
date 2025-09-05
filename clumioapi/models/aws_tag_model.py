@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -24,21 +24,25 @@ class AwsTagModel:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'p_id': 'id', 'key': 'key', 'key_id': 'key_id', 'value': 'value'}
+    _names: dict[str, str] = {'p_id': 'id', 'key': 'key', 'key_id': 'key_id', 'value': 'value'}
 
     def __init__(
-        self, p_id: str = None, key: str = None, key_id: str = None, value: str = None
+        self,
+        p_id: str | None = None,
+        key: str | None = None,
+        key_id: str | None = None,
+        value: str | None = None,
     ) -> None:
         """Constructor for the AwsTagModel class."""
 
         # Initialize members of the class
-        self.p_id: str = p_id
-        self.key: str = key
-        self.key_id: str = key_id
-        self.value: str = value
+        self.p_id: str | None = p_id
+        self.key: str | None = key
+        self.key_id: str | None = key_id
+        self.value: str | None = value
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -49,13 +53,25 @@ class AwsTagModel:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        p_id = dictionary.get('id')
-        key = dictionary.get('key')
-        key_id = dictionary.get('key_id')
-        value = dictionary.get('value')
+        val = dictionary.get('id', None)
+        val_p_id = val
+
+        val = dictionary.get('key', None)
+        val_key = val
+
+        val = dictionary.get('key_id', None)
+        val_key_id = val
+
+        val = dictionary.get('value', None)
+        val_value = val
+
         # Return an object of this model
-        return cls(p_id, key, key_id, value)
+        return cls(
+            val_p_id,
+            val_key,
+            val_key_id,
+            val_value,
+        )

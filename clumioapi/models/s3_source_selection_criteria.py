@@ -1,11 +1,11 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import s3_replica_modifications
-from clumioapi.models import s3_sse_kms_encrypted_objects
+from clumioapi.models import s3_replica_modifications as s3_replica_modifications_
+from clumioapi.models import s3_sse_kms_encrypted_objects as s3_sse_kms_encrypted_objects_
 
 T = TypeVar('T', bound='S3SourceSelectionCriteria')
 
@@ -25,28 +25,30 @@ class S3SourceSelectionCriteria:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'replica_modifications': 'replica_modifications',
         'sse_kms_encrypted_objects': 'sse_kms_encrypted_objects',
     }
 
     def __init__(
         self,
-        replica_modifications: s3_replica_modifications.S3ReplicaModifications = None,
-        sse_kms_encrypted_objects: s3_sse_kms_encrypted_objects.S3SseKmsEncryptedObjects = None,
+        replica_modifications: s3_replica_modifications_.S3ReplicaModifications | None = None,
+        sse_kms_encrypted_objects: (
+            s3_sse_kms_encrypted_objects_.S3SseKmsEncryptedObjects | None
+        ) = None,
     ) -> None:
         """Constructor for the S3SourceSelectionCriteria class."""
 
         # Initialize members of the class
-        self.replica_modifications: s3_replica_modifications.S3ReplicaModifications = (
+        self.replica_modifications: s3_replica_modifications_.S3ReplicaModifications | None = (
             replica_modifications
         )
-        self.sse_kms_encrypted_objects: s3_sse_kms_encrypted_objects.S3SseKmsEncryptedObjects = (
-            sse_kms_encrypted_objects
-        )
+        self.sse_kms_encrypted_objects: (
+            s3_sse_kms_encrypted_objects_.S3SseKmsEncryptedObjects | None
+        ) = sse_kms_encrypted_objects
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -57,25 +59,21 @@ class S3SourceSelectionCriteria:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = 'replica_modifications'
-        replica_modifications = (
-            s3_replica_modifications.S3ReplicaModifications.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
+        val = dictionary.get('replica_modifications', None)
+        val_replica_modifications = (
+            s3_replica_modifications_.S3ReplicaModifications.from_dictionary(val)
         )
 
-        key = 'sse_kms_encrypted_objects'
-        sse_kms_encrypted_objects = (
-            s3_sse_kms_encrypted_objects.S3SseKmsEncryptedObjects.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
+        val = dictionary.get('sse_kms_encrypted_objects', None)
+        val_sse_kms_encrypted_objects = (
+            s3_sse_kms_encrypted_objects_.S3SseKmsEncryptedObjects.from_dictionary(val)
         )
 
         # Return an object of this model
-        return cls(replica_modifications, sse_kms_encrypted_objects)
+        return cls(
+            val_replica_modifications,
+            val_sse_kms_encrypted_objects,
+        )

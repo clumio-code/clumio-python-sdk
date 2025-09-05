@@ -1,10 +1,10 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import aws_tag_common_model
+from clumioapi.models import aws_tag_common_model as aws_tag_common_model_
 
 T = TypeVar('T', bound='EBSRestoreTargetV1')
 
@@ -40,7 +40,7 @@ class EBSRestoreTargetV1:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'aws_az': 'aws_az',
         'environment_id': 'environment_id',
         'kms_key_native_id': 'kms_key_native_id',
@@ -49,21 +49,21 @@ class EBSRestoreTargetV1:
 
     def __init__(
         self,
-        aws_az: str = None,
-        environment_id: str = None,
-        kms_key_native_id: str = None,
-        tags: Sequence[aws_tag_common_model.AwsTagCommonModel] = None,
+        aws_az: str | None = None,
+        environment_id: str | None = None,
+        kms_key_native_id: str | None = None,
+        tags: Sequence[aws_tag_common_model_.AwsTagCommonModel] | None = None,
     ) -> None:
         """Constructor for the EBSRestoreTargetV1 class."""
 
         # Initialize members of the class
-        self.aws_az: str = aws_az
-        self.environment_id: str = environment_id
-        self.kms_key_native_id: str = kms_key_native_id
-        self.tags: Sequence[aws_tag_common_model.AwsTagCommonModel] = tags
+        self.aws_az: str | None = aws_az
+        self.environment_id: str | None = environment_id
+        self.kms_key_native_id: str | None = kms_key_native_id
+        self.tags: Sequence[aws_tag_common_model_.AwsTagCommonModel] | None = tags
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -74,18 +74,30 @@ class EBSRestoreTargetV1:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        aws_az = dictionary.get('aws_az')
-        environment_id = dictionary.get('environment_id')
-        kms_key_native_id = dictionary.get('kms_key_native_id')
-        tags = None
-        if dictionary.get('tags'):
-            tags = list()
-            for value in dictionary.get('tags'):
-                tags.append(aws_tag_common_model.AwsTagCommonModel.from_dictionary(value))
+        val = dictionary.get('aws_az', None)
+        val_aws_az = val
+
+        val = dictionary.get('environment_id', None)
+        val_environment_id = val
+
+        val = dictionary.get('kms_key_native_id', None)
+        val_kms_key_native_id = val
+
+        val = dictionary.get('tags', None)
+
+        val_tags = None
+        if val:
+            val_tags = list()
+            for value in val:
+                val_tags.append(aws_tag_common_model_.AwsTagCommonModel.from_dictionary(value))
 
         # Return an object of this model
-        return cls(aws_az, environment_id, kms_key_native_id, tags)
+        return cls(
+            val_aws_az,
+            val_environment_id,
+            val_kms_key_native_id,
+            val_tags,
+        )

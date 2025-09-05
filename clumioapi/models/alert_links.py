@@ -1,11 +1,11 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import hateoas_link
-from clumioapi.models import hateoas_self_link
+from clumioapi.models import hateoas_link as hateoas_link_
+from clumioapi.models import hateoas_self_link as hateoas_self_link_
 
 T = TypeVar('T', bound='AlertLinks')
 
@@ -25,7 +25,7 @@ class AlertLinks:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'p_self': '_self',
         'read_consolidated_alert': 'read-consolidated-alert',
         'update_individual_alert': 'update-individual-alert',
@@ -33,19 +33,19 @@ class AlertLinks:
 
     def __init__(
         self,
-        p_self: hateoas_self_link.HateoasSelfLink = None,
-        read_consolidated_alert: hateoas_link.HateoasLink = None,
-        update_individual_alert: hateoas_link.HateoasLink = None,
+        p_self: hateoas_self_link_.HateoasSelfLink | None = None,
+        read_consolidated_alert: hateoas_link_.HateoasLink | None = None,
+        update_individual_alert: hateoas_link_.HateoasLink | None = None,
     ) -> None:
         """Constructor for the AlertLinks class."""
 
         # Initialize members of the class
-        self.p_self: hateoas_self_link.HateoasSelfLink = p_self
-        self.read_consolidated_alert: hateoas_link.HateoasLink = read_consolidated_alert
-        self.update_individual_alert: hateoas_link.HateoasLink = update_individual_alert
+        self.p_self: hateoas_self_link_.HateoasSelfLink | None = p_self
+        self.read_consolidated_alert: hateoas_link_.HateoasLink | None = read_consolidated_alert
+        self.update_individual_alert: hateoas_link_.HateoasLink | None = update_individual_alert
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -56,30 +56,21 @@ class AlertLinks:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = '_self'
-        p_self = (
-            hateoas_self_link.HateoasSelfLink.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('_self', None)
+        val_p_self = hateoas_self_link_.HateoasSelfLink.from_dictionary(val)
 
-        key = 'read-consolidated-alert'
-        read_consolidated_alert = (
-            hateoas_link.HateoasLink.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('read-consolidated-alert', None)
+        val_read_consolidated_alert = hateoas_link_.HateoasLink.from_dictionary(val)
 
-        key = 'update-individual-alert'
-        update_individual_alert = (
-            hateoas_link.HateoasLink.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('update-individual-alert', None)
+        val_update_individual_alert = hateoas_link_.HateoasLink.from_dictionary(val)
 
         # Return an object of this model
-        return cls(p_self, read_consolidated_alert, update_individual_alert)
+        return cls(
+            val_p_self,
+            val_read_consolidated_alert,
+            val_update_individual_alert,
+        )

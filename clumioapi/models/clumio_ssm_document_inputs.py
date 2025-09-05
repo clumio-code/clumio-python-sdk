@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -19,17 +19,19 @@ class ClumioSsmDocumentInputs:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'runCommand': 'runCommand', 'timeoutSeconds': 'timeoutSeconds'}
+    _names: dict[str, str] = {'runCommand': 'runCommand', 'timeoutSeconds': 'timeoutSeconds'}
 
-    def __init__(self, runCommand: Sequence[str] = None, timeoutSeconds: str = None) -> None:
+    def __init__(
+        self, runCommand: Sequence[str] | None = None, timeoutSeconds: str | None = None
+    ) -> None:
         """Constructor for the ClumioSsmDocumentInputs class."""
 
         # Initialize members of the class
-        self.runCommand: Sequence[str] = runCommand
-        self.timeoutSeconds: str = timeoutSeconds
+        self.runCommand: Sequence[str] | None = runCommand
+        self.timeoutSeconds: str | None = timeoutSeconds
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -40,11 +42,17 @@ class ClumioSsmDocumentInputs:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        runCommand = dictionary.get('runCommand')
-        timeoutSeconds = dictionary.get('timeoutSeconds')
+        val = dictionary.get('runCommand', None)
+        val_runCommand = val
+
+        val = dictionary.get('timeoutSeconds', None)
+        val_timeoutSeconds = val
+
         # Return an object of this model
-        return cls(runCommand, timeoutSeconds)
+        return cls(
+            val_runCommand,
+            val_timeoutSeconds,
+        )

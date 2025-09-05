@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -28,18 +28,23 @@ class RPOBackupSLAParam:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'offsets': 'offsets', 'unit': 'unit', 'value': 'value'}
+    _names: dict[str, str] = {'offsets': 'offsets', 'unit': 'unit', 'value': 'value'}
 
-    def __init__(self, offsets: Sequence[int] = None, unit: str = None, value: int = None) -> None:
+    def __init__(
+        self,
+        offsets: Sequence[int] | None = None,
+        unit: str | None = None,
+        value: int | None = None,
+    ) -> None:
         """Constructor for the RPOBackupSLAParam class."""
 
         # Initialize members of the class
-        self.offsets: Sequence[int] = offsets
-        self.unit: str = unit
-        self.value: int = value
+        self.offsets: Sequence[int] | None = offsets
+        self.unit: str | None = unit
+        self.value: int | None = value
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -50,12 +55,21 @@ class RPOBackupSLAParam:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        offsets = dictionary.get('offsets')
-        unit = dictionary.get('unit')
-        value = dictionary.get('value')
+        val = dictionary.get('offsets', None)
+        val_offsets = val
+
+        val = dictionary.get('unit', None)
+        val_unit = val
+
+        val = dictionary.get('value', None)
+        val_value = val
+
         # Return an object of this model
-        return cls(offsets, unit, value)
+        return cls(
+            val_offsets,
+            val_unit,
+            val_value,
+        )

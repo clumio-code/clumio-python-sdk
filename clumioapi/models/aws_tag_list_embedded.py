@@ -1,10 +1,10 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import aws_tag
+from clumioapi.models import aws_tag as aws_tag_
 
 T = TypeVar('T', bound='AwsTagListEmbedded')
 
@@ -20,16 +20,16 @@ class AwsTagListEmbedded:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'items': 'items'}
+    _names: dict[str, str] = {'items': 'items'}
 
-    def __init__(self, items: Sequence[aws_tag.AwsTag] = None) -> None:
+    def __init__(self, items: Sequence[aws_tag_.AwsTag] | None = None) -> None:
         """Constructor for the AwsTagListEmbedded class."""
 
         # Initialize members of the class
-        self.items: Sequence[aws_tag.AwsTag] = items
+        self.items: Sequence[aws_tag_.AwsTag] | None = items
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -40,15 +40,18 @@ class AwsTagListEmbedded:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        items = None
-        if dictionary.get('items'):
-            items = list()
-            for value in dictionary.get('items'):
-                items.append(aws_tag.AwsTag.from_dictionary(value))
+        val = dictionary.get('items', None)
+
+        val_items = None
+        if val:
+            val_items = list()
+            for value in val:
+                val_items.append(aws_tag_.AwsTag.from_dictionary(value))
 
         # Return an object of this model
-        return cls(items)
+        return cls(
+            val_items,
+        )

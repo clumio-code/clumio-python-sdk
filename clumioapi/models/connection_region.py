@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -20,20 +20,27 @@ class ConnectionRegion:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'p_id': 'id', 'is_data_plane_region': 'is_data_plane_region', 'name': 'name'}
+    _names: dict[str, str] = {
+        'p_id': 'id',
+        'is_data_plane_region': 'is_data_plane_region',
+        'name': 'name',
+    }
 
     def __init__(
-        self, p_id: str = None, is_data_plane_region: bool = None, name: str = None
+        self,
+        p_id: str | None = None,
+        is_data_plane_region: bool | None = None,
+        name: str | None = None,
     ) -> None:
         """Constructor for the ConnectionRegion class."""
 
         # Initialize members of the class
-        self.p_id: str = p_id
-        self.is_data_plane_region: bool = is_data_plane_region
-        self.name: str = name
+        self.p_id: str | None = p_id
+        self.is_data_plane_region: bool | None = is_data_plane_region
+        self.name: str | None = name
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -44,12 +51,21 @@ class ConnectionRegion:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        p_id = dictionary.get('id')
-        is_data_plane_region = dictionary.get('is_data_plane_region')
-        name = dictionary.get('name')
+        val = dictionary.get('id', None)
+        val_p_id = val
+
+        val = dictionary.get('is_data_plane_region', None)
+        val_is_data_plane_region = val
+
+        val = dictionary.get('name', None)
+        val_name = val
+
         # Return an object of this model
-        return cls(p_id, is_data_plane_region, name)
+        return cls(
+            val_p_id,
+            val_is_data_plane_region,
+            val_name,
+        )

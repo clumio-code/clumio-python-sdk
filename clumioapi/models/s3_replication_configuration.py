@@ -1,10 +1,10 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import s3_replication_rule
+from clumioapi.models import s3_replication_rule as s3_replication_rule_
 
 T = TypeVar('T', bound='S3ReplicationConfiguration')
 
@@ -24,19 +24,21 @@ class S3ReplicationConfiguration:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'role': 'role', 'rules': 'rules'}
+    _names: dict[str, str] = {'role': 'role', 'rules': 'rules'}
 
     def __init__(
-        self, role: str = None, rules: Sequence[s3_replication_rule.S3ReplicationRule] = None
+        self,
+        role: str | None = None,
+        rules: Sequence[s3_replication_rule_.S3ReplicationRule] | None = None,
     ) -> None:
         """Constructor for the S3ReplicationConfiguration class."""
 
         # Initialize members of the class
-        self.role: str = role
-        self.rules: Sequence[s3_replication_rule.S3ReplicationRule] = rules
+        self.role: str | None = role
+        self.rules: Sequence[s3_replication_rule_.S3ReplicationRule] | None = rules
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -47,16 +49,22 @@ class S3ReplicationConfiguration:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        role = dictionary.get('role')
-        rules = None
-        if dictionary.get('rules'):
-            rules = list()
-            for value in dictionary.get('rules'):
-                rules.append(s3_replication_rule.S3ReplicationRule.from_dictionary(value))
+        val = dictionary.get('role', None)
+        val_role = val
+
+        val = dictionary.get('rules', None)
+
+        val_rules = None
+        if val:
+            val_rules = list()
+            for value in val:
+                val_rules.append(s3_replication_rule_.S3ReplicationRule.from_dictionary(value))
 
         # Return an object of this model
-        return cls(role, rules)
+        return cls(
+            val_role,
+            val_rules,
+        )

@@ -1,30 +1,40 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
-from typing import Any
+
+import requests
 
 
 class ClumioException(Exception):
-    """ClumioException is raised by all SDK APIs.
+    """ClumioException is raised by all SDK APIs."""
 
-    Attributes:
-        response_code: The status code of the response.
-        context: The HttpContext of the API call.
-    """
-
-    def __init__(self, reason: str, errors: Any) -> None:
+    def __init__(
+        self,
+        reason: str,
+        resp: requests.Response | None = None,
+        error: requests.exceptions.HTTPError | None = None,
+    ) -> None:
         """Constructor for the ClumioException class.
 
         Args:
             reason: The reason (or error message) for the Exception
                 to be raised.
-            errors:  Errors.
+            resp: The response object from the API call that caused the exception.
         """
-        
-        if errors is not None:
-            errors_str = json.dumps(errors, indent=2, default=str)
-        else:
-            errors_str = "None"
-        super().__init__(f'ClumioException: {reason}, errors: {errors_str}')
+
+        if resp is not None:
+            resp_str = (
+                f'HTTP Status Code: {resp.status_code}.\n'
+                f'Reason: {resp.reason}.\n'
+                f'Body: {json.dumps(json.loads(resp.text), indent=2, default=str)}'
+            )
+
+        if error:
+            resp_str = (
+                f'HTTP Status Code: {error.response.status_code}.\n'
+                f'Reason: {error.response.reason}.\n'
+                f'Body: {json.dumps(json.loads(error.response.text), indent=2, default=str)}'
+            )
+        super().__init__(f'{reason} {resp_str if resp or error else ''}')

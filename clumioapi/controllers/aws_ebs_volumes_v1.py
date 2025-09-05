@@ -3,7 +3,7 @@
 #
 
 import json
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -32,11 +32,11 @@ class AwsEbsVolumesV1Controller(base_controller.BaseController):
 
     def list_aws_ebs_volumes(
         self,
-        limit: int = None,
-        start: str = None,
-        filter: str = None,
-        embed: str = None,
-        lookback_days: int = None,
+        limit: int | None = None,
+        start: str | None = None,
+        filter: str | None = None,
+        embed: str | None = None,
+        lookback_days: int | None = None,
         **kwargs,
     ) -> Union[
         list_ebs_volumes_response.ListEbsVolumesResponse,
@@ -52,8 +52,9 @@ class AwsEbsVolumesV1Controller(base_controller.BaseController):
                 Pages are indexed starting from 1 (i.e., `start=1`).
             filter:
                 Narrows down the results to only the items that satisfy the filter criteria. The
-                following table lists
-                the supported filter fields for this resource and the filter conditions that can
+                following
+                table lists the supported filter fields for this resource and the filter
+                conditions that can
                 be applied on those fields:
 
                 +---------------------------+------------------+-------------------------------+
@@ -64,40 +65,41 @@ class AwsEbsVolumesV1Controller(base_controller.BaseController):
                 +---------------------------+------------------+-------------------------------+
                 | name                      | $contains, $eq   | The AWS-assigned name of this |
                 |                           |                  | resource to conditionalize    |
-                |                           |                  | on. For example, filter={"nam |
-                |                           |                  | e":{"$contains":"dev"}}       |
-                |                           |                  | retrieves all EBS volumes     |
-                |                           |                  | with "dev" in their name.     |
+                |                           |                  | on. For example,              |
+                |                           |                  | filter={"name":{"$contains":" |
+                |                           |                  | dev"}} retrieves all EBS      |
+                |                           |                  | volumes with "dev" in         |
+                |                           |                  | their name.                   |
                 |                           |                  | filter={"name":{"$eq":"dev"}} |
                 |                           |                  | retrieves only EBS volumes    |
-                |                           |                  | with names that exactly match |
-                |                           |                  | "dev".                        |
+                |                           |                  | with names that               |
+                |                           |                  | exactly match "dev".          |
                 +---------------------------+------------------+-------------------------------+
                 | volume_native_id          | $eq, $contains   | The AWS-assigned ID of the    |
                 |                           |                  | EBS volume.                   |
                 |                           |                  | For example, filter={"volume_ |
                 |                           |                  | native_id":{"$eq":"vol-       |
-                |                           |                  | 06aa02a849fe376d9"}} or filte |
-                |                           |                  | r={"volume_native_id":{"$cont |
-                |                           |                  | ains":"02a849"}}              |
+                |                           |                  | 06aa02a849fe376d9"}} or       |
+                |                           |                  | filter={"volume_native_id":{" |
+                |                           |                  | $contains":"02a849"}}         |
                 |                           |                  | Both filter operations cannot |
                 |                           |                  | be used simultaneously.       |
                 |                           |                  |                               |
                 +---------------------------+------------------+-------------------------------+
                 | account_native_id         | $eq              | The AWS-assigned ID of the    |
-                |                           |                  | AWS account. For example, fil |
-                |                           |                  | ter={"account_native_id":{"$e |
-                |                           |                  | q":"789901323485"}}           |
+                |                           |                  | AWS account. For example,     |
+                |                           |                  | filter={"account_native_id":{ |
+                |                           |                  | "$eq":"789901323485"}}        |
                 +---------------------------+------------------+-------------------------------+
                 | protection_status         | $eq, $in         | The protection status of the  |
-                |                           |                  | EBS volume. For example, filt |
-                |                           |                  | er={"protection_status":{"$eq |
-                |                           |                  | ":"protected"}} or filter={"p |
-                |                           |                  | rotection_status":{"$in":["pr |
-                |                           |                  | otected"]}}.  Refer to the    |
-                |                           |                  | Protection Status table for a |
-                |                           |                  | complete list of protection   |
-                |                           |                  | statuses.                     |
+                |                           |                  | EBS volume. For example,      |
+                |                           |                  | filter={"protection_status":{ |
+                |                           |                  | "$eq":"protected"}} or        |
+                |                           |                  | filter={"protection_status":{ |
+                |                           |                  | "$in":["protected"]}}.  Refer |
+                |                           |                  | to the Protection Status      |
+                |                           |                  | table for a complete list of  |
+                |                           |                  | protection statuses.          |
                 +---------------------------+------------------+-------------------------------+
                 | deactivated               | $eq              | Filter assets protected by a  |
                 |                           |                  | deactivated policy.           |
@@ -110,44 +112,49 @@ class AwsEbsVolumesV1Controller(base_controller.BaseController):
                 +---------------------------+------------------+-------------------------------+
                 | protection_info.policy_id | $eq              | The Clumio-assigned ID of the |
                 |                           |                  | policy protecting this        |
-                |                           |                  | resource. filter={"protection |
-                |                           |                  | _info.policy_id":{"$eq":"c764 |
-                |                           |                  | abb6-5819-16ea-               |
-                |                           |                  | bb9f-b2e1c9a040ad"}}          |
+                |                           |                  | resource.                     |
+                |                           |                  | filter={"protection_info.poli |
+                |                           |                  | cy_id":{"$eq":"c764abb6-5819- |
+                |                           |                  | 16ea-bb9f-b2e1c9a040ad"}}     |
                 +---------------------------+------------------+-------------------------------+
                 | tags.id                   | $all             | The ID of the AWS tag applied |
                 |                           |                  | to the EBS volume. For        |
-                |                           |                  | example, filter={"tags.id":{" |
-                |                           |                  | $all":["c764b152-5819-11ea-bb |
-                |                           |                  | 9f-b2e1c9a040ad","c764abb6-   |
-                |                           |                  | 5819-11ea-                    |
-                |                           |                  | bb9f-b2e1c9a040ad"]}}. If     |
-                |                           |                  | multiple tags are specified,  |
-                |                           |                  | all of them must be applied   |
-                |                           |                  | to the same EBS volume.       |
+                |                           |                  | example,                      |
+                |                           |                  | filter={"tags.id":{"$all":["c |
+                |                           |                  | 764b152-5819-11ea-bb9f-       |
+                |                           |                  | b2e1c9a040ad","c764abb6-5819- |
+                |                           |                  | 11ea-bb9f-b2e1c9a040ad"]}}.   |
+                |                           |                  | If multiple tags are          |
+                |                           |                  | specified, all of them must   |
+                |                           |                  | be applied to the same EBS    |
+                |                           |                  | volume.                       |
                 +---------------------------+------------------+-------------------------------+
                 | is_deleted                | $eq,$in          | The deletion status of the    |
                 |                           |                  | EBS volume. Set to "true" to  |
                 |                           |                  | retrieve deleted EBS volumes. |
                 |                           |                  | For example, filter={"is_dele |
-                |                           |                  | ted":{"$eq":true}} filter={"i |
-                |                           |                  | s_deleted":{"$in":["true","fa |
-                |                           |                  | lse"]}}                       |
+                |                           |                  | ted":{"$eq":true}}            |
+                |                           |                  | filter={"is_deleted":{"$in":[ |
+                |                           |                  | "true","false"]}}             |
                 +---------------------------+------------------+-------------------------------+
 
+                For more information about filtering, refer to the Filtering section
+                of this guide.
             embed:
                 Embeds the details of each associated resource. Set the parameter to one of the
-                following embeddable links to include additional details associated with each
-                resource.
+                following
+                embeddable links to include additional details associated with each resource.
 
                 +------------------------+-----------------------------------------------------+
                 |    Embeddable Link     |                     Description                     |
                 +========================+=====================================================+
                 | read-policy-definition | Embeds the associated policy of a protected EBS     |
-                |                        | volume into the response. For example, embed=read-  |
-                |                        | policy-definition                                   |
+                |                        | volume into the response. For example,              |
+                |                        | embed=read-policy-definition                        |
                 +------------------------+-----------------------------------------------------+
 
+                For more information about embedded links, refer to the Embedding
+                Referenced Resources section of this guide.
             lookback_days:
                 Calculate backup status for the last `lookback_days` days.
         Returns:
@@ -162,7 +169,7 @@ class AwsEbsVolumesV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/datasources/aws/ebs-volumes'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {
             'limit': limit,
             'start': start,
@@ -171,31 +178,34 @@ class AwsEbsVolumesV1Controller(base_controller.BaseController):
             'lookback_days': lookback_days,
         }
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
-            errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing list_aws_ebs_volumes.', errors
+                'Error occurred while executing list_aws_ebs_volumes', error=http_error
             )
 
-        if self.config.raw_response:
-            return resp, list_ebs_volumes_response.ListEbsVolumesResponse.from_dictionary(
-                resp.json()
-            )
-        return list_ebs_volumes_response.ListEbsVolumesResponse.from_dictionary(resp)
+        obj = list_ebs_volumes_response.ListEbsVolumesResponse.from_dictionary(resp.json())
+        if raw_response:
+            return resp, obj
+        return obj
 
     def read_aws_ebs_volume(
-        self, volume_id: str, lookback_days: int = None, embed: str = None, **kwargs
+        self,
+        volume_id: str | None = None,
+        lookback_days: int | None = None,
+        embed: str | None = None,
+        **kwargs,
     ) -> Union[
         read_ebs_volume_response.ReadEbsVolumeResponse,
         tuple[requests.Response, Optional[read_ebs_volume_response.ReadEbsVolumeResponse]],
@@ -234,26 +244,27 @@ class AwsEbsVolumesV1Controller(base_controller.BaseController):
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'volume_id': volume_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'lookback_days': lookback_days, 'embed': embed}
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
-            errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing read_aws_ebs_volume.', errors
+                'Error occurred while executing read_aws_ebs_volume', error=http_error
             )
 
-        if self.config.raw_response:
-            return resp, read_ebs_volume_response.ReadEbsVolumeResponse.from_dictionary(resp.json())
-        return read_ebs_volume_response.ReadEbsVolumeResponse.from_dictionary(resp)
+        obj = read_ebs_volume_response.ReadEbsVolumeResponse.from_dictionary(resp.json())
+        if raw_response:
+            return resp, obj
+        return obj

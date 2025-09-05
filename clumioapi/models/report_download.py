@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -29,11 +29,11 @@ class ReportDownload:
             The Clumio-assigned ID of the task which generated the restored file.
         p_type:
             The type of report this CSV Download is associated with.
-            The possible values include "activity" and "compliance".
+            The possible values: ["activity"].
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'download_link': 'download_link',
         'end_timestamp': 'end_timestamp',
         'expiration_timestamp': 'expiration_timestamp',
@@ -47,31 +47,31 @@ class ReportDownload:
 
     def __init__(
         self,
-        download_link: str = None,
-        end_timestamp: str = None,
-        expiration_timestamp: str = None,
-        file_name: str = None,
-        filters: str = None,
-        p_id: str = None,
-        start_timestamp: str = None,
-        task_id: str = None,
-        p_type: str = None,
+        download_link: str | None = None,
+        end_timestamp: str | None = None,
+        expiration_timestamp: str | None = None,
+        file_name: str | None = None,
+        filters: str | None = None,
+        p_id: str | None = None,
+        start_timestamp: str | None = None,
+        task_id: str | None = None,
+        p_type: str | None = None,
     ) -> None:
         """Constructor for the ReportDownload class."""
 
         # Initialize members of the class
-        self.download_link: str = download_link
-        self.end_timestamp: str = end_timestamp
-        self.expiration_timestamp: str = expiration_timestamp
-        self.file_name: str = file_name
-        self.filters: str = filters
-        self.p_id: str = p_id
-        self.start_timestamp: str = start_timestamp
-        self.task_id: str = task_id
-        self.p_type: str = p_type
+        self.download_link: str | None = download_link
+        self.end_timestamp: str | None = end_timestamp
+        self.expiration_timestamp: str | None = expiration_timestamp
+        self.file_name: str | None = file_name
+        self.filters: str | None = filters
+        self.p_id: str | None = p_id
+        self.start_timestamp: str | None = start_timestamp
+        self.task_id: str | None = task_id
+        self.p_type: str | None = p_type
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -82,28 +82,45 @@ class ReportDownload:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        download_link = dictionary.get('download_link')
-        end_timestamp = dictionary.get('end_timestamp')
-        expiration_timestamp = dictionary.get('expiration_timestamp')
-        file_name = dictionary.get('file_name')
-        filters = dictionary.get('filters')
-        p_id = dictionary.get('id')
-        start_timestamp = dictionary.get('start_timestamp')
-        task_id = dictionary.get('task_id')
-        p_type = dictionary.get('type')
+        val = dictionary.get('download_link', None)
+        val_download_link = val
+
+        val = dictionary.get('end_timestamp', None)
+        val_end_timestamp = val
+
+        val = dictionary.get('expiration_timestamp', None)
+        val_expiration_timestamp = val
+
+        val = dictionary.get('file_name', None)
+        val_file_name = val
+
+        val = dictionary.get('filters', None)
+        val_filters = val
+
+        val = dictionary.get('id', None)
+        val_p_id = val
+
+        val = dictionary.get('start_timestamp', None)
+        val_start_timestamp = val
+
+        val = dictionary.get('task_id', None)
+        val_task_id = val
+
+        val = dictionary.get('type', None)
+        val_p_type = val
+
         # Return an object of this model
         return cls(
-            download_link,
-            end_timestamp,
-            expiration_timestamp,
-            file_name,
-            filters,
-            p_id,
-            start_timestamp,
-            task_id,
-            p_type,
+            val_download_link,
+            val_end_timestamp,
+            val_expiration_timestamp,
+            val_file_name,
+            val_filters,
+            val_p_id,
+            val_start_timestamp,
+            val_task_id,
+            val_p_type,
         )

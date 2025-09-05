@@ -1,11 +1,11 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import hateoas_link
-from clumioapi.models import hateoas_self_link
+from clumioapi.models import hateoas_link as hateoas_link_
+from clumioapi.models import hateoas_self_link as hateoas_self_link_
 
 T = TypeVar('T', bound='EC2MSSQLDatabaseBackupLinks')
 
@@ -25,7 +25,7 @@ class EC2MSSQLDatabaseBackupLinks:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'p_self': '_self',
         'read_aws_environment': 'read-aws-environment',
         'restore_ec2_mssql_database': 'restore-ec2-mssql-database',
@@ -33,19 +33,21 @@ class EC2MSSQLDatabaseBackupLinks:
 
     def __init__(
         self,
-        p_self: hateoas_self_link.HateoasSelfLink = None,
-        read_aws_environment: hateoas_link.HateoasLink = None,
-        restore_ec2_mssql_database: hateoas_link.HateoasLink = None,
+        p_self: hateoas_self_link_.HateoasSelfLink | None = None,
+        read_aws_environment: hateoas_link_.HateoasLink | None = None,
+        restore_ec2_mssql_database: hateoas_link_.HateoasLink | None = None,
     ) -> None:
         """Constructor for the EC2MSSQLDatabaseBackupLinks class."""
 
         # Initialize members of the class
-        self.p_self: hateoas_self_link.HateoasSelfLink = p_self
-        self.read_aws_environment: hateoas_link.HateoasLink = read_aws_environment
-        self.restore_ec2_mssql_database: hateoas_link.HateoasLink = restore_ec2_mssql_database
+        self.p_self: hateoas_self_link_.HateoasSelfLink | None = p_self
+        self.read_aws_environment: hateoas_link_.HateoasLink | None = read_aws_environment
+        self.restore_ec2_mssql_database: hateoas_link_.HateoasLink | None = (
+            restore_ec2_mssql_database
+        )
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -56,30 +58,21 @@ class EC2MSSQLDatabaseBackupLinks:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = '_self'
-        p_self = (
-            hateoas_self_link.HateoasSelfLink.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('_self', None)
+        val_p_self = hateoas_self_link_.HateoasSelfLink.from_dictionary(val)
 
-        key = 'read-aws-environment'
-        read_aws_environment = (
-            hateoas_link.HateoasLink.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('read-aws-environment', None)
+        val_read_aws_environment = hateoas_link_.HateoasLink.from_dictionary(val)
 
-        key = 'restore-ec2-mssql-database'
-        restore_ec2_mssql_database = (
-            hateoas_link.HateoasLink.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('restore-ec2-mssql-database', None)
+        val_restore_ec2_mssql_database = hateoas_link_.HateoasLink.from_dictionary(val)
 
         # Return an object of this model
-        return cls(p_self, read_aws_environment, restore_ec2_mssql_database)
+        return cls(
+            val_p_self,
+            val_read_aws_environment,
+            val_restore_ec2_mssql_database,
+        )
