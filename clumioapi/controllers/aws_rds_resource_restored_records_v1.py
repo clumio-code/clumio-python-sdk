@@ -1,9 +1,9 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 import json
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -33,7 +33,11 @@ class AwsRdsResourceRestoredRecordsV1Controller(base_controller.BaseController):
             self.headers.update(config.custom_headers)
 
     def list_rds_restored_records(
-        self, limit: int = None, start: str = None, filter: str = None, **kwargs
+        self,
+        limit: int | None = None,
+        start: str | None = None,
+        filter: str | None = None,
+        **kwargs,
     ) -> Union[
         list_restored_records_response.ListRestoredRecordsResponse,
         tuple[
@@ -72,36 +76,37 @@ class AwsRdsResourceRestoredRecordsV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/restores/aws/rds-resources/records'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'limit': limit, 'start': start, 'filter': filter}
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
-            errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing list_rds_restored_records.', errors
+                'Error occurred while executing list_rds_restored_records', error=http_error
             )
 
-        if self.config.raw_response:
-            return resp, list_restored_records_response.ListRestoredRecordsResponse.from_dictionary(
-                resp.json()
-            )
-        return list_restored_records_response.ListRestoredRecordsResponse.from_dictionary(resp)
+        obj = list_restored_records_response.ListRestoredRecordsResponse.from_dictionary(
+            resp.json()
+        )
+        if raw_response:
+            return resp, obj
+        return obj
 
     def restore_rds_record(
         self,
-        embed: str = None,
-        body: restore_rds_record_v1_request.RestoreRdsRecordV1Request = None,
+        embed: str | None = None,
+        body: restore_rds_record_v1_request.RestoreRdsRecordV1Request | None = None,
         **kwargs,
     ) -> Union[
         Union[
@@ -150,12 +155,13 @@ class AwsRdsResourceRestoredRecordsV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/restores/aws/rds-resources/records'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'embed': embed}
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.post(
+            resp: requests.Response = self.client.post(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
@@ -164,27 +170,29 @@ class AwsRdsResourceRestoredRecordsV1Controller(base_controller.BaseController):
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
-            errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing restore_rds_record.', errors
+                'Error occurred while executing restore_rds_record', error=http_error
             )
-        unmarshalled_dict = json.loads(resp.text)
+        text_unmarshalled_dict = json.loads(resp.text)
+
+        obj: Any
+
+        obj = restore_record_preview_response.RestoreRecordPreviewResponse.from_dictionary(
+            text_unmarshalled_dict
+        )
         if resp.status_code == 200:
-            if self.config.raw_response:
-                return (
-                    resp,
-                    restore_record_preview_response.RestoreRecordPreviewResponse.from_dictionary(
-                        unmarshalled_dict
-                    ),
-                )
-            return restore_record_preview_response.RestoreRecordPreviewResponse.from_dictionary(
-                unmarshalled_dict
-            )
+            if raw_response:
+                return resp, obj
+            return obj
+
+        obj = restore_record_response.RestoreRecordResponse.from_dictionary(text_unmarshalled_dict)
         if resp.status_code == 202:
-            if self.config.raw_response:
-                return resp, restore_record_response.RestoreRecordResponse.from_dictionary(
-                    unmarshalled_dict
-                )
-            return restore_record_response.RestoreRecordResponse.from_dictionary(unmarshalled_dict)
+            if raw_response:
+                return resp, obj
+            return obj
+
+        raise RuntimeError(
+            f'Code should be unreachable; Unexpected response code: {resp.status_code}. '
+        )

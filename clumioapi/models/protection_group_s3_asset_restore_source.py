@@ -1,11 +1,13 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import protection_group_s3_asset_restore_source_pitr_options
-from clumioapi.models import source_object_filters
+from clumioapi.models import \
+    protection_group_s3_asset_restore_source_pitr_options as \
+    protection_group_s3_asset_restore_source_pitr_options_
+from clumioapi.models import source_object_filters as source_object_filters_
 
 T = TypeVar('T', bound='ProtectionGroupS3AssetRestoreSource')
 
@@ -32,25 +34,33 @@ class ProtectionGroupS3AssetRestoreSource:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'backup_id': 'backup_id', 'object_filters': 'object_filters', 'pitr': 'pitr'}
+    _names: dict[str, str] = {
+        'backup_id': 'backup_id',
+        'object_filters': 'object_filters',
+        'pitr': 'pitr',
+    }
 
     def __init__(
         self,
-        backup_id: str = None,
-        object_filters: source_object_filters.SourceObjectFilters = None,
-        pitr: protection_group_s3_asset_restore_source_pitr_options.ProtectionGroupS3AssetRestoreSourcePitrOptions = None,
+        backup_id: str | None = None,
+        object_filters: source_object_filters_.SourceObjectFilters | None = None,
+        pitr: (
+            protection_group_s3_asset_restore_source_pitr_options_.ProtectionGroupS3AssetRestoreSourcePitrOptions
+            | None
+        ) = None,
     ) -> None:
         """Constructor for the ProtectionGroupS3AssetRestoreSource class."""
 
         # Initialize members of the class
-        self.backup_id: str = backup_id
-        self.object_filters: source_object_filters.SourceObjectFilters = object_filters
+        self.backup_id: str | None = backup_id
+        self.object_filters: source_object_filters_.SourceObjectFilters | None = object_filters
         self.pitr: (
-            protection_group_s3_asset_restore_source_pitr_options.ProtectionGroupS3AssetRestoreSourcePitrOptions
+            protection_group_s3_asset_restore_source_pitr_options_.ProtectionGroupS3AssetRestoreSourcePitrOptions
+            | None
         ) = pitr
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -61,26 +71,23 @@ class ProtectionGroupS3AssetRestoreSource:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        backup_id = dictionary.get('backup_id')
-        key = 'object_filters'
-        object_filters = (
-            source_object_filters.SourceObjectFilters.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('backup_id', None)
+        val_backup_id = val
 
-        key = 'pitr'
-        pitr = (
-            protection_group_s3_asset_restore_source_pitr_options.ProtectionGroupS3AssetRestoreSourcePitrOptions.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
+        val = dictionary.get('object_filters', None)
+        val_object_filters = source_object_filters_.SourceObjectFilters.from_dictionary(val)
+
+        val = dictionary.get('pitr', None)
+        val_pitr = protection_group_s3_asset_restore_source_pitr_options_.ProtectionGroupS3AssetRestoreSourcePitrOptions.from_dictionary(
+            val
         )
 
         # Return an object of this model
-        return cls(backup_id, object_filters, pitr)
+        return cls(
+            val_backup_id,
+            val_object_filters,
+            val_pitr,
+        )

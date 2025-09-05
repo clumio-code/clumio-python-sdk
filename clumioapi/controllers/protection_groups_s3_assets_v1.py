@@ -3,7 +3,7 @@
 #
 
 import json
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -34,10 +34,10 @@ class ProtectionGroupsS3AssetsV1Controller(base_controller.BaseController):
 
     def list_protection_group_s3_assets(
         self,
-        limit: int = None,
-        start: str = None,
-        filter: str = None,
-        lookback_days: int = None,
+        limit: int | None = None,
+        start: str | None = None,
+        filter: str | None = None,
+        lookback_days: int | None = None,
         **kwargs,
     ) -> Union[
         list_protection_group_s3_assets_response.ListProtectionGroupS3AssetsResponse,
@@ -56,24 +56,26 @@ class ProtectionGroupsS3AssetsV1Controller(base_controller.BaseController):
                 Pages are indexed starting from 1 (i.e., `start=1`).
             filter:
                 Narrows down the results to only the items that satisfy the filter criteria. The
-                following table lists
-                the supported filter fields for this resource and the filter conditions that can
+                following
+                table lists the supported filter fields for this resource and the filter
+                conditions that can
                 be applied on those fields:
 
                 +---------------------------+------------------+-------------------------------+
                 |           Field           | Filter Condition |          Description          |
                 +===========================+==================+===============================+
                 | account_native_id         | $eq              | The AWS-assigned ID of the    |
-                |                           |                  | AWS account. For example, fil |
-                |                           |                  | ter={"account_native_id":{"$e |
-                |                           |                  | q":"789901323485"}}           |
+                |                           |                  | AWS account. For example,     |
+                |                           |                  | filter={"account_native_id":{ |
+                |                           |                  | "$eq":"789901323485"}}        |
                 +---------------------------+------------------+-------------------------------+
                 | aws_region                | $eq              | The AWS region of a given     |
                 |                           |                  | account to which this         |
                 |                           |                  | resource belongs. For         |
-                |                           |                  | example, filter={"account_nat |
-                |                           |                  | ive_id":{"$eq":"789901323485" |
-                |                           |                  | }, "aws_region":{"$eq":"us-   |
+                |                           |                  | example,                      |
+                |                           |                  | filter={"account_native_id":{ |
+                |                           |                  | "$eq":"789901323485"},        |
+                |                           |                  | "aws_region":{"$eq":"us-      |
                 |                           |                  | east-1"}} retrieves DynamoDB  |
                 |                           |                  | tables in region us-east-1 in |
                 |                           |                  | account 789901323485.         |
@@ -125,9 +127,10 @@ class ProtectionGroupsS3AssetsV1Controller(base_controller.BaseController):
                 | organizational_unit_id    | $in              | Denotes the organizational    |
                 |                           |                  | unit IDs that can own the     |
                 |                           |                  | assets that are returned. For |
-                |                           |                  | example, filter={"organizatio |
-                |                           |                  | nal_unit_id":{"$in":["c764b15 |
-                |                           |                  | 2-5819-11ea-bb9f-             |
+                |                           |                  | example,                      |
+                |                           |                  | filter={"organizational_unit_ |
+                |                           |                  | id":{"$in":["c764b152-5819-   |
+                |                           |                  | 11ea-bb9f-                    |
                 |                           |                  | b2e1c9a040ad","c764abb6-5819- |
                 |                           |                  | 11ea-bb9f-b2e1c9a040ad"]}}    |
                 +---------------------------+------------------+-------------------------------+
@@ -138,10 +141,13 @@ class ProtectionGroupsS3AssetsV1Controller(base_controller.BaseController):
                 +---------------------------+------------------+-------------------------------+
                 | is_supported              | $eq              | The Clumio supported status   |
                 |                           |                  | for the S3 bucket. For        |
-                |                           |                  | example, filter={"is_supporte |
-                |                           |                  | d":{"$eq":true}}              |
+                |                           |                  | example,                      |
+                |                           |                  | filter={"is_supported":{"$eq" |
+                |                           |                  | :true}}                       |
                 +---------------------------+------------------+-------------------------------+
 
+                For more information about filtering, refer to the Filtering section
+                of this guide.
             lookback_days:
                 Calculate backup status for the last `lookback_days` days.
         Returns:
@@ -156,7 +162,7 @@ class ProtectionGroupsS3AssetsV1Controller(base_controller.BaseController):
         # Prepare query URL
         _url_path = '/datasources/protection-groups/s3-assets'
 
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {
             'limit': limit,
             'start': start,
@@ -164,36 +170,35 @@ class ProtectionGroupsS3AssetsV1Controller(base_controller.BaseController):
             'lookback_days': lookback_days,
         }
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
-            errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing list_protection_group_s3_assets.', errors
+                'Error occurred while executing list_protection_group_s3_assets', error=http_error
             )
 
-        if self.config.raw_response:
-            return (
-                resp,
-                list_protection_group_s3_assets_response.ListProtectionGroupS3AssetsResponse.from_dictionary(
-                    resp.json()
-                ),
-            )
-        return list_protection_group_s3_assets_response.ListProtectionGroupS3AssetsResponse.from_dictionary(
-            resp
+        obj = list_protection_group_s3_assets_response.ListProtectionGroupS3AssetsResponse.from_dictionary(
+            resp.json()
         )
+        if raw_response:
+            return resp, obj
+        return obj
 
     def read_protection_group_s3_asset(
-        self, protection_group_s3_asset_id: str, lookback_days: int = None, **kwargs
+        self,
+        protection_group_s3_asset_id: str | None = None,
+        lookback_days: int | None = None,
+        **kwargs,
     ) -> Union[
         read_protection_group_s3_asset_response.ReadProtectionGroupS3AssetResponse,
         tuple[
@@ -222,45 +227,41 @@ class ProtectionGroupsS3AssetsV1Controller(base_controller.BaseController):
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'protection_group_s3_asset_id': protection_group_s3_asset_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'lookback_days': lookback_days}
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
-            errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing read_protection_group_s3_asset.', errors
+                'Error occurred while executing read_protection_group_s3_asset', error=http_error
             )
 
-        if self.config.raw_response:
-            return (
-                resp,
-                read_protection_group_s3_asset_response.ReadProtectionGroupS3AssetResponse.from_dictionary(
-                    resp.json()
-                ),
-            )
-        return read_protection_group_s3_asset_response.ReadProtectionGroupS3AssetResponse.from_dictionary(
-            resp
+        obj = read_protection_group_s3_asset_response.ReadProtectionGroupS3AssetResponse.from_dictionary(
+            resp.json()
         )
+        if raw_response:
+            return resp, obj
+        return obj
 
     def read_protection_group_s3_asset_continuous_backup_stats(
         self,
-        protection_group_s3_asset_id: str,
-        bucket_name: str = None,
-        bucket_id: str = None,
-        begin_timestamp: str = None,
-        end_timestamp: str = None,
-        interval: str = None,
+        protection_group_s3_asset_id: str | None = None,
+        bucket_name: str | None = None,
+        bucket_id: str | None = None,
+        begin_timestamp: str | None = None,
+        end_timestamp: str | None = None,
+        interval: str | None = None,
         **kwargs,
     ) -> Union[
         read_protection_group_s3_asset_continuous_backup_stats_response.ReadProtectionGroupS3AssetContinuousBackupStatsResponse,
@@ -303,7 +304,7 @@ class ProtectionGroupsS3AssetsV1Controller(base_controller.BaseController):
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'protection_group_s3_asset_id': protection_group_s3_asset_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {
             'bucket_name': bucket_name,
             'bucket_id': bucket_id,
@@ -312,41 +313,37 @@ class ProtectionGroupsS3AssetsV1Controller(base_controller.BaseController):
             'interval': interval,
         }
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
-            errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing read_protection_group_s3_asset_continuous_backup_stats.',
-                errors,
+                'Error occurred while executing read_protection_group_s3_asset_continuous_backup_stats',
+                error=http_error,
             )
 
-        if self.config.raw_response:
-            return (
-                resp,
-                read_protection_group_s3_asset_continuous_backup_stats_response.ReadProtectionGroupS3AssetContinuousBackupStatsResponse.from_dictionary(
-                    resp.json()
-                ),
-            )
-        return read_protection_group_s3_asset_continuous_backup_stats_response.ReadProtectionGroupS3AssetContinuousBackupStatsResponse.from_dictionary(
-            resp
+        obj = read_protection_group_s3_asset_continuous_backup_stats_response.ReadProtectionGroupS3AssetContinuousBackupStatsResponse.from_dictionary(
+            resp.json()
         )
+        if raw_response:
+            return resp, obj
+        return obj
 
     def list_protection_group_s3_asset_pitr_intervals(
         self,
-        protection_group_s3_asset_id: str,
-        limit: int = None,
-        start: str = None,
-        filter: str = None,
+        protection_group_s3_asset_id: str | None = None,
+        limit: int | None = None,
+        start: str | None = None,
+        filter: str | None = None,
         **kwargs,
     ) -> Union[
         list_protection_group_s3_asset_pitr_intervals_response.ListProtectionGroupS3AssetPitrIntervalsResponse,
@@ -399,34 +396,30 @@ class ProtectionGroupsS3AssetsV1Controller(base_controller.BaseController):
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'protection_group_s3_asset_id': protection_group_s3_asset_id}
         )
-        _query_parameters = {}
+        _query_parameters: dict[str, Any] = {}
         _query_parameters = {'limit': limit, 'start': start, 'filter': filter}
 
+        raw_response = self.config.raw_response
         # Execute request
         try:
-            resp = self.client.get(
+            resp: requests.Response = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                raw_response=self.config.raw_response,
+                raw_response=True,
                 **kwargs,
             )
         except requests.exceptions.HTTPError as http_error:
-            if self.config.raw_response:
+            if raw_response:
                 return http_error.response, None
-            errors = self.client.get_error_message(http_error.response)
             raise clumio_exception.ClumioException(
-                'Error occurred while executing list_protection_group_s3_asset_pitr_intervals.',
-                errors,
+                'Error occurred while executing list_protection_group_s3_asset_pitr_intervals',
+                error=http_error,
             )
 
-        if self.config.raw_response:
-            return (
-                resp,
-                list_protection_group_s3_asset_pitr_intervals_response.ListProtectionGroupS3AssetPitrIntervalsResponse.from_dictionary(
-                    resp.json()
-                ),
-            )
-        return list_protection_group_s3_asset_pitr_intervals_response.ListProtectionGroupS3AssetPitrIntervalsResponse.from_dictionary(
-            resp
+        obj = list_protection_group_s3_asset_pitr_intervals_response.ListProtectionGroupS3AssetPitrIntervalsResponse.from_dictionary(
+            resp.json()
         )
+        if raw_response:
+            return resp, obj
+        return obj

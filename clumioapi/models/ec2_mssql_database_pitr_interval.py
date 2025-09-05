@@ -1,10 +1,11 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import ec2_mssql_database_pitr_interval_links
+from clumioapi.models import \
+    ec2_mssql_database_pitr_interval_links as ec2_mssql_database_pitr_interval_links_
 
 T = TypeVar('T', bound='EC2MssqlDatabasePitrInterval')
 
@@ -24,7 +25,7 @@ class EC2MssqlDatabasePitrInterval:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'embedded': '_embedded',
         'links': '_links',
         'end_timestamp': 'end_timestamp',
@@ -33,21 +34,25 @@ class EC2MssqlDatabasePitrInterval:
 
     def __init__(
         self,
-        embedded: object = None,
-        links: ec2_mssql_database_pitr_interval_links.EC2MssqlDatabasePitrIntervalLinks = None,
-        end_timestamp: str = None,
-        start_timestamp: str = None,
+        embedded: object | None = None,
+        links: (
+            ec2_mssql_database_pitr_interval_links_.EC2MssqlDatabasePitrIntervalLinks | None
+        ) = None,
+        end_timestamp: str | None = None,
+        start_timestamp: str | None = None,
     ) -> None:
         """Constructor for the EC2MssqlDatabasePitrInterval class."""
 
         # Initialize members of the class
-        self.embedded: object = embedded
-        self.links: ec2_mssql_database_pitr_interval_links.EC2MssqlDatabasePitrIntervalLinks = links
-        self.end_timestamp: str = end_timestamp
-        self.start_timestamp: str = start_timestamp
+        self.embedded: object | None = embedded
+        self.links: (
+            ec2_mssql_database_pitr_interval_links_.EC2MssqlDatabasePitrIntervalLinks | None
+        ) = links
+        self.end_timestamp: str | None = end_timestamp
+        self.start_timestamp: str | None = start_timestamp
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -58,21 +63,27 @@ class EC2MssqlDatabasePitrInterval:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        embedded = dictionary.get('_embedded')
-        key = '_links'
-        links = (
-            ec2_mssql_database_pitr_interval_links.EC2MssqlDatabasePitrIntervalLinks.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
+        val = dictionary.get('_embedded', None)
+        val_embedded = val
+
+        val = dictionary.get('_links', None)
+        val_links = ec2_mssql_database_pitr_interval_links_.EC2MssqlDatabasePitrIntervalLinks.from_dictionary(
+            val
         )
 
-        end_timestamp = dictionary.get('end_timestamp')
-        start_timestamp = dictionary.get('start_timestamp')
+        val = dictionary.get('end_timestamp', None)
+        val_end_timestamp = val
+
+        val = dictionary.get('start_timestamp', None)
+        val_start_timestamp = val
+
         # Return an object of this model
-        return cls(embedded, links, end_timestamp, start_timestamp)
+        return cls(
+            val_embedded,
+            val_links,
+            val_end_timestamp,
+            val_start_timestamp,
+        )

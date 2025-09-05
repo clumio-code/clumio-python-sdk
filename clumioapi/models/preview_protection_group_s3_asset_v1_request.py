@@ -1,10 +1,10 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import source_object_filters
+from clumioapi.models import source_object_filters as source_object_filters_
 
 T = TypeVar('T', bound='PreviewProtectionGroupS3AssetV1Request')
 
@@ -37,7 +37,7 @@ class PreviewProtectionGroupS3AssetV1Request:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'backup_id': 'backup_id',
         'is_sync_preview': 'is_sync_preview',
         'object_filters': 'object_filters',
@@ -47,23 +47,23 @@ class PreviewProtectionGroupS3AssetV1Request:
 
     def __init__(
         self,
-        backup_id: str = None,
-        is_sync_preview: bool = None,
-        object_filters: source_object_filters.SourceObjectFilters = None,
-        pitr_end_timestamp: str = None,
-        pitr_start_timestamp: str = None,
+        backup_id: str | None = None,
+        is_sync_preview: bool | None = None,
+        object_filters: source_object_filters_.SourceObjectFilters | None = None,
+        pitr_end_timestamp: str | None = None,
+        pitr_start_timestamp: str | None = None,
     ) -> None:
         """Constructor for the PreviewProtectionGroupS3AssetV1Request class."""
 
         # Initialize members of the class
-        self.backup_id: str = backup_id
-        self.is_sync_preview: bool = is_sync_preview
-        self.object_filters: source_object_filters.SourceObjectFilters = object_filters
-        self.pitr_end_timestamp: str = pitr_end_timestamp
-        self.pitr_start_timestamp: str = pitr_start_timestamp
+        self.backup_id: str | None = backup_id
+        self.is_sync_preview: bool | None = is_sync_preview
+        self.object_filters: source_object_filters_.SourceObjectFilters | None = object_filters
+        self.pitr_end_timestamp: str | None = pitr_end_timestamp
+        self.pitr_start_timestamp: str | None = pitr_start_timestamp
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -74,22 +74,29 @@ class PreviewProtectionGroupS3AssetV1Request:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        backup_id = dictionary.get('backup_id')
-        is_sync_preview = dictionary.get('is_sync_preview')
-        key = 'object_filters'
-        object_filters = (
-            source_object_filters.SourceObjectFilters.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('backup_id', None)
+        val_backup_id = val
 
-        pitr_end_timestamp = dictionary.get('pitr_end_timestamp')
-        pitr_start_timestamp = dictionary.get('pitr_start_timestamp')
+        val = dictionary.get('is_sync_preview', None)
+        val_is_sync_preview = val
+
+        val = dictionary.get('object_filters', None)
+        val_object_filters = source_object_filters_.SourceObjectFilters.from_dictionary(val)
+
+        val = dictionary.get('pitr_end_timestamp', None)
+        val_pitr_end_timestamp = val
+
+        val = dictionary.get('pitr_start_timestamp', None)
+        val_pitr_start_timestamp = val
+
         # Return an object of this model
         return cls(
-            backup_id, is_sync_preview, object_filters, pitr_end_timestamp, pitr_start_timestamp
+            val_backup_id,
+            val_is_sync_preview,
+            val_object_filters,
+            val_pitr_end_timestamp,
+            val_pitr_start_timestamp,
         )

@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -40,7 +40,7 @@ class EC2RestoreNetworkInterface:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'device_index': 'device_index',
         'network_interface_native_id': 'network_interface_native_id',
         'restore_default': 'restore_default',
@@ -51,25 +51,25 @@ class EC2RestoreNetworkInterface:
 
     def __init__(
         self,
-        device_index: int = None,
-        network_interface_native_id: str = None,
-        restore_default: bool = None,
-        restore_from_backup: bool = None,
-        security_group_native_ids: Sequence[str] = None,
-        subnet_native_id: str = None,
+        device_index: int | None = None,
+        network_interface_native_id: str | None = None,
+        restore_default: bool | None = None,
+        restore_from_backup: bool | None = None,
+        security_group_native_ids: Sequence[str] | None = None,
+        subnet_native_id: str | None = None,
     ) -> None:
         """Constructor for the EC2RestoreNetworkInterface class."""
 
         # Initialize members of the class
-        self.device_index: int = device_index
-        self.network_interface_native_id: str = network_interface_native_id
-        self.restore_default: bool = restore_default
-        self.restore_from_backup: bool = restore_from_backup
-        self.security_group_native_ids: Sequence[str] = security_group_native_ids
-        self.subnet_native_id: str = subnet_native_id
+        self.device_index: int | None = device_index
+        self.network_interface_native_id: str | None = network_interface_native_id
+        self.restore_default: bool | None = restore_default
+        self.restore_from_backup: bool | None = restore_from_backup
+        self.security_group_native_ids: Sequence[str] | None = security_group_native_ids
+        self.subnet_native_id: str | None = subnet_native_id
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -80,22 +80,33 @@ class EC2RestoreNetworkInterface:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        device_index = dictionary.get('device_index')
-        network_interface_native_id = dictionary.get('network_interface_native_id')
-        restore_default = dictionary.get('restore_default')
-        restore_from_backup = dictionary.get('restore_from_backup')
-        security_group_native_ids = dictionary.get('security_group_native_ids')
-        subnet_native_id = dictionary.get('subnet_native_id')
+        val = dictionary.get('device_index', None)
+        val_device_index = val
+
+        val = dictionary.get('network_interface_native_id', None)
+        val_network_interface_native_id = val
+
+        val = dictionary.get('restore_default', None)
+        val_restore_default = val
+
+        val = dictionary.get('restore_from_backup', None)
+        val_restore_from_backup = val
+
+        val = dictionary.get('security_group_native_ids', None)
+        val_security_group_native_ids = val
+
+        val = dictionary.get('subnet_native_id', None)
+        val_subnet_native_id = val
+
         # Return an object of this model
         return cls(
-            device_index,
-            network_interface_native_id,
-            restore_default,
-            restore_from_backup,
-            security_group_native_ids,
-            subnet_native_id,
+            val_device_index,
+            val_network_interface_native_id,
+            val_restore_default,
+            val_restore_from_backup,
+            val_security_group_native_ids,
+            val_subnet_native_id,
         )

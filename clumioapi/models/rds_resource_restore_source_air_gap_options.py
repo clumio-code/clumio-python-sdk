@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -21,16 +21,16 @@ class RdsResourceRestoreSourceAirGapOptions:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'backup_id': 'backup_id'}
+    _names: dict[str, str] = {'backup_id': 'backup_id'}
 
-    def __init__(self, backup_id: str = None) -> None:
+    def __init__(self, backup_id: str | None = None) -> None:
         """Constructor for the RdsResourceRestoreSourceAirGapOptions class."""
 
         # Initialize members of the class
-        self.backup_id: str = backup_id
+        self.backup_id: str | None = backup_id
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -41,10 +41,13 @@ class RdsResourceRestoreSourceAirGapOptions:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        backup_id = dictionary.get('backup_id')
+        val = dictionary.get('backup_id', None)
+        val_backup_id = val
+
         # Return an object of this model
-        return cls(backup_id)
+        return cls(
+            val_backup_id,
+        )

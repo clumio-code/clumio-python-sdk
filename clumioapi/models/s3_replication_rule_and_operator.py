@@ -1,10 +1,10 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import s3_tag
+from clumioapi.models import s3_tag as s3_tag_
 
 T = TypeVar('T', bound='S3ReplicationRuleAndOperator')
 
@@ -24,17 +24,19 @@ class S3ReplicationRuleAndOperator:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'prefix': 'prefix', 'tags': 'tags'}
+    _names: dict[str, str] = {'prefix': 'prefix', 'tags': 'tags'}
 
-    def __init__(self, prefix: str = None, tags: Sequence[s3_tag.S3Tag] = None) -> None:
+    def __init__(
+        self, prefix: str | None = None, tags: Sequence[s3_tag_.S3Tag] | None = None
+    ) -> None:
         """Constructor for the S3ReplicationRuleAndOperator class."""
 
         # Initialize members of the class
-        self.prefix: str = prefix
-        self.tags: Sequence[s3_tag.S3Tag] = tags
+        self.prefix: str | None = prefix
+        self.tags: Sequence[s3_tag_.S3Tag] | None = tags
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -45,16 +47,22 @@ class S3ReplicationRuleAndOperator:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        prefix = dictionary.get('prefix')
-        tags = None
-        if dictionary.get('tags'):
-            tags = list()
-            for value in dictionary.get('tags'):
-                tags.append(s3_tag.S3Tag.from_dictionary(value))
+        val = dictionary.get('prefix', None)
+        val_prefix = val
+
+        val = dictionary.get('tags', None)
+
+        val_tags = None
+        if val:
+            val_tags = list()
+            for value in val:
+                val_tags.append(s3_tag_.S3Tag.from_dictionary(value))
 
         # Return an object of this model
-        return cls(prefix, tags)
+        return cls(
+            val_prefix,
+            val_tags,
+        )

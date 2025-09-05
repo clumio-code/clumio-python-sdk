@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -20,17 +20,19 @@ class UpdateUserAssignments:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'add': 'add', 'remove': 'remove'}
+    _names: dict[str, str] = {'add': 'add', 'remove': 'remove'}
 
-    def __init__(self, add: Sequence[str] = None, remove: Sequence[str] = None) -> None:
+    def __init__(
+        self, add: Sequence[str] | None = None, remove: Sequence[str] | None = None
+    ) -> None:
         """Constructor for the UpdateUserAssignments class."""
 
         # Initialize members of the class
-        self.add: Sequence[str] = add
-        self.remove: Sequence[str] = remove
+        self.add: Sequence[str] | None = add
+        self.remove: Sequence[str] | None = remove
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -41,11 +43,17 @@ class UpdateUserAssignments:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        add = dictionary.get('add')
-        remove = dictionary.get('remove')
+        val = dictionary.get('add', None)
+        val_add = val
+
+        val = dictionary.get('remove', None)
+        val_remove = val
+
         # Return an object of this model
-        return cls(add, remove)
+        return cls(
+            val_add,
+            val_remove,
+        )

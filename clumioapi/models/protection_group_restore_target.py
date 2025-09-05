@@ -1,10 +1,10 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import aws_tag_common_model
+from clumioapi.models import aws_tag_common_model as aws_tag_common_model_
 
 T = TypeVar('T', bound='ProtectionGroupRestoreTarget')
 
@@ -49,7 +49,7 @@ class ProtectionGroupRestoreTarget:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'bucket_id': 'bucket_id',
         'environment_id': 'environment_id',
         'overwrite': 'overwrite',
@@ -61,27 +61,27 @@ class ProtectionGroupRestoreTarget:
 
     def __init__(
         self,
-        bucket_id: str = None,
-        environment_id: str = None,
-        overwrite: bool = None,
-        prefix: str = None,
-        restore_original_storage_class: bool = None,
-        storage_class: str = None,
-        tags: Sequence[aws_tag_common_model.AwsTagCommonModel] = None,
+        bucket_id: str | None = None,
+        environment_id: str | None = None,
+        overwrite: bool | None = None,
+        prefix: str | None = None,
+        restore_original_storage_class: bool | None = None,
+        storage_class: str | None = None,
+        tags: Sequence[aws_tag_common_model_.AwsTagCommonModel] | None = None,
     ) -> None:
         """Constructor for the ProtectionGroupRestoreTarget class."""
 
         # Initialize members of the class
-        self.bucket_id: str = bucket_id
-        self.environment_id: str = environment_id
-        self.overwrite: bool = overwrite
-        self.prefix: str = prefix
-        self.restore_original_storage_class: bool = restore_original_storage_class
-        self.storage_class: str = storage_class
-        self.tags: Sequence[aws_tag_common_model.AwsTagCommonModel] = tags
+        self.bucket_id: str | None = bucket_id
+        self.environment_id: str | None = environment_id
+        self.overwrite: bool | None = overwrite
+        self.prefix: str | None = prefix
+        self.restore_original_storage_class: bool | None = restore_original_storage_class
+        self.storage_class: str | None = storage_class
+        self.tags: Sequence[aws_tag_common_model_.AwsTagCommonModel] | None = tags
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -92,29 +92,42 @@ class ProtectionGroupRestoreTarget:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        bucket_id = dictionary.get('bucket_id')
-        environment_id = dictionary.get('environment_id')
-        overwrite = dictionary.get('overwrite')
-        prefix = dictionary.get('prefix')
-        restore_original_storage_class = dictionary.get('restore_original_storage_class')
-        storage_class = dictionary.get('storage_class')
-        tags = None
-        if dictionary.get('tags'):
-            tags = list()
-            for value in dictionary.get('tags'):
-                tags.append(aws_tag_common_model.AwsTagCommonModel.from_dictionary(value))
+        val = dictionary.get('bucket_id', None)
+        val_bucket_id = val
+
+        val = dictionary.get('environment_id', None)
+        val_environment_id = val
+
+        val = dictionary.get('overwrite', None)
+        val_overwrite = val
+
+        val = dictionary.get('prefix', None)
+        val_prefix = val
+
+        val = dictionary.get('restore_original_storage_class', None)
+        val_restore_original_storage_class = val
+
+        val = dictionary.get('storage_class', None)
+        val_storage_class = val
+
+        val = dictionary.get('tags', None)
+
+        val_tags = None
+        if val:
+            val_tags = list()
+            for value in val:
+                val_tags.append(aws_tag_common_model_.AwsTagCommonModel.from_dictionary(value))
 
         # Return an object of this model
         return cls(
-            bucket_id,
-            environment_id,
-            overwrite,
-            prefix,
-            restore_original_storage_class,
-            storage_class,
-            tags,
+            val_bucket_id,
+            val_environment_id,
+            val_overwrite,
+            val_prefix,
+            val_restore_original_storage_class,
+            val_storage_class,
+            val_tags,
         )

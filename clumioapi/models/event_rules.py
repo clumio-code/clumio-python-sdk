@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -18,20 +18,22 @@ class EventRules:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'cloudtrail_rule_arn': 'cloudtrail_rule_arn',
         'cloudwatch_rule_arn': 'cloudwatch_rule_arn',
     }
 
-    def __init__(self, cloudtrail_rule_arn: str = None, cloudwatch_rule_arn: str = None) -> None:
+    def __init__(
+        self, cloudtrail_rule_arn: str | None = None, cloudwatch_rule_arn: str | None = None
+    ) -> None:
         """Constructor for the EventRules class."""
 
         # Initialize members of the class
-        self.cloudtrail_rule_arn: str = cloudtrail_rule_arn
-        self.cloudwatch_rule_arn: str = cloudwatch_rule_arn
+        self.cloudtrail_rule_arn: str | None = cloudtrail_rule_arn
+        self.cloudwatch_rule_arn: str | None = cloudwatch_rule_arn
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -42,11 +44,17 @@ class EventRules:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        cloudtrail_rule_arn = dictionary.get('cloudtrail_rule_arn')
-        cloudwatch_rule_arn = dictionary.get('cloudwatch_rule_arn')
+        val = dictionary.get('cloudtrail_rule_arn', None)
+        val_cloudtrail_rule_arn = val
+
+        val = dictionary.get('cloudwatch_rule_arn', None)
+        val_cloudwatch_rule_arn = val
+
         # Return an object of this model
-        return cls(cloudtrail_rule_arn, cloudwatch_rule_arn)
+        return cls(
+            val_cloudtrail_rule_arn,
+            val_cloudwatch_rule_arn,
+        )

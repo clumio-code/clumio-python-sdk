@@ -1,11 +1,12 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import hateoas_self_link
-from clumioapi.models import read_policy_definition_hateoas_link
+from clumioapi.models import hateoas_self_link as hateoas_self_link_
+from clumioapi.models import \
+    read_policy_definition_hateoas_link as read_policy_definition_hateoas_link_
 
 T = TypeVar('T', bound='EbsVolumeLinks')
 
@@ -24,23 +25,25 @@ class EbsVolumeLinks:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'p_self': '_self', 'read_policy_definition': 'read-policy-definition'}
+    _names: dict[str, str] = {'p_self': '_self', 'read_policy_definition': 'read-policy-definition'}
 
     def __init__(
         self,
-        p_self: hateoas_self_link.HateoasSelfLink = None,
-        read_policy_definition: read_policy_definition_hateoas_link.ReadPolicyDefinitionHateoasLink = None,
+        p_self: hateoas_self_link_.HateoasSelfLink | None = None,
+        read_policy_definition: (
+            read_policy_definition_hateoas_link_.ReadPolicyDefinitionHateoasLink | None
+        ) = None,
     ) -> None:
         """Constructor for the EbsVolumeLinks class."""
 
         # Initialize members of the class
-        self.p_self: hateoas_self_link.HateoasSelfLink = p_self
+        self.p_self: hateoas_self_link_.HateoasSelfLink | None = p_self
         self.read_policy_definition: (
-            read_policy_definition_hateoas_link.ReadPolicyDefinitionHateoasLink
+            read_policy_definition_hateoas_link_.ReadPolicyDefinitionHateoasLink | None
         ) = read_policy_definition
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -51,25 +54,21 @@ class EbsVolumeLinks:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        key = '_self'
-        p_self = (
-            hateoas_self_link.HateoasSelfLink.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('_self', None)
+        val_p_self = hateoas_self_link_.HateoasSelfLink.from_dictionary(val)
 
-        key = 'read-policy-definition'
-        read_policy_definition = (
-            read_policy_definition_hateoas_link.ReadPolicyDefinitionHateoasLink.from_dictionary(
-                dictionary.get(key)
+        val = dictionary.get('read-policy-definition', None)
+        val_read_policy_definition = (
+            read_policy_definition_hateoas_link_.ReadPolicyDefinitionHateoasLink.from_dictionary(
+                val
             )
-            if dictionary.get(key)
-            else None
         )
 
         # Return an object of this model
-        return cls(p_self, read_policy_definition)
+        return cls(
+            val_p_self,
+            val_read_policy_definition,
+        )

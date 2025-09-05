@@ -1,10 +1,10 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import audit_trails
+from clumioapi.models import audit_trails as audit_trails_
 
 T = TypeVar('T', bound='AuditTrailListEmbedded')
 
@@ -20,16 +20,16 @@ class AuditTrailListEmbedded:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {'items': 'items'}
+    _names: dict[str, str] = {'items': 'items'}
 
-    def __init__(self, items: Sequence[audit_trails.AuditTrails] = None) -> None:
+    def __init__(self, items: Sequence[audit_trails_.AuditTrails] | None = None) -> None:
         """Constructor for the AuditTrailListEmbedded class."""
 
         # Initialize members of the class
-        self.items: Sequence[audit_trails.AuditTrails] = items
+        self.items: Sequence[audit_trails_.AuditTrails] | None = items
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -40,15 +40,18 @@ class AuditTrailListEmbedded:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        items = None
-        if dictionary.get('items'):
-            items = list()
-            for value in dictionary.get('items'):
-                items.append(audit_trails.AuditTrails.from_dictionary(value))
+        val = dictionary.get('items', None)
+
+        val_items = None
+        if val:
+            val_items = list()
+            for value in val:
+                val_items.append(audit_trails_.AuditTrails.from_dictionary(value))
 
         # Return an object of this model
-        return cls(items)
+        return cls(
+            val_items,
+        )

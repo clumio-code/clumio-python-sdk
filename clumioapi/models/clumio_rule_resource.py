@@ -1,5 +1,5 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
@@ -25,7 +25,7 @@ class ClumioRuleResource:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'description': 'description',
         'event_pattern': 'event_pattern',
         'steps': 'steps',
@@ -34,21 +34,21 @@ class ClumioRuleResource:
 
     def __init__(
         self,
-        description: str = None,
-        event_pattern: object = None,
-        steps: str = None,
-        targets: Sequence[object] = None,
+        description: str | None = None,
+        event_pattern: object | None = None,
+        steps: str | None = None,
+        targets: Sequence[object] | None = None,
     ) -> None:
         """Constructor for the ClumioRuleResource class."""
 
         # Initialize members of the class
-        self.description: str = description
-        self.event_pattern: object = event_pattern
-        self.steps: str = steps
-        self.targets: Sequence[object] = targets
+        self.description: str | None = description
+        self.event_pattern: object | None = event_pattern
+        self.steps: str | None = steps
+        self.targets: Sequence[object] | None = targets
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -59,13 +59,25 @@ class ClumioRuleResource:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        description = dictionary.get('description')
-        event_pattern = dictionary.get('event_pattern')
-        steps = dictionary.get('steps')
-        targets = dictionary.get('targets')
+        val = dictionary.get('description', None)
+        val_description = val
+
+        val = dictionary.get('event_pattern', None)
+        val_event_pattern = val
+
+        val = dictionary.get('steps', None)
+        val_steps = val
+
+        val = dictionary.get('targets', None)
+        val_targets = val
+
         # Return an object of this model
-        return cls(description, event_pattern, steps, targets)
+        return cls(
+            val_description,
+            val_event_pattern,
+            val_steps,
+            val_targets,
+        )

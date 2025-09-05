@@ -1,11 +1,11 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
 
 from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
 
-from clumioapi.models import audit_parent_entity
-from clumioapi.models import audit_primary_entity
+from clumioapi.models import audit_parent_entity as audit_parent_entity_
+from clumioapi.models import audit_primary_entity as audit_primary_entity_
 
 T = TypeVar('T', bound='AuditTrails')
 
@@ -143,13 +143,10 @@ class AuditTrails:
         parent_entity:
             The parent object of the primary entity associated with or affected by the
             audit.
-            If the primary entity is not a vmware entity, this field will have a value of
-            null
-            For example, "vmware_vcenter" is the parent entity of primary entity
-            "vmware_vm".
         primary_entity:
             The primary object associated with the audit event. Examples of primary entities
-            include "aws_connection", "aws_ebs_volume" and "vmware_vm". In some cases like
+            include "aws_connection", "aws_ebs_volume" and "aws_ec2_instance". In some cases
+            like
             global settings, the primary entity may be null.
         status:
             The status of the performed action. 'success', 'failure', 'partial_success'
@@ -160,7 +157,7 @@ class AuditTrails:
     """
 
     # Create a mapping from Model property names to API property names
-    _names = {
+    _names: dict[str, str] = {
         'action': 'action',
         'category': 'category',
         'details': 'details',
@@ -176,35 +173,35 @@ class AuditTrails:
 
     def __init__(
         self,
-        action: str = None,
-        category: str = None,
-        details: str = None,
-        p_id: str = None,
-        interface: str = None,
-        ip_address: str = None,
-        parent_entity: audit_parent_entity.AuditParentEntity = None,
-        primary_entity: audit_primary_entity.AuditPrimaryEntity = None,
-        status: str = None,
-        timestamp: str = None,
-        user_email: str = None,
+        action: str | None = None,
+        category: str | None = None,
+        details: str | None = None,
+        p_id: str | None = None,
+        interface: str | None = None,
+        ip_address: str | None = None,
+        parent_entity: audit_parent_entity_.AuditParentEntity | None = None,
+        primary_entity: audit_primary_entity_.AuditPrimaryEntity | None = None,
+        status: str | None = None,
+        timestamp: str | None = None,
+        user_email: str | None = None,
     ) -> None:
         """Constructor for the AuditTrails class."""
 
         # Initialize members of the class
-        self.action: str = action
-        self.category: str = category
-        self.details: str = details
-        self.p_id: str = p_id
-        self.interface: str = interface
-        self.ip_address: str = ip_address
-        self.parent_entity: audit_parent_entity.AuditParentEntity = parent_entity
-        self.primary_entity: audit_primary_entity.AuditPrimaryEntity = primary_entity
-        self.status: str = status
-        self.timestamp: str = timestamp
-        self.user_email: str = user_email
+        self.action: str | None = action
+        self.category: str | None = category
+        self.details: str | None = details
+        self.p_id: str | None = p_id
+        self.interface: str | None = interface
+        self.ip_address: str | None = ip_address
+        self.parent_entity: audit_parent_entity_.AuditParentEntity | None = parent_entity
+        self.primary_entity: audit_primary_entity_.AuditPrimaryEntity | None = primary_entity
+        self.status: str | None = status
+        self.timestamp: str | None = timestamp
+        self.user_email: str | None = user_email
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -215,44 +212,53 @@ class AuditTrails:
         Returns:
             object: An instance of this structure class.
         """
-        if not dictionary:
-            return None
 
+        dictionary = dictionary or {}
         # Extract variables from the dictionary
-        action = dictionary.get('action')
-        category = dictionary.get('category')
-        details = dictionary.get('details')
-        p_id = dictionary.get('id')
-        interface = dictionary.get('interface')
-        ip_address = dictionary.get('ip_address')
-        key = 'parent_entity'
-        parent_entity = (
-            audit_parent_entity.AuditParentEntity.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('action', None)
+        val_action = val
 
-        key = 'primary_entity'
-        primary_entity = (
-            audit_primary_entity.AuditPrimaryEntity.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('category', None)
+        val_category = val
 
-        status = dictionary.get('status')
-        timestamp = dictionary.get('timestamp')
-        user_email = dictionary.get('user_email')
+        val = dictionary.get('details', None)
+        val_details = val
+
+        val = dictionary.get('id', None)
+        val_p_id = val
+
+        val = dictionary.get('interface', None)
+        val_interface = val
+
+        val = dictionary.get('ip_address', None)
+        val_ip_address = val
+
+        val = dictionary.get('parent_entity', None)
+        val_parent_entity = audit_parent_entity_.AuditParentEntity.from_dictionary(val)
+
+        val = dictionary.get('primary_entity', None)
+        val_primary_entity = audit_primary_entity_.AuditPrimaryEntity.from_dictionary(val)
+
+        val = dictionary.get('status', None)
+        val_status = val
+
+        val = dictionary.get('timestamp', None)
+        val_timestamp = val
+
+        val = dictionary.get('user_email', None)
+        val_user_email = val
+
         # Return an object of this model
         return cls(
-            action,
-            category,
-            details,
-            p_id,
-            interface,
-            ip_address,
-            parent_entity,
-            primary_entity,
-            status,
-            timestamp,
-            user_email,
+            val_action,
+            val_category,
+            val_details,
+            val_p_id,
+            val_interface,
+            val_ip_address,
+            val_parent_entity,
+            val_primary_entity,
+            val_status,
+            val_timestamp,
+            val_user_email,
         )
