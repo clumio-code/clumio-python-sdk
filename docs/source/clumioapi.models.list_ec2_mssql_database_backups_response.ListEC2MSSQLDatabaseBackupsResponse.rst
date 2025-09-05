@@ -17,10 +17,26 @@ clumioapi.models.list\_ec2\_mssql\_database\_backups\_response.ListEC2MSSQLDatab
    .. autosummary::
    
       ~ListEC2MSSQLDatabaseBackupsResponse.__init__
+      ~ListEC2MSSQLDatabaseBackupsResponse.dict
       ~ListEC2MSSQLDatabaseBackupsResponse.from_dictionary
+      ~ListEC2MSSQLDatabaseBackupsResponse.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ListEC2MSSQLDatabaseBackupsResponse.CurrentCount
+      ~ListEC2MSSQLDatabaseBackupsResponse.Embedded
+      ~ListEC2MSSQLDatabaseBackupsResponse.FilterApplied
+      ~ListEC2MSSQLDatabaseBackupsResponse.Limit
+      ~ListEC2MSSQLDatabaseBackupsResponse.Links
+      ~ListEC2MSSQLDatabaseBackupsResponse.Start
+      ~ListEC2MSSQLDatabaseBackupsResponse.TotalCount
+      ~ListEC2MSSQLDatabaseBackupsResponse.TotalPagesCount
+      ~ListEC2MSSQLDatabaseBackupsResponse.raw_response
    
    

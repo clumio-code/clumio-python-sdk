@@ -3,7 +3,8 @@
 #
 
 import json
-from typing import Any, Optional, Union
+from typing import Any, Iterator, Optional, Union
+import urllib.parse
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -34,30 +35,20 @@ class ManagementGroupsV1Controller(base_controller.BaseController):
 
     def list_management_groups(
         self, limit: int | None = None, start: str | None = None, **kwargs
-    ) -> Union[
-        list_management_groups_response.ListManagementGroupsResponse,
-        tuple[
-            requests.Response,
-            Optional[list_management_groups_response.ListManagementGroupsResponse],
-        ],
-    ]:
+    ) -> list_management_groups_response.ListManagementGroupsResponse:
         """Returns a list of management groups.
 
         Args:
             limit:
-                Limits the size of the response on each page to the specified number of items.
+                Limits the size of the items returned in the response.
             start:
                 Sets the page token used to browse the collection. Leave this parameter empty to
                 get the first page.
                 Other pages can be traversed using HATEOAS links.
-        Returns:
-            requests.Response: Raw Response from the API if config.raw_response is set to True.
-            list_management_groups_response.ListManagementGroupsResponse: Response from the API.
-        Raises:
-            ClumioException: An error occured while executing the API.
-                This exception includes the HTTP response code, an error
-                message, and the HTTP body that was received in the request.
         """
+
+        def get_instance_from_response(resp: requests.Response) -> Any:
+            return list_management_groups_response.ListManagementGroupsResponse.from_response(resp)
 
         # Prepare query URL
         _url_path = '/management-groups'
@@ -65,36 +56,31 @@ class ManagementGroupsV1Controller(base_controller.BaseController):
         _query_parameters: dict[str, Any] = {}
         _query_parameters = {'limit': limit, 'start': start}
 
-        raw_response = self.config.raw_response
+        resp_instance: list_management_groups_response.ListManagementGroupsResponse
         # Execute request
+        resp: requests.Response
         try:
-            resp: requests.Response = self.client.get(
+            resp = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
                 raw_response=True,
                 **kwargs,
             )
-        except requests.exceptions.HTTPError as http_error:
-            if raw_response:
-                return http_error.response, None
-            raise clumio_exception.ClumioException(
-                'Error occurred while executing list_management_groups', error=http_error
-            )
+        except requests.exceptions.HTTPError as e:
+            resp = e.response
 
-        obj = list_management_groups_response.ListManagementGroupsResponse.from_dictionary(
-            resp.json()
-        )
-        if raw_response:
-            return resp, obj
-        return obj
+        if not resp.ok:
+            error_str = f'list_management_groups for url {urllib.parse.unquote(resp.url)} failed.'
+            raise clumio_exception.ClumioException(error_str, resp=resp)
 
-    def read_management_group(self, group_id: str | None = None, **kwargs) -> Union[
-        read_management_group_response.ReadManagementGroupResponse,
-        tuple[
-            requests.Response, Optional[read_management_group_response.ReadManagementGroupResponse]
-        ],
-    ]:
+        resp_instance = get_instance_from_response(resp)
+
+        return resp_instance
+
+    def read_management_group(
+        self, group_id: str | None = None, **kwargs
+    ) -> read_management_group_response.ReadManagementGroupResponse:
         """Returns a representation of the specified management group. Management groups
         are used to
         manage the SQL hosts and cloud connectors deployed in vCenter servers.
@@ -104,14 +90,10 @@ class ManagementGroupsV1Controller(base_controller.BaseController):
         Args:
             group_id:
                 Performs the operation on the management group with the specified ID.
-        Returns:
-            requests.Response: Raw Response from the API if config.raw_response is set to True.
-            read_management_group_response.ReadManagementGroupResponse: Response from the API.
-        Raises:
-            ClumioException: An error occured while executing the API.
-                This exception includes the HTTP response code, an error
-                message, and the HTTP body that was received in the request.
         """
+
+        def get_instance_from_response(resp: requests.Response) -> Any:
+            return read_management_group_response.ReadManagementGroupResponse.from_response(resp)
 
         # Prepare query URL
         _url_path = '/management-groups/{group_id}'
@@ -120,42 +102,34 @@ class ManagementGroupsV1Controller(base_controller.BaseController):
         )
         _query_parameters: dict[str, Any] = {}
 
-        raw_response = self.config.raw_response
+        resp_instance: read_management_group_response.ReadManagementGroupResponse
         # Execute request
+        resp: requests.Response
         try:
-            resp: requests.Response = self.client.get(
+            resp = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
                 raw_response=True,
                 **kwargs,
             )
-        except requests.exceptions.HTTPError as http_error:
-            if raw_response:
-                return http_error.response, None
-            raise clumio_exception.ClumioException(
-                'Error occurred while executing read_management_group', error=http_error
-            )
+        except requests.exceptions.HTTPError as e:
+            resp = e.response
 
-        obj = read_management_group_response.ReadManagementGroupResponse.from_dictionary(
-            resp.json()
-        )
-        if raw_response:
-            return resp, obj
-        return obj
+        if not resp.ok:
+            error_str = f'read_management_group for url {urllib.parse.unquote(resp.url)} failed.'
+            raise clumio_exception.ClumioException(error_str, resp=resp)
+
+        resp_instance = get_instance_from_response(resp)
+
+        return resp_instance
 
     def update_management_group(
         self,
         group_id: str | None = None,
         body: update_management_group_v1_request.UpdateManagementGroupV1Request | None = None,
         **kwargs,
-    ) -> Union[
-        update_management_group_response.UpdateManagementGroupResponse,
-        tuple[
-            requests.Response,
-            Optional[update_management_group_response.UpdateManagementGroupResponse],
-        ],
-    ]:
+    ) -> update_management_group_response.UpdateManagementGroupResponse:
         """Update the specified management group.
 
         Args:
@@ -163,14 +137,12 @@ class ManagementGroupsV1Controller(base_controller.BaseController):
                 Performs the operation on the management group with the specified ID.
             body:
 
-        Returns:
-            requests.Response: Raw Response from the API if config.raw_response is set to True.
-            update_management_group_response.UpdateManagementGroupResponse: Response from the API.
-        Raises:
-            ClumioException: An error occured while executing the API.
-                This exception includes the HTTP response code, an error
-                message, and the HTTP body that was received in the request.
         """
+
+        def get_instance_from_response(resp: requests.Response) -> Any:
+            return update_management_group_response.UpdateManagementGroupResponse.from_response(
+                resp
+            )
 
         # Prepare query URL
         _url_path = '/management-groups/{group_id}'
@@ -179,27 +151,55 @@ class ManagementGroupsV1Controller(base_controller.BaseController):
         )
         _query_parameters: dict[str, Any] = {}
 
-        raw_response = self.config.raw_response
+        resp_instance: update_management_group_response.UpdateManagementGroupResponse
         # Execute request
+        resp: requests.Response
         try:
-            resp: requests.Response = self.client.put(
+            resp = self.client.put(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                json=api_helper.to_dictionary(body),
+                json=body.dict() if body else None,
                 raw_response=True,
                 **kwargs,
             )
-        except requests.exceptions.HTTPError as http_error:
-            if raw_response:
-                return http_error.response, None
-            raise clumio_exception.ClumioException(
-                'Error occurred while executing update_management_group', error=http_error
-            )
+        except requests.exceptions.HTTPError as e:
+            resp = e.response
 
-        obj = update_management_group_response.UpdateManagementGroupResponse.from_dictionary(
-            resp.json()
-        )
-        if raw_response:
-            return resp, obj
-        return obj
+        if not resp.ok:
+            error_str = f'update_management_group for url {urllib.parse.unquote(resp.url)} failed.'
+            raise clumio_exception.ClumioException(error_str, resp=resp)
+
+        resp_instance = get_instance_from_response(resp)
+
+        return resp_instance
+
+
+class ManagementGroupsV1ControllerPaginator(base_controller.BaseController):
+    """A Controller to access Endpoints for management-groups resource with pagination."""
+
+    def __init__(self, config: configuration.Configuration) -> None:
+        super().__init__(config)
+        self.controller = ManagementGroupsV1Controller(config)
+
+    def list_management_groups(
+        self, limit: int | None = None, start: str | None = None, **kwargs
+    ) -> Iterator[list_management_groups_response.ListManagementGroupsResponse]:
+        """Returns a list of management groups.
+
+        Args:
+            limit:
+                Limits the size of the items returned in the response.
+            start:
+                Sets the page token used to browse the collection. Leave this parameter empty to
+                get the first page.
+                Other pages can be traversed using HATEOAS links.
+        """
+        start = start or '1'
+        while True:
+            response = self.controller.list_management_groups(limit=limit, start=start, **kwargs)
+            yield response
+            if not response.Links.Next.Href:  # type: ignore
+                break
+
+            start = str(int(start) + 1)

@@ -17,7 +17,9 @@ clumioapi.models.backup\_status.BackupStatus
    .. autosummary::
    
       ~BackupStatus.__init__
+      ~BackupStatus.dict
       ~BackupStatus.from_dictionary
+      ~BackupStatus.from_response
    
    
 

@@ -17,10 +17,25 @@ clumioapi.models.protection\_group\_restore\_target.ProtectionGroupRestoreTarget
    .. autosummary::
    
       ~ProtectionGroupRestoreTarget.__init__
+      ~ProtectionGroupRestoreTarget.dict
       ~ProtectionGroupRestoreTarget.from_dictionary
+      ~ProtectionGroupRestoreTarget.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ProtectionGroupRestoreTarget.BucketId
+      ~ProtectionGroupRestoreTarget.DefaultObjectChecksumAlgorithm
+      ~ProtectionGroupRestoreTarget.EnvironmentId
+      ~ProtectionGroupRestoreTarget.Overwrite
+      ~ProtectionGroupRestoreTarget.Prefix
+      ~ProtectionGroupRestoreTarget.RestoreOriginalStorageClass
+      ~ProtectionGroupRestoreTarget.StorageClass
+      ~ProtectionGroupRestoreTarget.Tags
    
    

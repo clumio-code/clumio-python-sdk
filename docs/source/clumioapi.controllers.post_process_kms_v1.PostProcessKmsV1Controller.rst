@@ -28,6 +28,5 @@ clumioapi.controllers.post\_process\_kms\_v1.PostProcessKmsV1Controller
    .. autosummary::
    
       ~PostProcessKmsV1Controller.client
-      ~PostProcessKmsV1Controller.global_headers
    
    

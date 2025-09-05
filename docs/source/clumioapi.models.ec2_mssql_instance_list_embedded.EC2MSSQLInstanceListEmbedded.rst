@@ -17,10 +17,18 @@ clumioapi.models.ec2\_mssql\_instance\_list\_embedded.EC2MSSQLInstanceListEmbedd
    .. autosummary::
    
       ~EC2MSSQLInstanceListEmbedded.__init__
+      ~EC2MSSQLInstanceListEmbedded.dict
       ~EC2MSSQLInstanceListEmbedded.from_dictionary
+      ~EC2MSSQLInstanceListEmbedded.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~EC2MSSQLInstanceListEmbedded.Items
    
    

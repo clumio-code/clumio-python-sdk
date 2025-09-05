@@ -17,10 +17,19 @@ clumioapi.models.policy\_control.PolicyControl
    .. autosummary::
    
       ~PolicyControl.__init__
+      ~PolicyControl.dict
       ~PolicyControl.from_dictionary
+      ~PolicyControl.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~PolicyControl.MinimumRetentionDuration
+      ~PolicyControl.MinimumRpoFrequency
    
    

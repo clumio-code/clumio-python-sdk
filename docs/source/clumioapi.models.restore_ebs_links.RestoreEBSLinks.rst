@@ -17,10 +17,19 @@ clumioapi.models.restore\_ebs\_links.RestoreEBSLinks
    .. autosummary::
    
       ~RestoreEBSLinks.__init__
+      ~RestoreEBSLinks.dict
       ~RestoreEBSLinks.from_dictionary
+      ~RestoreEBSLinks.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~RestoreEBSLinks.ReadTask
+      ~RestoreEBSLinks.Self
    
    

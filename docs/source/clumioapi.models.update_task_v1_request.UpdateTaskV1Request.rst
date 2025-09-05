@@ -17,10 +17,18 @@ clumioapi.models.update\_task\_v1\_request.UpdateTaskV1Request
    .. autosummary::
    
       ~UpdateTaskV1Request.__init__
+      ~UpdateTaskV1Request.dict
       ~UpdateTaskV1Request.from_dictionary
+      ~UpdateTaskV1Request.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~UpdateTaskV1Request.Status
    
    

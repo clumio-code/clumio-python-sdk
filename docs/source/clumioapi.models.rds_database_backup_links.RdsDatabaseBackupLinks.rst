@@ -17,10 +17,21 @@ clumioapi.models.rds\_database\_backup\_links.RdsDatabaseBackupLinks
    .. autosummary::
    
       ~RdsDatabaseBackupLinks.__init__
+      ~RdsDatabaseBackupLinks.dict
       ~RdsDatabaseBackupLinks.from_dictionary
+      ~RdsDatabaseBackupLinks.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~RdsDatabaseBackupLinks.ListAwsRdsResourcesOptionGroups
+      ~RdsDatabaseBackupLinks.RestoreAwsRdsResource
+      ~RdsDatabaseBackupLinks.RestoreRdsRecord
+      ~RdsDatabaseBackupLinks.Self
    
    

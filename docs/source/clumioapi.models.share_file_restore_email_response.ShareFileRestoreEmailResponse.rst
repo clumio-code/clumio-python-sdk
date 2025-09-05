@@ -17,10 +17,19 @@ clumioapi.models.share\_file\_restore\_email\_response.ShareFileRestoreEmailResp
    .. autosummary::
    
       ~ShareFileRestoreEmailResponse.__init__
+      ~ShareFileRestoreEmailResponse.dict
       ~ShareFileRestoreEmailResponse.from_dictionary
+      ~ShareFileRestoreEmailResponse.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ShareFileRestoreEmailResponse.Links
+      ~ShareFileRestoreEmailResponse.raw_response
    
    

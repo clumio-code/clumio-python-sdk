@@ -1,42 +1,46 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='ProtectionGroupContinuousBackupAdvancedSetting')
 
 
+@dataclasses.dataclass
 class ProtectionGroupContinuousBackupAdvancedSetting:
     """Implementation of the 'ProtectionGroupContinuousBackupAdvancedSetting' model.
 
-    Additional policy configuration settings for the
-    `protection_group_continuous_backup` operation. If this operation is not of type
-    `protection_group_continuous_backup`, then this field is omitted from the
-    response.
+        Additional policy configuration settings for the
+        `protection_group_continuous_backup` operation. If this operation is not of type
+        `protection_group_continuous_backup`, then this field is omitted from the
+        response.
 
-    Attributes:
-        disable_eventbridge_notification:
-            If true, tries to disable EventBridge notification for the given protection
-            group, when continuous backup no longer conducts.
-            It may override the existing S3 bucket notification configuration in the
-            customer's account.
-            This takes effect only when `event_bridge_enabled` is set to `false`.
+        Attributes:
+            DisableEventbridgeNotification:
+    If true, tries to disable eventbridge notification for the given protection group, when continuous backup no longer conducts.
+    it may override the existing s3 bucket notification configuration in the customer's account.
+    this takes effect only when `event_bridge_enabled` is set to `false`.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'disable_eventbridge_notification': 'disable_eventbridge_notification'
-    }
+    DisableEventbridgeNotification: bool | None = None
 
-    def __init__(self, disable_eventbridge_notification: bool | None = None) -> None:
-        """Constructor for the ProtectionGroupContinuousBackupAdvancedSetting class."""
-
-        # Initialize members of the class
-        self.disable_eventbridge_notification: bool | None = disable_eventbridge_notification
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self,
+            dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v not in [None, {}]},
+        )
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -47,7 +51,6 @@ class ProtectionGroupContinuousBackupAdvancedSetting:
         Returns:
             object: An instance of this structure class.
         """
-
         dictionary = dictionary or {}
         # Extract variables from the dictionary
         val = dictionary.get('disable_eventbridge_notification', None)
@@ -57,3 +60,19 @@ class ProtectionGroupContinuousBackupAdvancedSetting:
         return cls(
             val_disable_eventbridge_notification,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

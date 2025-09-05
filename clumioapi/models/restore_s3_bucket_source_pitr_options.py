@@ -1,35 +1,43 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='RestoreS3BucketSourcePitrOptions')
 
 
+@dataclasses.dataclass
 class RestoreS3BucketSourcePitrOptions:
     """Implementation of the 'RestoreS3BucketSourcePitrOptions' model.
 
-    This field is required when the request type is 'Rollback'. The parameters for
-    initiating a point in time restore.
+        This field is required when the request type is 'Rollback'. The parameters for
+        initiating a point in time restore.
 
-    Attributes:
-        restore_end_timestamp:
-            The end timestamp to be restored in RFC-3339 format.
-            Clumio restores objects modified before the given timestamp.
+        Attributes:
+            RestoreEndTimestamp:
+    The end timestamp to be restored in rfc-3339 format.
+    clumio restores objects modified before the given timestamp.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {'restore_end_timestamp': 'restore_end_timestamp'}
+    RestoreEndTimestamp: str | None = None
 
-    def __init__(self, restore_end_timestamp: str | None = None) -> None:
-        """Constructor for the RestoreS3BucketSourcePitrOptions class."""
-
-        # Initialize members of the class
-        self.restore_end_timestamp: str | None = restore_end_timestamp
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self,
+            dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v not in [None, {}]},
+        )
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -40,7 +48,6 @@ class RestoreS3BucketSourcePitrOptions:
         Returns:
             object: An instance of this structure class.
         """
-
         dictionary = dictionary or {}
         # Extract variables from the dictionary
         val = dictionary.get('restore_end_timestamp', None)
@@ -50,3 +57,19 @@ class RestoreS3BucketSourcePitrOptions:
         return cls(
             val_restore_end_timestamp,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

@@ -20,6 +20,7 @@ clumioapi.controllers.restored\_aws\_ebs\_volumes\_v1
       :template: custom-class-template.rst
    
       RestoredAwsEbsVolumesV1Controller
+      RestoredAwsEbsVolumesV1ControllerPaginator
    
    
 

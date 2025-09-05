@@ -17,10 +17,21 @@ clumioapi.models.delete\_organizational\_unit\_response.DeleteOrganizationalUnit
    .. autosummary::
    
       ~DeleteOrganizationalUnitResponse.__init__
+      ~DeleteOrganizationalUnitResponse.dict
       ~DeleteOrganizationalUnitResponse.from_dictionary
+      ~DeleteOrganizationalUnitResponse.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~DeleteOrganizationalUnitResponse.Embedded
+      ~DeleteOrganizationalUnitResponse.Links
+      ~DeleteOrganizationalUnitResponse.TaskId
+      ~DeleteOrganizationalUnitResponse.raw_response
    
    

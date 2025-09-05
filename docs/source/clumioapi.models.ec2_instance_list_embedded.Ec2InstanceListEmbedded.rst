@@ -17,10 +17,18 @@ clumioapi.models.ec2\_instance\_list\_embedded.Ec2InstanceListEmbedded
    .. autosummary::
    
       ~Ec2InstanceListEmbedded.__init__
+      ~Ec2InstanceListEmbedded.dict
       ~Ec2InstanceListEmbedded.from_dictionary
+      ~Ec2InstanceListEmbedded.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~Ec2InstanceListEmbedded.Items
    
    

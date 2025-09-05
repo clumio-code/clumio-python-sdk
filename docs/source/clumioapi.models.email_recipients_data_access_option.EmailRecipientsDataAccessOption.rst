@@ -17,10 +17,19 @@ clumioapi.models.email\_recipients\_data\_access\_option.EmailRecipientsDataAcce
    .. autosummary::
    
       ~EmailRecipientsDataAccessOption.__init__
+      ~EmailRecipientsDataAccessOption.dict
       ~EmailRecipientsDataAccessOption.from_dictionary
+      ~EmailRecipientsDataAccessOption.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~EmailRecipientsDataAccessOption.Message
+      ~EmailRecipientsDataAccessOption.RecipientEmails
    
    

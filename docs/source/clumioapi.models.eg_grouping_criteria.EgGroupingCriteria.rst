@@ -17,10 +17,19 @@ clumioapi.models.eg\_grouping\_criteria.EgGroupingCriteria
    .. autosummary::
    
       ~EgGroupingCriteria.__init__
+      ~EgGroupingCriteria.dict
       ~EgGroupingCriteria.from_dictionary
+      ~EgGroupingCriteria.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~EgGroupingCriteria.Aws
+      ~EgGroupingCriteria.Microsoft365
    
    

@@ -17,10 +17,20 @@ clumioapi.models.compliance\_configuration\_links.ComplianceConfigurationLinks
    .. autosummary::
    
       ~ComplianceConfigurationLinks.__init__
+      ~ComplianceConfigurationLinks.dict
       ~ComplianceConfigurationLinks.from_dictionary
+      ~ComplianceConfigurationLinks.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ComplianceConfigurationLinks.DeleteComplianceReportConfiguration
+      ~ComplianceConfigurationLinks.Self
+      ~ComplianceConfigurationLinks.UpdateComplianceReportConfiguration
    
    

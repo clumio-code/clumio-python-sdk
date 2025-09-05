@@ -17,10 +17,18 @@ clumioapi.models.user\_list\_embedded.UserListEmbedded
    .. autosummary::
    
       ~UserListEmbedded.__init__
+      ~UserListEmbedded.dict
       ~UserListEmbedded.from_dictionary
+      ~UserListEmbedded.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~UserListEmbedded.Items
    
    

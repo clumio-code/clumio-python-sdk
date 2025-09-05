@@ -32,6 +32,5 @@ clumioapi.controllers.restored\_files\_v1.RestoredFilesV1Controller
    .. autosummary::
    
       ~RestoredFilesV1Controller.client
-      ~RestoredFilesV1Controller.global_headers
    
    

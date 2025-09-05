@@ -17,10 +17,23 @@ clumioapi.models.list\_aws\_regions\_response.ListAWSRegionsResponse
    .. autosummary::
    
       ~ListAWSRegionsResponse.__init__
+      ~ListAWSRegionsResponse.dict
       ~ListAWSRegionsResponse.from_dictionary
+      ~ListAWSRegionsResponse.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ListAWSRegionsResponse.CurrentCount
+      ~ListAWSRegionsResponse.Embedded
+      ~ListAWSRegionsResponse.Limit
+      ~ListAWSRegionsResponse.Links
+      ~ListAWSRegionsResponse.Start
+      ~ListAWSRegionsResponse.raw_response
    
    

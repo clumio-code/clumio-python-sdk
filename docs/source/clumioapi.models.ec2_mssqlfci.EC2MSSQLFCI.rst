@@ -17,10 +17,25 @@ clumioapi.models.ec2\_mssqlfci.EC2MSSQLFCI
    .. autosummary::
    
       ~EC2MSSQLFCI.__init__
+      ~EC2MSSQLFCI.dict
       ~EC2MSSQLFCI.from_dictionary
+      ~EC2MSSQLFCI.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~EC2MSSQLFCI.Embedded
+      ~EC2MSSQLFCI.Id
+      ~EC2MSSQLFCI.Links
+      ~EC2MSSQLFCI.Name
+      ~EC2MSSQLFCI.OrganizationalUnitId
+      ~EC2MSSQLFCI.ProtectionInfo
+      ~EC2MSSQLFCI.ProtectionStatus
+      ~EC2MSSQLFCI.Status
    
    

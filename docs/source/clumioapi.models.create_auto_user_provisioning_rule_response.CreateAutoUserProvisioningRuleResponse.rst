@@ -17,10 +17,24 @@ clumioapi.models.create\_auto\_user\_provisioning\_rule\_response.CreateAutoUser
    .. autosummary::
    
       ~CreateAutoUserProvisioningRuleResponse.__init__
+      ~CreateAutoUserProvisioningRuleResponse.dict
       ~CreateAutoUserProvisioningRuleResponse.from_dictionary
+      ~CreateAutoUserProvisioningRuleResponse.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~CreateAutoUserProvisioningRuleResponse.Condition
+      ~CreateAutoUserProvisioningRuleResponse.Embedded
+      ~CreateAutoUserProvisioningRuleResponse.Links
+      ~CreateAutoUserProvisioningRuleResponse.Name
+      ~CreateAutoUserProvisioningRuleResponse.Provision
+      ~CreateAutoUserProvisioningRuleResponse.RuleId
+      ~CreateAutoUserProvisioningRuleResponse.raw_response
    
    

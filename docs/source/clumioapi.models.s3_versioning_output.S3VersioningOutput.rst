@@ -17,10 +17,19 @@ clumioapi.models.s3\_versioning\_output.S3VersioningOutput
    .. autosummary::
    
       ~S3VersioningOutput.__init__
+      ~S3VersioningOutput.dict
       ~S3VersioningOutput.from_dictionary
+      ~S3VersioningOutput.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~S3VersioningOutput.MfaDelete
+      ~S3VersioningOutput.Status
    
    

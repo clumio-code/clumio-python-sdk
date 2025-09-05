@@ -17,10 +17,18 @@ clumioapi.models.restored\_record\_links.RestoredRecordLinks
    .. autosummary::
    
       ~RestoredRecordLinks.__init__
+      ~RestoredRecordLinks.dict
       ~RestoredRecordLinks.from_dictionary
+      ~RestoredRecordLinks.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~RestoredRecordLinks.Self
    
    

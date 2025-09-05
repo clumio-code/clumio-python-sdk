@@ -17,10 +17,19 @@ clumioapi.models.create\_wallet\_v1\_request.CreateWalletV1Request
    .. autosummary::
    
       ~CreateWalletV1Request.__init__
+      ~CreateWalletV1Request.dict
       ~CreateWalletV1Request.from_dictionary
+      ~CreateWalletV1Request.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~CreateWalletV1Request.AccountNativeId
+      ~CreateWalletV1Request.AwsRegion
    
    

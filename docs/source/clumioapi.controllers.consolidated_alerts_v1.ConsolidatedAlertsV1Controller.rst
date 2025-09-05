@@ -30,6 +30,5 @@ clumioapi.controllers.consolidated\_alerts\_v1.ConsolidatedAlertsV1Controller
    .. autosummary::
    
       ~ConsolidatedAlertsV1Controller.client
-      ~ConsolidatedAlertsV1Controller.global_headers
    
    

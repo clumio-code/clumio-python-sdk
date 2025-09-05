@@ -17,10 +17,19 @@ clumioapi.models.share\_restored\_file\_v1\_request.ShareRestoredFileV1Request
    .. autosummary::
    
       ~ShareRestoredFileV1Request.__init__
+      ~ShareRestoredFileV1Request.dict
       ~ShareRestoredFileV1Request.from_dictionary
+      ~ShareRestoredFileV1Request.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ShareRestoredFileV1Request.EmailAddress
+      ~ShareRestoredFileV1Request.Message
    
    

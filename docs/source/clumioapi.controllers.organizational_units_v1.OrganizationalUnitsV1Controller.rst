@@ -32,6 +32,5 @@ clumioapi.controllers.organizational\_units\_v1.OrganizationalUnitsV1Controller
    .. autosummary::
    
       ~OrganizationalUnitsV1Controller.client
-      ~OrganizationalUnitsV1Controller.global_headers
    
    

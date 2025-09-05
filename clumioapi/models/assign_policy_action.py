@@ -1,33 +1,41 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='AssignPolicyAction')
 
 
+@dataclasses.dataclass
 class AssignPolicyAction:
     """Implementation of the 'AssignPolicyAction' model.
 
-    Apply a policy to assets.
+        Apply a policy to assets.
 
-    Attributes:
-        policy_id:
-            The policy to be applied to the assets.
+        Attributes:
+            PolicyId:
+    The policy to be applied to the assets.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {'policy_id': 'policy_id'}
+    PolicyId: str | None = None
 
-    def __init__(self, policy_id: str | None = None) -> None:
-        """Constructor for the AssignPolicyAction class."""
-
-        # Initialize members of the class
-        self.policy_id: str | None = policy_id
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self,
+            dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v not in [None, {}]},
+        )
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -38,7 +46,6 @@ class AssignPolicyAction:
         Returns:
             object: An instance of this structure class.
         """
-
         dictionary = dictionary or {}
         # Extract variables from the dictionary
         val = dictionary.get('policy_id', None)
@@ -48,3 +55,19 @@ class AssignPolicyAction:
         return cls(
             val_policy_id,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

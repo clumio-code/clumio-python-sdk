@@ -17,10 +17,19 @@ clumioapi.models.change\_password\_v2\_request.ChangePasswordV2Request
    .. autosummary::
    
       ~ChangePasswordV2Request.__init__
+      ~ChangePasswordV2Request.dict
       ~ChangePasswordV2Request.from_dictionary
+      ~ChangePasswordV2Request.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ChangePasswordV2Request.CurrentPassword
+      ~ChangePasswordV2Request.NewPassword
    
    

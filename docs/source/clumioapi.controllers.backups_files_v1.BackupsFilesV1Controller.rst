@@ -29,6 +29,5 @@ clumioapi.controllers.backups\_files\_v1.BackupsFilesV1Controller
    .. autosummary::
    
       ~BackupsFilesV1Controller.client
-      ~BackupsFilesV1Controller.global_headers
    
    

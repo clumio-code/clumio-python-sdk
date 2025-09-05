@@ -17,10 +17,20 @@ clumioapi.models.create\_report\_download\_response.CreateReportDownloadResponse
    .. autosummary::
    
       ~CreateReportDownloadResponse.__init__
+      ~CreateReportDownloadResponse.dict
       ~CreateReportDownloadResponse.from_dictionary
+      ~CreateReportDownloadResponse.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~CreateReportDownloadResponse.Links
+      ~CreateReportDownloadResponse.TaskId
+      ~CreateReportDownloadResponse.raw_response
    
    

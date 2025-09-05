@@ -17,10 +17,18 @@ clumioapi.models.ebs\_volume\_list\_embedded.EbsVolumeListEmbedded
    .. autosummary::
    
       ~EbsVolumeListEmbedded.__init__
+      ~EbsVolumeListEmbedded.dict
       ~EbsVolumeListEmbedded.from_dictionary
+      ~EbsVolumeListEmbedded.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~EbsVolumeListEmbedded.Items
    
    

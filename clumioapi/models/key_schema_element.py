@@ -1,39 +1,47 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='KeySchemaElement')
 
 
+@dataclasses.dataclass
 class KeySchemaElement:
     """Implementation of the 'KeySchemaElement' model.
 
-    Represents a single element of a key schema. A key schema specifies the
-    attributes that make up the primary keyof a table, or the key attributes of an
-    index.
+        Represents a single element of a key schema. A key schema specifies the
+        attributes that make up the primary keyof a table, or the key attributes of an
+        index.
 
-    Attributes:
-        attribute_name:
-            The name of a key attribute.
-        key_type:
-            The role that this key attribute will assume.
-            Possible values include: `HASH` - partition key and `RANGE` - sort key.
+        Attributes:
+            AttributeName:
+    The name of a key attribute.
+
+            KeyType:
+    `hash` - partition key and `range` - sort key.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {'attribute_name': 'attribute_name', 'key_type': 'key_type'}
+    AttributeName: str | None = None
+    KeyType: str | None = None
 
-    def __init__(self, attribute_name: str | None = None, key_type: str | None = None) -> None:
-        """Constructor for the KeySchemaElement class."""
-
-        # Initialize members of the class
-        self.attribute_name: str | None = attribute_name
-        self.key_type: str | None = key_type
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self,
+            dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v not in [None, {}]},
+        )
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -44,7 +52,6 @@ class KeySchemaElement:
         Returns:
             object: An instance of this structure class.
         """
-
         dictionary = dictionary or {}
         # Extract variables from the dictionary
         val = dictionary.get('attribute_name', None)
@@ -58,3 +65,19 @@ class KeySchemaElement:
             val_attribute_name,
             val_key_type,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

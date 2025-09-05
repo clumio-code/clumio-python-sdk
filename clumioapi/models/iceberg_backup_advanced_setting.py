@@ -1,34 +1,42 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='IcebergBackupAdvancedSetting')
 
 
+@dataclasses.dataclass
 class IcebergBackupAdvancedSetting:
     """Implementation of the 'IcebergBackupAdvancedSetting' model.
 
-    IcebergBackupAdvancedSetting defines the advanced settings for Iceberg backup
-    operations
+        IcebergBackupAdvancedSetting defines the advanced settings for Iceberg backup
+        operations
 
-    Attributes:
-        backup_tier:
-            Backup tier to store the backup in. Valid values are: `standard`.
+        Attributes:
+            BackupTier:
+    `standard`.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {'backup_tier': 'backup_tier'}
+    BackupTier: str | None = None
 
-    def __init__(self, backup_tier: str | None = None) -> None:
-        """Constructor for the IcebergBackupAdvancedSetting class."""
-
-        # Initialize members of the class
-        self.backup_tier: str | None = backup_tier
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self,
+            dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v not in [None, {}]},
+        )
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -39,7 +47,6 @@ class IcebergBackupAdvancedSetting:
         Returns:
             object: An instance of this structure class.
         """
-
         dictionary = dictionary or {}
         # Extract variables from the dictionary
         val = dictionary.get('backup_tier', None)
@@ -49,3 +56,19 @@ class IcebergBackupAdvancedSetting:
         return cls(
             val_backup_tier,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

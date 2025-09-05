@@ -17,10 +17,26 @@ clumioapi.models.list\_ec2\_mssql\_instances\_response.ListEC2MSSQLInstancesResp
    .. autosummary::
    
       ~ListEC2MSSQLInstancesResponse.__init__
+      ~ListEC2MSSQLInstancesResponse.dict
       ~ListEC2MSSQLInstancesResponse.from_dictionary
+      ~ListEC2MSSQLInstancesResponse.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ListEC2MSSQLInstancesResponse.CurrentCount
+      ~ListEC2MSSQLInstancesResponse.Embedded
+      ~ListEC2MSSQLInstancesResponse.FilterApplied
+      ~ListEC2MSSQLInstancesResponse.Limit
+      ~ListEC2MSSQLInstancesResponse.Links
+      ~ListEC2MSSQLInstancesResponse.Start
+      ~ListEC2MSSQLInstancesResponse.TotalCount
+      ~ListEC2MSSQLInstancesResponse.TotalPagesCount
+      ~ListEC2MSSQLInstancesResponse.raw_response
    
    

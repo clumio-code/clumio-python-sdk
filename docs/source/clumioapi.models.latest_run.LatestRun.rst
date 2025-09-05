@@ -17,10 +17,28 @@ clumioapi.models.latest\_run.LatestRun
    .. autosummary::
    
       ~LatestRun.__init__
+      ~LatestRun.dict
       ~LatestRun.from_dictionary
+      ~LatestRun.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~LatestRun.ComplianceInfo
+      ~LatestRun.Created
+      ~LatestRun.Expired
+      ~LatestRun.Id
+      ~LatestRun.Name
+      ~LatestRun.Parameter
+      ~LatestRun.ReportConfigId
+      ~LatestRun.ReportDownloadLink
+      ~LatestRun.Status
+      ~LatestRun.TaskId
+      ~LatestRun.Updated
    
    

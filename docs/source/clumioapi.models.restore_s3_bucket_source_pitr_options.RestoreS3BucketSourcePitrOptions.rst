@@ -17,10 +17,18 @@ clumioapi.models.restore\_s3\_bucket\_source\_pitr\_options.RestoreS3BucketSourc
    .. autosummary::
    
       ~RestoreS3BucketSourcePitrOptions.__init__
+      ~RestoreS3BucketSourcePitrOptions.dict
       ~RestoreS3BucketSourcePitrOptions.from_dictionary
+      ~RestoreS3BucketSourcePitrOptions.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~RestoreS3BucketSourcePitrOptions.RestoreEndTimestamp
    
    

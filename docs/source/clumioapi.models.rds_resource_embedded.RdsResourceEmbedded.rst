@@ -17,10 +17,18 @@ clumioapi.models.rds\_resource\_embedded.RdsResourceEmbedded
    .. autosummary::
    
       ~RdsResourceEmbedded.__init__
+      ~RdsResourceEmbedded.dict
       ~RdsResourceEmbedded.from_dictionary
+      ~RdsResourceEmbedded.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~RdsResourceEmbedded.ReadPolicyDefinition
    
    

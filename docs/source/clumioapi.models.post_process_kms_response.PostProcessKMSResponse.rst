@@ -17,10 +17,18 @@ clumioapi.models.post\_process\_kms\_response.PostProcessKMSResponse
    .. autosummary::
    
       ~PostProcessKMSResponse.__init__
+      ~PostProcessKMSResponse.dict
       ~PostProcessKMSResponse.from_dictionary
+      ~PostProcessKMSResponse.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~PostProcessKMSResponse.raw_response
    
    

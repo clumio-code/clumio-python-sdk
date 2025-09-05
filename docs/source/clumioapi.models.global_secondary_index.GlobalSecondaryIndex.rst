@@ -17,10 +17,22 @@ clumioapi.models.global\_secondary\_index.GlobalSecondaryIndex
    .. autosummary::
    
       ~GlobalSecondaryIndex.__init__
+      ~GlobalSecondaryIndex.dict
       ~GlobalSecondaryIndex.from_dictionary
+      ~GlobalSecondaryIndex.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~GlobalSecondaryIndex.ContributorInsightsStatus
+      ~GlobalSecondaryIndex.IndexName
+      ~GlobalSecondaryIndex.KeySchema
+      ~GlobalSecondaryIndex.Projection
+      ~GlobalSecondaryIndex.ProvisionedThroughput
    
    

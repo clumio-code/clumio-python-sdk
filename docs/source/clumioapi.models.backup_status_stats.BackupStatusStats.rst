@@ -17,10 +17,21 @@ clumioapi.models.backup\_status\_stats.BackupStatusStats
    .. autosummary::
    
       ~BackupStatusStats.__init__
+      ~BackupStatusStats.dict
       ~BackupStatusStats.from_dictionary
+      ~BackupStatusStats.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~BackupStatusStats.FailureCount
+      ~BackupStatusStats.NoBackupCount
+      ~BackupStatusStats.PartialSuccessCount
+      ~BackupStatusStats.SuccessCount
    
    

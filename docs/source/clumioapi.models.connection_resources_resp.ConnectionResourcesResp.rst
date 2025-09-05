@@ -17,10 +17,22 @@ clumioapi.models.connection\_resources\_resp.ConnectionResourcesResp
    .. autosummary::
    
       ~ConnectionResourcesResp.__init__
+      ~ConnectionResourcesResp.dict
       ~ConnectionResourcesResp.from_dictionary
+      ~ConnectionResourcesResp.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ConnectionResourcesResp.ClumioEventPubArn
+      ~ConnectionResourcesResp.ClumioIamRoleArn
+      ~ConnectionResourcesResp.ClumioSupportRoleArn
+      ~ConnectionResourcesResp.EventRules
+      ~ConnectionResourcesResp.ServiceRoles
    
    

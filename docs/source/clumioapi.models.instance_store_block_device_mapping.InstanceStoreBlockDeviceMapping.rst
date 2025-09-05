@@ -17,10 +17,23 @@ clumioapi.models.instance\_store\_block\_device\_mapping.InstanceStoreBlockDevic
    .. autosummary::
    
       ~InstanceStoreBlockDeviceMapping.__init__
+      ~InstanceStoreBlockDeviceMapping.dict
       ~InstanceStoreBlockDeviceMapping.from_dictionary
+      ~InstanceStoreBlockDeviceMapping.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~InstanceStoreBlockDeviceMapping.Encryption
+      ~InstanceStoreBlockDeviceMapping.IsNvme
+      ~InstanceStoreBlockDeviceMapping.Name
+      ~InstanceStoreBlockDeviceMapping.Size
+      ~InstanceStoreBlockDeviceMapping.Type
+      ~InstanceStoreBlockDeviceMapping.VirtualName
    
    

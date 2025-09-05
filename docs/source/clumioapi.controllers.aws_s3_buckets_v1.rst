@@ -20,6 +20,7 @@ clumioapi.controllers.aws\_s3\_buckets\_v1
       :template: custom-class-template.rst
    
       AwsS3BucketsV1Controller
+      AwsS3BucketsV1ControllerPaginator
    
    
 

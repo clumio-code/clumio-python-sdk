@@ -17,10 +17,18 @@ clumioapi.models.s3\_encryption\_configuration.S3EncryptionConfiguration
    .. autosummary::
    
       ~S3EncryptionConfiguration.__init__
+      ~S3EncryptionConfiguration.dict
       ~S3EncryptionConfiguration.from_dictionary
+      ~S3EncryptionConfiguration.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~S3EncryptionConfiguration.ReplicaKmsKeyId
    
    

@@ -17,10 +17,18 @@ clumioapi.models.option\_groups\_list\_embedded.OptionGroupsListEmbedded
    .. autosummary::
    
       ~OptionGroupsListEmbedded.__init__
+      ~OptionGroupsListEmbedded.dict
       ~OptionGroupsListEmbedded.from_dictionary
+      ~OptionGroupsListEmbedded.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~OptionGroupsListEmbedded.Items
    
    

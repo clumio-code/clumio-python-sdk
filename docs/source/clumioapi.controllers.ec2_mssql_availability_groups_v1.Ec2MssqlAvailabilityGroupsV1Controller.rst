@@ -29,6 +29,5 @@ clumioapi.controllers.ec2\_mssql\_availability\_groups\_v1.Ec2MssqlAvailabilityG
    .. autosummary::
    
       ~Ec2MssqlAvailabilityGroupsV1Controller.client
-      ~Ec2MssqlAvailabilityGroupsV1Controller.global_headers
    
    

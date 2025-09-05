@@ -17,10 +17,19 @@ clumioapi.models.restore\_s3\_bucket\_links.RestoreS3BucketLinks
    .. autosummary::
    
       ~RestoreS3BucketLinks.__init__
+      ~RestoreS3BucketLinks.dict
       ~RestoreS3BucketLinks.from_dictionary
+      ~RestoreS3BucketLinks.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~RestoreS3BucketLinks.ReadTask
+      ~RestoreS3BucketLinks.Self
    
    

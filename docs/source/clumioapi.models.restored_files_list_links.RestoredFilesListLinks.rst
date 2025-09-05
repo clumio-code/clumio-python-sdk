@@ -17,10 +17,22 @@ clumioapi.models.restored\_files\_list\_links.RestoredFilesListLinks
    .. autosummary::
    
       ~RestoredFilesListLinks.__init__
+      ~RestoredFilesListLinks.dict
       ~RestoredFilesListLinks.from_dictionary
+      ~RestoredFilesListLinks.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~RestoredFilesListLinks.First
+      ~RestoredFilesListLinks.Last
+      ~RestoredFilesListLinks.Next
+      ~RestoredFilesListLinks.Prev
+      ~RestoredFilesListLinks.Self
    
    

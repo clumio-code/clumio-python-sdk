@@ -1,34 +1,42 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='OnDemandThroughputOverride')
 
 
+@dataclasses.dataclass
 class OnDemandThroughputOverride:
     """Implementation of the 'OnDemandThroughputOverride' model.
 
-    Replica-specific ondemand throughput settings. If not specified, uses the source
-    table's ondemand throughput settings.
+        Replica-specific ondemand throughput settings. If not specified, uses the source
+        table's ondemand throughput settings.
 
-    Attributes:
-        max_read_request_units:
-            The maximum number of strongly consistent reads consumed per second.
+        Attributes:
+            MaxReadRequestUnits:
+    The maximum number of strongly consistent reads consumed per second.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {'max_read_request_units': 'max_read_request_units'}
+    MaxReadRequestUnits: int | None = None
 
-    def __init__(self, max_read_request_units: int | None = None) -> None:
-        """Constructor for the OnDemandThroughputOverride class."""
-
-        # Initialize members of the class
-        self.max_read_request_units: int | None = max_read_request_units
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self,
+            dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v not in [None, {}]},
+        )
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -39,7 +47,6 @@ class OnDemandThroughputOverride:
         Returns:
             object: An instance of this structure class.
         """
-
         dictionary = dictionary or {}
         # Extract variables from the dictionary
         val = dictionary.get('max_read_request_units', None)
@@ -49,3 +56,19 @@ class OnDemandThroughputOverride:
         return cls(
             val_max_read_request_units,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

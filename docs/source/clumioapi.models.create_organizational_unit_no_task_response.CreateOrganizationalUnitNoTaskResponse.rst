@@ -17,10 +17,28 @@ clumioapi.models.create\_organizational\_unit\_no\_task\_response.CreateOrganiza
    .. autosummary::
    
       ~CreateOrganizationalUnitNoTaskResponse.__init__
+      ~CreateOrganizationalUnitNoTaskResponse.dict
       ~CreateOrganizationalUnitNoTaskResponse.from_dictionary
+      ~CreateOrganizationalUnitNoTaskResponse.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~CreateOrganizationalUnitNoTaskResponse.ChildrenCount
+      ~CreateOrganizationalUnitNoTaskResponse.ConfiguredDatasourceTypes
+      ~CreateOrganizationalUnitNoTaskResponse.DescendantIds
+      ~CreateOrganizationalUnitNoTaskResponse.Description
+      ~CreateOrganizationalUnitNoTaskResponse.Id
+      ~CreateOrganizationalUnitNoTaskResponse.Links
+      ~CreateOrganizationalUnitNoTaskResponse.Name
+      ~CreateOrganizationalUnitNoTaskResponse.ParentId
+      ~CreateOrganizationalUnitNoTaskResponse.UserCount
+      ~CreateOrganizationalUnitNoTaskResponse.Users
+      ~CreateOrganizationalUnitNoTaskResponse.raw_response
    
    

@@ -17,10 +17,21 @@ clumioapi.models.read\_rds\_database\_table\_response.ReadRDSDatabaseTableRespon
    .. autosummary::
    
       ~ReadRDSDatabaseTableResponse.__init__
+      ~ReadRDSDatabaseTableResponse.dict
       ~ReadRDSDatabaseTableResponse.from_dictionary
+      ~ReadRDSDatabaseTableResponse.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ReadRDSDatabaseTableResponse.Embedded
+      ~ReadRDSDatabaseTableResponse.Links
+      ~ReadRDSDatabaseTableResponse.Name
+      ~ReadRDSDatabaseTableResponse.raw_response
    
    

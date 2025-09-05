@@ -20,6 +20,7 @@ clumioapi.controllers.ec2\_mssql\_availability\_groups\_v1
       :template: custom-class-template.rst
    
       Ec2MssqlAvailabilityGroupsV1Controller
+      Ec2MssqlAvailabilityGroupsV1ControllerPaginator
    
    
 

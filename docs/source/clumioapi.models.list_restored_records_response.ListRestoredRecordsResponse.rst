@@ -17,10 +17,25 @@ clumioapi.models.list\_restored\_records\_response.ListRestoredRecordsResponse
    .. autosummary::
    
       ~ListRestoredRecordsResponse.__init__
+      ~ListRestoredRecordsResponse.dict
       ~ListRestoredRecordsResponse.from_dictionary
+      ~ListRestoredRecordsResponse.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ListRestoredRecordsResponse.CurrentCount
+      ~ListRestoredRecordsResponse.Embedded
+      ~ListRestoredRecordsResponse.Limit
+      ~ListRestoredRecordsResponse.Links
+      ~ListRestoredRecordsResponse.Start
+      ~ListRestoredRecordsResponse.TotalCount
+      ~ListRestoredRecordsResponse.TotalPagesCount
+      ~ListRestoredRecordsResponse.raw_response
    
    

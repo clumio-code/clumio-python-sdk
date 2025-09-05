@@ -28,6 +28,5 @@ clumioapi.controllers.restored\_aws\_ebs\_volumes\_v1.RestoredAwsEbsVolumesV1Con
    .. autosummary::
    
       ~RestoredAwsEbsVolumesV1Controller.client
-      ~RestoredAwsEbsVolumesV1Controller.global_headers
    
    

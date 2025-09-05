@@ -1,80 +1,65 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import hateoas_link as hateoas_link_
 from clumioapi.models import hateoas_self_link as hateoas_self_link_
 from clumioapi.models import protect_entities_hateoas_link as protect_entities_hateoas_link_
 from clumioapi.models import \
     read_policy_definition_hateoas_link as read_policy_definition_hateoas_link_
 from clumioapi.models import unprotect_entities_hateoas_link as unprotect_entities_hateoas_link_
+import requests
 
 T = TypeVar('T', bound='AwsTagLinks')
 
 
+@dataclasses.dataclass
 class AwsTagLinks:
     """Implementation of the 'AwsTagLinks' model.
 
-    URLs to pages related to the resource.
+        URLs to pages related to the resource.
 
-    Attributes:
-        p_self:
-            The HATEOAS link to this resource.
-        protect_entities:
-            A HATEOAS link to protect the entities.
-        read_aws_environment_tag_ebs_volumes_protection_stats:
-            A resource-specific HATEOAS link.
-        read_policy_definition:
-            A HATEOAS link to the policy protecting this resource. Will be omitted for
-            unprotected entities.
-        unprotect_entities:
-            A HATEOAS link to unprotect the entities.
+        Attributes:
+            Self:
+    The hateoas link to this resource.
+
+            ProtectEntities:
+    A hateoas link to protect the entities.
+
+            ReadAwsEnvironmentTagEbsVolumesProtectionStats:
+    A resource-specific hateoas link.
+
+            ReadPolicyDefinition:
+    A hateoas link to the policy protecting this resource. will be omitted for unprotected entities.
+
+            UnprotectEntities:
+    A hateoas link to unprotect the entities.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'p_self': '_self',
-        'protect_entities': 'protect-entities',
-        'read_aws_environment_tag_ebs_volumes_protection_stats': 'read-aws-environment-tag-ebs-volumes-protection-stats',
-        'read_policy_definition': 'read-policy-definition',
-        'unprotect_entities': 'unprotect-entities',
-    }
+    Self: hateoas_self_link_.HateoasSelfLink | None = None
+    ProtectEntities: protect_entities_hateoas_link_.ProtectEntitiesHateoasLink | None = None
+    ReadAwsEnvironmentTagEbsVolumesProtectionStats: hateoas_link_.HateoasLink | None = None
+    ReadPolicyDefinition: (
+        read_policy_definition_hateoas_link_.ReadPolicyDefinitionHateoasLink | None
+    ) = None
+    UnprotectEntities: unprotect_entities_hateoas_link_.UnprotectEntitiesHateoasLink | None = None
 
-    def __init__(
-        self,
-        p_self: hateoas_self_link_.HateoasSelfLink | None = None,
-        protect_entities: protect_entities_hateoas_link_.ProtectEntitiesHateoasLink | None = None,
-        read_aws_environment_tag_ebs_volumes_protection_stats: (
-            hateoas_link_.HateoasLink | None
-        ) = None,
-        read_policy_definition: (
-            read_policy_definition_hateoas_link_.ReadPolicyDefinitionHateoasLink | None
-        ) = None,
-        unprotect_entities: (
-            unprotect_entities_hateoas_link_.UnprotectEntitiesHateoasLink | None
-        ) = None,
-    ) -> None:
-        """Constructor for the AwsTagLinks class."""
-
-        # Initialize members of the class
-        self.p_self: hateoas_self_link_.HateoasSelfLink | None = p_self
-        self.protect_entities: protect_entities_hateoas_link_.ProtectEntitiesHateoasLink | None = (
-            protect_entities
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self,
+            dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v not in [None, {}]},
         )
-        self.read_aws_environment_tag_ebs_volumes_protection_stats: (
-            hateoas_link_.HateoasLink | None
-        ) = read_aws_environment_tag_ebs_volumes_protection_stats
-        self.read_policy_definition: (
-            read_policy_definition_hateoas_link_.ReadPolicyDefinitionHateoasLink | None
-        ) = read_policy_definition
-        self.unprotect_entities: (
-            unprotect_entities_hateoas_link_.UnprotectEntitiesHateoasLink | None
-        ) = unprotect_entities
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -85,11 +70,10 @@ class AwsTagLinks:
         Returns:
             object: An instance of this structure class.
         """
-
         dictionary = dictionary or {}
         # Extract variables from the dictionary
         val = dictionary.get('_self', None)
-        val_p_self = hateoas_self_link_.HateoasSelfLink.from_dictionary(val)
+        val_self = hateoas_self_link_.HateoasSelfLink.from_dictionary(val)
 
         val = dictionary.get('protect-entities', None)
         val_protect_entities = (
@@ -115,9 +99,25 @@ class AwsTagLinks:
 
         # Return an object of this model
         return cls(
-            val_p_self,
+            val_self,
             val_protect_entities,
             val_read_aws_environment_tag_ebs_volumes_protection_stats,
             val_read_policy_definition,
             val_unprotect_entities,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

@@ -17,10 +17,19 @@ clumioapi.models.key\_schema\_element.KeySchemaElement
    .. autosummary::
    
       ~KeySchemaElement.__init__
+      ~KeySchemaElement.dict
       ~KeySchemaElement.from_dictionary
+      ~KeySchemaElement.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~KeySchemaElement.AttributeName
+      ~KeySchemaElement.KeyType
    
    

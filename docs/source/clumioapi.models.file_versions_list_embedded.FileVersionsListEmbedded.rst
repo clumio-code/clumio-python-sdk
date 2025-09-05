@@ -17,10 +17,18 @@ clumioapi.models.file\_versions\_list\_embedded.FileVersionsListEmbedded
    .. autosummary::
    
       ~FileVersionsListEmbedded.__init__
+      ~FileVersionsListEmbedded.dict
       ~FileVersionsListEmbedded.from_dictionary
+      ~FileVersionsListEmbedded.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~FileVersionsListEmbedded.Items
    
    

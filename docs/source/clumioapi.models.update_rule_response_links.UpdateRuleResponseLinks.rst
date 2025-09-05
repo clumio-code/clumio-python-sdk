@@ -17,10 +17,19 @@ clumioapi.models.update\_rule\_response\_links.UpdateRuleResponseLinks
    .. autosummary::
    
       ~UpdateRuleResponseLinks.__init__
+      ~UpdateRuleResponseLinks.dict
       ~UpdateRuleResponseLinks.from_dictionary
+      ~UpdateRuleResponseLinks.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~UpdateRuleResponseLinks.ReadTask
+      ~UpdateRuleResponseLinks.Self
    
    

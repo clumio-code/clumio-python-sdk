@@ -17,10 +17,18 @@ clumioapi.models.audit\_trail\_list\_embedded.AuditTrailListEmbedded
    .. autosummary::
    
       ~AuditTrailListEmbedded.__init__
+      ~AuditTrailListEmbedded.dict
       ~AuditTrailListEmbedded.from_dictionary
+      ~AuditTrailListEmbedded.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~AuditTrailListEmbedded.Items
    
    

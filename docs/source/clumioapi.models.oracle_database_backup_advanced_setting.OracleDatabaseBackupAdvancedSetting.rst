@@ -17,10 +17,19 @@ clumioapi.models.oracle\_database\_backup\_advanced\_setting.OracleDatabaseBacku
    .. autosummary::
    
       ~OracleDatabaseBackupAdvancedSetting.__init__
+      ~OracleDatabaseBackupAdvancedSetting.dict
       ~OracleDatabaseBackupAdvancedSetting.from_dictionary
+      ~OracleDatabaseBackupAdvancedSetting.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~OracleDatabaseBackupAdvancedSetting.AlternativeReplica
+      ~OracleDatabaseBackupAdvancedSetting.PreferredReplica
    
    

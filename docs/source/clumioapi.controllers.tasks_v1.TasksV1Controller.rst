@@ -30,6 +30,5 @@ clumioapi.controllers.tasks\_v1.TasksV1Controller
    .. autosummary::
    
       ~TasksV1Controller.client
-      ~TasksV1Controller.global_headers
    
    

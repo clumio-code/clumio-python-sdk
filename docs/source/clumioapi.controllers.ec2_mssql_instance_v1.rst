@@ -20,6 +20,7 @@ clumioapi.controllers.ec2\_mssql\_instance\_v1
       :template: custom-class-template.rst
    
       Ec2MssqlInstanceV1Controller
+      Ec2MssqlInstanceV1ControllerPaginator
    
    
 

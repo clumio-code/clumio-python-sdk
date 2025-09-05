@@ -17,7 +17,9 @@ clumioapi.models.delete\_policy\_rule\_v1\_request.DeletePolicyRuleV1Request
    .. autosummary::
    
       ~DeletePolicyRuleV1Request.__init__
+      ~DeletePolicyRuleV1Request.dict
       ~DeletePolicyRuleV1Request.from_dictionary
+      ~DeletePolicyRuleV1Request.from_response
    
    
 

@@ -17,10 +17,20 @@ clumioapi.models.rpo\_backup\_sla\_param.RPOBackupSLAParam
    .. autosummary::
    
       ~RPOBackupSLAParam.__init__
+      ~RPOBackupSLAParam.dict
       ~RPOBackupSLAParam.from_dictionary
+      ~RPOBackupSLAParam.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~RPOBackupSLAParam.Offsets
+      ~RPOBackupSLAParam.Unit
+      ~RPOBackupSLAParam.Value
    
    

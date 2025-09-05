@@ -28,6 +28,5 @@ clumioapi.controllers.audit\_trails\_v1.AuditTrailsV1Controller
    .. autosummary::
    
       ~AuditTrailsV1Controller.client
-      ~AuditTrailsV1Controller.global_headers
    
    

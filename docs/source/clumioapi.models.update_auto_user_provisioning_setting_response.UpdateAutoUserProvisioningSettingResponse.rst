@@ -17,10 +17,20 @@ clumioapi.models.update\_auto\_user\_provisioning\_setting\_response.UpdateAutoU
    .. autosummary::
    
       ~UpdateAutoUserProvisioningSettingResponse.__init__
+      ~UpdateAutoUserProvisioningSettingResponse.dict
       ~UpdateAutoUserProvisioningSettingResponse.from_dictionary
+      ~UpdateAutoUserProvisioningSettingResponse.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~UpdateAutoUserProvisioningSettingResponse.IsEnabled
+      ~UpdateAutoUserProvisioningSettingResponse.Links
+      ~UpdateAutoUserProvisioningSettingResponse.raw_response
    
    

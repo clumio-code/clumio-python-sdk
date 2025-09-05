@@ -17,10 +17,18 @@ clumioapi.models.post\_process\_aws\_connection\_response.PostProcessAwsConnecti
    .. autosummary::
    
       ~PostProcessAwsConnectionResponse.__init__
+      ~PostProcessAwsConnectionResponse.dict
       ~PostProcessAwsConnectionResponse.from_dictionary
+      ~PostProcessAwsConnectionResponse.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~PostProcessAwsConnectionResponse.raw_response
    
    

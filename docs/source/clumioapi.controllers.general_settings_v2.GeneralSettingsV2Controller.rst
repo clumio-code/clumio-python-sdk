@@ -29,6 +29,5 @@ clumioapi.controllers.general\_settings\_v2.GeneralSettingsV2Controller
    .. autosummary::
    
       ~GeneralSettingsV2Controller.client
-      ~GeneralSettingsV2Controller.global_headers
    
    

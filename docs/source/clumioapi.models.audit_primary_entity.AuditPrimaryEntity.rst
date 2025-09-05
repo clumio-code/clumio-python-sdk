@@ -17,10 +17,20 @@ clumioapi.models.audit\_primary\_entity.AuditPrimaryEntity
    .. autosummary::
    
       ~AuditPrimaryEntity.__init__
+      ~AuditPrimaryEntity.dict
       ~AuditPrimaryEntity.from_dictionary
+      ~AuditPrimaryEntity.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~AuditPrimaryEntity.Id
+      ~AuditPrimaryEntity.Type
+      ~AuditPrimaryEntity.Value
    
    

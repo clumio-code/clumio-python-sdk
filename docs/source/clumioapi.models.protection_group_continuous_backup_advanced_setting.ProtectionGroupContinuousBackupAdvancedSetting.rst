@@ -17,10 +17,18 @@ clumioapi.models.protection\_group\_continuous\_backup\_advanced\_setting.Protec
    .. autosummary::
    
       ~ProtectionGroupContinuousBackupAdvancedSetting.__init__
+      ~ProtectionGroupContinuousBackupAdvancedSetting.dict
       ~ProtectionGroupContinuousBackupAdvancedSetting.from_dictionary
+      ~ProtectionGroupContinuousBackupAdvancedSetting.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ProtectionGroupContinuousBackupAdvancedSetting.DisableEventbridgeNotification
    
    

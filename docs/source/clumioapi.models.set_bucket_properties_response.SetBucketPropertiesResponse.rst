@@ -17,10 +17,19 @@ clumioapi.models.set\_bucket\_properties\_response.SetBucketPropertiesResponse
    .. autosummary::
    
       ~SetBucketPropertiesResponse.__init__
+      ~SetBucketPropertiesResponse.dict
       ~SetBucketPropertiesResponse.from_dictionary
+      ~SetBucketPropertiesResponse.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~SetBucketPropertiesResponse.Links
+      ~SetBucketPropertiesResponse.raw_response
    
    

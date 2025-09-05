@@ -1,47 +1,48 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import dynamodb_asset_info as dynamodb_asset_info_
+import requests
 
 T = TypeVar('T', bound='WarmTierProtectConfig')
 
 
+@dataclasses.dataclass
 class WarmTierProtectConfig:
     """Implementation of the 'WarmTierProtectConfig' model.
 
-    The configuration of the Clumio Cloud Warm-Tier Protect product for this
-    connection.
+        The configuration of the Clumio Cloud Warm-Tier Protect product for this
+        connection.
 
-    Attributes:
-        dynamodb:
-            DynamodbAssetInfo
-            The installed information for the DynamoDB feature.
-        installed_template_version:
-            The current version of the feature.
+        Attributes:
+            Dynamodb:
+    Dynamodbassetinfo
+    the installed information for the dynamodb feature.
+
+            InstalledTemplateVersion:
+    The current version of the feature.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'dynamodb': 'dynamodb',
-        'installed_template_version': 'installed_template_version',
-    }
+    Dynamodb: dynamodb_asset_info_.DynamodbAssetInfo | None = None
+    InstalledTemplateVersion: str | None = None
 
-    def __init__(
-        self,
-        dynamodb: dynamodb_asset_info_.DynamodbAssetInfo | None = None,
-        installed_template_version: str | None = None,
-    ) -> None:
-        """Constructor for the WarmTierProtectConfig class."""
-
-        # Initialize members of the class
-        self.dynamodb: dynamodb_asset_info_.DynamodbAssetInfo | None = dynamodb
-        self.installed_template_version: str | None = installed_template_version
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self,
+            dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v not in [None, {}]},
+        )
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -52,7 +53,6 @@ class WarmTierProtectConfig:
         Returns:
             object: An instance of this structure class.
         """
-
         dictionary = dictionary or {}
         # Extract variables from the dictionary
         val = dictionary.get('dynamodb', None)
@@ -66,3 +66,19 @@ class WarmTierProtectConfig:
             val_dynamodb,
             val_installed_template_version,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

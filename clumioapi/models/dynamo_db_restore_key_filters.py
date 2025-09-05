@@ -1,47 +1,46 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import dynamo_db_key_filter as dynamo_db_key_filter_
+import requests
 
 T = TypeVar('T', bound='DynamoDBRestoreKeyFilters')
 
 
+@dataclasses.dataclass
 class DynamoDBRestoreKeyFilters:
     """Implementation of the 'DynamoDBRestoreKeyFilters' model.
 
-    Key filters based on which DynamoDB backup records are filtered.
+        Key filters based on which DynamoDB backup records are filtered.
 
-    Attributes:
-        partition_key_filter:
-            Key filter of the DynamoDB table.
-        sort_key_filter:
-            Key filter of the DynamoDB table.
+        Attributes:
+            PartitionKeyFilter:
+    Key filter of the dynamodb table.
+
+            SortKeyFilter:
+    Key filter of the dynamodb table.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'partition_key_filter': 'partition_key_filter',
-        'sort_key_filter': 'sort_key_filter',
-    }
+    PartitionKeyFilter: dynamo_db_key_filter_.DynamoDBKeyFilter | None = None
+    SortKeyFilter: dynamo_db_key_filter_.DynamoDBKeyFilter | None = None
 
-    def __init__(
-        self,
-        partition_key_filter: dynamo_db_key_filter_.DynamoDBKeyFilter | None = None,
-        sort_key_filter: dynamo_db_key_filter_.DynamoDBKeyFilter | None = None,
-    ) -> None:
-        """Constructor for the DynamoDBRestoreKeyFilters class."""
-
-        # Initialize members of the class
-        self.partition_key_filter: dynamo_db_key_filter_.DynamoDBKeyFilter | None = (
-            partition_key_filter
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self,
+            dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v not in [None, {}]},
         )
-        self.sort_key_filter: dynamo_db_key_filter_.DynamoDBKeyFilter | None = sort_key_filter
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -52,7 +51,6 @@ class DynamoDBRestoreKeyFilters:
         Returns:
             object: An instance of this structure class.
         """
-
         dictionary = dictionary or {}
         # Extract variables from the dictionary
         val = dictionary.get('partition_key_filter', None)
@@ -66,3 +64,19 @@ class DynamoDBRestoreKeyFilters:
             val_partition_key_filter,
             val_sort_key_filter,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

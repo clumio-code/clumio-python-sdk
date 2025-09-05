@@ -17,10 +17,19 @@ clumioapi.models.entity\_group\_assignment\_updates\_v1.EntityGroupAssignmentUpd
    .. autosummary::
    
       ~EntityGroupAssignmentUpdatesV1.__init__
+      ~EntityGroupAssignmentUpdatesV1.dict
       ~EntityGroupAssignmentUpdatesV1.from_dictionary
+      ~EntityGroupAssignmentUpdatesV1.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~EntityGroupAssignmentUpdatesV1.Add
+      ~EntityGroupAssignmentUpdatesV1.Remove
    
    

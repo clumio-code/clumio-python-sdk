@@ -20,6 +20,7 @@ clumioapi.controllers.aws\_connection\_groups\_v1
       :template: custom-class-template.rst
    
       AwsConnectionGroupsV1Controller
+      AwsConnectionGroupsV1ControllerPaginator
    
    
 

@@ -29,6 +29,5 @@ clumioapi.controllers.report\_downloads\_v1.ReportDownloadsV1Controller
    .. autosummary::
    
       ~ReportDownloadsV1Controller.client
-      ~ReportDownloadsV1Controller.global_headers
    
    

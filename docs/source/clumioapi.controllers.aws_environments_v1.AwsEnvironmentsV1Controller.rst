@@ -29,6 +29,5 @@ clumioapi.controllers.aws\_environments\_v1.AwsEnvironmentsV1Controller
    .. autosummary::
    
       ~AwsEnvironmentsV1Controller.client
-      ~AwsEnvironmentsV1Controller.global_headers
    
    

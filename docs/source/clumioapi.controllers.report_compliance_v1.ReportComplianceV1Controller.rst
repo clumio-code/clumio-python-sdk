@@ -32,6 +32,5 @@ clumioapi.controllers.report\_compliance\_v1.ReportComplianceV1Controller
    .. autosummary::
    
       ~ReportComplianceV1Controller.client
-      ~ReportComplianceV1Controller.global_headers
    
    

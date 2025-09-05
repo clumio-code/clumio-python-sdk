@@ -28,6 +28,5 @@ clumioapi.controllers.restored\_aws\_rds\_resources\_v1.RestoredAwsRdsResourcesV
    .. autosummary::
    
       ~RestoredAwsRdsResourcesV1Controller.client
-      ~RestoredAwsRdsResourcesV1Controller.global_headers
    
    

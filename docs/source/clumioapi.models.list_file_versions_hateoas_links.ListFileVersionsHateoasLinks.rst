@@ -17,10 +17,18 @@ clumioapi.models.list\_file\_versions\_hateoas\_links.ListFileVersionsHateoasLin
    .. autosummary::
    
       ~ListFileVersionsHateoasLinks.__init__
+      ~ListFileVersionsHateoasLinks.dict
       ~ListFileVersionsHateoasLinks.from_dictionary
+      ~ListFileVersionsHateoasLinks.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ListFileVersionsHateoasLinks.ListFileVersions
    
    

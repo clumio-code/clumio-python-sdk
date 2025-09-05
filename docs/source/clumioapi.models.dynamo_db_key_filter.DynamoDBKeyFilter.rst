@@ -17,10 +17,19 @@ clumioapi.models.dynamo\_db\_key\_filter.DynamoDBKeyFilter
    .. autosummary::
    
       ~DynamoDBKeyFilter.__init__
+      ~DynamoDBKeyFilter.dict
       ~DynamoDBKeyFilter.from_dictionary
+      ~DynamoDBKeyFilter.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~DynamoDBKeyFilter.Condition
+      ~DynamoDBKeyFilter.Values
    
    

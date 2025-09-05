@@ -17,10 +17,20 @@ clumioapi.models.file\_versions\_list\_links.FileVersionsListLinks
    .. autosummary::
    
       ~FileVersionsListLinks.__init__
+      ~FileVersionsListLinks.dict
       ~FileVersionsListLinks.from_dictionary
+      ~FileVersionsListLinks.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~FileVersionsListLinks.First
+      ~FileVersionsListLinks.Next
+      ~FileVersionsListLinks.Self
    
    

@@ -17,10 +17,23 @@ clumioapi.models.ebs\_restore\_target.EBSRestoreTarget
    .. autosummary::
    
       ~EBSRestoreTarget.__init__
+      ~EBSRestoreTarget.dict
       ~EBSRestoreTarget.from_dictionary
+      ~EBSRestoreTarget.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~EBSRestoreTarget.AwsAz
+      ~EBSRestoreTarget.EnvironmentId
+      ~EBSRestoreTarget.Iops
+      ~EBSRestoreTarget.KmsKeyNativeId
+      ~EBSRestoreTarget.Tags
+      ~EBSRestoreTarget.Type
    
    

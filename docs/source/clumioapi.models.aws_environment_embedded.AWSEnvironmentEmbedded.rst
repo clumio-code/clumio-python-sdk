@@ -17,10 +17,18 @@ clumioapi.models.aws\_environment\_embedded.AWSEnvironmentEmbedded
    .. autosummary::
    
       ~AWSEnvironmentEmbedded.__init__
+      ~AWSEnvironmentEmbedded.dict
       ~AWSEnvironmentEmbedded.from_dictionary
+      ~AWSEnvironmentEmbedded.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~AWSEnvironmentEmbedded.ReadAwsEnvironmentsBackupStatusStats
    
    

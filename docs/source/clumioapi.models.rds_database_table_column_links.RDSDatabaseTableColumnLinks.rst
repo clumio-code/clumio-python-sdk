@@ -17,10 +17,20 @@ clumioapi.models.rds\_database\_table\_column\_links.RDSDatabaseTableColumnLinks
    .. autosummary::
    
       ~RDSDatabaseTableColumnLinks.__init__
+      ~RDSDatabaseTableColumnLinks.dict
       ~RDSDatabaseTableColumnLinks.from_dictionary
+      ~RDSDatabaseTableColumnLinks.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~RDSDatabaseTableColumnLinks.First
+      ~RDSDatabaseTableColumnLinks.Next
+      ~RDSDatabaseTableColumnLinks.Self
    
    

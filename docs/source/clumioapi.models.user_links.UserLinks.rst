@@ -17,10 +17,20 @@ clumioapi.models.user\_links.UserLinks
    .. autosummary::
    
       ~UserLinks.__init__
+      ~UserLinks.dict
       ~UserLinks.from_dictionary
+      ~UserLinks.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~UserLinks.DeleteUser
+      ~UserLinks.Self
+      ~UserLinks.UpdateUser
    
    

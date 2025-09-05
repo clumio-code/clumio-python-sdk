@@ -17,10 +17,23 @@ clumioapi.models.estimate\_cost\_details\_s3\_instant\_access\_endpoint\_respons
    .. autosummary::
    
       ~EstimateCostDetailsS3InstantAccessEndpointResponse.__init__
+      ~EstimateCostDetailsS3InstantAccessEndpointResponse.dict
       ~EstimateCostDetailsS3InstantAccessEndpointResponse.from_dictionary
+      ~EstimateCostDetailsS3InstantAccessEndpointResponse.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~EstimateCostDetailsS3InstantAccessEndpointResponse.EstimatedCost
+      ~EstimateCostDetailsS3InstantAccessEndpointResponse.Etag
+      ~EstimateCostDetailsS3InstantAccessEndpointResponse.Links
+      ~EstimateCostDetailsS3InstantAccessEndpointResponse.TotalObjectCount
+      ~EstimateCostDetailsS3InstantAccessEndpointResponse.TotalObjectSize
+      ~EstimateCostDetailsS3InstantAccessEndpointResponse.raw_response
    
    

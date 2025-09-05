@@ -17,10 +17,20 @@ clumioapi.models.mssql\_service\_roles.MssqlServiceRoles
    .. autosummary::
    
       ~MssqlServiceRoles.__init__
+      ~MssqlServiceRoles.dict
       ~MssqlServiceRoles.from_dictionary
+      ~MssqlServiceRoles.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~MssqlServiceRoles.Ec2InstanceProfileRoleArn
+      ~MssqlServiceRoles.Ec2SsmInstanceProfileArn
+      ~MssqlServiceRoles.SsmNotificationRoleArn
    
    

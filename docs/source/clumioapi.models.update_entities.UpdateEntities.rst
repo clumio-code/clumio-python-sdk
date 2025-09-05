@@ -17,10 +17,19 @@ clumioapi.models.update\_entities.UpdateEntities
    .. autosummary::
    
       ~UpdateEntities.__init__
+      ~UpdateEntities.dict
       ~UpdateEntities.from_dictionary
+      ~UpdateEntities.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~UpdateEntities.Add
+      ~UpdateEntities.Remove
    
    

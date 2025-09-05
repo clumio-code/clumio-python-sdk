@@ -17,10 +17,19 @@ clumioapi.models.compliance\_filters.ComplianceFilters
    .. autosummary::
    
       ~ComplianceFilters.__init__
+      ~ComplianceFilters.dict
       ~ComplianceFilters.from_dictionary
+      ~ComplianceFilters.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ComplianceFilters.Asset
+      ~ComplianceFilters.Common
    
    

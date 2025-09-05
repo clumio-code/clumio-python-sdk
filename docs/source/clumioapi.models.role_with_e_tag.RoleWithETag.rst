@@ -17,10 +17,24 @@ clumioapi.models.role\_with\_e\_tag.RoleWithETag
    .. autosummary::
    
       ~RoleWithETag.__init__
+      ~RoleWithETag.dict
       ~RoleWithETag.from_dictionary
+      ~RoleWithETag.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~RoleWithETag.Description
+      ~RoleWithETag.Etag
+      ~RoleWithETag.Id
+      ~RoleWithETag.Links
+      ~RoleWithETag.Name
+      ~RoleWithETag.Permissions
+      ~RoleWithETag.UserCount
    
    

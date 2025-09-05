@@ -17,10 +17,20 @@ clumioapi.models.read\_policy\_definition\_hateoas\_link.ReadPolicyDefinitionHat
    .. autosummary::
    
       ~ReadPolicyDefinitionHateoasLink.__init__
+      ~ReadPolicyDefinitionHateoasLink.dict
       ~ReadPolicyDefinitionHateoasLink.from_dictionary
+      ~ReadPolicyDefinitionHateoasLink.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ReadPolicyDefinitionHateoasLink.Href
+      ~ReadPolicyDefinitionHateoasLink.Templated
+      ~ReadPolicyDefinitionHateoasLink.Type
    
    

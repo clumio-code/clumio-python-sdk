@@ -1,70 +1,66 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import bucket_list_embedded as bucket_list_embedded_
 from clumioapi.models import bucket_list_links as bucket_list_links_
+import requests
 
 T = TypeVar('T', bound='ListBucketsResponse')
 
 
+@dataclasses.dataclass
 class ListBucketsResponse:
     """Implementation of the 'ListBucketsResponse' model.
 
-    Attributes:
-        embedded:
-            Embedded responses related to the resource.
-        links:
-            URLs to pages related to the resource.
-        current_count:
-            The number of items listed on the current page.
-        limit:
-            The maximum number of items displayed per page in the response.
-        start:
-            The page number used to get this response.
-            Pages are indexed starting from 1 (i.e., `"start": "1"`).
-        total_count:
-            The total number of items, summed across all pages.
-        total_pages_count:
-            The total number of pages of results.
+        Attributes:
+            Embedded:
+    Embedded responses related to the resource.
+
+            Links:
+    Urls to pages related to the resource.
+
+            CurrentCount:
+    The number of items listed on the current page.
+
+            Limit:
+    The maximum number of items displayed per page in the response.
+
+            Start:
+    "1"`).
+
+            TotalCount:
+    The total number of items, summed across all pages.
+
+            TotalPagesCount:
+    The total number of pages of results.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'embedded': '_embedded',
-        'links': '_links',
-        'current_count': 'current_count',
-        'limit': 'limit',
-        'start': 'start',
-        'total_count': 'total_count',
-        'total_pages_count': 'total_pages_count',
-    }
+    Embedded: bucket_list_embedded_.BucketListEmbedded | None = None
+    Links: bucket_list_links_.BucketListLinks | None = None
+    CurrentCount: int | None = None
+    Limit: int | None = None
+    Start: str | None = None
+    TotalCount: int | None = None
+    TotalPagesCount: int | None = None
+    raw_response: Optional[requests.Response] = None
 
-    def __init__(
-        self,
-        embedded: bucket_list_embedded_.BucketListEmbedded | None = None,
-        links: bucket_list_links_.BucketListLinks | None = None,
-        current_count: int | None = None,
-        limit: int | None = None,
-        start: str | None = None,
-        total_count: int | None = None,
-        total_pages_count: int | None = None,
-    ) -> None:
-        """Constructor for the ListBucketsResponse class."""
-
-        # Initialize members of the class
-        self.embedded: bucket_list_embedded_.BucketListEmbedded | None = embedded
-        self.links: bucket_list_links_.BucketListLinks | None = links
-        self.current_count: int | None = current_count
-        self.limit: int | None = limit
-        self.start: str | None = start
-        self.total_count: int | None = total_count
-        self.total_pages_count: int | None = total_pages_count
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self,
+            dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v not in [None, {}]},
+        )
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -75,7 +71,6 @@ class ListBucketsResponse:
         Returns:
             object: An instance of this structure class.
         """
-
         dictionary = dictionary or {}
         # Extract variables from the dictionary
         val = dictionary.get('_embedded', None)
@@ -109,3 +104,20 @@ class ListBucketsResponse:
             val_total_count,
             val_total_pages_count,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        model_instance.raw_response = response
+        return model_instance

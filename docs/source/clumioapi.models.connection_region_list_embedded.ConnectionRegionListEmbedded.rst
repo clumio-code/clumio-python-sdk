@@ -17,10 +17,18 @@ clumioapi.models.connection\_region\_list\_embedded.ConnectionRegionListEmbedded
    .. autosummary::
    
       ~ConnectionRegionListEmbedded.__init__
+      ~ConnectionRegionListEmbedded.dict
       ~ConnectionRegionListEmbedded.from_dictionary
+      ~ConnectionRegionListEmbedded.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ConnectionRegionListEmbedded.Items
    
    

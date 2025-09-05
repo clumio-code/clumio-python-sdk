@@ -17,10 +17,20 @@ clumioapi.models.dynamo\_db\_grr\_target.DynamoDBGrrTarget
    .. autosummary::
    
       ~DynamoDBGrrTarget.__init__
+      ~DynamoDBGrrTarget.dict
       ~DynamoDBGrrTarget.from_dictionary
+      ~DynamoDBGrrTarget.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~DynamoDBGrrTarget.DirectDownload
+      ~DynamoDBGrrTarget.Email
+      ~DynamoDBGrrTarget.Preview
    
    

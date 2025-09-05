@@ -17,10 +17,25 @@ clumioapi.models.read\_ec2\_mssql\_ag\_response.ReadEC2MssqlAGResponse
    .. autosummary::
    
       ~ReadEC2MssqlAGResponse.__init__
+      ~ReadEC2MssqlAGResponse.dict
       ~ReadEC2MssqlAGResponse.from_dictionary
+      ~ReadEC2MssqlAGResponse.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ReadEC2MssqlAGResponse.Embedded
+      ~ReadEC2MssqlAGResponse.Id
+      ~ReadEC2MssqlAGResponse.Links
+      ~ReadEC2MssqlAGResponse.Name
+      ~ReadEC2MssqlAGResponse.OrganizationalUnitId
+      ~ReadEC2MssqlAGResponse.ProtectionInfo
+      ~ReadEC2MssqlAGResponse.Status
+      ~ReadEC2MssqlAGResponse.raw_response
    
    

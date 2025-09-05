@@ -3,7 +3,8 @@
 #
 
 import json
-from typing import Any, Optional, Union
+from typing import Any, Iterator, Optional, Union
+import urllib.parse
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -35,13 +36,7 @@ class RestoredAwsRdsResourcesV1Controller(base_controller.BaseController):
         embed: str | None = None,
         body: restore_aws_rds_resource_v1_request.RestoreAwsRdsResourceV1Request | None = None,
         **kwargs,
-    ) -> Union[
-        create_rds_resource_restore_response.CreateRdsResourceRestoreResponse,
-        tuple[
-            requests.Response,
-            Optional[create_rds_resource_restore_response.CreateRdsResourceRestoreResponse],
-        ],
-    ]:
+    ) -> create_rds_resource_restore_response.CreateRdsResourceRestoreResponse:
         """Restores the specified RDS resource backup or snapshot to the specified target
         destination.
 
@@ -60,14 +55,14 @@ class RestoredAwsRdsResourcesV1Controller(base_controller.BaseController):
 
             body:
 
-        Returns:
-            requests.Response: Raw Response from the API if config.raw_response is set to True.
-            create_rds_resource_restore_response.CreateRdsResourceRestoreResponse: Response from the API.
-        Raises:
-            ClumioException: An error occured while executing the API.
-                This exception includes the HTTP response code, an error
-                message, and the HTTP body that was received in the request.
         """
+
+        def get_instance_from_response(resp: requests.Response) -> Any:
+            return (
+                create_rds_resource_restore_response.CreateRdsResourceRestoreResponse.from_response(
+                    resp
+                )
+            )
 
         # Prepare query URL
         _url_path = '/restores/aws/rds-resources'
@@ -75,27 +70,33 @@ class RestoredAwsRdsResourcesV1Controller(base_controller.BaseController):
         _query_parameters: dict[str, Any] = {}
         _query_parameters = {'embed': embed}
 
-        raw_response = self.config.raw_response
+        resp_instance: create_rds_resource_restore_response.CreateRdsResourceRestoreResponse
         # Execute request
+        resp: requests.Response
         try:
-            resp: requests.Response = self.client.post(
+            resp = self.client.post(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                json=api_helper.to_dictionary(body),
+                json=body.dict() if body else None,
                 raw_response=True,
                 **kwargs,
             )
-        except requests.exceptions.HTTPError as http_error:
-            if raw_response:
-                return http_error.response, None
-            raise clumio_exception.ClumioException(
-                'Error occurred while executing restore_aws_rds_resource', error=http_error
-            )
+        except requests.exceptions.HTTPError as e:
+            resp = e.response
 
-        obj = create_rds_resource_restore_response.CreateRdsResourceRestoreResponse.from_dictionary(
-            resp.json()
-        )
-        if raw_response:
-            return resp, obj
-        return obj
+        if not resp.ok:
+            error_str = f'restore_aws_rds_resource for url {urllib.parse.unquote(resp.url)} failed.'
+            raise clumio_exception.ClumioException(error_str, resp=resp)
+
+        resp_instance = get_instance_from_response(resp)
+
+        return resp_instance
+
+
+class RestoredAwsRdsResourcesV1ControllerPaginator(base_controller.BaseController):
+    """A Controller to access Endpoints for restored-aws-rds-resources resource with pagination."""
+
+    def __init__(self, config: configuration.Configuration) -> None:
+        super().__init__(config)
+        self.controller = RestoredAwsRdsResourcesV1Controller(config)

@@ -17,10 +17,18 @@ clumioapi.models.ebs\_restore\_source.EBSRestoreSource
    .. autosummary::
    
       ~EBSRestoreSource.__init__
+      ~EBSRestoreSource.dict
       ~EBSRestoreSource.from_dictionary
+      ~EBSRestoreSource.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~EBSRestoreSource.BackupId
    
    

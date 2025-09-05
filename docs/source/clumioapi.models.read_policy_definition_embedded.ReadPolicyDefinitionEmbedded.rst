@@ -17,7 +17,9 @@ clumioapi.models.read\_policy\_definition\_embedded.ReadPolicyDefinitionEmbedded
    .. autosummary::
    
       ~ReadPolicyDefinitionEmbedded.__init__
+      ~ReadPolicyDefinitionEmbedded.dict
       ~ReadPolicyDefinitionEmbedded.from_dictionary
+      ~ReadPolicyDefinitionEmbedded.from_response
    
    
 

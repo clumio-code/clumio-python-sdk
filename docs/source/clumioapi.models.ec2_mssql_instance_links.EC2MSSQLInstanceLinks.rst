@@ -17,10 +17,19 @@ clumioapi.models.ec2\_mssql\_instance\_links.EC2MSSQLInstanceLinks
    .. autosummary::
    
       ~EC2MSSQLInstanceLinks.__init__
+      ~EC2MSSQLInstanceLinks.dict
       ~EC2MSSQLInstanceLinks.from_dictionary
+      ~EC2MSSQLInstanceLinks.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~EC2MSSQLInstanceLinks.ReadPolicyDefinition
+      ~EC2MSSQLInstanceLinks.Self
    
    

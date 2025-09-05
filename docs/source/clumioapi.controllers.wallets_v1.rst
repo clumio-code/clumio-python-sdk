@@ -20,6 +20,7 @@ clumioapi.controllers.wallets\_v1
       :template: custom-class-template.rst
    
       WalletsV1Controller
+      WalletsV1ControllerPaginator
    
    
 

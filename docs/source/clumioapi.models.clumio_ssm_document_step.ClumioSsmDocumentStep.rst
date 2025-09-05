@@ -17,10 +17,21 @@ clumioapi.models.clumio\_ssm\_document\_step.ClumioSsmDocumentStep
    .. autosummary::
    
       ~ClumioSsmDocumentStep.__init__
+      ~ClumioSsmDocumentStep.dict
       ~ClumioSsmDocumentStep.from_dictionary
+      ~ClumioSsmDocumentStep.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ClumioSsmDocumentStep.Action
+      ~ClumioSsmDocumentStep.Inputs
+      ~ClumioSsmDocumentStep.Name
+      ~ClumioSsmDocumentStep.Precondition
    
    

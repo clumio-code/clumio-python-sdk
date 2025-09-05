@@ -17,10 +17,20 @@ clumioapi.models.generate\_restored\_file\_passcode\_response.GenerateRestoredFi
    .. autosummary::
    
       ~GenerateRestoredFilePasscodeResponse.__init__
+      ~GenerateRestoredFilePasscodeResponse.dict
       ~GenerateRestoredFilePasscodeResponse.from_dictionary
+      ~GenerateRestoredFilePasscodeResponse.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~GenerateRestoredFilePasscodeResponse.Links
+      ~GenerateRestoredFilePasscodeResponse.Passcode
+      ~GenerateRestoredFilePasscodeResponse.raw_response
    
    

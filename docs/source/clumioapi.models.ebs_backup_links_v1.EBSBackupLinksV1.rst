@@ -17,10 +17,18 @@ clumioapi.models.ebs\_backup\_links\_v1.EBSBackupLinksV1
    .. autosummary::
    
       ~EBSBackupLinksV1.__init__
+      ~EBSBackupLinksV1.dict
       ~EBSBackupLinksV1.from_dictionary
+      ~EBSBackupLinksV1.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~EBSBackupLinksV1.Self
    
    

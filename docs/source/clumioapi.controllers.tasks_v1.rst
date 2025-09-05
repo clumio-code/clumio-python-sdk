@@ -20,6 +20,7 @@ clumioapi.controllers.tasks\_v1
       :template: custom-class-template.rst
    
       TasksV1Controller
+      TasksV1ControllerPaginator
    
    
 

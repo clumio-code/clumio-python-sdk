@@ -1,35 +1,43 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='MssqlDatabaseFile')
 
 
+@dataclasses.dataclass
 class MssqlDatabaseFile:
     """Implementation of the 'MssqlDatabaseFile' model.
 
-    Attributes:
-        name:
-            The name of the database file.
-        p_type:
-            The type of the database file. Possible values include sql_row_file and
-            sql_log_file.
+        Attributes:
+            Name:
+    The name of the database file.
+
+            Type:
+    The type of the database file. possible values include sql_row_file and sql_log_file.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {'name': 'name', 'p_type': 'type'}
+    Name: str | None = None
+    Type: str | None = None
 
-    def __init__(self, name: str | None = None, p_type: str | None = None) -> None:
-        """Constructor for the MssqlDatabaseFile class."""
-
-        # Initialize members of the class
-        self.name: str | None = name
-        self.p_type: str | None = p_type
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self,
+            dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v not in [None, {}]},
+        )
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -40,17 +48,32 @@ class MssqlDatabaseFile:
         Returns:
             object: An instance of this structure class.
         """
-
         dictionary = dictionary or {}
         # Extract variables from the dictionary
         val = dictionary.get('name', None)
         val_name = val
 
         val = dictionary.get('type', None)
-        val_p_type = val
+        val_type = val
 
         # Return an object of this model
         return cls(
             val_name,
-            val_p_type,
+            val_type,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

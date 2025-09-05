@@ -17,10 +17,29 @@ clumioapi.models.protection\_group\_backup.ProtectionGroupBackup
    .. autosummary::
    
       ~ProtectionGroupBackup.__init__
+      ~ProtectionGroupBackup.dict
       ~ProtectionGroupBackup.from_dictionary
+      ~ProtectionGroupBackup.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ProtectionGroupBackup.BackedUpObjectCount
+      ~ProtectionGroupBackup.BackedUpSizeBytes
+      ~ProtectionGroupBackup.ExpirationTimestamp
+      ~ProtectionGroupBackup.FailedObjectCount
+      ~ProtectionGroupBackup.FailedSizeBytes
+      ~ProtectionGroupBackup.Id
+      ~ProtectionGroupBackup.Links
+      ~ProtectionGroupBackup.ProtectionGroupId
+      ~ProtectionGroupBackup.ProtectionGroupName
+      ~ProtectionGroupBackup.ProtectionGroupVersion
+      ~ProtectionGroupBackup.StartTimestamp
+      ~ProtectionGroupBackup.Type
    
    

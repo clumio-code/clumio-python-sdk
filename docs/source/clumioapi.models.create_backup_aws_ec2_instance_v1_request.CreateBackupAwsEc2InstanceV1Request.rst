@@ -17,10 +17,20 @@ clumioapi.models.create\_backup\_aws\_ec2\_instance\_v1\_request.CreateBackupAws
    .. autosummary::
    
       ~CreateBackupAwsEc2InstanceV1Request.__init__
+      ~CreateBackupAwsEc2InstanceV1Request.dict
       ~CreateBackupAwsEc2InstanceV1Request.from_dictionary
+      ~CreateBackupAwsEc2InstanceV1Request.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~CreateBackupAwsEc2InstanceV1Request.InstanceId
+      ~CreateBackupAwsEc2InstanceV1Request.Settings
+      ~CreateBackupAwsEc2InstanceV1Request.Type
    
    

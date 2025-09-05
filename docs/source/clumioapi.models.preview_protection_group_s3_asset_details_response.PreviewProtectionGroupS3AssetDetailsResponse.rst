@@ -17,10 +17,21 @@ clumioapi.models.preview\_protection\_group\_s3\_asset\_details\_response.Previe
    .. autosummary::
    
       ~PreviewProtectionGroupS3AssetDetailsResponse.__init__
+      ~PreviewProtectionGroupS3AssetDetailsResponse.dict
       ~PreviewProtectionGroupS3AssetDetailsResponse.from_dictionary
+      ~PreviewProtectionGroupS3AssetDetailsResponse.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~PreviewProtectionGroupS3AssetDetailsResponse.Etag
+      ~PreviewProtectionGroupS3AssetDetailsResponse.Links
+      ~PreviewProtectionGroupS3AssetDetailsResponse.Objects
+      ~PreviewProtectionGroupS3AssetDetailsResponse.raw_response
    
    

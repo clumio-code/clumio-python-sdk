@@ -17,10 +17,32 @@ clumioapi.models.update\_task\_response.UpdateTaskResponse
    .. autosummary::
    
       ~UpdateTaskResponse.__init__
+      ~UpdateTaskResponse.dict
       ~UpdateTaskResponse.from_dictionary
+      ~UpdateTaskResponse.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~UpdateTaskResponse.Category
+      ~UpdateTaskResponse.CreatedTimestamp
+      ~UpdateTaskResponse.EndTimestamp
+      ~UpdateTaskResponse.Etag
+      ~UpdateTaskResponse.Genre
+      ~UpdateTaskResponse.Id
+      ~UpdateTaskResponse.IsAbortable
+      ~UpdateTaskResponse.Links
+      ~UpdateTaskResponse.ParentEntity
+      ~UpdateTaskResponse.PrimaryEntity
+      ~UpdateTaskResponse.ProgressPercentage
+      ~UpdateTaskResponse.StartTimestamp
+      ~UpdateTaskResponse.Status
+      ~UpdateTaskResponse.Type
+      ~UpdateTaskResponse.raw_response
    
    

@@ -20,6 +20,7 @@ clumioapi.controllers.protection\_groups\_s3\_assets\_v1
       :template: custom-class-template.rst
    
       ProtectionGroupsS3AssetsV1Controller
+      ProtectionGroupsS3AssetsV1ControllerPaginator
    
    
 

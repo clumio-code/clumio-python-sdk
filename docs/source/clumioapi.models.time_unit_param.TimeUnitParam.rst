@@ -17,10 +17,19 @@ clumioapi.models.time\_unit\_param.TimeUnitParam
    .. autosummary::
    
       ~TimeUnitParam.__init__
+      ~TimeUnitParam.dict
       ~TimeUnitParam.from_dictionary
+      ~TimeUnitParam.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~TimeUnitParam.Unit
+      ~TimeUnitParam.Value
    
    

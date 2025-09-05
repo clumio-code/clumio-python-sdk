@@ -17,10 +17,18 @@ clumioapi.models.rds\_resource\_restore\_source\_air\_gap\_options.RdsResourceRe
    .. autosummary::
    
       ~RdsResourceRestoreSourceAirGapOptions.__init__
+      ~RdsResourceRestoreSourceAirGapOptions.dict
       ~RdsResourceRestoreSourceAirGapOptions.from_dictionary
+      ~RdsResourceRestoreSourceAirGapOptions.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~RdsResourceRestoreSourceAirGapOptions.BackupId
    
    

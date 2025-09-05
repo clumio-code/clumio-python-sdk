@@ -29,6 +29,5 @@ clumioapi.controllers.aws\_environment\_tags\_v1.AwsEnvironmentTagsV1Controller
    .. autosummary::
    
       ~AwsEnvironmentTagsV1Controller.client
-      ~AwsEnvironmentTagsV1Controller.global_headers
    
    

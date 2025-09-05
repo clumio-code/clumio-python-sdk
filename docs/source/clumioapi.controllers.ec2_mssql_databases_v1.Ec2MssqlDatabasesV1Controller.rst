@@ -30,6 +30,5 @@ clumioapi.controllers.ec2\_mssql\_databases\_v1.Ec2MssqlDatabasesV1Controller
    .. autosummary::
    
       ~Ec2MssqlDatabasesV1Controller.client
-      ~Ec2MssqlDatabasesV1Controller.global_headers
    
    

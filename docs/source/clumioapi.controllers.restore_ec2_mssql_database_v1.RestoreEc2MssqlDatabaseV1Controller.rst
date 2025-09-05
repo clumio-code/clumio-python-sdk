@@ -28,6 +28,5 @@ clumioapi.controllers.restore\_ec2\_mssql\_database\_v1.RestoreEc2MssqlDatabaseV
    .. autosummary::
    
       ~RestoreEc2MssqlDatabaseV1Controller.client
-      ~RestoreEc2MssqlDatabaseV1Controller.global_headers
    
    

@@ -17,10 +17,19 @@ clumioapi.models.error\_model.ErrorModel
    .. autosummary::
    
       ~ErrorModel.__init__
+      ~ErrorModel.dict
       ~ErrorModel.from_dictionary
+      ~ErrorModel.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ErrorModel.ErrorCode
+      ~ErrorModel.ErrorMessage
    
    

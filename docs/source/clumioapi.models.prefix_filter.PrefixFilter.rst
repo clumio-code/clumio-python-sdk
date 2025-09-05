@@ -17,10 +17,19 @@ clumioapi.models.prefix\_filter.PrefixFilter
    .. autosummary::
    
       ~PrefixFilter.__init__
+      ~PrefixFilter.dict
       ~PrefixFilter.from_dictionary
+      ~PrefixFilter.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~PrefixFilter.ExcludedSubPrefixes
+      ~PrefixFilter.Prefix
    
    

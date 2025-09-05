@@ -1,42 +1,46 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import object as object_
 from clumioapi.models import protection_group_restore_target as protection_group_restore_target_
+import requests
 
 T = TypeVar('T', bound='RestoreProtectionGroupS3ObjectsV1Request')
 
 
+@dataclasses.dataclass
 class RestoreProtectionGroupS3ObjectsV1Request:
     """Implementation of the 'RestoreProtectionGroupS3ObjectsV1Request' model.
 
-    Attributes:
-        source:
-            Objects to restore. These objects must
-            belong to a single bucket.
-        target:
-            The destination where the protection group will be restored.
+        Attributes:
+            Source:
+    Objects to restore. these objects must
+    belong to a single bucket.
+
+            Target:
+    The destination where the protection group will be restored.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {'source': 'source', 'target': 'target'}
+    Source: Sequence[object_.Object] | None = None
+    Target: protection_group_restore_target_.ProtectionGroupRestoreTarget | None = None
 
-    def __init__(
-        self,
-        source: Sequence[object_.Object] | None = None,
-        target: protection_group_restore_target_.ProtectionGroupRestoreTarget | None = None,
-    ) -> None:
-        """Constructor for the RestoreProtectionGroupS3ObjectsV1Request class."""
-
-        # Initialize members of the class
-        self.source: Sequence[object_.Object] | None = source
-        self.target: protection_group_restore_target_.ProtectionGroupRestoreTarget | None = target
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self,
+            dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v not in [None, {}]},
+        )
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -47,14 +51,12 @@ class RestoreProtectionGroupS3ObjectsV1Request:
         Returns:
             object: An instance of this structure class.
         """
-
         dictionary = dictionary or {}
         # Extract variables from the dictionary
         val = dictionary.get('source', None)
 
-        val_source = None
+        val_source = []
         if val:
-            val_source = list()
             for value in val:
                 val_source.append(object_.Object.from_dictionary(value))
 
@@ -68,3 +70,19 @@ class RestoreProtectionGroupS3ObjectsV1Request:
             val_source,
             val_target,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

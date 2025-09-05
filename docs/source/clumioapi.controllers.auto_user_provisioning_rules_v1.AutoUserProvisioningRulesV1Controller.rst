@@ -32,6 +32,5 @@ clumioapi.controllers.auto\_user\_provisioning\_rules\_v1.AutoUserProvisioningRu
    .. autosummary::
    
       ~AutoUserProvisioningRulesV1Controller.client
-      ~AutoUserProvisioningRulesV1Controller.global_headers
    
    

@@ -20,6 +20,7 @@ clumioapi.controllers.policy\_rules\_v1
       :template: custom-class-template.rst
    
       PolicyRulesV1Controller
+      PolicyRulesV1ControllerPaginator
    
    
 

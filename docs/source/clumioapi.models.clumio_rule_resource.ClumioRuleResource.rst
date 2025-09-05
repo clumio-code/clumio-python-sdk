@@ -17,10 +17,21 @@ clumioapi.models.clumio\_rule\_resource.ClumioRuleResource
    .. autosummary::
    
       ~ClumioRuleResource.__init__
+      ~ClumioRuleResource.dict
       ~ClumioRuleResource.from_dictionary
+      ~ClumioRuleResource.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ClumioRuleResource.Description
+      ~ClumioRuleResource.EventPattern
+      ~ClumioRuleResource.Steps
+      ~ClumioRuleResource.Targets
    
    

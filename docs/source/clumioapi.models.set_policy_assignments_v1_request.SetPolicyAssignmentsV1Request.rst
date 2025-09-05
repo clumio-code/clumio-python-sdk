@@ -17,10 +17,18 @@ clumioapi.models.set\_policy\_assignments\_v1\_request.SetPolicyAssignmentsV1Req
    .. autosummary::
    
       ~SetPolicyAssignmentsV1Request.__init__
+      ~SetPolicyAssignmentsV1Request.dict
       ~SetPolicyAssignmentsV1Request.from_dictionary
+      ~SetPolicyAssignmentsV1Request.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~SetPolicyAssignmentsV1Request.Items
    
    

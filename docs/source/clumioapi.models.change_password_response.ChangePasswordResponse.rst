@@ -17,10 +17,19 @@ clumioapi.models.change\_password\_response.ChangePasswordResponse
    .. autosummary::
    
       ~ChangePasswordResponse.__init__
+      ~ChangePasswordResponse.dict
       ~ChangePasswordResponse.from_dictionary
+      ~ChangePasswordResponse.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ChangePasswordResponse.Links
+      ~ChangePasswordResponse.raw_response
    
    

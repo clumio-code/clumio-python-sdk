@@ -1,54 +1,49 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='AwsTagEmbedded')
 
 
+@dataclasses.dataclass
 class AwsTagEmbedded:
     """Implementation of the 'AwsTagEmbedded' model.
 
-    Embedded responses related to the resource.
+        Embedded responses related to the resource.
 
-    Attributes:
-        read_aws_environment_tag_backup_status_stats:
-            Backup statistics for each tag.
-        read_aws_environment_tag_ebs_volumes_protection_stats:
+        Attributes:
+            ReadAwsEnvironmentTagBackupStatusStats:
+    Backup statistics for each tag.
 
-        read_policy_definition:
-            Embeds the associated policy of a protected resource in the response if
-            requested using the `embed` query parameter. Unprotected resources will not have
-            an associated policy.
+            ReadAwsEnvironmentTagEbsVolumesProtectionStats:
+    .
+
+            ReadPolicyDefinition:
+    Embeds the associated policy of a protected resource in the response if requested using the `embed` query parameter. unprotected resources will not have an associated policy.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'read_aws_environment_tag_backup_status_stats': 'read-aws-environment-tag-backup-status-stats',
-        'read_aws_environment_tag_ebs_volumes_protection_stats': 'read-aws-environment-tag-ebs-volumes-protection-stats',
-        'read_policy_definition': 'read-policy-definition',
-    }
+    ReadAwsEnvironmentTagBackupStatusStats: object | None = None
+    ReadAwsEnvironmentTagEbsVolumesProtectionStats: object | None = None
+    ReadPolicyDefinition: object | None = None
 
-    def __init__(
-        self,
-        read_aws_environment_tag_backup_status_stats: object | None = None,
-        read_aws_environment_tag_ebs_volumes_protection_stats: object | None = None,
-        read_policy_definition: object | None = None,
-    ) -> None:
-        """Constructor for the AwsTagEmbedded class."""
-
-        # Initialize members of the class
-        self.read_aws_environment_tag_backup_status_stats: object | None = (
-            read_aws_environment_tag_backup_status_stats
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self,
+            dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v not in [None, {}]},
         )
-        self.read_aws_environment_tag_ebs_volumes_protection_stats: object | None = (
-            read_aws_environment_tag_ebs_volumes_protection_stats
-        )
-        self.read_policy_definition: object | None = read_policy_definition
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -59,7 +54,6 @@ class AwsTagEmbedded:
         Returns:
             object: An instance of this structure class.
         """
-
         dictionary = dictionary or {}
         # Extract variables from the dictionary
         val = dictionary.get('read-aws-environment-tag-backup-status-stats', None)
@@ -77,3 +71,19 @@ class AwsTagEmbedded:
             val_read_aws_environment_tag_ebs_volumes_protection_stats,
             val_read_policy_definition,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

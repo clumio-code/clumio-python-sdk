@@ -20,6 +20,7 @@ clumioapi.controllers.aws\_rds\_resources\_v1
       :template: custom-class-template.rst
    
       AwsRdsResourcesV1Controller
+      AwsRdsResourcesV1ControllerPaginator
    
    
 

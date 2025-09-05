@@ -1,36 +1,44 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='S3EncryptionConfiguration')
 
 
+@dataclasses.dataclass
 class S3EncryptionConfiguration:
     """Implementation of the 'S3EncryptionConfiguration' model.
 
-    Specifies encryption-related information for an Amazon S3 bucketthat is a
-    destination for replicated objects.
+        Specifies encryption-related information for an Amazon S3 bucketthat is a
+        destination for replicated objects.
 
-    Attributes:
-        replica_kms_key_id:
-            Specifies the ID (Key ARN or Alias ARN) of the customer managed
-            AWS KMS key stored in AWS Key Management Service (KMS) for the
-            destination bucket.
+        Attributes:
+            ReplicaKmsKeyId:
+    Specifies the id (key arn or alias arn) of the customer managed
+    aws kms key stored in aws key management service (kms) for the
+    destination bucket.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {'replica_kms_key_id': 'replica_kms_key_id'}
+    ReplicaKmsKeyId: str | None = None
 
-    def __init__(self, replica_kms_key_id: str | None = None) -> None:
-        """Constructor for the S3EncryptionConfiguration class."""
-
-        # Initialize members of the class
-        self.replica_kms_key_id: str | None = replica_kms_key_id
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self,
+            dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v not in [None, {}]},
+        )
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -41,7 +49,6 @@ class S3EncryptionConfiguration:
         Returns:
             object: An instance of this structure class.
         """
-
         dictionary = dictionary or {}
         # Extract variables from the dictionary
         val = dictionary.get('replica_kms_key_id', None)
@@ -51,3 +58,19 @@ class S3EncryptionConfiguration:
         return cls(
             val_replica_kms_key_id,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

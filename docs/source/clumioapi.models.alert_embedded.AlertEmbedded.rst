@@ -17,10 +17,18 @@ clumioapi.models.alert\_embedded.AlertEmbedded
    .. autosummary::
    
       ~AlertEmbedded.__init__
+      ~AlertEmbedded.dict
       ~AlertEmbedded.from_dictionary
+      ~AlertEmbedded.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~AlertEmbedded.ReadConsolidatedAlert
    
    

@@ -1,57 +1,52 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import role_for_organizational_units as role_for_organizational_units_
+import requests
 
 T = TypeVar('T', bound='CreateUserV2Request')
 
 
+@dataclasses.dataclass
 class CreateUserV2Request:
     """Implementation of the 'CreateUserV2Request' model.
 
-    Attributes:
-        access_control_configuration:
-            List of Clumio-assigned IDs of the organizational units along with the Clumio-
-            assigned ID of the role
-            to assign to the user.
-        email:
-            The email address of the user to be added to Clumio.
-        full_name:
-            The full name of the user to be added to Clumio. For example, type the user's
-            first name and last name.
-            The name displays on the User Management screen and in the body of the email
-            invitation.
+        Attributes:
+            AccessControlConfiguration:
+    List of clumio-assigned ids of the organizational units along with the clumio-assigned id of the role
+    to assign to the user.
+
+            Email:
+    The email address of the user to be added to clumio.
+
+            FullName:
+    The full name of the user to be added to clumio. for example, type the user's first name and last name.
+    the name displays on the user management screen and in the body of the email invitation.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'access_control_configuration': 'access_control_configuration',
-        'email': 'email',
-        'full_name': 'full_name',
-    }
+    AccessControlConfiguration: (
+        Sequence[role_for_organizational_units_.RoleForOrganizationalUnits] | None
+    ) = None
+    Email: str | None = None
+    FullName: str | None = None
 
-    def __init__(
-        self,
-        access_control_configuration: (
-            Sequence[role_for_organizational_units_.RoleForOrganizationalUnits] | None
-        ) = None,
-        email: str | None = None,
-        full_name: str | None = None,
-    ) -> None:
-        """Constructor for the CreateUserV2Request class."""
-
-        # Initialize members of the class
-        self.access_control_configuration: (
-            Sequence[role_for_organizational_units_.RoleForOrganizationalUnits] | None
-        ) = access_control_configuration
-        self.email: str | None = email
-        self.full_name: str | None = full_name
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self,
+            dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v not in [None, {}]},
+        )
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -62,14 +57,12 @@ class CreateUserV2Request:
         Returns:
             object: An instance of this structure class.
         """
-
         dictionary = dictionary or {}
         # Extract variables from the dictionary
         val = dictionary.get('access_control_configuration', None)
 
-        val_access_control_configuration = None
+        val_access_control_configuration = []
         if val:
-            val_access_control_configuration = list()
             for value in val:
                 val_access_control_configuration.append(
                     role_for_organizational_units_.RoleForOrganizationalUnits.from_dictionary(value)
@@ -87,3 +80,19 @@ class CreateUserV2Request:
             val_email,
             val_full_name,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

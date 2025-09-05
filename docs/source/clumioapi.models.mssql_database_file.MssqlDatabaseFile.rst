@@ -17,10 +17,19 @@ clumioapi.models.mssql\_database\_file.MssqlDatabaseFile
    .. autosummary::
    
       ~MssqlDatabaseFile.__init__
+      ~MssqlDatabaseFile.dict
       ~MssqlDatabaseFile.from_dictionary
+      ~MssqlDatabaseFile.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~MssqlDatabaseFile.Name
+      ~MssqlDatabaseFile.Type
    
    

@@ -1,54 +1,52 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import asset_backup_control as asset_backup_control_
 from clumioapi.models import asset_protection_control as asset_protection_control_
 from clumioapi.models import policy_control as policy_control_
+import requests
 
 T = TypeVar('T', bound='ComplianceControls')
 
 
+@dataclasses.dataclass
 class ComplianceControls:
     """Implementation of the 'ComplianceControls' model.
 
-    The set of controls supported in compliance report.
+        The set of controls supported in compliance report.
 
-    Attributes:
-        asset_backup:
-            The control for asset backup.
-        asset_protection:
-            The control for asset protection.
-        policy:
-            The control for policy.
+        Attributes:
+            AssetBackup:
+    The control for asset backup.
+
+            AssetProtection:
+    The control for asset protection.
+
+            Policy:
+    The control for policy.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'asset_backup': 'asset_backup',
-        'asset_protection': 'asset_protection',
-        'policy': 'policy',
-    }
+    AssetBackup: asset_backup_control_.AssetBackupControl | None = None
+    AssetProtection: asset_protection_control_.AssetProtectionControl | None = None
+    Policy: policy_control_.PolicyControl | None = None
 
-    def __init__(
-        self,
-        asset_backup: asset_backup_control_.AssetBackupControl | None = None,
-        asset_protection: asset_protection_control_.AssetProtectionControl | None = None,
-        policy: policy_control_.PolicyControl | None = None,
-    ) -> None:
-        """Constructor for the ComplianceControls class."""
-
-        # Initialize members of the class
-        self.asset_backup: asset_backup_control_.AssetBackupControl | None = asset_backup
-        self.asset_protection: asset_protection_control_.AssetProtectionControl | None = (
-            asset_protection
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self,
+            dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v not in [None, {}]},
         )
-        self.policy: policy_control_.PolicyControl | None = policy
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -59,7 +57,6 @@ class ComplianceControls:
         Returns:
             object: An instance of this structure class.
         """
-
         dictionary = dictionary or {}
         # Extract variables from the dictionary
         val = dictionary.get('asset_backup', None)
@@ -77,3 +74,19 @@ class ComplianceControls:
             val_asset_protection,
             val_policy,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

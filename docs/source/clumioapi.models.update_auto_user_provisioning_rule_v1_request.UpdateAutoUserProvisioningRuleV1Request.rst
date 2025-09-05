@@ -17,10 +17,20 @@ clumioapi.models.update\_auto\_user\_provisioning\_rule\_v1\_request.UpdateAutoU
    .. autosummary::
    
       ~UpdateAutoUserProvisioningRuleV1Request.__init__
+      ~UpdateAutoUserProvisioningRuleV1Request.dict
       ~UpdateAutoUserProvisioningRuleV1Request.from_dictionary
+      ~UpdateAutoUserProvisioningRuleV1Request.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~UpdateAutoUserProvisioningRuleV1Request.Condition
+      ~UpdateAutoUserProvisioningRuleV1Request.Name
+      ~UpdateAutoUserProvisioningRuleV1Request.Provision
    
    

@@ -1,9 +1,10 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import dynamodb_template_info as dynamodb_template_info_
 from clumioapi.models import ebs_template_info as ebs_template_info_
 from clumioapi.models import ec2_mssql_template_info as ec2_mssql_template_info_
@@ -12,88 +13,73 @@ from clumioapi.models import iceberg_on_glue_template_info as iceberg_on_glue_te
 from clumioapi.models import rds_template_info as rds_template_info_
 from clumioapi.models import s3_template_info as s3_template_info_
 from clumioapi.models import warm_tier_protect_template_info as warm_tier_protect_template_info_
+import requests
 
 T = TypeVar('T', bound='TemplateConfigurationV2')
 
 
+@dataclasses.dataclass
 class TemplateConfigurationV2:
     """Implementation of the 'TemplateConfigurationV2' model.
 
-    The configuration of the given template
+        The configuration of the given template
 
-    Attributes:
-        asset_types_enabled:
-            The AWS asset types supported with the available version of the template.
-        available_template_version:
-            The latest available version for the template.
-        dynamodb:
-            The latest available information for the DynamoDB feature.
-        ebs:
+        Attributes:
+            AssetTypesEnabled:
+    The aws asset types supported with the available version of the template.
 
-        ec2:
+            AvailableTemplateVersion:
+    The latest available version for the template.
 
-        ec2_mssql:
-            The latest available information for the EC2 MSSQL feature.
-        iceberg_on_glue:
-            IcebergOnGlueTemplateInfo is the latest available information for the
-            IcebergOnGlue feature.
-        rds:
+            Dynamodb:
+    The latest available information for the dynamodb feature.
 
-        s3:
-            The latest available information for the S3 feature.
-        warm_tier_protect:
-            Configuration information about the Warm-Tier Protect feature of the template.
+            Ebs:
+    .
+
+            Ec2:
+    .
+
+            Ec2Mssql:
+    The latest available information for the ec2 mssql feature.
+
+            IcebergOnGlue:
+    Icebergongluetemplateinfo is the latest available information for the icebergonglue feature.
+
+            Rds:
+    .
+
+            S3:
+    The latest available information for the s3 feature.
+
+            WarmTierProtect:
+    Configuration information about the warm-tier protect feature of the template.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'asset_types_enabled': 'asset_types_enabled',
-        'available_template_version': 'available_template_version',
-        'dynamodb': 'dynamodb',
-        'ebs': 'ebs',
-        'ec2': 'ec2',
-        'ec2_mssql': 'ec2_mssql',
-        'iceberg_on_glue': 'iceberg_on_glue',
-        'rds': 'rds',
-        's3': 's3',
-        'warm_tier_protect': 'warm_tier_protect',
-    }
+    AssetTypesEnabled: Sequence[str] | None = None
+    AvailableTemplateVersion: str | None = None
+    Dynamodb: dynamodb_template_info_.DynamodbTemplateInfo | None = None
+    Ebs: ebs_template_info_.EbsTemplateInfo | None = None
+    Ec2: ec2_template_info_.Ec2TemplateInfo | None = None
+    Ec2Mssql: ec2_mssql_template_info_.EC2MSSQLTemplateInfo | None = None
+    IcebergOnGlue: iceberg_on_glue_template_info_.IcebergOnGlueTemplateInfo | None = None
+    Rds: rds_template_info_.RdsTemplateInfo | None = None
+    S3: s3_template_info_.S3TemplateInfo | None = None
+    WarmTierProtect: warm_tier_protect_template_info_.WarmTierProtectTemplateInfo | None = None
 
-    def __init__(
-        self,
-        asset_types_enabled: Sequence[str] | None = None,
-        available_template_version: str | None = None,
-        dynamodb: dynamodb_template_info_.DynamodbTemplateInfo | None = None,
-        ebs: ebs_template_info_.EbsTemplateInfo | None = None,
-        ec2: ec2_template_info_.Ec2TemplateInfo | None = None,
-        ec2_mssql: ec2_mssql_template_info_.EC2MSSQLTemplateInfo | None = None,
-        iceberg_on_glue: iceberg_on_glue_template_info_.IcebergOnGlueTemplateInfo | None = None,
-        rds: rds_template_info_.RdsTemplateInfo | None = None,
-        s3: s3_template_info_.S3TemplateInfo | None = None,
-        warm_tier_protect: (
-            warm_tier_protect_template_info_.WarmTierProtectTemplateInfo | None
-        ) = None,
-    ) -> None:
-        """Constructor for the TemplateConfigurationV2 class."""
-
-        # Initialize members of the class
-        self.asset_types_enabled: Sequence[str] | None = asset_types_enabled
-        self.available_template_version: str | None = available_template_version
-        self.dynamodb: dynamodb_template_info_.DynamodbTemplateInfo | None = dynamodb
-        self.ebs: ebs_template_info_.EbsTemplateInfo | None = ebs
-        self.ec2: ec2_template_info_.Ec2TemplateInfo | None = ec2
-        self.ec2_mssql: ec2_mssql_template_info_.EC2MSSQLTemplateInfo | None = ec2_mssql
-        self.iceberg_on_glue: iceberg_on_glue_template_info_.IcebergOnGlueTemplateInfo | None = (
-            iceberg_on_glue
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self,
+            dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v not in [None, {}]},
         )
-        self.rds: rds_template_info_.RdsTemplateInfo | None = rds
-        self.s3: s3_template_info_.S3TemplateInfo | None = s3
-        self.warm_tier_protect: (
-            warm_tier_protect_template_info_.WarmTierProtectTemplateInfo | None
-        ) = warm_tier_protect
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -104,7 +90,6 @@ class TemplateConfigurationV2:
         Returns:
             object: An instance of this structure class.
         """
-
         dictionary = dictionary or {}
         # Extract variables from the dictionary
         val = dictionary.get('asset_types_enabled', None)
@@ -154,3 +139,19 @@ class TemplateConfigurationV2:
             val_s3,
             val_warm_tier_protect,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

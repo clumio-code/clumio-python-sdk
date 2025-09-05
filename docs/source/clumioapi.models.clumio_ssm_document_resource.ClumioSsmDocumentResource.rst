@@ -17,10 +17,21 @@ clumioapi.models.clumio\_ssm\_document\_resource.ClumioSsmDocumentResource
    .. autosummary::
    
       ~ClumioSsmDocumentResource.__init__
+      ~ClumioSsmDocumentResource.dict
       ~ClumioSsmDocumentResource.from_dictionary
+      ~ClumioSsmDocumentResource.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ClumioSsmDocumentResource.Description
+      ~ClumioSsmDocumentResource.Mainsteps
+      ~ClumioSsmDocumentResource.Parameters
+      ~ClumioSsmDocumentResource.Schemaversion
    
    

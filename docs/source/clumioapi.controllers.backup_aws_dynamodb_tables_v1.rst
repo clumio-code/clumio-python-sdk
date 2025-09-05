@@ -20,6 +20,7 @@ clumioapi.controllers.backup\_aws\_dynamodb\_tables\_v1
       :template: custom-class-template.rst
    
       BackupAwsDynamodbTablesV1Controller
+      BackupAwsDynamodbTablesV1ControllerPaginator
    
    
 

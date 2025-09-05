@@ -17,10 +17,18 @@ clumioapi.models.generate\_restored\_file\_passcode\_links.GenerateRestoredFileP
    .. autosummary::
    
       ~GenerateRestoredFilePasscodeLinks.__init__
+      ~GenerateRestoredFilePasscodeLinks.dict
       ~GenerateRestoredFilePasscodeLinks.from_dictionary
+      ~GenerateRestoredFilePasscodeLinks.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~GenerateRestoredFilePasscodeLinks.Self
    
    

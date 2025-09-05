@@ -17,10 +17,18 @@ clumioapi.models.dynamo\_db\_restore\_source\_backup\_options.DynamoDBRestoreSou
    .. autosummary::
    
       ~DynamoDBRestoreSourceBackupOptions.__init__
+      ~DynamoDBRestoreSourceBackupOptions.dict
       ~DynamoDBRestoreSourceBackupOptions.from_dictionary
+      ~DynamoDBRestoreSourceBackupOptions.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~DynamoDBRestoreSourceBackupOptions.BackupId
    
    

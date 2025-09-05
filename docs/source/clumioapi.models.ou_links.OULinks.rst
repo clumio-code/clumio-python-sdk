@@ -17,10 +17,20 @@ clumioapi.models.ou\_links.OULinks
    .. autosummary::
    
       ~OULinks.__init__
+      ~OULinks.dict
       ~OULinks.from_dictionary
+      ~OULinks.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~OULinks.DeleteOrganizationalUnit
+      ~OULinks.PatchOrganizationalUnit
+      ~OULinks.Self
    
    

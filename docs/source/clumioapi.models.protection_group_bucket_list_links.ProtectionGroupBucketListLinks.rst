@@ -17,10 +17,22 @@ clumioapi.models.protection\_group\_bucket\_list\_links.ProtectionGroupBucketLis
    .. autosummary::
    
       ~ProtectionGroupBucketListLinks.__init__
+      ~ProtectionGroupBucketListLinks.dict
       ~ProtectionGroupBucketListLinks.from_dictionary
+      ~ProtectionGroupBucketListLinks.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ProtectionGroupBucketListLinks.First
+      ~ProtectionGroupBucketListLinks.Last
+      ~ProtectionGroupBucketListLinks.Next
+      ~ProtectionGroupBucketListLinks.Prev
+      ~ProtectionGroupBucketListLinks.Self
    
    

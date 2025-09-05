@@ -29,6 +29,5 @@ clumioapi.controllers.auto\_user\_provisioning\_settings\_v1.AutoUserProvisionin
    .. autosummary::
    
       ~AutoUserProvisioningSettingsV1Controller.client
-      ~AutoUserProvisioningSettingsV1Controller.global_headers
    
    

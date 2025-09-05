@@ -17,10 +17,18 @@ clumioapi.models.ec2\_mssql\_protect\_config.EC2MSSQLProtectConfig
    .. autosummary::
    
       ~EC2MSSQLProtectConfig.__init__
+      ~EC2MSSQLProtectConfig.dict
       ~EC2MSSQLProtectConfig.from_dictionary
+      ~EC2MSSQLProtectConfig.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~EC2MSSQLProtectConfig.InstalledTemplateVersion
    
    

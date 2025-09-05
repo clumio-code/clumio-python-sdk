@@ -17,10 +17,20 @@ clumioapi.models.create\_backup\_aws\_dynamodb\_table\_v1\_request.CreateBackupA
    .. autosummary::
    
       ~CreateBackupAwsDynamodbTableV1Request.__init__
+      ~CreateBackupAwsDynamodbTableV1Request.dict
       ~CreateBackupAwsDynamodbTableV1Request.from_dictionary
+      ~CreateBackupAwsDynamodbTableV1Request.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~CreateBackupAwsDynamodbTableV1Request.Settings
+      ~CreateBackupAwsDynamodbTableV1Request.TableId
+      ~CreateBackupAwsDynamodbTableV1Request.Type
    
    

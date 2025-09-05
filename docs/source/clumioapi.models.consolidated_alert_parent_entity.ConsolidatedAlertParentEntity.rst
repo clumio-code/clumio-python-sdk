@@ -17,10 +17,20 @@ clumioapi.models.consolidated\_alert\_parent\_entity.ConsolidatedAlertParentEnti
    .. autosummary::
    
       ~ConsolidatedAlertParentEntity.__init__
+      ~ConsolidatedAlertParentEntity.dict
       ~ConsolidatedAlertParentEntity.from_dictionary
+      ~ConsolidatedAlertParentEntity.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ConsolidatedAlertParentEntity.Id
+      ~ConsolidatedAlertParentEntity.Type
+      ~ConsolidatedAlertParentEntity.Value
    
    

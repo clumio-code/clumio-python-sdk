@@ -1,43 +1,51 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='IamInstanceProfileModel')
 
 
+@dataclasses.dataclass
 class IamInstanceProfileModel:
     """Implementation of the 'IamInstanceProfileModel' model.
 
-    Denotes an IAM instance profile. An instance profile is a container for anIAM
-    role that you can use to pass role information to an EC2 instance whenthe
-    instance starts.
+        Denotes an IAM instance profile. An instance profile is a container for anIAM
+        role that you can use to pass role information to an EC2 instance whenthe
+        instance starts.
 
-    Attributes:
-        arn:
-            The Amazon Resource Name (ARN) specifying the IAM instance profile.
-        name:
-            The AWS-assigned name of the IAM instance profile.
-        native_id:
-            The AWS-assigned ID of the IAM instance profile.
+        Attributes:
+            Arn:
+    The amazon resource name (arn) specifying the iam instance profile.
+
+            Name:
+    The aws-assigned name of the iam instance profile.
+
+            NativeId:
+    The aws-assigned id of the iam instance profile.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {'arn': 'arn', 'name': 'name', 'native_id': 'native_id'}
+    Arn: str | None = None
+    Name: str | None = None
+    NativeId: str | None = None
 
-    def __init__(
-        self, arn: str | None = None, name: str | None = None, native_id: str | None = None
-    ) -> None:
-        """Constructor for the IamInstanceProfileModel class."""
-
-        # Initialize members of the class
-        self.arn: str | None = arn
-        self.name: str | None = name
-        self.native_id: str | None = native_id
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self,
+            dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v not in [None, {}]},
+        )
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -48,7 +56,6 @@ class IamInstanceProfileModel:
         Returns:
             object: An instance of this structure class.
         """
-
         dictionary = dictionary or {}
         # Extract variables from the dictionary
         val = dictionary.get('arn', None)
@@ -66,3 +73,19 @@ class IamInstanceProfileModel:
             val_name,
             val_native_id,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

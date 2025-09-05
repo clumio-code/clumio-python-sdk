@@ -17,10 +17,18 @@ clumioapi.models.rule\_action.RuleAction
    .. autosummary::
    
       ~RuleAction.__init__
+      ~RuleAction.dict
       ~RuleAction.from_dictionary
+      ~RuleAction.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~RuleAction.AssignPolicy
    
    

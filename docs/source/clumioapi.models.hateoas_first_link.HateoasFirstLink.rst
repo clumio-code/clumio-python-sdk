@@ -17,10 +17,20 @@ clumioapi.models.hateoas\_first\_link.HateoasFirstLink
    .. autosummary::
    
       ~HateoasFirstLink.__init__
+      ~HateoasFirstLink.dict
       ~HateoasFirstLink.from_dictionary
+      ~HateoasFirstLink.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~HateoasFirstLink.Href
+      ~HateoasFirstLink.Templated
+      ~HateoasFirstLink.Type
    
    

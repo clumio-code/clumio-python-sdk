@@ -32,6 +32,5 @@ clumioapi.controllers.wallets\_v1.WalletsV1Controller
    .. autosummary::
    
       ~WalletsV1Controller.client
-      ~WalletsV1Controller.global_headers
    
    

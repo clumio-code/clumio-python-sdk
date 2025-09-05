@@ -17,10 +17,21 @@ clumioapi.models.clumio\_ssm\_document\_parameter\_value.ClumioSsmDocumentParame
    .. autosummary::
    
       ~ClumioSsmDocumentParameterValue.__init__
+      ~ClumioSsmDocumentParameterValue.dict
       ~ClumioSsmDocumentParameterValue.from_dictionary
+      ~ClumioSsmDocumentParameterValue.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ClumioSsmDocumentParameterValue.Allowedpattern
+      ~ClumioSsmDocumentParameterValue.Default
+      ~ClumioSsmDocumentParameterValue.Description
+      ~ClumioSsmDocumentParameterValue.Type
    
    

@@ -17,10 +17,18 @@ clumioapi.models.ec2\_mssql\_database\_pitr\_interval\_links.EC2MssqlDatabasePit
    .. autosummary::
    
       ~EC2MssqlDatabasePitrIntervalLinks.__init__
+      ~EC2MssqlDatabasePitrIntervalLinks.dict
       ~EC2MssqlDatabasePitrIntervalLinks.from_dictionary
+      ~EC2MssqlDatabasePitrIntervalLinks.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~EC2MssqlDatabasePitrIntervalLinks.RestoreEc2MssqlDatabase
    
    

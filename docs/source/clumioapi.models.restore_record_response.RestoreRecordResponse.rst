@@ -17,10 +17,21 @@ clumioapi.models.restore\_record\_response.RestoreRecordResponse
    .. autosummary::
    
       ~RestoreRecordResponse.__init__
+      ~RestoreRecordResponse.dict
       ~RestoreRecordResponse.from_dictionary
+      ~RestoreRecordResponse.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~RestoreRecordResponse.Embedded
+      ~RestoreRecordResponse.Links
+      ~RestoreRecordResponse.TaskId
+      ~RestoreRecordResponse.raw_response
    
    

@@ -17,10 +17,21 @@ clumioapi.models.aws\_tag\_model.AwsTagModel
    .. autosummary::
    
       ~AwsTagModel.__init__
+      ~AwsTagModel.dict
       ~AwsTagModel.from_dictionary
+      ~AwsTagModel.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~AwsTagModel.Id
+      ~AwsTagModel.Key
+      ~AwsTagModel.KeyId
+      ~AwsTagModel.Value
    
    

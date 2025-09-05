@@ -17,10 +17,18 @@ clumioapi.models.ec2\_restore\_source.EC2RestoreSource
    .. autosummary::
    
       ~EC2RestoreSource.__init__
+      ~EC2RestoreSource.dict
       ~EC2RestoreSource.from_dictionary
+      ~EC2RestoreSource.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~EC2RestoreSource.BackupId
    
    

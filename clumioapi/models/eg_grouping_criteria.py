@@ -1,44 +1,48 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import aws_ds_grouping_criteria as aws_ds_grouping_criteria_
 from clumioapi.models import m365_grouping_criteria as m365_grouping_criteria_
+import requests
 
 T = TypeVar('T', bound='EgGroupingCriteria')
 
 
+@dataclasses.dataclass
 class EgGroupingCriteria:
     """Implementation of the 'EgGroupingCriteria' model.
 
-    Deprecated: This struct is deprecated and will be removed in the futureit is
-    being kept for backward compatibility of settings public API
+        Deprecated: This struct is deprecated and will be removed in the futureit is
+        being kept for backward compatibility of settings public API
 
-    Attributes:
-        aws:
-            The entity type used to group organizational units for AWS resources.
-        microsoft365:
-            The entity type used to group organizational units for Microsoft 365 resources.
+        Attributes:
+            Aws:
+    The entity type used to group organizational units for aws resources.
+
+            Microsoft365:
+    The entity type used to group organizational units for microsoft 365 resources.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {'aws': 'aws', 'microsoft365': 'microsoft365'}
+    Aws: aws_ds_grouping_criteria_.AwsDsGroupingCriteria | None = None
+    Microsoft365: m365_grouping_criteria_.M365GroupingCriteria | None = None
 
-    def __init__(
-        self,
-        aws: aws_ds_grouping_criteria_.AwsDsGroupingCriteria | None = None,
-        microsoft365: m365_grouping_criteria_.M365GroupingCriteria | None = None,
-    ) -> None:
-        """Constructor for the EgGroupingCriteria class."""
-
-        # Initialize members of the class
-        self.aws: aws_ds_grouping_criteria_.AwsDsGroupingCriteria | None = aws
-        self.microsoft365: m365_grouping_criteria_.M365GroupingCriteria | None = microsoft365
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self,
+            dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v not in [None, {}]},
+        )
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -49,7 +53,6 @@ class EgGroupingCriteria:
         Returns:
             object: An instance of this structure class.
         """
-
         dictionary = dictionary or {}
         # Extract variables from the dictionary
         val = dictionary.get('aws', None)
@@ -63,3 +66,19 @@ class EgGroupingCriteria:
             val_aws,
             val_microsoft365,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

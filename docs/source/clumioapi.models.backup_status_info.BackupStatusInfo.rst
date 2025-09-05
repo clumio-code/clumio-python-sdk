@@ -17,10 +17,21 @@ clumioapi.models.backup\_status\_info.BackupStatusInfo
    .. autosummary::
    
       ~BackupStatusInfo.__init__
+      ~BackupStatusInfo.dict
       ~BackupStatusInfo.from_dictionary
+      ~BackupStatusInfo.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~BackupStatusInfo.BackupStatus
+      ~BackupStatusInfo.LastFailedPolicyStartTimestamp
+      ~BackupStatusInfo.LastSuccessfulPolicyStartTimestamp
+      ~BackupStatusInfo.OperationInfoList
    
    
