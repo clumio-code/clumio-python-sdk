@@ -17,10 +17,18 @@ clumioapi.models.ec2\_asset\_info.Ec2AssetInfo
    .. autosummary::
    
       ~Ec2AssetInfo.__init__
+      ~Ec2AssetInfo.dict
       ~Ec2AssetInfo.from_dictionary
+      ~Ec2AssetInfo.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~Ec2AssetInfo.InstalledTemplateVersion
    
    

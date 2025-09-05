@@ -17,10 +17,19 @@ clumioapi.models.on\_demand\_ec2\_backup\_links.OnDemandEC2BackupLinks
    .. autosummary::
    
       ~OnDemandEC2BackupLinks.__init__
+      ~OnDemandEC2BackupLinks.dict
       ~OnDemandEC2BackupLinks.from_dictionary
+      ~OnDemandEC2BackupLinks.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~OnDemandEC2BackupLinks.ReadTask
+      ~OnDemandEC2BackupLinks.Self
    
    

@@ -17,10 +17,18 @@ clumioapi.models.rds\_backup\_database.RDSBackupDatabase
    .. autosummary::
    
       ~RDSBackupDatabase.__init__
+      ~RDSBackupDatabase.dict
       ~RDSBackupDatabase.from_dictionary
+      ~RDSBackupDatabase.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~RDSBackupDatabase.Name
    
    

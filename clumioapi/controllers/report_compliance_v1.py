@@ -3,12 +3,14 @@
 #
 
 import json
-from typing import Any, Optional, Union
+from typing import Any, Iterator, Optional, Union
+import urllib.parse
 
 from clumioapi import api_helper
 from clumioapi import configuration
 from clumioapi import sdk_version
 from clumioapi.controllers import base_controller
+from clumioapi.controllers.types import report_compliance_types
 from clumioapi.exceptions import clumio_exception
 from clumioapi.models import create_compliance_configuration_response
 from clumioapi.models import create_compliance_report_configuration_v1_request
@@ -38,20 +40,14 @@ class ReportComplianceV1Controller(base_controller.BaseController):
         self,
         limit: int | None = None,
         start: str | None = None,
-        filter: str | None = None,
+        filter: report_compliance_types.ListComplianceReportConfigurationsV1FilterT | None = None,
         **kwargs,
-    ) -> Union[
-        list_compliance_configurations_response.ListComplianceConfigurationsResponse,
-        tuple[
-            requests.Response,
-            Optional[list_compliance_configurations_response.ListComplianceConfigurationsResponse],
-        ],
-    ]:
+    ) -> list_compliance_configurations_response.ListComplianceConfigurationsResponse:
         """Get a list of all the compliance report configurations.
 
         Args:
             limit:
-                Limits the size of the response on each page to the specified number of items.
+                Limits the size of the items returned in the response.
             start:
                 Sets the page token used to browse the collection. Leave this parameter empty to
                 get the first page.
@@ -81,45 +77,44 @@ class ReportComplianceV1Controller(base_controller.BaseController):
 
                 For more information about filtering, refer to the
                 Filtering section of this guide.
-        Returns:
-            requests.Response: Raw Response from the API if config.raw_response is set to True.
-            list_compliance_configurations_response.ListComplianceConfigurationsResponse: Response from the API.
-        Raises:
-            ClumioException: An error occured while executing the API.
-                This exception includes the HTTP response code, an error
-                message, and the HTTP body that was received in the request.
         """
+
+        def get_instance_from_response(resp: requests.Response) -> Any:
+            return list_compliance_configurations_response.ListComplianceConfigurationsResponse.from_response(
+                resp
+            )
 
         # Prepare query URL
         _url_path = '/reports/compliance/configurations'
 
         _query_parameters: dict[str, Any] = {}
-        _query_parameters = {'limit': limit, 'start': start, 'filter': filter}
+        _query_parameters = {
+            'limit': limit,
+            'start': start,
+            'filter': filter.query_str if filter else None,
+        }
 
-        raw_response = self.config.raw_response
+        resp_instance: list_compliance_configurations_response.ListComplianceConfigurationsResponse
         # Execute request
+        resp: requests.Response
         try:
-            resp: requests.Response = self.client.get(
+            resp = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
                 raw_response=True,
                 **kwargs,
             )
-        except requests.exceptions.HTTPError as http_error:
-            if raw_response:
-                return http_error.response, None
-            raise clumio_exception.ClumioException(
-                'Error occurred while executing list_compliance_report_configurations',
-                error=http_error,
-            )
+        except requests.exceptions.HTTPError as e:
+            resp = e.response
 
-        obj = list_compliance_configurations_response.ListComplianceConfigurationsResponse.from_dictionary(
-            resp.json()
-        )
-        if raw_response:
-            return resp, obj
-        return obj
+        if not resp.ok:
+            error_str = f'list_compliance_report_configurations for url {urllib.parse.unquote(resp.url)} failed.'
+            raise clumio_exception.ClumioException(error_str, resp=resp)
+
+        resp_instance = get_instance_from_response(resp)
+
+        return resp_instance
 
     def create_compliance_report_configuration(
         self,
@@ -128,82 +123,63 @@ class ReportComplianceV1Controller(base_controller.BaseController):
             | None
         ) = None,
         **kwargs,
-    ) -> Union[
-        create_compliance_configuration_response.CreateComplianceConfigurationResponse,
-        tuple[
-            requests.Response,
-            Optional[
-                create_compliance_configuration_response.CreateComplianceConfigurationResponse
-            ],
-        ],
-    ]:
+    ) -> create_compliance_configuration_response.CreateComplianceConfigurationResponse:
         """Create a compliance report configuration.
 
         Args:
             body:
 
-        Returns:
-            requests.Response: Raw Response from the API if config.raw_response is set to True.
-            create_compliance_configuration_response.CreateComplianceConfigurationResponse: Response from the API.
-        Raises:
-            ClumioException: An error occured while executing the API.
-                This exception includes the HTTP response code, an error
-                message, and the HTTP body that was received in the request.
         """
+
+        def get_instance_from_response(resp: requests.Response) -> Any:
+            return create_compliance_configuration_response.CreateComplianceConfigurationResponse.from_response(
+                resp
+            )
 
         # Prepare query URL
         _url_path = '/reports/compliance/configurations'
 
         _query_parameters: dict[str, Any] = {}
 
-        raw_response = self.config.raw_response
+        resp_instance: (
+            create_compliance_configuration_response.CreateComplianceConfigurationResponse
+        )
         # Execute request
+        resp: requests.Response
         try:
-            resp: requests.Response = self.client.post(
+            resp = self.client.post(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                json=api_helper.to_dictionary(body),
+                json=body.dict() if body else None,
                 raw_response=True,
                 **kwargs,
             )
-        except requests.exceptions.HTTPError as http_error:
-            if raw_response:
-                return http_error.response, None
-            raise clumio_exception.ClumioException(
-                'Error occurred while executing create_compliance_report_configuration',
-                error=http_error,
-            )
+        except requests.exceptions.HTTPError as e:
+            resp = e.response
 
-        obj = create_compliance_configuration_response.CreateComplianceConfigurationResponse.from_dictionary(
-            resp.json()
-        )
-        if raw_response:
-            return resp, obj
-        return obj
+        if not resp.ok:
+            error_str = f'create_compliance_report_configuration for url {urllib.parse.unquote(resp.url)} failed.'
+            raise clumio_exception.ClumioException(error_str, resp=resp)
+
+        resp_instance = get_instance_from_response(resp)
+
+        return resp_instance
 
     def read_compliance_report_configuration(
         self, configuration_id: str | None = None, **kwargs
-    ) -> Union[
-        read_compliance_configuration_response.ReadComplianceConfigurationResponse,
-        tuple[
-            requests.Response,
-            Optional[read_compliance_configuration_response.ReadComplianceConfigurationResponse],
-        ],
-    ]:
+    ) -> read_compliance_configuration_response.ReadComplianceConfigurationResponse:
         """Returns a representation of the specified compliance report configuration.
 
         Args:
             configuration_id:
                 Performs the operation on the report configuration with the specified ID.
-        Returns:
-            requests.Response: Raw Response from the API if config.raw_response is set to True.
-            read_compliance_configuration_response.ReadComplianceConfigurationResponse: Response from the API.
-        Raises:
-            ClumioException: An error occured while executing the API.
-                This exception includes the HTTP response code, an error
-                message, and the HTTP body that was received in the request.
         """
+
+        def get_instance_from_response(resp: requests.Response) -> Any:
+            return read_compliance_configuration_response.ReadComplianceConfigurationResponse.from_response(
+                resp
+            )
 
         # Prepare query URL
         _url_path = '/reports/compliance/configurations/{configuration_id}'
@@ -212,30 +188,27 @@ class ReportComplianceV1Controller(base_controller.BaseController):
         )
         _query_parameters: dict[str, Any] = {}
 
-        raw_response = self.config.raw_response
+        resp_instance: read_compliance_configuration_response.ReadComplianceConfigurationResponse
         # Execute request
+        resp: requests.Response
         try:
-            resp: requests.Response = self.client.get(
+            resp = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
                 raw_response=True,
                 **kwargs,
             )
-        except requests.exceptions.HTTPError as http_error:
-            if raw_response:
-                return http_error.response, None
-            raise clumio_exception.ClumioException(
-                'Error occurred while executing read_compliance_report_configuration',
-                error=http_error,
-            )
+        except requests.exceptions.HTTPError as e:
+            resp = e.response
 
-        obj = read_compliance_configuration_response.ReadComplianceConfigurationResponse.from_dictionary(
-            resp.json()
-        )
-        if raw_response:
-            return resp, obj
-        return obj
+        if not resp.ok:
+            error_str = f'read_compliance_report_configuration for url {urllib.parse.unquote(resp.url)} failed.'
+            raise clumio_exception.ClumioException(error_str, resp=resp)
+
+        resp_instance = get_instance_from_response(resp)
+
+        return resp_instance
 
     def update_compliance_report_configuration(
         self,
@@ -245,15 +218,7 @@ class ReportComplianceV1Controller(base_controller.BaseController):
             | None
         ) = None,
         **kwargs,
-    ) -> Union[
-        update_compliance_configuration_response.UpdateComplianceConfigurationResponse,
-        tuple[
-            requests.Response,
-            Optional[
-                update_compliance_configuration_response.UpdateComplianceConfigurationResponse
-            ],
-        ],
-    ]:
+    ) -> update_compliance_configuration_response.UpdateComplianceConfigurationResponse:
         """Update a compliance report configuration with the id {configuration_id}.
 
         Args:
@@ -261,14 +226,12 @@ class ReportComplianceV1Controller(base_controller.BaseController):
                 Performs the operation on the report configuration with the specified ID.
             body:
 
-        Returns:
-            requests.Response: Raw Response from the API if config.raw_response is set to True.
-            update_compliance_configuration_response.UpdateComplianceConfigurationResponse: Response from the API.
-        Raises:
-            ClumioException: An error occured while executing the API.
-                This exception includes the HTTP response code, an error
-                message, and the HTTP body that was received in the request.
         """
+
+        def get_instance_from_response(resp: requests.Response) -> Any:
+            return update_compliance_configuration_response.UpdateComplianceConfigurationResponse.from_response(
+                resp
+            )
 
         # Prepare query URL
         _url_path = '/reports/compliance/configurations/{configuration_id}'
@@ -277,49 +240,44 @@ class ReportComplianceV1Controller(base_controller.BaseController):
         )
         _query_parameters: dict[str, Any] = {}
 
-        raw_response = self.config.raw_response
+        resp_instance: (
+            update_compliance_configuration_response.UpdateComplianceConfigurationResponse
+        )
         # Execute request
+        resp: requests.Response
         try:
-            resp: requests.Response = self.client.put(
+            resp = self.client.put(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                json=api_helper.to_dictionary(body),
+                json=body.dict() if body else None,
                 raw_response=True,
                 **kwargs,
             )
-        except requests.exceptions.HTTPError as http_error:
-            if raw_response:
-                return http_error.response, None
-            raise clumio_exception.ClumioException(
-                'Error occurred while executing update_compliance_report_configuration',
-                error=http_error,
-            )
+        except requests.exceptions.HTTPError as e:
+            resp = e.response
 
-        obj = update_compliance_configuration_response.UpdateComplianceConfigurationResponse.from_dictionary(
-            resp.json()
-        )
-        if raw_response:
-            return resp, obj
-        return obj
+        if not resp.ok:
+            error_str = f'update_compliance_report_configuration for url {urllib.parse.unquote(resp.url)} failed.'
+            raise clumio_exception.ClumioException(error_str, resp=resp)
+
+        resp_instance = get_instance_from_response(resp)
+
+        return resp_instance
 
     def delete_compliance_report_configuration(
         self, configuration_id: str | None = None, **kwargs
-    ) -> Union[object, tuple[requests.Response, Optional[object]]]:
+    ) -> object:
         """Delete a compliance report configuration with the id {configuration_id}.
 
         Args:
             configuration_id:
                 Performs the operation on the compliance report configuration with the specified
                 ID.
-        Returns:
-            requests.Response: Raw Response from the API if config.raw_response is set to True.
-            object: Response from the API.
-        Raises:
-            ClumioException: An error occured while executing the API.
-                This exception includes the HTTP response code, an error
-                message, and the HTTP body that was received in the request.
         """
+
+        def get_instance_from_response(resp: requests.Response) -> Any:
+            return resp
 
         # Prepare query URL
         _url_path = '/reports/compliance/configurations/{configuration_id}'
@@ -328,24 +286,85 @@ class ReportComplianceV1Controller(base_controller.BaseController):
         )
         _query_parameters: dict[str, Any] = {}
 
-        raw_response = self.config.raw_response
+        resp_instance: object
         # Execute request
+        resp: requests.Response
         try:
-            resp: requests.Response = self.client.delete(
+            resp = self.client.delete(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
                 raw_response=True,
                 **kwargs,
             )
-        except requests.exceptions.HTTPError as http_error:
-            if raw_response:
-                return http_error.response, None
-            raise clumio_exception.ClumioException(
-                'Error occurred while executing delete_compliance_report_configuration',
-                error=http_error,
-            )
+        except requests.exceptions.HTTPError as e:
+            resp = e.response
 
-        if raw_response:
-            return resp, resp.json()
-        return resp
+        if not resp.ok:
+            error_str = f'delete_compliance_report_configuration for url {urllib.parse.unquote(resp.url)} failed.'
+            raise clumio_exception.ClumioException(error_str, resp=resp)
+
+        resp_instance = get_instance_from_response(resp)
+
+        return resp_instance
+
+
+class ReportComplianceV1ControllerPaginator(base_controller.BaseController):
+    """A Controller to access Endpoints for report-compliance resource with pagination."""
+
+    def __init__(self, config: configuration.Configuration) -> None:
+        super().__init__(config)
+        self.controller = ReportComplianceV1Controller(config)
+
+    def list_compliance_report_configurations(
+        self,
+        limit: int | None = None,
+        start: str | None = None,
+        filter: report_compliance_types.ListComplianceReportConfigurationsV1FilterT | None = None,
+        **kwargs,
+    ) -> Iterator[list_compliance_configurations_response.ListComplianceConfigurationsResponse]:
+        """Get a list of all the compliance report configurations.
+
+        Args:
+            limit:
+                Limits the size of the items returned in the response.
+            start:
+                Sets the page token used to browse the collection. Leave this parameter empty to
+                get the first page.
+                Other pages can be traversed using HATEOAS links.
+            filter:
+                Narrows down the results to only the items that satisfy the filter criteria.
+                The following table lists the supported filter fields for this resource and the
+                filter conditions that can be applied on those fields:
+
+                +-------------------+------------------+---------------------------------------+
+                |       Field       | Filter Condition |              Description              |
+                +===================+==================+=======================================+
+                | report_name       | $contains        | The substring in the name of the      |
+                |                   |                  | report to filter with.                |
+                |                   |                  | For example, "filter": "{"report_name |
+                |                   |                  | ":{"$contains":"name"}}"              |
+                |                   |                  |                                       |
+                +-------------------+------------------+---------------------------------------+
+                | compliance_status | $eq              | The compliance status of the report   |
+                |                   |                  | configuration to filter with.         |
+                |                   |                  | The possible values are "compliant"   |
+                |                   |                  | and "non_compliant".                  |
+                |                   |                  | For example, "filter": "{"compliance_ |
+                |                   |                  | status":{"$eq":"compliant"}}"         |
+                |                   |                  |                                       |
+                +-------------------+------------------+---------------------------------------+
+
+                For more information about filtering, refer to the
+                Filtering section of this guide.
+        """
+        start = start or '1'
+        while True:
+            response = self.controller.list_compliance_report_configurations(
+                limit=limit, start=start, filter=filter, **kwargs
+            )
+            yield response
+            if not response.Links.Next.Href:  # type: ignore
+                break
+
+            start = str(int(start) + 1)

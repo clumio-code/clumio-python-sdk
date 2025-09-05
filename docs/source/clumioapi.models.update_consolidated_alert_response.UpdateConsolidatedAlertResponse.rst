@@ -17,10 +17,33 @@ clumioapi.models.update\_consolidated\_alert\_response.UpdateConsolidatedAlertRe
    .. autosummary::
    
       ~UpdateConsolidatedAlertResponse.__init__
+      ~UpdateConsolidatedAlertResponse.dict
       ~UpdateConsolidatedAlertResponse.from_dictionary
+      ~UpdateConsolidatedAlertResponse.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~UpdateConsolidatedAlertResponse.ActiveEntityCount
+      ~UpdateConsolidatedAlertResponse.Cause
+      ~UpdateConsolidatedAlertResponse.ClearedEntityCount
+      ~UpdateConsolidatedAlertResponse.ClearedTimestamp
+      ~UpdateConsolidatedAlertResponse.Details
+      ~UpdateConsolidatedAlertResponse.Etag
+      ~UpdateConsolidatedAlertResponse.Id
+      ~UpdateConsolidatedAlertResponse.Links
+      ~UpdateConsolidatedAlertResponse.Notes
+      ~UpdateConsolidatedAlertResponse.ParentEntity
+      ~UpdateConsolidatedAlertResponse.RaisedTimestamp
+      ~UpdateConsolidatedAlertResponse.Severity
+      ~UpdateConsolidatedAlertResponse.Status
+      ~UpdateConsolidatedAlertResponse.Type
+      ~UpdateConsolidatedAlertResponse.UpdatedTimestamp
+      ~UpdateConsolidatedAlertResponse.raw_response
    
    

@@ -17,10 +17,26 @@ clumioapi.models.list\_consolidated\_alerts\_response.ListConsolidatedAlertsResp
    .. autosummary::
    
       ~ListConsolidatedAlertsResponse.__init__
+      ~ListConsolidatedAlertsResponse.dict
       ~ListConsolidatedAlertsResponse.from_dictionary
+      ~ListConsolidatedAlertsResponse.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ListConsolidatedAlertsResponse.CurrentCount
+      ~ListConsolidatedAlertsResponse.Embedded
+      ~ListConsolidatedAlertsResponse.FilterApplied
+      ~ListConsolidatedAlertsResponse.Limit
+      ~ListConsolidatedAlertsResponse.Links
+      ~ListConsolidatedAlertsResponse.Start
+      ~ListConsolidatedAlertsResponse.TotalCount
+      ~ListConsolidatedAlertsResponse.TotalPagesCount
+      ~ListConsolidatedAlertsResponse.raw_response
    
    

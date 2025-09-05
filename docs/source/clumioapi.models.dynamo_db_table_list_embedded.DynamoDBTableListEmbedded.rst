@@ -17,10 +17,18 @@ clumioapi.models.dynamo\_db\_table\_list\_embedded.DynamoDBTableListEmbedded
    .. autosummary::
    
       ~DynamoDBTableListEmbedded.__init__
+      ~DynamoDBTableListEmbedded.dict
       ~DynamoDBTableListEmbedded.from_dictionary
+      ~DynamoDBTableListEmbedded.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~DynamoDBTableListEmbedded.Items
    
    

@@ -17,10 +17,19 @@ clumioapi.models.provisioned\_throughput.ProvisionedThroughput
    .. autosummary::
    
       ~ProvisionedThroughput.__init__
+      ~ProvisionedThroughput.dict
       ~ProvisionedThroughput.from_dictionary
+      ~ProvisionedThroughput.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ProvisionedThroughput.ReadCapacityUnits
+      ~ProvisionedThroughput.WriteCapacityUnits
    
    

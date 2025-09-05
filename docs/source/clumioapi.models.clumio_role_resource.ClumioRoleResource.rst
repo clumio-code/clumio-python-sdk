@@ -17,10 +17,22 @@ clumioapi.models.clumio\_role\_resource.ClumioRoleResource
    .. autosummary::
    
       ~ClumioRoleResource.__init__
+      ~ClumioRoleResource.dict
       ~ClumioRoleResource.from_dictionary
+      ~ClumioRoleResource.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ClumioRoleResource.Description
+      ~ClumioRoleResource.InlinePolicies
+      ~ClumioRoleResource.ManagedPolicies
+      ~ClumioRoleResource.Steps
+      ~ClumioRoleResource.TrustPolicy
    
    

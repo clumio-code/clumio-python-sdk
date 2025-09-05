@@ -17,10 +17,19 @@ clumioapi.models.stream\_specification.StreamSpecification
    .. autosummary::
    
       ~StreamSpecification.__init__
+      ~StreamSpecification.dict
       ~StreamSpecification.from_dictionary
+      ~StreamSpecification.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~StreamSpecification.Enabled
+      ~StreamSpecification.ViewType
    
    

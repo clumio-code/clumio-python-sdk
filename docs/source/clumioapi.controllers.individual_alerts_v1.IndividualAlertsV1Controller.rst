@@ -30,6 +30,5 @@ clumioapi.controllers.individual\_alerts\_v1.IndividualAlertsV1Controller
    .. autosummary::
    
       ~IndividualAlertsV1Controller.client
-      ~IndividualAlertsV1Controller.global_headers
    
    

@@ -1,91 +1,78 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import \
     protection_group_s3_asset_backup_list_embedded as \
     protection_group_s3_asset_backup_list_embedded_
 from clumioapi.models import \
     protection_group_s3_asset_backup_list_links as protection_group_s3_asset_backup_list_links_
+import requests
 
 T = TypeVar('T', bound='ListProtectionGroupS3AssetBackupsResponse')
 
 
+@dataclasses.dataclass
 class ListProtectionGroupS3AssetBackupsResponse:
     """Implementation of the 'ListProtectionGroupS3AssetBackupsResponse' model.
 
-    Attributes:
-        embedded:
-            Embedded responses related to the resource.
-        links:
-            URLs to pages related to the resource.
-        current_count:
-            The number of items listed on the current page.
-        filter_applied:
-            The filter used in the request. The filter includes both manually-specified and
-            system-generated filters.
-        limit:
-            The maximum number of items displayed per page in the response.
-        start:
-            The page number used to get this response.
-            Pages are indexed starting from 1 (i.e., `"start": "1"`).
-        total_count:
-            The total number of items, summed across all pages.
-        total_pages_count:
-            The total number of pages of results.
+        Attributes:
+            Embedded:
+    Embedded responses related to the resource.
+
+            Links:
+    Urls to pages related to the resource.
+
+            CurrentCount:
+    The number of items listed on the current page.
+
+            FilterApplied:
+    The filter used in the request. the filter includes both manually-specified and system-generated filters.
+
+            Limit:
+    The maximum number of items displayed per page in the response.
+
+            Start:
+    "1"`).
+
+            TotalCount:
+    The total number of items, summed across all pages.
+
+            TotalPagesCount:
+    The total number of pages of results.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'embedded': '_embedded',
-        'links': '_links',
-        'current_count': 'current_count',
-        'filter_applied': 'filter_applied',
-        'limit': 'limit',
-        'start': 'start',
-        'total_count': 'total_count',
-        'total_pages_count': 'total_pages_count',
-    }
+    Embedded: (
+        protection_group_s3_asset_backup_list_embedded_.ProtectionGroupS3AssetBackupListEmbedded
+        | None
+    ) = None
+    Links: (
+        protection_group_s3_asset_backup_list_links_.ProtectionGroupS3AssetBackupListLinks | None
+    ) = None
+    CurrentCount: int | None = None
+    FilterApplied: str | None = None
+    Limit: int | None = None
+    Start: str | None = None
+    TotalCount: int | None = None
+    TotalPagesCount: int | None = None
+    raw_response: Optional[requests.Response] = None
 
-    def __init__(
-        self,
-        embedded: (
-            protection_group_s3_asset_backup_list_embedded_.ProtectionGroupS3AssetBackupListEmbedded
-            | None
-        ) = None,
-        links: (
-            protection_group_s3_asset_backup_list_links_.ProtectionGroupS3AssetBackupListLinks
-            | None
-        ) = None,
-        current_count: int | None = None,
-        filter_applied: str | None = None,
-        limit: int | None = None,
-        start: str | None = None,
-        total_count: int | None = None,
-        total_pages_count: int | None = None,
-    ) -> None:
-        """Constructor for the ListProtectionGroupS3AssetBackupsResponse class."""
-
-        # Initialize members of the class
-        self.embedded: (
-            protection_group_s3_asset_backup_list_embedded_.ProtectionGroupS3AssetBackupListEmbedded
-            | None
-        ) = embedded
-        self.links: (
-            protection_group_s3_asset_backup_list_links_.ProtectionGroupS3AssetBackupListLinks
-            | None
-        ) = links
-        self.current_count: int | None = current_count
-        self.filter_applied: str | None = filter_applied
-        self.limit: int | None = limit
-        self.start: str | None = start
-        self.total_count: int | None = total_count
-        self.total_pages_count: int | None = total_pages_count
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self,
+            dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v not in [None, {}]},
+        )
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -96,7 +83,6 @@ class ListProtectionGroupS3AssetBackupsResponse:
         Returns:
             object: An instance of this structure class.
         """
-
         dictionary = dictionary or {}
         # Extract variables from the dictionary
         val = dictionary.get('_embedded', None)
@@ -138,3 +124,20 @@ class ListProtectionGroupS3AssetBackupsResponse:
             val_total_count,
             val_total_pages_count,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        model_instance.raw_response = response
+        return model_instance

@@ -17,10 +17,19 @@ clumioapi.models.update\_consolidated\_alert\_v1\_request.UpdateConsolidatedAler
    .. autosummary::
    
       ~UpdateConsolidatedAlertV1Request.__init__
+      ~UpdateConsolidatedAlertV1Request.dict
       ~UpdateConsolidatedAlertV1Request.from_dictionary
+      ~UpdateConsolidatedAlertV1Request.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~UpdateConsolidatedAlertV1Request.Notes
+      ~UpdateConsolidatedAlertV1Request.Status
    
    

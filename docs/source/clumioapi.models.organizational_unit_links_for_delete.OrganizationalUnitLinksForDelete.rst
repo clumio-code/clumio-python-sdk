@@ -17,10 +17,19 @@ clumioapi.models.organizational\_unit\_links\_for\_delete.OrganizationalUnitLink
    .. autosummary::
    
       ~OrganizationalUnitLinksForDelete.__init__
+      ~OrganizationalUnitLinksForDelete.dict
       ~OrganizationalUnitLinksForDelete.from_dictionary
+      ~OrganizationalUnitLinksForDelete.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~OrganizationalUnitLinksForDelete.ReadTask
+      ~OrganizationalUnitLinksForDelete.Self
    
    

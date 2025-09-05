@@ -20,6 +20,7 @@ clumioapi.controllers.restored\_aws\_s3\_buckets\_v1
       :template: custom-class-template.rst
    
       RestoredAwsS3BucketsV1Controller
+      RestoredAwsS3BucketsV1ControllerPaginator
    
    
 

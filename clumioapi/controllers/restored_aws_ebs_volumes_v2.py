@@ -3,7 +3,8 @@
 #
 
 import json
-from typing import Any, Optional, Union
+from typing import Any, Iterator, Optional, Union
+import urllib.parse
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -35,10 +36,7 @@ class RestoredAwsEbsVolumesV2Controller(base_controller.BaseController):
         embed: str | None = None,
         body: restore_aws_ebs_volume_v2_request.RestoreAwsEbsVolumeV2Request | None = None,
         **kwargs,
-    ) -> Union[
-        restore_ebs_response.RestoreEBSResponse,
-        tuple[requests.Response, Optional[restore_ebs_response.RestoreEBSResponse]],
-    ]:
+    ) -> restore_ebs_response.RestoreEBSResponse:
         """Restores the specified source EBS volume backup to the specified target
         destination. The source EBS volume must be one that was backup up by Clumio.
 
@@ -57,14 +55,10 @@ class RestoredAwsEbsVolumesV2Controller(base_controller.BaseController):
 
             body:
 
-        Returns:
-            requests.Response: Raw Response from the API if config.raw_response is set to True.
-            restore_ebs_response.RestoreEBSResponse: Response from the API.
-        Raises:
-            ClumioException: An error occured while executing the API.
-                This exception includes the HTTP response code, an error
-                message, and the HTTP body that was received in the request.
         """
+
+        def get_instance_from_response(resp: requests.Response) -> Any:
+            return restore_ebs_response.RestoreEBSResponse.from_response(resp)
 
         # Prepare query URL
         _url_path = '/restores/aws/ebs-volumes'
@@ -72,25 +66,33 @@ class RestoredAwsEbsVolumesV2Controller(base_controller.BaseController):
         _query_parameters: dict[str, Any] = {}
         _query_parameters = {'embed': embed}
 
-        raw_response = self.config.raw_response
+        resp_instance: restore_ebs_response.RestoreEBSResponse
         # Execute request
+        resp: requests.Response
         try:
-            resp: requests.Response = self.client.post(
+            resp = self.client.post(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                json=api_helper.to_dictionary(body),
+                json=body.dict() if body else None,
                 raw_response=True,
                 **kwargs,
             )
-        except requests.exceptions.HTTPError as http_error:
-            if raw_response:
-                return http_error.response, None
-            raise clumio_exception.ClumioException(
-                'Error occurred while executing restore_aws_ebs_volume', error=http_error
-            )
+        except requests.exceptions.HTTPError as e:
+            resp = e.response
 
-        obj = restore_ebs_response.RestoreEBSResponse.from_dictionary(resp.json())
-        if raw_response:
-            return resp, obj
-        return obj
+        if not resp.ok:
+            error_str = f'restore_aws_ebs_volume for url {urllib.parse.unquote(resp.url)} failed.'
+            raise clumio_exception.ClumioException(error_str, resp=resp)
+
+        resp_instance = get_instance_from_response(resp)
+
+        return resp_instance
+
+
+class RestoredAwsEbsVolumesV2ControllerPaginator(base_controller.BaseController):
+    """A Controller to access Endpoints for restored-aws-ebs-volumes resource with pagination."""
+
+    def __init__(self, config: configuration.Configuration) -> None:
+        super().__init__(config)
+        self.controller = RestoredAwsEbsVolumesV2Controller(config)

@@ -17,10 +17,19 @@ clumioapi.models.warm\_tier\_protect\_config.WarmTierProtectConfig
    .. autosummary::
    
       ~WarmTierProtectConfig.__init__
+      ~WarmTierProtectConfig.dict
       ~WarmTierProtectConfig.from_dictionary
+      ~WarmTierProtectConfig.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~WarmTierProtectConfig.Dynamodb
+      ~WarmTierProtectConfig.InstalledTemplateVersion
    
    

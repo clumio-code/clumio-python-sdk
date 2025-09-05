@@ -17,10 +17,18 @@ clumioapi.models.create\_compliance\_report\_run\_v1\_request.CreateComplianceRe
    .. autosummary::
    
       ~CreateComplianceReportRunV1Request.__init__
+      ~CreateComplianceReportRunV1Request.dict
       ~CreateComplianceReportRunV1Request.from_dictionary
+      ~CreateComplianceReportRunV1Request.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~CreateComplianceReportRunV1Request.Name
    
    

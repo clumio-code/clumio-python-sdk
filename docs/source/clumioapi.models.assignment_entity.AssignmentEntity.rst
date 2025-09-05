@@ -17,10 +17,19 @@ clumioapi.models.assignment\_entity.AssignmentEntity
    .. autosummary::
    
       ~AssignmentEntity.__init__
+      ~AssignmentEntity.dict
       ~AssignmentEntity.from_dictionary
+      ~AssignmentEntity.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~AssignmentEntity.Id
+      ~AssignmentEntity.Type
    
    

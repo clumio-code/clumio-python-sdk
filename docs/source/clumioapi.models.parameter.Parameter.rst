@@ -17,10 +17,19 @@ clumioapi.models.parameter.Parameter
    .. autosummary::
    
       ~Parameter.__init__
+      ~Parameter.dict
       ~Parameter.from_dictionary
+      ~Parameter.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~Parameter.Controls
+      ~Parameter.Filters
    
    

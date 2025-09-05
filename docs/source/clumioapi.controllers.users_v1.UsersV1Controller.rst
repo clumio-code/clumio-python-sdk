@@ -34,6 +34,5 @@ clumioapi.controllers.users\_v1.UsersV1Controller
    .. autosummary::
    
       ~UsersV1Controller.client
-      ~UsersV1Controller.global_headers
    
    

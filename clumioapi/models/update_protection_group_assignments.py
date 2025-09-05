@@ -1,39 +1,46 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='UpdateProtectionGroupAssignments')
 
 
+@dataclasses.dataclass
 class UpdateProtectionGroupAssignments:
     """Implementation of the 'UpdateProtectionGroupAssignments' model.
 
-    UpdateProtectionGroupAssignments denotes the protection groups to be assigned
-    orunassigned.Updates to the protection group assignments.
+        UpdateProtectionGroupAssignments denotes the protection groups to be assigned
+        orunassigned.Updates to the protection group assignments.
 
-    Attributes:
-        assign:
-            List of protection group IDs to assign to this organizational unit.
-        unassign:
-            List of protection group IDs to un-assign from this organizational unit.
+        Attributes:
+            Assign:
+    List of protection group ids to assign to this organizational unit.
+
+            Unassign:
+    List of protection group ids to un-assign from this organizational unit.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {'assign': 'assign', 'unassign': 'unassign'}
+    Assign: Sequence[str] | None = None
+    Unassign: Sequence[str] | None = None
 
-    def __init__(
-        self, assign: Sequence[str] | None = None, unassign: Sequence[str] | None = None
-    ) -> None:
-        """Constructor for the UpdateProtectionGroupAssignments class."""
-
-        # Initialize members of the class
-        self.assign: Sequence[str] | None = assign
-        self.unassign: Sequence[str] | None = unassign
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self,
+            dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v not in [None, {}]},
+        )
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -44,7 +51,6 @@ class UpdateProtectionGroupAssignments:
         Returns:
             object: An instance of this structure class.
         """
-
         dictionary = dictionary or {}
         # Extract variables from the dictionary
         val = dictionary.get('assign', None)
@@ -58,3 +64,19 @@ class UpdateProtectionGroupAssignments:
             val_assign,
             val_unassign,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

@@ -17,10 +17,18 @@ clumioapi.models.auto\_user\_provisioning\_rule\_list\_embedded.AutoUserProvisio
    .. autosummary::
    
       ~AutoUserProvisioningRuleListEmbedded.__init__
+      ~AutoUserProvisioningRuleListEmbedded.dict
       ~AutoUserProvisioningRuleListEmbedded.from_dictionary
+      ~AutoUserProvisioningRuleListEmbedded.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~AutoUserProvisioningRuleListEmbedded.Items
    
    

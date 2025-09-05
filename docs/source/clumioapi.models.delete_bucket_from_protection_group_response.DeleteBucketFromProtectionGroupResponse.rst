@@ -17,10 +17,38 @@ clumioapi.models.delete\_bucket\_from\_protection\_group\_response.DeleteBucketF
    .. autosummary::
    
       ~DeleteBucketFromProtectionGroupResponse.__init__
+      ~DeleteBucketFromProtectionGroupResponse.dict
       ~DeleteBucketFromProtectionGroupResponse.from_dictionary
+      ~DeleteBucketFromProtectionGroupResponse.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~DeleteBucketFromProtectionGroupResponse.AccountNativeId
+      ~DeleteBucketFromProtectionGroupResponse.AddedByBucketRule
+      ~DeleteBucketFromProtectionGroupResponse.AddedByUser
+      ~DeleteBucketFromProtectionGroupResponse.AwsRegion
+      ~DeleteBucketFromProtectionGroupResponse.BackupTargetAwsRegion
+      ~DeleteBucketFromProtectionGroupResponse.BackupTierStats
+      ~DeleteBucketFromProtectionGroupResponse.BucketId
+      ~DeleteBucketFromProtectionGroupResponse.BucketName
+      ~DeleteBucketFromProtectionGroupResponse.CreatedTimestamp
+      ~DeleteBucketFromProtectionGroupResponse.EnvironmentId
+      ~DeleteBucketFromProtectionGroupResponse.GroupId
+      ~DeleteBucketFromProtectionGroupResponse.GroupName
+      ~DeleteBucketFromProtectionGroupResponse.Id
+      ~DeleteBucketFromProtectionGroupResponse.IsDeleted
+      ~DeleteBucketFromProtectionGroupResponse.LastBackupTimestamp
+      ~DeleteBucketFromProtectionGroupResponse.LastContinuousBackupTimestamp
+      ~DeleteBucketFromProtectionGroupResponse.OrganizationalUnitId
+      ~DeleteBucketFromProtectionGroupResponse.TotalBackedUpObjectCount
+      ~DeleteBucketFromProtectionGroupResponse.TotalBackedUpSizeBytes
+      ~DeleteBucketFromProtectionGroupResponse.UnsupportedReason
+      ~DeleteBucketFromProtectionGroupResponse.raw_response
    
    

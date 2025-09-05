@@ -20,6 +20,7 @@ clumioapi.controllers.general\_settings\_v2
       :template: custom-class-template.rst
    
       GeneralSettingsV2Controller
+      GeneralSettingsV2ControllerPaginator
    
    
 

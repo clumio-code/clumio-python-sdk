@@ -17,10 +17,20 @@ clumioapi.models.protection\_stats.ProtectionStats
    .. autosummary::
    
       ~ProtectionStats.__init__
+      ~ProtectionStats.dict
       ~ProtectionStats.from_dictionary
+      ~ProtectionStats.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ProtectionStats.DeactivatedCount
+      ~ProtectionStats.ProtectedCount
+      ~ProtectionStats.UnprotectedCount
    
    

@@ -17,10 +17,21 @@ clumioapi.models.create\_protection\_group\_v1\_request.CreateProtectionGroupV1R
    .. autosummary::
    
       ~CreateProtectionGroupV1Request.__init__
+      ~CreateProtectionGroupV1Request.dict
       ~CreateProtectionGroupV1Request.from_dictionary
+      ~CreateProtectionGroupV1Request.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~CreateProtectionGroupV1Request.BucketRule
+      ~CreateProtectionGroupV1Request.Description
+      ~CreateProtectionGroupV1Request.Name
+      ~CreateProtectionGroupV1Request.ObjectFilter
    
    

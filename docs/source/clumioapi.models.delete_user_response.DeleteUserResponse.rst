@@ -17,10 +17,18 @@ clumioapi.models.delete\_user\_response.DeleteUserResponse
    .. autosummary::
    
       ~DeleteUserResponse.__init__
+      ~DeleteUserResponse.dict
       ~DeleteUserResponse.from_dictionary
+      ~DeleteUserResponse.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~DeleteUserResponse.raw_response
    
    

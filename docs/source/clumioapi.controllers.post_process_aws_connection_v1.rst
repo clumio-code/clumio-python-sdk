@@ -20,6 +20,7 @@ clumioapi.controllers.post\_process\_aws\_connection\_v1
       :template: custom-class-template.rst
    
       PostProcessAwsConnectionV1Controller
+      PostProcessAwsConnectionV1ControllerPaginator
    
    
 

@@ -17,10 +17,21 @@ clumioapi.models.update\_rule\_response.UpdateRuleResponse
    .. autosummary::
    
       ~UpdateRuleResponse.__init__
+      ~UpdateRuleResponse.dict
       ~UpdateRuleResponse.from_dictionary
+      ~UpdateRuleResponse.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~UpdateRuleResponse.Links
+      ~UpdateRuleResponse.Rule
+      ~UpdateRuleResponse.TaskId
+      ~UpdateRuleResponse.raw_response
    
    

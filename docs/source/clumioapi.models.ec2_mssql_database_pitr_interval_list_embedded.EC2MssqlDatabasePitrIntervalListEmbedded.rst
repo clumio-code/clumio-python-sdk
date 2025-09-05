@@ -17,10 +17,18 @@ clumioapi.models.ec2\_mssql\_database\_pitr\_interval\_list\_embedded.EC2MssqlDa
    .. autosummary::
    
       ~EC2MssqlDatabasePitrIntervalListEmbedded.__init__
+      ~EC2MssqlDatabasePitrIntervalListEmbedded.dict
       ~EC2MssqlDatabasePitrIntervalListEmbedded.from_dictionary
+      ~EC2MssqlDatabasePitrIntervalListEmbedded.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~EC2MssqlDatabasePitrIntervalListEmbedded.Items
    
    

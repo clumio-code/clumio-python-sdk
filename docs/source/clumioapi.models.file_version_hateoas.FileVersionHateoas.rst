@@ -17,10 +17,18 @@ clumioapi.models.file\_version\_hateoas.FileVersionHateoas
    .. autosummary::
    
       ~FileVersionHateoas.__init__
+      ~FileVersionHateoas.dict
       ~FileVersionHateoas.from_dictionary
+      ~FileVersionHateoas.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~FileVersionHateoas.RestoreFiles
    
    

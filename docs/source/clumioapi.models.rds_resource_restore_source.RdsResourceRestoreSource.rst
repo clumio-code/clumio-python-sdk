@@ -17,10 +17,19 @@ clumioapi.models.rds\_resource\_restore\_source.RdsResourceRestoreSource
    .. autosummary::
    
       ~RdsResourceRestoreSource.__init__
+      ~RdsResourceRestoreSource.dict
       ~RdsResourceRestoreSource.from_dictionary
+      ~RdsResourceRestoreSource.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~RdsResourceRestoreSource.Backup
+      ~RdsResourceRestoreSource.Snapshot
    
    

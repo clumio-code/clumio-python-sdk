@@ -17,10 +17,18 @@ clumioapi.models.dynamo\_db\_grr\_source.DynamoDBGrrSource
    .. autosummary::
    
       ~DynamoDBGrrSource.__init__
+      ~DynamoDBGrrSource.dict
       ~DynamoDBGrrSource.from_dictionary
+      ~DynamoDBGrrSource.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~DynamoDBGrrSource.BackupId
    
    

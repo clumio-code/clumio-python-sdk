@@ -17,10 +17,18 @@ clumioapi.models.ec2\_mssql\_inv\_host\_links.EC2MSSQLInvHostLinks
    .. autosummary::
    
       ~EC2MSSQLInvHostLinks.__init__
+      ~EC2MSSQLInvHostLinks.dict
       ~EC2MSSQLInvHostLinks.from_dictionary
+      ~EC2MSSQLInvHostLinks.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~EC2MSSQLInvHostLinks.Self
    
    

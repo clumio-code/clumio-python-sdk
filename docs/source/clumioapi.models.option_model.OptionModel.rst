@@ -17,10 +17,23 @@ clumioapi.models.option\_model.OptionModel
    .. autosummary::
    
       ~OptionModel.__init__
+      ~OptionModel.dict
       ~OptionModel.from_dictionary
+      ~OptionModel.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~OptionModel.IsPermanent
+      ~OptionModel.IsPersistent
+      ~OptionModel.IsRequiredForRestore
+      ~OptionModel.Name
+      ~OptionModel.OptionSetting
+      ~OptionModel.OptionVersion
    
    

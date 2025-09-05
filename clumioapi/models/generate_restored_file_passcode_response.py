@@ -1,46 +1,47 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import \
     generate_restored_file_passcode_links as generate_restored_file_passcode_links_
+import requests
 
 T = TypeVar('T', bound='GenerateRestoredFilePasscodeResponse')
 
 
+@dataclasses.dataclass
 class GenerateRestoredFilePasscodeResponse:
     """Implementation of the 'GenerateRestoredFilePasscodeResponse' model.
 
-    Attributes:
-        links:
-            URLs to pages related to the resource.
-        passcode:
-            The new passcode that has been generated for the restored file. Send the
-            passcode to the email recipient, who must use it to access the restored file.
+        Attributes:
+            Links:
+    Urls to pages related to the resource.
+
+            Passcode:
+    The new passcode that has been generated for the restored file. send the
+    passcode to the email recipient, who must use it to access the restored file.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {'links': '_links', 'passcode': 'passcode'}
+    Links: generate_restored_file_passcode_links_.GenerateRestoredFilePasscodeLinks | None = None
+    Passcode: str | None = None
+    raw_response: Optional[requests.Response] = None
 
-    def __init__(
-        self,
-        links: (
-            generate_restored_file_passcode_links_.GenerateRestoredFilePasscodeLinks | None
-        ) = None,
-        passcode: str | None = None,
-    ) -> None:
-        """Constructor for the GenerateRestoredFilePasscodeResponse class."""
-
-        # Initialize members of the class
-        self.links: (
-            generate_restored_file_passcode_links_.GenerateRestoredFilePasscodeLinks | None
-        ) = links
-        self.passcode: str | None = passcode
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self,
+            dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v not in [None, {}]},
+        )
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -51,7 +52,6 @@ class GenerateRestoredFilePasscodeResponse:
         Returns:
             object: An instance of this structure class.
         """
-
         dictionary = dictionary or {}
         # Extract variables from the dictionary
         val = dictionary.get('_links', None)
@@ -67,3 +67,20 @@ class GenerateRestoredFilePasscodeResponse:
             val_links,
             val_passcode,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        model_instance.raw_response = response
+        return model_instance

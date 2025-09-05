@@ -30,6 +30,5 @@ clumioapi.controllers.backup\_aws\_dynamodb\_tables\_v1.BackupAwsDynamodbTablesV
    .. autosummary::
    
       ~BackupAwsDynamodbTablesV1Controller.client
-      ~BackupAwsDynamodbTablesV1Controller.global_headers
    
    

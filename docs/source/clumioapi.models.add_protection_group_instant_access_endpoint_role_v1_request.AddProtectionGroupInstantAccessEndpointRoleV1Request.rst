@@ -17,10 +17,20 @@ clumioapi.models.add\_protection\_group\_instant\_access\_endpoint\_role\_v1\_re
    .. autosummary::
    
       ~AddProtectionGroupInstantAccessEndpointRoleV1Request.__init__
+      ~AddProtectionGroupInstantAccessEndpointRoleV1Request.dict
       ~AddProtectionGroupInstantAccessEndpointRoleV1Request.from_dictionary
+      ~AddProtectionGroupInstantAccessEndpointRoleV1Request.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~AddProtectionGroupInstantAccessEndpointRoleV1Request.IsAllowExternalAccount
+      ~AddProtectionGroupInstantAccessEndpointRoleV1Request.RoleAlias
+      ~AddProtectionGroupInstantAccessEndpointRoleV1Request.RoleArn
    
    

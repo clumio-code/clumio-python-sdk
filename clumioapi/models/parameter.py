@@ -1,43 +1,47 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import compliance_controls as compliance_controls_
 from clumioapi.models import compliance_filters as compliance_filters_
+import requests
 
 T = TypeVar('T', bound='Parameter')
 
 
+@dataclasses.dataclass
 class Parameter:
     """Implementation of the 'Parameter' model.
 
-    Filter and control parameters of compliance report.
+        Filter and control parameters of compliance report.
 
-    Attributes:
-        controls:
-            The set of controls supported in compliance report.
-        filters:
-            The set of filters supported in compliance report.
+        Attributes:
+            Controls:
+    The set of controls supported in compliance report.
+
+            Filters:
+    The set of filters supported in compliance report.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {'controls': 'controls', 'filters': 'filters'}
+    Controls: compliance_controls_.ComplianceControls | None = None
+    Filters: compliance_filters_.ComplianceFilters | None = None
 
-    def __init__(
-        self,
-        controls: compliance_controls_.ComplianceControls | None = None,
-        filters: compliance_filters_.ComplianceFilters | None = None,
-    ) -> None:
-        """Constructor for the Parameter class."""
-
-        # Initialize members of the class
-        self.controls: compliance_controls_.ComplianceControls | None = controls
-        self.filters: compliance_filters_.ComplianceFilters | None = filters
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self,
+            dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v not in [None, {}]},
+        )
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -48,7 +52,6 @@ class Parameter:
         Returns:
             object: An instance of this structure class.
         """
-
         dictionary = dictionary or {}
         # Extract variables from the dictionary
         val = dictionary.get('controls', None)
@@ -62,3 +65,19 @@ class Parameter:
             val_controls,
             val_filters,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

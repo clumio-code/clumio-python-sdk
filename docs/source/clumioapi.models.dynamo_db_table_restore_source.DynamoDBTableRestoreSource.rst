@@ -17,10 +17,19 @@ clumioapi.models.dynamo\_db\_table\_restore\_source.DynamoDBTableRestoreSource
    .. autosummary::
    
       ~DynamoDBTableRestoreSource.__init__
+      ~DynamoDBTableRestoreSource.dict
       ~DynamoDBTableRestoreSource.from_dictionary
+      ~DynamoDBTableRestoreSource.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~DynamoDBTableRestoreSource.ContinuousBackup
+      ~DynamoDBTableRestoreSource.SecurevaultBackup
    
    

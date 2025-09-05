@@ -17,10 +17,18 @@ clumioapi.models.protection\_group\_s3\_asset\_backup\_list\_embedded.Protection
    .. autosummary::
    
       ~ProtectionGroupS3AssetBackupListEmbedded.__init__
+      ~ProtectionGroupS3AssetBackupListEmbedded.dict
       ~ProtectionGroupS3AssetBackupListEmbedded.from_dictionary
+      ~ProtectionGroupS3AssetBackupListEmbedded.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ProtectionGroupS3AssetBackupListEmbedded.Items
    
    

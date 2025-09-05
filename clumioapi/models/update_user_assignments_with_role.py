@@ -1,43 +1,47 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import user_with_role as user_with_role_
+import requests
 
 T = TypeVar('T', bound='UpdateUserAssignmentsWithRole')
 
 
+@dataclasses.dataclass
 class UpdateUserAssignmentsWithRole:
     """Implementation of the 'UpdateUserAssignmentsWithRole' model.
 
-    UpdateUserAssignmentsWithRole denotes the users to be added or removed along
-    with the role.
+        UpdateUserAssignmentsWithRole denotes the users to be added or removed along
+        with the role.
 
-    Attributes:
-        add:
-            List of user IDs with role to assign this organizational unit.
-        remove:
-            List of user IDs with role to un-assign this organizational unit.
+        Attributes:
+            Add:
+    List of user ids with role to assign this organizational unit.
+
+            Remove:
+    List of user ids with role to un-assign this organizational unit.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {'add': 'add', 'remove': 'remove'}
+    Add: Sequence[user_with_role_.UserWithRole] | None = None
+    Remove: Sequence[user_with_role_.UserWithRole] | None = None
 
-    def __init__(
-        self,
-        add: Sequence[user_with_role_.UserWithRole] | None = None,
-        remove: Sequence[user_with_role_.UserWithRole] | None = None,
-    ) -> None:
-        """Constructor for the UpdateUserAssignmentsWithRole class."""
-
-        # Initialize members of the class
-        self.add: Sequence[user_with_role_.UserWithRole] | None = add
-        self.remove: Sequence[user_with_role_.UserWithRole] | None = remove
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self,
+            dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v not in [None, {}]},
+        )
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -48,22 +52,19 @@ class UpdateUserAssignmentsWithRole:
         Returns:
             object: An instance of this structure class.
         """
-
         dictionary = dictionary or {}
         # Extract variables from the dictionary
         val = dictionary.get('add', None)
 
-        val_add = None
+        val_add = []
         if val:
-            val_add = list()
             for value in val:
                 val_add.append(user_with_role_.UserWithRole.from_dictionary(value))
 
         val = dictionary.get('remove', None)
 
-        val_remove = None
+        val_remove = []
         if val:
-            val_remove = list()
             for value in val:
                 val_remove.append(user_with_role_.UserWithRole.from_dictionary(value))
 
@@ -72,3 +73,19 @@ class UpdateUserAssignmentsWithRole:
             val_add,
             val_remove,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

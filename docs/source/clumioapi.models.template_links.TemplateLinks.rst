@@ -17,10 +17,18 @@ clumioapi.models.template\_links.TemplateLinks
    .. autosummary::
    
       ~TemplateLinks.__init__
+      ~TemplateLinks.dict
       ~TemplateLinks.from_dictionary
+      ~TemplateLinks.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~TemplateLinks.Self
    
    

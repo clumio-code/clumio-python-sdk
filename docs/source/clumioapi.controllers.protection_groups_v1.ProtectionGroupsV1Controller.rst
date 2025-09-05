@@ -34,6 +34,5 @@ clumioapi.controllers.protection\_groups\_v1.ProtectionGroupsV1Controller
    .. autosummary::
    
       ~ProtectionGroupsV1Controller.client
-      ~ProtectionGroupsV1Controller.global_headers
    
    

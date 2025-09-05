@@ -17,10 +17,19 @@ clumioapi.models.protection\_group\_s3\_asset\_pitr\_interval.ProtectionGroupS3A
    .. autosummary::
    
       ~ProtectionGroupS3AssetPitrInterval.__init__
+      ~ProtectionGroupS3AssetPitrInterval.dict
       ~ProtectionGroupS3AssetPitrInterval.from_dictionary
+      ~ProtectionGroupS3AssetPitrInterval.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ProtectionGroupS3AssetPitrInterval.EndTimestamp
+      ~ProtectionGroupS3AssetPitrInterval.StartTimestamp
    
    

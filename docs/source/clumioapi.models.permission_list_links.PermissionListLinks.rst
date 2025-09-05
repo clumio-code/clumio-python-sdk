@@ -17,10 +17,22 @@ clumioapi.models.permission\_list\_links.PermissionListLinks
    .. autosummary::
    
       ~PermissionListLinks.__init__
+      ~PermissionListLinks.dict
       ~PermissionListLinks.from_dictionary
+      ~PermissionListLinks.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~PermissionListLinks.First
+      ~PermissionListLinks.Last
+      ~PermissionListLinks.Next
+      ~PermissionListLinks.Prev
+      ~PermissionListLinks.Self
    
    

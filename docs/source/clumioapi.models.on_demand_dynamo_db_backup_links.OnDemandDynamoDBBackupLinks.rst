@@ -17,10 +17,19 @@ clumioapi.models.on\_demand\_dynamo\_db\_backup\_links.OnDemandDynamoDBBackupLin
    .. autosummary::
    
       ~OnDemandDynamoDBBackupLinks.__init__
+      ~OnDemandDynamoDBBackupLinks.dict
       ~OnDemandDynamoDBBackupLinks.from_dictionary
+      ~OnDemandDynamoDBBackupLinks.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~OnDemandDynamoDBBackupLinks.ReadTask
+      ~OnDemandDynamoDBBackupLinks.Self
    
    

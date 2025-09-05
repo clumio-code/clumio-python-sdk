@@ -1,39 +1,45 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='EntityGroupAssignmentUpdatesV1')
 
 
+@dataclasses.dataclass
 class EntityGroupAssignmentUpdatesV1:
     """Implementation of the 'EntityGroupAssignmentUpdatesV1' model.
 
-    Updates to the organizational unit assignments.
+        Updates to the organizational unit assignments.
 
-    Attributes:
-        add:
-            The Clumio-assigned IDs of the organizational units to be assigned to the user.
-        remove:
-            The Clumio-assigned IDs of the organizational units to be unassigned to the
-            user.
+        Attributes:
+            Add:
+    The clumio-assigned ids of the organizational units to be assigned to the user.
+
+            Remove:
+    The clumio-assigned ids of the organizational units to be unassigned to the user.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {'add': 'add', 'remove': 'remove'}
+    Add: Sequence[str] | None = None
+    Remove: Sequence[str] | None = None
 
-    def __init__(
-        self, add: Sequence[str] | None = None, remove: Sequence[str] | None = None
-    ) -> None:
-        """Constructor for the EntityGroupAssignmentUpdatesV1 class."""
-
-        # Initialize members of the class
-        self.add: Sequence[str] | None = add
-        self.remove: Sequence[str] | None = remove
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self,
+            dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v not in [None, {}]},
+        )
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -44,7 +50,6 @@ class EntityGroupAssignmentUpdatesV1:
         Returns:
             object: An instance of this structure class.
         """
-
         dictionary = dictionary or {}
         # Extract variables from the dictionary
         val = dictionary.get('add', None)
@@ -58,3 +63,19 @@ class EntityGroupAssignmentUpdatesV1:
             val_add,
             val_remove,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

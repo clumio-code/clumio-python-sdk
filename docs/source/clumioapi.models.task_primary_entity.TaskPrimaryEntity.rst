@@ -17,10 +17,20 @@ clumioapi.models.task\_primary\_entity.TaskPrimaryEntity
    .. autosummary::
    
       ~TaskPrimaryEntity.__init__
+      ~TaskPrimaryEntity.dict
       ~TaskPrimaryEntity.from_dictionary
+      ~TaskPrimaryEntity.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~TaskPrimaryEntity.Id
+      ~TaskPrimaryEntity.Type
+      ~TaskPrimaryEntity.Value
    
    

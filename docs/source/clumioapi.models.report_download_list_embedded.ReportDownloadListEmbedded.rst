@@ -17,10 +17,18 @@ clumioapi.models.report\_download\_list\_embedded.ReportDownloadListEmbedded
    .. autosummary::
    
       ~ReportDownloadListEmbedded.__init__
+      ~ReportDownloadListEmbedded.dict
       ~ReportDownloadListEmbedded.from_dictionary
+      ~ReportDownloadListEmbedded.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ReportDownloadListEmbedded.Items
    
    

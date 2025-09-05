@@ -17,10 +17,29 @@ clumioapi.models.create\_policy\_response.CreatePolicyResponse
    .. autosummary::
    
       ~CreatePolicyResponse.__init__
+      ~CreatePolicyResponse.dict
       ~CreatePolicyResponse.from_dictionary
+      ~CreatePolicyResponse.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~CreatePolicyResponse.ActivationStatus
+      ~CreatePolicyResponse.CreatedTime
+      ~CreatePolicyResponse.Embedded
+      ~CreatePolicyResponse.Id
+      ~CreatePolicyResponse.Links
+      ~CreatePolicyResponse.LockStatus
+      ~CreatePolicyResponse.Name
+      ~CreatePolicyResponse.Operations
+      ~CreatePolicyResponse.OrganizationalUnitId
+      ~CreatePolicyResponse.Timezone
+      ~CreatePolicyResponse.UpdatedTime
+      ~CreatePolicyResponse.raw_response
    
    

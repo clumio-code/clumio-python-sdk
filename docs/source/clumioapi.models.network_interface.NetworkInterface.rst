@@ -17,10 +17,23 @@ clumioapi.models.network\_interface.NetworkInterface
    .. autosummary::
    
       ~NetworkInterface.__init__
+      ~NetworkInterface.dict
       ~NetworkInterface.from_dictionary
+      ~NetworkInterface.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~NetworkInterface.DeviceIndex
+      ~NetworkInterface.NetworkInterfaceNativeId
+      ~NetworkInterface.PublicIp
+      ~NetworkInterface.SecurityGroupNativeIds
+      ~NetworkInterface.SubnetNativeId
+      ~NetworkInterface.VirtualName
    
    

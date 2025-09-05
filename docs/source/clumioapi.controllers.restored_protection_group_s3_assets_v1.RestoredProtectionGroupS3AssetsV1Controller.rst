@@ -30,6 +30,5 @@ clumioapi.controllers.restored\_protection\_group\_s3\_assets\_v1.RestoredProtec
    .. autosummary::
    
       ~RestoredProtectionGroupS3AssetsV1Controller.client
-      ~RestoredProtectionGroupS3AssetsV1Controller.global_headers
    
    

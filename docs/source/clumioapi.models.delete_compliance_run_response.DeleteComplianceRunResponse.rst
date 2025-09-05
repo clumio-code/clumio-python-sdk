@@ -17,10 +17,18 @@ clumioapi.models.delete\_compliance\_run\_response.DeleteComplianceRunResponse
    .. autosummary::
    
       ~DeleteComplianceRunResponse.__init__
+      ~DeleteComplianceRunResponse.dict
       ~DeleteComplianceRunResponse.from_dictionary
+      ~DeleteComplianceRunResponse.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~DeleteComplianceRunResponse.raw_response
    
    

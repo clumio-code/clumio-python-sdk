@@ -3,7 +3,8 @@
 #
 
 import json
-from typing import Any, Optional, Union
+from typing import Any, Iterator, Optional, Union
+import urllib.parse
 
 from clumioapi import api_helper
 from clumioapi import configuration
@@ -35,10 +36,7 @@ class Ec2MssqlFailoverClusterV1Controller(base_controller.BaseController):
         embed: str | None = None,
         lookback_days: int | None = None,
         **kwargs,
-    ) -> Union[
-        read_ec2_mssqlfci_response.ReadEC2MSSQLFCIResponse,
-        tuple[requests.Response, Optional[read_ec2_mssqlfci_response.ReadEC2MSSQLFCIResponse]],
-    ]:
+    ) -> read_ec2_mssqlfci_response.ReadEC2MSSQLFCIResponse:
         """Returns a representation of the specified failover cluster.
 
         Args:
@@ -77,14 +75,10 @@ class Ec2MssqlFailoverClusterV1Controller(base_controller.BaseController):
 
             lookback_days:
                 Calculate backup status for the last `lookback_days` days.
-        Returns:
-            requests.Response: Raw Response from the API if config.raw_response is set to True.
-            read_ec2_mssqlfci_response.ReadEC2MSSQLFCIResponse: Response from the API.
-        Raises:
-            ClumioException: An error occured while executing the API.
-                This exception includes the HTTP response code, an error
-                message, and the HTTP body that was received in the request.
         """
+
+        def get_instance_from_response(resp: requests.Response) -> Any:
+            return read_ec2_mssqlfci_response.ReadEC2MSSQLFCIResponse.from_response(resp)
 
         # Prepare query URL
         _url_path = '/datasources/aws/ec2-mssql/failover-clusters/{failover_cluster_id}'
@@ -94,24 +88,34 @@ class Ec2MssqlFailoverClusterV1Controller(base_controller.BaseController):
         _query_parameters: dict[str, Any] = {}
         _query_parameters = {'embed': embed, 'lookback_days': lookback_days}
 
-        raw_response = self.config.raw_response
+        resp_instance: read_ec2_mssqlfci_response.ReadEC2MSSQLFCIResponse
         # Execute request
+        resp: requests.Response
         try:
-            resp: requests.Response = self.client.get(
+            resp = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
                 raw_response=True,
                 **kwargs,
             )
-        except requests.exceptions.HTTPError as http_error:
-            if raw_response:
-                return http_error.response, None
-            raise clumio_exception.ClumioException(
-                'Error occurred while executing read_ec2_mssql_failover_cluster', error=http_error
-            )
+        except requests.exceptions.HTTPError as e:
+            resp = e.response
 
-        obj = read_ec2_mssqlfci_response.ReadEC2MSSQLFCIResponse.from_dictionary(resp.json())
-        if raw_response:
-            return resp, obj
-        return obj
+        if not resp.ok:
+            error_str = (
+                f'read_ec2_mssql_failover_cluster for url {urllib.parse.unquote(resp.url)} failed.'
+            )
+            raise clumio_exception.ClumioException(error_str, resp=resp)
+
+        resp_instance = get_instance_from_response(resp)
+
+        return resp_instance
+
+
+class Ec2MssqlFailoverClusterV1ControllerPaginator(base_controller.BaseController):
+    """A Controller to access Endpoints for ec2-mssql-failover-cluster resource with pagination."""
+
+    def __init__(self, config: configuration.Configuration) -> None:
+        super().__init__(config)
+        self.controller = Ec2MssqlFailoverClusterV1Controller(config)

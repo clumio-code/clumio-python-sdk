@@ -1,45 +1,47 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='DiscoverConfig')
 
 
+@dataclasses.dataclass
 class DiscoverConfig:
     """Implementation of the 'DiscoverConfig' model.
 
-    The configuration of the Clumio Discover product for this connection.If this
-    connection is not configured for Clumio Discover, then this field has avalue of
-    `null`.
+        The configuration of the Clumio Discover product for this connection.If this
+        connection is not configured for Clumio Discover, then this field has avalue of
+        `null`.
 
-    Attributes:
-        asset_types_enabled:
-            The asset types supported on the current version of the feature
-        installed_template_version:
-            The current version of the feature.
+        Attributes:
+            AssetTypesEnabled:
+    The asset types supported on the current version of the feature.
+
+            InstalledTemplateVersion:
+    The current version of the feature.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'asset_types_enabled': 'asset_types_enabled',
-        'installed_template_version': 'installed_template_version',
-    }
+    AssetTypesEnabled: Sequence[str] | None = None
+    InstalledTemplateVersion: str | None = None
 
-    def __init__(
-        self,
-        asset_types_enabled: Sequence[str] | None = None,
-        installed_template_version: str | None = None,
-    ) -> None:
-        """Constructor for the DiscoverConfig class."""
-
-        # Initialize members of the class
-        self.asset_types_enabled: Sequence[str] | None = asset_types_enabled
-        self.installed_template_version: str | None = installed_template_version
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self,
+            dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v not in [None, {}]},
+        )
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -50,7 +52,6 @@ class DiscoverConfig:
         Returns:
             object: An instance of this structure class.
         """
-
         dictionary = dictionary or {}
         # Extract variables from the dictionary
         val = dictionary.get('asset_types_enabled', None)
@@ -64,3 +65,19 @@ class DiscoverConfig:
             val_asset_types_enabled,
             val_installed_template_version,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

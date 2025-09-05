@@ -1,41 +1,46 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import template_configuration_v2 as template_configuration_v2_
 from clumioapi.models import template_links as template_links_
+import requests
 
 T = TypeVar('T', bound='ReadAWSTemplatesV2Response')
 
 
+@dataclasses.dataclass
 class ReadAWSTemplatesV2Response:
     """Implementation of the 'ReadAWSTemplatesV2Response' model.
 
-    Attributes:
-        links:
-            URLs to pages related to the resource.
-        config:
-            The configuration of the given template
+        Attributes:
+            Links:
+    Urls to pages related to the resource.
+
+            Config:
+    The configuration of the given template.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {'links': '_links', 'config': 'config'}
+    Links: template_links_.TemplateLinks | None = None
+    Config: template_configuration_v2_.TemplateConfigurationV2 | None = None
+    raw_response: Optional[requests.Response] = None
 
-    def __init__(
-        self,
-        links: template_links_.TemplateLinks | None = None,
-        config: template_configuration_v2_.TemplateConfigurationV2 | None = None,
-    ) -> None:
-        """Constructor for the ReadAWSTemplatesV2Response class."""
-
-        # Initialize members of the class
-        self.links: template_links_.TemplateLinks | None = links
-        self.config: template_configuration_v2_.TemplateConfigurationV2 | None = config
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self,
+            dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v not in [None, {}]},
+        )
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -46,7 +51,6 @@ class ReadAWSTemplatesV2Response:
         Returns:
             object: An instance of this structure class.
         """
-
         dictionary = dictionary or {}
         # Extract variables from the dictionary
         val = dictionary.get('_links', None)
@@ -60,3 +64,20 @@ class ReadAWSTemplatesV2Response:
             val_links,
             val_config,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        model_instance.raw_response = response
+        return model_instance

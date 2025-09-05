@@ -17,10 +17,18 @@ clumioapi.models.ebs\_backup\_advanced\_setting.EBSBackupAdvancedSetting
    .. autosummary::
    
       ~EBSBackupAdvancedSetting.__init__
+      ~EBSBackupAdvancedSetting.dict
       ~EBSBackupAdvancedSetting.from_dictionary
+      ~EBSBackupAdvancedSetting.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~EBSBackupAdvancedSetting.BackupTier
    
    

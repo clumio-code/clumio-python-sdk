@@ -17,10 +17,24 @@ clumioapi.models.list\_policies\_response.ListPoliciesResponse
    .. autosummary::
    
       ~ListPoliciesResponse.__init__
+      ~ListPoliciesResponse.dict
       ~ListPoliciesResponse.from_dictionary
+      ~ListPoliciesResponse.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ListPoliciesResponse.CurrentCount
+      ~ListPoliciesResponse.Embedded
+      ~ListPoliciesResponse.FilterApplied
+      ~ListPoliciesResponse.Limit
+      ~ListPoliciesResponse.Links
+      ~ListPoliciesResponse.Start
+      ~ListPoliciesResponse.raw_response
    
    

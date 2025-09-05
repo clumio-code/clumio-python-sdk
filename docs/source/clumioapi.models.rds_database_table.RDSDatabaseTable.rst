@@ -17,10 +17,20 @@ clumioapi.models.rds\_database\_table.RDSDatabaseTable
    .. autosummary::
    
       ~RDSDatabaseTable.__init__
+      ~RDSDatabaseTable.dict
       ~RDSDatabaseTable.from_dictionary
+      ~RDSDatabaseTable.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~RDSDatabaseTable.Embedded
+      ~RDSDatabaseTable.Links
+      ~RDSDatabaseTable.Name
    
    

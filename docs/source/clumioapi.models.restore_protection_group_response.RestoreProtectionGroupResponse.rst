@@ -17,10 +17,21 @@ clumioapi.models.restore\_protection\_group\_response.RestoreProtectionGroupResp
    .. autosummary::
    
       ~RestoreProtectionGroupResponse.__init__
+      ~RestoreProtectionGroupResponse.dict
       ~RestoreProtectionGroupResponse.from_dictionary
+      ~RestoreProtectionGroupResponse.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~RestoreProtectionGroupResponse.Embedded
+      ~RestoreProtectionGroupResponse.Links
+      ~RestoreProtectionGroupResponse.TaskId
+      ~RestoreProtectionGroupResponse.raw_response
    
    

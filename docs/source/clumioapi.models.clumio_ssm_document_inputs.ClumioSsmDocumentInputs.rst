@@ -17,10 +17,19 @@ clumioapi.models.clumio\_ssm\_document\_inputs.ClumioSsmDocumentInputs
    .. autosummary::
    
       ~ClumioSsmDocumentInputs.__init__
+      ~ClumioSsmDocumentInputs.dict
       ~ClumioSsmDocumentInputs.from_dictionary
+      ~ClumioSsmDocumentInputs.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ClumioSsmDocumentInputs.Runcommand
+      ~ClumioSsmDocumentInputs.Timeoutseconds
    
    

@@ -20,6 +20,7 @@ clumioapi.controllers.post\_process\_kms\_v1
       :template: custom-class-template.rst
    
       PostProcessKmsV1Controller
+      PostProcessKmsV1ControllerPaginator
    
    
 

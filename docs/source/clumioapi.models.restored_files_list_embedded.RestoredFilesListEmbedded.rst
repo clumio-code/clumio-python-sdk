@@ -17,10 +17,18 @@ clumioapi.models.restored\_files\_list\_embedded.RestoredFilesListEmbedded
    .. autosummary::
    
       ~RestoredFilesListEmbedded.__init__
+      ~RestoredFilesListEmbedded.dict
       ~RestoredFilesListEmbedded.from_dictionary
+      ~RestoredFilesListEmbedded.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~RestoredFilesListEmbedded.Items
    
    

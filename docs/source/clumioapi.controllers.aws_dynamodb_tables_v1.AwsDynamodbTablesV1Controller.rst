@@ -29,6 +29,5 @@ clumioapi.controllers.aws\_dynamodb\_tables\_v1.AwsDynamodbTablesV1Controller
    .. autosummary::
    
       ~AwsDynamodbTablesV1Controller.client
-      ~AwsDynamodbTablesV1Controller.global_headers
    
    

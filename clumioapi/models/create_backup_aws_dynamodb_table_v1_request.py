@@ -1,10 +1,12 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from clumioapi.exceptions import clumio_exception
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import on_demand_setting as on_demand_setting_
+import requests
 
 T = TypeVar('T', bound='CreateBackupAwsDynamodbTableV1Request')
 
@@ -14,43 +16,40 @@ TypeValues = [
 ]
 
 
+@dataclasses.dataclass
 class CreateBackupAwsDynamodbTableV1Request:
     """Implementation of the 'CreateBackupAwsDynamodbTableV1Request' model.
 
-    Attributes:
-        settings:
-            Settings for requesting on-demand backup directly.
-        table_id:
-            Performs the operation on the DynamoDB table with the specified Clumio-assigned
-            ID.
-        p_type:
-            The type of the backup. Possible values - `clumio_backup`, `aws_snapshot`. The
-            type will be assumed as `aws_snapshot` if the field is left empty.
+        Attributes:
+            Settings:
+    Settings for requesting on-demand backup directly.
+
+            TableId:
+    Performs the operation on the dynamodb table with the specified clumio-assigned id.
+
+            Type:
+    The type of the backup. possible values - `clumio_backup`, `aws_snapshot`. the
+    type will be assumed as `aws_snapshot` if the field is left empty.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {'settings': 'settings', 'table_id': 'table_id', 'p_type': 'type'}
+    Settings: on_demand_setting_.OnDemandSetting | None = None
+    TableId: str | None = None
 
-    def __init__(
-        self,
-        settings: on_demand_setting_.OnDemandSetting | None = None,
-        table_id: str | None = None,
-        p_type: str | None = None,
-    ) -> None:
-        """Constructor for the CreateBackupAwsDynamodbTableV1Request class."""
+    Type: str | None = None
 
-        # Initialize members of the class
-        self.settings: on_demand_setting_.OnDemandSetting | None = settings
-        self.table_id: str | None = table_id
-
-        if p_type not in TypeValues:
-            raise clumio_exception.ClumioException(
-                f'Invalid value for p_type: { p_type }. Valid values are { TypeValues }.'
-            )
-        self.p_type: str | None = p_type
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self,
+            dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v not in [None, {}]},
+        )
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -61,7 +60,6 @@ class CreateBackupAwsDynamodbTableV1Request:
         Returns:
             object: An instance of this structure class.
         """
-
         dictionary = dictionary or {}
         # Extract variables from the dictionary
         val = dictionary.get('settings', None)
@@ -71,11 +69,27 @@ class CreateBackupAwsDynamodbTableV1Request:
         val_table_id = val
 
         val = dictionary.get('type', None)
-        val_p_type = val
+        val_type = val
 
         # Return an object of this model
         return cls(
             val_settings,
             val_table_id,
-            val_p_type,
+            val_type,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

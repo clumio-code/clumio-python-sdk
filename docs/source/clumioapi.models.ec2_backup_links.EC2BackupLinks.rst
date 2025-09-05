@@ -17,10 +17,19 @@ clumioapi.models.ec2\_backup\_links.EC2BackupLinks
    .. autosummary::
    
       ~EC2BackupLinks.__init__
+      ~EC2BackupLinks.dict
       ~EC2BackupLinks.from_dictionary
+      ~EC2BackupLinks.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~EC2BackupLinks.RestoreAwsEc2Instance
+      ~EC2BackupLinks.Self
    
    

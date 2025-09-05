@@ -17,10 +17,18 @@ clumioapi.models.assign\_policy\_action.AssignPolicyAction
    .. autosummary::
    
       ~AssignPolicyAction.__init__
+      ~AssignPolicyAction.dict
       ~AssignPolicyAction.from_dictionary
+      ~AssignPolicyAction.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~AssignPolicyAction.PolicyId
    
    

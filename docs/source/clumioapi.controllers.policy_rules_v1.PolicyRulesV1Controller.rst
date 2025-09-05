@@ -32,6 +32,5 @@ clumioapi.controllers.policy\_rules\_v1.PolicyRulesV1Controller
    .. autosummary::
    
       ~PolicyRulesV1Controller.client
-      ~PolicyRulesV1Controller.global_headers
    
    

@@ -20,6 +20,7 @@ clumioapi.controllers.aws\_environments\_v1
       :template: custom-class-template.rst
    
       AwsEnvironmentsV1Controller
+      AwsEnvironmentsV1ControllerPaginator
    
    
 

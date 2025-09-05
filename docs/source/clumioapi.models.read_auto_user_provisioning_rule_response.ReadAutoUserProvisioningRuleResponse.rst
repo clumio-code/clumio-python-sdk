@@ -17,10 +17,24 @@ clumioapi.models.read\_auto\_user\_provisioning\_rule\_response.ReadAutoUserProv
    .. autosummary::
    
       ~ReadAutoUserProvisioningRuleResponse.__init__
+      ~ReadAutoUserProvisioningRuleResponse.dict
       ~ReadAutoUserProvisioningRuleResponse.from_dictionary
+      ~ReadAutoUserProvisioningRuleResponse.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ReadAutoUserProvisioningRuleResponse.Condition
+      ~ReadAutoUserProvisioningRuleResponse.Embedded
+      ~ReadAutoUserProvisioningRuleResponse.Links
+      ~ReadAutoUserProvisioningRuleResponse.Name
+      ~ReadAutoUserProvisioningRuleResponse.Provision
+      ~ReadAutoUserProvisioningRuleResponse.RuleId
+      ~ReadAutoUserProvisioningRuleResponse.raw_response
    
    

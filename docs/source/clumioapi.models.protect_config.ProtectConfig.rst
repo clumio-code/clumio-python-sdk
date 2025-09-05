@@ -17,10 +17,21 @@ clumioapi.models.protect\_config.ProtectConfig
    .. autosummary::
    
       ~ProtectConfig.__init__
+      ~ProtectConfig.dict
       ~ProtectConfig.from_dictionary
+      ~ProtectConfig.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ProtectConfig.AssetTypesEnabled
+      ~ProtectConfig.Ebs
+      ~ProtectConfig.InstalledTemplateVersion
+      ~ProtectConfig.Rds
    
    

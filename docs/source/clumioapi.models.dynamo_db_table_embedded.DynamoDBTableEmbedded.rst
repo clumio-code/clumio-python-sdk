@@ -17,10 +17,18 @@ clumioapi.models.dynamo\_db\_table\_embedded.DynamoDBTableEmbedded
    .. autosummary::
    
       ~DynamoDBTableEmbedded.__init__
+      ~DynamoDBTableEmbedded.dict
       ~DynamoDBTableEmbedded.from_dictionary
+      ~DynamoDBTableEmbedded.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~DynamoDBTableEmbedded.ReadPolicyDefinition
    
    

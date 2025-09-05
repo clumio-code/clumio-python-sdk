@@ -32,6 +32,5 @@ clumioapi.controllers.aws\_connections\_v1.AwsConnectionsV1Controller
    .. autosummary::
    
       ~AwsConnectionsV1Controller.client
-      ~AwsConnectionsV1Controller.global_headers
    
    

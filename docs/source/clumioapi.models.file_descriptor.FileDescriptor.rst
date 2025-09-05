@@ -17,10 +17,19 @@ clumioapi.models.file\_descriptor.FileDescriptor
    .. autosummary::
    
       ~FileDescriptor.__init__
+      ~FileDescriptor.dict
       ~FileDescriptor.from_dictionary
+      ~FileDescriptor.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~FileDescriptor.FilesystemId
+      ~FileDescriptor.Path
    
    

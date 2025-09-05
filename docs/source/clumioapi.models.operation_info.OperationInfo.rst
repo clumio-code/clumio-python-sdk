@@ -17,10 +17,21 @@ clumioapi.models.operation\_info.OperationInfo
    .. autosummary::
    
       ~OperationInfo.__init__
+      ~OperationInfo.dict
       ~OperationInfo.from_dictionary
+      ~OperationInfo.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~OperationInfo.BackupStatus
+      ~OperationInfo.LastFailedPolicyStartTimestamp
+      ~OperationInfo.LastSuccessfulPolicyStartTimestamp
+      ~OperationInfo.Operation
    
    

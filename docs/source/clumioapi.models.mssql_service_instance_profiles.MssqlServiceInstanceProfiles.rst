@@ -17,10 +17,18 @@ clumioapi.models.mssql\_service\_instance\_profiles.MssqlServiceInstanceProfiles
    .. autosummary::
    
       ~MssqlServiceInstanceProfiles.__init__
+      ~MssqlServiceInstanceProfiles.dict
       ~MssqlServiceInstanceProfiles.from_dictionary
+      ~MssqlServiceInstanceProfiles.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~MssqlServiceInstanceProfiles.Ec2SsmInstanceProfileArn
    
    

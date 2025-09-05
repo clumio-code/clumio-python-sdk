@@ -17,10 +17,19 @@ clumioapi.models.dynamo\_db\_query\_preview\_result.DynamoDBQueryPreviewResult
    .. autosummary::
    
       ~DynamoDBQueryPreviewResult.__init__
+      ~DynamoDBQueryPreviewResult.dict
       ~DynamoDBQueryPreviewResult.from_dictionary
+      ~DynamoDBQueryPreviewResult.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~DynamoDBQueryPreviewResult.Attributes
+      ~DynamoDBQueryPreviewResult.Items
    
    

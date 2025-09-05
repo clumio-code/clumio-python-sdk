@@ -31,6 +31,5 @@ clumioapi.controllers.backup\_protection\_groups\_v1.BackupProtectionGroupsV1Con
    .. autosummary::
    
       ~BackupProtectionGroupsV1Controller.client
-      ~BackupProtectionGroupsV1Controller.global_headers
    
    

@@ -28,6 +28,5 @@ clumioapi.controllers.ec2\_mssql\_failover\_cluster\_v1.Ec2MssqlFailoverClusterV
    .. autosummary::
    
       ~Ec2MssqlFailoverClusterV1Controller.client
-      ~Ec2MssqlFailoverClusterV1Controller.global_headers
    
    

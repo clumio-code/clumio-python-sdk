@@ -17,10 +17,21 @@ clumioapi.models.ec2\_volumes\_restore\_target.EC2VolumesRestoreTarget
    .. autosummary::
    
       ~EC2VolumesRestoreTarget.__init__
+      ~EC2VolumesRestoreTarget.dict
       ~EC2VolumesRestoreTarget.from_dictionary
+      ~EC2VolumesRestoreTarget.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~EC2VolumesRestoreTarget.AwsAz
+      ~EC2VolumesRestoreTarget.EbsBlockDeviceMappings
+      ~EC2VolumesRestoreTarget.EnvironmentId
+      ~EC2VolumesRestoreTarget.TargetInstanceNativeId
    
    

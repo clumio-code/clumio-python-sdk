@@ -17,10 +17,18 @@ clumioapi.models.rds\_database\_table\_list\_embedded.RDSDatabaseTableListEmbedd
    .. autosummary::
    
       ~RDSDatabaseTableListEmbedded.__init__
+      ~RDSDatabaseTableListEmbedded.dict
       ~RDSDatabaseTableListEmbedded.from_dictionary
+      ~RDSDatabaseTableListEmbedded.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~RDSDatabaseTableListEmbedded.Items
    
    

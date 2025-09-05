@@ -17,10 +17,19 @@ clumioapi.models.role\_for\_organizational\_units.RoleForOrganizationalUnits
    .. autosummary::
    
       ~RoleForOrganizationalUnits.__init__
+      ~RoleForOrganizationalUnits.dict
       ~RoleForOrganizationalUnits.from_dictionary
+      ~RoleForOrganizationalUnits.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~RoleForOrganizationalUnits.OrganizationalUnitIds
+      ~RoleForOrganizationalUnits.RoleId
    
    

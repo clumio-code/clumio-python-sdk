@@ -17,10 +17,19 @@ clumioapi.models.restore\_file\_links.RestoreFileLinks
    .. autosummary::
    
       ~RestoreFileLinks.__init__
+      ~RestoreFileLinks.dict
       ~RestoreFileLinks.from_dictionary
+      ~RestoreFileLinks.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~RestoreFileLinks.ReadTask
+      ~RestoreFileLinks.Self
    
    

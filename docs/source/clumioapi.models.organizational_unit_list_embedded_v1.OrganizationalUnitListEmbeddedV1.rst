@@ -17,10 +17,18 @@ clumioapi.models.organizational\_unit\_list\_embedded\_v1.OrganizationalUnitList
    .. autosummary::
    
       ~OrganizationalUnitListEmbeddedV1.__init__
+      ~OrganizationalUnitListEmbeddedV1.dict
       ~OrganizationalUnitListEmbeddedV1.from_dictionary
+      ~OrganizationalUnitListEmbeddedV1.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~OrganizationalUnitListEmbeddedV1.Items
    
    

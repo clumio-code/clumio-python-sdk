@@ -17,10 +17,18 @@ clumioapi.models.delete\_wallet\_response.DeleteWalletResponse
    .. autosummary::
    
       ~DeleteWalletResponse.__init__
+      ~DeleteWalletResponse.dict
       ~DeleteWalletResponse.from_dictionary
+      ~DeleteWalletResponse.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~DeleteWalletResponse.raw_response
    
    

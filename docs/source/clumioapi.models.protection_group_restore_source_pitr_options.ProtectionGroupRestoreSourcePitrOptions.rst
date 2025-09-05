@@ -17,10 +17,20 @@ clumioapi.models.protection\_group\_restore\_source\_pitr\_options.ProtectionGro
    .. autosummary::
    
       ~ProtectionGroupRestoreSourcePitrOptions.__init__
+      ~ProtectionGroupRestoreSourcePitrOptions.dict
       ~ProtectionGroupRestoreSourcePitrOptions.from_dictionary
+      ~ProtectionGroupRestoreSourcePitrOptions.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ProtectionGroupRestoreSourcePitrOptions.ProtectionGroupId
+      ~ProtectionGroupRestoreSourcePitrOptions.RestoreEndTimestamp
+      ~ProtectionGroupRestoreSourcePitrOptions.RestoreStartTimestamp
    
    

@@ -17,7 +17,9 @@ clumioapi.models.compliance\_run\_hateoas\_embedded.ComplianceRunHateoasEmbedded
    .. autosummary::
    
       ~ComplianceRunHateoasEmbedded.__init__
+      ~ComplianceRunHateoasEmbedded.dict
       ~ComplianceRunHateoasEmbedded.from_dictionary
+      ~ComplianceRunHateoasEmbedded.from_response
    
    
 

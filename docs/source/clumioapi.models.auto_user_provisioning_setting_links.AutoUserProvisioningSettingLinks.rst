@@ -17,10 +17,19 @@ clumioapi.models.auto\_user\_provisioning\_setting\_links.AutoUserProvisioningSe
    .. autosummary::
    
       ~AutoUserProvisioningSettingLinks.__init__
+      ~AutoUserProvisioningSettingLinks.dict
       ~AutoUserProvisioningSettingLinks.from_dictionary
+      ~AutoUserProvisioningSettingLinks.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~AutoUserProvisioningSettingLinks.Self
+      ~AutoUserProvisioningSettingLinks.UpdateAutoUserProvisioningSetting
    
    

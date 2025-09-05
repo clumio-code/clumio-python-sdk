@@ -20,6 +20,7 @@ clumioapi.controllers.individual\_alerts\_v1
       :template: custom-class-template.rst
    
       IndividualAlertsV1Controller
+      IndividualAlertsV1ControllerPaginator
    
    
 

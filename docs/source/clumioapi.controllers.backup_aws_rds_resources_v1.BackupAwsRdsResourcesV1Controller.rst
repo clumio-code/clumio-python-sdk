@@ -30,6 +30,5 @@ clumioapi.controllers.backup\_aws\_rds\_resources\_v1.BackupAwsRdsResourcesV1Con
    .. autosummary::
    
       ~BackupAwsRdsResourcesV1Controller.client
-      ~BackupAwsRdsResourcesV1Controller.global_headers
    
    

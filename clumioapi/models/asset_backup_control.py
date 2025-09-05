@@ -1,52 +1,50 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import time_unit_param as time_unit_param_
+import requests
 
 T = TypeVar('T', bound='AssetBackupControl')
 
 
+@dataclasses.dataclass
 class AssetBackupControl:
     """Implementation of the 'AssetBackupControl' model.
 
-    The control for asset backup.
+        The control for asset backup.
 
-    Attributes:
-        look_back_period:
-            The time unit used in control definition.
-        minimum_retention_duration:
-            The time unit used in control definition.
-        window_size:
-            The time unit used in control definition.
+        Attributes:
+            LookBackPeriod:
+    The time unit used in control definition.
+
+            MinimumRetentionDuration:
+    The time unit used in control definition.
+
+            WindowSize:
+    The time unit used in control definition.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'look_back_period': 'look_back_period',
-        'minimum_retention_duration': 'minimum_retention_duration',
-        'window_size': 'window_size',
-    }
+    LookBackPeriod: time_unit_param_.TimeUnitParam | None = None
+    MinimumRetentionDuration: time_unit_param_.TimeUnitParam | None = None
+    WindowSize: time_unit_param_.TimeUnitParam | None = None
 
-    def __init__(
-        self,
-        look_back_period: time_unit_param_.TimeUnitParam | None = None,
-        minimum_retention_duration: time_unit_param_.TimeUnitParam | None = None,
-        window_size: time_unit_param_.TimeUnitParam | None = None,
-    ) -> None:
-        """Constructor for the AssetBackupControl class."""
-
-        # Initialize members of the class
-        self.look_back_period: time_unit_param_.TimeUnitParam | None = look_back_period
-        self.minimum_retention_duration: time_unit_param_.TimeUnitParam | None = (
-            minimum_retention_duration
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self,
+            dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v not in [None, {}]},
         )
-        self.window_size: time_unit_param_.TimeUnitParam | None = window_size
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -57,7 +55,6 @@ class AssetBackupControl:
         Returns:
             object: An instance of this structure class.
         """
-
         dictionary = dictionary or {}
         # Extract variables from the dictionary
         val = dictionary.get('look_back_period', None)
@@ -75,3 +72,19 @@ class AssetBackupControl:
             val_minimum_retention_duration,
             val_window_size,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

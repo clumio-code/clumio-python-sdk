@@ -17,10 +17,18 @@ clumioapi.models.delete\_s3\_instant\_access\_endpoint\_response.DeleteS3Instant
    .. autosummary::
    
       ~DeleteS3InstantAccessEndpointResponse.__init__
+      ~DeleteS3InstantAccessEndpointResponse.dict
       ~DeleteS3InstantAccessEndpointResponse.from_dictionary
+      ~DeleteS3InstantAccessEndpointResponse.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~DeleteS3InstantAccessEndpointResponse.raw_response
    
    

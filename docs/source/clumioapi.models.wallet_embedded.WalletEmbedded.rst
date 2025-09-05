@@ -17,7 +17,9 @@ clumioapi.models.wallet\_embedded.WalletEmbedded
    .. autosummary::
    
       ~WalletEmbedded.__init__
+      ~WalletEmbedded.dict
       ~WalletEmbedded.from_dictionary
+      ~WalletEmbedded.from_response
    
    
 

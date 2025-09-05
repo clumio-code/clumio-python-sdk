@@ -17,10 +17,26 @@ clumioapi.models.list\_dynamo\_db\_table\_backups\_response.ListDynamoDBTableBac
    .. autosummary::
    
       ~ListDynamoDBTableBackupsResponse.__init__
+      ~ListDynamoDBTableBackupsResponse.dict
       ~ListDynamoDBTableBackupsResponse.from_dictionary
+      ~ListDynamoDBTableBackupsResponse.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ListDynamoDBTableBackupsResponse.CurrentCount
+      ~ListDynamoDBTableBackupsResponse.Embedded
+      ~ListDynamoDBTableBackupsResponse.FilterApplied
+      ~ListDynamoDBTableBackupsResponse.Limit
+      ~ListDynamoDBTableBackupsResponse.Links
+      ~ListDynamoDBTableBackupsResponse.Start
+      ~ListDynamoDBTableBackupsResponse.TotalCount
+      ~ListDynamoDBTableBackupsResponse.TotalPagesCount
+      ~ListDynamoDBTableBackupsResponse.raw_response
    
    

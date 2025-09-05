@@ -17,10 +17,28 @@ clumioapi.models.patch\_organizational\_unit\_no\_task\_response.PatchOrganizati
    .. autosummary::
    
       ~PatchOrganizationalUnitNoTaskResponse.__init__
+      ~PatchOrganizationalUnitNoTaskResponse.dict
       ~PatchOrganizationalUnitNoTaskResponse.from_dictionary
+      ~PatchOrganizationalUnitNoTaskResponse.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~PatchOrganizationalUnitNoTaskResponse.ChildrenCount
+      ~PatchOrganizationalUnitNoTaskResponse.ConfiguredDatasourceTypes
+      ~PatchOrganizationalUnitNoTaskResponse.DescendantIds
+      ~PatchOrganizationalUnitNoTaskResponse.Description
+      ~PatchOrganizationalUnitNoTaskResponse.Id
+      ~PatchOrganizationalUnitNoTaskResponse.Links
+      ~PatchOrganizationalUnitNoTaskResponse.Name
+      ~PatchOrganizationalUnitNoTaskResponse.ParentId
+      ~PatchOrganizationalUnitNoTaskResponse.UserCount
+      ~PatchOrganizationalUnitNoTaskResponse.Users
+      ~PatchOrganizationalUnitNoTaskResponse.raw_response
    
    

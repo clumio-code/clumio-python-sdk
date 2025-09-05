@@ -17,10 +17,20 @@ clumioapi.models.replica\_global\_secondary\_index\_description.ReplicaGlobalSec
    .. autosummary::
    
       ~ReplicaGlobalSecondaryIndexDescription.__init__
+      ~ReplicaGlobalSecondaryIndexDescription.dict
       ~ReplicaGlobalSecondaryIndexDescription.from_dictionary
+      ~ReplicaGlobalSecondaryIndexDescription.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ReplicaGlobalSecondaryIndexDescription.IndexName
+      ~ReplicaGlobalSecondaryIndexDescription.OnDemandThroughputOverride
+      ~ReplicaGlobalSecondaryIndexDescription.ProvisionedThroughputOverride
    
    

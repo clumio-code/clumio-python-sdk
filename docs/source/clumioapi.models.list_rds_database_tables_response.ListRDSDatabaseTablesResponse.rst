@@ -17,10 +17,23 @@ clumioapi.models.list\_rds\_database\_tables\_response.ListRDSDatabaseTablesResp
    .. autosummary::
    
       ~ListRDSDatabaseTablesResponse.__init__
+      ~ListRDSDatabaseTablesResponse.dict
       ~ListRDSDatabaseTablesResponse.from_dictionary
+      ~ListRDSDatabaseTablesResponse.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ListRDSDatabaseTablesResponse.CurrentCount
+      ~ListRDSDatabaseTablesResponse.Embedded
+      ~ListRDSDatabaseTablesResponse.Limit
+      ~ListRDSDatabaseTablesResponse.Links
+      ~ListRDSDatabaseTablesResponse.Start
+      ~ListRDSDatabaseTablesResponse.raw_response
    
    

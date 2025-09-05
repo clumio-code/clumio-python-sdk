@@ -29,7 +29,6 @@ class Configuration:
         api_token: str = '',
         client: rest3client.RESTclient | None = None,
         hostname: str = '',
-        raw_response: bool = False,
         organizational_unit_context: str = '',
         custom_headers: Mapping[str, str] | None = None,
     ) -> None:
@@ -42,6 +41,9 @@ class Configuration:
         self.api_token: str = api_token
         if hostname:
             self.hostname = hostname
+        elif client:
+            self.hostname = client.hostname
+        self.hostname = self.hostname.removeprefix('https://')
         if api_token is None:
             raise clumio_exception.ClumioException(
                 reason='api_token required for making the API call is missing. It must either be'
@@ -49,6 +51,5 @@ class Configuration:
                 'API_TOKEN must be set.'
             )
         self.client = client
-        self.raw_response = raw_response
         self.organizational_unit_context = organizational_unit_context
         self.custom_headers = custom_headers

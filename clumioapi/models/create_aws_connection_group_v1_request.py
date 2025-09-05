@@ -1,93 +1,89 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='CreateAwsConnectionGroupV1Request')
 
 
+@dataclasses.dataclass
 class CreateAwsConnectionGroupV1Request:
     """Implementation of the 'CreateAwsConnectionGroupV1Request' model.
 
-    The body of the request.
+        The body of the request.
 
-    Attributes:
-        account_native_id:
-            The AWS-assigned ID of the account to be associated with the Connection Group.
-        asset_types:
-            The asset types to be connected via the connection-group.
-            Valid values are any of ["EC2/EBS", "RDS", "DynamoDB", "EC2MSSQL", "S3", "EBS",
-            "IcebergOnGlue", "FSX"].
+        Attributes:
+            AccountNativeId:
+    The aws-assigned id of the account to be associated with the connection group.
 
-            NOTE -
-            1. EC2/EBS is required for EC2MSSQL.
-            2. EBS as a value is deprecated in favor of EC2/EBS.
-        asset_types_enabled:
-            DEPRECATED, use "asset_types" instead.
+            AssetTypes:
+    The asset types to be connected via the connection-group.
+    valid values are any of ["ec2/ebs", "rds", "dynamodb", "ec2mssql", "s3", "ebs",
+    "icebergonglue", "fsx"].
 
-            The asset types to be connected via the connection-group.
-            Valid values are any of ["EC2/EBS", "RDS", "DynamoDB", "EC2MSSQL", "S3", "EBS",
-            "IcebergOnGlue", "FSX"].
+    note -
+    1. ec2/ebs is required for ec2mssql.
+    2. ebs as a value is deprecated in favor of ec2/ebs.
 
-            NOTE -
-            1. EC2/EBS is required for EC2MSSQL.
-            2. EBS as a value is deprecated in favor of EC2/EBS.
-        aws_regions:
-            The AWS regions to be associated with the Connection Group.
-        description:
-            Description for this connection group.
-        master_aws_account_id:
-            The AWS Account that manages the connection-group's stack.
-            If the provided master_aws_account_id different than the account_native_id then
-            use service managed permissions while deploying stack.
-        master_region:
-            The AWS Region that manages the connection-group's stack.
-        organizational_unit_id:
-            The Clumio-assigned ID of the organizational unit associated with the
-            AWS environment. If this parameter is not provided, then the value
-            defaults to the first organizational unit assigned to the requesting
-            user. For more information about organizational units, refer to the
-            Organizational-Units documentation.
+            AssetTypesEnabled:
+    Deprecated, use "asset_types" instead.
+
+    the asset types to be connected via the connection-group.
+    valid values are any of ["ec2/ebs", "rds", "dynamodb", "ec2mssql", "s3", "ebs",
+    "icebergonglue", "fsx"].
+
+    note -
+    1. ec2/ebs is required for ec2mssql.
+    2. ebs as a value is deprecated in favor of ec2/ebs.
+
+            AwsRegions:
+    The aws regions to be associated with the connection group.
+
+            Description:
+    Description for this connection group.
+
+            MasterAwsAccountId:
+    The aws account that manages the connection-group's stack.
+    if the provided master_aws_account_id different than the account_native_id then
+    use service managed permissions while deploying stack.
+
+            MasterRegion:
+    The aws region that manages the connection-group's stack.
+
+            OrganizationalUnitId:
+    The clumio-assigned id of the organizational unit associated with the
+    aws environment. if this parameter is not provided, then the value
+    defaults to the first organizational unit assigned to the requesting
+    user. for more information about organizational units, refer to the
+    organizational-units documentation.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'account_native_id': 'account_native_id',
-        'asset_types': 'asset_types',
-        'asset_types_enabled': 'asset_types_enabled',
-        'aws_regions': 'aws_regions',
-        'description': 'description',
-        'master_aws_account_id': 'master_aws_account_id',
-        'master_region': 'master_region',
-        'organizational_unit_id': 'organizational_unit_id',
-    }
+    AccountNativeId: str | None = None
+    AssetTypes: Sequence[str] | None = None
+    AssetTypesEnabled: Sequence[str] | None = None
+    AwsRegions: Sequence[str] | None = None
+    Description: str | None = None
+    MasterAwsAccountId: str | None = None
+    MasterRegion: str | None = None
+    OrganizationalUnitId: str | None = None
 
-    def __init__(
-        self,
-        account_native_id: str | None = None,
-        asset_types: Sequence[str] | None = None,
-        asset_types_enabled: Sequence[str] | None = None,
-        aws_regions: Sequence[str] | None = None,
-        description: str | None = None,
-        master_aws_account_id: str | None = None,
-        master_region: str | None = None,
-        organizational_unit_id: str | None = None,
-    ) -> None:
-        """Constructor for the CreateAwsConnectionGroupV1Request class."""
-
-        # Initialize members of the class
-        self.account_native_id: str | None = account_native_id
-        self.asset_types: Sequence[str] | None = asset_types
-        self.asset_types_enabled: Sequence[str] | None = asset_types_enabled
-        self.aws_regions: Sequence[str] | None = aws_regions
-        self.description: str | None = description
-        self.master_aws_account_id: str | None = master_aws_account_id
-        self.master_region: str | None = master_region
-        self.organizational_unit_id: str | None = organizational_unit_id
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self,
+            dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v not in [None, {}]},
+        )
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -98,7 +94,6 @@ class CreateAwsConnectionGroupV1Request:
         Returns:
             object: An instance of this structure class.
         """
-
         dictionary = dictionary or {}
         # Extract variables from the dictionary
         val = dictionary.get('account_native_id', None)
@@ -136,3 +131,19 @@ class CreateAwsConnectionGroupV1Request:
             val_master_region,
             val_organizational_unit_id,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

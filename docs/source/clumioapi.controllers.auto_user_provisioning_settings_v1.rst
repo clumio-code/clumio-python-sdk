@@ -20,6 +20,7 @@ clumioapi.controllers.auto\_user\_provisioning\_settings\_v1
       :template: custom-class-template.rst
    
       AutoUserProvisioningSettingsV1Controller
+      AutoUserProvisioningSettingsV1ControllerPaginator
    
    
 

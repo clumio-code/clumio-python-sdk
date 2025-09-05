@@ -17,10 +17,26 @@ clumioapi.models.list\_organizational\_units\_response.ListOrganizationalUnitsRe
    .. autosummary::
    
       ~ListOrganizationalUnitsResponse.__init__
+      ~ListOrganizationalUnitsResponse.dict
       ~ListOrganizationalUnitsResponse.from_dictionary
+      ~ListOrganizationalUnitsResponse.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ListOrganizationalUnitsResponse.CurrentCount
+      ~ListOrganizationalUnitsResponse.Embedded
+      ~ListOrganizationalUnitsResponse.FilterApplied
+      ~ListOrganizationalUnitsResponse.Limit
+      ~ListOrganizationalUnitsResponse.Links
+      ~ListOrganizationalUnitsResponse.Start
+      ~ListOrganizationalUnitsResponse.TotalCount
+      ~ListOrganizationalUnitsResponse.TotalPagesCount
+      ~ListOrganizationalUnitsResponse.raw_response
    
    

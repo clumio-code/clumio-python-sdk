@@ -17,10 +17,22 @@ clumioapi.models.rds\_resource\_links.RdsResourceLinks
    .. autosummary::
    
       ~RdsResourceLinks.__init__
+      ~RdsResourceLinks.dict
       ~RdsResourceLinks.from_dictionary
+      ~RdsResourceLinks.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~RdsResourceLinks.ListBackupAwsRdsResources
+      ~RdsResourceLinks.ListRdsRestoredRecords
+      ~RdsResourceLinks.ReadPolicyDefinition
+      ~RdsResourceLinks.RestoreAwsRdsResource
+      ~RdsResourceLinks.Self
    
    

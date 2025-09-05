@@ -17,10 +17,19 @@ clumioapi.models.rds\_database\_table\_column.RDSDatabaseTableColumn
    .. autosummary::
    
       ~RDSDatabaseTableColumn.__init__
+      ~RDSDatabaseTableColumn.dict
       ~RDSDatabaseTableColumn.from_dictionary
+      ~RDSDatabaseTableColumn.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~RDSDatabaseTableColumn.Name
+      ~RDSDatabaseTableColumn.Type
    
    

@@ -20,6 +20,7 @@ clumioapi.controllers.report\_downloads\_v1
       :template: custom-class-template.rst
    
       ReportDownloadsV1Controller
+      ReportDownloadsV1ControllerPaginator
    
    
 

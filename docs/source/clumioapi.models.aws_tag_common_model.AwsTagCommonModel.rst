@@ -17,10 +17,19 @@ clumioapi.models.aws\_tag\_common\_model.AwsTagCommonModel
    .. autosummary::
    
       ~AwsTagCommonModel.__init__
+      ~AwsTagCommonModel.dict
       ~AwsTagCommonModel.from_dictionary
+      ~AwsTagCommonModel.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~AwsTagCommonModel.Key
+      ~AwsTagCommonModel.Value
    
    

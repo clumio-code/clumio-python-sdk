@@ -17,10 +17,23 @@ clumioapi.models.update\_management\_group\_response.UpdateManagementGroupRespon
    .. autosummary::
    
       ~UpdateManagementGroupResponse.__init__
+      ~UpdateManagementGroupResponse.dict
       ~UpdateManagementGroupResponse.from_dictionary
+      ~UpdateManagementGroupResponse.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~UpdateManagementGroupResponse.Id
+      ~UpdateManagementGroupResponse.Links
+      ~UpdateManagementGroupResponse.Name
+      ~UpdateManagementGroupResponse.Type
+      ~UpdateManagementGroupResponse.VcenterId
+      ~UpdateManagementGroupResponse.raw_response
    
    

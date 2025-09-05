@@ -1,9 +1,11 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from clumioapi.exceptions import clumio_exception
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='UpdateConsolidatedAlertV1Request')
 
@@ -12,38 +14,38 @@ StatusValues = [
 ]
 
 
+@dataclasses.dataclass
 class UpdateConsolidatedAlertV1Request:
     """Implementation of the 'UpdateConsolidatedAlertV1Request' model.
 
-    Attributes:
-        notes:
-            A record of user-provided information about the alert. The note must be less
-            than 1024 characters in length. Adding a new note overwrites any existing notes.
-        status:
-            Manually clears an active alert. To clear the active alert, set the parameter to
-            "cleared". Once an alert is cleared,
-            the status of the alert changes from "active" to "cleared".
-            If the alert is already in "cleared" status, this action is ignored.
-            An alert that is in "cleared" status cannot be changed to "active" status.
+        Attributes:
+            Notes:
+    A record of user-provided information about the alert. the note must be less than 1024 characters in length. adding a new note overwrites any existing notes.
+
+            Status:
+    Manually clears an active alert. to clear the active alert, set the parameter to "cleared". once an alert is cleared,
+    the status of the alert changes from "active" to "cleared".
+    if the alert is already in "cleared" status, this action is ignored.
+    an alert that is in "cleared" status cannot be changed to "active" status.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {'notes': 'notes', 'status': 'status'}
+    Notes: str | None = None
 
-    def __init__(self, notes: str | None = None, status: str | None = None) -> None:
-        """Constructor for the UpdateConsolidatedAlertV1Request class."""
+    Status: str | None = None
 
-        # Initialize members of the class
-        self.notes: str | None = notes
-
-        if status not in StatusValues:
-            raise clumio_exception.ClumioException(
-                f'Invalid value for status: { status }. Valid values are { StatusValues }.'
-            )
-        self.status: str | None = status
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self,
+            dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v not in [None, {}]},
+        )
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -54,7 +56,6 @@ class UpdateConsolidatedAlertV1Request:
         Returns:
             object: An instance of this structure class.
         """
-
         dictionary = dictionary or {}
         # Extract variables from the dictionary
         val = dictionary.get('notes', None)
@@ -68,3 +69,19 @@ class UpdateConsolidatedAlertV1Request:
             val_notes,
             val_status,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

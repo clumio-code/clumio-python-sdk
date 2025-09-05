@@ -17,10 +17,18 @@ clumioapi.models.provisioned\_throughput\_override.ProvisionedThroughputOverride
    .. autosummary::
    
       ~ProvisionedThroughputOverride.__init__
+      ~ProvisionedThroughputOverride.dict
       ~ProvisionedThroughputOverride.from_dictionary
+      ~ProvisionedThroughputOverride.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ProvisionedThroughputOverride.ReadCapacityUnits
    
    

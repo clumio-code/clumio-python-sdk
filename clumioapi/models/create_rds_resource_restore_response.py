@@ -1,54 +1,54 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import \
     create_rds_database_restore_response_links as create_rds_database_restore_response_links_
 from clumioapi.models import read_task_hateoas_outer_embedded as read_task_hateoas_outer_embedded_
+import requests
 
 T = TypeVar('T', bound='CreateRdsResourceRestoreResponse')
 
 
+@dataclasses.dataclass
 class CreateRdsResourceRestoreResponse:
     """Implementation of the 'CreateRdsResourceRestoreResponse' model.
 
-    Attributes:
-        embedded:
-            Embedded responses related to the resource.
-        links:
-            URLs to pages related to the resource.
-        task_id:
-            The Clumio-assigned ID of the task created by this restore request.
-            The progress of the task can be monitored using the `GET /tasks/{task_id}`
-            endpoint.
+        Attributes:
+            Embedded:
+    Embedded responses related to the resource.
+
+            Links:
+    Urls to pages related to the resource.
+
+            TaskId:
+    The clumio-assigned id of the task created by this restore request.
+    the progress of the task can be monitored using the `get /tasks/{task_id}` endpoint.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {'embedded': '_embedded', 'links': '_links', 'task_id': 'task_id'}
+    Embedded: read_task_hateoas_outer_embedded_.ReadTaskHateoasOuterEmbedded | None = None
+    Links: (
+        create_rds_database_restore_response_links_.CreateRdsDatabaseRestoreResponseLinks | None
+    ) = None
+    TaskId: str | None = None
+    raw_response: Optional[requests.Response] = None
 
-    def __init__(
-        self,
-        embedded: read_task_hateoas_outer_embedded_.ReadTaskHateoasOuterEmbedded | None = None,
-        links: (
-            create_rds_database_restore_response_links_.CreateRdsDatabaseRestoreResponseLinks | None
-        ) = None,
-        task_id: str | None = None,
-    ) -> None:
-        """Constructor for the CreateRdsResourceRestoreResponse class."""
-
-        # Initialize members of the class
-        self.embedded: read_task_hateoas_outer_embedded_.ReadTaskHateoasOuterEmbedded | None = (
-            embedded
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self,
+            dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v not in [None, {}]},
         )
-        self.links: (
-            create_rds_database_restore_response_links_.CreateRdsDatabaseRestoreResponseLinks | None
-        ) = links
-        self.task_id: str | None = task_id
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -59,7 +59,6 @@ class CreateRdsResourceRestoreResponse:
         Returns:
             object: An instance of this structure class.
         """
-
         dictionary = dictionary or {}
         # Extract variables from the dictionary
         val = dictionary.get('_embedded', None)
@@ -81,3 +80,20 @@ class CreateRdsResourceRestoreResponse:
             val_links,
             val_task_id,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        model_instance.raw_response = response
+        return model_instance

@@ -1,45 +1,45 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import \
     protection_group_s3_asset_pitr_interval as protection_group_s3_asset_pitr_interval_
+import requests
 
 T = TypeVar('T', bound='ProtectionGroupS3AssetPitrIntervalListEmbedded')
 
 
+@dataclasses.dataclass
 class ProtectionGroupS3AssetPitrIntervalListEmbedded:
     """Implementation of the 'ProtectionGroupS3AssetPitrIntervalListEmbedded' model.
 
-    Embedded responses related to the resource.
+        Embedded responses related to the resource.
 
-    Attributes:
-        items:
-            A collection of requested items.
+        Attributes:
+            Items:
+    A collection of requested items.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {'items': 'items'}
+    Items: (
+        Sequence[protection_group_s3_asset_pitr_interval_.ProtectionGroupS3AssetPitrInterval] | None
+    ) = None
 
-    def __init__(
-        self,
-        items: (
-            Sequence[protection_group_s3_asset_pitr_interval_.ProtectionGroupS3AssetPitrInterval]
-            | None
-        ) = None,
-    ) -> None:
-        """Constructor for the ProtectionGroupS3AssetPitrIntervalListEmbedded class."""
-
-        # Initialize members of the class
-        self.items: (
-            Sequence[protection_group_s3_asset_pitr_interval_.ProtectionGroupS3AssetPitrInterval]
-            | None
-        ) = items
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self,
+            dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v not in [None, {}]},
+        )
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -50,14 +50,12 @@ class ProtectionGroupS3AssetPitrIntervalListEmbedded:
         Returns:
             object: An instance of this structure class.
         """
-
         dictionary = dictionary or {}
         # Extract variables from the dictionary
         val = dictionary.get('items', None)
 
-        val_items = None
+        val_items = []
         if val:
-            val_items = list()
             for value in val:
                 val_items.append(
                     protection_group_s3_asset_pitr_interval_.ProtectionGroupS3AssetPitrInterval.from_dictionary(
@@ -69,3 +67,19 @@ class ProtectionGroupS3AssetPitrIntervalListEmbedded:
         return cls(
             val_items,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

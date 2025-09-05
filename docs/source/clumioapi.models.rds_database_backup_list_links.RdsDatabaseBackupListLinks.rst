@@ -17,10 +17,22 @@ clumioapi.models.rds\_database\_backup\_list\_links.RdsDatabaseBackupListLinks
    .. autosummary::
    
       ~RdsDatabaseBackupListLinks.__init__
+      ~RdsDatabaseBackupListLinks.dict
       ~RdsDatabaseBackupListLinks.from_dictionary
+      ~RdsDatabaseBackupListLinks.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~RdsDatabaseBackupListLinks.First
+      ~RdsDatabaseBackupListLinks.Last
+      ~RdsDatabaseBackupListLinks.Next
+      ~RdsDatabaseBackupListLinks.Prev
+      ~RdsDatabaseBackupListLinks.Self
    
    

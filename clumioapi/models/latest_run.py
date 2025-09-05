@@ -1,92 +1,83 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import compliance_info as compliance_info_
 from clumioapi.models import parameter as parameter_
+import requests
 
 T = TypeVar('T', bound='LatestRun')
 
 
+@dataclasses.dataclass
 class LatestRun:
     """Implementation of the 'LatestRun' model.
 
-    Most recent report run generated from the report configuration.
+        Most recent report run generated from the report configuration.
 
-    Attributes:
-        compliance_info:
-            The status per controls in the compliance report created by the report run.
-        created:
-            The RFC3339 format time when the report run was created.
-        expired:
-            The RFC3339 format time when the report run was expired.
-        p_id:
-            The unique identifier of the report run.
-        name:
-            The name of the report run.
-        parameter:
-            Filter and control parameters of compliance report.
-        report_config_id:
-            The unique identifier of the report configuration from which the report run was
-            generated.
-        report_download_link:
-            The link to download the report CSV.
-        status:
-            The generation status of the report run.
-        task_id:
-            The ID of the report run generation task.
-        updated:
-            The RFC3339 format time when the report run was updated.
+        Attributes:
+            ComplianceInfo:
+    The status per controls in the compliance report created by the report run.
+
+            Created:
+    The rfc3339 format time when the report run was created.
+
+            Expired:
+    The rfc3339 format time when the report run was expired.
+
+            Id:
+    The unique identifier of the report run.
+
+            Name:
+    The name of the report run.
+
+            Parameter:
+    Filter and control parameters of compliance report.
+
+            ReportConfigId:
+    The unique identifier of the report configuration from which the report run was generated.
+
+            ReportDownloadLink:
+    The link to download the report csv.
+
+            Status:
+    The generation status of the report run.
+
+            TaskId:
+    The id of the report run generation task.
+
+            Updated:
+    The rfc3339 format time when the report run was updated.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'compliance_info': 'compliance_info',
-        'created': 'created',
-        'expired': 'expired',
-        'p_id': 'id',
-        'name': 'name',
-        'parameter': 'parameter',
-        'report_config_id': 'report_config_id',
-        'report_download_link': 'report_download_link',
-        'status': 'status',
-        'task_id': 'task_id',
-        'updated': 'updated',
-    }
+    ComplianceInfo: compliance_info_.ComplianceInfo | None = None
+    Created: str | None = None
+    Expired: str | None = None
+    Id: str | None = None
+    Name: str | None = None
+    Parameter: parameter_.Parameter | None = None
+    ReportConfigId: str | None = None
+    ReportDownloadLink: str | None = None
+    Status: str | None = None
+    TaskId: str | None = None
+    Updated: str | None = None
 
-    def __init__(
-        self,
-        compliance_info: compliance_info_.ComplianceInfo | None = None,
-        created: str | None = None,
-        expired: str | None = None,
-        p_id: str | None = None,
-        name: str | None = None,
-        parameter: parameter_.Parameter | None = None,
-        report_config_id: str | None = None,
-        report_download_link: str | None = None,
-        status: str | None = None,
-        task_id: str | None = None,
-        updated: str | None = None,
-    ) -> None:
-        """Constructor for the LatestRun class."""
-
-        # Initialize members of the class
-        self.compliance_info: compliance_info_.ComplianceInfo | None = compliance_info
-        self.created: str | None = created
-        self.expired: str | None = expired
-        self.p_id: str | None = p_id
-        self.name: str | None = name
-        self.parameter: parameter_.Parameter | None = parameter
-        self.report_config_id: str | None = report_config_id
-        self.report_download_link: str | None = report_download_link
-        self.status: str | None = status
-        self.task_id: str | None = task_id
-        self.updated: str | None = updated
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self,
+            dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v not in [None, {}]},
+        )
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -97,7 +88,6 @@ class LatestRun:
         Returns:
             object: An instance of this structure class.
         """
-
         dictionary = dictionary or {}
         # Extract variables from the dictionary
         val = dictionary.get('compliance_info', None)
@@ -110,7 +100,7 @@ class LatestRun:
         val_expired = val
 
         val = dictionary.get('id', None)
-        val_p_id = val
+        val_id = val
 
         val = dictionary.get('name', None)
         val_name = val
@@ -138,7 +128,7 @@ class LatestRun:
             val_compliance_info,
             val_created,
             val_expired,
-            val_p_id,
+            val_id,
             val_name,
             val_parameter,
             val_report_config_id,
@@ -147,3 +137,19 @@ class LatestRun:
             val_task_id,
             val_updated,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

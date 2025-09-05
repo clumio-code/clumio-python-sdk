@@ -17,7 +17,9 @@ clumioapi.models.task\_type.TaskType
    .. autosummary::
    
       ~TaskType.__init__
+      ~TaskType.dict
       ~TaskType.from_dictionary
+      ~TaskType.from_response
    
    
 

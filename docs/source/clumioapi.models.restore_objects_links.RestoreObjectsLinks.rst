@@ -17,10 +17,19 @@ clumioapi.models.restore\_objects\_links.RestoreObjectsLinks
    .. autosummary::
    
       ~RestoreObjectsLinks.__init__
+      ~RestoreObjectsLinks.dict
       ~RestoreObjectsLinks.from_dictionary
+      ~RestoreObjectsLinks.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~RestoreObjectsLinks.ReadTask
+      ~RestoreObjectsLinks.Self
    
    

@@ -1,47 +1,46 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import time_unit_param as time_unit_param_
+import requests
 
 T = TypeVar('T', bound='PolicyControl')
 
 
+@dataclasses.dataclass
 class PolicyControl:
     """Implementation of the 'PolicyControl' model.
 
-    The control for policy.
+        The control for policy.
 
-    Attributes:
-        minimum_retention_duration:
-            The time unit used in control definition.
-        minimum_rpo_frequency:
-            The time unit used in control definition.
+        Attributes:
+            MinimumRetentionDuration:
+    The time unit used in control definition.
+
+            MinimumRpoFrequency:
+    The time unit used in control definition.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'minimum_retention_duration': 'minimum_retention_duration',
-        'minimum_rpo_frequency': 'minimum_rpo_frequency',
-    }
+    MinimumRetentionDuration: time_unit_param_.TimeUnitParam | None = None
+    MinimumRpoFrequency: time_unit_param_.TimeUnitParam | None = None
 
-    def __init__(
-        self,
-        minimum_retention_duration: time_unit_param_.TimeUnitParam | None = None,
-        minimum_rpo_frequency: time_unit_param_.TimeUnitParam | None = None,
-    ) -> None:
-        """Constructor for the PolicyControl class."""
-
-        # Initialize members of the class
-        self.minimum_retention_duration: time_unit_param_.TimeUnitParam | None = (
-            minimum_retention_duration
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self,
+            dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v not in [None, {}]},
         )
-        self.minimum_rpo_frequency: time_unit_param_.TimeUnitParam | None = minimum_rpo_frequency
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -52,7 +51,6 @@ class PolicyControl:
         Returns:
             object: An instance of this structure class.
         """
-
         dictionary = dictionary or {}
         # Extract variables from the dictionary
         val = dictionary.get('minimum_retention_duration', None)
@@ -66,3 +64,19 @@ class PolicyControl:
             val_minimum_retention_duration,
             val_minimum_rpo_frequency,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

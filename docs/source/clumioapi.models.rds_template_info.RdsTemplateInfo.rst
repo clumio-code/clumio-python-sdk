@@ -17,10 +17,18 @@ clumioapi.models.rds\_template\_info.RdsTemplateInfo
    .. autosummary::
    
       ~RdsTemplateInfo.__init__
+      ~RdsTemplateInfo.dict
       ~RdsTemplateInfo.from_dictionary
+      ~RdsTemplateInfo.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~RdsTemplateInfo.AvailableTemplateVersion
    
    

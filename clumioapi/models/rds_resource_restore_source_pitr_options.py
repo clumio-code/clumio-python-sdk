@@ -1,38 +1,47 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='RdsResourceRestoreSourcePitrOptions')
 
 
+@dataclasses.dataclass
 class RdsResourceRestoreSourcePitrOptions:
     """Implementation of the 'RdsResourceRestoreSourcePitrOptions' model.
 
-    The parameters for initiating an RDS restore from a snapshot.
+        The parameters for initiating an RDS restore from a snapshot.
 
-    Attributes:
-        resource_id:
-            The Clumio-assigned ID of the RDS resource to be restored.
-            Use the [GET /datasources/aws/rds-resources](#operation/list-aws-rds-resources)
-            endpoint to fetch valid values.
-        timestamp:
-            A point in time to be restored in RFC-3339 format.
+        Attributes:
+            ResourceId:
+    The clumio-assigned id of the rds resource to be restored.
+    use the [get /datasources/aws/rds-resources](#operation/list-aws-rds-resources)
+    endpoint to fetch valid values.
+
+            Timestamp:
+    A point in time to be restored in rfc-3339 format.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {'resource_id': 'resource_id', 'timestamp': 'timestamp'}
+    ResourceId: str | None = None
+    Timestamp: str | None = None
 
-    def __init__(self, resource_id: str | None = None, timestamp: str | None = None) -> None:
-        """Constructor for the RdsResourceRestoreSourcePitrOptions class."""
-
-        # Initialize members of the class
-        self.resource_id: str | None = resource_id
-        self.timestamp: str | None = timestamp
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self,
+            dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x if v not in [None, {}]},
+        )
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -43,7 +52,6 @@ class RdsResourceRestoreSourcePitrOptions:
         Returns:
             object: An instance of this structure class.
         """
-
         dictionary = dictionary or {}
         # Extract variables from the dictionary
         val = dictionary.get('resource_id', None)
@@ -57,3 +65,19 @@ class RdsResourceRestoreSourcePitrOptions:
             val_resource_id,
             val_timestamp,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

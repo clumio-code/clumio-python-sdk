@@ -17,10 +17,18 @@ clumioapi.models.policy\_embedded.PolicyEmbedded
    .. autosummary::
    
       ~PolicyEmbedded.__init__
+      ~PolicyEmbedded.dict
       ~PolicyEmbedded.from_dictionary
+      ~PolicyEmbedded.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~PolicyEmbedded.ReadPolicyAwsEbsVolumesProtectionStats
    
    

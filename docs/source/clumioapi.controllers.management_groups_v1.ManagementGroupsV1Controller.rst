@@ -30,6 +30,5 @@ clumioapi.controllers.management\_groups\_v1.ManagementGroupsV1Controller
    .. autosummary::
    
       ~ManagementGroupsV1Controller.client
-      ~ManagementGroupsV1Controller.global_headers
    
    

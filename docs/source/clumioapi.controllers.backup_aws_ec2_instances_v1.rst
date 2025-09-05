@@ -20,6 +20,7 @@ clumioapi.controllers.backup\_aws\_ec2\_instances\_v1
       :template: custom-class-template.rst
    
       BackupAwsEc2InstancesV1Controller
+      BackupAwsEc2InstancesV1ControllerPaginator
    
    
 

@@ -20,6 +20,7 @@ clumioapi.controllers.auto\_user\_provisioning\_rules\_v1
       :template: custom-class-template.rst
    
       AutoUserProvisioningRulesV1Controller
+      AutoUserProvisioningRulesV1ControllerPaginator
    
    
 

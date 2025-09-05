@@ -17,10 +17,22 @@ clumioapi.models.cost\_estimates\_protection\_group\_instant\_access\_endpoint\_
    .. autosummary::
    
       ~CostEstimatesProtectionGroupInstantAccessEndpointV1Request.__init__
+      ~CostEstimatesProtectionGroupInstantAccessEndpointV1Request.dict
       ~CostEstimatesProtectionGroupInstantAccessEndpointV1Request.from_dictionary
+      ~CostEstimatesProtectionGroupInstantAccessEndpointV1Request.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~CostEstimatesProtectionGroupInstantAccessEndpointV1Request.BackupId
+      ~CostEstimatesProtectionGroupInstantAccessEndpointV1Request.IsSync
+      ~CostEstimatesProtectionGroupInstantAccessEndpointV1Request.ObjectFilters
+      ~CostEstimatesProtectionGroupInstantAccessEndpointV1Request.Pitr
+      ~CostEstimatesProtectionGroupInstantAccessEndpointV1Request.ProtectionGroupS3AssetId
    
    

@@ -17,10 +17,19 @@ clumioapi.models.s3\_replication\_time.S3ReplicationTime
    .. autosummary::
    
       ~S3ReplicationTime.__init__
+      ~S3ReplicationTime.dict
       ~S3ReplicationTime.from_dictionary
+      ~S3ReplicationTime.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~S3ReplicationTime.Status
+      ~S3ReplicationTime.Time
    
    

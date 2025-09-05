@@ -17,10 +17,28 @@ clumioapi.models.audit\_trails.AuditTrails
    .. autosummary::
    
       ~AuditTrails.__init__
+      ~AuditTrails.dict
       ~AuditTrails.from_dictionary
+      ~AuditTrails.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~AuditTrails.Action
+      ~AuditTrails.Category
+      ~AuditTrails.Details
+      ~AuditTrails.Id
+      ~AuditTrails.Interface
+      ~AuditTrails.IpAddress
+      ~AuditTrails.ParentEntity
+      ~AuditTrails.PrimaryEntity
+      ~AuditTrails.Status
+      ~AuditTrails.Timestamp
+      ~AuditTrails.UserEmail
    
    

@@ -20,6 +20,7 @@ clumioapi.controllers.backup\_filesystem\_directories\_v1
       :template: custom-class-template.rst
    
       BackupFilesystemDirectoriesV1Controller
+      BackupFilesystemDirectoriesV1ControllerPaginator
    
    
 

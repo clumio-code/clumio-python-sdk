@@ -17,10 +17,20 @@ clumioapi.models.create\_user\_v2\_request.CreateUserV2Request
    .. autosummary::
    
       ~CreateUserV2Request.__init__
+      ~CreateUserV2Request.dict
       ~CreateUserV2Request.from_dictionary
+      ~CreateUserV2Request.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~CreateUserV2Request.AccessControlConfiguration
+      ~CreateUserV2Request.Email
+      ~CreateUserV2Request.FullName
    
    

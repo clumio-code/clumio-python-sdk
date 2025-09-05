@@ -17,7 +17,9 @@ clumioapi.models.compliance\_configuration\_embedded.ComplianceConfigurationEmbe
    .. autosummary::
    
       ~ComplianceConfigurationEmbedded.__init__
+      ~ComplianceConfigurationEmbedded.dict
       ~ComplianceConfigurationEmbedded.from_dictionary
+      ~ComplianceConfigurationEmbedded.from_response
    
    
 

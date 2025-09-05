@@ -17,10 +17,19 @@ clumioapi.models.mssql\_database\_backup\_advanced\_setting.MSSQLDatabaseBackupA
    .. autosummary::
    
       ~MSSQLDatabaseBackupAdvancedSetting.__init__
+      ~MSSQLDatabaseBackupAdvancedSetting.dict
       ~MSSQLDatabaseBackupAdvancedSetting.from_dictionary
+      ~MSSQLDatabaseBackupAdvancedSetting.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~MSSQLDatabaseBackupAdvancedSetting.AlternativeReplica
+      ~MSSQLDatabaseBackupAdvancedSetting.PreferredReplica
    
    

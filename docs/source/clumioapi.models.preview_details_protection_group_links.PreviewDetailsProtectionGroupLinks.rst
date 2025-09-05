@@ -17,10 +17,18 @@ clumioapi.models.preview\_details\_protection\_group\_links.PreviewDetailsProtec
    .. autosummary::
    
       ~PreviewDetailsProtectionGroupLinks.__init__
+      ~PreviewDetailsProtectionGroupLinks.dict
       ~PreviewDetailsProtectionGroupLinks.from_dictionary
+      ~PreviewDetailsProtectionGroupLinks.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~PreviewDetailsProtectionGroupLinks.Self
    
    

@@ -17,10 +17,19 @@ clumioapi.models.protection\_group\_embedded.ProtectionGroupEmbedded
    .. autosummary::
    
       ~ProtectionGroupEmbedded.__init__
+      ~ProtectionGroupEmbedded.dict
       ~ProtectionGroupEmbedded.from_dictionary
+      ~ProtectionGroupEmbedded.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ProtectionGroupEmbedded.ReadOrganizationalUnit
+      ~ProtectionGroupEmbedded.ReadPolicyDefinition
    
    

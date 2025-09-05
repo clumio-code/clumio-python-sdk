@@ -30,6 +30,5 @@ clumioapi.controllers.backup\_aws\_ebs\_volumes\_v1.BackupAwsEbsVolumesV1Control
    .. autosummary::
    
       ~BackupAwsEbsVolumesV1Controller.client
-      ~BackupAwsEbsVolumesV1Controller.global_headers
    
    
