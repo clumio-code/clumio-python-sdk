@@ -20,6 +20,7 @@ clumioapi.controllers.backup\_aws\_rds\_resources\_v1
       :template: custom-class-template.rst
    
       BackupAwsRdsResourcesV1Controller
+      BackupAwsRdsResourcesV1ControllerPaginator
    
    
 

@@ -17,10 +17,21 @@ clumioapi.models.preview\_protection\_group\_async\_response.PreviewProtectionGr
    .. autosummary::
    
       ~PreviewProtectionGroupAsyncResponse.__init__
+      ~PreviewProtectionGroupAsyncResponse.dict
       ~PreviewProtectionGroupAsyncResponse.from_dictionary
+      ~PreviewProtectionGroupAsyncResponse.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~PreviewProtectionGroupAsyncResponse.Links
+      ~PreviewProtectionGroupAsyncResponse.PreviewId
+      ~PreviewProtectionGroupAsyncResponse.TaskId
+      ~PreviewProtectionGroupAsyncResponse.raw_response
    
    

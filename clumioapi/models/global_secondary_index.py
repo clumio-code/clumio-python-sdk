@@ -1,74 +1,82 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import key_schema_element as key_schema_element_
 from clumioapi.models import projection as projection_
 from clumioapi.models import provisioned_throughput as provisioned_throughput_
+import requests
 
 T = TypeVar('T', bound='GlobalSecondaryIndex')
 
 
+@dataclasses.dataclass
 class GlobalSecondaryIndex:
     """Implementation of the 'GlobalSecondaryIndex' model.
 
     Represents the properties of a global secondary index.
 
     Attributes:
-        contributor_insights_status:
-            Indicates whether DynamoDB Contributor Insights is enabled (true) or disabled
+        ContributorInsightsStatus:
+            Indicates whether dynamodb contributor insights is enabled (true) or disabled
             (false)
             on the index.
-            For [POST /restores/aws/dynamodb](#operation/restore-aws-dynamodb-table), this
+            for [post /restores/aws/dynamodb](#operation/restore-aws-dynamodb-table), this
             is defaulted to the
             value set in backup if `null`.
-        index_name:
+
+        IndexName:
             The name of the global secondary index.
-        key_schema:
+
+        KeySchema:
             The complete key schema for a global secondary index, which consists of one or
             more
             pairs of attribute names and key types.
-        projection:
+
+        Projection:
             Represents attributes that are copied (projected) from the table into an index.
-            These are in addition to the
+            these are in addition to the
             primary key attributes and index key attributes, which are automatically
             projected.
-        provisioned_throughput:
-            Represents the provisioned throughput settings for a DynamoDB table.
+
+        ProvisionedThroughput:
+            Represents the provisioned throughput settings for a dynamodb table.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'contributor_insights_status': 'contributor_insights_status',
-        'index_name': 'index_name',
-        'key_schema': 'key_schema',
-        'projection': 'projection',
-        'provisioned_throughput': 'provisioned_throughput',
-    }
+    ContributorInsightsStatus: bool | None = None
+    IndexName: str | None = None
+    KeySchema: Sequence[key_schema_element_.KeySchemaElement] | None = None
+    Projection: projection_.Projection | None = None
+    ProvisionedThroughput: provisioned_throughput_.ProvisionedThroughput | None = None
 
-    def __init__(
-        self,
-        contributor_insights_status: bool | None = None,
-        index_name: str | None = None,
-        key_schema: Sequence[key_schema_element_.KeySchemaElement] | None = None,
-        projection: projection_.Projection | None = None,
-        provisioned_throughput: provisioned_throughput_.ProvisionedThroughput | None = None,
-    ) -> None:
-        """Constructor for the GlobalSecondaryIndex class."""
-
-        # Initialize members of the class
-        self.contributor_insights_status: bool | None = contributor_insights_status
-        self.index_name: str | None = index_name
-        self.key_schema: Sequence[key_schema_element_.KeySchemaElement] | None = key_schema
-        self.projection: projection_.Projection | None = projection
-        self.provisioned_throughput: provisioned_throughput_.ProvisionedThroughput | None = (
-            provisioned_throughput
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
         )
 
+    @overload
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
+
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -79,8 +87,8 @@ class GlobalSecondaryIndex:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('contributor_insights_status', None)
         val_contributor_insights_status = val
@@ -90,9 +98,8 @@ class GlobalSecondaryIndex:
 
         val = dictionary.get('key_schema', None)
 
-        val_key_schema = None
+        val_key_schema = []
         if val:
-            val_key_schema = list()
             for value in val:
                 val_key_schema.append(key_schema_element_.KeySchemaElement.from_dictionary(value))
 
@@ -112,3 +119,19 @@ class GlobalSecondaryIndex:
             val_projection,
             val_provisioned_throughput,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

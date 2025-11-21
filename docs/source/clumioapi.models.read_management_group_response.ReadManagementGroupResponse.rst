@@ -17,10 +17,25 @@ clumioapi.models.read\_management\_group\_response.ReadManagementGroupResponse
    .. autosummary::
    
       ~ReadManagementGroupResponse.__init__
+      ~ReadManagementGroupResponse.dict
       ~ReadManagementGroupResponse.from_dictionary
+      ~ReadManagementGroupResponse.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ReadManagementGroupResponse.BackupAcrossSubgroups
+      ~ReadManagementGroupResponse.Etag
+      ~ReadManagementGroupResponse.Id
+      ~ReadManagementGroupResponse.Links
+      ~ReadManagementGroupResponse.Name
+      ~ReadManagementGroupResponse.Type
+      ~ReadManagementGroupResponse.VcenterId
+      ~ReadManagementGroupResponse.raw_response
    
    

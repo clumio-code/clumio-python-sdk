@@ -17,10 +17,18 @@ clumioapi.models.aws\_environment\_list\_embedded.AWSEnvironmentListEmbedded
    .. autosummary::
    
       ~AWSEnvironmentListEmbedded.__init__
+      ~AWSEnvironmentListEmbedded.dict
       ~AWSEnvironmentListEmbedded.from_dictionary
+      ~AWSEnvironmentListEmbedded.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~AWSEnvironmentListEmbedded.Items
    
    

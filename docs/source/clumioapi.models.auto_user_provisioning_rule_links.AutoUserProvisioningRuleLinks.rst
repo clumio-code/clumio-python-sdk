@@ -17,10 +17,20 @@ clumioapi.models.auto\_user\_provisioning\_rule\_links.AutoUserProvisioningRuleL
    .. autosummary::
    
       ~AutoUserProvisioningRuleLinks.__init__
+      ~AutoUserProvisioningRuleLinks.dict
       ~AutoUserProvisioningRuleLinks.from_dictionary
+      ~AutoUserProvisioningRuleLinks.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~AutoUserProvisioningRuleLinks.DeleteAutoUserProvisioningRule
+      ~AutoUserProvisioningRuleLinks.Self
+      ~AutoUserProvisioningRuleLinks.UpdateAutoUserProvisioningRule
    
    

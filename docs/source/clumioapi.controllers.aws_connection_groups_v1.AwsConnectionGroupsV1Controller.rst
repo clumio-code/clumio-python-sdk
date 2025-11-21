@@ -26,11 +26,4 @@ clumioapi.controllers.aws\_connection\_groups\_v1.AwsConnectionGroupsV1Controlle
 
    
    
-   .. rubric:: Attributes
-
-   .. autosummary::
-   
-      ~AwsConnectionGroupsV1Controller.client
-      ~AwsConnectionGroupsV1Controller.global_headers
-   
    

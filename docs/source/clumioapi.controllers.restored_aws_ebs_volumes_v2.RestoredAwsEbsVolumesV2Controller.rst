@@ -23,11 +23,4 @@ clumioapi.controllers.restored\_aws\_ebs\_volumes\_v2.RestoredAwsEbsVolumesV2Con
 
    
    
-   .. rubric:: Attributes
-
-   .. autosummary::
-   
-      ~RestoredAwsEbsVolumesV2Controller.client
-      ~RestoredAwsEbsVolumesV2Controller.global_headers
-   
    

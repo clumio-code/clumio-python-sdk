@@ -17,10 +17,18 @@ clumioapi.models.ec2\_mssql\_inv\_host\_list\_embedded.EC2MSSQLInvHostListEmbedd
    .. autosummary::
    
       ~EC2MSSQLInvHostListEmbedded.__init__
+      ~EC2MSSQLInvHostListEmbedded.dict
       ~EC2MSSQLInvHostListEmbedded.from_dictionary
+      ~EC2MSSQLInvHostListEmbedded.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~EC2MSSQLInvHostListEmbedded.Items
    
    

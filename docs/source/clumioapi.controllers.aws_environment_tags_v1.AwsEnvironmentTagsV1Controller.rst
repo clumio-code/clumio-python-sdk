@@ -24,11 +24,4 @@ clumioapi.controllers.aws\_environment\_tags\_v1.AwsEnvironmentTagsV1Controller
 
    
    
-   .. rubric:: Attributes
-
-   .. autosummary::
-   
-      ~AwsEnvironmentTagsV1Controller.client
-      ~AwsEnvironmentTagsV1Controller.global_headers
-   
    

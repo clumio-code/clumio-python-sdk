@@ -17,10 +17,19 @@ clumioapi.models.report\_download\_links.ReportDownloadLinks
    .. autosummary::
    
       ~ReportDownloadLinks.__init__
+      ~ReportDownloadLinks.dict
       ~ReportDownloadLinks.from_dictionary
+      ~ReportDownloadLinks.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ReportDownloadLinks.ReadTask
+      ~ReportDownloadLinks.Self
    
    

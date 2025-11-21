@@ -17,10 +17,18 @@ clumioapi.models.read\_task\_hateoas\_outer\_embedded.ReadTaskHateoasOuterEmbedd
    .. autosummary::
    
       ~ReadTaskHateoasOuterEmbedded.__init__
+      ~ReadTaskHateoasOuterEmbedded.dict
       ~ReadTaskHateoasOuterEmbedded.from_dictionary
+      ~ReadTaskHateoasOuterEmbedded.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ReadTaskHateoasOuterEmbedded.ReadTask
    
    

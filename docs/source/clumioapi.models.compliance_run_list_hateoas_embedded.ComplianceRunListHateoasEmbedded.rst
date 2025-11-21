@@ -17,10 +17,18 @@ clumioapi.models.compliance\_run\_list\_hateoas\_embedded.ComplianceRunListHateo
    .. autosummary::
    
       ~ComplianceRunListHateoasEmbedded.__init__
+      ~ComplianceRunListHateoasEmbedded.dict
       ~ComplianceRunListHateoasEmbedded.from_dictionary
+      ~ComplianceRunListHateoasEmbedded.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ComplianceRunListHateoasEmbedded.Items
    
    

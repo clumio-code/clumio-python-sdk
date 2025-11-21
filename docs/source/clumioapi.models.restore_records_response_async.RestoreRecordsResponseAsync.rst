@@ -17,10 +17,22 @@ clumioapi.models.restore\_records\_response\_async.RestoreRecordsResponseAsync
    .. autosummary::
    
       ~RestoreRecordsResponseAsync.__init__
+      ~RestoreRecordsResponseAsync.dict
       ~RestoreRecordsResponseAsync.from_dictionary
+      ~RestoreRecordsResponseAsync.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~RestoreRecordsResponseAsync.Embedded
+      ~RestoreRecordsResponseAsync.Links
+      ~RestoreRecordsResponseAsync.Passcode
+      ~RestoreRecordsResponseAsync.TaskId
+      ~RestoreRecordsResponseAsync.raw_response
    
    

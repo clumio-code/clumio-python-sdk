@@ -1,34 +1,54 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='RestoreS3BucketSourceUndoDeleteMarkerOptions')
 
 
+@dataclasses.dataclass
 class RestoreS3BucketSourceUndoDeleteMarkerOptions:
     """Implementation of the 'RestoreS3BucketSourceUndoDeleteMarkerOptions' model.
 
     This field is required when the request type is 'Undo delete marker'.
 
     Attributes:
-        start_timestamp:
-            The start timestamp for undo delete marker in RFC-3339 format.
-            Clumio undoes the delete markers created after the given timestamp.
+        StartTimestamp:
+            The start timestamp for undo delete marker in rfc-3339 format.
+            clumio undoes the delete markers created after the given timestamp.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {'start_timestamp': 'start_timestamp'}
+    StartTimestamp: str | None = None
 
-    def __init__(self, start_timestamp: str | None = None) -> None:
-        """Constructor for the RestoreS3BucketSourceUndoDeleteMarkerOptions class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.start_timestamp: str | None = start_timestamp
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -39,8 +59,8 @@ class RestoreS3BucketSourceUndoDeleteMarkerOptions:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('start_timestamp', None)
         val_start_timestamp = val
@@ -49,3 +69,19 @@ class RestoreS3BucketSourceUndoDeleteMarkerOptions:
         return cls(
             val_start_timestamp,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

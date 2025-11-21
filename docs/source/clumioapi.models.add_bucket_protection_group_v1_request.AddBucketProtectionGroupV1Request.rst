@@ -17,10 +17,18 @@ clumioapi.models.add\_bucket\_protection\_group\_v1\_request.AddBucketProtection
    .. autosummary::
    
       ~AddBucketProtectionGroupV1Request.__init__
+      ~AddBucketProtectionGroupV1Request.dict
       ~AddBucketProtectionGroupV1Request.from_dictionary
+      ~AddBucketProtectionGroupV1Request.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~AddBucketProtectionGroupV1Request.BucketId
    
    

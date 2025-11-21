@@ -1,61 +1,70 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import rds_backup_database_list_embedded as rds_backup_database_list_embedded_
 from clumioapi.models import rds_backup_database_list_links as rds_backup_database_list_links_
+import requests
 
 T = TypeVar('T', bound='ListRDSBackupDatabasesResponse')
 
 
+@dataclasses.dataclass
 class ListRDSBackupDatabasesResponse:
     """Implementation of the 'ListRDSBackupDatabasesResponse' model.
 
     Attributes:
-        embedded:
+        Embedded:
             Embedded responses related to the resource.
-        links:
-            URLs to pages related to the resource.
-        current_count:
+
+        Links:
+            Urls to pages related to the resource.
+
+        CurrentCount:
             The number of items listed on the current page.
-        limit:
+
+        Limit:
             The maximum number of items displayed per page in the response.
-        start:
+
+        Start:
             The page token used to get this response.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'embedded': '_embedded',
-        'links': '_links',
-        'current_count': 'current_count',
-        'limit': 'limit',
-        'start': 'start',
-    }
+    Embedded: rds_backup_database_list_embedded_.RDSBackupDatabaseListEmbedded | None = None
+    Links: rds_backup_database_list_links_.RDSBackupDatabaseListLinks | None = None
+    CurrentCount: int | None = None
+    Limit: int | None = None
+    Start: str | None = None
+    raw_response: Optional[requests.Response] = None
 
-    def __init__(
-        self,
-        embedded: rds_backup_database_list_embedded_.RDSBackupDatabaseListEmbedded | None = None,
-        links: rds_backup_database_list_links_.RDSBackupDatabaseListLinks | None = None,
-        current_count: int | None = None,
-        limit: int | None = None,
-        start: str | None = None,
-    ) -> None:
-        """Constructor for the ListRDSBackupDatabasesResponse class."""
-
-        # Initialize members of the class
-        self.embedded: rds_backup_database_list_embedded_.RDSBackupDatabaseListEmbedded | None = (
-            embedded
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
         )
-        self.links: rds_backup_database_list_links_.RDSBackupDatabaseListLinks | None = links
-        self.current_count: int | None = current_count
-        self.limit: int | None = limit
-        self.start: str | None = start
+
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -66,8 +75,8 @@ class ListRDSBackupDatabasesResponse:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('_embedded', None)
         val_embedded = (
@@ -94,3 +103,20 @@ class ListRDSBackupDatabasesResponse:
             val_limit,
             val_start,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        model_instance.raw_response = response
+        return model_instance

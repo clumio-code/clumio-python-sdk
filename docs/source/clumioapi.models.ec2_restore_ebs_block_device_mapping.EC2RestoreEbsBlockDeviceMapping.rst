@@ -17,10 +17,21 @@ clumioapi.models.ec2\_restore\_ebs\_block\_device\_mapping.EC2RestoreEbsBlockDev
    .. autosummary::
    
       ~EC2RestoreEbsBlockDeviceMapping.__init__
+      ~EC2RestoreEbsBlockDeviceMapping.dict
       ~EC2RestoreEbsBlockDeviceMapping.from_dictionary
+      ~EC2RestoreEbsBlockDeviceMapping.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~EC2RestoreEbsBlockDeviceMapping.KmsKeyNativeId
+      ~EC2RestoreEbsBlockDeviceMapping.Name
+      ~EC2RestoreEbsBlockDeviceMapping.Tags
+      ~EC2RestoreEbsBlockDeviceMapping.VolumeNativeId
    
    

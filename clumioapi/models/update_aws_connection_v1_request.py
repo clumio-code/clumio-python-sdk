@@ -1,57 +1,69 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import resources as resources_
+import requests
 
 T = TypeVar('T', bound='UpdateAwsConnectionV1Request')
 
 
+@dataclasses.dataclass
 class UpdateAwsConnectionV1Request:
     """Implementation of the 'UpdateAwsConnectionV1Request' model.
 
     Attributes:
-        asset_types_enabled:
-            Asset types enabled with the given resource ARNs.
-            This field is only applicable to manually configured connections.
-            Valid values are any of ["EC2/EBS", "RDS", "DynamoDB", "EC2MSSQL", "S3", "EBS",
-            "IcebergOnGlue"].
+        AssetTypesEnabled:
+            Asset types enabled with the given resource arns.
+            this field is only applicable to manually configured connections.
+            valid values are any of ["ec2/ebs", "rds", "dynamodb", "ec2mssql", "s3", "ebs",
+            "icebergonglue", "icebergons3tables"].
 
-            NOTE -
-            1. EC2/EBS is required for EC2MSSQL.
-            2. EBS as a value is deprecated in favor of EC2/EBS.
-        description:
+            note -
+            1. ec2/ebs is required for ec2mssql.
+            2. ebs as a value is deprecated in favor of ec2/ebs.
+
+        Description:
             An optional, user-provided description for this connection.
-        resources:
-            Partial updates are not supported, therefore you must provide ARNs for all
+
+        Resources:
+            Partial updates are not supported, therefore you must provide arns for all
             configured resources,
             including those for resources that are not being updated.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'asset_types_enabled': 'asset_types_enabled',
-        'description': 'description',
-        'resources': 'resources',
-    }
+    AssetTypesEnabled: Sequence[str] | None = None
+    Description: str | None = None
+    Resources: resources_.Resources | None = None
 
-    def __init__(
-        self,
-        asset_types_enabled: Sequence[str] | None = None,
-        description: str | None = None,
-        resources: resources_.Resources | None = None,
-    ) -> None:
-        """Constructor for the UpdateAwsConnectionV1Request class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.asset_types_enabled: Sequence[str] | None = asset_types_enabled
-        self.description: str | None = description
-        self.resources: resources_.Resources | None = resources
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -62,8 +74,8 @@ class UpdateAwsConnectionV1Request:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('asset_types_enabled', None)
         val_asset_types_enabled = val
@@ -80,3 +92,19 @@ class UpdateAwsConnectionV1Request:
             val_description,
             val_resources,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

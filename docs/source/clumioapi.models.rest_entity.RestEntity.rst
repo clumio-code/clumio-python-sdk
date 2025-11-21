@@ -17,10 +17,20 @@ clumioapi.models.rest\_entity.RestEntity
    .. autosummary::
    
       ~RestEntity.__init__
+      ~RestEntity.dict
       ~RestEntity.from_dictionary
+      ~RestEntity.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~RestEntity.Id
+      ~RestEntity.Type
+      ~RestEntity.Value
    
    

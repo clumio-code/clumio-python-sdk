@@ -17,10 +17,19 @@ clumioapi.models.restore\_rds\_record\_v1\_request.RestoreRdsRecordV1Request
    .. autosummary::
    
       ~RestoreRdsRecordV1Request.__init__
+      ~RestoreRdsRecordV1Request.dict
       ~RestoreRdsRecordV1Request.from_dictionary
+      ~RestoreRdsRecordV1Request.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~RestoreRdsRecordV1Request.Source
+      ~RestoreRdsRecordV1Request.Target
    
    

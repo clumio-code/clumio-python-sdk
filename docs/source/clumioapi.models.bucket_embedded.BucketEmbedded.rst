@@ -17,7 +17,9 @@ clumioapi.models.bucket\_embedded.BucketEmbedded
    .. autosummary::
    
       ~BucketEmbedded.__init__
+      ~BucketEmbedded.dict
       ~BucketEmbedded.from_dictionary
+      ~BucketEmbedded.from_response
    
    
 

@@ -17,10 +17,26 @@ clumioapi.models.list\_rds\_database\_backups\_response.ListRdsDatabaseBackupsRe
    .. autosummary::
    
       ~ListRdsDatabaseBackupsResponse.__init__
+      ~ListRdsDatabaseBackupsResponse.dict
       ~ListRdsDatabaseBackupsResponse.from_dictionary
+      ~ListRdsDatabaseBackupsResponse.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ListRdsDatabaseBackupsResponse.CurrentCount
+      ~ListRdsDatabaseBackupsResponse.Embedded
+      ~ListRdsDatabaseBackupsResponse.FilterApplied
+      ~ListRdsDatabaseBackupsResponse.Limit
+      ~ListRdsDatabaseBackupsResponse.Links
+      ~ListRdsDatabaseBackupsResponse.Start
+      ~ListRdsDatabaseBackupsResponse.TotalCount
+      ~ListRdsDatabaseBackupsResponse.TotalPagesCount
+      ~ListRdsDatabaseBackupsResponse.raw_response
    
    

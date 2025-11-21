@@ -24,11 +24,4 @@ clumioapi.controllers.aws\_templates\_v1.AwsTemplatesV1Controller
 
    
    
-   .. rubric:: Attributes
-
-   .. autosummary::
-   
-      ~AwsTemplatesV1Controller.client
-      ~AwsTemplatesV1Controller.global_headers
-   
    

@@ -1,12 +1,16 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='OracleDatabaseBackupAdvancedSetting')
 
 
+@dataclasses.dataclass
 class OracleDatabaseBackupAdvancedSetting:
     """Implementation of the 'OracleDatabaseBackupAdvancedSetting' model.
 
@@ -15,35 +19,45 @@ class OracleDatabaseBackupAdvancedSetting:
     field is omitted from the response.
 
     Attributes:
-        alternative_replica:
-            The alternative replica for Oracle database backups. This setting only applies
-            to Data Guard databases. Valid values are: `primary`, `standby`, and `stop`.
-            If `"stop"` is provided, then backups will not attempt to switch to a different
+        AlternativeReplica:
+            `primary`, `standby`, and `stop`.
+            if `"stop"` is provided, then backups will not attempt to switch to a different
             replica when the preferred replica is unavailable.
-        preferred_replica:
-            The primary preferred replica for Oracle database backups. This setting only
-            applies to Data Guard databases. Valid values are: `primary`, and `standby`.
-            Recurring backup will first attempt to use either the primary replica or the
+
+        PreferredReplica:
+            `primary`, and `standby`.
+            recurring backup will first attempt to use either the primary replica or the
             secondary replica accordingly.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'alternative_replica': 'alternative_replica',
-        'preferred_replica': 'preferred_replica',
-    }
+    AlternativeReplica: str | None = None
+    PreferredReplica: str | None = None
 
-    def __init__(
-        self, alternative_replica: str | None = None, preferred_replica: str | None = None
-    ) -> None:
-        """Constructor for the OracleDatabaseBackupAdvancedSetting class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.alternative_replica: str | None = alternative_replica
-        self.preferred_replica: str | None = preferred_replica
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -54,8 +68,8 @@ class OracleDatabaseBackupAdvancedSetting:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('alternative_replica', None)
         val_alternative_replica = val
@@ -68,3 +82,19 @@ class OracleDatabaseBackupAdvancedSetting:
             val_alternative_replica,
             val_preferred_replica,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

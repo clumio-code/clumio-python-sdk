@@ -1,84 +1,87 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import \
     ec2_mssql_database_backup_list_embedded as ec2_mssql_database_backup_list_embedded_
 from clumioapi.models import \
     ec2_mssql_database_backup_list_links as ec2_mssql_database_backup_list_links_
+import requests
 
 T = TypeVar('T', bound='ListEC2MSSQLDatabaseBackupsResponse')
 
 
+@dataclasses.dataclass
 class ListEC2MSSQLDatabaseBackupsResponse:
     """Implementation of the 'ListEC2MSSQLDatabaseBackupsResponse' model.
 
     Attributes:
-        embedded:
+        Embedded:
             Embedded responses related to the resource.
-        links:
-            URLs to pages related to the resource.
-        current_count:
+
+        Links:
+            Urls to pages related to the resource.
+
+        CurrentCount:
             The number of items listed on the current page.
-        filter_applied:
-            The filter used in the request. The filter includes both manually-specified and
+
+        FilterApplied:
+            The filter used in the request. the filter includes both manually-specified and
             system-generated filters.
-        limit:
+
+        Limit:
             The maximum number of items displayed per page in the response.
-        start:
-            The page number used to get this response.
-            Pages are indexed starting from 1 (i.e., `"start": "1"`).
-        total_count:
+
+        Start:
+            "1"`).
+
+        TotalCount:
             The total number of items, summed across all pages.
-        total_pages_count:
+
+        TotalPagesCount:
             The total number of pages of results.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'embedded': '_embedded',
-        'links': '_links',
-        'current_count': 'current_count',
-        'filter_applied': 'filter_applied',
-        'limit': 'limit',
-        'start': 'start',
-        'total_count': 'total_count',
-        'total_pages_count': 'total_pages_count',
-    }
+    Embedded: ec2_mssql_database_backup_list_embedded_.EC2MSSQLDatabaseBackupListEmbedded | None = (
+        None
+    )
+    Links: ec2_mssql_database_backup_list_links_.EC2MSSQLDatabaseBackupListLinks | None = None
+    CurrentCount: int | None = None
+    FilterApplied: str | None = None
+    Limit: int | None = None
+    Start: str | None = None
+    TotalCount: int | None = None
+    TotalPagesCount: int | None = None
+    raw_response: Optional[requests.Response] = None
 
-    def __init__(
-        self,
-        embedded: (
-            ec2_mssql_database_backup_list_embedded_.EC2MSSQLDatabaseBackupListEmbedded | None
-        ) = None,
-        links: ec2_mssql_database_backup_list_links_.EC2MSSQLDatabaseBackupListLinks | None = None,
-        current_count: int | None = None,
-        filter_applied: str | None = None,
-        limit: int | None = None,
-        start: str | None = None,
-        total_count: int | None = None,
-        total_pages_count: int | None = None,
-    ) -> None:
-        """Constructor for the ListEC2MSSQLDatabaseBackupsResponse class."""
-
-        # Initialize members of the class
-        self.embedded: (
-            ec2_mssql_database_backup_list_embedded_.EC2MSSQLDatabaseBackupListEmbedded | None
-        ) = embedded
-        self.links: ec2_mssql_database_backup_list_links_.EC2MSSQLDatabaseBackupListLinks | None = (
-            links
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
         )
-        self.current_count: int | None = current_count
-        self.filter_applied: str | None = filter_applied
-        self.limit: int | None = limit
-        self.start: str | None = start
-        self.total_count: int | None = total_count
-        self.total_pages_count: int | None = total_pages_count
+
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -89,8 +92,8 @@ class ListEC2MSSQLDatabaseBackupsResponse:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('_embedded', None)
         val_embedded = ec2_mssql_database_backup_list_embedded_.EC2MSSQLDatabaseBackupListEmbedded.from_dictionary(
@@ -133,3 +136,20 @@ class ListEC2MSSQLDatabaseBackupsResponse:
             val_total_count,
             val_total_pages_count,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        model_instance.raw_response = response
+        return model_instance

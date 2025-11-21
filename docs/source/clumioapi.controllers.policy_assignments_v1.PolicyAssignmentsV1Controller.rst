@@ -23,11 +23,4 @@ clumioapi.controllers.policy\_assignments\_v1.PolicyAssignmentsV1Controller
 
    
    
-   .. rubric:: Attributes
-
-   .. autosummary::
-   
-      ~PolicyAssignmentsV1Controller.client
-      ~PolicyAssignmentsV1Controller.global_headers
-   
    

@@ -17,10 +17,18 @@ clumioapi.models.ebs\_backup\_list\_embedded\_v1.EBSBackupListEmbeddedV1
    .. autosummary::
    
       ~EBSBackupListEmbeddedV1.__init__
+      ~EBSBackupListEmbeddedV1.dict
       ~EBSBackupListEmbeddedV1.from_dictionary
+      ~EBSBackupListEmbeddedV1.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~EBSBackupListEmbeddedV1.Items
    
    

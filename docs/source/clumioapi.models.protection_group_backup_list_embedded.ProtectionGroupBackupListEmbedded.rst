@@ -17,10 +17,18 @@ clumioapi.models.protection\_group\_backup\_list\_embedded.ProtectionGroupBackup
    .. autosummary::
    
       ~ProtectionGroupBackupListEmbedded.__init__
+      ~ProtectionGroupBackupListEmbedded.dict
       ~ProtectionGroupBackupListEmbedded.from_dictionary
+      ~ProtectionGroupBackupListEmbedded.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ProtectionGroupBackupListEmbedded.Items
    
    

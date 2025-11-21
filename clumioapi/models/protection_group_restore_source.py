@@ -1,71 +1,78 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import \
     protection_group_restore_source_pitr_options as protection_group_restore_source_pitr_options_
 from clumioapi.models import source_object_filters as source_object_filters_
+import requests
 
 T = TypeVar('T', bound='ProtectionGroupRestoreSource')
 
 
+@dataclasses.dataclass
 class ProtectionGroupRestoreSource:
     """Implementation of the 'ProtectionGroupRestoreSource' model.
 
     The parameters for initiating a protection group restore from a backup.
 
     Attributes:
-        backup_id:
-            The Clumio-assigned ID of the protection group backup to be restored. Use the
-            [GET /backups/protection-groups](#operation/list-backup-protection-groups)
+        BackupId:
+            The clumio-assigned id of the protection group backup to be restored. use the
+            [get /backups/protection-groups](#operation/list-backup-protection-groups)
             endpoint to fetch valid values.
-            Note that only one of `backup_id` or `pitr` must be given.
-        object_filters:
+            note that only one of `backup_id` or `pitr` must be given.
+
+        ObjectFilters:
             Search for or restore only objects that pass the source object filter.
-        pitr:
+
+        Pitr:
             The parameters for initiating a point in time restore.
-            Note that only one of `backup_id` or `pitr` must be given.
-        protection_group_s3_asset_ids:
-            A list of Clumio-assigned IDs of protection group S3 assets, representing the
-            buckets within the protection group to restore from. Use the
-            [GET /datasources/protection-groups/s3-assets](#operation/list-protection-
+            note that only one of `backup_id` or `pitr` must be given.
+
+        ProtectionGroupS3AssetIds:
+            A list of clumio-assigned ids of protection group s3 assets, representing the
+            buckets within the protection group to restore from. use the
+            [get /datasources/protection-groups/s3-assets](#operation/list-protection-
             group-s3-assets)
             endpoint to fetch valid values.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'backup_id': 'backup_id',
-        'object_filters': 'object_filters',
-        'pitr': 'pitr',
-        'protection_group_s3_asset_ids': 'protection_group_s3_asset_ids',
-    }
+    BackupId: str | None = None
+    ObjectFilters: source_object_filters_.SourceObjectFilters | None = None
+    Pitr: (
+        protection_group_restore_source_pitr_options_.ProtectionGroupRestoreSourcePitrOptions | None
+    ) = None
+    ProtectionGroupS3AssetIds: Sequence[str] | None = None
 
-    def __init__(
-        self,
-        backup_id: str | None = None,
-        object_filters: source_object_filters_.SourceObjectFilters | None = None,
-        pitr: (
-            protection_group_restore_source_pitr_options_.ProtectionGroupRestoreSourcePitrOptions
-            | None
-        ) = None,
-        protection_group_s3_asset_ids: Sequence[str] | None = None,
-    ) -> None:
-        """Constructor for the ProtectionGroupRestoreSource class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.backup_id: str | None = backup_id
-        self.object_filters: source_object_filters_.SourceObjectFilters | None = object_filters
-        self.pitr: (
-            protection_group_restore_source_pitr_options_.ProtectionGroupRestoreSourcePitrOptions
-            | None
-        ) = pitr
-        self.protection_group_s3_asset_ids: Sequence[str] | None = protection_group_s3_asset_ids
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -76,8 +83,8 @@ class ProtectionGroupRestoreSource:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('backup_id', None)
         val_backup_id = val
@@ -100,3 +107,19 @@ class ProtectionGroupRestoreSource:
             val_pitr,
             val_protection_group_s3_asset_ids,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

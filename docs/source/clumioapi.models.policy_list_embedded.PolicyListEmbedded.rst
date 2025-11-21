@@ -17,10 +17,18 @@ clumioapi.models.policy\_list\_embedded.PolicyListEmbedded
    .. autosummary::
    
       ~PolicyListEmbedded.__init__
+      ~PolicyListEmbedded.dict
       ~PolicyListEmbedded.from_dictionary
+      ~PolicyListEmbedded.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~PolicyListEmbedded.Items
    
    

@@ -17,10 +17,20 @@ clumioapi.models.on\_demand\_setting.OnDemandSetting
    .. autosummary::
    
       ~OnDemandSetting.__init__
+      ~OnDemandSetting.dict
       ~OnDemandSetting.from_dictionary
+      ~OnDemandSetting.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~OnDemandSetting.AdvancedSettings
+      ~OnDemandSetting.BackupAwsRegion
+      ~OnDemandSetting.RetentionDuration
    
    

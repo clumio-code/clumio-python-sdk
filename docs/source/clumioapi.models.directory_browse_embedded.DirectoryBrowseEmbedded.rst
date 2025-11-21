@@ -17,10 +17,18 @@ clumioapi.models.directory\_browse\_embedded.DirectoryBrowseEmbedded
    .. autosummary::
    
       ~DirectoryBrowseEmbedded.__init__
+      ~DirectoryBrowseEmbedded.dict
       ~DirectoryBrowseEmbedded.from_dictionary
+      ~DirectoryBrowseEmbedded.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~DirectoryBrowseEmbedded.Items
    
    

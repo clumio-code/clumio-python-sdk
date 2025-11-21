@@ -17,10 +17,18 @@ clumioapi.models.delete\_auto\_user\_provisioning\_rule\_response.DeleteAutoUser
    .. autosummary::
    
       ~DeleteAutoUserProvisioningRuleResponse.__init__
+      ~DeleteAutoUserProvisioningRuleResponse.dict
       ~DeleteAutoUserProvisioningRuleResponse.from_dictionary
+      ~DeleteAutoUserProvisioningRuleResponse.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~DeleteAutoUserProvisioningRuleResponse.raw_response
    
    

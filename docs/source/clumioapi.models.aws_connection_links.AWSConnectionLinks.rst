@@ -17,10 +17,21 @@ clumioapi.models.aws\_connection\_links.AWSConnectionLinks
    .. autosummary::
    
       ~AWSConnectionLinks.__init__
+      ~AWSConnectionLinks.dict
       ~AWSConnectionLinks.from_dictionary
+      ~AWSConnectionLinks.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~AWSConnectionLinks.DeleteConnectionAws
+      ~AWSConnectionLinks.ReadOrganizationalUnit
+      ~AWSConnectionLinks.Self
+      ~AWSConnectionLinks.UpdateConnectionAws
    
    

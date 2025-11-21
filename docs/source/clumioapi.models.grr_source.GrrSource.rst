@@ -17,10 +17,19 @@ clumioapi.models.grr\_source.GrrSource
    .. autosummary::
    
       ~GrrSource.__init__
+      ~GrrSource.dict
       ~GrrSource.from_dictionary
+      ~GrrSource.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~GrrSource.BackupId
+      ~GrrSource.DatabaseName
    
    

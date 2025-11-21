@@ -17,10 +17,19 @@ clumioapi.models.backup\_sla.BackupSLA
    .. autosummary::
    
       ~BackupSLA.__init__
+      ~BackupSLA.dict
       ~BackupSLA.from_dictionary
+      ~BackupSLA.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~BackupSLA.RetentionDuration
+      ~BackupSLA.RpoFrequency
    
    

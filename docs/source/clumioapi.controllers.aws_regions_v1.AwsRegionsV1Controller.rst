@@ -23,11 +23,4 @@ clumioapi.controllers.aws\_regions\_v1.AwsRegionsV1Controller
 
    
    
-   .. rubric:: Attributes
-
-   .. autosummary::
-   
-      ~AwsRegionsV1Controller.client
-      ~AwsRegionsV1Controller.global_headers
-   
    

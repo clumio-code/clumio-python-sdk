@@ -23,11 +23,4 @@ clumioapi.controllers.restored\_aws\_ec2\_instances\_v1.RestoredAwsEc2InstancesV
 
    
    
-   .. rubric:: Attributes
-
-   .. autosummary::
-   
-      ~RestoredAwsEc2InstancesV1Controller.client
-      ~RestoredAwsEc2InstancesV1Controller.global_headers
-   
    

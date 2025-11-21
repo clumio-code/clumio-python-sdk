@@ -1,58 +1,66 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import policy_advanced_settings as policy_advanced_settings_
 from clumioapi.models import retention_backup_sla_param as retention_backup_sla_param_
+import requests
 
 T = TypeVar('T', bound='OnDemandSetting')
 
 
+@dataclasses.dataclass
 class OnDemandSetting:
     """Implementation of the 'OnDemandSetting' model.
 
     Settings for requesting on-demand backup directly.
 
     Attributes:
-        advanced_settings:
-            Additional operation-specific policy settings. For operation types which do not
+        AdvancedSettings:
+            Additional operation-specific policy settings. for operation types which do not
             support additional settings, this field is `null`.
-        backup_aws_region:
-            The region in which this backup is stored. This might be used for cross-region
+
+        BackupAwsRegion:
+            The region in which this backup is stored. this might be used for cross-region
             backup.
-        retention_duration:
-            The retention time for this SLA. For example, to retain the backup for 1 month,
+
+        RetentionDuration:
+            The retention time for this sla. for example, to retain the backup for 1 month,
             set `unit="months"` and `value=1`.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'advanced_settings': 'advanced_settings',
-        'backup_aws_region': 'backup_aws_region',
-        'retention_duration': 'retention_duration',
-    }
+    AdvancedSettings: policy_advanced_settings_.PolicyAdvancedSettings | None = None
+    BackupAwsRegion: str | None = None
+    RetentionDuration: retention_backup_sla_param_.RetentionBackupSLAParam | None = None
 
-    def __init__(
-        self,
-        advanced_settings: policy_advanced_settings_.PolicyAdvancedSettings | None = None,
-        backup_aws_region: str | None = None,
-        retention_duration: retention_backup_sla_param_.RetentionBackupSLAParam | None = None,
-    ) -> None:
-        """Constructor for the OnDemandSetting class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.advanced_settings: policy_advanced_settings_.PolicyAdvancedSettings | None = (
-            advanced_settings
-        )
-        self.backup_aws_region: str | None = backup_aws_region
-        self.retention_duration: retention_backup_sla_param_.RetentionBackupSLAParam | None = (
-            retention_duration
-        )
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -63,8 +71,8 @@ class OnDemandSetting:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('advanced_settings', None)
         val_advanced_settings = policy_advanced_settings_.PolicyAdvancedSettings.from_dictionary(
@@ -85,3 +93,19 @@ class OnDemandSetting:
             val_backup_aws_region,
             val_retention_duration,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

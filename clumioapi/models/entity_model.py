@@ -1,54 +1,62 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import organizational_unit_parent_entity as organizational_unit_parent_entity_
 from clumioapi.models import \
     organizational_unit_primary_entity as organizational_unit_primary_entity_
+import requests
 
 T = TypeVar('T', bound='EntityModel')
 
 
+@dataclasses.dataclass
 class EntityModel:
     """Implementation of the 'EntityModel' model.
 
     entityModel denotes the entityModel
 
     Attributes:
-        parent_entity:
+        ParentEntity:
             The parent object of the primary entity associated with the organizational unit.
-            The parent object is optional and can be omitted.
-        primary_entity:
-            The primary object associated with the organizational unit. Examples of primary
+            the parent object is optional and can be omitted.
+
+        PrimaryEntity:
+            The primary object associated with the organizational unit. examples of primary
             entities include "aws_environment".
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {'parent_entity': 'parent_entity', 'primary_entity': 'primary_entity'}
+    ParentEntity: organizational_unit_parent_entity_.OrganizationalUnitParentEntity | None = None
+    PrimaryEntity: organizational_unit_primary_entity_.OrganizationalUnitPrimaryEntity | None = None
 
-    def __init__(
-        self,
-        parent_entity: (
-            organizational_unit_parent_entity_.OrganizationalUnitParentEntity | None
-        ) = None,
-        primary_entity: (
-            organizational_unit_primary_entity_.OrganizationalUnitPrimaryEntity | None
-        ) = None,
-    ) -> None:
-        """Constructor for the EntityModel class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.parent_entity: (
-            organizational_unit_parent_entity_.OrganizationalUnitParentEntity | None
-        ) = parent_entity
-        self.primary_entity: (
-            organizational_unit_primary_entity_.OrganizationalUnitPrimaryEntity | None
-        ) = primary_entity
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -59,8 +67,8 @@ class EntityModel:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('parent_entity', None)
         val_parent_entity = (
@@ -77,3 +85,19 @@ class EntityModel:
             val_parent_entity,
             val_primary_entity,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

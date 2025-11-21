@@ -17,10 +17,20 @@ clumioapi.models.compliance\_controls.ComplianceControls
    .. autosummary::
    
       ~ComplianceControls.__init__
+      ~ComplianceControls.dict
       ~ComplianceControls.from_dictionary
+      ~ComplianceControls.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ComplianceControls.AssetBackup
+      ~ComplianceControls.AssetProtection
+      ~ComplianceControls.Policy
    
    

@@ -1,45 +1,61 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import rds_database_table_embedded as rds_database_table_embedded_
 from clumioapi.models import rds_database_table_links as rds_database_table_links_
+import requests
 
 T = TypeVar('T', bound='RDSDatabaseTable')
 
 
+@dataclasses.dataclass
 class RDSDatabaseTable:
     """Implementation of the 'RDSDatabaseTable' model.
 
     Attributes:
-        embedded:
+        Embedded:
             Embedded responses related to the resource.
-        links:
-            URLs to pages related to the resource.
-        name:
-            The name of the table within the specified RDS database.
+
+        Links:
+            Urls to pages related to the resource.
+
+        Name:
+            The name of the table within the specified rds database.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {'embedded': '_embedded', 'links': '_links', 'name': 'name'}
+    Embedded: rds_database_table_embedded_.RDSDatabaseTableEmbedded | None = None
+    Links: rds_database_table_links_.RDSDatabaseTableLinks | None = None
+    Name: str | None = None
 
-    def __init__(
-        self,
-        embedded: rds_database_table_embedded_.RDSDatabaseTableEmbedded | None = None,
-        links: rds_database_table_links_.RDSDatabaseTableLinks | None = None,
-        name: str | None = None,
-    ) -> None:
-        """Constructor for the RDSDatabaseTable class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.embedded: rds_database_table_embedded_.RDSDatabaseTableEmbedded | None = embedded
-        self.links: rds_database_table_links_.RDSDatabaseTableLinks | None = links
-        self.name: str | None = name
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -50,8 +66,8 @@ class RDSDatabaseTable:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('_embedded', None)
         val_embedded = rds_database_table_embedded_.RDSDatabaseTableEmbedded.from_dictionary(val)
@@ -68,3 +84,19 @@ class RDSDatabaseTable:
             val_links,
             val_name,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

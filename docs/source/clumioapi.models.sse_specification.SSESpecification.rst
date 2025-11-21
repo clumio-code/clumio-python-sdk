@@ -17,10 +17,19 @@ clumioapi.models.sse\_specification.SSESpecification
    .. autosummary::
    
       ~SSESpecification.__init__
+      ~SSESpecification.dict
       ~SSESpecification.from_dictionary
+      ~SSESpecification.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~SSESpecification.KmsKeyType
+      ~SSESpecification.KmsMasterKeyId
    
    

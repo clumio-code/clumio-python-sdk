@@ -17,10 +17,18 @@ clumioapi.models.aws\_connection\_group\_list\_embedded.AWSConnectionGroupListEm
    .. autosummary::
    
       ~AWSConnectionGroupListEmbedded.__init__
+      ~AWSConnectionGroupListEmbedded.dict
       ~AWSConnectionGroupListEmbedded.from_dictionary
+      ~AWSConnectionGroupListEmbedded.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~AWSConnectionGroupListEmbedded.Items
    
    

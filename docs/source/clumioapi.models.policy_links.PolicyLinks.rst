@@ -17,10 +17,20 @@ clumioapi.models.policy\_links.PolicyLinks
    .. autosummary::
    
       ~PolicyLinks.__init__
+      ~PolicyLinks.dict
       ~PolicyLinks.from_dictionary
+      ~PolicyLinks.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~PolicyLinks.DeletePolicyDefinition
+      ~PolicyLinks.Self
+      ~PolicyLinks.UpdatePolicyDefinition
    
    

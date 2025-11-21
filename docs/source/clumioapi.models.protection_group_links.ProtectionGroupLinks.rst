@@ -17,10 +17,24 @@ clumioapi.models.protection\_group\_links.ProtectionGroupLinks
    .. autosummary::
    
       ~ProtectionGroupLinks.__init__
+      ~ProtectionGroupLinks.dict
       ~ProtectionGroupLinks.from_dictionary
+      ~ProtectionGroupLinks.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ProtectionGroupLinks.AddBucketProtectionGroup
+      ~ProtectionGroupLinks.DeleteBucketProtectionGroup
+      ~ProtectionGroupLinks.ListBackupProtectionGroups
+      ~ProtectionGroupLinks.ReadOrganizationalUnit
+      ~ProtectionGroupLinks.ReadPolicyDefinition
+      ~ProtectionGroupLinks.Self
+      ~ProtectionGroupLinks.UpdateProtectionGroup
    
    

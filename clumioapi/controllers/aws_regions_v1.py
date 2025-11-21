@@ -3,80 +3,124 @@
 #
 
 import json
-from typing import Any, Optional, Union
+import re
+from typing import Any, Iterator, Optional, Union
+import urllib.parse
 
 from clumioapi import api_helper
 from clumioapi import configuration
 from clumioapi import sdk_version
 from clumioapi.controllers import base_controller
+from clumioapi.controllers.types import aws_s3_buckets_v1_bucket_matcher_types
 from clumioapi.exceptions import clumio_exception
 from clumioapi.models import list_aws_regions_response
 import requests
+import retrying
 
 
-class AwsRegionsV1Controller(base_controller.BaseController):
+class AwsRegionsV1Controller:
     """A Controller to access Endpoints for aws-regions resource."""
 
-    def __init__(self, config: configuration.Configuration) -> None:
-        super().__init__(config)
-        self.config = config
+    def __init__(self, controller: base_controller.BaseController) -> None:
+        self.controller = controller
+        self.client = self.controller.client
         self.headers = {
             'accept': 'application/api.clumio.aws-regions=v1+json',
-            'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
+            'x-clumio-organizationalunit-context': self.controller.config.organizational_unit_context,
             'x-clumio-api-client': 'clumio-python-sdk',
             'x-clumio-sdk-version': f'clumio-python-sdk:{sdk_version}',
         }
-        if config.custom_headers != None:
-            self.headers.update(config.custom_headers)
+        if self.controller.config.custom_headers != None:
+            self.headers.update(self.controller.config.custom_headers)
 
     def list_connection_aws_regions(
         self, limit: int | None = None, start: str | None = None, **kwargs
-    ) -> Union[
-        list_aws_regions_response.ListAWSRegionsResponse,
-        tuple[requests.Response, Optional[list_aws_regions_response.ListAWSRegionsResponse]],
-    ]:
+    ) -> list_aws_regions_response.ListAWSRegionsResponse:
         """Returns a list of valid regions for creating AWS connections
 
         Args:
             limit:
-                Limits the size of the response on each page to the specified number of items.
+                Limits the size of the items returned in the response.
             start:
                 Sets the page token used to browse the collection. Leave this parameter empty to
                 get the first page.
                 Other pages can be traversed using HATEOAS links.
-        Returns:
-            requests.Response: Raw Response from the API if config.raw_response is set to True.
-            list_aws_regions_response.ListAWSRegionsResponse: Response from the API.
-        Raises:
-            ClumioException: An error occured while executing the API.
-                This exception includes the HTTP response code, an error
-                message, and the HTTP body that was received in the request.
         """
+
+        def get_instance_from_response(resp: requests.Response) -> Any:
+            return list_aws_regions_response.ListAWSRegionsResponse.from_response(resp)
 
         # Prepare query URL
         _url_path = '/connections/aws/regions'
 
-        _query_parameters: dict[str, Any] = {}
-        _query_parameters = {'limit': limit, 'start': start}
+        if start:
+            _url_path = f'{_url_path}?start={start}'
 
-        raw_response = self.config.raw_response
+        _query_parameters: dict[str, Any] = {}
+        _query_parameters = {
+            'limit': limit,
+        }
+
+        resp_instance: list_aws_regions_response.ListAWSRegionsResponse
         # Execute request
+        resp: requests.Response
         try:
-            resp: requests.Response = self.client.get(
+            resp = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
                 raw_response=True,
                 **kwargs,
             )
-        except requests.exceptions.HTTPError as http_error:
-            if raw_response:
-                return http_error.response, None
-            raise clumio_exception.ClumioException(
-                'Error occurred while executing list_connection_aws_regions', error=http_error
-            )
+        except requests.exceptions.HTTPError as e:
+            resp = e.response
 
-        obj = list_aws_regions_response.ListAWSRegionsResponse.from_dictionary(resp.json())
-        if raw_response:
-            return resp, obj
-        return obj
+        if not resp.ok:
+            error_str = (
+                f'list_connection_aws_regions for url {urllib.parse.unquote(resp.url)} failed.'
+            )
+            raise clumio_exception.ClumioException(error_str, resp=resp)
+
+        resp_instance = get_instance_from_response(resp)
+
+        return resp_instance
+
+
+class AwsRegionsV1ControllerPaginator:
+    """A Controller to access Endpoints for aws-regions resource with pagination."""
+
+    def __init__(self, controller: base_controller.BaseController) -> None:
+        self.controller = controller
+
+    @retrying.retry(
+        retry_on_exception=requests.exceptions.ConnectionError,
+        wait_exponential_multiplier=2000,
+        stop_max_attempt_number=5,
+    )
+    def list_connection_aws_regions(
+        self, limit: int | None = None, start: str | None = None, **kwargs
+    ) -> Iterator[list_aws_regions_response.ListAWSRegionsResponse]:
+        """Returns a list of valid regions for creating AWS connections
+
+        Args:
+            limit:
+                Limits the size of the items returned in the response.
+            start:
+                Sets the page token used to browse the collection. Leave this parameter empty to
+                get the first page.
+                Other pages can be traversed using HATEOAS links.
+        """
+        controller = AwsRegionsV1Controller(self.controller)
+        while True:
+            response = controller.list_connection_aws_regions(limit=limit, start=start, **kwargs)
+            yield response
+            next_link = response.Links.Next  # type: ignore
+            if not next_link:
+                break
+            next_link = next_link.Href
+            if match := re.search(r'start=([^&]+)', next_link):  # type: ignore
+                start = match.group(1)
+            else:
+                raise clumio_exception.ClumioException(
+                    'Next link is malformed. Please contact clumio support.'
+                )

@@ -17,10 +17,24 @@ clumioapi.models.list\_connection\_groups\_response.ListConnectionGroupsResponse
    .. autosummary::
    
       ~ListConnectionGroupsResponse.__init__
+      ~ListConnectionGroupsResponse.dict
       ~ListConnectionGroupsResponse.from_dictionary
+      ~ListConnectionGroupsResponse.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ListConnectionGroupsResponse.CurrentCount
+      ~ListConnectionGroupsResponse.Embedded
+      ~ListConnectionGroupsResponse.FilterApplied
+      ~ListConnectionGroupsResponse.Limit
+      ~ListConnectionGroupsResponse.Links
+      ~ListConnectionGroupsResponse.Start
+      ~ListConnectionGroupsResponse.raw_response
    
    

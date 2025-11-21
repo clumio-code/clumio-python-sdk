@@ -17,10 +17,18 @@ clumioapi.models.rule\_priority.RulePriority
    .. autosummary::
    
       ~RulePriority.__init__
+      ~RulePriority.dict
       ~RulePriority.from_dictionary
+      ~RulePriority.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~RulePriority.BeforeRuleId
    
    

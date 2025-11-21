@@ -17,10 +17,19 @@ clumioapi.models.rule\_provision.RuleProvision
    .. autosummary::
    
       ~RuleProvision.__init__
+      ~RuleProvision.dict
       ~RuleProvision.from_dictionary
+      ~RuleProvision.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~RuleProvision.OrganizationalUnitIds
+      ~RuleProvision.RoleId
    
    

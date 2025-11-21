@@ -27,6 +27,5 @@ clumioapi.controllers.base\_controller.BaseController
    .. autosummary::
    
       ~BaseController.client
-      ~BaseController.global_headers
    
    

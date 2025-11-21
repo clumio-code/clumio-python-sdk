@@ -1,12 +1,16 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='EmailDownloadDataAccessObject')
 
 
+@dataclasses.dataclass
 class EmailDownloadDataAccessObject:
     """Implementation of the 'EmailDownloadDataAccessObject' model.
 
@@ -15,36 +19,45 @@ class EmailDownloadDataAccessObject:
     has avalue of `null`.
 
     Attributes:
-        email_message:
+        EmailMessage:
             The optional message that was sent as part of the email.
-        retrieved_by:
+
+        RetrievedBy:
             The email address of the user who initiated the file level restore.
-        retrieved_for:
+
+        RetrievedFor:
             The email address of the user who the file was retrieved for.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'email_message': 'email_message',
-        'retrieved_by': 'retrieved_by',
-        'retrieved_for': 'retrieved_for',
-    }
+    EmailMessage: str | None = None
+    RetrievedBy: str | None = None
+    RetrievedFor: str | None = None
 
-    def __init__(
-        self,
-        email_message: str | None = None,
-        retrieved_by: str | None = None,
-        retrieved_for: str | None = None,
-    ) -> None:
-        """Constructor for the EmailDownloadDataAccessObject class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.email_message: str | None = email_message
-        self.retrieved_by: str | None = retrieved_by
-        self.retrieved_for: str | None = retrieved_for
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -55,8 +68,8 @@ class EmailDownloadDataAccessObject:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('email_message', None)
         val_email_message = val
@@ -73,3 +86,19 @@ class EmailDownloadDataAccessObject:
             val_retrieved_by,
             val_retrieved_for,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

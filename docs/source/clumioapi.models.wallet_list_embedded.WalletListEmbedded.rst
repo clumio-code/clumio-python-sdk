@@ -17,10 +17,18 @@ clumioapi.models.wallet\_list\_embedded.WalletListEmbedded
    .. autosummary::
    
       ~WalletListEmbedded.__init__
+      ~WalletListEmbedded.dict
       ~WalletListEmbedded.from_dictionary
+      ~WalletListEmbedded.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~WalletListEmbedded.Items
    
    

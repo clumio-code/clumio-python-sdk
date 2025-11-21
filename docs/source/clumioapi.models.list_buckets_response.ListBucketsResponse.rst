@@ -17,10 +17,25 @@ clumioapi.models.list\_buckets\_response.ListBucketsResponse
    .. autosummary::
    
       ~ListBucketsResponse.__init__
+      ~ListBucketsResponse.dict
       ~ListBucketsResponse.from_dictionary
+      ~ListBucketsResponse.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ListBucketsResponse.CurrentCount
+      ~ListBucketsResponse.Embedded
+      ~ListBucketsResponse.Limit
+      ~ListBucketsResponse.Links
+      ~ListBucketsResponse.Start
+      ~ListBucketsResponse.TotalCount
+      ~ListBucketsResponse.TotalPagesCount
+      ~ListBucketsResponse.raw_response
    
    

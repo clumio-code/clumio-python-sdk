@@ -1,282 +1,224 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='S3BucketSizeRes')
 
 
+@dataclasses.dataclass
 class S3BucketSizeRes:
     """Implementation of the 'S3BucketSizeRes' model.
 
     The size breakdown in bytes with timestamps of a bucket per storage class.
 
     Attributes:
-        deep_archive_object_overhead:
-            Size of Deep Archive Object Overhead in bytes.
-        deep_archive_object_overhead_retrieved_time:
-            Timestamp when CloudWatch reported the Deep Archive Object Overhead size.
-        deep_archive_s3_object_overhead:
-            Size of Deep Archive S3 Object Overhead in bytes.
-        deep_archive_s3_object_overhead_retrieved_time:
-            Timestamp when CloudWatch reported the Deep Archive S3 Object Overhead size.
-        deep_archive_staging_storage:
-            Size of Deep Archive Staging Storage objects in bytes.
-        deep_archive_staging_storage_retrieved_time:
-            Timestamp when CloudWatch reported the Deep Archive Staging Storage objects
+        DeepArchiveObjectOverhead:
+            Size of deep archive object overhead in bytes.
+
+        DeepArchiveObjectOverheadRetrievedTime:
+            Timestamp when cloudwatch reported the deep archive object overhead size.
+
+        DeepArchiveS3ObjectOverhead:
+            Size of deep archive s3 object overhead in bytes.
+
+        DeepArchiveS3ObjectOverheadRetrievedTime:
+            Timestamp when cloudwatch reported the deep archive s3 object overhead size.
+
+        DeepArchiveStagingStorage:
+            Size of deep archive staging storage objects in bytes.
+
+        DeepArchiveStagingStorageRetrievedTime:
+            Timestamp when cloudwatch reported the deep archive staging storage objects
             size.
-        deep_archive_storage:
-            Size of Deep Archive Storage objects in bytes.
-        deep_archive_storage_retrieved_time:
-            Timestamp when CloudWatch reported the Deep Archive Storage objects size.
-        glacier_instant_retrieval_storage:
-            Size of Glacier Instant Retrieval Storage objects in bytes.
-        glacier_instant_retrieval_storage_retrieved_time:
-            Timestamp when CloudWatch reported the Glacier Instant Retrieval Storage objects
+
+        DeepArchiveStorage:
+            Size of deep archive storage objects in bytes.
+
+        DeepArchiveStorageRetrievedTime:
+            Timestamp when cloudwatch reported the deep archive storage objects size.
+
+        GlacierInstantRetrievalStorage:
+            Size of glacier instant retrieval storage objects in bytes.
+
+        GlacierInstantRetrievalStorageRetrievedTime:
+            Timestamp when cloudwatch reported the glacier instant retrieval storage objects
             size.
-        glacier_object_overhead:
-            Size of Glacier Object Overhead in bytes.
-        glacier_object_overhead_retrieved_time:
-            Timestamp when CloudWatch reported the Glacier Object Overhead size.
-        glacier_s3_object_overhead:
-            Size of Glacier S3 Object Overhead in bytes.
-        glacier_s3_object_overhead_retrieved_time:
-            Timestamp when CloudWatch reported the Glacier S3 Object Overhead size.
-        glacier_staging_storage:
-            Size of Glacier Staging Storage objects in bytes.
-        glacier_staging_storage_retrieved_time:
-            Timestamp when CloudWatch reported the Glacier Staging Storage objects size.
-        glacier_storage:
-            Size of Glacier Storage objects in bytes.
-        glacier_storage_retrieved_time:
-            Timestamp when CloudWatch reported the Glacier Storage objects size.
-        intelligent_tiering_aa_storage:
-            Size of Intelligent-Tiering AA Storage objects in bytes.
-        intelligent_tiering_aa_storage_retrieved_time:
-            Timestamp when CloudWatch reported the Intelligent-Tiering AA Storage objects
+
+        GlacierObjectOverhead:
+            Size of glacier object overhead in bytes.
+
+        GlacierObjectOverheadRetrievedTime:
+            Timestamp when cloudwatch reported the glacier object overhead size.
+
+        GlacierS3ObjectOverhead:
+            Size of glacier s3 object overhead in bytes.
+
+        GlacierS3ObjectOverheadRetrievedTime:
+            Timestamp when cloudwatch reported the glacier s3 object overhead size.
+
+        GlacierStagingStorage:
+            Size of glacier staging storage objects in bytes.
+
+        GlacierStagingStorageRetrievedTime:
+            Timestamp when cloudwatch reported the glacier staging storage objects size.
+
+        GlacierStorage:
+            Size of glacier storage objects in bytes.
+
+        GlacierStorageRetrievedTime:
+            Timestamp when cloudwatch reported the glacier storage objects size.
+
+        IntelligentTieringAaStorage:
+            Size of intelligent-tiering aa storage objects in bytes.
+
+        IntelligentTieringAaStorageRetrievedTime:
+            Timestamp when cloudwatch reported the intelligent-tiering aa storage objects
             size.
-        intelligent_tiering_aia_storage:
-            Size of Intelligent-Tiering AIA Storage objects in bytes.
-        intelligent_tiering_aia_storage_retrieved_time:
-            Timestamp when CloudWatch reported the Intelligent-Tiering AIA Storage objects
+
+        IntelligentTieringAiaStorage:
+            Size of intelligent-tiering aia storage objects in bytes.
+
+        IntelligentTieringAiaStorageRetrievedTime:
+            Timestamp when cloudwatch reported the intelligent-tiering aia storage objects
             size.
-        intelligent_tiering_daa_storage:
-            Size of Intelligent-Tiering DAA Storage objects in bytes.
-        intelligent_tiering_daa_storage_retrieved_time:
-            Timestamp when CloudWatch reported the Intelligent-Tiering DAA Storage objects
+
+        IntelligentTieringDaaStorage:
+            Size of intelligent-tiering daa storage objects in bytes.
+
+        IntelligentTieringDaaStorageRetrievedTime:
+            Timestamp when cloudwatch reported the intelligent-tiering daa storage objects
             size.
-        intelligent_tiering_fa_storage:
-            Size of Intelligent-Tiering FA Storage objects in bytes.
-        intelligent_tiering_fa_storage_retrieved_time:
-            Timestamp when CloudWatch reported the Intelligent-Tiering FA Storage objects
+
+        IntelligentTieringFaStorage:
+            Size of intelligent-tiering fa storage objects in bytes.
+
+        IntelligentTieringFaStorageRetrievedTime:
+            Timestamp when cloudwatch reported the intelligent-tiering fa storage objects
             size.
-        intelligent_tiering_ia_storage:
-            Size of Intelligent-Tiering IA Storage objects in bytes.
-        intelligent_tiering_ia_storage_retrieved_time:
-            Timestamp when CloudWatch reported the Intelligent-Tiering IA Storage objects
+
+        IntelligentTieringIaStorage:
+            Size of intelligent-tiering ia storage objects in bytes.
+
+        IntelligentTieringIaStorageRetrievedTime:
+            Timestamp when cloudwatch reported the intelligent-tiering ia storage objects
             size.
-        one_zone_ia_size_overhead:
-            Size of OneZone IA Overhead in bytes.
-        one_zone_ia_size_overhead_retrieved_time:
-            Timestamp when CloudWatch reported the OneZone IA Overhead size.
-        one_zone_ia_storage:
-            Size of OneZone IA Storage objects in bytes.
-        one_zone_ia_storage_retrieved_time:
-            Timestamp when CloudWatch reported the OneZone IA Storage objects size.
-        reduced_redundancy_storage:
-            Size of Reduced Redundancy Storage objects in bytes.
-        reduced_redundancy_storage_retrieved_time:
-            Timestamp when CloudWatch reported the Reduced Redundancy Storage objects size.
-        standard_ia_object_overhead:
-            Size of Standard IA Object Overhead in bytes.
-        standard_ia_object_overhead_retrieved_time:
-            Timestamp when CloudWatch reported the Standard IA Object Overhead size.
-        standard_ia_size_overhead:
-            Size of Standard IA Overhead in bytes.
-        standard_ia_size_overhead_retrieved_time:
-            Timestamp when CloudWatch reported the Standard IA Overhead size.
-        standard_ia_storage:
-            Size of Standard IA Storage objects in bytes.
-        standard_ia_storage_retrieved_time:
-            Timestamp when CloudWatch reported the Standard IA Storage objects size.
-        standard_storage:
-            Size of Standard Storage objects in bytes.
-        standard_storage_retrieved_time:
-            Timestamp when CloudWatch reported the Standard Storage objects size.
+
+        OneZoneIaSizeOverhead:
+            Size of onezone ia overhead in bytes.
+
+        OneZoneIaSizeOverheadRetrievedTime:
+            Timestamp when cloudwatch reported the onezone ia overhead size.
+
+        OneZoneIaStorage:
+            Size of onezone ia storage objects in bytes.
+
+        OneZoneIaStorageRetrievedTime:
+            Timestamp when cloudwatch reported the onezone ia storage objects size.
+
+        ReducedRedundancyStorage:
+            Size of reduced redundancy storage objects in bytes.
+
+        ReducedRedundancyStorageRetrievedTime:
+            Timestamp when cloudwatch reported the reduced redundancy storage objects size.
+
+        StandardIaObjectOverhead:
+            Size of standard ia object overhead in bytes.
+
+        StandardIaObjectOverheadRetrievedTime:
+            Timestamp when cloudwatch reported the standard ia object overhead size.
+
+        StandardIaSizeOverhead:
+            Size of standard ia overhead in bytes.
+
+        StandardIaSizeOverheadRetrievedTime:
+            Timestamp when cloudwatch reported the standard ia overhead size.
+
+        StandardIaStorage:
+            Size of standard ia storage objects in bytes.
+
+        StandardIaStorageRetrievedTime:
+            Timestamp when cloudwatch reported the standard ia storage objects size.
+
+        StandardStorage:
+            Size of standard storage objects in bytes.
+
+        StandardStorageRetrievedTime:
+            Timestamp when cloudwatch reported the standard storage objects size.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'deep_archive_object_overhead': 'deep_archive_object_overhead',
-        'deep_archive_object_overhead_retrieved_time': 'deep_archive_object_overhead_retrieved_time',
-        'deep_archive_s3_object_overhead': 'deep_archive_s3_object_overhead',
-        'deep_archive_s3_object_overhead_retrieved_time': 'deep_archive_s3_object_overhead_retrieved_time',
-        'deep_archive_staging_storage': 'deep_archive_staging_storage',
-        'deep_archive_staging_storage_retrieved_time': 'deep_archive_staging_storage_retrieved_time',
-        'deep_archive_storage': 'deep_archive_storage',
-        'deep_archive_storage_retrieved_time': 'deep_archive_storage_retrieved_time',
-        'glacier_instant_retrieval_storage': 'glacier_instant_retrieval_storage',
-        'glacier_instant_retrieval_storage_retrieved_time': 'glacier_instant_retrieval_storage_retrieved_time',
-        'glacier_object_overhead': 'glacier_object_overhead',
-        'glacier_object_overhead_retrieved_time': 'glacier_object_overhead_retrieved_time',
-        'glacier_s3_object_overhead': 'glacier_s3_object_overhead',
-        'glacier_s3_object_overhead_retrieved_time': 'glacier_s3_object_overhead_retrieved_time',
-        'glacier_staging_storage': 'glacier_staging_storage',
-        'glacier_staging_storage_retrieved_time': 'glacier_staging_storage_retrieved_time',
-        'glacier_storage': 'glacier_storage',
-        'glacier_storage_retrieved_time': 'glacier_storage_retrieved_time',
-        'intelligent_tiering_aa_storage': 'intelligent_tiering_aa_storage',
-        'intelligent_tiering_aa_storage_retrieved_time': 'intelligent_tiering_aa_storage_retrieved_time',
-        'intelligent_tiering_aia_storage': 'intelligent_tiering_aia_storage',
-        'intelligent_tiering_aia_storage_retrieved_time': 'intelligent_tiering_aia_storage_retrieved_time',
-        'intelligent_tiering_daa_storage': 'intelligent_tiering_daa_storage',
-        'intelligent_tiering_daa_storage_retrieved_time': 'intelligent_tiering_daa_storage_retrieved_time',
-        'intelligent_tiering_fa_storage': 'intelligent_tiering_fa_storage',
-        'intelligent_tiering_fa_storage_retrieved_time': 'intelligent_tiering_fa_storage_retrieved_time',
-        'intelligent_tiering_ia_storage': 'intelligent_tiering_ia_storage',
-        'intelligent_tiering_ia_storage_retrieved_time': 'intelligent_tiering_ia_storage_retrieved_time',
-        'one_zone_ia_size_overhead': 'one_zone_ia_size_overhead',
-        'one_zone_ia_size_overhead_retrieved_time': 'one_zone_ia_size_overhead_retrieved_time',
-        'one_zone_ia_storage': 'one_zone_ia_storage',
-        'one_zone_ia_storage_retrieved_time': 'one_zone_ia_storage_retrieved_time',
-        'reduced_redundancy_storage': 'reduced_redundancy_storage',
-        'reduced_redundancy_storage_retrieved_time': 'reduced_redundancy_storage_retrieved_time',
-        'standard_ia_object_overhead': 'standard_ia_object_overhead',
-        'standard_ia_object_overhead_retrieved_time': 'standard_ia_object_overhead_retrieved_time',
-        'standard_ia_size_overhead': 'standard_ia_size_overhead',
-        'standard_ia_size_overhead_retrieved_time': 'standard_ia_size_overhead_retrieved_time',
-        'standard_ia_storage': 'standard_ia_storage',
-        'standard_ia_storage_retrieved_time': 'standard_ia_storage_retrieved_time',
-        'standard_storage': 'standard_storage',
-        'standard_storage_retrieved_time': 'standard_storage_retrieved_time',
-    }
+    DeepArchiveObjectOverhead: int | None = None
+    DeepArchiveObjectOverheadRetrievedTime: str | None = None
+    DeepArchiveS3ObjectOverhead: int | None = None
+    DeepArchiveS3ObjectOverheadRetrievedTime: str | None = None
+    DeepArchiveStagingStorage: int | None = None
+    DeepArchiveStagingStorageRetrievedTime: str | None = None
+    DeepArchiveStorage: int | None = None
+    DeepArchiveStorageRetrievedTime: str | None = None
+    GlacierInstantRetrievalStorage: int | None = None
+    GlacierInstantRetrievalStorageRetrievedTime: str | None = None
+    GlacierObjectOverhead: int | None = None
+    GlacierObjectOverheadRetrievedTime: str | None = None
+    GlacierS3ObjectOverhead: int | None = None
+    GlacierS3ObjectOverheadRetrievedTime: str | None = None
+    GlacierStagingStorage: int | None = None
+    GlacierStagingStorageRetrievedTime: str | None = None
+    GlacierStorage: int | None = None
+    GlacierStorageRetrievedTime: str | None = None
+    IntelligentTieringAaStorage: int | None = None
+    IntelligentTieringAaStorageRetrievedTime: str | None = None
+    IntelligentTieringAiaStorage: int | None = None
+    IntelligentTieringAiaStorageRetrievedTime: str | None = None
+    IntelligentTieringDaaStorage: int | None = None
+    IntelligentTieringDaaStorageRetrievedTime: str | None = None
+    IntelligentTieringFaStorage: int | None = None
+    IntelligentTieringFaStorageRetrievedTime: str | None = None
+    IntelligentTieringIaStorage: int | None = None
+    IntelligentTieringIaStorageRetrievedTime: str | None = None
+    OneZoneIaSizeOverhead: int | None = None
+    OneZoneIaSizeOverheadRetrievedTime: str | None = None
+    OneZoneIaStorage: int | None = None
+    OneZoneIaStorageRetrievedTime: str | None = None
+    ReducedRedundancyStorage: int | None = None
+    ReducedRedundancyStorageRetrievedTime: str | None = None
+    StandardIaObjectOverhead: int | None = None
+    StandardIaObjectOverheadRetrievedTime: str | None = None
+    StandardIaSizeOverhead: int | None = None
+    StandardIaSizeOverheadRetrievedTime: str | None = None
+    StandardIaStorage: int | None = None
+    StandardIaStorageRetrievedTime: str | None = None
+    StandardStorage: int | None = None
+    StandardStorageRetrievedTime: str | None = None
 
-    def __init__(
-        self,
-        deep_archive_object_overhead: int | None = None,
-        deep_archive_object_overhead_retrieved_time: str | None = None,
-        deep_archive_s3_object_overhead: int | None = None,
-        deep_archive_s3_object_overhead_retrieved_time: str | None = None,
-        deep_archive_staging_storage: int | None = None,
-        deep_archive_staging_storage_retrieved_time: str | None = None,
-        deep_archive_storage: int | None = None,
-        deep_archive_storage_retrieved_time: str | None = None,
-        glacier_instant_retrieval_storage: int | None = None,
-        glacier_instant_retrieval_storage_retrieved_time: str | None = None,
-        glacier_object_overhead: int | None = None,
-        glacier_object_overhead_retrieved_time: str | None = None,
-        glacier_s3_object_overhead: int | None = None,
-        glacier_s3_object_overhead_retrieved_time: str | None = None,
-        glacier_staging_storage: int | None = None,
-        glacier_staging_storage_retrieved_time: str | None = None,
-        glacier_storage: int | None = None,
-        glacier_storage_retrieved_time: str | None = None,
-        intelligent_tiering_aa_storage: int | None = None,
-        intelligent_tiering_aa_storage_retrieved_time: str | None = None,
-        intelligent_tiering_aia_storage: int | None = None,
-        intelligent_tiering_aia_storage_retrieved_time: str | None = None,
-        intelligent_tiering_daa_storage: int | None = None,
-        intelligent_tiering_daa_storage_retrieved_time: str | None = None,
-        intelligent_tiering_fa_storage: int | None = None,
-        intelligent_tiering_fa_storage_retrieved_time: str | None = None,
-        intelligent_tiering_ia_storage: int | None = None,
-        intelligent_tiering_ia_storage_retrieved_time: str | None = None,
-        one_zone_ia_size_overhead: int | None = None,
-        one_zone_ia_size_overhead_retrieved_time: str | None = None,
-        one_zone_ia_storage: int | None = None,
-        one_zone_ia_storage_retrieved_time: str | None = None,
-        reduced_redundancy_storage: int | None = None,
-        reduced_redundancy_storage_retrieved_time: str | None = None,
-        standard_ia_object_overhead: int | None = None,
-        standard_ia_object_overhead_retrieved_time: str | None = None,
-        standard_ia_size_overhead: int | None = None,
-        standard_ia_size_overhead_retrieved_time: str | None = None,
-        standard_ia_storage: int | None = None,
-        standard_ia_storage_retrieved_time: str | None = None,
-        standard_storage: int | None = None,
-        standard_storage_retrieved_time: str | None = None,
-    ) -> None:
-        """Constructor for the S3BucketSizeRes class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.deep_archive_object_overhead: int | None = deep_archive_object_overhead
-        self.deep_archive_object_overhead_retrieved_time: str | None = (
-            deep_archive_object_overhead_retrieved_time
-        )
-        self.deep_archive_s3_object_overhead: int | None = deep_archive_s3_object_overhead
-        self.deep_archive_s3_object_overhead_retrieved_time: str | None = (
-            deep_archive_s3_object_overhead_retrieved_time
-        )
-        self.deep_archive_staging_storage: int | None = deep_archive_staging_storage
-        self.deep_archive_staging_storage_retrieved_time: str | None = (
-            deep_archive_staging_storage_retrieved_time
-        )
-        self.deep_archive_storage: int | None = deep_archive_storage
-        self.deep_archive_storage_retrieved_time: str | None = deep_archive_storage_retrieved_time
-        self.glacier_instant_retrieval_storage: int | None = glacier_instant_retrieval_storage
-        self.glacier_instant_retrieval_storage_retrieved_time: str | None = (
-            glacier_instant_retrieval_storage_retrieved_time
-        )
-        self.glacier_object_overhead: int | None = glacier_object_overhead
-        self.glacier_object_overhead_retrieved_time: str | None = (
-            glacier_object_overhead_retrieved_time
-        )
-        self.glacier_s3_object_overhead: int | None = glacier_s3_object_overhead
-        self.glacier_s3_object_overhead_retrieved_time: str | None = (
-            glacier_s3_object_overhead_retrieved_time
-        )
-        self.glacier_staging_storage: int | None = glacier_staging_storage
-        self.glacier_staging_storage_retrieved_time: str | None = (
-            glacier_staging_storage_retrieved_time
-        )
-        self.glacier_storage: int | None = glacier_storage
-        self.glacier_storage_retrieved_time: str | None = glacier_storage_retrieved_time
-        self.intelligent_tiering_aa_storage: int | None = intelligent_tiering_aa_storage
-        self.intelligent_tiering_aa_storage_retrieved_time: str | None = (
-            intelligent_tiering_aa_storage_retrieved_time
-        )
-        self.intelligent_tiering_aia_storage: int | None = intelligent_tiering_aia_storage
-        self.intelligent_tiering_aia_storage_retrieved_time: str | None = (
-            intelligent_tiering_aia_storage_retrieved_time
-        )
-        self.intelligent_tiering_daa_storage: int | None = intelligent_tiering_daa_storage
-        self.intelligent_tiering_daa_storage_retrieved_time: str | None = (
-            intelligent_tiering_daa_storage_retrieved_time
-        )
-        self.intelligent_tiering_fa_storage: int | None = intelligent_tiering_fa_storage
-        self.intelligent_tiering_fa_storage_retrieved_time: str | None = (
-            intelligent_tiering_fa_storage_retrieved_time
-        )
-        self.intelligent_tiering_ia_storage: int | None = intelligent_tiering_ia_storage
-        self.intelligent_tiering_ia_storage_retrieved_time: str | None = (
-            intelligent_tiering_ia_storage_retrieved_time
-        )
-        self.one_zone_ia_size_overhead: int | None = one_zone_ia_size_overhead
-        self.one_zone_ia_size_overhead_retrieved_time: str | None = (
-            one_zone_ia_size_overhead_retrieved_time
-        )
-        self.one_zone_ia_storage: int | None = one_zone_ia_storage
-        self.one_zone_ia_storage_retrieved_time: str | None = one_zone_ia_storage_retrieved_time
-        self.reduced_redundancy_storage: int | None = reduced_redundancy_storage
-        self.reduced_redundancy_storage_retrieved_time: str | None = (
-            reduced_redundancy_storage_retrieved_time
-        )
-        self.standard_ia_object_overhead: int | None = standard_ia_object_overhead
-        self.standard_ia_object_overhead_retrieved_time: str | None = (
-            standard_ia_object_overhead_retrieved_time
-        )
-        self.standard_ia_size_overhead: int | None = standard_ia_size_overhead
-        self.standard_ia_size_overhead_retrieved_time: str | None = (
-            standard_ia_size_overhead_retrieved_time
-        )
-        self.standard_ia_storage: int | None = standard_ia_storage
-        self.standard_ia_storage_retrieved_time: str | None = standard_ia_storage_retrieved_time
-        self.standard_storage: int | None = standard_storage
-        self.standard_storage_retrieved_time: str | None = standard_storage_retrieved_time
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -287,8 +229,8 @@ class S3BucketSizeRes:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('deep_archive_object_overhead', None)
         val_deep_archive_object_overhead = val
@@ -461,3 +403,19 @@ class S3BucketSizeRes:
             val_standard_storage,
             val_standard_storage_retrieved_time,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

@@ -23,11 +23,4 @@ clumioapi.controllers.post\_process\_kms\_v1.PostProcessKmsV1Controller
 
    
    
-   .. rubric:: Attributes
-
-   .. autosummary::
-   
-      ~PostProcessKmsV1Controller.client
-      ~PostProcessKmsV1Controller.global_headers
-   
    

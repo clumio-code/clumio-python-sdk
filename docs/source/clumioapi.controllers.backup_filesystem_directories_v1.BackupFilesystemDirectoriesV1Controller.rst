@@ -23,11 +23,4 @@ clumioapi.controllers.backup\_filesystem\_directories\_v1.BackupFilesystemDirect
 
    
    
-   .. rubric:: Attributes
-
-   .. autosummary::
-   
-      ~BackupFilesystemDirectoriesV1Controller.client
-      ~BackupFilesystemDirectoriesV1Controller.global_headers
-   
    

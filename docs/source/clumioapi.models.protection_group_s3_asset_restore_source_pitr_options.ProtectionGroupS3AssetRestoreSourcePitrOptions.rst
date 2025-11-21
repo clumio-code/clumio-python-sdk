@@ -17,10 +17,20 @@ clumioapi.models.protection\_group\_s3\_asset\_restore\_source\_pitr\_options.Pr
    .. autosummary::
    
       ~ProtectionGroupS3AssetRestoreSourcePitrOptions.__init__
+      ~ProtectionGroupS3AssetRestoreSourcePitrOptions.dict
       ~ProtectionGroupS3AssetRestoreSourcePitrOptions.from_dictionary
+      ~ProtectionGroupS3AssetRestoreSourcePitrOptions.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ProtectionGroupS3AssetRestoreSourcePitrOptions.ProtectionGroupS3AssetId
+      ~ProtectionGroupS3AssetRestoreSourcePitrOptions.RestoreEndTimestamp
+      ~ProtectionGroupS3AssetRestoreSourcePitrOptions.RestoreStartTimestamp
    
    

@@ -17,10 +17,23 @@ clumioapi.models.resources.Resources
    .. autosummary::
    
       ~Resources.__init__
+      ~Resources.dict
       ~Resources.from_dictionary
+      ~Resources.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~Resources.ClumioEventPubArn
+      ~Resources.ClumioIamRoleArn
+      ~Resources.ClumioSupportRoleArn
+      ~Resources.EventRules
+      ~Resources.ServiceInstanceProfiles
+      ~Resources.ServiceRoles
    
    

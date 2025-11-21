@@ -24,11 +24,4 @@ clumioapi.controllers.aws\_ec2\_instances\_v1.AwsEc2InstancesV1Controller
 
    
    
-   .. rubric:: Attributes
-
-   .. autosummary::
-   
-      ~AwsEc2InstancesV1Controller.client
-      ~AwsEc2InstancesV1Controller.global_headers
-   
    

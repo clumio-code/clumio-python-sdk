@@ -1,71 +1,75 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import \
     s3_instant_access_endpoint_embedded as s3_instant_access_endpoint_embedded_
 from clumioapi.models import s3_instant_access_endpoint_links as s3_instant_access_endpoint_links_
+import requests
 
 T = TypeVar('T', bound='ReadS3InstantAccessEndpointUriResponse')
 
 
+@dataclasses.dataclass
 class ReadS3InstantAccessEndpointUriResponse:
     """Implementation of the 'ReadS3InstantAccessEndpointUriResponse' model.
 
     Attributes:
-        embedded:
+        Embedded:
             Embedded responses related to the resource.
-        links:
-            URLs to pages related to the resource.
-        bucket_alias:
+
+        Links:
+            Urls to pages related to the resource.
+
+        BucketAlias:
             An alias of the endpoint bucket.
-        cloudfront_distribution_origin_domain:
-            An Origin Domain form of the endpoint URI for CloudFront distribution.
-        endpoint_uri:
-            The URI of the endpoint.
-        region:
-            The AWS region the endpoint is located in.
+
+        CloudfrontDistributionOriginDomain:
+            An origin domain form of the endpoint uri for cloudfront distribution.
+
+        EndpointUri:
+            The uri of the endpoint.
+
+        Region:
+            The aws region the endpoint is located in.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'embedded': '_embedded',
-        'links': '_links',
-        'bucket_alias': 'bucket_alias',
-        'cloudfront_distribution_origin_domain': 'cloudfront_distribution_origin_domain',
-        'endpoint_uri': 'endpoint_uri',
-        'region': 'region',
-    }
+    Embedded: s3_instant_access_endpoint_embedded_.S3InstantAccessEndpointEmbedded | None = None
+    Links: s3_instant_access_endpoint_links_.S3InstantAccessEndpointLinks | None = None
+    BucketAlias: str | None = None
+    CloudfrontDistributionOriginDomain: str | None = None
+    EndpointUri: str | None = None
+    Region: str | None = None
+    raw_response: Optional[requests.Response] = None
 
-    def __init__(
-        self,
-        embedded: (
-            s3_instant_access_endpoint_embedded_.S3InstantAccessEndpointEmbedded | None
-        ) = None,
-        links: s3_instant_access_endpoint_links_.S3InstantAccessEndpointLinks | None = None,
-        bucket_alias: str | None = None,
-        cloudfront_distribution_origin_domain: str | None = None,
-        endpoint_uri: str | None = None,
-        region: str | None = None,
-    ) -> None:
-        """Constructor for the ReadS3InstantAccessEndpointUriResponse class."""
-
-        # Initialize members of the class
-        self.embedded: (
-            s3_instant_access_endpoint_embedded_.S3InstantAccessEndpointEmbedded | None
-        ) = embedded
-        self.links: s3_instant_access_endpoint_links_.S3InstantAccessEndpointLinks | None = links
-        self.bucket_alias: str | None = bucket_alias
-        self.cloudfront_distribution_origin_domain: str | None = (
-            cloudfront_distribution_origin_domain
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
         )
-        self.endpoint_uri: str | None = endpoint_uri
-        self.region: str | None = region
+
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -76,8 +80,8 @@ class ReadS3InstantAccessEndpointUriResponse:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('_embedded', None)
         val_embedded = (
@@ -112,3 +116,20 @@ class ReadS3InstantAccessEndpointUriResponse:
             val_endpoint_uri,
             val_region,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        model_instance.raw_response = response
+        return model_instance

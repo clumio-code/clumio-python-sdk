@@ -17,10 +17,19 @@ clumioapi.models.s3\_tag.S3Tag
    .. autosummary::
    
       ~S3Tag.__init__
+      ~S3Tag.dict
       ~S3Tag.from_dictionary
+      ~S3Tag.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~S3Tag.Key
+      ~S3Tag.Value
    
    

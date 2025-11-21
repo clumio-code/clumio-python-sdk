@@ -17,10 +17,19 @@ clumioapi.models.email\_download\_data\_access\_option.EmailDownloadDataAccessOp
    .. autosummary::
    
       ~EmailDownloadDataAccessOption.__init__
+      ~EmailDownloadDataAccessOption.dict
       ~EmailDownloadDataAccessOption.from_dictionary
+      ~EmailDownloadDataAccessOption.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~EmailDownloadDataAccessOption.EmailAddress
+      ~EmailDownloadDataAccessOption.Message
    
    

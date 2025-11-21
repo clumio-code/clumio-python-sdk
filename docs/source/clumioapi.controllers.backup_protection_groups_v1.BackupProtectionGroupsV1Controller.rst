@@ -26,11 +26,4 @@ clumioapi.controllers.backup\_protection\_groups\_v1.BackupProtectionGroupsV1Con
 
    
    
-   .. rubric:: Attributes
-
-   .. autosummary::
-   
-      ~BackupProtectionGroupsV1Controller.client
-      ~BackupProtectionGroupsV1Controller.global_headers
-   
    

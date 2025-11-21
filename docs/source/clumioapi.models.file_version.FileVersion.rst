@@ -17,10 +17,24 @@ clumioapi.models.file\_version.FileVersion
    .. autosummary::
    
       ~FileVersion.__init__
+      ~FileVersion.dict
       ~FileVersion.from_dictionary
+      ~FileVersion.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~FileVersion.BackupId
+      ~FileVersion.FilesystemId
+      ~FileVersion.Links
+      ~FileVersion.ModifiedTimestamp
+      ~FileVersion.Path
+      ~FileVersion.Size
+      ~FileVersion.StartTimestamp
    
    

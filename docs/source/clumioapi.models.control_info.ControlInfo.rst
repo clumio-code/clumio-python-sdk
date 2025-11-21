@@ -17,10 +17,22 @@ clumioapi.models.control\_info.ControlInfo
    .. autosummary::
    
       ~ControlInfo.__init__
+      ~ControlInfo.dict
       ~ControlInfo.from_dictionary
+      ~ControlInfo.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ControlInfo.CompliantCount
+      ~ControlInfo.ControlStatus
+      ~ControlInfo.Name
+      ~ControlInfo.NonCompliantCount
+      ~ControlInfo.UnknownCount
    
    

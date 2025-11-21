@@ -1,127 +1,125 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='ProtectionGroupBucketContinuousBackupStats')
 
 
+@dataclasses.dataclass
 class ProtectionGroupBucketContinuousBackupStats:
     """Implementation of the 'ProtectionGroupBucketContinuousBackupStats' model.
 
     ProtectionGroupBucketContinuousBackupStats
 
     Attributes:
-        backup_end_time:
-            The end time for the continuous backup stats in RFC-3339 format.
-        backup_start_time:
-            The start time for the continuous backup stats in RFC-3339 format.
-        deleted_objects_count:
+        BackupEndTime:
+            The end time for the continuous backup stats in rfc-3339 format.
+
+        BackupStartTime:
+            The start time for the continuous backup stats in rfc-3339 format.
+
+        DeletedObjectsCount:
             The number of objects in the continuous backup task successfully deleted.
-        deleted_objects_size:
+
+        DeletedObjectsSize:
             The total size in bytes of objects in the continuous backup task successfully
             deleted.
-        failed_continuous_backups_count:
+
+        FailedContinuousBackupsCount:
             The number of failed continuous backup task executions.
-        failed_objects_count:
+
+        FailedObjectsCount:
             The number of objects in the continuous backup task failed to be backed up.
-        failed_objects_size:
+
+        FailedObjectsSize:
             The total size in bytes of objects in the continuous backup task failed to be
             backed up.
-        filtered_in_count:
+
+        FilteredInCount:
             The number of included objects after the protection group filter.
-        filtered_in_size:
+
+        FilteredInSize:
             The total size in bytes of included objects after the protection group filter.
-        filtered_out_count:
+
+        FilteredOutCount:
             The number of excluded objects after the protection group filter.
-        filtered_out_size:
+
+        FilteredOutSize:
             The total size in bytes of excluded objects after the protection group filter.
-        missing_objects_count:
+
+        MissingObjectsCount:
             The number of objects in the continuous backup task missed to be backed up.
-        missing_objects_size:
+
+        MissingObjectsSize:
             The total size in bytes of objects in the continuous backup task missed to be
             backed up.
-        ongoing_continuous_backups_count:
+
+        OngoingContinuousBackupsCount:
             The number of ongoing continuous backup task executions.
-        successful_continuous_backups_count:
+
+        SuccessfulContinuousBackupsCount:
             The number of successful continuous backup task executions.
-        successful_objects_count:
+
+        SuccessfulObjectsCount:
             The number of objects in the continuous backup task successfully backed up.
-        successful_objects_size:
+
+        SuccessfulObjectsSize:
             The total size in bytes of objects in the continuous backup task successfully
             backed up.
-        total_continuous_backups_count:
+
+        TotalContinuousBackupsCount:
             The number of total continuous backup task executions.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'backup_end_time': 'backup_end_time',
-        'backup_start_time': 'backup_start_time',
-        'deleted_objects_count': 'deleted_objects_count',
-        'deleted_objects_size': 'deleted_objects_size',
-        'failed_continuous_backups_count': 'failed_continuous_backups_count',
-        'failed_objects_count': 'failed_objects_count',
-        'failed_objects_size': 'failed_objects_size',
-        'filtered_in_count': 'filtered_in_count',
-        'filtered_in_size': 'filtered_in_size',
-        'filtered_out_count': 'filtered_out_count',
-        'filtered_out_size': 'filtered_out_size',
-        'missing_objects_count': 'missing_objects_count',
-        'missing_objects_size': 'missing_objects_size',
-        'ongoing_continuous_backups_count': 'ongoing_continuous_backups_count',
-        'successful_continuous_backups_count': 'successful_continuous_backups_count',
-        'successful_objects_count': 'successful_objects_count',
-        'successful_objects_size': 'successful_objects_size',
-        'total_continuous_backups_count': 'total_continuous_backups_count',
-    }
+    BackupEndTime: str | None = None
+    BackupStartTime: str | None = None
+    DeletedObjectsCount: int | None = None
+    DeletedObjectsSize: int | None = None
+    FailedContinuousBackupsCount: int | None = None
+    FailedObjectsCount: int | None = None
+    FailedObjectsSize: int | None = None
+    FilteredInCount: int | None = None
+    FilteredInSize: int | None = None
+    FilteredOutCount: int | None = None
+    FilteredOutSize: int | None = None
+    MissingObjectsCount: int | None = None
+    MissingObjectsSize: int | None = None
+    OngoingContinuousBackupsCount: int | None = None
+    SuccessfulContinuousBackupsCount: int | None = None
+    SuccessfulObjectsCount: int | None = None
+    SuccessfulObjectsSize: int | None = None
+    TotalContinuousBackupsCount: int | None = None
 
-    def __init__(
-        self,
-        backup_end_time: str | None = None,
-        backup_start_time: str | None = None,
-        deleted_objects_count: int | None = None,
-        deleted_objects_size: int | None = None,
-        failed_continuous_backups_count: int | None = None,
-        failed_objects_count: int | None = None,
-        failed_objects_size: int | None = None,
-        filtered_in_count: int | None = None,
-        filtered_in_size: int | None = None,
-        filtered_out_count: int | None = None,
-        filtered_out_size: int | None = None,
-        missing_objects_count: int | None = None,
-        missing_objects_size: int | None = None,
-        ongoing_continuous_backups_count: int | None = None,
-        successful_continuous_backups_count: int | None = None,
-        successful_objects_count: int | None = None,
-        successful_objects_size: int | None = None,
-        total_continuous_backups_count: int | None = None,
-    ) -> None:
-        """Constructor for the ProtectionGroupBucketContinuousBackupStats class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.backup_end_time: str | None = backup_end_time
-        self.backup_start_time: str | None = backup_start_time
-        self.deleted_objects_count: int | None = deleted_objects_count
-        self.deleted_objects_size: int | None = deleted_objects_size
-        self.failed_continuous_backups_count: int | None = failed_continuous_backups_count
-        self.failed_objects_count: int | None = failed_objects_count
-        self.failed_objects_size: int | None = failed_objects_size
-        self.filtered_in_count: int | None = filtered_in_count
-        self.filtered_in_size: int | None = filtered_in_size
-        self.filtered_out_count: int | None = filtered_out_count
-        self.filtered_out_size: int | None = filtered_out_size
-        self.missing_objects_count: int | None = missing_objects_count
-        self.missing_objects_size: int | None = missing_objects_size
-        self.ongoing_continuous_backups_count: int | None = ongoing_continuous_backups_count
-        self.successful_continuous_backups_count: int | None = successful_continuous_backups_count
-        self.successful_objects_count: int | None = successful_objects_count
-        self.successful_objects_size: int | None = successful_objects_size
-        self.total_continuous_backups_count: int | None = total_continuous_backups_count
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -132,8 +130,8 @@ class ProtectionGroupBucketContinuousBackupStats:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('backup_end_time', None)
         val_backup_end_time = val
@@ -210,3 +208,19 @@ class ProtectionGroupBucketContinuousBackupStats:
             val_successful_objects_size,
             val_total_continuous_backups_count,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

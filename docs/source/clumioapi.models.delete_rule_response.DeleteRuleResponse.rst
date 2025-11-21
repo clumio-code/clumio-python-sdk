@@ -17,10 +17,21 @@ clumioapi.models.delete\_rule\_response.DeleteRuleResponse
    .. autosummary::
    
       ~DeleteRuleResponse.__init__
+      ~DeleteRuleResponse.dict
       ~DeleteRuleResponse.from_dictionary
+      ~DeleteRuleResponse.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~DeleteRuleResponse.Links
+      ~DeleteRuleResponse.PreviewId
+      ~DeleteRuleResponse.TaskId
+      ~DeleteRuleResponse.raw_response
    
    

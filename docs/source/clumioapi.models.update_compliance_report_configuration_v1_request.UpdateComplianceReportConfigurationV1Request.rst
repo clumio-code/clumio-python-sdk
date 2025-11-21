@@ -17,10 +17,22 @@ clumioapi.models.update\_compliance\_report\_configuration\_v1\_request.UpdateCo
    .. autosummary::
    
       ~UpdateComplianceReportConfigurationV1Request.__init__
+      ~UpdateComplianceReportConfigurationV1Request.dict
       ~UpdateComplianceReportConfigurationV1Request.from_dictionary
+      ~UpdateComplianceReportConfigurationV1Request.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~UpdateComplianceReportConfigurationV1Request.Description
+      ~UpdateComplianceReportConfigurationV1Request.Name
+      ~UpdateComplianceReportConfigurationV1Request.Notification
+      ~UpdateComplianceReportConfigurationV1Request.Parameter
+      ~UpdateComplianceReportConfigurationV1Request.Schedule
    
    

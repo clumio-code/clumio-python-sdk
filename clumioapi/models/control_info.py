@@ -1,58 +1,69 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='ControlInfo')
 
 
+@dataclasses.dataclass
 class ControlInfo:
     """Implementation of the 'ControlInfo' model.
 
     The status per controls in the compliance report created by the report run.
 
     Attributes:
-        compliant_count:
+        CompliantCount:
             The count of compliant items of the control.
-        control_status:
+
+        ControlStatus:
             The compliance status of the control.
-        name:
+
+        Name:
             The name of the control.
-        non_compliant_count:
+
+        NonCompliantCount:
             The count of non-compliant items of the control.
-        unknown_count:
+
+        UnknownCount:
             The count of unknown items of the control.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'compliant_count': 'compliant_count',
-        'control_status': 'control_status',
-        'name': 'name',
-        'non_compliant_count': 'non_compliant_count',
-        'unknown_count': 'unknown_count',
-    }
+    CompliantCount: int | None = None
+    ControlStatus: str | None = None
+    Name: str | None = None
+    NonCompliantCount: int | None = None
+    UnknownCount: int | None = None
 
-    def __init__(
-        self,
-        compliant_count: int | None = None,
-        control_status: str | None = None,
-        name: str | None = None,
-        non_compliant_count: int | None = None,
-        unknown_count: int | None = None,
-    ) -> None:
-        """Constructor for the ControlInfo class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.compliant_count: int | None = compliant_count
-        self.control_status: str | None = control_status
-        self.name: str | None = name
-        self.non_compliant_count: int | None = non_compliant_count
-        self.unknown_count: int | None = unknown_count
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -63,8 +74,8 @@ class ControlInfo:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('compliant_count', None)
         val_compliant_count = val
@@ -89,3 +100,19 @@ class ControlInfo:
             val_non_compliant_count,
             val_unknown_count,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

@@ -17,10 +17,19 @@ clumioapi.models.ec2\_mssqlfci\_links.EC2MSSQLFCILinks
    .. autosummary::
    
       ~EC2MSSQLFCILinks.__init__
+      ~EC2MSSQLFCILinks.dict
       ~EC2MSSQLFCILinks.from_dictionary
+      ~EC2MSSQLFCILinks.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~EC2MSSQLFCILinks.ReadPolicyDefinition
+      ~EC2MSSQLFCILinks.Self
    
    

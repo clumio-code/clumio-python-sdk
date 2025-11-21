@@ -17,10 +17,19 @@ clumioapi.models.auto\_user\_provisioning\_rule\_embedded.AutoUserProvisioningRu
    .. autosummary::
    
       ~AutoUserProvisioningRuleEmbedded.__init__
+      ~AutoUserProvisioningRuleEmbedded.dict
       ~AutoUserProvisioningRuleEmbedded.from_dictionary
+      ~AutoUserProvisioningRuleEmbedded.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~AutoUserProvisioningRuleEmbedded.ReadOrganizationalUnit
+      ~AutoUserProvisioningRuleEmbedded.ReadRole
    
    

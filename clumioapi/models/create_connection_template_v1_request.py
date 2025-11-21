@@ -1,59 +1,80 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='CreateConnectionTemplateV1Request')
 
+TemplatePermissionSetValues = [
+    'all',
+    'inventory_backup',
+]
 
+
+@dataclasses.dataclass
 class CreateConnectionTemplateV1Request:
     """Implementation of the 'CreateConnectionTemplateV1Request' model.
 
     Attributes:
-        asset_types_enabled:
+        AssetTypesEnabled:
             The asset types for which the template is to be generated.
-            Valid values are any of ["EC2/EBS", "RDS", "DynamoDB", "EC2MSSQL", "S3", "EBS",
-            "IcebergOnGlue"].
+            valid values are any of ["ec2/ebs", "rds", "dynamodb", "ec2mssql", "s3", "ebs",
+            "icebergonglue", "icebergons3tables"].
 
-            NOTE -
-            1. EC2/EBS is required for EC2MSSQL.
-            2. EBS as a value is deprecated in favor of EC2/EBS.
-        aws_account_id:
-            Account ID for the AWS environment to be connected
-            Mandatory to pass a 12 digit string if show_manual_resources is set to true
-        aws_region:
-            AWS Region of the AWS environment to be connected
-            Mandatory to pass a non-empty string if show_manual_resources is set to true
-        show_manual_resources:
-            Returns the resources to be created manually if set to true
+            note -
+            1. ec2/ebs is required for ec2mssql.
+            2. ebs as a value is deprecated in favor of ec2/ebs.
+
+        AwsAccountId:
+            Account id for the aws environment to be connected
+            mandatory to pass a 12 digit string if show_manual_resources is set to true.
+
+        AwsRegion:
+            Aws region of the aws environment to be connected
+            mandatory to pass a non-empty string if show_manual_resources is set to true.
+
+        ShowManualResources:
+            Returns the resources to be created manually if set to true.
+
+        TemplatePermissionSet
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'asset_types_enabled': 'asset_types_enabled',
-        'aws_account_id': 'aws_account_id',
-        'aws_region': 'aws_region',
-        'show_manual_resources': 'show_manual_resources',
-    }
+    AssetTypesEnabled: Sequence[str] | None = None
+    AwsAccountId: str | None = None
+    AwsRegion: str | None = None
+    ShowManualResources: bool | None = None
 
-    def __init__(
-        self,
-        asset_types_enabled: Sequence[str] | None = None,
-        aws_account_id: str | None = None,
-        aws_region: str | None = None,
-        show_manual_resources: bool | None = None,
-    ) -> None:
-        """Constructor for the CreateConnectionTemplateV1Request class."""
+    TemplatePermissionSet: str | None = None
 
-        # Initialize members of the class
-        self.asset_types_enabled: Sequence[str] | None = asset_types_enabled
-        self.aws_account_id: str | None = aws_account_id
-        self.aws_region: str | None = aws_region
-        self.show_manual_resources: bool | None = show_manual_resources
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
+
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -64,8 +85,8 @@ class CreateConnectionTemplateV1Request:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('asset_types_enabled', None)
         val_asset_types_enabled = val
@@ -79,10 +100,30 @@ class CreateConnectionTemplateV1Request:
         val = dictionary.get('show_manual_resources', None)
         val_show_manual_resources = val
 
+        val = dictionary.get('template_permission_set', None)
+        val_template_permission_set = val
+
         # Return an object of this model
         return cls(
             val_asset_types_enabled,
             val_aws_account_id,
             val_aws_region,
             val_show_manual_resources,
+            val_template_permission_set,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

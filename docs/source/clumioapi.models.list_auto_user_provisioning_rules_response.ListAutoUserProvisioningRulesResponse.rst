@@ -17,10 +17,23 @@ clumioapi.models.list\_auto\_user\_provisioning\_rules\_response.ListAutoUserPro
    .. autosummary::
    
       ~ListAutoUserProvisioningRulesResponse.__init__
+      ~ListAutoUserProvisioningRulesResponse.dict
       ~ListAutoUserProvisioningRulesResponse.from_dictionary
+      ~ListAutoUserProvisioningRulesResponse.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ListAutoUserProvisioningRulesResponse.CurrentCount
+      ~ListAutoUserProvisioningRulesResponse.Embedded
+      ~ListAutoUserProvisioningRulesResponse.Limit
+      ~ListAutoUserProvisioningRulesResponse.Links
+      ~ListAutoUserProvisioningRulesResponse.Start
+      ~ListAutoUserProvisioningRulesResponse.raw_response
    
    

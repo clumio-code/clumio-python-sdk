@@ -17,10 +17,19 @@ clumioapi.models.organizational\_unit\_parent\_entity.OrganizationalUnitParentEn
    .. autosummary::
    
       ~OrganizationalUnitParentEntity.__init__
+      ~OrganizationalUnitParentEntity.dict
       ~OrganizationalUnitParentEntity.from_dictionary
+      ~OrganizationalUnitParentEntity.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~OrganizationalUnitParentEntity.Id
+      ~OrganizationalUnitParentEntity.Type
    
    

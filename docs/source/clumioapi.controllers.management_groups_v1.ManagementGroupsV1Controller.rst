@@ -25,11 +25,4 @@ clumioapi.controllers.management\_groups\_v1.ManagementGroupsV1Controller
 
    
    
-   .. rubric:: Attributes
-
-   .. autosummary::
-   
-      ~ManagementGroupsV1Controller.client
-      ~ManagementGroupsV1Controller.global_headers
-   
    

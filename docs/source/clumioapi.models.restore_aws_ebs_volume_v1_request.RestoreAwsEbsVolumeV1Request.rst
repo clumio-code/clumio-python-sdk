@@ -17,10 +17,19 @@ clumioapi.models.restore\_aws\_ebs\_volume\_v1\_request.RestoreAwsEbsVolumeV1Req
    .. autosummary::
    
       ~RestoreAwsEbsVolumeV1Request.__init__
+      ~RestoreAwsEbsVolumeV1Request.dict
       ~RestoreAwsEbsVolumeV1Request.from_dictionary
+      ~RestoreAwsEbsVolumeV1Request.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~RestoreAwsEbsVolumeV1Request.Source
+      ~RestoreAwsEbsVolumeV1Request.Target
    
    

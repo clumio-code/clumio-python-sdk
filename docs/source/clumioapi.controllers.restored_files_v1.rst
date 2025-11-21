@@ -20,6 +20,7 @@ clumioapi.controllers.restored\_files\_v1
       :template: custom-class-template.rst
    
       RestoredFilesV1Controller
+      RestoredFilesV1ControllerPaginator
    
    
 

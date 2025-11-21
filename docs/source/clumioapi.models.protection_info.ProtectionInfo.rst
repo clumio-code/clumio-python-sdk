@@ -17,10 +17,20 @@ clumioapi.models.protection\_info.ProtectionInfo
    .. autosummary::
    
       ~ProtectionInfo.__init__
+      ~ProtectionInfo.dict
       ~ProtectionInfo.from_dictionary
+      ~ProtectionInfo.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ProtectionInfo.InheritingEntityId
+      ~ProtectionInfo.InheritingEntityType
+      ~ProtectionInfo.PolicyId
    
    

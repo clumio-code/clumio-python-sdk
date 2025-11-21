@@ -17,10 +17,28 @@ clumioapi.models.create\_compliance\_configuration\_response.CreateComplianceCon
    .. autosummary::
    
       ~CreateComplianceConfigurationResponse.__init__
+      ~CreateComplianceConfigurationResponse.dict
       ~CreateComplianceConfigurationResponse.from_dictionary
+      ~CreateComplianceConfigurationResponse.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~CreateComplianceConfigurationResponse.Created
+      ~CreateComplianceConfigurationResponse.Description
+      ~CreateComplianceConfigurationResponse.Embedded
+      ~CreateComplianceConfigurationResponse.Id
+      ~CreateComplianceConfigurationResponse.LatestRun
+      ~CreateComplianceConfigurationResponse.Links
+      ~CreateComplianceConfigurationResponse.Name
+      ~CreateComplianceConfigurationResponse.Notification
+      ~CreateComplianceConfigurationResponse.Parameter
+      ~CreateComplianceConfigurationResponse.Schedule
+      ~CreateComplianceConfigurationResponse.raw_response
    
    

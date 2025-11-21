@@ -1,47 +1,61 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='ProtectionGroupEmbedded')
 
 
+@dataclasses.dataclass
 class ProtectionGroupEmbedded:
     """Implementation of the 'ProtectionGroupEmbedded' model.
 
     Embedded responses related to the resource.
 
     Attributes:
-        read_organizational_unit:
-            This embed is for internal use only since an embed results in additional HTTP
-            calls. "embeds" can affect the performance of "list" API calls as an embed is
+        ReadOrganizationalUnit:
+            This embed is for internal use only since an embed results in additional http
+            calls. "embeds" can affect the performance of "list" api calls as an embed is
             processed once per item in the result list.
-        read_policy_definition:
+
+        ReadPolicyDefinition:
             Embeds the associated policy of a protected resource in the response if
-            requested using the `embed` query parameter. Unprotected resources will not have
+            requested using the `embed` query parameter. unprotected resources will not have
             an associated policy.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'read_organizational_unit': 'read-organizational-unit',
-        'read_policy_definition': 'read-policy-definition',
-    }
+    ReadOrganizationalUnit: object | None = None
+    ReadPolicyDefinition: object | None = None
 
-    def __init__(
-        self,
-        read_organizational_unit: object | None = None,
-        read_policy_definition: object | None = None,
-    ) -> None:
-        """Constructor for the ProtectionGroupEmbedded class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.read_organizational_unit: object | None = read_organizational_unit
-        self.read_policy_definition: object | None = read_policy_definition
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -52,8 +66,8 @@ class ProtectionGroupEmbedded:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('read-organizational-unit', None)
         val_read_organizational_unit = val
@@ -66,3 +80,19 @@ class ProtectionGroupEmbedded:
             val_read_organizational_unit,
             val_read_policy_definition,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

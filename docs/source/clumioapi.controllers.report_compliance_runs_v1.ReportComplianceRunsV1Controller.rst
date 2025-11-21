@@ -26,11 +26,4 @@ clumioapi.controllers.report\_compliance\_runs\_v1.ReportComplianceRunsV1Control
 
    
    
-   .. rubric:: Attributes
-
-   .. autosummary::
-   
-      ~ReportComplianceRunsV1Controller.client
-      ~ReportComplianceRunsV1Controller.global_headers
-   
    

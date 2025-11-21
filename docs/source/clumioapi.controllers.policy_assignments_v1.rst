@@ -20,6 +20,7 @@ clumioapi.controllers.policy\_assignments\_v1
       :template: custom-class-template.rst
    
       PolicyAssignmentsV1Controller
+      PolicyAssignmentsV1ControllerPaginator
    
    
 

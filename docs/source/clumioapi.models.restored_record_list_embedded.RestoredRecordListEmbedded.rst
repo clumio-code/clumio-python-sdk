@@ -17,10 +17,18 @@ clumioapi.models.restored\_record\_list\_embedded.RestoredRecordListEmbedded
    .. autosummary::
    
       ~RestoredRecordListEmbedded.__init__
+      ~RestoredRecordListEmbedded.dict
       ~RestoredRecordListEmbedded.from_dictionary
+      ~RestoredRecordListEmbedded.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~RestoredRecordListEmbedded.Items
    
    

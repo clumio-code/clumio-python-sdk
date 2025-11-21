@@ -3,42 +3,43 @@
 #
 
 import json
-from typing import Any, Optional, Union
+import re
+from typing import Any, Iterator, Optional, Union
+import urllib.parse
 
 from clumioapi import api_helper
 from clumioapi import configuration
 from clumioapi import sdk_version
 from clumioapi.controllers import base_controller
+from clumioapi.controllers.types import aws_s3_buckets_v1_bucket_matcher_types
 from clumioapi.exceptions import clumio_exception
 from clumioapi.models import restore_aws_ec2_instance_v1_request
 from clumioapi.models import restore_ec2_response
 import requests
+import retrying
 
 
-class RestoredAwsEc2InstancesV1Controller(base_controller.BaseController):
+class RestoredAwsEc2InstancesV1Controller:
     """A Controller to access Endpoints for restored-aws-ec2-instances resource."""
 
-    def __init__(self, config: configuration.Configuration) -> None:
-        super().__init__(config)
-        self.config = config
+    def __init__(self, controller: base_controller.BaseController) -> None:
+        self.controller = controller
+        self.client = self.controller.client
         self.headers = {
             'accept': 'application/api.clumio.restored-aws-ec2-instances=v1+json',
-            'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
+            'x-clumio-organizationalunit-context': self.controller.config.organizational_unit_context,
             'x-clumio-api-client': 'clumio-python-sdk',
             'x-clumio-sdk-version': f'clumio-python-sdk:{sdk_version}',
         }
-        if config.custom_headers != None:
-            self.headers.update(config.custom_headers)
+        if self.controller.config.custom_headers != None:
+            self.headers.update(self.controller.config.custom_headers)
 
     def restore_aws_ec2_instance(
         self,
         embed: str | None = None,
         body: restore_aws_ec2_instance_v1_request.RestoreAwsEc2InstanceV1Request | None = None,
         **kwargs,
-    ) -> Union[
-        restore_ec2_response.RestoreEC2Response,
-        tuple[requests.Response, Optional[restore_ec2_response.RestoreEC2Response]],
-    ]:
+    ) -> restore_ec2_response.RestoreEC2Response:
         """Restores the specified EC2 instance backup to the specified target destination.
 
         Args:
@@ -56,40 +57,45 @@ class RestoredAwsEc2InstancesV1Controller(base_controller.BaseController):
 
             body:
 
-        Returns:
-            requests.Response: Raw Response from the API if config.raw_response is set to True.
-            restore_ec2_response.RestoreEC2Response: Response from the API.
-        Raises:
-            ClumioException: An error occured while executing the API.
-                This exception includes the HTTP response code, an error
-                message, and the HTTP body that was received in the request.
         """
+
+        def get_instance_from_response(resp: requests.Response) -> Any:
+            return restore_ec2_response.RestoreEC2Response.from_response(resp)
 
         # Prepare query URL
         _url_path = '/restores/aws/ec2-instances'
 
         _query_parameters: dict[str, Any] = {}
-        _query_parameters = {'embed': embed}
+        _query_parameters = {
+            'embed': embed,
+        }
 
-        raw_response = self.config.raw_response
+        resp_instance: restore_ec2_response.RestoreEC2Response
         # Execute request
+        resp: requests.Response
         try:
-            resp: requests.Response = self.client.post(
+            resp = self.client.post(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                json=api_helper.to_dictionary(body),
+                json=body.dict() if body else None,
                 raw_response=True,
                 **kwargs,
             )
-        except requests.exceptions.HTTPError as http_error:
-            if raw_response:
-                return http_error.response, None
-            raise clumio_exception.ClumioException(
-                'Error occurred while executing restore_aws_ec2_instance', error=http_error
-            )
+        except requests.exceptions.HTTPError as e:
+            resp = e.response
 
-        obj = restore_ec2_response.RestoreEC2Response.from_dictionary(resp.json())
-        if raw_response:
-            return resp, obj
-        return obj
+        if not resp.ok:
+            error_str = f'restore_aws_ec2_instance for url {urllib.parse.unquote(resp.url)} failed.'
+            raise clumio_exception.ClumioException(error_str, resp=resp)
+
+        resp_instance = get_instance_from_response(resp)
+
+        return resp_instance
+
+
+class RestoredAwsEc2InstancesV1ControllerPaginator:
+    """A Controller to access Endpoints for restored-aws-ec2-instances resource with pagination."""
+
+    def __init__(self, controller: base_controller.BaseController) -> None:
+        self.controller = controller

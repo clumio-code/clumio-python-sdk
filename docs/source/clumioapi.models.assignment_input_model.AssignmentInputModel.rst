@@ -17,10 +17,20 @@ clumioapi.models.assignment\_input\_model.AssignmentInputModel
    .. autosummary::
    
       ~AssignmentInputModel.__init__
+      ~AssignmentInputModel.dict
       ~AssignmentInputModel.from_dictionary
+      ~AssignmentInputModel.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~AssignmentInputModel.Action
+      ~AssignmentInputModel.Entity
+      ~AssignmentInputModel.PolicyId
    
    

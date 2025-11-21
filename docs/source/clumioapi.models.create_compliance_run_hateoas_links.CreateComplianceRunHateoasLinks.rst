@@ -17,10 +17,19 @@ clumioapi.models.create\_compliance\_run\_hateoas\_links.CreateComplianceRunHate
    .. autosummary::
    
       ~CreateComplianceRunHateoasLinks.__init__
+      ~CreateComplianceRunHateoasLinks.dict
       ~CreateComplianceRunHateoasLinks.from_dictionary
+      ~CreateComplianceRunHateoasLinks.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~CreateComplianceRunHateoasLinks.ReadTask
+      ~CreateComplianceRunHateoasLinks.Self
    
    

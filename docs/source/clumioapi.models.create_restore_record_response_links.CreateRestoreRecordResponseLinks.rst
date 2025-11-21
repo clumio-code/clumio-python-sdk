@@ -17,10 +17,20 @@ clumioapi.models.create\_restore\_record\_response\_links.CreateRestoreRecordRes
    .. autosummary::
    
       ~CreateRestoreRecordResponseLinks.__init__
+      ~CreateRestoreRecordResponseLinks.dict
       ~CreateRestoreRecordResponseLinks.from_dictionary
+      ~CreateRestoreRecordResponseLinks.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~CreateRestoreRecordResponseLinks.ReadTask
+      ~CreateRestoreRecordResponseLinks.Self
+      ~CreateRestoreRecordResponseLinks.raw_response
    
    

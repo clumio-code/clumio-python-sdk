@@ -20,6 +20,7 @@ clumioapi.controllers.report\_compliance\_runs\_v1
       :template: custom-class-template.rst
    
       ReportComplianceRunsV1Controller
+      ReportComplianceRunsV1ControllerPaginator
    
    
 

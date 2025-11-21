@@ -17,10 +17,20 @@ clumioapi.models.preview\_details\_s3\_bucket\_response.PreviewDetailsS3BucketRe
    .. autosummary::
    
       ~PreviewDetailsS3BucketResponse.__init__
+      ~PreviewDetailsS3BucketResponse.dict
       ~PreviewDetailsS3BucketResponse.from_dictionary
+      ~PreviewDetailsS3BucketResponse.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~PreviewDetailsS3BucketResponse.Links
+      ~PreviewDetailsS3BucketResponse.Objects
+      ~PreviewDetailsS3BucketResponse.raw_response
    
    

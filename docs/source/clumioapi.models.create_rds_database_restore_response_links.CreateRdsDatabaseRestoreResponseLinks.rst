@@ -17,10 +17,20 @@ clumioapi.models.create\_rds\_database\_restore\_response\_links.CreateRdsDataba
    .. autosummary::
    
       ~CreateRdsDatabaseRestoreResponseLinks.__init__
+      ~CreateRdsDatabaseRestoreResponseLinks.dict
       ~CreateRdsDatabaseRestoreResponseLinks.from_dictionary
+      ~CreateRdsDatabaseRestoreResponseLinks.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~CreateRdsDatabaseRestoreResponseLinks.ReadTask
+      ~CreateRdsDatabaseRestoreResponseLinks.Self
+      ~CreateRdsDatabaseRestoreResponseLinks.raw_response
    
    

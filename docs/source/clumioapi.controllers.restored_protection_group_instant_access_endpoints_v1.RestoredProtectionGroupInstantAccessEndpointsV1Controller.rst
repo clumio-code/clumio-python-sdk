@@ -34,11 +34,4 @@ clumioapi.controllers.restored\_protection\_group\_instant\_access\_endpoints\_v
 
    
    
-   .. rubric:: Attributes
-
-   .. autosummary::
-   
-      ~RestoredProtectionGroupInstantAccessEndpointsV1Controller.client
-      ~RestoredProtectionGroupInstantAccessEndpointsV1Controller.global_headers
-   
    

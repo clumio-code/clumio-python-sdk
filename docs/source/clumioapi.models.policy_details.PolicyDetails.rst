@@ -17,10 +17,20 @@ clumioapi.models.policy\_details.PolicyDetails
    .. autosummary::
    
       ~PolicyDetails.__init__
+      ~PolicyDetails.dict
       ~PolicyDetails.from_dictionary
+      ~PolicyDetails.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~PolicyDetails.Description
+      ~PolicyDetails.Name
+      ~PolicyDetails.PolicyDocument
    
    

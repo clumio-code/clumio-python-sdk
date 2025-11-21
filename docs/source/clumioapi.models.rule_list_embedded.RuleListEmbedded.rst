@@ -17,10 +17,18 @@ clumioapi.models.rule\_list\_embedded.RuleListEmbedded
    .. autosummary::
    
       ~RuleListEmbedded.__init__
+      ~RuleListEmbedded.dict
       ~RuleListEmbedded.from_dictionary
+      ~RuleListEmbedded.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~RuleListEmbedded.Items
    
    

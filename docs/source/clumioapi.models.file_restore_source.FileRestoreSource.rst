@@ -17,10 +17,19 @@ clumioapi.models.file\_restore\_source.FileRestoreSource
    .. autosummary::
    
       ~FileRestoreSource.__init__
+      ~FileRestoreSource.dict
       ~FileRestoreSource.from_dictionary
+      ~FileRestoreSource.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~FileRestoreSource.BackupId
+      ~FileRestoreSource.Files
    
    

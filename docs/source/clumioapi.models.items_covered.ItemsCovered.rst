@@ -17,10 +17,19 @@ clumioapi.models.items\_covered.ItemsCovered
    .. autosummary::
    
       ~ItemsCovered.__init__
+      ~ItemsCovered.dict
       ~ItemsCovered.from_dictionary
+      ~ItemsCovered.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ItemsCovered.AssetCount
+      ~ItemsCovered.PolicyCount
    
    

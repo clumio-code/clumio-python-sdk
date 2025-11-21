@@ -17,10 +17,18 @@ clumioapi.models.s3\_existing\_object\_replication.S3ExistingObjectReplication
    .. autosummary::
    
       ~S3ExistingObjectReplication.__init__
+      ~S3ExistingObjectReplication.dict
       ~S3ExistingObjectReplication.from_dictionary
+      ~S3ExistingObjectReplication.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~S3ExistingObjectReplication.Status
    
    

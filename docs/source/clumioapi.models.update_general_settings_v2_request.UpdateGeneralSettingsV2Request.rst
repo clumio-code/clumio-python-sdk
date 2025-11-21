@@ -17,10 +17,21 @@ clumioapi.models.update\_general\_settings\_v2\_request.UpdateGeneralSettingsV2R
    .. autosummary::
    
       ~UpdateGeneralSettingsV2Request.__init__
+      ~UpdateGeneralSettingsV2Request.dict
       ~UpdateGeneralSettingsV2Request.from_dictionary
+      ~UpdateGeneralSettingsV2Request.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~UpdateGeneralSettingsV2Request.AutoLogoutDuration
+      ~UpdateGeneralSettingsV2Request.IpAllowlist
+      ~UpdateGeneralSettingsV2Request.OrganizationalUnitDataGroups
+      ~UpdateGeneralSettingsV2Request.PasswordExpirationDuration
    
    

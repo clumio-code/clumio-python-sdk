@@ -17,10 +17,18 @@ clumioapi.models.rds\_database\_backup\_list\_embedded.RdsDatabaseBackupListEmbe
    .. autosummary::
    
       ~RdsDatabaseBackupListEmbedded.__init__
+      ~RdsDatabaseBackupListEmbedded.dict
       ~RdsDatabaseBackupListEmbedded.from_dictionary
+      ~RdsDatabaseBackupListEmbedded.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~RdsDatabaseBackupListEmbedded.Items
    
    

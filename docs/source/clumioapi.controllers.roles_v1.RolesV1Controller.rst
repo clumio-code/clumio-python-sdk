@@ -25,11 +25,4 @@ clumioapi.controllers.roles\_v1.RolesV1Controller
 
    
    
-   .. rubric:: Attributes
-
-   .. autosummary::
-   
-      ~RolesV1Controller.client
-      ~RolesV1Controller.global_headers
-   
    

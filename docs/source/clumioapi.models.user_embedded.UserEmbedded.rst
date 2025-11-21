@@ -17,10 +17,18 @@ clumioapi.models.user\_embedded.UserEmbedded
    .. autosummary::
    
       ~UserEmbedded.__init__
+      ~UserEmbedded.dict
       ~UserEmbedded.from_dictionary
+      ~UserEmbedded.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~UserEmbedded.ReadRole
    
    

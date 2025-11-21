@@ -23,11 +23,4 @@ clumioapi.controllers.restored\_records\_aws\_dynamodb\_tables\_v1.RestoredRecor
 
    
    
-   .. rubric:: Attributes
-
-   .. autosummary::
-   
-      ~RestoredRecordsAwsDynamodbTablesV1Controller.client
-      ~RestoredRecordsAwsDynamodbTablesV1Controller.global_headers
-   
    

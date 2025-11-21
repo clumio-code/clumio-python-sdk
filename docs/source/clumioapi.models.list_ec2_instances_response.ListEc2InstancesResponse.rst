@@ -17,10 +17,25 @@ clumioapi.models.list\_ec2\_instances\_response.ListEc2InstancesResponse
    .. autosummary::
    
       ~ListEc2InstancesResponse.__init__
+      ~ListEc2InstancesResponse.dict
       ~ListEc2InstancesResponse.from_dictionary
+      ~ListEc2InstancesResponse.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ListEc2InstancesResponse.CurrentCount
+      ~ListEc2InstancesResponse.Embedded
+      ~ListEc2InstancesResponse.Limit
+      ~ListEc2InstancesResponse.Links
+      ~ListEc2InstancesResponse.Start
+      ~ListEc2InstancesResponse.TotalCount
+      ~ListEc2InstancesResponse.TotalPagesCount
+      ~ListEc2InstancesResponse.raw_response
    
    

@@ -17,10 +17,19 @@ clumioapi.models.restore\_protection\_group\_s3\_objects\_v1\_request.RestorePro
    .. autosummary::
    
       ~RestoreProtectionGroupS3ObjectsV1Request.__init__
+      ~RestoreProtectionGroupS3ObjectsV1Request.dict
       ~RestoreProtectionGroupS3ObjectsV1Request.from_dictionary
+      ~RestoreProtectionGroupS3ObjectsV1Request.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~RestoreProtectionGroupS3ObjectsV1Request.Source
+      ~RestoreProtectionGroupS3ObjectsV1Request.Target
    
    

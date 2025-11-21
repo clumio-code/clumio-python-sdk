@@ -3,12 +3,16 @@
 #
 
 import json
-from typing import Any, Optional, Union
+import re
+from typing import Any, Iterator, Optional, Union
+import urllib.parse
 
 from clumioapi import api_helper
 from clumioapi import configuration
 from clumioapi import sdk_version
 from clumioapi.controllers import base_controller
+from clumioapi.controllers.types import aws_s3_buckets_v1_bucket_matcher_types
+from clumioapi.controllers.types import policy_definitions_types
 from clumioapi.exceptions import clumio_exception
 from clumioapi.models import create_policy_definition_v1_request
 from clumioapi.models import create_policy_response
@@ -18,29 +22,30 @@ from clumioapi.models import read_policy_response
 from clumioapi.models import update_policy_definition_v1_request
 from clumioapi.models import update_policy_response
 import requests
+import retrying
 
 
-class PolicyDefinitionsV1Controller(base_controller.BaseController):
+class PolicyDefinitionsV1Controller:
     """A Controller to access Endpoints for policy-definitions resource."""
 
-    def __init__(self, config: configuration.Configuration) -> None:
-        super().__init__(config)
-        self.config = config
+    def __init__(self, controller: base_controller.BaseController) -> None:
+        self.controller = controller
+        self.client = self.controller.client
         self.headers = {
             'accept': 'application/api.clumio.policy-definitions=v1+json',
-            'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
+            'x-clumio-organizationalunit-context': self.controller.config.organizational_unit_context,
             'x-clumio-api-client': 'clumio-python-sdk',
             'x-clumio-sdk-version': f'clumio-python-sdk:{sdk_version}',
         }
-        if config.custom_headers != None:
-            self.headers.update(config.custom_headers)
+        if self.controller.config.custom_headers != None:
+            self.headers.update(self.controller.config.custom_headers)
 
     def list_policy_definitions(
-        self, filter: str | None = None, embed: str | None = None, **kwargs
-    ) -> Union[
-        list_policies_response.ListPoliciesResponse,
-        tuple[requests.Response, Optional[list_policies_response.ListPoliciesResponse]],
-    ]:
+        self,
+        filter: policy_definitions_types.ListPolicyDefinitionsV1FilterT | None = None,
+        embed: str | None = None,
+        **kwargs,
+    ) -> list_policies_response.ListPoliciesResponse:
         """Returns a list of policies and their configurations.
 
         The following table describes the supported policy operations.
@@ -173,100 +178,89 @@ class PolicyDefinitionsV1Controller(base_controller.BaseController):
                 |                                       | backup-status-stats                  |
                 +---------------------------------------+--------------------------------------+
 
-        Returns:
-            requests.Response: Raw Response from the API if config.raw_response is set to True.
-            list_policies_response.ListPoliciesResponse: Response from the API.
-        Raises:
-            ClumioException: An error occured while executing the API.
-                This exception includes the HTTP response code, an error
-                message, and the HTTP body that was received in the request.
         """
+
+        def get_instance_from_response(resp: requests.Response) -> Any:
+            return list_policies_response.ListPoliciesResponse.from_response(resp)
 
         # Prepare query URL
         _url_path = '/policies/definitions'
 
         _query_parameters: dict[str, Any] = {}
-        _query_parameters = {'filter': filter, 'embed': embed}
+        _query_parameters = {
+            'filter': filter.query_str if filter else None,
+            'embed': embed,
+        }
 
-        raw_response = self.config.raw_response
+        resp_instance: list_policies_response.ListPoliciesResponse
         # Execute request
+        resp: requests.Response
         try:
-            resp: requests.Response = self.client.get(
+            resp = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
                 raw_response=True,
                 **kwargs,
             )
-        except requests.exceptions.HTTPError as http_error:
-            if raw_response:
-                return http_error.response, None
-            raise clumio_exception.ClumioException(
-                'Error occurred while executing list_policy_definitions', error=http_error
-            )
+        except requests.exceptions.HTTPError as e:
+            resp = e.response
 
-        obj = list_policies_response.ListPoliciesResponse.from_dictionary(resp.json())
-        if raw_response:
-            return resp, obj
-        return obj
+        if not resp.ok:
+            error_str = f'list_policy_definitions for url {urllib.parse.unquote(resp.url)} failed.'
+            raise clumio_exception.ClumioException(error_str, resp=resp)
+
+        resp_instance = get_instance_from_response(resp)
+
+        return resp_instance
 
     def create_policy_definition(
         self,
         body: create_policy_definition_v1_request.CreatePolicyDefinitionV1Request | None = None,
         **kwargs,
-    ) -> Union[
-        create_policy_response.CreatePolicyResponse,
-        tuple[requests.Response, Optional[create_policy_response.CreatePolicyResponse]],
-    ]:
+    ) -> create_policy_response.CreatePolicyResponse:
         """Creates a new policy. Creating a new policy involves configuring the backup seed
         settings, backup service level agreement (SLA), and backup window.
 
         Args:
             body:
 
-        Returns:
-            requests.Response: Raw Response from the API if config.raw_response is set to True.
-            create_policy_response.CreatePolicyResponse: Response from the API.
-        Raises:
-            ClumioException: An error occured while executing the API.
-                This exception includes the HTTP response code, an error
-                message, and the HTTP body that was received in the request.
         """
+
+        def get_instance_from_response(resp: requests.Response) -> Any:
+            return create_policy_response.CreatePolicyResponse.from_response(resp)
 
         # Prepare query URL
         _url_path = '/policies/definitions'
 
         _query_parameters: dict[str, Any] = {}
 
-        raw_response = self.config.raw_response
+        resp_instance: create_policy_response.CreatePolicyResponse
         # Execute request
+        resp: requests.Response
         try:
-            resp: requests.Response = self.client.post(
+            resp = self.client.post(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                json=api_helper.to_dictionary(body),
+                json=body.dict() if body else None,
                 raw_response=True,
                 **kwargs,
             )
-        except requests.exceptions.HTTPError as http_error:
-            if raw_response:
-                return http_error.response, None
-            raise clumio_exception.ClumioException(
-                'Error occurred while executing create_policy_definition', error=http_error
-            )
+        except requests.exceptions.HTTPError as e:
+            resp = e.response
 
-        obj = create_policy_response.CreatePolicyResponse.from_dictionary(resp.json())
-        if raw_response:
-            return resp, obj
-        return obj
+        if not resp.ok:
+            error_str = f'create_policy_definition for url {urllib.parse.unquote(resp.url)} failed.'
+            raise clumio_exception.ClumioException(error_str, resp=resp)
+
+        resp_instance = get_instance_from_response(resp)
+
+        return resp_instance
 
     def read_policy_definition(
         self, policy_id: str | None = None, embed: str | None = None, **kwargs
-    ) -> Union[
-        read_policy_response.ReadPolicyResponse,
-        tuple[requests.Response, Optional[read_policy_response.ReadPolicyResponse]],
-    ]:
+    ) -> read_policy_response.ReadPolicyResponse:
         """Returns a representation of the specified policy.
 
         Args:
@@ -316,44 +310,43 @@ class PolicyDefinitionsV1Controller(base_controller.BaseController):
                 |                                       | backup-status-stats                  |
                 +---------------------------------------+--------------------------------------+
 
-        Returns:
-            requests.Response: Raw Response from the API if config.raw_response is set to True.
-            read_policy_response.ReadPolicyResponse: Response from the API.
-        Raises:
-            ClumioException: An error occured while executing the API.
-                This exception includes the HTTP response code, an error
-                message, and the HTTP body that was received in the request.
         """
+
+        def get_instance_from_response(resp: requests.Response) -> Any:
+            return read_policy_response.ReadPolicyResponse.from_response(resp)
 
         # Prepare query URL
         _url_path = '/policies/definitions/{policy_id}'
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'policy_id': policy_id}
         )
-        _query_parameters: dict[str, Any] = {}
-        _query_parameters = {'embed': embed}
 
-        raw_response = self.config.raw_response
+        _query_parameters: dict[str, Any] = {}
+        _query_parameters = {
+            'embed': embed,
+        }
+
+        resp_instance: read_policy_response.ReadPolicyResponse
         # Execute request
+        resp: requests.Response
         try:
-            resp: requests.Response = self.client.get(
+            resp = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
                 raw_response=True,
                 **kwargs,
             )
-        except requests.exceptions.HTTPError as http_error:
-            if raw_response:
-                return http_error.response, None
-            raise clumio_exception.ClumioException(
-                'Error occurred while executing read_policy_definition', error=http_error
-            )
+        except requests.exceptions.HTTPError as e:
+            resp = e.response
 
-        obj = read_policy_response.ReadPolicyResponse.from_dictionary(resp.json())
-        if raw_response:
-            return resp, obj
-        return obj
+        if not resp.ok:
+            error_str = f'read_policy_definition for url {urllib.parse.unquote(resp.url)} failed.'
+            raise clumio_exception.ClumioException(error_str, resp=resp)
+
+        resp_instance = get_instance_from_response(resp)
+
+        return resp_instance
 
     def update_policy_definition(
         self,
@@ -361,10 +354,7 @@ class PolicyDefinitionsV1Controller(base_controller.BaseController):
         embed: str | None = None,
         body: update_policy_definition_v1_request.UpdatePolicyDefinitionV1Request | None = None,
         **kwargs,
-    ) -> Union[
-        update_policy_response.UpdatePolicyResponse,
-        tuple[requests.Response, Optional[update_policy_response.UpdatePolicyResponse]],
-    ]:
+    ) -> update_policy_response.UpdatePolicyResponse:
         """Updates an existing policy by modifying its backup seed setting, backup service
         level agreement (SLA), and backup window. The policy is updated asynchronously,
         and the response will include the existing policy. If a policy is updated while
@@ -420,89 +410,91 @@ class PolicyDefinitionsV1Controller(base_controller.BaseController):
 
             body:
 
-        Returns:
-            requests.Response: Raw Response from the API if config.raw_response is set to True.
-            update_policy_response.UpdatePolicyResponse: Response from the API.
-        Raises:
-            ClumioException: An error occured while executing the API.
-                This exception includes the HTTP response code, an error
-                message, and the HTTP body that was received in the request.
         """
+
+        def get_instance_from_response(resp: requests.Response) -> Any:
+            return update_policy_response.UpdatePolicyResponse.from_response(resp)
 
         # Prepare query URL
         _url_path = '/policies/definitions/{policy_id}'
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'policy_id': policy_id}
         )
-        _query_parameters: dict[str, Any] = {}
-        _query_parameters = {'embed': embed}
 
-        raw_response = self.config.raw_response
+        _query_parameters: dict[str, Any] = {}
+        _query_parameters = {
+            'embed': embed,
+        }
+
+        resp_instance: update_policy_response.UpdatePolicyResponse
         # Execute request
+        resp: requests.Response
         try:
-            resp: requests.Response = self.client.put(
+            resp = self.client.put(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                json=api_helper.to_dictionary(body),
+                json=body.dict() if body else None,
                 raw_response=True,
                 **kwargs,
             )
-        except requests.exceptions.HTTPError as http_error:
-            if raw_response:
-                return http_error.response, None
-            raise clumio_exception.ClumioException(
-                'Error occurred while executing update_policy_definition', error=http_error
-            )
+        except requests.exceptions.HTTPError as e:
+            resp = e.response
 
-        obj = update_policy_response.UpdatePolicyResponse.from_dictionary(resp.json())
-        if raw_response:
-            return resp, obj
-        return obj
+        if not resp.ok:
+            error_str = f'update_policy_definition for url {urllib.parse.unquote(resp.url)} failed.'
+            raise clumio_exception.ClumioException(error_str, resp=resp)
 
-    def delete_policy_definition(self, policy_id: str | None = None, **kwargs) -> Union[
-        delete_policy_response.DeletePolicyResponse,
-        tuple[requests.Response, Optional[delete_policy_response.DeletePolicyResponse]],
-    ]:
+        resp_instance = get_instance_from_response(resp)
+
+        return resp_instance
+
+    def delete_policy_definition(
+        self, policy_id: str | None = None, **kwargs
+    ) -> delete_policy_response.DeletePolicyResponse:
         """Deletes the specified policy.
 
         Args:
             policy_id:
                 Performs the operation on the policy with the specified ID.
-        Returns:
-            requests.Response: Raw Response from the API if config.raw_response is set to True.
-            delete_policy_response.DeletePolicyResponse: Response from the API.
-        Raises:
-            ClumioException: An error occured while executing the API.
-                This exception includes the HTTP response code, an error
-                message, and the HTTP body that was received in the request.
         """
+
+        def get_instance_from_response(resp: requests.Response) -> Any:
+            return delete_policy_response.DeletePolicyResponse.from_response(resp)
 
         # Prepare query URL
         _url_path = '/policies/definitions/{policy_id}'
         _url_path = api_helper.append_url_with_template_parameters(
             _url_path, {'policy_id': policy_id}
         )
+
         _query_parameters: dict[str, Any] = {}
 
-        raw_response = self.config.raw_response
+        resp_instance: delete_policy_response.DeletePolicyResponse
         # Execute request
+        resp: requests.Response
         try:
-            resp: requests.Response = self.client.delete(
+            resp = self.client.delete(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
                 raw_response=True,
                 **kwargs,
             )
-        except requests.exceptions.HTTPError as http_error:
-            if raw_response:
-                return http_error.response, None
-            raise clumio_exception.ClumioException(
-                'Error occurred while executing delete_policy_definition', error=http_error
-            )
+        except requests.exceptions.HTTPError as e:
+            resp = e.response
 
-        obj = delete_policy_response.DeletePolicyResponse.from_dictionary(resp.json())
-        if raw_response:
-            return resp, obj
-        return obj
+        if not resp.ok:
+            error_str = f'delete_policy_definition for url {urllib.parse.unquote(resp.url)} failed.'
+            raise clumio_exception.ClumioException(error_str, resp=resp)
+
+        resp_instance = get_instance_from_response(resp)
+
+        return resp_instance
+
+
+class PolicyDefinitionsV1ControllerPaginator:
+    """A Controller to access Endpoints for policy-definitions resource with pagination."""
+
+    def __init__(self, controller: base_controller.BaseController) -> None:
+        self.controller = controller

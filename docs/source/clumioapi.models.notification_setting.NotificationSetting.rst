@@ -17,10 +17,18 @@ clumioapi.models.notification\_setting.NotificationSetting
    .. autosummary::
    
       ~NotificationSetting.__init__
+      ~NotificationSetting.dict
       ~NotificationSetting.from_dictionary
+      ~NotificationSetting.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~NotificationSetting.EmailList
    
    

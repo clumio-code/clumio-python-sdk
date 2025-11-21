@@ -17,10 +17,20 @@ clumioapi.models.read\_aws\_templates\_v2\_response.ReadAWSTemplatesV2Response
    .. autosummary::
    
       ~ReadAWSTemplatesV2Response.__init__
+      ~ReadAWSTemplatesV2Response.dict
       ~ReadAWSTemplatesV2Response.from_dictionary
+      ~ReadAWSTemplatesV2Response.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ReadAWSTemplatesV2Response.Config
+      ~ReadAWSTemplatesV2Response.Links
+      ~ReadAWSTemplatesV2Response.raw_response
    
    

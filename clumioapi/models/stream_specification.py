@@ -1,12 +1,16 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='StreamSpecification')
 
 
+@dataclasses.dataclass
 class StreamSpecification:
     """Implementation of the 'StreamSpecification' model.
 
@@ -14,39 +18,56 @@ class StreamSpecification:
     data type (`S` for string, `N` for number, `B` for binary).
 
     Attributes:
-        enabled:
-            Indicates whether DynamoDB Streams is enabled (true) or disabled (false)
+        Enabled:
+            Indicates whether dynamodb streams is enabled (true) or disabled (false)
             on the table.
-        view_type:
-            When an item in the table is modified, ViewType determines what information
-            is written to the stream for this table. Valid values for ViewType
+
+        ViewType:
+            When an item in the table is modified, viewtype determines what information
+            is written to the stream for this table. valid values for viewtype
             are:
 
-            KEYS_ONLY - Only the key attributes of the modified item are written
+            keys_only - only the key attributes of the modified item are written
             to the stream.
 
-            NEW_IMAGE - The entire item, as it appears after it was modified, is
+            new_image - the entire item, as it appears after it was modified, is
             written to the stream.
 
-            OLD_IMAGE - The entire item, as it appeared before it was modified,
+            old_image - the entire item, as it appeared before it was modified,
             is written to the stream.
 
-            NEW_AND_OLD_IMAGES - Both the new and the old item images of the item
+            new_and_old_images - both the new and the old item images of the item
             are written to the stream.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {'enabled': 'enabled', 'view_type': 'view_type'}
+    Enabled: bool | None = None
+    ViewType: str | None = None
 
-    def __init__(self, enabled: bool | None = None, view_type: str | None = None) -> None:
-        """Constructor for the StreamSpecification class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.enabled: bool | None = enabled
-        self.view_type: str | None = view_type
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -57,8 +78,8 @@ class StreamSpecification:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('enabled', None)
         val_enabled = val
@@ -71,3 +92,19 @@ class StreamSpecification:
             val_enabled,
             val_view_type,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

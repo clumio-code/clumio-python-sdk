@@ -17,10 +17,20 @@ clumioapi.models.update\_policy\_response\_links.UpdatePolicyResponseLinks
    .. autosummary::
    
       ~UpdatePolicyResponseLinks.__init__
+      ~UpdatePolicyResponseLinks.dict
       ~UpdatePolicyResponseLinks.from_dictionary
+      ~UpdatePolicyResponseLinks.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~UpdatePolicyResponseLinks.ReadTask
+      ~UpdatePolicyResponseLinks.Self
+      ~UpdatePolicyResponseLinks.raw_response
    
    

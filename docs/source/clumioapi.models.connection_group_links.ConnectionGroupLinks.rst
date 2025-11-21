@@ -17,10 +17,20 @@ clumioapi.models.connection\_group\_links.ConnectionGroupLinks
    .. autosummary::
    
       ~ConnectionGroupLinks.__init__
+      ~ConnectionGroupLinks.dict
       ~ConnectionGroupLinks.from_dictionary
+      ~ConnectionGroupLinks.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ConnectionGroupLinks.ReadOrganizationalUnit
+      ~ConnectionGroupLinks.Self
+      ~ConnectionGroupLinks.UpdateAwsConnectionGroup
    
    

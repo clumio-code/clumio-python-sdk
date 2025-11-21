@@ -1,71 +1,79 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import update_entities as update_entities_
 from clumioapi.models import \
     update_protection_group_assignments as update_protection_group_assignments_
 from clumioapi.models import update_user_assignments_with_role as update_user_assignments_with_role_
+import requests
 
 T = TypeVar('T', bound='PatchOrganizationalUnitV2Request')
 
 
+@dataclasses.dataclass
 class PatchOrganizationalUnitV2Request:
     """Implementation of the 'PatchOrganizationalUnitV2Request' model.
 
     Attributes:
-        description:
+        Description:
             A description of the organizational unit.
-        entities:
+
+        Entities:
             Updates to the entities in the organizational unit.
-            Adding or removing entities from the OU is an asynchronous operation.
-            The response has a task ID which can be used to track the progress of the
+            adding or removing entities from the ou is an asynchronous operation.
+            the response has a task id which can be used to track the progress of the
             operation.
-        name:
+
+        Name:
             Unique name assigned to the organizational unit.
-        protection_groups:
-            UpdateProtectionGroupAssignments denotes the protection groups to be assigned or
+
+        ProtectionGroups:
+            Updateprotectiongroupassignments denotes the protection groups to be assigned or
             unassigned.
-            Updates to the protection group assignments.
-        users:
-            UpdateUserAssignmentsWithRole denotes the users to be added or removed along
+            updates to the protection group assignments.
+
+        Users:
+            Updateuserassignmentswithrole denotes the users to be added or removed along
             with the role.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'description': 'description',
-        'entities': 'entities',
-        'name': 'name',
-        'protection_groups': 'protection_groups',
-        'users': 'users',
-    }
+    Description: str | None = None
+    Entities: update_entities_.UpdateEntities | None = None
+    Name: str | None = None
+    ProtectionGroups: (
+        update_protection_group_assignments_.UpdateProtectionGroupAssignments | None
+    ) = None
+    Users: update_user_assignments_with_role_.UpdateUserAssignmentsWithRole | None = None
 
-    def __init__(
-        self,
-        description: str | None = None,
-        entities: update_entities_.UpdateEntities | None = None,
-        name: str | None = None,
-        protection_groups: (
-            update_protection_group_assignments_.UpdateProtectionGroupAssignments | None
-        ) = None,
-        users: update_user_assignments_with_role_.UpdateUserAssignmentsWithRole | None = None,
-    ) -> None:
-        """Constructor for the PatchOrganizationalUnitV2Request class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.description: str | None = description
-        self.entities: update_entities_.UpdateEntities | None = entities
-        self.name: str | None = name
-        self.protection_groups: (
-            update_protection_group_assignments_.UpdateProtectionGroupAssignments | None
-        ) = protection_groups
-        self.users: update_user_assignments_with_role_.UpdateUserAssignmentsWithRole | None = users
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -76,8 +84,8 @@ class PatchOrganizationalUnitV2Request:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('description', None)
         val_description = val
@@ -108,3 +116,19 @@ class PatchOrganizationalUnitV2Request:
             val_protection_groups,
             val_users,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

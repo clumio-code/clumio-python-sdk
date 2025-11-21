@@ -17,10 +17,19 @@ clumioapi.models.user\_with\_role.UserWithRole
    .. autosummary::
    
       ~UserWithRole.__init__
+      ~UserWithRole.dict
       ~UserWithRole.from_dictionary
+      ~UserWithRole.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~UserWithRole.AssignedRole
+      ~UserWithRole.UserId
    
    

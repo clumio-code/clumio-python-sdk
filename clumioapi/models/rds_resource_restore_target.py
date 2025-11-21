@@ -1,96 +1,101 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import aws_tag_common_model as aws_tag_common_model_
+import requests
 
 T = TypeVar('T', bound='RdsResourceRestoreTarget')
 
 
+@dataclasses.dataclass
 class RdsResourceRestoreTarget:
     """Implementation of the 'RdsResourceRestoreTarget' model.
 
     The configuration of the RDS resource to be restored.
 
     Attributes:
-        environment_id:
-            The Clumio-assigned ID of the AWS environment to be used as the restore
+        EnvironmentId:
+            The clumio-assigned id of the aws environment to be used as the restore
             destination.
-            Use the [GET /datasources/aws/environments](#operation/list-aws-environments)
+            use the [get /datasources/aws/environments](#operation/list-aws-environments)
             endpoint to fetch valid values.
-        instance_class:
-            The instance class of the RDS resources to be created. Possible values include
+
+        InstanceClass:
+            The instance class of the rds resources to be created. possible values include
             `db.r5.2xlarge` and `db.t2.small`.
-        is_publicly_accessible:
-            Designates whether the restored RDS resource also has a public IP address in
-            addition to the private IP address.
-        kms_key_native_id:
-            The AWS-assigned ID of the KMS encryption key used to encrypt data in this RDS
+
+        IsPubliclyAccessible:
+            Designates whether the restored rds resource also has a public ip address in
+            addition to the private ip address.
+
+        KmsKeyNativeId:
+            The aws-assigned id of the kms encryption key used to encrypt data in this rds
             resource.
-        name:
-            The name given to the restored RDS resource.
-            The name must follow AWS RDS naming conventions:
-            https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Limits.html#RDS_Limi
-            ts.Constraints
-        option_group_name:
-            Option group name to be added to the restored RDS resource.
-        parameter_group_name:
-            The name of the parameter group to be associated with the restored RDS resource.
-        security_group_native_ids:
-            The AWS-assigned IDs of the security groups to be associated with the restored
-            RDS resource.
-        subnet_group_name:
-            The AWS-assigned name of the subnet group to be associated with the restored RDS
+
+        Name:
+            The name given to the restored rds resource.
+            the name must follow aws rds naming conventions:
+            https://docs.aws.amazon.com/amazonrds/latest/userguide/chap_limits.html#rds_limi
+            ts.constraints.
+
+        OptionGroupName:
+            Option group name to be added to the restored rds resource.
+
+        ParameterGroupName:
+            The name of the parameter group to be associated with the restored rds resource.
+
+        SecurityGroupNativeIds:
+            The aws-assigned ids of the security groups to be associated with the restored
+            rds resource.
+
+        SubnetGroupName:
+            The aws-assigned name of the subnet group to be associated with the restored rds
             resource.
-        tags:
-            The AWS tags to be applied to the restored instance.
+
+        Tags:
+            The aws tags to be applied to the restored instance.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'environment_id': 'environment_id',
-        'instance_class': 'instance_class',
-        'is_publicly_accessible': 'is_publicly_accessible',
-        'kms_key_native_id': 'kms_key_native_id',
-        'name': 'name',
-        'option_group_name': 'option_group_name',
-        'parameter_group_name': 'parameter_group_name',
-        'security_group_native_ids': 'security_group_native_ids',
-        'subnet_group_name': 'subnet_group_name',
-        'tags': 'tags',
-    }
+    EnvironmentId: str | None = None
+    InstanceClass: str | None = None
+    IsPubliclyAccessible: bool | None = None
+    KmsKeyNativeId: str | None = None
+    Name: str | None = None
+    OptionGroupName: str | None = None
+    ParameterGroupName: str | None = None
+    SecurityGroupNativeIds: Sequence[str] | None = None
+    SubnetGroupName: str | None = None
+    Tags: Sequence[aws_tag_common_model_.AwsTagCommonModel] | None = None
 
-    def __init__(
-        self,
-        environment_id: str | None = None,
-        instance_class: str | None = None,
-        is_publicly_accessible: bool | None = None,
-        kms_key_native_id: str | None = None,
-        name: str | None = None,
-        option_group_name: str | None = None,
-        parameter_group_name: str | None = None,
-        security_group_native_ids: Sequence[str] | None = None,
-        subnet_group_name: str | None = None,
-        tags: Sequence[aws_tag_common_model_.AwsTagCommonModel] | None = None,
-    ) -> None:
-        """Constructor for the RdsResourceRestoreTarget class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.environment_id: str | None = environment_id
-        self.instance_class: str | None = instance_class
-        self.is_publicly_accessible: bool | None = is_publicly_accessible
-        self.kms_key_native_id: str | None = kms_key_native_id
-        self.name: str | None = name
-        self.option_group_name: str | None = option_group_name
-        self.parameter_group_name: str | None = parameter_group_name
-        self.security_group_native_ids: Sequence[str] | None = security_group_native_ids
-        self.subnet_group_name: str | None = subnet_group_name
-        self.tags: Sequence[aws_tag_common_model_.AwsTagCommonModel] | None = tags
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -101,8 +106,8 @@ class RdsResourceRestoreTarget:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('environment_id', None)
         val_environment_id = val
@@ -133,9 +138,8 @@ class RdsResourceRestoreTarget:
 
         val = dictionary.get('tags', None)
 
-        val_tags = None
+        val_tags = []
         if val:
-            val_tags = list()
             for value in val:
                 val_tags.append(aws_tag_common_model_.AwsTagCommonModel.from_dictionary(value))
 
@@ -152,3 +156,19 @@ class RdsResourceRestoreTarget:
             val_subnet_group_name,
             val_tags,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

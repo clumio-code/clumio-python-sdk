@@ -17,10 +17,31 @@ clumioapi.models.read\_user\_response.ReadUserResponse
    .. autosummary::
    
       ~ReadUserResponse.__init__
+      ~ReadUserResponse.dict
       ~ReadUserResponse.from_dictionary
+      ~ReadUserResponse.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ReadUserResponse.AccessControlConfiguration
+      ~ReadUserResponse.Email
+      ~ReadUserResponse.Embedded
+      ~ReadUserResponse.Etag
+      ~ReadUserResponse.FullName
+      ~ReadUserResponse.Id
+      ~ReadUserResponse.Inviter
+      ~ReadUserResponse.IsConfirmed
+      ~ReadUserResponse.IsEnabled
+      ~ReadUserResponse.LastActivityTimestamp
+      ~ReadUserResponse.LastPasswordChangeTimestamp
+      ~ReadUserResponse.Links
+      ~ReadUserResponse.OrganizationalUnitCount
+      ~ReadUserResponse.raw_response
    
    

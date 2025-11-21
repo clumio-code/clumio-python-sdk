@@ -1,73 +1,79 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import \
     restore_s3_bucket_source_pitr_options as restore_s3_bucket_source_pitr_options_
 from clumioapi.models import \
     restore_s3_bucket_source_undo_delete_marker_options as \
     restore_s3_bucket_source_undo_delete_marker_options_
 from clumioapi.models import source_object_filters_v2 as source_object_filters_v2_
+import requests
 
 T = TypeVar('T', bound='RestoreS3BucketSource')
 
 
+@dataclasses.dataclass
 class RestoreS3BucketSource:
     """Implementation of the 'RestoreS3BucketSource' model.
 
     The parameters for initiating an S3 bucket restore.
 
     Attributes:
-        bucket_id:
-            The Clumio-assigned ID of the bucket to be restored. Use the
-            [GET /datasources/aws/s3-buckets](#operation/list-aws-s3-buckets) endpoint
+        BucketId:
+            The clumio-assigned id of the bucket to be restored. use the
+            [get /datasources/aws/s3-buckets](#operation/list-aws-s3-buckets) endpoint
             to fetch valid values.
-        object_filters:
+
+        ObjectFilters:
             Search for or restore only objects that pass the source object filter.
-        point_in_time_recovery:
-            This field is required when the request type is 'Rollback'. The parameters for
+
+        PointInTimeRecovery:
+            This field is required when the request type is 'rollback'. the parameters for
             initiating a point in time restore.
-        undo_delete_marker_options:
-            This field is required when the request type is 'Undo delete marker'.
+
+        UndoDeleteMarkerOptions:
+            This field is required when the request type is 'undo delete marker'.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'bucket_id': 'bucket_id',
-        'object_filters': 'object_filters',
-        'point_in_time_recovery': 'point_in_time_recovery',
-        'undo_delete_marker_options': 'undo_delete_marker_options',
-    }
+    BucketId: str | None = None
+    ObjectFilters: source_object_filters_v2_.SourceObjectFiltersV2 | None = None
+    PointInTimeRecovery: (
+        restore_s3_bucket_source_pitr_options_.RestoreS3BucketSourcePitrOptions | None
+    ) = None
+    UndoDeleteMarkerOptions: (
+        restore_s3_bucket_source_undo_delete_marker_options_.RestoreS3BucketSourceUndoDeleteMarkerOptions
+        | None
+    ) = None
 
-    def __init__(
-        self,
-        bucket_id: str | None = None,
-        object_filters: source_object_filters_v2_.SourceObjectFiltersV2 | None = None,
-        point_in_time_recovery: (
-            restore_s3_bucket_source_pitr_options_.RestoreS3BucketSourcePitrOptions | None
-        ) = None,
-        undo_delete_marker_options: (
-            restore_s3_bucket_source_undo_delete_marker_options_.RestoreS3BucketSourceUndoDeleteMarkerOptions
-            | None
-        ) = None,
-    ) -> None:
-        """Constructor for the RestoreS3BucketSource class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.bucket_id: str | None = bucket_id
-        self.object_filters: source_object_filters_v2_.SourceObjectFiltersV2 | None = object_filters
-        self.point_in_time_recovery: (
-            restore_s3_bucket_source_pitr_options_.RestoreS3BucketSourcePitrOptions | None
-        ) = point_in_time_recovery
-        self.undo_delete_marker_options: (
-            restore_s3_bucket_source_undo_delete_marker_options_.RestoreS3BucketSourceUndoDeleteMarkerOptions
-            | None
-        ) = undo_delete_marker_options
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -78,8 +84,8 @@ class RestoreS3BucketSource:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('bucket_id', None)
         val_bucket_id = val
@@ -106,3 +112,19 @@ class RestoreS3BucketSource:
             val_point_in_time_recovery,
             val_undo_delete_marker_options,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

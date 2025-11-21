@@ -17,10 +17,20 @@ clumioapi.models.s3\_replication\_rule\_filter.S3ReplicationRuleFilter
    .. autosummary::
    
       ~S3ReplicationRuleFilter.__init__
+      ~S3ReplicationRuleFilter.dict
       ~S3ReplicationRuleFilter.from_dictionary
+      ~S3ReplicationRuleFilter.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~S3ReplicationRuleFilter.And
+      ~S3ReplicationRuleFilter.Prefix
+      ~S3ReplicationRuleFilter.Tag
    
    

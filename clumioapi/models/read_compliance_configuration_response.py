@@ -1,96 +1,101 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import compliance_configuration_links as compliance_configuration_links_
 from clumioapi.models import latest_run as latest_run_
 from clumioapi.models import notification_setting as notification_setting_
 from clumioapi.models import parameter as parameter_
 from clumioapi.models import schedule_setting as schedule_setting_
+import requests
 
 T = TypeVar('T', bound='ReadComplianceConfigurationResponse')
 
 
+@dataclasses.dataclass
 class ReadComplianceConfigurationResponse:
     """Implementation of the 'ReadComplianceConfigurationResponse' model.
 
     Attributes:
-        embedded:
+        Embedded:
             If the `embed` query parameter is set, displays the responses of the related
             resource,
             as defined by the embeddable link specified.
-        etag:
-            ETag value
-        links:
-            URLs to pages related to the resource.
-        created:
-            The RFC3339 format time when the report configuration was created.
-        description:
+
+        Etag:
+            Etag value.
+
+        Links:
+            Urls to pages related to the resource.
+
+        Created:
+            The rfc3339 format time when the report configuration was created.
+
+        Description:
             The user-provided description of the compliance report configuration.
-        p_id:
+
+        Id:
             The unique identifier of the report configuration.
-        latest_run:
+
+        LatestRun:
             Most recent report run generated from the report configuration.
-        name:
+
+        Name:
             The user-provided name of the compliance report configuration.
-        notification:
+
+        Notification:
             Notification channels to send the generated report runs.
-        parameter:
+
+        Parameter:
             Filter and control parameters of compliance report.
-        schedule:
-            When the report will be generated and sent. If the schedule is not provided then
+
+        Schedule:
+            When the report will be generated and sent. if the schedule is not provided then
             a
             default value will be used.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'embedded': '_embedded',
-        'etag': '_etag',
-        'links': '_links',
-        'created': 'created',
-        'description': 'description',
-        'p_id': 'id',
-        'latest_run': 'latest_run',
-        'name': 'name',
-        'notification': 'notification',
-        'parameter': 'parameter',
-        'schedule': 'schedule',
-    }
+    Embedded: object | None = None
+    Etag: str | None = None
+    Links: compliance_configuration_links_.ComplianceConfigurationLinks | None = None
+    Created: str | None = None
+    Description: str | None = None
+    Id: str | None = None
+    LatestRun: latest_run_.LatestRun | None = None
+    Name: str | None = None
+    Notification: notification_setting_.NotificationSetting | None = None
+    Parameter: parameter_.Parameter | None = None
+    Schedule: schedule_setting_.ScheduleSetting | None = None
+    raw_response: Optional[requests.Response] = None
 
-    def __init__(
-        self,
-        embedded: object | None = None,
-        etag: str | None = None,
-        links: compliance_configuration_links_.ComplianceConfigurationLinks | None = None,
-        created: str | None = None,
-        description: str | None = None,
-        p_id: str | None = None,
-        latest_run: latest_run_.LatestRun | None = None,
-        name: str | None = None,
-        notification: notification_setting_.NotificationSetting | None = None,
-        parameter: parameter_.Parameter | None = None,
-        schedule: schedule_setting_.ScheduleSetting | None = None,
-    ) -> None:
-        """Constructor for the ReadComplianceConfigurationResponse class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.embedded: object | None = embedded
-        self.etag: str | None = etag
-        self.links: compliance_configuration_links_.ComplianceConfigurationLinks | None = links
-        self.created: str | None = created
-        self.description: str | None = description
-        self.p_id: str | None = p_id
-        self.latest_run: latest_run_.LatestRun | None = latest_run
-        self.name: str | None = name
-        self.notification: notification_setting_.NotificationSetting | None = notification
-        self.parameter: parameter_.Parameter | None = parameter
-        self.schedule: schedule_setting_.ScheduleSetting | None = schedule
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -101,8 +106,8 @@ class ReadComplianceConfigurationResponse:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('_embedded', None)
         val_embedded = val
@@ -122,7 +127,7 @@ class ReadComplianceConfigurationResponse:
         val_description = val
 
         val = dictionary.get('id', None)
-        val_p_id = val
+        val_id = val
 
         val = dictionary.get('latest_run', None)
         val_latest_run = latest_run_.LatestRun.from_dictionary(val)
@@ -146,10 +151,27 @@ class ReadComplianceConfigurationResponse:
             val_links,
             val_created,
             val_description,
-            val_p_id,
+            val_id,
             val_latest_run,
             val_name,
             val_notification,
             val_parameter,
             val_schedule,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        model_instance.raw_response = response
+        return model_instance

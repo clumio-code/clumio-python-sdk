@@ -17,10 +17,20 @@ clumioapi.models.connection\_region.ConnectionRegion
    .. autosummary::
    
       ~ConnectionRegion.__init__
+      ~ConnectionRegion.dict
       ~ConnectionRegion.from_dictionary
+      ~ConnectionRegion.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ConnectionRegion.Id
+      ~ConnectionRegion.IsDataPlaneRegion
+      ~ConnectionRegion.Name
    
    

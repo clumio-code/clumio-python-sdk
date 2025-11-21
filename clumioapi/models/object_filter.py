@@ -1,64 +1,73 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import prefix_filter as prefix_filter_
+import requests
 
 T = TypeVar('T', bound='ObjectFilter')
 
 
+@dataclasses.dataclass
 class ObjectFilter:
     """Implementation of the 'ObjectFilter' model.
 
     ObjectFilterdefines which objects will be backed up.
 
     Attributes:
-        earliest_last_modified_timestamp:
-            The cutoff date for inclusion objects from the backup. Any object with a last
+        EarliestLastModifiedTimestamp:
+            The cutoff date for inclusion objects from the backup. any object with a last
             modified
-            date after or equal  than this value will  be included in the backup. This is
+            date after or equal  than this value will  be included in the backup. this is
             useful for
             filtering out old or irrelevant objects based on their modification timestamps.
-            EarliestLastModifiedTimeStamp support RFC-3339 format.
-        latest_version_only:
+            earliestlastmodifiedtimestamp support rfc-3339 format.
+
+        LatestVersionOnly:
             Whether to back up only the latest object version.
-        prefix_filters:
+
+        PrefixFilters:
             A list of prefixes to include or exclude in this protection group's backups.
-            If not specified, then all objects will be backed up.
-        storage_classes:
-            Storage class to include in the backup. If not specified, then all objects
-            across all storage
-            classes will be backed up. Valid values are: `S3 Standard`, `S3 Standard-IA`,
-            `S3 Intelligent-Tiering`, and `S3 One Zone-IA`.
+            if not specified, then all objects will be backed up.
+
+        StorageClasses:
+            `s3 standard`, `s3 standard-ia`,
+            `s3 intelligent-tiering`, and `s3 one zone-ia`.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'earliest_last_modified_timestamp': 'earliest_last_modified_timestamp',
-        'latest_version_only': 'latest_version_only',
-        'prefix_filters': 'prefix_filters',
-        'storage_classes': 'storage_classes',
-    }
+    EarliestLastModifiedTimestamp: str | None = None
+    LatestVersionOnly: bool | None = None
+    PrefixFilters: Sequence[prefix_filter_.PrefixFilter] | None = None
+    StorageClasses: Sequence[str] | None = None
 
-    def __init__(
-        self,
-        earliest_last_modified_timestamp: str | None = None,
-        latest_version_only: bool | None = None,
-        prefix_filters: Sequence[prefix_filter_.PrefixFilter] | None = None,
-        storage_classes: Sequence[str] | None = None,
-    ) -> None:
-        """Constructor for the ObjectFilter class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.earliest_last_modified_timestamp: str | None = earliest_last_modified_timestamp
-        self.latest_version_only: bool | None = latest_version_only
-        self.prefix_filters: Sequence[prefix_filter_.PrefixFilter] | None = prefix_filters
-        self.storage_classes: Sequence[str] | None = storage_classes
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -69,8 +78,8 @@ class ObjectFilter:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('earliest_last_modified_timestamp', None)
         val_earliest_last_modified_timestamp = val
@@ -80,9 +89,8 @@ class ObjectFilter:
 
         val = dictionary.get('prefix_filters', None)
 
-        val_prefix_filters = None
+        val_prefix_filters = []
         if val:
-            val_prefix_filters = list()
             for value in val:
                 val_prefix_filters.append(prefix_filter_.PrefixFilter.from_dictionary(value))
 
@@ -96,3 +104,19 @@ class ObjectFilter:
             val_prefix_filters,
             val_storage_classes,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

@@ -17,10 +17,19 @@ clumioapi.models.tag.Tag
    .. autosummary::
    
       ~Tag.__init__
+      ~Tag.dict
       ~Tag.from_dictionary
+      ~Tag.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~Tag.Key
+      ~Tag.Value
    
    

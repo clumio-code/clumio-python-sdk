@@ -17,10 +17,19 @@ clumioapi.models.management\_group\_links.ManagementGroupLinks
    .. autosummary::
    
       ~ManagementGroupLinks.__init__
+      ~ManagementGroupLinks.dict
       ~ManagementGroupLinks.from_dictionary
+      ~ManagementGroupLinks.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ManagementGroupLinks.Self
+      ~ManagementGroupLinks.UpdateManagementGroup
    
    

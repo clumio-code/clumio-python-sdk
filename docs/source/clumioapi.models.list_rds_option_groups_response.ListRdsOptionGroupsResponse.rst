@@ -17,10 +17,24 @@ clumioapi.models.list\_rds\_option\_groups\_response.ListRdsOptionGroupsResponse
    .. autosummary::
    
       ~ListRdsOptionGroupsResponse.__init__
+      ~ListRdsOptionGroupsResponse.dict
       ~ListRdsOptionGroupsResponse.from_dictionary
+      ~ListRdsOptionGroupsResponse.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ListRdsOptionGroupsResponse.CurrentCount
+      ~ListRdsOptionGroupsResponse.Embedded
+      ~ListRdsOptionGroupsResponse.FilterApplied
+      ~ListRdsOptionGroupsResponse.Limit
+      ~ListRdsOptionGroupsResponse.Links
+      ~ListRdsOptionGroupsResponse.Start
+      ~ListRdsOptionGroupsResponse.raw_response
    
    

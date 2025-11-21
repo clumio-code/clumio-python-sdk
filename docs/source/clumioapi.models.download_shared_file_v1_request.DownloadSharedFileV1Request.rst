@@ -17,10 +17,19 @@ clumioapi.models.download\_shared\_file\_v1\_request.DownloadSharedFileV1Request
    .. autosummary::
    
       ~DownloadSharedFileV1Request.__init__
+      ~DownloadSharedFileV1Request.dict
       ~DownloadSharedFileV1Request.from_dictionary
+      ~DownloadSharedFileV1Request.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~DownloadSharedFileV1Request.EmailLink
+      ~DownloadSharedFileV1Request.Passcode
    
    

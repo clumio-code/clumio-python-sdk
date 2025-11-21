@@ -24,11 +24,4 @@ clumioapi.controllers.aws\_environments\_v1.AwsEnvironmentsV1Controller
 
    
    
-   .. rubric:: Attributes
-
-   .. autosummary::
-   
-      ~AwsEnvironmentsV1Controller.client
-      ~AwsEnvironmentsV1Controller.global_headers
-   
    

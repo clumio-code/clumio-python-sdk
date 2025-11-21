@@ -1,12 +1,16 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='AmiModel')
 
 
+@dataclasses.dataclass
 class AmiModel:
     """Implementation of the 'AmiModel' model.
 
@@ -14,99 +18,96 @@ class AmiModel:
     provides the information required to launch an instance.
 
     Attributes:
-        ami_native_id:
-            The AWS-assigned ID of the AMI.
-        architecture:
-            The architecture of the AMI. Possible values include 'i386', 'x86_64', and
+        AmiNativeId:
+            The aws-assigned id of the ami.
+
+        Architecture:
+            The architecture of the ami. possible values include 'i386', 'x86_64', and
             'arm64'.
-        has_ena_support:
-            Specifies whether enhanced networking with ENA is enabled.
-        hypervisor_type:
-            The hypervisor type of the AMI. Possible values include 'ovm' and 'xen'.
-        image_type:
-            Type of Image (machine | kernel | ramdisk ).
-        is_public:
-            A Boolean that indicates whether the image is public.
-        name:
-            The name of the AMI.
-        number_of_ebs_volumes:
+
+        HasEnaSupport:
+            Specifies whether enhanced networking with ena is enabled.
+
+        HypervisorType:
+            The hypervisor type of the ami. possible values include 'ovm' and 'xen'.
+
+        ImageType:
+            Type of image (machine | kernel | ramdisk ).
+
+        IsPublic:
+            A boolean that indicates whether the image is public.
+
+        Name:
+            The name of the ami.
+
+        NumberOfEbsVolumes:
             Number of ebs volumes.
-        number_of_ephemeral_volumes:
+
+        NumberOfEphemeralVolumes:
             Number of ephemeral volumes.
-        owner_id:
-            The ID of the Amazon Web Services account that owns the image.
-        platform:
-            The platform of the AMI. Possible values include "windows" and "linux".
-        root_device_name:
-            The name of the root device used by the AMI.
-        root_device_type:
-            The type of root device used by the AMI.
-        sriov_net_support:
-            A value of simple indicates that enhanced networking with the Intel 82599 VF
+
+        OwnerId:
+            The id of the amazon web services account that owns the image.
+
+        Platform:
+            The platform of the ami. possible values include "windows" and "linux".
+
+        RootDeviceName:
+            The name of the root device used by the ami.
+
+        RootDeviceType:
+            The type of root device used by the ami.
+
+        SriovNetSupport:
+            A value of simple indicates that enhanced networking with the intel 82599 vf
             interface is enabled.
-        virtualization_type:
-            The type of virtualization of the AMI. Possible values include 'hvm' and
-            'paravirtual.'
+
+        VirtualizationType:
+            The type of virtualization of the ami. possible values include 'hvm' and
+            'paravirtual.'.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'ami_native_id': 'ami_native_id',
-        'architecture': 'architecture',
-        'has_ena_support': 'has_ena_support',
-        'hypervisor_type': 'hypervisor_type',
-        'image_type': 'image_type',
-        'is_public': 'is_public',
-        'name': 'name',
-        'number_of_ebs_volumes': 'number_of_ebs_volumes',
-        'number_of_ephemeral_volumes': 'number_of_ephemeral_volumes',
-        'owner_id': 'owner_id',
-        'platform': 'platform',
-        'root_device_name': 'root_device_name',
-        'root_device_type': 'root_device_type',
-        'sriov_net_support': 'sriov_net_support',
-        'virtualization_type': 'virtualization_type',
-    }
+    AmiNativeId: str | None = None
+    Architecture: str | None = None
+    HasEnaSupport: bool | None = None
+    HypervisorType: str | None = None
+    ImageType: str | None = None
+    IsPublic: bool | None = None
+    Name: str | None = None
+    NumberOfEbsVolumes: int | None = None
+    NumberOfEphemeralVolumes: int | None = None
+    OwnerId: str | None = None
+    Platform: str | None = None
+    RootDeviceName: str | None = None
+    RootDeviceType: str | None = None
+    SriovNetSupport: str | None = None
+    VirtualizationType: str | None = None
 
-    def __init__(
-        self,
-        ami_native_id: str | None = None,
-        architecture: str | None = None,
-        has_ena_support: bool | None = None,
-        hypervisor_type: str | None = None,
-        image_type: str | None = None,
-        is_public: bool | None = None,
-        name: str | None = None,
-        number_of_ebs_volumes: int | None = None,
-        number_of_ephemeral_volumes: int | None = None,
-        owner_id: str | None = None,
-        platform: str | None = None,
-        root_device_name: str | None = None,
-        root_device_type: str | None = None,
-        sriov_net_support: str | None = None,
-        virtualization_type: str | None = None,
-    ) -> None:
-        """Constructor for the AmiModel class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.ami_native_id: str | None = ami_native_id
-        self.architecture: str | None = architecture
-        self.has_ena_support: bool | None = has_ena_support
-        self.hypervisor_type: str | None = hypervisor_type
-        self.image_type: str | None = image_type
-        self.is_public: bool | None = is_public
-        self.name: str | None = name
-        self.number_of_ebs_volumes: int | None = number_of_ebs_volumes
-        self.number_of_ephemeral_volumes: int | None = number_of_ephemeral_volumes
-        self.owner_id: str | None = owner_id
-        self.platform: str | None = platform
-        self.root_device_name: str | None = root_device_name
-        self.root_device_type: str | None = root_device_type
-        self.sriov_net_support: str | None = sriov_net_support
-        self.virtualization_type: str | None = virtualization_type
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -117,8 +118,8 @@ class AmiModel:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('ami_native_id', None)
         val_ami_native_id = val
@@ -183,3 +184,19 @@ class AmiModel:
             val_sriov_net_support,
             val_virtualization_type,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

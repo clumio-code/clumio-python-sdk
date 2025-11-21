@@ -20,6 +20,7 @@ clumioapi.controllers.aws\_ec2\_instances\_v1
       :template: custom-class-template.rst
    
       AwsEc2InstancesV1Controller
+      AwsEc2InstancesV1ControllerPaginator
    
    
 

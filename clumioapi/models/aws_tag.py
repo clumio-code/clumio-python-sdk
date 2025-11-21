@@ -1,82 +1,88 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import aws_tag_embedded as aws_tag_embedded_
 from clumioapi.models import aws_tag_links as aws_tag_links_
 from clumioapi.models import protection_info as protection_info_
+import requests
 
 T = TypeVar('T', bound='AwsTag')
 
 
+@dataclasses.dataclass
 class AwsTag:
     """Implementation of the 'AwsTag' model.
 
     Attributes:
-        embedded:
+        Embedded:
             Embedded responses related to the resource.
-        links:
-            URLs to pages related to the resource.
-        p_id:
-            The Clumio-assigned ID of the AWS tag.
-        key:
-            The AWS-assigned tag key.
-        key_id:
-            The Clumio-assigned ID of the AWS key.
-        organizational_unit_id:
-            The Clumio-assigned ID of the organizational unit associated with the tag.
-        protection_info:
-            The protection policy applied to this resource. If the resource is not
+
+        Links:
+            Urls to pages related to the resource.
+
+        Id:
+            The clumio-assigned id of the aws tag.
+
+        Key:
+            The aws-assigned tag key.
+
+        KeyId:
+            The clumio-assigned id of the aws key.
+
+        OrganizationalUnitId:
+            The clumio-assigned id of the organizational unit associated with the tag.
+
+        ProtectionInfo:
+            The protection policy applied to this resource. if the resource is not
             protected, then this field has a value of `null`.
-        protection_status:
-            The protection status of the EBS volume. Possible values include "protected" and
+
+        ProtectionStatus:
+            The protection status of the ebs volume. possible values include "protected" and
             "unprotected".
-        value:
-            The AWS-assigned tag value.
+
+        Value:
+            The aws-assigned tag value.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'embedded': '_embedded',
-        'links': '_links',
-        'p_id': 'id',
-        'key': 'key',
-        'key_id': 'key_id',
-        'organizational_unit_id': 'organizational_unit_id',
-        'protection_info': 'protection_info',
-        'protection_status': 'protection_status',
-        'value': 'value',
-    }
+    Embedded: aws_tag_embedded_.AwsTagEmbedded | None = None
+    Links: aws_tag_links_.AwsTagLinks | None = None
+    Id: str | None = None
+    Key: str | None = None
+    KeyId: str | None = None
+    OrganizationalUnitId: str | None = None
+    ProtectionInfo: protection_info_.ProtectionInfo | None = None
+    ProtectionStatus: str | None = None
+    Value: str | None = None
 
-    def __init__(
-        self,
-        embedded: aws_tag_embedded_.AwsTagEmbedded | None = None,
-        links: aws_tag_links_.AwsTagLinks | None = None,
-        p_id: str | None = None,
-        key: str | None = None,
-        key_id: str | None = None,
-        organizational_unit_id: str | None = None,
-        protection_info: protection_info_.ProtectionInfo | None = None,
-        protection_status: str | None = None,
-        value: str | None = None,
-    ) -> None:
-        """Constructor for the AwsTag class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.embedded: aws_tag_embedded_.AwsTagEmbedded | None = embedded
-        self.links: aws_tag_links_.AwsTagLinks | None = links
-        self.p_id: str | None = p_id
-        self.key: str | None = key
-        self.key_id: str | None = key_id
-        self.organizational_unit_id: str | None = organizational_unit_id
-        self.protection_info: protection_info_.ProtectionInfo | None = protection_info
-        self.protection_status: str | None = protection_status
-        self.value: str | None = value
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -87,8 +93,8 @@ class AwsTag:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('_embedded', None)
         val_embedded = aws_tag_embedded_.AwsTagEmbedded.from_dictionary(val)
@@ -97,7 +103,7 @@ class AwsTag:
         val_links = aws_tag_links_.AwsTagLinks.from_dictionary(val)
 
         val = dictionary.get('id', None)
-        val_p_id = val
+        val_id = val
 
         val = dictionary.get('key', None)
         val_key = val
@@ -121,7 +127,7 @@ class AwsTag:
         return cls(
             val_embedded,
             val_links,
-            val_p_id,
+            val_id,
             val_key,
             val_key_id,
             val_organizational_unit_id,
@@ -129,3 +135,19 @@ class AwsTag:
             val_protection_status,
             val_value,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

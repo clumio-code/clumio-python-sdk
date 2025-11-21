@@ -17,10 +17,23 @@ clumioapi.models.restore\_file\_response.RestoreFileResponse
    .. autosummary::
    
       ~RestoreFileResponse.__init__
+      ~RestoreFileResponse.dict
       ~RestoreFileResponse.from_dictionary
+      ~RestoreFileResponse.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~RestoreFileResponse.Embedded
+      ~RestoreFileResponse.Id
+      ~RestoreFileResponse.Links
+      ~RestoreFileResponse.Passcode
+      ~RestoreFileResponse.TaskId
+      ~RestoreFileResponse.raw_response
    
    

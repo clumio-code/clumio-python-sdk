@@ -17,10 +17,20 @@ clumioapi.models.task\_links.TaskLinks
    .. autosummary::
    
       ~TaskLinks.__init__
+      ~TaskLinks.dict
       ~TaskLinks.from_dictionary
+      ~TaskLinks.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~TaskLinks.ReadOrganizationalUnit
+      ~TaskLinks.Self
+      ~TaskLinks.UpdateTask
    
    

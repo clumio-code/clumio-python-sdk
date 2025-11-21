@@ -17,7 +17,9 @@ clumioapi.models.read\_role\_embedded.ReadRoleEmbedded
    .. autosummary::
    
       ~ReadRoleEmbedded.__init__
+      ~ReadRoleEmbedded.dict
       ~ReadRoleEmbedded.from_dictionary
+      ~ReadRoleEmbedded.from_response
    
    
 

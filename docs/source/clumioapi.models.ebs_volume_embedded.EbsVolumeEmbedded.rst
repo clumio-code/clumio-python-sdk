@@ -17,10 +17,18 @@ clumioapi.models.ebs\_volume\_embedded.EbsVolumeEmbedded
    .. autosummary::
    
       ~EbsVolumeEmbedded.__init__
+      ~EbsVolumeEmbedded.dict
       ~EbsVolumeEmbedded.from_dictionary
+      ~EbsVolumeEmbedded.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~EbsVolumeEmbedded.ReadPolicyDefinition
    
    

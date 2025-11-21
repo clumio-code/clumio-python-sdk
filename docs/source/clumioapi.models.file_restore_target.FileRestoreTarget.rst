@@ -17,10 +17,19 @@ clumioapi.models.file\_restore\_target.FileRestoreTarget
    .. autosummary::
    
       ~FileRestoreTarget.__init__
+      ~FileRestoreTarget.dict
       ~FileRestoreTarget.from_dictionary
+      ~FileRestoreTarget.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~FileRestoreTarget.DirectDownload
+      ~FileRestoreTarget.Email
    
    

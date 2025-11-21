@@ -17,10 +17,23 @@ clumioapi.models.file\_search\_response.FileSearchResponse
    .. autosummary::
    
       ~FileSearchResponse.__init__
+      ~FileSearchResponse.dict
       ~FileSearchResponse.from_dictionary
+      ~FileSearchResponse.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~FileSearchResponse.CurrentCount
+      ~FileSearchResponse.Embedded
+      ~FileSearchResponse.Limit
+      ~FileSearchResponse.Links
+      ~FileSearchResponse.Start
+      ~FileSearchResponse.raw_response
    
    

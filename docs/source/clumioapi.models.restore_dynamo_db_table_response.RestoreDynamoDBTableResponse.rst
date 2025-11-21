@@ -17,10 +17,21 @@ clumioapi.models.restore\_dynamo\_db\_table\_response.RestoreDynamoDBTableRespon
    .. autosummary::
    
       ~RestoreDynamoDBTableResponse.__init__
+      ~RestoreDynamoDBTableResponse.dict
       ~RestoreDynamoDBTableResponse.from_dictionary
+      ~RestoreDynamoDBTableResponse.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~RestoreDynamoDBTableResponse.Embedded
+      ~RestoreDynamoDBTableResponse.Links
+      ~RestoreDynamoDBTableResponse.TaskId
+      ~RestoreDynamoDBTableResponse.raw_response
    
    

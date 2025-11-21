@@ -17,10 +17,19 @@ clumioapi.models.general\_settings\_links.GeneralSettingsLinks
    .. autosummary::
    
       ~GeneralSettingsLinks.__init__
+      ~GeneralSettingsLinks.dict
       ~GeneralSettingsLinks.from_dictionary
+      ~GeneralSettingsLinks.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~GeneralSettingsLinks.Self
+      ~GeneralSettingsLinks.UpdateGeneralSettings
    
    

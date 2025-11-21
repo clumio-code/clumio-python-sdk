@@ -17,10 +17,20 @@ clumioapi.models.option\_setting.OptionSetting
    .. autosummary::
    
       ~OptionSetting.__init__
+      ~OptionSetting.dict
       ~OptionSetting.from_dictionary
+      ~OptionSetting.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~OptionSetting.Description
+      ~OptionSetting.Name
+      ~OptionSetting.Value
    
    

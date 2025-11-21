@@ -25,11 +25,4 @@ clumioapi.controllers.backup\_aws\_ebs\_volumes\_v2.BackupAwsEbsVolumesV2Control
 
    
    
-   .. rubric:: Attributes
-
-   .. autosummary::
-   
-      ~BackupAwsEbsVolumesV2Controller.client
-      ~BackupAwsEbsVolumesV2Controller.global_headers
-   
    

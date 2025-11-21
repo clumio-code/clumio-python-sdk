@@ -1,12 +1,16 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='DirectDownloadDataAccessObject')
 
 
+@dataclasses.dataclass
 class DirectDownloadDataAccessObject:
     """Implementation of the 'DirectDownloadDataAccessObject' model.
 
@@ -15,24 +19,41 @@ class DirectDownloadDataAccessObject:
     then this fieldhas a value of `null`.
 
     Attributes:
-        download_link:
+        DownloadLink:
             The download link used to access the restored file through direct download.
-        retrieved_by:
+
+        RetrievedBy:
             The email address of the user who initiated the file level restore.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {'download_link': 'download_link', 'retrieved_by': 'retrieved_by'}
+    DownloadLink: str | None = None
+    RetrievedBy: str | None = None
 
-    def __init__(self, download_link: str | None = None, retrieved_by: str | None = None) -> None:
-        """Constructor for the DirectDownloadDataAccessObject class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.download_link: str | None = download_link
-        self.retrieved_by: str | None = retrieved_by
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -43,8 +64,8 @@ class DirectDownloadDataAccessObject:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('download_link', None)
         val_download_link = val
@@ -57,3 +78,19 @@ class DirectDownloadDataAccessObject:
             val_download_link,
             val_retrieved_by,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

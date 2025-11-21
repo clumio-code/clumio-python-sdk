@@ -1,48 +1,62 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='SetBucketPropertiesV1Request')
 
 
+@dataclasses.dataclass
 class SetBucketPropertiesV1Request:
     """Implementation of the 'SetBucketPropertiesV1Request' model.
 
     The set of properties that are being updated for the given bucket.
 
     Attributes:
-        event_bridge_enabled:
+        EventBridgeEnabled:
             If true, enables continuous backup for the given bucket.
-            If false, disables continuous backup for the given bucket.
-            If not set, does not update EventBridge.
-        event_bridge_notification_disabled:
-            If true, tries to disable EventBridge notification for the given bucket.
-            It may override the existing bucket notification configuration in the customer's
+            if false, disables continuous backup for the given bucket.
+            if not set, does not update eventbridge.
+
+        EventBridgeNotificationDisabled:
+            If true, tries to disable eventbridge notification for the given bucket.
+            it may override the existing bucket notification configuration in the customer's
             account.
-            This takes effect only when `event_bridge_enabled` is set to `false`.
+            this takes effect only when `event_bridge_enabled` is set to `false`.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'event_bridge_enabled': 'event_bridge_enabled',
-        'event_bridge_notification_disabled': 'event_bridge_notification_disabled',
-    }
+    EventBridgeEnabled: bool | None = None
+    EventBridgeNotificationDisabled: bool | None = None
 
-    def __init__(
-        self,
-        event_bridge_enabled: bool | None = None,
-        event_bridge_notification_disabled: bool | None = None,
-    ) -> None:
-        """Constructor for the SetBucketPropertiesV1Request class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.event_bridge_enabled: bool | None = event_bridge_enabled
-        self.event_bridge_notification_disabled: bool | None = event_bridge_notification_disabled
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -53,8 +67,8 @@ class SetBucketPropertiesV1Request:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('event_bridge_enabled', None)
         val_event_bridge_enabled = val
@@ -67,3 +81,19 @@ class SetBucketPropertiesV1Request:
             val_event_bridge_enabled,
             val_event_bridge_notification_disabled,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

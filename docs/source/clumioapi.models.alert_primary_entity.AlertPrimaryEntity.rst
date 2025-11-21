@@ -17,10 +17,20 @@ clumioapi.models.alert\_primary\_entity.AlertPrimaryEntity
    .. autosummary::
    
       ~AlertPrimaryEntity.__init__
+      ~AlertPrimaryEntity.dict
       ~AlertPrimaryEntity.from_dictionary
+      ~AlertPrimaryEntity.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~AlertPrimaryEntity.Id
+      ~AlertPrimaryEntity.Type
+      ~AlertPrimaryEntity.Value
    
    

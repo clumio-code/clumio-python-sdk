@@ -17,10 +17,38 @@ clumioapi.models.ebs\_backup.EBSBackup
    .. autosummary::
    
       ~EBSBackup.__init__
+      ~EBSBackup.dict
       ~EBSBackup.from_dictionary
+      ~EBSBackup.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~EBSBackup.AccountNativeId
+      ~EBSBackup.AwsAz
+      ~EBSBackup.AwsRegion
+      ~EBSBackup.BackupTier
+      ~EBSBackup.BrowsingFailedReason
+      ~EBSBackup.ExpirationTimestamp
+      ~EBSBackup.Id
+      ~EBSBackup.Iops
+      ~EBSBackup.IsBrowsable
+      ~EBSBackup.IsEncrypted
+      ~EBSBackup.KmsKeyNativeId
+      ~EBSBackup.Links
+      ~EBSBackup.MigrationTimestamp
+      ~EBSBackup.Size
+      ~EBSBackup.StartTimestamp
+      ~EBSBackup.Tags
+      ~EBSBackup.Type
+      ~EBSBackup.UtilizedSizeInBytes
+      ~EBSBackup.VolumeId
+      ~EBSBackup.VolumeNativeId
+      ~EBSBackup.VolumeType
    
    

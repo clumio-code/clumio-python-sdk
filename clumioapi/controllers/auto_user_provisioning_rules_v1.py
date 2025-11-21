@@ -3,12 +3,16 @@
 #
 
 import json
-from typing import Any, Optional, Union
+import re
+from typing import Any, Iterator, Optional, Union
+import urllib.parse
 
 from clumioapi import api_helper
 from clumioapi import configuration
 from clumioapi import sdk_version
 from clumioapi.controllers import base_controller
+from clumioapi.controllers.types import auto_user_provisioning_rules_types
+from clumioapi.controllers.types import aws_s3_buckets_v1_bucket_matcher_types
 from clumioapi.exceptions import clumio_exception
 from clumioapi.models import create_auto_user_provisioning_rule_response
 from clumioapi.models import create_auto_user_provisioning_rule_v1_request
@@ -17,43 +21,38 @@ from clumioapi.models import read_auto_user_provisioning_rule_response
 from clumioapi.models import update_auto_user_provisioning_rule_response
 from clumioapi.models import update_auto_user_provisioning_rule_v1_request
 import requests
+import retrying
 
 
-class AutoUserProvisioningRulesV1Controller(base_controller.BaseController):
+class AutoUserProvisioningRulesV1Controller:
     """A Controller to access Endpoints for auto-user-provisioning-rules resource."""
 
-    def __init__(self, config: configuration.Configuration) -> None:
-        super().__init__(config)
-        self.config = config
+    def __init__(self, controller: base_controller.BaseController) -> None:
+        self.controller = controller
+        self.client = self.controller.client
         self.headers = {
             'accept': 'application/api.clumio.auto-user-provisioning-rules=v1+json',
-            'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
+            'x-clumio-organizationalunit-context': self.controller.config.organizational_unit_context,
             'x-clumio-api-client': 'clumio-python-sdk',
             'x-clumio-sdk-version': f'clumio-python-sdk:{sdk_version}',
         }
-        if config.custom_headers != None:
-            self.headers.update(config.custom_headers)
+        if self.controller.config.custom_headers != None:
+            self.headers.update(self.controller.config.custom_headers)
 
     def list_auto_user_provisioning_rules(
         self,
         limit: int | None = None,
         start: str | None = None,
-        filter: str | None = None,
+        filter: (
+            auto_user_provisioning_rules_types.ListAutoUserProvisioningRulesV1FilterT | None
+        ) = None,
         **kwargs,
-    ) -> Union[
-        list_auto_user_provisioning_rules_response.ListAutoUserProvisioningRulesResponse,
-        tuple[
-            requests.Response,
-            Optional[
-                list_auto_user_provisioning_rules_response.ListAutoUserProvisioningRulesResponse
-            ],
-        ],
-    ]:
+    ) -> list_auto_user_provisioning_rules_response.ListAutoUserProvisioningRulesResponse:
         """Returns a list of auto user provisioning rules.
 
         Args:
             limit:
-                Limits the size of the response on each page to the specified number of items.
+                Limits the size of the items returned in the response.
             start:
                 Sets the page token used to browse the collection. Leave this parameter empty to
                 get the first page.
@@ -77,44 +76,48 @@ class AutoUserProvisioningRulesV1Controller(base_controller.BaseController):
                 |                        |                  | organizational unit.             |
                 +------------------------+------------------+----------------------------------+
 
-        Returns:
-            requests.Response: Raw Response from the API if config.raw_response is set to True.
-            list_auto_user_provisioning_rules_response.ListAutoUserProvisioningRulesResponse: Response from the API.
-        Raises:
-            ClumioException: An error occured while executing the API.
-                This exception includes the HTTP response code, an error
-                message, and the HTTP body that was received in the request.
         """
+
+        def get_instance_from_response(resp: requests.Response) -> Any:
+            return list_auto_user_provisioning_rules_response.ListAutoUserProvisioningRulesResponse.from_response(
+                resp
+            )
 
         # Prepare query URL
         _url_path = '/settings/auto-user-provisioning/rules'
 
-        _query_parameters: dict[str, Any] = {}
-        _query_parameters = {'limit': limit, 'start': start, 'filter': filter}
+        if start:
+            _url_path = f'{_url_path}?start={start}'
 
-        raw_response = self.config.raw_response
+        _query_parameters: dict[str, Any] = {}
+        _query_parameters = {
+            'limit': limit,
+            'filter': filter.query_str if filter else None,
+        }
+
+        resp_instance: (
+            list_auto_user_provisioning_rules_response.ListAutoUserProvisioningRulesResponse
+        )
         # Execute request
+        resp: requests.Response
         try:
-            resp: requests.Response = self.client.get(
+            resp = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
                 raw_response=True,
                 **kwargs,
             )
-        except requests.exceptions.HTTPError as http_error:
-            if raw_response:
-                return http_error.response, None
-            raise clumio_exception.ClumioException(
-                'Error occurred while executing list_auto_user_provisioning_rules', error=http_error
-            )
+        except requests.exceptions.HTTPError as e:
+            resp = e.response
 
-        obj = list_auto_user_provisioning_rules_response.ListAutoUserProvisioningRulesResponse.from_dictionary(
-            resp.json()
-        )
-        if raw_response:
-            return resp, obj
-        return obj
+        if not resp.ok:
+            error_str = f'list_auto_user_provisioning_rules for url {urllib.parse.unquote(resp.url)} failed.'
+            raise clumio_exception.ClumioException(error_str, resp=resp)
+
+        resp_instance = get_instance_from_response(resp)
+
+        return resp_instance
 
     def create_auto_user_provisioning_rule(
         self,
@@ -123,15 +126,7 @@ class AutoUserProvisioningRulesV1Controller(base_controller.BaseController):
             | None
         ) = None,
         **kwargs,
-    ) -> Union[
-        create_auto_user_provisioning_rule_response.CreateAutoUserProvisioningRuleResponse,
-        tuple[
-            requests.Response,
-            Optional[
-                create_auto_user_provisioning_rule_response.CreateAutoUserProvisioningRuleResponse
-            ],
-        ],
-    ]:
+    ) -> create_auto_user_provisioning_rule_response.CreateAutoUserProvisioningRuleResponse:
         """Creates a new auto user provisioning rule. Auto user provisioning rules
         determine the role and
         organizational units to be assigned to a user subject to the condition.
@@ -139,97 +134,89 @@ class AutoUserProvisioningRulesV1Controller(base_controller.BaseController):
         Args:
             body:
 
-        Returns:
-            requests.Response: Raw Response from the API if config.raw_response is set to True.
-            create_auto_user_provisioning_rule_response.CreateAutoUserProvisioningRuleResponse: Response from the API.
-        Raises:
-            ClumioException: An error occured while executing the API.
-                This exception includes the HTTP response code, an error
-                message, and the HTTP body that was received in the request.
         """
+
+        def get_instance_from_response(resp: requests.Response) -> Any:
+            return create_auto_user_provisioning_rule_response.CreateAutoUserProvisioningRuleResponse.from_response(
+                resp
+            )
 
         # Prepare query URL
         _url_path = '/settings/auto-user-provisioning/rules'
 
         _query_parameters: dict[str, Any] = {}
 
-        raw_response = self.config.raw_response
+        resp_instance: (
+            create_auto_user_provisioning_rule_response.CreateAutoUserProvisioningRuleResponse
+        )
         # Execute request
+        resp: requests.Response
         try:
-            resp: requests.Response = self.client.post(
+            resp = self.client.post(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                json=api_helper.to_dictionary(body),
+                json=body.dict() if body else None,
                 raw_response=True,
                 **kwargs,
             )
-        except requests.exceptions.HTTPError as http_error:
-            if raw_response:
-                return http_error.response, None
-            raise clumio_exception.ClumioException(
-                'Error occurred while executing create_auto_user_provisioning_rule',
-                error=http_error,
-            )
+        except requests.exceptions.HTTPError as e:
+            resp = e.response
 
-        obj = create_auto_user_provisioning_rule_response.CreateAutoUserProvisioningRuleResponse.from_dictionary(
-            resp.json()
-        )
-        if raw_response:
-            return resp, obj
-        return obj
+        if not resp.ok:
+            error_str = f'create_auto_user_provisioning_rule for url {urllib.parse.unquote(resp.url)} failed.'
+            raise clumio_exception.ClumioException(error_str, resp=resp)
 
-    def read_auto_user_provisioning_rule(self, rule_id: str | None = None, **kwargs) -> Union[
-        read_auto_user_provisioning_rule_response.ReadAutoUserProvisioningRuleResponse,
-        tuple[
-            requests.Response,
-            Optional[
-                read_auto_user_provisioning_rule_response.ReadAutoUserProvisioningRuleResponse
-            ],
-        ],
-    ]:
+        resp_instance = get_instance_from_response(resp)
+
+        return resp_instance
+
+    def read_auto_user_provisioning_rule(
+        self, rule_id: str | None = None, **kwargs
+    ) -> read_auto_user_provisioning_rule_response.ReadAutoUserProvisioningRuleResponse:
         """Returns a representation of the specified auto user provisioning rule.
 
         Args:
             rule_id:
                 Retrieves the rule with the specified ID.
-        Returns:
-            requests.Response: Raw Response from the API if config.raw_response is set to True.
-            read_auto_user_provisioning_rule_response.ReadAutoUserProvisioningRuleResponse: Response from the API.
-        Raises:
-            ClumioException: An error occured while executing the API.
-                This exception includes the HTTP response code, an error
-                message, and the HTTP body that was received in the request.
         """
+
+        def get_instance_from_response(resp: requests.Response) -> Any:
+            return read_auto_user_provisioning_rule_response.ReadAutoUserProvisioningRuleResponse.from_response(
+                resp
+            )
 
         # Prepare query URL
         _url_path = '/settings/auto-user-provisioning/rules/{rule_id}'
         _url_path = api_helper.append_url_with_template_parameters(_url_path, {'rule_id': rule_id})
+
         _query_parameters: dict[str, Any] = {}
 
-        raw_response = self.config.raw_response
+        resp_instance: (
+            read_auto_user_provisioning_rule_response.ReadAutoUserProvisioningRuleResponse
+        )
         # Execute request
+        resp: requests.Response
         try:
-            resp: requests.Response = self.client.get(
+            resp = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
                 raw_response=True,
                 **kwargs,
             )
-        except requests.exceptions.HTTPError as http_error:
-            if raw_response:
-                return http_error.response, None
-            raise clumio_exception.ClumioException(
-                'Error occurred while executing read_auto_user_provisioning_rule', error=http_error
-            )
+        except requests.exceptions.HTTPError as e:
+            resp = e.response
 
-        obj = read_auto_user_provisioning_rule_response.ReadAutoUserProvisioningRuleResponse.from_dictionary(
-            resp.json()
-        )
-        if raw_response:
-            return resp, obj
-        return obj
+        if not resp.ok:
+            error_str = (
+                f'read_auto_user_provisioning_rule for url {urllib.parse.unquote(resp.url)} failed.'
+            )
+            raise clumio_exception.ClumioException(error_str, resp=resp)
+
+        resp_instance = get_instance_from_response(resp)
+
+        return resp_instance
 
     def update_auto_user_provisioning_rule(
         self,
@@ -239,15 +226,7 @@ class AutoUserProvisioningRulesV1Controller(base_controller.BaseController):
             | None
         ) = None,
         **kwargs,
-    ) -> Union[
-        update_auto_user_provisioning_rule_response.UpdateAutoUserProvisioningRuleResponse,
-        tuple[
-            requests.Response,
-            Optional[
-                update_auto_user_provisioning_rule_response.UpdateAutoUserProvisioningRuleResponse
-            ],
-        ],
-    ]:
+    ) -> update_auto_user_provisioning_rule_response.UpdateAutoUserProvisioningRuleResponse:
         """Update an existing auto user provisioning rule.
 
         Args:
@@ -255,86 +234,146 @@ class AutoUserProvisioningRulesV1Controller(base_controller.BaseController):
                 Updates the rule with the specified ID.
             body:
 
-        Returns:
-            requests.Response: Raw Response from the API if config.raw_response is set to True.
-            update_auto_user_provisioning_rule_response.UpdateAutoUserProvisioningRuleResponse: Response from the API.
-        Raises:
-            ClumioException: An error occured while executing the API.
-                This exception includes the HTTP response code, an error
-                message, and the HTTP body that was received in the request.
         """
+
+        def get_instance_from_response(resp: requests.Response) -> Any:
+            return update_auto_user_provisioning_rule_response.UpdateAutoUserProvisioningRuleResponse.from_response(
+                resp
+            )
 
         # Prepare query URL
         _url_path = '/settings/auto-user-provisioning/rules/{rule_id}'
         _url_path = api_helper.append_url_with_template_parameters(_url_path, {'rule_id': rule_id})
+
         _query_parameters: dict[str, Any] = {}
 
-        raw_response = self.config.raw_response
+        resp_instance: (
+            update_auto_user_provisioning_rule_response.UpdateAutoUserProvisioningRuleResponse
+        )
         # Execute request
+        resp: requests.Response
         try:
-            resp: requests.Response = self.client.put(
+            resp = self.client.put(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                json=api_helper.to_dictionary(body),
+                json=body.dict() if body else None,
                 raw_response=True,
                 **kwargs,
             )
-        except requests.exceptions.HTTPError as http_error:
-            if raw_response:
-                return http_error.response, None
-            raise clumio_exception.ClumioException(
-                'Error occurred while executing update_auto_user_provisioning_rule',
-                error=http_error,
-            )
+        except requests.exceptions.HTTPError as e:
+            resp = e.response
 
-        obj = update_auto_user_provisioning_rule_response.UpdateAutoUserProvisioningRuleResponse.from_dictionary(
-            resp.json()
-        )
-        if raw_response:
-            return resp, obj
-        return obj
+        if not resp.ok:
+            error_str = f'update_auto_user_provisioning_rule for url {urllib.parse.unquote(resp.url)} failed.'
+            raise clumio_exception.ClumioException(error_str, resp=resp)
 
-    def delete_auto_user_provisioning_rule(
-        self, rule_id: str | None = None, **kwargs
-    ) -> Union[object, tuple[requests.Response, Optional[object]]]:
+        resp_instance = get_instance_from_response(resp)
+
+        return resp_instance
+
+    def delete_auto_user_provisioning_rule(self, rule_id: str | None = None, **kwargs) -> object:
         """Delete the specified auto user provisioning rule.
 
         Args:
             rule_id:
                 Deletes the rule with the specified ID.
-        Returns:
-            requests.Response: Raw Response from the API if config.raw_response is set to True.
-            object: Response from the API.
-        Raises:
-            ClumioException: An error occured while executing the API.
-                This exception includes the HTTP response code, an error
-                message, and the HTTP body that was received in the request.
         """
+
+        def get_instance_from_response(resp: requests.Response) -> Any:
+            return resp
 
         # Prepare query URL
         _url_path = '/settings/auto-user-provisioning/rules/{rule_id}'
         _url_path = api_helper.append_url_with_template_parameters(_url_path, {'rule_id': rule_id})
+
         _query_parameters: dict[str, Any] = {}
 
-        raw_response = self.config.raw_response
+        resp_instance: object
         # Execute request
+        resp: requests.Response
         try:
-            resp: requests.Response = self.client.delete(
+            resp = self.client.delete(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
                 raw_response=True,
                 **kwargs,
             )
-        except requests.exceptions.HTTPError as http_error:
-            if raw_response:
-                return http_error.response, None
-            raise clumio_exception.ClumioException(
-                'Error occurred while executing delete_auto_user_provisioning_rule',
-                error=http_error,
-            )
+        except requests.exceptions.HTTPError as e:
+            resp = e.response
 
-        if raw_response:
-            return resp, resp.json()
-        return resp
+        if not resp.ok:
+            error_str = f'delete_auto_user_provisioning_rule for url {urllib.parse.unquote(resp.url)} failed.'
+            raise clumio_exception.ClumioException(error_str, resp=resp)
+
+        resp_instance = get_instance_from_response(resp)
+
+        return resp_instance
+
+
+class AutoUserProvisioningRulesV1ControllerPaginator:
+    """A Controller to access Endpoints for auto-user-provisioning-rules resource with pagination."""
+
+    def __init__(self, controller: base_controller.BaseController) -> None:
+        self.controller = controller
+
+    @retrying.retry(
+        retry_on_exception=requests.exceptions.ConnectionError,
+        wait_exponential_multiplier=2000,
+        stop_max_attempt_number=5,
+    )
+    def list_auto_user_provisioning_rules(
+        self,
+        limit: int | None = None,
+        start: str | None = None,
+        filter: (
+            auto_user_provisioning_rules_types.ListAutoUserProvisioningRulesV1FilterT | None
+        ) = None,
+        **kwargs,
+    ) -> Iterator[list_auto_user_provisioning_rules_response.ListAutoUserProvisioningRulesResponse]:
+        """Returns a list of auto user provisioning rules.
+
+        Args:
+            limit:
+                Limits the size of the items returned in the response.
+            start:
+                Sets the page token used to browse the collection. Leave this parameter empty to
+                get the first page.
+                Other pages can be traversed using HATEOAS links.
+            filter:
+                Narrows down the results to only the items that satisfy the filter criteria. The
+                following table lists
+                the supported filter fields for this resource and the filter conditions that can
+                be applied on those fields:
+
+                +------------------------+------------------+----------------------------------+
+                |         Field          | Filter Condition |           Description            |
+                +========================+==================+==================================+
+                | name                   | $contains        | A case sensitive substring of    |
+                |                        |                  | the name of the rule.            |
+                +------------------------+------------------+----------------------------------+
+                | role_id                | $eq              | A Clumio-assigned ID of the      |
+                |                        |                  | role.                            |
+                +------------------------+------------------+----------------------------------+
+                | organizational_unit_id | $eq              | A Clumio-assigned ID of the      |
+                |                        |                  | organizational unit.             |
+                +------------------------+------------------+----------------------------------+
+
+        """
+        controller = AutoUserProvisioningRulesV1Controller(self.controller)
+        while True:
+            response = controller.list_auto_user_provisioning_rules(
+                limit=limit, start=start, filter=filter, **kwargs
+            )
+            yield response
+            next_link = response.Links.Next  # type: ignore
+            if not next_link:
+                break
+            next_link = next_link.Href
+            if match := re.search(r'start=([^&]+)', next_link):  # type: ignore
+                start = match.group(1)
+            else:
+                raise clumio_exception.ClumioException(
+                    'Next link is malformed. Please contact clumio support.'
+                )

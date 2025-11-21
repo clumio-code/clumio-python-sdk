@@ -1,65 +1,74 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import option_setting as option_setting_
+import requests
 
 T = TypeVar('T', bound='OptionModel')
 
 
+@dataclasses.dataclass
 class OptionModel:
     """Implementation of the 'OptionModel' model.
 
     OptionModel denotes the Model for OptionModel
 
     Attributes:
-        is_permanent:
+        IsPermanent:
             Determines whether or not the option is permanent.
-        is_persistent:
+
+        IsPersistent:
             Determines whether or not the option is persistent.
-        is_required_for_restore:
+
+        IsRequiredForRestore:
             Determines whether the option is required to restore from a given backup.
-        name:
-            The AWS-assigned name of the RDS option.
-        option_setting:
+
+        Name:
+            The aws-assigned name of the rds option.
+
+        OptionSetting:
             List of option settings.
-        option_version:
+
+        OptionVersion:
             Option version of the option.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'is_permanent': 'is_permanent',
-        'is_persistent': 'is_persistent',
-        'is_required_for_restore': 'is_required_for_restore',
-        'name': 'name',
-        'option_setting': 'option_setting',
-        'option_version': 'option_version',
-    }
+    IsPermanent: bool | None = None
+    IsPersistent: bool | None = None
+    IsRequiredForRestore: bool | None = None
+    Name: str | None = None
+    OptionSetting: Sequence[option_setting_.OptionSetting] | None = None
+    OptionVersion: str | None = None
 
-    def __init__(
-        self,
-        is_permanent: bool | None = None,
-        is_persistent: bool | None = None,
-        is_required_for_restore: bool | None = None,
-        name: str | None = None,
-        option_setting: Sequence[option_setting_.OptionSetting] | None = None,
-        option_version: str | None = None,
-    ) -> None:
-        """Constructor for the OptionModel class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.is_permanent: bool | None = is_permanent
-        self.is_persistent: bool | None = is_persistent
-        self.is_required_for_restore: bool | None = is_required_for_restore
-        self.name: str | None = name
-        self.option_setting: Sequence[option_setting_.OptionSetting] | None = option_setting
-        self.option_version: str | None = option_version
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -70,8 +79,8 @@ class OptionModel:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('is_permanent', None)
         val_is_permanent = val
@@ -87,9 +96,8 @@ class OptionModel:
 
         val = dictionary.get('option_setting', None)
 
-        val_option_setting = None
+        val_option_setting = []
         if val:
-            val_option_setting = list()
             for value in val:
                 val_option_setting.append(option_setting_.OptionSetting.from_dictionary(value))
 
@@ -105,3 +113,19 @@ class OptionModel:
             val_option_setting,
             val_option_version,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

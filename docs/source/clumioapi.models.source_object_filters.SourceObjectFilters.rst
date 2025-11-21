@@ -17,10 +17,27 @@ clumioapi.models.source\_object\_filters.SourceObjectFilters
    .. autosummary::
    
       ~SourceObjectFilters.__init__
+      ~SourceObjectFilters.dict
       ~SourceObjectFilters.from_dictionary
+      ~SourceObjectFilters.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~SourceObjectFilters.Etag
+      ~SourceObjectFilters.LatestVersionOnly
+      ~SourceObjectFilters.MaxObjectSizeBytes
+      ~SourceObjectFilters.MinObjectSizeBytes
+      ~SourceObjectFilters.ObjectKeyContains
+      ~SourceObjectFilters.ObjectKeyMatches
+      ~SourceObjectFilters.ObjectKeyPrefix
+      ~SourceObjectFilters.ObjectKeySuffix
+      ~SourceObjectFilters.StorageClasses
+      ~SourceObjectFilters.VersionId
    
    

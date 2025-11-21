@@ -17,10 +17,18 @@ clumioapi.models.ec2\_instance\_embedded.Ec2InstanceEmbedded
    .. autosummary::
    
       ~Ec2InstanceEmbedded.__init__
+      ~Ec2InstanceEmbedded.dict
       ~Ec2InstanceEmbedded.from_dictionary
+      ~Ec2InstanceEmbedded.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~Ec2InstanceEmbedded.ReadPolicyDefinition
    
    

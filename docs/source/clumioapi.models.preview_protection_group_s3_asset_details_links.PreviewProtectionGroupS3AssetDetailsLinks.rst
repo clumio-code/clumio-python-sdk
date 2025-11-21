@@ -17,10 +17,18 @@ clumioapi.models.preview\_protection\_group\_s3\_asset\_details\_links.PreviewPr
    .. autosummary::
    
       ~PreviewProtectionGroupS3AssetDetailsLinks.__init__
+      ~PreviewProtectionGroupS3AssetDetailsLinks.dict
       ~PreviewProtectionGroupS3AssetDetailsLinks.from_dictionary
+      ~PreviewProtectionGroupS3AssetDetailsLinks.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~PreviewProtectionGroupS3AssetDetailsLinks.Self
    
    

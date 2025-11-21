@@ -17,10 +17,20 @@ clumioapi.models.asset\_filter.AssetFilter
    .. autosummary::
    
       ~AssetFilter.__init__
+      ~AssetFilter.dict
       ~AssetFilter.from_dictionary
+      ~AssetFilter.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~AssetFilter.Groups
+      ~AssetFilter.TagOpMode
+      ~AssetFilter.Tags
    
    

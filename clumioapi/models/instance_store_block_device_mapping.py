@@ -1,64 +1,74 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='InstanceStoreBlockDeviceMapping')
 
 
+@dataclasses.dataclass
 class InstanceStoreBlockDeviceMapping:
     """Implementation of the 'InstanceStoreBlockDeviceMapping' model.
 
     Attributes:
-        encryption:
-            Encryption for the instance store volume. Possible values include 'hardware
+        Encryption:
+            Encryption for the instance store volume. possible values include 'hardware
             encrypted'
-            and 'Not encrypted'.
-        is_nvme:
-            Determines whether or not the volume is a NVME instance store volume or a
-            non-NVME instance store volume.
-        name:
-            The device name for the instance store volume. For example, '/dev/sdb'.
-        size:
-            The size of the instance store volume. Measured in bytes (B).
-        p_type:
-            The type of the block device. Only possible value is "Instance Store".
-        virtual_name:
-            The AWS-assigned name of the instance store volume.
+            and 'not encrypted'.
+
+        IsNvme:
+            Determines whether or not the volume is a nvme instance store volume or a
+            non-nvme instance store volume.
+
+        Name:
+            The device name for the instance store volume. for example, '/dev/sdb'.
+
+        Size:
+            The size of the instance store volume. measured in bytes (b).
+
+        Type:
+            The type of the block device. only possible value is "instance store".
+
+        VirtualName:
+            The aws-assigned name of the instance store volume.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'encryption': 'encryption',
-        'is_nvme': 'is_nvme',
-        'name': 'name',
-        'size': 'size',
-        'p_type': 'type',
-        'virtual_name': 'virtual_name',
-    }
+    Encryption: str | None = None
+    IsNvme: bool | None = None
+    Name: str | None = None
+    Size: int | None = None
+    Type: str | None = None
+    VirtualName: str | None = None
 
-    def __init__(
-        self,
-        encryption: str | None = None,
-        is_nvme: bool | None = None,
-        name: str | None = None,
-        size: int | None = None,
-        p_type: str | None = None,
-        virtual_name: str | None = None,
-    ) -> None:
-        """Constructor for the InstanceStoreBlockDeviceMapping class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.encryption: str | None = encryption
-        self.is_nvme: bool | None = is_nvme
-        self.name: str | None = name
-        self.size: int | None = size
-        self.p_type: str | None = p_type
-        self.virtual_name: str | None = virtual_name
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -69,8 +79,8 @@ class InstanceStoreBlockDeviceMapping:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('encryption', None)
         val_encryption = val
@@ -85,7 +95,7 @@ class InstanceStoreBlockDeviceMapping:
         val_size = val
 
         val = dictionary.get('type', None)
-        val_p_type = val
+        val_type = val
 
         val = dictionary.get('virtual_name', None)
         val_virtual_name = val
@@ -96,6 +106,22 @@ class InstanceStoreBlockDeviceMapping:
             val_is_nvme,
             val_name,
             val_size,
-            val_p_type,
+            val_type,
             val_virtual_name,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

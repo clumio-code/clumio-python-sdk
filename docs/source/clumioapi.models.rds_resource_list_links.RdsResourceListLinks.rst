@@ -17,10 +17,22 @@ clumioapi.models.rds\_resource\_list\_links.RdsResourceListLinks
    .. autosummary::
    
       ~RdsResourceListLinks.__init__
+      ~RdsResourceListLinks.dict
       ~RdsResourceListLinks.from_dictionary
+      ~RdsResourceListLinks.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~RdsResourceListLinks.First
+      ~RdsResourceListLinks.Last
+      ~RdsResourceListLinks.Next
+      ~RdsResourceListLinks.Prev
+      ~RdsResourceListLinks.Self
    
    

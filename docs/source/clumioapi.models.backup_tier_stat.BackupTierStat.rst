@@ -17,10 +17,20 @@ clumioapi.models.backup\_tier\_stat.BackupTierStat
    .. autosummary::
    
       ~BackupTierStat.__init__
+      ~BackupTierStat.dict
       ~BackupTierStat.from_dictionary
+      ~BackupTierStat.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~BackupTierStat.BackupTier
+      ~BackupTierStat.TotalBackedUpObjectCount
+      ~BackupTierStat.TotalBackedUpSizeBytes
    
    

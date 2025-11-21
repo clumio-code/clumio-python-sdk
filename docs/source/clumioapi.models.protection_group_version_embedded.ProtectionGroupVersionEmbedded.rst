@@ -17,7 +17,9 @@ clumioapi.models.protection\_group\_version\_embedded.ProtectionGroupVersionEmbe
    .. autosummary::
    
       ~ProtectionGroupVersionEmbedded.__init__
+      ~ProtectionGroupVersionEmbedded.dict
       ~ProtectionGroupVersionEmbedded.from_dictionary
+      ~ProtectionGroupVersionEmbedded.from_response
    
    
 

@@ -17,10 +17,18 @@ clumioapi.models.file\_system\_list\_embedded.FileSystemListEmbedded
    .. autosummary::
    
       ~FileSystemListEmbedded.__init__
+      ~FileSystemListEmbedded.dict
       ~FileSystemListEmbedded.from_dictionary
+      ~FileSystemListEmbedded.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~FileSystemListEmbedded.Items
    
    

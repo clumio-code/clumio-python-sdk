@@ -20,6 +20,7 @@ clumioapi.controllers.users\_v1
       :template: custom-class-template.rst
    
       UsersV1Controller
+      UsersV1ControllerPaginator
    
    
 

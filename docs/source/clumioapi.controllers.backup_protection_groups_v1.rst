@@ -20,6 +20,7 @@ clumioapi.controllers.backup\_protection\_groups\_v1
       :template: custom-class-template.rst
    
       BackupProtectionGroupsV1Controller
+      BackupProtectionGroupsV1ControllerPaginator
    
    
 

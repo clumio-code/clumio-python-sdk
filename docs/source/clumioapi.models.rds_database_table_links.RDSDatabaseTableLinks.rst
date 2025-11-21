@@ -17,10 +17,19 @@ clumioapi.models.rds\_database\_table\_links.RDSDatabaseTableLinks
    .. autosummary::
    
       ~RDSDatabaseTableLinks.__init__
+      ~RDSDatabaseTableLinks.dict
       ~RDSDatabaseTableLinks.from_dictionary
+      ~RDSDatabaseTableLinks.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~RDSDatabaseTableLinks.ReadBackupAwsRdsResourceDatabaseTableColumns
+      ~RDSDatabaseTableLinks.Self
    
    

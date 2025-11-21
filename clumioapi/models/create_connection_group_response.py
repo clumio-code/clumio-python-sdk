@@ -1,168 +1,164 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import connection_group_links as connection_group_links_
 from clumioapi.models import consolidated_config as consolidated_config_
+import requests
 
 T = TypeVar('T', bound='CreateConnectionGroupResponse')
 
 
+@dataclasses.dataclass
 class CreateConnectionGroupResponse:
     """Implementation of the 'CreateConnectionGroupResponse' model.
 
     Attributes:
-        embedded:
+        Embedded:
             Embedded responses related to the resource.
-        etag:
-            The ETag value.
-        links:
-            URLs to pages related to the resource.
-        account_name:
-            The alias given to the associated account in AWS.
-        account_native_ids:
-            The AWS-assigned IDs of the accounts associated with the Connection Group.
-        asset_types_enabled:
-            List of asset types connected via the connection-group.
-            Valid values are any of ["EC2/EBS", "RDS", "DynamoDB", "EC2MSSQL", "S3", "EBS",
-            "IcebergOnGlue", "FSX"].
 
-            NOTE -
-            1. EC2/EBS is required for EC2MSSQL.
-            2. EBS as a value is deprecated in favor of EC2/EBS.
-        aws_regions:
-            The AWS regions associated with the with the Connection Group.
-        config:
-            The consolidated configuration of the Clumio Cloud Protect and Clumio Cloud
-            Discover products for this connection.
-            If this connection is deprecated to use unconsolidated configuration, then this
+        Etag:
+            The etag value.
+
+        Links:
+            Urls to pages related to the resource.
+
+        AccountName:
+            The alias given to the associated account in aws.
+
+        AccountNativeIds:
+            The aws-assigned ids of the accounts associated with the connection group.
+
+        AssetTypesEnabled:
+            List of asset types connected via the connection-group.
+            valid values are any of ["ec2/ebs", "rds", "dynamodb", "ec2mssql", "s3", "ebs",
+            "icebergonglue", "icebergons3tables", "fsx"].
+
+            note -
+            1. ec2/ebs is required for ec2mssql.
+            2. ebs as a value is deprecated in favor of ec2/ebs.
+
+        AwsRegions:
+            The aws regions associated with the with the connection group.
+
+        Config:
+            The consolidated configuration of the clumio cloud protect and clumio cloud
+            discover products for this connection.
+            if this connection is deprecated to use unconsolidated configuration, then this
             field has a
             value of `null`.
-        created_timestamp:
+
+        CreatedTimestamp:
             The timestamp of when the connection was created.
-        deployment_template_url:
-            Clumio's S3 URL that contains the template to create the required resources in
+
+        DeploymentTemplateUrl:
+            Clumio's s3 url that contains the template to create the required resources in
             the
             given account(s) according to the request.
-        description:
+
+        Description:
             User-provided description for this connection group.
-        external_id:
-            Clumio assigned external ID for the connection group, should be used while
-            creating the AWS stack.
-        p_id:
-            The Clumio-assigned ID of the Connection Group, should be used as the token
-            while creating the stack in AWS.
-        intended_account_native_ids:
-            The AWS Account IDs that are intended to be associated with the Connection
-            Group.
-        intended_asset_types:
-            THe asset types that are intended to be connected via connection-group.
-        intended_aws_regions:
-            The AWS regions that are intended to be connected with the Connection Group.
-        master_aws_account_id:
+
+        ExternalId:
+            Clumio assigned external id for the connection group, should be used while
+            creating the aws stack.
+
+        Id:
+            The clumio-assigned id of the connection group, should be used as the token
+            while creating the stack in aws.
+
+        IntendedAccountNativeIds:
+            The aws account ids that are intended to be associated with the connection
+            group.
+
+        IntendedAssetTypes:
+            The asset types that are intended to be connected via connection-group.
+
+        IntendedAwsRegions:
+            The aws regions that are intended to be connected with the connection group.
+
+        MasterAwsAccountId:
             The master account which manages the connection-group's stack.
-        master_region:
+
+        MasterRegion:
             The master region which manages the connection-group's stack.
-        ongoing_stack_operation:
-            Ongoing Operation of the deployed and active stack of ConnectionGroup.
-        organizational_unit_id:
-            The Clumio-assigned ID of the organizational unit associated with the
-            AWS environment. If this parameter is not provided, then the value
+
+        OngoingStackOperation:
+            Ongoing operation of the deployed and active stack of connectiongroup.
+
+        OrganizationalUnitId:
+            The clumio-assigned id of the organizational unit associated with the
+            aws environment. if this parameter is not provided, then the value
             defaults to the first organizational unit assigned to the requesting
-            user. For more information about organizational units, refer to the
-            Organizational-Units documentation.
-        stack_arn:
-            The Amazon Resource Name of the installed CloudFormation stack in AWS.
-        stack_name:
-            The name given to the installed CloudFormation stack in AWS.
-        status:
-            The status of the Connection Group based on the stack in associated AWS account.
+            user. for more information about organizational units, refer to the
+            organizational-units documentation.
+
+        StackArn:
+            The amazon resource name of the installed cloudformation stack in aws.
+
+        StackName:
+            The name given to the installed cloudformation stack in aws.
+
+        Status:
+            The status of the connection group based on the stack in associated aws account.
+
+        TemplatePermissionSet
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'embedded': '_embedded',
-        'etag': '_etag',
-        'links': '_links',
-        'account_name': 'account_name',
-        'account_native_ids': 'account_native_ids',
-        'asset_types_enabled': 'asset_types_enabled',
-        'aws_regions': 'aws_regions',
-        'config': 'config',
-        'created_timestamp': 'created_timestamp',
-        'deployment_template_url': 'deployment_template_url',
-        'description': 'description',
-        'external_id': 'external_id',
-        'p_id': 'id',
-        'intended_account_native_ids': 'intended_account_native_ids',
-        'intended_asset_types': 'intended_asset_types',
-        'intended_aws_regions': 'intended_aws_regions',
-        'master_aws_account_id': 'master_aws_account_id',
-        'master_region': 'master_region',
-        'ongoing_stack_operation': 'ongoing_stack_operation',
-        'organizational_unit_id': 'organizational_unit_id',
-        'stack_arn': 'stack_arn',
-        'stack_name': 'stack_name',
-        'status': 'status',
-    }
+    Embedded: object | None = None
+    Etag: str | None = None
+    Links: connection_group_links_.ConnectionGroupLinks | None = None
+    AccountName: str | None = None
+    AccountNativeIds: Sequence[str] | None = None
+    AssetTypesEnabled: Sequence[str] | None = None
+    AwsRegions: Sequence[str] | None = None
+    Config: consolidated_config_.ConsolidatedConfig | None = None
+    CreatedTimestamp: str | None = None
+    DeploymentTemplateUrl: str | None = None
+    Description: str | None = None
+    ExternalId: str | None = None
+    Id: str | None = None
+    IntendedAccountNativeIds: Sequence[str] | None = None
+    IntendedAssetTypes: Sequence[str] | None = None
+    IntendedAwsRegions: Sequence[str] | None = None
+    MasterAwsAccountId: str | None = None
+    MasterRegion: str | None = None
+    OngoingStackOperation: str | None = None
+    OrganizationalUnitId: str | None = None
+    StackArn: str | None = None
+    StackName: str | None = None
+    Status: str | None = None
+    TemplatePermissionSet: str | None = None
+    raw_response: Optional[requests.Response] = None
 
-    def __init__(
-        self,
-        embedded: object | None = None,
-        etag: str | None = None,
-        links: connection_group_links_.ConnectionGroupLinks | None = None,
-        account_name: str | None = None,
-        account_native_ids: Sequence[str] | None = None,
-        asset_types_enabled: Sequence[str] | None = None,
-        aws_regions: Sequence[str] | None = None,
-        config: consolidated_config_.ConsolidatedConfig | None = None,
-        created_timestamp: str | None = None,
-        deployment_template_url: str | None = None,
-        description: str | None = None,
-        external_id: str | None = None,
-        p_id: str | None = None,
-        intended_account_native_ids: Sequence[str] | None = None,
-        intended_asset_types: Sequence[str] | None = None,
-        intended_aws_regions: Sequence[str] | None = None,
-        master_aws_account_id: str | None = None,
-        master_region: str | None = None,
-        ongoing_stack_operation: str | None = None,
-        organizational_unit_id: str | None = None,
-        stack_arn: str | None = None,
-        stack_name: str | None = None,
-        status: str | None = None,
-    ) -> None:
-        """Constructor for the CreateConnectionGroupResponse class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.embedded: object | None = embedded
-        self.etag: str | None = etag
-        self.links: connection_group_links_.ConnectionGroupLinks | None = links
-        self.account_name: str | None = account_name
-        self.account_native_ids: Sequence[str] | None = account_native_ids
-        self.asset_types_enabled: Sequence[str] | None = asset_types_enabled
-        self.aws_regions: Sequence[str] | None = aws_regions
-        self.config: consolidated_config_.ConsolidatedConfig | None = config
-        self.created_timestamp: str | None = created_timestamp
-        self.deployment_template_url: str | None = deployment_template_url
-        self.description: str | None = description
-        self.external_id: str | None = external_id
-        self.p_id: str | None = p_id
-        self.intended_account_native_ids: Sequence[str] | None = intended_account_native_ids
-        self.intended_asset_types: Sequence[str] | None = intended_asset_types
-        self.intended_aws_regions: Sequence[str] | None = intended_aws_regions
-        self.master_aws_account_id: str | None = master_aws_account_id
-        self.master_region: str | None = master_region
-        self.ongoing_stack_operation: str | None = ongoing_stack_operation
-        self.organizational_unit_id: str | None = organizational_unit_id
-        self.stack_arn: str | None = stack_arn
-        self.stack_name: str | None = stack_name
-        self.status: str | None = status
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -173,8 +169,8 @@ class CreateConnectionGroupResponse:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('_embedded', None)
         val_embedded = val
@@ -213,7 +209,7 @@ class CreateConnectionGroupResponse:
         val_external_id = val
 
         val = dictionary.get('id', None)
-        val_p_id = val
+        val_id = val
 
         val = dictionary.get('intended_account_native_ids', None)
         val_intended_account_native_ids = val
@@ -245,6 +241,9 @@ class CreateConnectionGroupResponse:
         val = dictionary.get('status', None)
         val_status = val
 
+        val = dictionary.get('template_permission_set', None)
+        val_template_permission_set = val
+
         # Return an object of this model
         return cls(
             val_embedded,
@@ -259,7 +258,7 @@ class CreateConnectionGroupResponse:
             val_deployment_template_url,
             val_description,
             val_external_id,
-            val_p_id,
+            val_id,
             val_intended_account_native_ids,
             val_intended_asset_types,
             val_intended_aws_regions,
@@ -270,4 +269,22 @@ class CreateConnectionGroupResponse:
             val_stack_arn,
             val_stack_name,
             val_status,
+            val_template_permission_set,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        model_instance.raw_response = response
+        return model_instance

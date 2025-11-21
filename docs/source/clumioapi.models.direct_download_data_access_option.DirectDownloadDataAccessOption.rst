@@ -17,7 +17,9 @@ clumioapi.models.direct\_download\_data\_access\_option.DirectDownloadDataAccess
    .. autosummary::
    
       ~DirectDownloadDataAccessOption.__init__
+      ~DirectDownloadDataAccessOption.dict
       ~DirectDownloadDataAccessOption.from_dictionary
+      ~DirectDownloadDataAccessOption.from_response
    
    
 

@@ -1,15 +1,17 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from clumioapi.exceptions import clumio_exception
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import \
     restore_s3_bucket_source_pitr_options as restore_s3_bucket_source_pitr_options_
 from clumioapi.models import \
     restore_s3_bucket_source_undo_delete_marker_options as \
     restore_s3_bucket_source_undo_delete_marker_options_
 from clumioapi.models import source_object_filters_v2 as source_object_filters_v2_
+import requests
 
 T = TypeVar('T', bound='PreviewAwsS3BucketV1Request')
 
@@ -19,64 +21,64 @@ TypeValues = [
 ]
 
 
+@dataclasses.dataclass
 class PreviewAwsS3BucketV1Request:
     """Implementation of the 'PreviewAwsS3BucketV1Request' model.
 
     Attributes:
-        object_filters:
+        ObjectFilters:
             Search for or restore only objects that pass the source object filter.
-        point_in_time_recovery:
-            This field is required when the request type is 'Rollback'. The parameters for
+
+        PointInTimeRecovery:
+            This field is required when the request type is 'rollback'. the parameters for
             initiating a point in time restore.
-        p_type:
-            Type to be used during preview. If not specified, the default value is
-            "Rollback".
-            "Rollback" and "Undo delete marker" value will be deprecated. Use "rollback" and
+
+        Type:
+            Type to be used during preview. if not specified, the default value is
+            "rollback".
+            "rollback" and "undo delete marker" value will be deprecated. use "rollback" and
             "undo_delete_marker" respectively.
-        undo_delete_marker_options:
-            This field is required when the request type is 'Undo delete marker'.
+
+        UndoDeleteMarkerOptions:
+            This field is required when the request type is 'undo delete marker'.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'object_filters': 'object_filters',
-        'point_in_time_recovery': 'point_in_time_recovery',
-        'p_type': 'type',
-        'undo_delete_marker_options': 'undo_delete_marker_options',
-    }
+    ObjectFilters: source_object_filters_v2_.SourceObjectFiltersV2 | None = None
+    PointInTimeRecovery: (
+        restore_s3_bucket_source_pitr_options_.RestoreS3BucketSourcePitrOptions | None
+    ) = None
 
-    def __init__(
-        self,
-        object_filters: source_object_filters_v2_.SourceObjectFiltersV2 | None = None,
-        point_in_time_recovery: (
-            restore_s3_bucket_source_pitr_options_.RestoreS3BucketSourcePitrOptions | None
-        ) = None,
-        p_type: str | None = None,
-        undo_delete_marker_options: (
-            restore_s3_bucket_source_undo_delete_marker_options_.RestoreS3BucketSourceUndoDeleteMarkerOptions
-            | None
-        ) = None,
-    ) -> None:
-        """Constructor for the PreviewAwsS3BucketV1Request class."""
+    Type: str | None = None
+    UndoDeleteMarkerOptions: (
+        restore_s3_bucket_source_undo_delete_marker_options_.RestoreS3BucketSourceUndoDeleteMarkerOptions
+        | None
+    ) = None
 
-        # Initialize members of the class
-        self.object_filters: source_object_filters_v2_.SourceObjectFiltersV2 | None = object_filters
-        self.point_in_time_recovery: (
-            restore_s3_bucket_source_pitr_options_.RestoreS3BucketSourcePitrOptions | None
-        ) = point_in_time_recovery
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        if p_type not in TypeValues:
-            raise clumio_exception.ClumioException(
-                f'Invalid value for p_type: { p_type }. Valid values are { TypeValues }.'
-            )
-        self.p_type: str | None = p_type
-        self.undo_delete_marker_options: (
-            restore_s3_bucket_source_undo_delete_marker_options_.RestoreS3BucketSourceUndoDeleteMarkerOptions
-            | None
-        ) = undo_delete_marker_options
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -87,8 +89,8 @@ class PreviewAwsS3BucketV1Request:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('object_filters', None)
         val_object_filters = source_object_filters_v2_.SourceObjectFiltersV2.from_dictionary(val)
@@ -101,7 +103,7 @@ class PreviewAwsS3BucketV1Request:
         )
 
         val = dictionary.get('type', None)
-        val_p_type = val
+        val_type = val
 
         val = dictionary.get('undo_delete_marker_options', None)
         val_undo_delete_marker_options = restore_s3_bucket_source_undo_delete_marker_options_.RestoreS3BucketSourceUndoDeleteMarkerOptions.from_dictionary(
@@ -112,6 +114,22 @@ class PreviewAwsS3BucketV1Request:
         return cls(
             val_object_filters,
             val_point_in_time_recovery,
-            val_p_type,
+            val_type,
             val_undo_delete_marker_options,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

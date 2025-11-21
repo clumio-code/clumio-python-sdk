@@ -20,6 +20,7 @@ clumioapi.controllers.management\_groups\_v1
       :template: custom-class-template.rst
    
       ManagementGroupsV1Controller
+      ManagementGroupsV1ControllerPaginator
    
    
 

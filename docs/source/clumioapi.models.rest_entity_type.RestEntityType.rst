@@ -17,7 +17,9 @@ clumioapi.models.rest\_entity\_type.RestEntityType
    .. autosummary::
    
       ~RestEntityType.__init__
+      ~RestEntityType.dict
       ~RestEntityType.from_dictionary
+      ~RestEntityType.from_response
    
    
 

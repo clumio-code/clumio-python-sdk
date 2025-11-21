@@ -17,10 +17,22 @@ clumioapi.models.task\_list\_links.TaskListLinks
    .. autosummary::
    
       ~TaskListLinks.__init__
+      ~TaskListLinks.dict
       ~TaskListLinks.from_dictionary
+      ~TaskListLinks.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~TaskListLinks.First
+      ~TaskListLinks.Last
+      ~TaskListLinks.Next
+      ~TaskListLinks.Prev
+      ~TaskListLinks.Self
    
    

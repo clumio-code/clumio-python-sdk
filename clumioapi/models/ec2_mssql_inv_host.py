@@ -1,109 +1,110 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import ec2_mssql_inv_host_links as ec2_mssql_inv_host_links_
 from clumioapi.models import protection_info as protection_info_
+import requests
 
 T = TypeVar('T', bound='EC2MSSQLInvHost')
 
 
+@dataclasses.dataclass
 class EC2MSSQLInvHost:
     """Implementation of the 'EC2MSSQLInvHost' model.
 
     Attributes:
-        embedded:
+        Embedded:
             Embedded responses related to the resource.
-        links:
-            EC2MSSQLInvHostLinks contains links related to ec2 mssql host
-            URLs to pages related to the resource.
-        account_native_id:
-            The AWS-assigned ID of the account associated with the EC2 instance of the MSSQL
+
+        Links:
+            Ec2mssqlinvhostlinks contains links related to ec2 mssql host
+            urls to pages related to the resource.
+
+        AccountNativeId:
+            The aws-assigned id of the account associated with the ec2 instance of the mssql
             host.
-        aws_region:
-            The AWS region associated with the EC2 instance of the MSSQL host.
-        connection_id:
-            The Clumio-assigned ID of the host connection.
-        endpoint:
+
+        AwsRegion:
+            The aws region associated with the ec2 instance of the mssql host.
+
+        ConnectionId:
+            The clumio-assigned id of the host connection.
+
+        Endpoint:
             The user-provided endpoint of the host containing the given database.
-        environment_id:
-            The Clumio-assigned ID of the AWS environment associated with the EC2 MSSQL
+
+        EnvironmentId:
+            The clumio-assigned id of the aws environment associated with the ec2 mssql
             host.
-        has_associated_availability_group:
+
+        HasAssociatedAvailabilityGroup:
             Determines whether or not an availability group is present in the host.
-        p_id:
-            The Clumio-assigned ID of the Host.
-        instance_count:
+
+        Id:
+            The clumio-assigned id of the host.
+
+        InstanceCount:
             The number of instances present in the host.
-        is_part_of_fci:
-            IsPartOfFCI is a boolean field representing if the Host is part of Failover
-            Cluster
-        organizational_unit_id:
-            The Clumio-assigned ID of the organizational unit associated with the host.
-        protection_info:
-            The protection policy applied to this resource. If the resource is not
+
+        IsPartOfFci:
+            Ispartoffci is a boolean field representing if the host is part of failover
+            cluster.
+
+        OrganizationalUnitId:
+            The clumio-assigned id of the organizational unit associated with the host.
+
+        ProtectionInfo:
+            The protection policy applied to this resource. if the resource is not
             protected, then this field has a value of `null`.
-        status:
-            The status of the Host, Possible values include 'active' and 'inactive'.
+
+        Status:
+            The status of the host, possible values include 'active' and 'inactive'.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'embedded': '_embedded',
-        'links': '_links',
-        'account_native_id': 'account_native_id',
-        'aws_region': 'aws_region',
-        'connection_id': 'connection_id',
-        'endpoint': 'endpoint',
-        'environment_id': 'environment_id',
-        'has_associated_availability_group': 'has_associated_availability_group',
-        'p_id': 'id',
-        'instance_count': 'instance_count',
-        'is_part_of_fci': 'is_part_of_fci',
-        'organizational_unit_id': 'organizational_unit_id',
-        'protection_info': 'protection_info',
-        'status': 'status',
-    }
+    Embedded: object | None = None
+    Links: ec2_mssql_inv_host_links_.EC2MSSQLInvHostLinks | None = None
+    AccountNativeId: str | None = None
+    AwsRegion: str | None = None
+    ConnectionId: str | None = None
+    Endpoint: str | None = None
+    EnvironmentId: str | None = None
+    HasAssociatedAvailabilityGroup: bool | None = None
+    Id: str | None = None
+    InstanceCount: int | None = None
+    IsPartOfFci: bool | None = None
+    OrganizationalUnitId: str | None = None
+    ProtectionInfo: protection_info_.ProtectionInfo | None = None
+    Status: str | None = None
 
-    def __init__(
-        self,
-        embedded: object | None = None,
-        links: ec2_mssql_inv_host_links_.EC2MSSQLInvHostLinks | None = None,
-        account_native_id: str | None = None,
-        aws_region: str | None = None,
-        connection_id: str | None = None,
-        endpoint: str | None = None,
-        environment_id: str | None = None,
-        has_associated_availability_group: bool | None = None,
-        p_id: str | None = None,
-        instance_count: int | None = None,
-        is_part_of_fci: bool | None = None,
-        organizational_unit_id: str | None = None,
-        protection_info: protection_info_.ProtectionInfo | None = None,
-        status: str | None = None,
-    ) -> None:
-        """Constructor for the EC2MSSQLInvHost class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.embedded: object | None = embedded
-        self.links: ec2_mssql_inv_host_links_.EC2MSSQLInvHostLinks | None = links
-        self.account_native_id: str | None = account_native_id
-        self.aws_region: str | None = aws_region
-        self.connection_id: str | None = connection_id
-        self.endpoint: str | None = endpoint
-        self.environment_id: str | None = environment_id
-        self.has_associated_availability_group: bool | None = has_associated_availability_group
-        self.p_id: str | None = p_id
-        self.instance_count: int | None = instance_count
-        self.is_part_of_fci: bool | None = is_part_of_fci
-        self.organizational_unit_id: str | None = organizational_unit_id
-        self.protection_info: protection_info_.ProtectionInfo | None = protection_info
-        self.status: str | None = status
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -114,8 +115,8 @@ class EC2MSSQLInvHost:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('_embedded', None)
         val_embedded = val
@@ -142,7 +143,7 @@ class EC2MSSQLInvHost:
         val_has_associated_availability_group = val
 
         val = dictionary.get('id', None)
-        val_p_id = val
+        val_id = val
 
         val = dictionary.get('instance_count', None)
         val_instance_count = val
@@ -169,10 +170,26 @@ class EC2MSSQLInvHost:
             val_endpoint,
             val_environment_id,
             val_has_associated_availability_group,
-            val_p_id,
+            val_id,
             val_instance_count,
             val_is_part_of_fci,
             val_organizational_unit_id,
             val_protection_info,
             val_status,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

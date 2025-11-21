@@ -20,6 +20,7 @@ clumioapi.controllers.restored\_protection\_group\_instant\_access\_endpoints\_v
       :template: custom-class-template.rst
    
       RestoredProtectionGroupInstantAccessEndpointsV1Controller
+      RestoredProtectionGroupInstantAccessEndpointsV1ControllerPaginator
    
    
 

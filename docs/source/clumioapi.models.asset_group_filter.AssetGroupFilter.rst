@@ -17,10 +17,20 @@ clumioapi.models.asset\_group\_filter.AssetGroupFilter
    .. autosummary::
    
       ~AssetGroupFilter.__init__
+      ~AssetGroupFilter.dict
       ~AssetGroupFilter.from_dictionary
+      ~AssetGroupFilter.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~AssetGroupFilter.Id
+      ~AssetGroupFilter.Region
+      ~AssetGroupFilter.Type
    
    

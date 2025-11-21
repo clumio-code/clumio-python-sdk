@@ -1,46 +1,59 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='MssqlServiceRoles')
 
 
+@dataclasses.dataclass
 class MssqlServiceRoles:
     """Implementation of the 'MssqlServiceRoles' model.
 
     Attributes:
-        ec2_instance_profile_role_arn:
+        Ec2InstanceProfileRoleArn:
             Role assumable by ec2 service.
-        ec2_ssm_instance_profile_arn:
-            Instance created for ec2 instance profile role
-        ssm_notification_role_arn:
+
+        Ec2SsmInstanceProfileArn:
+            Instance created for ec2 instance profile role.
+
+        SsmNotificationRoleArn:
             Role assumable by ssm service.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'ec2_instance_profile_role_arn': 'ec2_instance_profile_role_arn',
-        'ec2_ssm_instance_profile_arn': 'ec2_ssm_instance_profile_arn',
-        'ssm_notification_role_arn': 'ssm_notification_role_arn',
-    }
+    Ec2InstanceProfileRoleArn: str | None = None
+    Ec2SsmInstanceProfileArn: str | None = None
+    SsmNotificationRoleArn: str | None = None
 
-    def __init__(
-        self,
-        ec2_instance_profile_role_arn: str | None = None,
-        ec2_ssm_instance_profile_arn: str | None = None,
-        ssm_notification_role_arn: str | None = None,
-    ) -> None:
-        """Constructor for the MssqlServiceRoles class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.ec2_instance_profile_role_arn: str | None = ec2_instance_profile_role_arn
-        self.ec2_ssm_instance_profile_arn: str | None = ec2_ssm_instance_profile_arn
-        self.ssm_notification_role_arn: str | None = ssm_notification_role_arn
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -51,8 +64,8 @@ class MssqlServiceRoles:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('ec2_instance_profile_role_arn', None)
         val_ec2_instance_profile_role_arn = val
@@ -69,3 +82,19 @@ class MssqlServiceRoles:
             val_ec2_ssm_instance_profile_arn,
             val_ssm_notification_role_arn,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

@@ -17,10 +17,18 @@ clumioapi.models.service\_instance\_profiles.ServiceInstanceProfiles
    .. autosummary::
    
       ~ServiceInstanceProfiles.__init__
+      ~ServiceInstanceProfiles.dict
       ~ServiceInstanceProfiles.from_dictionary
+      ~ServiceInstanceProfiles.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ServiceInstanceProfiles.Mssql
    
    

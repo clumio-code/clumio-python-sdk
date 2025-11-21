@@ -25,11 +25,4 @@ clumioapi.controllers.backup\_aws\_rds\_resource\_database\_tables\_v1.BackupAws
 
    
    
-   .. rubric:: Attributes
-
-   .. autosummary::
-   
-      ~BackupAwsRdsResourceDatabaseTablesV1Controller.client
-      ~BackupAwsRdsResourceDatabaseTablesV1Controller.global_headers
-   
    

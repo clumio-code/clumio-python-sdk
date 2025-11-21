@@ -17,10 +17,19 @@ clumioapi.models.update\_protection\_group\_instant\_access\_endpoint\_role\_v1\
    .. autosummary::
    
       ~UpdateProtectionGroupInstantAccessEndpointRoleV1Request.__init__
+      ~UpdateProtectionGroupInstantAccessEndpointRoleV1Request.dict
       ~UpdateProtectionGroupInstantAccessEndpointRoleV1Request.from_dictionary
+      ~UpdateProtectionGroupInstantAccessEndpointRoleV1Request.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~UpdateProtectionGroupInstantAccessEndpointRoleV1Request.UpdatedRoleAlias
+      ~UpdateProtectionGroupInstantAccessEndpointRoleV1Request.UpdatedRoleArn
    
    

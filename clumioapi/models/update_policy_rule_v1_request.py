@@ -1,114 +1,59 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import rule_action as rule_action_
 from clumioapi.models import rule_priority as rule_priority_
+import requests
 
 T = TypeVar('T', bound='UpdatePolicyRuleV1Request')
 
 
+@dataclasses.dataclass
 class UpdatePolicyRuleV1Request:
     """Implementation of the 'UpdatePolicyRuleV1Request' model.
 
     Attributes:
-        action:
+        Action:
             An action to be applied subject to the rule criteria.
-        condition:
-            The following table describes the possible conditions for a rule.
 
-            +-----------------------+---------------------------+--------------------------+
-            |         Field         |      Rule Condition       |       Description        |
-            +=======================+===========================+==========================+
-            | aws_account_native_id | $eq, $in                  | Denotes the AWS account  |
-            |                       |                           | to conditionalize on     |
-            |                       |                           |                          |
-            |                       |                           | {"aws_account_native_id" |
-            |                       |                           | :{"$eq":"111111111111"}} |
-            |                       |                           |                          |
-            |                       |                           |                          |
-            |                       |                           | {"aws_account_native_id" |
-            |                       |                           | :{"$in":["111111111111", |
-            |                       |                           | "222222222222"]}}        |
-            |                       |                           |                          |
-            |                       |                           |                          |
-            +-----------------------+---------------------------+--------------------------+
-            | aws_region            | $eq, $in                  | Denotes the AWS region   |
-            |                       |                           | to conditionalize on     |
-            |                       |                           |                          |
-            |                       |                           | {"aws_region":{"$eq":"us |
-            |                       |                           | -west-2"}}               |
-            |                       |                           |                          |
-            |                       |                           |                          |
-            |                       |                           | {"aws_region":{"$in":["u |
-            |                       |                           | s-west-2", "us-          |
-            |                       |                           | east-1"]}}               |
-            |                       |                           |                          |
-            |                       |                           |                          |
-            +-----------------------+---------------------------+--------------------------+
-            | aws_tag               | $eq, $in, $all,           | Denotes the AWS tag(s)   |
-            |                       | $contains, $not_eq,       | to conditionalize on.    |
-            |                       | $not_in, $not_all,        | Max 100 tags allowed in  |
-            |                       | $not_contains             | each rule                |
-            |                       |                           | and tag key can be upto  |
-            |                       |                           | 128 characters and value |
-            |                       |                           | can be upto 256          |
-            |                       |                           | characters long.         |
-            |                       |                           |                          |
-            |                       |                           | {"aws_tag":{"$eq":{"key" |
-            |                       |                           | :"Environment",          |
-            |                       |                           | "value":"Prod"}}}        |
-            |                       |                           |                          |
-            |                       |                           |                          |
-            |                       |                           | {"aws_tag":{"$in":[{"key |
-            |                       |                           | ":"Environment",         |
-            |                       |                           | "value":"Prod"},         |
-            |                       |                           | {"key":"Hello",          |
-            |                       |                           | "value":"World"}]}}      |
-            |                       |                           |                          |
-            |                       |                           |                          |
-            |                       |                           | {"aws_tag":{"$all":[{"ke |
-            |                       |                           | y":"Environment",        |
-            |                       |                           | "value":"Prod"},         |
-            |                       |                           | {"key":"Hello",          |
-            |                       |                           | "value":"World"}]}}      |
-            |                       |                           |                          |
-            |                       |                           |                          |
-            |                       |                           | {"aws_tag":{"$contains": |
-            |                       |                           | {"key":"Environment",    |
-            |                       |                           | "value":"Prod"}}}        |
+        Condition:
+            |
+            |                       |                           | {"key":"environment",    |
+            |                       |                           | "value":"prod"}}}        |
             |                       |                           |                          |
             |                       |                           |                          |
             |                       |                           | {"aws_tag":{"$not_eq":{" |
-            |                       |                           | key":"Environment",      |
-            |                       |                           | "value":"Prod"}}}        |
+            |                       |                           | key":"environment",      |
+            |                       |                           | "value":"prod"}}}        |
             |                       |                           |                          |
             |                       |                           |                          |
             |                       |                           | {"aws_tag":{"$not_in":[{ |
-            |                       |                           | "key":"Environment",     |
-            |                       |                           | "value":"Prod"},         |
-            |                       |                           | {"key":"Hello",          |
-            |                       |                           | "value":"World"}]}}      |
+            |                       |                           | "key":"environment",     |
+            |                       |                           | "value":"prod"},         |
+            |                       |                           | {"key":"hello",          |
+            |                       |                           | "value":"world"}]}}      |
             |                       |                           |                          |
             |                       |                           |                          |
             |                       |                           | {"aws_tag":{"$not_all":[ |
-            |                       |                           | {"key":"Environment",    |
-            |                       |                           | "value":"Prod"},         |
-            |                       |                           | {"key":"Hello",          |
-            |                       |                           | "value":"World"}]}}      |
+            |                       |                           | {"key":"environment",    |
+            |                       |                           | "value":"prod"},         |
+            |                       |                           | {"key":"hello",          |
+            |                       |                           | "value":"world"}]}}      |
             |                       |                           |                          |
             |                       |                           |                          |
             |                       |                           | {"aws_tag":{"$not_contai |
-            |                       |                           | ns":{"key":"Environment" |
-            |                       |                           | , "value":"Prod"}}}      |
+            |                       |                           | ns":{"key":"environment" |
+            |                       |                           | , "value":"prod"}}}      |
             |                       |                           |                          |
             |                       |                           |                          |
             +-----------------------+---------------------------+--------------------------+
-            | entity_type           | $eq, $in                  | Denotes the AWS entity   |
+            | entity_type           | $eq, $in                  | denotes the aws entity   |
             |                       |                           | type to conditionalize   |
-            |                       |                           | on. (Required)           |
+            |                       |                           | on. (required)           |
             |                       |                           |                          |
             |                       |                           | {"entity_type":{"$eq":"a |
             |                       |                           | ws_rds_instance"}}       |
@@ -123,37 +68,44 @@ class UpdatePolicyRuleV1Request:
             |                       |                           |                          |
             |                       |                           |                          |
             +-----------------------+---------------------------+--------------------------+
-        name:
-            Name of the rule. Max 100 characters.
-        priority:
+
+        Name:
+            Name of the rule. max 100 characters.
+
+        Priority:
             A priority relative to other rules.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'action': 'action',
-        'condition': 'condition',
-        'name': 'name',
-        'priority': 'priority',
-    }
+    Action: rule_action_.RuleAction | None = None
+    Condition: str | None = None
+    Name: str | None = None
+    Priority: rule_priority_.RulePriority | None = None
 
-    def __init__(
-        self,
-        action: rule_action_.RuleAction | None = None,
-        condition: str | None = None,
-        name: str | None = None,
-        priority: rule_priority_.RulePriority | None = None,
-    ) -> None:
-        """Constructor for the UpdatePolicyRuleV1Request class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.action: rule_action_.RuleAction | None = action
-        self.condition: str | None = condition
-        self.name: str | None = name
-        self.priority: rule_priority_.RulePriority | None = priority
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -164,8 +116,8 @@ class UpdatePolicyRuleV1Request:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('action', None)
         val_action = rule_action_.RuleAction.from_dictionary(val)
@@ -186,3 +138,19 @@ class UpdatePolicyRuleV1Request:
             val_name,
             val_priority,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

@@ -17,10 +17,20 @@ clumioapi.models.create\_on\_demand\_ec2\_mssql\_database\_backup\_response\_lin
    .. autosummary::
    
       ~CreateOnDemandEC2MSSQLDatabaseBackupResponseLinks.__init__
+      ~CreateOnDemandEC2MSSQLDatabaseBackupResponseLinks.dict
       ~CreateOnDemandEC2MSSQLDatabaseBackupResponseLinks.from_dictionary
+      ~CreateOnDemandEC2MSSQLDatabaseBackupResponseLinks.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~CreateOnDemandEC2MSSQLDatabaseBackupResponseLinks.ReadTask
+      ~CreateOnDemandEC2MSSQLDatabaseBackupResponseLinks.Self
+      ~CreateOnDemandEC2MSSQLDatabaseBackupResponseLinks.raw_response
    
    

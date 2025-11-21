@@ -1,66 +1,74 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import \
     estimate_cost_details_s3_instant_access_endpoint_response_links as \
     estimate_cost_details_s3_instant_access_endpoint_response_links_
+import requests
 
 T = TypeVar('T', bound='EstimateCostDetailsS3InstantAccessEndpointResponse')
 
 
+@dataclasses.dataclass
 class EstimateCostDetailsS3InstantAccessEndpointResponse:
     """Implementation of the 'EstimateCostDetailsS3InstantAccessEndpointResponse' model.
 
     Attributes:
-        etag:
-            The ETag value.
-        links:
-            URLs to pages related to the resource.
-        estimated_cost:
+        Etag:
+            The etag value.
+
+        Links:
+            Urls to pages related to the resource.
+
+        EstimatedCost:
             The estimated cost for instant access endpoint.
-        total_object_count:
+
+        TotalObjectCount:
             The count of objects to be restored.
-        total_object_size:
+
+        TotalObjectSize:
             The total size in bytes of objects to be restored.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'etag': '_etag',
-        'links': '_links',
-        'estimated_cost': 'estimated_cost',
-        'total_object_count': 'total_object_count',
-        'total_object_size': 'total_object_size',
-    }
+    Etag: str | None = None
+    Links: (
+        estimate_cost_details_s3_instant_access_endpoint_response_links_.EstimateCostDetailsS3InstantAccessEndpointResponseLinks
+        | None
+    ) = None
+    EstimatedCost: float | None = None
+    TotalObjectCount: int | None = None
+    TotalObjectSize: int | None = None
+    raw_response: Optional[requests.Response] = None
 
-    def __init__(
-        self,
-        etag: str | None = None,
-        links: (
-            estimate_cost_details_s3_instant_access_endpoint_response_links_.EstimateCostDetailsS3InstantAccessEndpointResponseLinks
-            | None
-        ) = None,
-        estimated_cost: float | None = None,
-        total_object_count: int | None = None,
-        total_object_size: int | None = None,
-    ) -> None:
-        """Constructor for the EstimateCostDetailsS3InstantAccessEndpointResponse class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.etag: str | None = etag
-        self.links: (
-            estimate_cost_details_s3_instant_access_endpoint_response_links_.EstimateCostDetailsS3InstantAccessEndpointResponseLinks
-            | None
-        ) = links
-        self.estimated_cost: float | None = estimated_cost
-        self.total_object_count: int | None = total_object_count
-        self.total_object_size: int | None = total_object_size
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -71,8 +79,8 @@ class EstimateCostDetailsS3InstantAccessEndpointResponse:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('_etag', None)
         val_etag = val
@@ -99,3 +107,20 @@ class EstimateCostDetailsS3InstantAccessEndpointResponse:
             val_total_object_count,
             val_total_object_size,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        model_instance.raw_response = response
+        return model_instance

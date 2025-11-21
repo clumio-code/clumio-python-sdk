@@ -17,10 +17,19 @@ clumioapi.models.update\_protection\_group\_assignments.UpdateProtectionGroupAss
    .. autosummary::
    
       ~UpdateProtectionGroupAssignments.__init__
+      ~UpdateProtectionGroupAssignments.dict
       ~UpdateProtectionGroupAssignments.from_dictionary
+      ~UpdateProtectionGroupAssignments.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~UpdateProtectionGroupAssignments.Assign
+      ~UpdateProtectionGroupAssignments.Unassign
    
    

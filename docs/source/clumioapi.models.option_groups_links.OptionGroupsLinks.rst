@@ -17,10 +17,18 @@ clumioapi.models.option\_groups\_links.OptionGroupsLinks
    .. autosummary::
    
       ~OptionGroupsLinks.__init__
+      ~OptionGroupsLinks.dict
       ~OptionGroupsLinks.from_dictionary
+      ~OptionGroupsLinks.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~OptionGroupsLinks.Self
    
    

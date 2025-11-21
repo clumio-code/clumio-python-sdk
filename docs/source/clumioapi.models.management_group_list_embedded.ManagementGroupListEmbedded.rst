@@ -17,10 +17,18 @@ clumioapi.models.management\_group\_list\_embedded.ManagementGroupListEmbedded
    .. autosummary::
    
       ~ManagementGroupListEmbedded.__init__
+      ~ManagementGroupListEmbedded.dict
       ~ManagementGroupListEmbedded.from_dictionary
+      ~ManagementGroupListEmbedded.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ManagementGroupListEmbedded.Items
    
    

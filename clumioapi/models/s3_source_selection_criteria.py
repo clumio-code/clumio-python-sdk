@@ -1,15 +1,18 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import s3_replica_modifications as s3_replica_modifications_
 from clumioapi.models import s3_sse_kms_encrypted_objects as s3_sse_kms_encrypted_objects_
+import requests
 
 T = TypeVar('T', bound='S3SourceSelectionCriteria')
 
 
+@dataclasses.dataclass
 class S3SourceSelectionCriteria:
     """Implementation of the 'S3SourceSelectionCriteria' model.
 
@@ -17,38 +20,42 @@ class S3SourceSelectionCriteria:
     that you want to replicate.
 
     Attributes:
-        replica_modifications:
+        ReplicaModifications:
             A filter that you can specify for selection for modifications on replicas.
-        sse_kms_encrypted_objects:
+
+        SseKmsEncryptedObjects:
             A container for filter information for the selection of
-            S3 objects encrypted with AWS KMS.
+            s3 objects encrypted with aws kms.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'replica_modifications': 'replica_modifications',
-        'sse_kms_encrypted_objects': 'sse_kms_encrypted_objects',
-    }
+    ReplicaModifications: s3_replica_modifications_.S3ReplicaModifications | None = None
+    SseKmsEncryptedObjects: s3_sse_kms_encrypted_objects_.S3SseKmsEncryptedObjects | None = None
 
-    def __init__(
-        self,
-        replica_modifications: s3_replica_modifications_.S3ReplicaModifications | None = None,
-        sse_kms_encrypted_objects: (
-            s3_sse_kms_encrypted_objects_.S3SseKmsEncryptedObjects | None
-        ) = None,
-    ) -> None:
-        """Constructor for the S3SourceSelectionCriteria class."""
-
-        # Initialize members of the class
-        self.replica_modifications: s3_replica_modifications_.S3ReplicaModifications | None = (
-            replica_modifications
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
         )
-        self.sse_kms_encrypted_objects: (
-            s3_sse_kms_encrypted_objects_.S3SseKmsEncryptedObjects | None
-        ) = sse_kms_encrypted_objects
+
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -59,8 +66,8 @@ class S3SourceSelectionCriteria:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('replica_modifications', None)
         val_replica_modifications = (
@@ -77,3 +84,19 @@ class S3SourceSelectionCriteria:
             val_replica_modifications,
             val_sse_kms_encrypted_objects,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

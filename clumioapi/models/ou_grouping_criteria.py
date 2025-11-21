@@ -1,49 +1,62 @@
 #
-# Copyright 2023. Clumio, Inc.
+# Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
-from clumioapi.models import aws_ds_grouping_criteria
-from clumioapi.models import m365_grouping_criteria
-from clumioapi.models import v_mware_ds_grouping_criteria
+from clumioapi.api_helper import camel_to_snake
+from clumioapi.models import aws_ds_grouping_criteria as aws_ds_grouping_criteria_
+from clumioapi.models import m365_grouping_criteria as m365_grouping_criteria_
+import requests
 
 T = TypeVar('T', bound='OUGroupingCriteria')
 
 
+@dataclasses.dataclass
 class OUGroupingCriteria:
     """Implementation of the 'OUGroupingCriteria' model.
 
     The grouping criteria for each datasource type.These can only be edited for
-    datasource types which do not have anyorganizational units configured.
+    datasource types which do not have anyorganizational units
+    configured.Deprecated: This struct is deprecated and will be removed in the
+    future.It is being kept for backward compatibility.
 
     Attributes:
-        aws:
-            The entity type used to group organizational units for AWS resources.
-        microsoft365:
-            The entity type used to group organizational units for Microsoft 365 resources.
-        vmware:
-            The entity type used to group organizational units for VMware resources.
+        Aws:
+            The entity type used to group organizational units for aws resources.
+
+        Microsoft365:
+            The entity type used to group organizational units for microsoft 365 resources.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names = {'aws': 'aws', 'microsoft365': 'microsoft365', 'vmware': 'vmware'}
+    Aws: aws_ds_grouping_criteria_.AwsDsGroupingCriteria | None = None
+    Microsoft365: m365_grouping_criteria_.M365GroupingCriteria | None = None
 
-    def __init__(
-        self,
-        aws: aws_ds_grouping_criteria.AwsDsGroupingCriteria = None,
-        microsoft365: m365_grouping_criteria.M365GroupingCriteria = None,
-        vmware: v_mware_ds_grouping_criteria.VMwareDsGroupingCriteria = None,
-    ) -> None:
-        """Constructor for the OUGroupingCriteria class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.aws: aws_ds_grouping_criteria.AwsDsGroupingCriteria = aws
-        self.microsoft365: m365_grouping_criteria.M365GroupingCriteria = microsoft365
-        self.vmware: v_mware_ds_grouping_criteria.VMwareDsGroupingCriteria = vmware
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type, dictionary: Mapping[str, Any]) -> Optional[T]:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -56,30 +69,31 @@ class OUGroupingCriteria:
         """
         if not dictionary:
             return None
-
         # Extract variables from the dictionary
-        key = 'aws'
-        aws = (
-            aws_ds_grouping_criteria.AwsDsGroupingCriteria.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('aws', None)
+        val_aws = aws_ds_grouping_criteria_.AwsDsGroupingCriteria.from_dictionary(val)
 
-        key = 'microsoft365'
-        microsoft365 = (
-            m365_grouping_criteria.M365GroupingCriteria.from_dictionary(dictionary.get(key))
-            if dictionary.get(key)
-            else None
-        )
-
-        key = 'vmware'
-        vmware = (
-            v_mware_ds_grouping_criteria.VMwareDsGroupingCriteria.from_dictionary(
-                dictionary.get(key)
-            )
-            if dictionary.get(key)
-            else None
-        )
+        val = dictionary.get('microsoft365', None)
+        val_microsoft365 = m365_grouping_criteria_.M365GroupingCriteria.from_dictionary(val)
 
         # Return an object of this model
-        return cls(aws, microsoft365, vmware)
+        return cls(
+            val_aws,
+            val_microsoft365,
+        )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

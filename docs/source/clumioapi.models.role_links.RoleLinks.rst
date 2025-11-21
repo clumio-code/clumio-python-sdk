@@ -17,10 +17,18 @@ clumioapi.models.role\_links.RoleLinks
    .. autosummary::
    
       ~RoleLinks.__init__
+      ~RoleLinks.dict
       ~RoleLinks.from_dictionary
+      ~RoleLinks.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~RoleLinks.Self
    
    

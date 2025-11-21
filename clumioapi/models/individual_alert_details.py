@@ -1,57 +1,69 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='IndividualAlertDetails')
 
 
+@dataclasses.dataclass
 class IndividualAlertDetails:
     """Implementation of the 'IndividualAlertDetails' model.
 
     Additional information about the alert.
 
     Attributes:
-        cause:
-            A brief description of the condition that caused the alert. Examples include
-            "Size Limit Exceeded" and "Insufficient Cloud Connector Capacity".
-        description:
+        Cause:
+            A brief description of the condition that caused the alert. examples include
+            "size limit exceeded" and "insufficient cloud connector capacity".
+
+        Description:
             A detailed description of the alert, including the reason why the alert occurred
             and the steps you must take to resolve the issue.
-        p_type:
-            The general alert category. Examples include "Policy Violated" and "Restore
-            Failed".
-        variables:
-            Data specific to the alert generated. If the alert has no variables, then this
+
+        Type:
+            The general alert category. examples include "policy violated" and "restore
+            failed".
+
+        Variables:
+            Data specific to the alert generated. if the alert has no variables, then this
             field has a value of `null`.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'cause': 'cause',
-        'description': 'description',
-        'p_type': 'type',
-        'variables': 'variables',
-    }
+    Cause: str | None = None
+    Description: str | None = None
+    Type: str | None = None
+    Variables: Mapping[str, str] | None = None
 
-    def __init__(
-        self,
-        cause: str | None = None,
-        description: str | None = None,
-        p_type: str | None = None,
-        variables: Mapping[str, str] | None = None,
-    ) -> None:
-        """Constructor for the IndividualAlertDetails class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.cause: str | None = cause
-        self.description: str | None = description
-        self.p_type: str | None = p_type
-        self.variables: Mapping[str, str] | None = variables
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -62,8 +74,8 @@ class IndividualAlertDetails:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('cause', None)
         val_cause = val
@@ -72,7 +84,7 @@ class IndividualAlertDetails:
         val_description = val
 
         val = dictionary.get('type', None)
-        val_p_type = val
+        val_type = val
 
         val = dictionary.get('variables', None)
         val_variables = val
@@ -81,6 +93,22 @@ class IndividualAlertDetails:
         return cls(
             val_cause,
             val_description,
-            val_p_type,
+            val_type,
             val_variables,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

@@ -17,7 +17,9 @@ clumioapi.models.option\_groups\_embedded.OptionGroupsEmbedded
    .. autosummary::
    
       ~OptionGroupsEmbedded.__init__
+      ~OptionGroupsEmbedded.dict
       ~OptionGroupsEmbedded.from_dictionary
+      ~OptionGroupsEmbedded.from_response
    
    
 

@@ -27,11 +27,4 @@ clumioapi.controllers.policy\_definitions\_v1.PolicyDefinitionsV1Controller
 
    
    
-   .. rubric:: Attributes
-
-   .. autosummary::
-   
-      ~PolicyDefinitionsV1Controller.client
-      ~PolicyDefinitionsV1Controller.global_headers
-   
    

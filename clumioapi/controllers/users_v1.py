@@ -3,12 +3,16 @@
 #
 
 import json
-from typing import Any, Optional, Union
+import re
+from typing import Any, Iterator, Optional, Union
+import urllib.parse
 
 from clumioapi import api_helper
 from clumioapi import configuration
 from clumioapi import sdk_version
 from clumioapi.controllers import base_controller
+from clumioapi.controllers.types import aws_s3_buckets_v1_bucket_matcher_types
+from clumioapi.controllers.types import users_types
 from clumioapi.exceptions import clumio_exception
 from clumioapi.models import change_password_response
 from clumioapi.models import change_password_v1_request
@@ -22,38 +26,36 @@ from clumioapi.models import update_user_profile_v1_request
 from clumioapi.models import update_user_response_v1
 from clumioapi.models import update_user_v1_request
 import requests
+import retrying
 
 
-class UsersV1Controller(base_controller.BaseController):
+class UsersV1Controller:
     """A Controller to access Endpoints for users resource."""
 
-    def __init__(self, config: configuration.Configuration) -> None:
-        super().__init__(config)
-        self.config = config
+    def __init__(self, controller: base_controller.BaseController) -> None:
+        self.controller = controller
+        self.client = self.controller.client
         self.headers = {
             'accept': 'application/api.clumio.users=v1+json',
-            'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
+            'x-clumio-organizationalunit-context': self.controller.config.organizational_unit_context,
             'x-clumio-api-client': 'clumio-python-sdk',
             'x-clumio-sdk-version': f'clumio-python-sdk:{sdk_version}',
         }
-        if config.custom_headers != None:
-            self.headers.update(config.custom_headers)
+        if self.controller.config.custom_headers != None:
+            self.headers.update(self.controller.config.custom_headers)
 
     def list_users(
         self,
         limit: int | None = None,
         start: str | None = None,
-        filter: str | None = None,
+        filter: users_types.ListUsersV1FilterT | None = None,
         **kwargs,
-    ) -> Union[
-        list_users_response_v1.ListUsersResponseV1,
-        tuple[requests.Response, Optional[list_users_response_v1.ListUsersResponseV1]],
-    ]:
+    ) -> list_users_response_v1.ListUsersResponseV1:
         """Returns a list of Clumio users.
 
         Args:
             limit:
-                Limits the size of the response on each page to the specified number of items.
+                Limits the size of the items returned in the response.
             start:
                 Sets the page number used to browse the collection.
                 Pages are indexed starting from 1 (i.e., `start=1`).
@@ -70,49 +72,46 @@ class UsersV1Controller(base_controller.BaseController):
                 |       |                  | user.                                             |
                 +-------+------------------+---------------------------------------------------+
 
-        Returns:
-            requests.Response: Raw Response from the API if config.raw_response is set to True.
-            list_users_response_v1.ListUsersResponseV1: Response from the API.
-        Raises:
-            ClumioException: An error occured while executing the API.
-                This exception includes the HTTP response code, an error
-                message, and the HTTP body that was received in the request.
         """
+
+        def get_instance_from_response(resp: requests.Response) -> Any:
+            return list_users_response_v1.ListUsersResponseV1.from_response(resp)
 
         # Prepare query URL
         _url_path = '/users'
 
         _query_parameters: dict[str, Any] = {}
-        _query_parameters = {'limit': limit, 'start': start, 'filter': filter}
+        _query_parameters = {
+            'limit': limit,
+            'start': start,
+            'filter': filter.query_str if filter else None,
+        }
 
-        raw_response = self.config.raw_response
+        resp_instance: list_users_response_v1.ListUsersResponseV1
         # Execute request
+        resp: requests.Response
         try:
-            resp: requests.Response = self.client.get(
+            resp = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
                 raw_response=True,
                 **kwargs,
             )
-        except requests.exceptions.HTTPError as http_error:
-            if raw_response:
-                return http_error.response, None
-            raise clumio_exception.ClumioException(
-                'Error occurred while executing list_users', error=http_error
-            )
+        except requests.exceptions.HTTPError as e:
+            resp = e.response
 
-        obj = list_users_response_v1.ListUsersResponseV1.from_dictionary(resp.json())
-        if raw_response:
-            return resp, obj
-        return obj
+        if not resp.ok:
+            error_str = f'list_users for url {urllib.parse.unquote(resp.url)} failed.'
+            raise clumio_exception.ClumioException(error_str, resp=resp)
+
+        resp_instance = get_instance_from_response(resp)
+
+        return resp_instance
 
     def create_user(
         self, body: create_user_v1_request.CreateUserV1Request | None = None, **kwargs
-    ) -> Union[
-        create_user_response_v1.CreateUserResponseV1,
-        tuple[requests.Response, Optional[create_user_response_v1.CreateUserResponseV1]],
-    ]:
+    ) -> create_user_response_v1.CreateUserResponseV1:
         """Creates a new user. Specify the user's full name and email address to generate
         an email message that is sent to the user with an invitation to activate their
         Clumio account.
@@ -120,193 +119,171 @@ class UsersV1Controller(base_controller.BaseController):
         Args:
             body:
 
-        Returns:
-            requests.Response: Raw Response from the API if config.raw_response is set to True.
-            create_user_response_v1.CreateUserResponseV1: Response from the API.
-        Raises:
-            ClumioException: An error occured while executing the API.
-                This exception includes the HTTP response code, an error
-                message, and the HTTP body that was received in the request.
         """
+
+        def get_instance_from_response(resp: requests.Response) -> Any:
+            return create_user_response_v1.CreateUserResponseV1.from_response(resp)
 
         # Prepare query URL
         _url_path = '/users'
 
         _query_parameters: dict[str, Any] = {}
 
-        raw_response = self.config.raw_response
+        resp_instance: create_user_response_v1.CreateUserResponseV1
         # Execute request
+        resp: requests.Response
         try:
-            resp: requests.Response = self.client.post(
+            resp = self.client.post(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                json=api_helper.to_dictionary(body),
+                json=body.dict() if body else None,
                 raw_response=True,
                 **kwargs,
             )
-        except requests.exceptions.HTTPError as http_error:
-            if raw_response:
-                return http_error.response, None
-            raise clumio_exception.ClumioException(
-                'Error occurred while executing create_user', error=http_error
-            )
+        except requests.exceptions.HTTPError as e:
+            resp = e.response
 
-        obj = create_user_response_v1.CreateUserResponseV1.from_dictionary(resp.json())
-        if raw_response:
-            return resp, obj
-        return obj
+        if not resp.ok:
+            error_str = f'create_user for url {urllib.parse.unquote(resp.url)} failed.'
+            raise clumio_exception.ClumioException(error_str, resp=resp)
+
+        resp_instance = get_instance_from_response(resp)
+
+        return resp_instance
 
     def update_user_profile(
         self,
         body: update_user_profile_v1_request.UpdateUserProfileV1Request | None = None,
         **kwargs,
-    ) -> Union[
-        edit_profile_response_v1.EditProfileResponseV1,
-        tuple[requests.Response, Optional[edit_profile_response_v1.EditProfileResponseV1]],
-    ]:
+    ) -> edit_profile_response_v1.EditProfileResponseV1:
         """Manages the current user's profile, such as changing the user's full name.
 
         Args:
             body:
 
-        Returns:
-            requests.Response: Raw Response from the API if config.raw_response is set to True.
-            edit_profile_response_v1.EditProfileResponseV1: Response from the API.
-        Raises:
-            ClumioException: An error occured while executing the API.
-                This exception includes the HTTP response code, an error
-                message, and the HTTP body that was received in the request.
         """
+
+        def get_instance_from_response(resp: requests.Response) -> Any:
+            return edit_profile_response_v1.EditProfileResponseV1.from_response(resp)
 
         # Prepare query URL
         _url_path = '/users/my-profile'
 
         _query_parameters: dict[str, Any] = {}
 
-        raw_response = self.config.raw_response
+        resp_instance: edit_profile_response_v1.EditProfileResponseV1
         # Execute request
+        resp: requests.Response
         try:
-            resp: requests.Response = self.client.patch(
+            resp = self.client.patch(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                json=api_helper.to_dictionary(body),
+                json=body.dict() if body else None,
                 raw_response=True,
                 **kwargs,
             )
-        except requests.exceptions.HTTPError as http_error:
-            if raw_response:
-                return http_error.response, None
-            raise clumio_exception.ClumioException(
-                'Error occurred while executing update_user_profile', error=http_error
-            )
+        except requests.exceptions.HTTPError as e:
+            resp = e.response
 
-        obj = edit_profile_response_v1.EditProfileResponseV1.from_dictionary(resp.json())
-        if raw_response:
-            return resp, obj
-        return obj
+        if not resp.ok:
+            error_str = f'update_user_profile for url {urllib.parse.unquote(resp.url)} failed.'
+            raise clumio_exception.ClumioException(error_str, resp=resp)
 
-    def read_user(self, user_id: int | None = None, **kwargs) -> Union[
-        read_user_response_v1.ReadUserResponseV1,
-        tuple[requests.Response, Optional[read_user_response_v1.ReadUserResponseV1]],
-    ]:
+        resp_instance = get_instance_from_response(resp)
+
+        return resp_instance
+
+    def read_user(
+        self, user_id: int | None = None, **kwargs
+    ) -> read_user_response_v1.ReadUserResponseV1:
         """Returns a representation of the specified Clumio user.
 
         Args:
             user_id:
                 The Clumio-assigned ID of the user to be retrieved.
-        Returns:
-            requests.Response: Raw Response from the API if config.raw_response is set to True.
-            read_user_response_v1.ReadUserResponseV1: Response from the API.
-        Raises:
-            ClumioException: An error occured while executing the API.
-                This exception includes the HTTP response code, an error
-                message, and the HTTP body that was received in the request.
         """
+
+        def get_instance_from_response(resp: requests.Response) -> Any:
+            return read_user_response_v1.ReadUserResponseV1.from_response(resp)
 
         # Prepare query URL
         _url_path = '/users/{user_id}'
         _url_path = api_helper.append_url_with_template_parameters(_url_path, {'user_id': user_id})
+
         _query_parameters: dict[str, Any] = {}
 
-        raw_response = self.config.raw_response
+        resp_instance: read_user_response_v1.ReadUserResponseV1
         # Execute request
+        resp: requests.Response
         try:
-            resp: requests.Response = self.client.get(
+            resp = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
                 raw_response=True,
                 **kwargs,
             )
-        except requests.exceptions.HTTPError as http_error:
-            if raw_response:
-                return http_error.response, None
-            raise clumio_exception.ClumioException(
-                'Error occurred while executing read_user', error=http_error
-            )
+        except requests.exceptions.HTTPError as e:
+            resp = e.response
 
-        obj = read_user_response_v1.ReadUserResponseV1.from_dictionary(resp.json())
-        if raw_response:
-            return resp, obj
-        return obj
+        if not resp.ok:
+            error_str = f'read_user for url {urllib.parse.unquote(resp.url)} failed.'
+            raise clumio_exception.ClumioException(error_str, resp=resp)
 
-    def delete_user(self, user_id: int | None = None, **kwargs) -> Union[
-        delete_user_response_v1.DeleteUserResponseV1,
-        tuple[requests.Response, Optional[delete_user_response_v1.DeleteUserResponseV1]],
-    ]:
+        resp_instance = get_instance_from_response(resp)
+
+        return resp_instance
+
+    def delete_user(
+        self, user_id: int | None = None, **kwargs
+    ) -> delete_user_response_v1.DeleteUserResponseV1:
         """Deletes an existing user from Clumio, revoking the user's access to Clumio. A
         deleted user cannot be recovered.
 
         Args:
             user_id:
                 The Clumio-assigned ID of the user to be deleted.
-        Returns:
-            requests.Response: Raw Response from the API if config.raw_response is set to True.
-            delete_user_response_v1.DeleteUserResponseV1: Response from the API.
-        Raises:
-            ClumioException: An error occured while executing the API.
-                This exception includes the HTTP response code, an error
-                message, and the HTTP body that was received in the request.
         """
+
+        def get_instance_from_response(resp: requests.Response) -> Any:
+            return delete_user_response_v1.DeleteUserResponseV1.from_response(resp)
 
         # Prepare query URL
         _url_path = '/users/{user_id}'
         _url_path = api_helper.append_url_with_template_parameters(_url_path, {'user_id': user_id})
+
         _query_parameters: dict[str, Any] = {}
 
-        raw_response = self.config.raw_response
+        resp_instance: delete_user_response_v1.DeleteUserResponseV1
         # Execute request
+        resp: requests.Response
         try:
-            resp: requests.Response = self.client.delete(
+            resp = self.client.delete(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
                 raw_response=True,
                 **kwargs,
             )
-        except requests.exceptions.HTTPError as http_error:
-            if raw_response:
-                return http_error.response, None
-            raise clumio_exception.ClumioException(
-                'Error occurred while executing delete_user', error=http_error
-            )
+        except requests.exceptions.HTTPError as e:
+            resp = e.response
 
-        obj = delete_user_response_v1.DeleteUserResponseV1.from_dictionary(resp.json())
-        if raw_response:
-            return resp, obj
-        return obj
+        if not resp.ok:
+            error_str = f'delete_user for url {urllib.parse.unquote(resp.url)} failed.'
+            raise clumio_exception.ClumioException(error_str, resp=resp)
+
+        resp_instance = get_instance_from_response(resp)
+
+        return resp_instance
 
     def update_user(
         self,
         user_id: int | None = None,
         body: update_user_v1_request.UpdateUserV1Request | None = None,
         **kwargs,
-    ) -> Union[
-        update_user_response_v1.UpdateUserResponseV1,
-        tuple[requests.Response, Optional[update_user_response_v1.UpdateUserResponseV1]],
-    ]:
+    ) -> update_user_response_v1.UpdateUserResponseV1:
         """Manages an existing user. Managing a user includes enabling or disabling the
         user,
         changing the user's full name or updating the user's role.
@@ -316,52 +293,46 @@ class UsersV1Controller(base_controller.BaseController):
                 The Clumio-assigned ID of the user to be updated.
             body:
 
-        Returns:
-            requests.Response: Raw Response from the API if config.raw_response is set to True.
-            update_user_response_v1.UpdateUserResponseV1: Response from the API.
-        Raises:
-            ClumioException: An error occured while executing the API.
-                This exception includes the HTTP response code, an error
-                message, and the HTTP body that was received in the request.
         """
+
+        def get_instance_from_response(resp: requests.Response) -> Any:
+            return update_user_response_v1.UpdateUserResponseV1.from_response(resp)
 
         # Prepare query URL
         _url_path = '/users/{user_id}'
         _url_path = api_helper.append_url_with_template_parameters(_url_path, {'user_id': user_id})
+
         _query_parameters: dict[str, Any] = {}
 
-        raw_response = self.config.raw_response
+        resp_instance: update_user_response_v1.UpdateUserResponseV1
         # Execute request
+        resp: requests.Response
         try:
-            resp: requests.Response = self.client.patch(
+            resp = self.client.patch(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                json=api_helper.to_dictionary(body),
+                json=body.dict() if body else None,
                 raw_response=True,
                 **kwargs,
             )
-        except requests.exceptions.HTTPError as http_error:
-            if raw_response:
-                return http_error.response, None
-            raise clumio_exception.ClumioException(
-                'Error occurred while executing update_user', error=http_error
-            )
+        except requests.exceptions.HTTPError as e:
+            resp = e.response
 
-        obj = update_user_response_v1.UpdateUserResponseV1.from_dictionary(resp.json())
-        if raw_response:
-            return resp, obj
-        return obj
+        if not resp.ok:
+            error_str = f'update_user for url {urllib.parse.unquote(resp.url)} failed.'
+            raise clumio_exception.ClumioException(error_str, resp=resp)
+
+        resp_instance = get_instance_from_response(resp)
+
+        return resp_instance
 
     def change_password(
         self,
         user_id: int | None = None,
         body: change_password_v1_request.ChangePasswordV1Request | None = None,
         **kwargs,
-    ) -> Union[
-        change_password_response.ChangePasswordResponse,
-        tuple[requests.Response, Optional[change_password_response.ChangePasswordResponse]],
-    ]:
+    ) -> change_password_response.ChangePasswordResponse:
         """Change the password of the specified user. Users can change their own passwords.
 
         Args:
@@ -369,39 +340,92 @@ class UsersV1Controller(base_controller.BaseController):
                 Performs the operation on the user with the specified ID.
             body:
 
-        Returns:
-            requests.Response: Raw Response from the API if config.raw_response is set to True.
-            change_password_response.ChangePasswordResponse: Response from the API.
-        Raises:
-            ClumioException: An error occured while executing the API.
-                This exception includes the HTTP response code, an error
-                message, and the HTTP body that was received in the request.
         """
+
+        def get_instance_from_response(resp: requests.Response) -> Any:
+            return change_password_response.ChangePasswordResponse.from_response(resp)
 
         # Prepare query URL
         _url_path = '/users/{user_id}/password'
         _url_path = api_helper.append_url_with_template_parameters(_url_path, {'user_id': user_id})
+
         _query_parameters: dict[str, Any] = {}
 
-        raw_response = self.config.raw_response
+        resp_instance: change_password_response.ChangePasswordResponse
         # Execute request
+        resp: requests.Response
         try:
-            resp: requests.Response = self.client.put(
+            resp = self.client.put(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                json=api_helper.to_dictionary(body),
+                json=body.dict() if body else None,
                 raw_response=True,
                 **kwargs,
             )
-        except requests.exceptions.HTTPError as http_error:
-            if raw_response:
-                return http_error.response, None
-            raise clumio_exception.ClumioException(
-                'Error occurred while executing change_password', error=http_error
-            )
+        except requests.exceptions.HTTPError as e:
+            resp = e.response
 
-        obj = change_password_response.ChangePasswordResponse.from_dictionary(resp.json())
-        if raw_response:
-            return resp, obj
-        return obj
+        if not resp.ok:
+            error_str = f'change_password for url {urllib.parse.unquote(resp.url)} failed.'
+            raise clumio_exception.ClumioException(error_str, resp=resp)
+
+        resp_instance = get_instance_from_response(resp)
+
+        return resp_instance
+
+
+class UsersV1ControllerPaginator:
+    """A Controller to access Endpoints for users resource with pagination."""
+
+    def __init__(self, controller: base_controller.BaseController) -> None:
+        self.controller = controller
+
+    @retrying.retry(
+        retry_on_exception=requests.exceptions.ConnectionError,
+        wait_exponential_multiplier=2000,
+        stop_max_attempt_number=5,
+    )
+    def list_users(
+        self,
+        limit: int | None = None,
+        start: str | None = None,
+        filter: users_types.ListUsersV1FilterT | None = None,
+        **kwargs,
+    ) -> Iterator[list_users_response_v1.ListUsersResponseV1]:
+        """Returns a list of Clumio users.
+
+        Args:
+            limit:
+                Limits the size of the items returned in the response.
+            start:
+                Sets the page number used to browse the collection.
+                Pages are indexed starting from 1 (i.e., `start=1`).
+            filter:
+                Narrows down the results to only the items that satisfy the filter criteria. The
+                following table lists
+                the supported filter fields for this resource and the filter conditions that can
+                be applied on those fields:
+
+                +-------+------------------+---------------------------------------------------+
+                | Field | Filter Condition |                    Description                    |
+                +=======+==================+===================================================+
+                | name  | $contains        | A case insensitive substring of the name of the   |
+                |       |                  | user.                                             |
+                +-------+------------------+---------------------------------------------------+
+
+        """
+        controller = UsersV1Controller(self.controller)
+        while True:
+            response = controller.list_users(limit=limit, start=start, filter=filter, **kwargs)
+            yield response
+            next_link = response.Links.Next  # type: ignore
+            if not next_link:
+                break
+            next_link = next_link.Href
+            if match := re.search(r'start=([^&]+)', next_link):  # type: ignore
+                start = match.group(1)
+            else:
+                raise clumio_exception.ClumioException(
+                    'Next link is malformed. Please contact clumio support.'
+                )

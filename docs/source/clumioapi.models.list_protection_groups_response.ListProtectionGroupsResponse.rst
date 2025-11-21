@@ -17,10 +17,25 @@ clumioapi.models.list\_protection\_groups\_response.ListProtectionGroupsResponse
    .. autosummary::
    
       ~ListProtectionGroupsResponse.__init__
+      ~ListProtectionGroupsResponse.dict
       ~ListProtectionGroupsResponse.from_dictionary
+      ~ListProtectionGroupsResponse.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ListProtectionGroupsResponse.CurrentCount
+      ~ListProtectionGroupsResponse.Embedded
+      ~ListProtectionGroupsResponse.Limit
+      ~ListProtectionGroupsResponse.Links
+      ~ListProtectionGroupsResponse.Start
+      ~ListProtectionGroupsResponse.TotalCount
+      ~ListProtectionGroupsResponse.TotalPagesCount
+      ~ListProtectionGroupsResponse.raw_response
    
    

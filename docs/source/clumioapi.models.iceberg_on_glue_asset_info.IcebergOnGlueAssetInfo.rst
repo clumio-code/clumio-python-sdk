@@ -17,10 +17,18 @@ clumioapi.models.iceberg\_on\_glue\_asset\_info.IcebergOnGlueAssetInfo
    .. autosummary::
    
       ~IcebergOnGlueAssetInfo.__init__
+      ~IcebergOnGlueAssetInfo.dict
       ~IcebergOnGlueAssetInfo.from_dictionary
+      ~IcebergOnGlueAssetInfo.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~IcebergOnGlueAssetInfo.InstalledTemplateVersion
    
    

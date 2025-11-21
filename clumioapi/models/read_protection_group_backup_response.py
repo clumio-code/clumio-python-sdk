@@ -1,95 +1,108 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import protection_group_backup_links as protection_group_backup_links_
+import requests
 
 T = TypeVar('T', bound='ReadProtectionGroupBackupResponse')
 
 
+@dataclasses.dataclass
 class ReadProtectionGroupBackupResponse:
     """Implementation of the 'ReadProtectionGroupBackupResponse' model.
 
     Attributes:
-        links:
-            URLs to pages related to the resource.
-        backed_up_object_count:
+        Links:
+            Urls to pages related to the resource.
+
+        BackedUpObjectCount:
             The number of objects in the protection group that were successfully backed up.
-        backed_up_size_bytes:
+
+        BackedUpSizeBytes:
             The total size in bytes of objects in the protection group that were
             successfully backed up.
-        expiration_timestamp:
-            The timestamp of when this backup expires. Represented in RFC-3339 format.
-        failed_object_count:
+
+        ExpirationTimestamp:
+            The timestamp of when this backup expires. represented in rfc-3339 format.
+
+        FailedObjectCount:
             The number of objects in the protection group that failed to be backed up.
-        failed_size_bytes:
+
+        FailedSizeBytes:
             The total size in bytes of objects in the protection group that failed
             to be backed up.
-        p_id:
-            The Clumio-assigned ID of the protection group backup.
-        protection_group_id:
-            The Clumio-assigned ID of the protection group.
-        protection_group_name:
+
+        Id:
+            The clumio-assigned id of the protection group backup.
+
+        MissingObjectCount:
+            The number of objects in the protection group that were missing during backup.
+
+        MissingSizeBytes:
+            The total size in bytes of objects in the protection group that were missing
+            during backup.
+
+        ProtectionGroupId:
+            The clumio-assigned id of the protection group.
+
+        ProtectionGroupName:
             The user-assigned name of the protection group.
-        protection_group_version:
+
+        ProtectionGroupVersion:
             The version of the protection group at the time the backup was taken.
-        start_timestamp:
-            The timestamp of when this backup started. Represented in RFC-3339 format.
-        p_type:
-            The type of backup. Possible values include `protection_group_backup`.
+
+        StartTimestamp:
+            The timestamp of when this backup started. represented in rfc-3339 format.
+
+        Type:
+            The type of backup. possible values include `protection_group_backup`.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'links': '_links',
-        'backed_up_object_count': 'backed_up_object_count',
-        'backed_up_size_bytes': 'backed_up_size_bytes',
-        'expiration_timestamp': 'expiration_timestamp',
-        'failed_object_count': 'failed_object_count',
-        'failed_size_bytes': 'failed_size_bytes',
-        'p_id': 'id',
-        'protection_group_id': 'protection_group_id',
-        'protection_group_name': 'protection_group_name',
-        'protection_group_version': 'protection_group_version',
-        'start_timestamp': 'start_timestamp',
-        'p_type': 'type',
-    }
+    Links: protection_group_backup_links_.ProtectionGroupBackupLinks | None = None
+    BackedUpObjectCount: int | None = None
+    BackedUpSizeBytes: int | None = None
+    ExpirationTimestamp: str | None = None
+    FailedObjectCount: int | None = None
+    FailedSizeBytes: int | None = None
+    Id: str | None = None
+    MissingObjectCount: int | None = None
+    MissingSizeBytes: int | None = None
+    ProtectionGroupId: str | None = None
+    ProtectionGroupName: str | None = None
+    ProtectionGroupVersion: int | None = None
+    StartTimestamp: str | None = None
+    Type: str | None = None
+    raw_response: Optional[requests.Response] = None
 
-    def __init__(
-        self,
-        links: protection_group_backup_links_.ProtectionGroupBackupLinks | None = None,
-        backed_up_object_count: int | None = None,
-        backed_up_size_bytes: int | None = None,
-        expiration_timestamp: str | None = None,
-        failed_object_count: int | None = None,
-        failed_size_bytes: int | None = None,
-        p_id: str | None = None,
-        protection_group_id: str | None = None,
-        protection_group_name: str | None = None,
-        protection_group_version: int | None = None,
-        start_timestamp: str | None = None,
-        p_type: str | None = None,
-    ) -> None:
-        """Constructor for the ReadProtectionGroupBackupResponse class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.links: protection_group_backup_links_.ProtectionGroupBackupLinks | None = links
-        self.backed_up_object_count: int | None = backed_up_object_count
-        self.backed_up_size_bytes: int | None = backed_up_size_bytes
-        self.expiration_timestamp: str | None = expiration_timestamp
-        self.failed_object_count: int | None = failed_object_count
-        self.failed_size_bytes: int | None = failed_size_bytes
-        self.p_id: str | None = p_id
-        self.protection_group_id: str | None = protection_group_id
-        self.protection_group_name: str | None = protection_group_name
-        self.protection_group_version: int | None = protection_group_version
-        self.start_timestamp: str | None = start_timestamp
-        self.p_type: str | None = p_type
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -100,8 +113,8 @@ class ReadProtectionGroupBackupResponse:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('_links', None)
         val_links = protection_group_backup_links_.ProtectionGroupBackupLinks.from_dictionary(val)
@@ -122,7 +135,13 @@ class ReadProtectionGroupBackupResponse:
         val_failed_size_bytes = val
 
         val = dictionary.get('id', None)
-        val_p_id = val
+        val_id = val
+
+        val = dictionary.get('missing_object_count', None)
+        val_missing_object_count = val
+
+        val = dictionary.get('missing_size_bytes', None)
+        val_missing_size_bytes = val
 
         val = dictionary.get('protection_group_id', None)
         val_protection_group_id = val
@@ -137,7 +156,7 @@ class ReadProtectionGroupBackupResponse:
         val_start_timestamp = val
 
         val = dictionary.get('type', None)
-        val_p_type = val
+        val_type = val
 
         # Return an object of this model
         return cls(
@@ -147,10 +166,29 @@ class ReadProtectionGroupBackupResponse:
             val_expiration_timestamp,
             val_failed_object_count,
             val_failed_size_bytes,
-            val_p_id,
+            val_id,
+            val_missing_object_count,
+            val_missing_size_bytes,
             val_protection_group_id,
             val_protection_group_name,
             val_protection_group_version,
             val_start_timestamp,
-            val_p_type,
+            val_type,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        model_instance.raw_response = response
+        return model_instance

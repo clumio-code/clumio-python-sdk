@@ -1,66 +1,75 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import directory_links as directory_links_
+import requests
 
 T = TypeVar('T', bound='Directory')
 
 
+@dataclasses.dataclass
 class Directory:
     """Implementation of the 'Directory' model.
 
     Attributes:
-        links:
-            URLs to pages related to the resource.
-        directory_id:
-            The directory ID of the file. If the file is not a directory, then this field
+        Links:
+            Urls to pages related to the resource.
+
+        DirectoryId:
+            The directory id of the file. if the file is not a directory, then this field
             has
             a value of `null`.
-        is_directory:
-            Determines whether or not this file is a directory. If true, then this file
+
+        IsDirectory:
+            Determines whether or not this file is a directory. if true, then this file
             is a directory.
-        modified_timestamp:
+
+        ModifiedTimestamp:
             The timestamp of when this file was last modified.
-        name:
+
+        Name:
             Name of this file.
-        size:
+
+        Size:
             Size of this file, in bytes.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'links': '_links',
-        'directory_id': 'directory_id',
-        'is_directory': 'is_directory',
-        'modified_timestamp': 'modified_timestamp',
-        'name': 'name',
-        'size': 'size',
-    }
+    Links: directory_links_.DirectoryLinks | None = None
+    DirectoryId: str | None = None
+    IsDirectory: bool | None = None
+    ModifiedTimestamp: str | None = None
+    Name: str | None = None
+    Size: int | None = None
 
-    def __init__(
-        self,
-        links: directory_links_.DirectoryLinks | None = None,
-        directory_id: str | None = None,
-        is_directory: bool | None = None,
-        modified_timestamp: str | None = None,
-        name: str | None = None,
-        size: int | None = None,
-    ) -> None:
-        """Constructor for the Directory class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.links: directory_links_.DirectoryLinks | None = links
-        self.directory_id: str | None = directory_id
-        self.is_directory: bool | None = is_directory
-        self.modified_timestamp: str | None = modified_timestamp
-        self.name: str | None = name
-        self.size: int | None = size
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -71,8 +80,8 @@ class Directory:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('_links', None)
         val_links = directory_links_.DirectoryLinks.from_dictionary(val)
@@ -101,3 +110,19 @@ class Directory:
             val_name,
             val_size,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

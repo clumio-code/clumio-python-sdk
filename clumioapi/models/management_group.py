@@ -1,60 +1,70 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import management_group_links as management_group_links_
+import requests
 
 T = TypeVar('T', bound='ManagementGroup')
 
 
+@dataclasses.dataclass
 class ManagementGroup:
     """Implementation of the 'ManagementGroup' model.
 
     Attributes:
-        links:
-            URLs to pages related to the resource.
-        p_id:
-            The Clumio-assigned ID of the management group.
-        name:
+        Links:
+            Urls to pages related to the resource.
+
+        Id:
+            The clumio-assigned id of the management group.
+
+        Name:
             The name of the management group.
-        p_type:
-            The type of the management group. Possible values include `on_prem`.
-        vcenter_id:
-            The Clumio-assigned ID of the vCenter server associated with the management
+
+        Type:
+            The type of the management group. possible values include `on_prem`.
+
+        VcenterId:
+            The clumio-assigned id of the vcenter server associated with the management
             group.
-            All management groups are associated with a vCenter server.
+            all management groups are associated with a vcenter server.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'links': '_links',
-        'p_id': 'id',
-        'name': 'name',
-        'p_type': 'type',
-        'vcenter_id': 'vcenter_id',
-    }
+    Links: management_group_links_.ManagementGroupLinks | None = None
+    Id: str | None = None
+    Name: str | None = None
+    Type: str | None = None
+    VcenterId: str | None = None
 
-    def __init__(
-        self,
-        links: management_group_links_.ManagementGroupLinks | None = None,
-        p_id: str | None = None,
-        name: str | None = None,
-        p_type: str | None = None,
-        vcenter_id: str | None = None,
-    ) -> None:
-        """Constructor for the ManagementGroup class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.links: management_group_links_.ManagementGroupLinks | None = links
-        self.p_id: str | None = p_id
-        self.name: str | None = name
-        self.p_type: str | None = p_type
-        self.vcenter_id: str | None = vcenter_id
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -65,20 +75,20 @@ class ManagementGroup:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('_links', None)
         val_links = management_group_links_.ManagementGroupLinks.from_dictionary(val)
 
         val = dictionary.get('id', None)
-        val_p_id = val
+        val_id = val
 
         val = dictionary.get('name', None)
         val_name = val
 
         val = dictionary.get('type', None)
-        val_p_type = val
+        val_type = val
 
         val = dictionary.get('vcenter_id', None)
         val_vcenter_id = val
@@ -86,8 +96,24 @@ class ManagementGroup:
         # Return an object of this model
         return cls(
             val_links,
-            val_p_id,
+            val_id,
             val_name,
-            val_p_type,
+            val_type,
             val_vcenter_id,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

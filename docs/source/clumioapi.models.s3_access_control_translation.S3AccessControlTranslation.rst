@@ -17,10 +17,18 @@ clumioapi.models.s3\_access\_control\_translation.S3AccessControlTranslation
    .. autosummary::
    
       ~S3AccessControlTranslation.__init__
+      ~S3AccessControlTranslation.dict
       ~S3AccessControlTranslation.from_dictionary
+      ~S3AccessControlTranslation.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~S3AccessControlTranslation.Owner
    
    

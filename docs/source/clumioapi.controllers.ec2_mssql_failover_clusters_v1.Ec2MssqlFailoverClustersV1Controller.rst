@@ -23,11 +23,4 @@ clumioapi.controllers.ec2\_mssql\_failover\_clusters\_v1.Ec2MssqlFailoverCluster
 
    
    
-   .. rubric:: Attributes
-
-   .. autosummary::
-   
-      ~Ec2MssqlFailoverClustersV1Controller.client
-      ~Ec2MssqlFailoverClustersV1Controller.global_headers
-   
    

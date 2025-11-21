@@ -17,10 +17,26 @@ clumioapi.models.read\_rule\_response.ReadRuleResponse
    .. autosummary::
    
       ~ReadRuleResponse.__init__
+      ~ReadRuleResponse.dict
       ~ReadRuleResponse.from_dictionary
+      ~ReadRuleResponse.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ReadRuleResponse.Action
+      ~ReadRuleResponse.Condition
+      ~ReadRuleResponse.Embedded
+      ~ReadRuleResponse.Id
+      ~ReadRuleResponse.Links
+      ~ReadRuleResponse.Name
+      ~ReadRuleResponse.OrganizationalUnitId
+      ~ReadRuleResponse.Priority
+      ~ReadRuleResponse.raw_response
    
    

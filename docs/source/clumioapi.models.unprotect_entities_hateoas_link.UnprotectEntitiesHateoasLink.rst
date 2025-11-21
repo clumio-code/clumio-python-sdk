@@ -17,10 +17,20 @@ clumioapi.models.unprotect\_entities\_hateoas\_link.UnprotectEntitiesHateoasLink
    .. autosummary::
    
       ~UnprotectEntitiesHateoasLink.__init__
+      ~UnprotectEntitiesHateoasLink.dict
       ~UnprotectEntitiesHateoasLink.from_dictionary
+      ~UnprotectEntitiesHateoasLink.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~UnprotectEntitiesHateoasLink.Href
+      ~UnprotectEntitiesHateoasLink.Templated
+      ~UnprotectEntitiesHateoasLink.Type
    
    

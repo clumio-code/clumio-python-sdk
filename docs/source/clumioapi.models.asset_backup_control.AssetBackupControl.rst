@@ -17,10 +17,20 @@ clumioapi.models.asset\_backup\_control.AssetBackupControl
    .. autosummary::
    
       ~AssetBackupControl.__init__
+      ~AssetBackupControl.dict
       ~AssetBackupControl.from_dictionary
+      ~AssetBackupControl.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~AssetBackupControl.LookBackPeriod
+      ~AssetBackupControl.MinimumRetentionDuration
+      ~AssetBackupControl.WindowSize
    
    

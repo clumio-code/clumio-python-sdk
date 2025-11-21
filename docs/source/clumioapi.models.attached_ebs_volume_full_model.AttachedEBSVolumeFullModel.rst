@@ -17,10 +17,27 @@ clumioapi.models.attached\_ebs\_volume\_full\_model.AttachedEBSVolumeFullModel
    .. autosummary::
    
       ~AttachedEBSVolumeFullModel.__init__
+      ~AttachedEBSVolumeFullModel.dict
       ~AttachedEBSVolumeFullModel.from_dictionary
+      ~AttachedEBSVolumeFullModel.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~AttachedEBSVolumeFullModel.Id
+      ~AttachedEBSVolumeFullModel.IsRoot
+      ~AttachedEBSVolumeFullModel.KmsKeyNativeId
+      ~AttachedEBSVolumeFullModel.Name
+      ~AttachedEBSVolumeFullModel.Size
+      ~AttachedEBSVolumeFullModel.Status
+      ~AttachedEBSVolumeFullModel.Tags
+      ~AttachedEBSVolumeFullModel.Type
+      ~AttachedEBSVolumeFullModel.UtilizedSizeInBytes
+      ~AttachedEBSVolumeFullModel.VolumeNativeId
    
    

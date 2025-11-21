@@ -17,10 +17,18 @@ clumioapi.models.ebs\_template\_info.EbsTemplateInfo
    .. autosummary::
    
       ~EbsTemplateInfo.__init__
+      ~EbsTemplateInfo.dict
       ~EbsTemplateInfo.from_dictionary
+      ~EbsTemplateInfo.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~EbsTemplateInfo.AvailableTemplateVersion
    
    

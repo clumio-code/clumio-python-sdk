@@ -17,10 +17,21 @@ clumioapi.models.patch\_organizational\_unit\_v1\_request.PatchOrganizationalUni
    .. autosummary::
    
       ~PatchOrganizationalUnitV1Request.__init__
+      ~PatchOrganizationalUnitV1Request.dict
       ~PatchOrganizationalUnitV1Request.from_dictionary
+      ~PatchOrganizationalUnitV1Request.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~PatchOrganizationalUnitV1Request.Description
+      ~PatchOrganizationalUnitV1Request.Entities
+      ~PatchOrganizationalUnitV1Request.Name
+      ~PatchOrganizationalUnitV1Request.Users
    
    

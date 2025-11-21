@@ -1,62 +1,72 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import notification_setting as notification_setting_
 from clumioapi.models import parameter as parameter_
 from clumioapi.models import schedule_setting as schedule_setting_
+import requests
 
 T = TypeVar('T', bound='CreateComplianceReportConfigurationV1Request')
 
 
+@dataclasses.dataclass
 class CreateComplianceReportConfigurationV1Request:
     """Implementation of the 'CreateComplianceReportConfigurationV1Request' model.
 
     Attributes:
-        description:
+        Description:
             The user-provided description of the compliance report configuration.
-        name:
+
+        Name:
             The user-provided name of the compliance report configuration.
-        notification:
+
+        Notification:
             Notification channels to send the generated report runs.
-        parameter:
+
+        Parameter:
             Filter and control parameters of compliance report.
-        schedule:
-            When the report will be generated and sent. If the schedule is not provided then
+
+        Schedule:
+            When the report will be generated and sent. if the schedule is not provided then
             a
             default value will be used.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'description': 'description',
-        'name': 'name',
-        'notification': 'notification',
-        'parameter': 'parameter',
-        'schedule': 'schedule',
-    }
+    Description: str | None = None
+    Name: str | None = None
+    Notification: notification_setting_.NotificationSetting | None = None
+    Parameter: parameter_.Parameter | None = None
+    Schedule: schedule_setting_.ScheduleSetting | None = None
 
-    def __init__(
-        self,
-        description: str | None = None,
-        name: str | None = None,
-        notification: notification_setting_.NotificationSetting | None = None,
-        parameter: parameter_.Parameter | None = None,
-        schedule: schedule_setting_.ScheduleSetting | None = None,
-    ) -> None:
-        """Constructor for the CreateComplianceReportConfigurationV1Request class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.description: str | None = description
-        self.name: str | None = name
-        self.notification: notification_setting_.NotificationSetting | None = notification
-        self.parameter: parameter_.Parameter | None = parameter
-        self.schedule: schedule_setting_.ScheduleSetting | None = schedule
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -67,8 +77,8 @@ class CreateComplianceReportConfigurationV1Request:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('description', None)
         val_description = val
@@ -93,3 +103,19 @@ class CreateComplianceReportConfigurationV1Request:
             val_parameter,
             val_schedule,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

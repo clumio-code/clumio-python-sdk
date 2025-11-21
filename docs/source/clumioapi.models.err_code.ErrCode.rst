@@ -17,7 +17,9 @@ clumioapi.models.err\_code.ErrCode
    .. autosummary::
    
       ~ErrCode.__init__
+      ~ErrCode.dict
       ~ErrCode.from_dictionary
+      ~ErrCode.from_response
    
    
 

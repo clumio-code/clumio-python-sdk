@@ -17,10 +17,34 @@ clumioapi.models.read\_ebs\_backup\_response\_v1.ReadEBSBackupResponseV1
    .. autosummary::
    
       ~ReadEBSBackupResponseV1.__init__
+      ~ReadEBSBackupResponseV1.dict
       ~ReadEBSBackupResponseV1.from_dictionary
+      ~ReadEBSBackupResponseV1.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ReadEBSBackupResponseV1.AccountNativeId
+      ~ReadEBSBackupResponseV1.AwsAz
+      ~ReadEBSBackupResponseV1.AwsRegion
+      ~ReadEBSBackupResponseV1.BrowsingFailedReason
+      ~ReadEBSBackupResponseV1.ExpirationTimestamp
+      ~ReadEBSBackupResponseV1.Id
+      ~ReadEBSBackupResponseV1.IsBrowsable
+      ~ReadEBSBackupResponseV1.IsEncrypted
+      ~ReadEBSBackupResponseV1.KmsKeyNativeId
+      ~ReadEBSBackupResponseV1.Links
+      ~ReadEBSBackupResponseV1.Size
+      ~ReadEBSBackupResponseV1.StartTimestamp
+      ~ReadEBSBackupResponseV1.Tags
+      ~ReadEBSBackupResponseV1.Type
+      ~ReadEBSBackupResponseV1.VolumeId
+      ~ReadEBSBackupResponseV1.VolumeNativeId
+      ~ReadEBSBackupResponseV1.raw_response
    
    

@@ -17,10 +17,18 @@ clumioapi.models.on\_demand\_throughput\_override.OnDemandThroughputOverride
    .. autosummary::
    
       ~OnDemandThroughputOverride.__init__
+      ~OnDemandThroughputOverride.dict
       ~OnDemandThroughputOverride.from_dictionary
+      ~OnDemandThroughputOverride.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~OnDemandThroughputOverride.MaxReadRequestUnits
    
    

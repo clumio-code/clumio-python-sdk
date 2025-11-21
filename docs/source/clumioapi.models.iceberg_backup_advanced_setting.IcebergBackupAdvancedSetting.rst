@@ -17,10 +17,18 @@ clumioapi.models.iceberg\_backup\_advanced\_setting.IcebergBackupAdvancedSetting
    .. autosummary::
    
       ~IcebergBackupAdvancedSetting.__init__
+      ~IcebergBackupAdvancedSetting.dict
       ~IcebergBackupAdvancedSetting.from_dictionary
+      ~IcebergBackupAdvancedSetting.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~IcebergBackupAdvancedSetting.BackupTier
    
    

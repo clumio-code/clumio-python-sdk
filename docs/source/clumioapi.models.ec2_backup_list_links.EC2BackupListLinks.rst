@@ -17,10 +17,22 @@ clumioapi.models.ec2\_backup\_list\_links.EC2BackupListLinks
    .. autosummary::
    
       ~EC2BackupListLinks.__init__
+      ~EC2BackupListLinks.dict
       ~EC2BackupListLinks.from_dictionary
+      ~EC2BackupListLinks.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~EC2BackupListLinks.First
+      ~EC2BackupListLinks.Last
+      ~EC2BackupListLinks.Next
+      ~EC2BackupListLinks.Prev
+      ~EC2BackupListLinks.Self
    
    

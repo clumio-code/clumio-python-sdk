@@ -17,10 +17,18 @@ clumioapi.models.hateoas\_common\_links.HateoasCommonLinks
    .. autosummary::
    
       ~HateoasCommonLinks.__init__
+      ~HateoasCommonLinks.dict
       ~HateoasCommonLinks.from_dictionary
+      ~HateoasCommonLinks.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~HateoasCommonLinks.Self
    
    

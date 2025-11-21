@@ -17,10 +17,19 @@ clumioapi.models.estimate\_cost\_details\_s3\_instant\_access\_endpoint\_respons
    .. autosummary::
    
       ~EstimateCostDetailsS3InstantAccessEndpointResponseLinks.__init__
+      ~EstimateCostDetailsS3InstantAccessEndpointResponseLinks.dict
       ~EstimateCostDetailsS3InstantAccessEndpointResponseLinks.from_dictionary
+      ~EstimateCostDetailsS3InstantAccessEndpointResponseLinks.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~EstimateCostDetailsS3InstantAccessEndpointResponseLinks.Self
+      ~EstimateCostDetailsS3InstantAccessEndpointResponseLinks.raw_response
    
    

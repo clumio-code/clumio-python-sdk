@@ -17,7 +17,9 @@ clumioapi.models.ec2\_mssql\_host\_embedded.EC2MSSQLHostEmbedded
    .. autosummary::
    
       ~EC2MSSQLHostEmbedded.__init__
+      ~EC2MSSQLHostEmbedded.dict
       ~EC2MSSQLHostEmbedded.from_dictionary
+      ~EC2MSSQLHostEmbedded.from_response
    
    
 
