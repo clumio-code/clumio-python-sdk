@@ -17,10 +17,18 @@ clumioapi.models.protection\_group\_s3\_asset\_backup\_links.ProtectionGroupS3As
    .. autosummary::
    
       ~ProtectionGroupS3AssetBackupLinks.__init__
+      ~ProtectionGroupS3AssetBackupLinks.dict
       ~ProtectionGroupS3AssetBackupLinks.from_dictionary
+      ~ProtectionGroupS3AssetBackupLinks.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ProtectionGroupS3AssetBackupLinks.Self
    
    

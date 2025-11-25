@@ -1,31 +1,51 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='MssqlServiceInstanceProfiles')
 
 
+@dataclasses.dataclass
 class MssqlServiceInstanceProfiles:
     """Implementation of the 'MssqlServiceInstanceProfiles' model.
 
     Attributes:
-        ec2_ssm_instance_profile_arn:
-            Policy created for ec2 instance profile role
+        Ec2SsmInstanceProfileArn:
+            Policy created for ec2 instance profile role.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {'ec2_ssm_instance_profile_arn': 'ec2_ssm_instance_profile_arn'}
+    Ec2SsmInstanceProfileArn: str | None = None
 
-    def __init__(self, ec2_ssm_instance_profile_arn: str | None = None) -> None:
-        """Constructor for the MssqlServiceInstanceProfiles class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.ec2_ssm_instance_profile_arn: str | None = ec2_ssm_instance_profile_arn
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -36,8 +56,8 @@ class MssqlServiceInstanceProfiles:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('ec2_ssm_instance_profile_arn', None)
         val_ec2_ssm_instance_profile_arn = val
@@ -46,3 +66,19 @@ class MssqlServiceInstanceProfiles:
         return cls(
             val_ec2_ssm_instance_profile_arn,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

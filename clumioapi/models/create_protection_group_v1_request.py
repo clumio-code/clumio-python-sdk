@@ -1,48 +1,46 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import object_filter as object_filter_
+import requests
 
 T = TypeVar('T', bound='CreateProtectionGroupV1Request')
 
 
+@dataclasses.dataclass
 class CreateProtectionGroupV1Request:
     """Implementation of the 'CreateProtectionGroupV1Request' model.
 
     Attributes:
-        bucket_rule:
-            The following table describes the possible conditions for a bucket to be
-            automatically added to a protection group.
-            Denotes the properties to conditionalize on. For `$eq`, `$not_eq`, `$contains`
-            and `$not_contains` a single element is provided: `{'$eq':{'key':'Environment',
-            'value':'Prod'}}`. For all other operations, a list is provided:
-            `{'$in':[{'key':'Environment','value':'Prod'}, {'key':'Hello',
-            'value':'World'}]}`.
+        BucketRule:
+            `{'$in':[{'key':'environment','value':'prod'}, {'key':'hello',
+            'value':'world'}]}`.
 
             +-------------------+-----------------------------+----------------------------+
-            |       Field       |       Rule Condition        |        Description         |
+            |       field       |       rule condition        |        description         |
             +===================+=============================+============================+
-            | aws_tag           | $eq, $not_eq, $contains,    | Supports filtering by AWS  |
+            | aws_tag           | $eq, $not_eq, $contains,    | supports filtering by aws  |
             |                   | $not_contains, $all,        | tag(s) using the following |
-            |                   | $not_all, $in, $not_in      | operators. For example,    |
+            |                   | $not_all, $in, $not_in      | operators. for example,    |
             |                   |                             |                            |
             |                   |                             | {"aws_tag":{"$eq":{"key":" |
-            |                   |                             | Environment",              |
-            |                   |                             | "value":"Prod"}}}          |
+            |                   |                             | environment",              |
+            |                   |                             | "value":"prod"}}}          |
             |                   |                             |                            |
             |                   |                             |                            |
             +-------------------+-----------------------------+----------------------------+
             | account_native_id | $eq, $in                    |                            |
-            |                   |                             | This will be deprecated    |
+            |                   |                             | this will be deprecated    |
             |                   |                             | and use                    |
             |                   |                             | aws_account_native_id      |
             |                   |                             | instead.                   |
-            |                   |                             | Supports filtering by AWS  |
+            |                   |                             | supports filtering by aws  |
             |                   |                             | account(s) using the       |
-            |                   |                             | following operators. For   |
+            |                   |                             | following operators. for   |
             |                   |                             | example,                   |
             |                   |                             |                            |
             |                   |                             | {"account_native_id":{"$in |
@@ -50,9 +48,9 @@ class CreateProtectionGroupV1Request:
             |                   |                             |                            |
             |                   |                             |                            |
             +-------------------+-----------------------------+----------------------------+
-            | aws_region        | $eq, $in                    | Supports filtering by AWS  |
+            | aws_region        | $eq, $in                    | supports filtering by aws  |
             |                   |                             | region(s) using the        |
-            |                   |                             | following operators. For   |
+            |                   |                             | following operators. for   |
             |                   |                             | example,                   |
             |                   |                             |                            |
             |                   |                             | {"aws_region":{"$eq":"us-  |
@@ -60,40 +58,48 @@ class CreateProtectionGroupV1Request:
             |                   |                             |                            |
             |                   |                             |                            |
             +-------------------+-----------------------------+----------------------------+
-        description:
+
+        Description:
             The user-assigned description of the protection group.
-        name:
+
+        Name:
             The user-assigned name of the protection group.
-        object_filter:
-            ObjectFilter
+
+        ObjectFilter:
+            Objectfilter
             defines which objects will be backed up.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'bucket_rule': 'bucket_rule',
-        'description': 'description',
-        'name': 'name',
-        'object_filter': 'object_filter',
-    }
+    BucketRule: str | None = None
+    Description: str | None = None
+    Name: str | None = None
+    ObjectFilter: object_filter_.ObjectFilter | None = None
 
-    def __init__(
-        self,
-        bucket_rule: str | None = None,
-        description: str | None = None,
-        name: str | None = None,
-        object_filter: object_filter_.ObjectFilter | None = None,
-    ) -> None:
-        """Constructor for the CreateProtectionGroupV1Request class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.bucket_rule: str | None = bucket_rule
-        self.description: str | None = description
-        self.name: str | None = name
-        self.object_filter: object_filter_.ObjectFilter | None = object_filter
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -104,8 +110,8 @@ class CreateProtectionGroupV1Request:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('bucket_rule', None)
         val_bucket_rule = val
@@ -126,3 +132,19 @@ class CreateProtectionGroupV1Request:
             val_name,
             val_object_filter,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

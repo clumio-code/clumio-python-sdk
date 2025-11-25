@@ -1,57 +1,68 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import update_entities as update_entities_
 from clumioapi.models import update_user_assignments as update_user_assignments_
+import requests
 
 T = TypeVar('T', bound='PatchOrganizationalUnitV1Request')
 
 
+@dataclasses.dataclass
 class PatchOrganizationalUnitV1Request:
     """Implementation of the 'PatchOrganizationalUnitV1Request' model.
 
     Attributes:
-        description:
+        Description:
             A description of the organizational unit.
-        entities:
+
+        Entities:
             Updates to the entities in the organizational unit.
-            Adding or removing entities from the OU is an asynchronous operation.
-            The response has a task ID which can be used to track the progress of the
+            adding or removing entities from the ou is an asynchronous operation.
+            the response has a task id which can be used to track the progress of the
             operation.
-        name:
+
+        Name:
             Unique name assigned to the organizational unit.
-        users:
+
+        Users:
             Updates to the user assignments.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'description': 'description',
-        'entities': 'entities',
-        'name': 'name',
-        'users': 'users',
-    }
+    Description: str | None = None
+    Entities: update_entities_.UpdateEntities | None = None
+    Name: str | None = None
+    Users: update_user_assignments_.UpdateUserAssignments | None = None
 
-    def __init__(
-        self,
-        description: str | None = None,
-        entities: update_entities_.UpdateEntities | None = None,
-        name: str | None = None,
-        users: update_user_assignments_.UpdateUserAssignments | None = None,
-    ) -> None:
-        """Constructor for the PatchOrganizationalUnitV1Request class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.description: str | None = description
-        self.entities: update_entities_.UpdateEntities | None = entities
-        self.name: str | None = name
-        self.users: update_user_assignments_.UpdateUserAssignments | None = users
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -62,8 +73,8 @@ class PatchOrganizationalUnitV1Request:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('description', None)
         val_description = val
@@ -84,3 +95,19 @@ class PatchOrganizationalUnitV1Request:
             val_name,
             val_users,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

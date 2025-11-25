@@ -1,43 +1,55 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import s3_replication_configuration as s3_replication_configuration_
+import requests
 
 T = TypeVar('T', bound='S3ReplicationOutput')
 
 
+@dataclasses.dataclass
 class S3ReplicationOutput:
     """Implementation of the 'S3ReplicationOutput' model.
 
     The AWS replication output of the bucket.
 
     Attributes:
-        replication_configuration:
+        ReplicationConfiguration:
             A container for replication rules with a maximum size
-            of 2MB and a maximum of 1,000 rules.
+            of 2mb and a maximum of 1,000 rules.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {'replication_configuration': 'replication_configuration'}
+    ReplicationConfiguration: s3_replication_configuration_.S3ReplicationConfiguration | None = None
 
-    def __init__(
-        self,
-        replication_configuration: (
-            s3_replication_configuration_.S3ReplicationConfiguration | None
-        ) = None,
-    ) -> None:
-        """Constructor for the S3ReplicationOutput class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.replication_configuration: (
-            s3_replication_configuration_.S3ReplicationConfiguration | None
-        ) = replication_configuration
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -48,8 +60,8 @@ class S3ReplicationOutput:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('replication_configuration', None)
         val_replication_configuration = (
@@ -60,3 +72,19 @@ class S3ReplicationOutput:
         return cls(
             val_replication_configuration,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

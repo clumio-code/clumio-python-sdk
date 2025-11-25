@@ -17,10 +17,32 @@ clumioapi.models.read\_protection\_group\_backup\_response.ReadProtectionGroupBa
    .. autosummary::
    
       ~ReadProtectionGroupBackupResponse.__init__
+      ~ReadProtectionGroupBackupResponse.dict
       ~ReadProtectionGroupBackupResponse.from_dictionary
+      ~ReadProtectionGroupBackupResponse.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ReadProtectionGroupBackupResponse.BackedUpObjectCount
+      ~ReadProtectionGroupBackupResponse.BackedUpSizeBytes
+      ~ReadProtectionGroupBackupResponse.ExpirationTimestamp
+      ~ReadProtectionGroupBackupResponse.FailedObjectCount
+      ~ReadProtectionGroupBackupResponse.FailedSizeBytes
+      ~ReadProtectionGroupBackupResponse.Id
+      ~ReadProtectionGroupBackupResponse.Links
+      ~ReadProtectionGroupBackupResponse.MissingObjectCount
+      ~ReadProtectionGroupBackupResponse.MissingSizeBytes
+      ~ReadProtectionGroupBackupResponse.ProtectionGroupId
+      ~ReadProtectionGroupBackupResponse.ProtectionGroupName
+      ~ReadProtectionGroupBackupResponse.ProtectionGroupVersion
+      ~ReadProtectionGroupBackupResponse.StartTimestamp
+      ~ReadProtectionGroupBackupResponse.Type
+      ~ReadProtectionGroupBackupResponse.raw_response
    
    

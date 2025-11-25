@@ -1,207 +1,216 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import audit_parent_entity as audit_parent_entity_
 from clumioapi.models import audit_primary_entity as audit_primary_entity_
+from clumioapi.models import details as details_
+import requests
 
 T = TypeVar('T', bound='AuditTrails')
 
 
+@dataclasses.dataclass
 class AuditTrails:
     """Implementation of the 'AuditTrails' model.
 
     Attributes:
-        action:
+        Action:
             The action performed by the user.
 
             +-------------------------+----------------------------------------------------+
-            |         Action          |                      Details                       |
+            |         action          |                      details                       |
             +=========================+====================================================+
-            | create                  | Creating or adding new entities like new policy,   |
+            | create                  | creating or adding new entities like new policy,   |
             |                         | configuration, user, etc                           |
             +-------------------------+----------------------------------------------------+
-            | update                  | Updating an existing entity like policy, settings, |
+            | update                  | updating an existing entity like policy, settings, |
             |                         | passwords, etc                                     |
             +-------------------------+----------------------------------------------------+
-            | delete                  | Delete an existing entity like policy, settings,   |
+            | delete                  | delete an existing entity like policy, settings,   |
             |                         | users, etc                                         |
             +-------------------------+----------------------------------------------------+
-            | enable                  | Enabling a feature like single sign on or multi    |
+            | enable                  | enabling a feature like single sign on or multi    |
             |                         | factor authentication settings                     |
             +-------------------------+----------------------------------------------------+
-            | disable                 | Disabling features like single sign on or multi    |
+            | disable                 | disabling features like single sign on or multi    |
             |                         | factor authentication settings                     |
             +-------------------------+----------------------------------------------------+
-            | browse                  | Browsing through entities in the system like       |
+            | browse                  | browsing through entities in the system like       |
             |                         | mailboxes or backups, etc                          |
             +-------------------------+----------------------------------------------------+
-            | search                  | Searching through entities in the system like      |
+            | search                  | searching through entities in the system like      |
             |                         | mailboxes or backups, etc                          |
             +-------------------------+----------------------------------------------------+
-            | login                   | User logs in or tries to login                     |
+            | login                   | user logs in or tries to login                     |
             +-------------------------+----------------------------------------------------+
-            | logout                  | User explicitly logged out.                        |
+            | logout                  | user explicitly logged out.                        |
             +-------------------------+----------------------------------------------------+
-            | register                | When new registrations happen like new             |
+            | register                | when new registrations happen like new             |
             |                         | datasource registration or user registering for    |
-            |                         | MFA                                                |
+            |                         | mfa                                                |
             +-------------------------+----------------------------------------------------+
-            | unregister              | When unregistering like unregistering              |
-            |                         | datasource or user unregistering MFA               |
+            | unregister              | when unregistering like unregistering              |
+            |                         | datasource or user unregistering mfa               |
             +-------------------------+----------------------------------------------------+
-            | apply                   | Apply policy to protect entities, tags, etc        |
+            | apply                   | apply policy to protect entities, tags, etc        |
             +-------------------------+----------------------------------------------------+
-            | remove                  | Remove protection for entities, tags, etc          |
+            | remove                  | remove protection for entities, tags, etc          |
             +-------------------------+----------------------------------------------------+
-            | invite                  | Inviting a user                                    |
+            | invite                  | inviting a user                                    |
             +-------------------------+----------------------------------------------------+
-            | suspend                 | Suspend an existing user                           |
+            | suspend                 | suspend an existing user                           |
             +-------------------------+----------------------------------------------------+
-            | full_restore            | Full restore of the VM, volume, mailbox, database  |
+            | full_restore            | full restore of the vm, volume, mailbox, database  |
             |                         | or other entities                                  |
             +-------------------------+----------------------------------------------------+
-            | granular_retrieval      | Restoring individual files, mails or records       |
+            | granular_retrieval      | restoring individual files, mails or records       |
             +-------------------------+----------------------------------------------------+
-            | redirected              | When cross region restore occurs.                  |
+            | redirected              | when cross region restore occurs.                  |
             +-------------------------+----------------------------------------------------+
-            | unapply                 | Assets removed from a rule.                        |
+            | unapply                 | assets removed from a rule.                        |
             +-------------------------+----------------------------------------------------+
-            | batch_activate          | Activate multiple policies.                        |
+            | batch_activate          | activate multiple policies.                        |
             +-------------------------+----------------------------------------------------+
-            | batch_deactivate        | Deactivate multiple policies.                      |
+            | batch_deactivate        | deactivate multiple policies.                      |
             +-------------------------+----------------------------------------------------+
-            | grant_email_access      | Grant email access for a file level object. This   |
+            | grant_email_access      | grant email access for a file level object. this   |
             |                         | is mutually exclusive with grant_download_access   |
             +-------------------------+----------------------------------------------------+
-            | download                | File was download.                                 |
+            | download                | file was download.                                 |
             +-------------------------+----------------------------------------------------+
-            | validate_tda_passcode   | Validate passcode that is entered for a download.  |
+            | validate_tda_passcode   | validate passcode that is entered for a download.  |
             +-------------------------+----------------------------------------------------+
-            | regenerate_tda_passcode | Regenerate a new passcode used for download.       |
+            | regenerate_tda_passcode | regenerate a new passcode used for download.       |
             +-------------------------+----------------------------------------------------+
-        category:
+
+        Category:
             The category of the auditable action performed by the user.
 
             +-------------------------+----------------------------------------------------+
-            |        Category         |                      Details                       |
+            |        category         |                      details                       |
             +=========================+====================================================+
-            | authentication          | Activities related to Authentication               |
+            | authentication          | activities related to authentication               |
             +-------------------------+----------------------------------------------------+
-            | data_source             | Data source changes                                |
+            | data_source             | data source changes                                |
             +-------------------------+----------------------------------------------------+
-            | policy                  | Policy related actions                             |
+            | policy                  | policy related actions                             |
             +-------------------------+----------------------------------------------------+
-            | protection              | Applying and removing protection                   |
+            | protection              | applying and removing protection                   |
             +-------------------------+----------------------------------------------------+
-            | restore                 | Restore related operations                         |
+            | restore                 | restore related operations                         |
             +-------------------------+----------------------------------------------------+
-            | tasks                   | Tasks                                              |
+            | tasks                   | tasks                                              |
             +-------------------------+----------------------------------------------------+
-            | backup                  | Backup related operations                          |
+            | backup                  | backup related operations                          |
             +-------------------------+----------------------------------------------------+
-            | users                   | User related operations                            |
+            | users                   | user related operations                            |
             +-------------------------+----------------------------------------------------+
-            | api_tokens              | API Token related operations like creating,        |
+            | api_tokens              | api token related operations like creating,        |
             |                         | revoking or deleting tokens                        |
             +-------------------------+----------------------------------------------------+
-            | kms_config              | Key Management Service(KMS) related operations     |
+            | kms_config              | key management service(kms) related operations     |
             +-------------------------+----------------------------------------------------+
-            | sso                     | Single sign-on (SSO) related operations            |
+            | sso                     | single sign-on (sso) related operations            |
             +-------------------------+----------------------------------------------------+
-            | mfa                     | Multi Factor Authentication(MFA) related           |
+            | mfa                     | multi factor authentication(mfa) related           |
             |                         | operations                                         |
             +-------------------------+----------------------------------------------------+
-            | reports                 | Reports related operations                         |
+            | reports                 | reports related operations                         |
             +-------------------------+----------------------------------------------------+
-            | alerts                  | Alerts related operations                          |
+            | alerts                  | alerts related operations                          |
             +-------------------------+----------------------------------------------------+
-            | cloud_connector         | Cloud connector related operations                 |
+            | cloud_connector         | cloud connector related operations                 |
             +-------------------------+----------------------------------------------------+
-            | cloudformation_template | Cloud Formation Template related operations        |
+            | cloudformation_template | cloud formation template related operations        |
             +-------------------------+----------------------------------------------------+
-            | bandwidth_config        | Bandwidth configuration related changes            |
+            | bandwidth_config        | bandwidth configuration related changes            |
             +-------------------------+----------------------------------------------------+
-            | partner_ecosystem       | Changes to partner ecosystem                       |
+            | partner_ecosystem       | changes to partner ecosystem                       |
             +-------------------------+----------------------------------------------------+
-            | ecosystem_changes       | Changes in the ecosystem like adding or removing   |
-            |                         | VMs                                                |
+            | ecosystem_changes       | changes in the ecosystem like adding or removing   |
+            |                         | vms                                                |
             +-------------------------+----------------------------------------------------+
-            | organizational_unit     | Changes in the Organizational Unit/Entity group    |
+            | organizational_unit     | changes in the organizational unit/entity group    |
             |                         | such as creation, deletion, patch.                 |
             +-------------------------+----------------------------------------------------+
-        details:
-            Additional details about the activity provided in JSON format.
-        p_id:
-            The Clumio-assigned ID of the audit event.
-        interface:
-            The interface used to make the request i.e. 'UI','API'
-        ip_address:
-            The IP address from which the activity was requested.
-        parent_entity:
+
+        Details:
+            Additional details about the activity provided in json format.
+            deprecated.
+
+        DetailsJson
+
+        Id:
+            The clumio-assigned id of the audit event.
+
+        Interface:
+            The interface used to make the request i.e. 'ui','api'.
+
+        IpAddress:
+            The ip address from which the activity was requested.
+
+        ParentEntity:
             The parent object of the primary entity associated with or affected by the
             audit.
-        primary_entity:
-            The primary object associated with the audit event. Examples of primary entities
-            include "aws_connection", "aws_ebs_volume" and "aws_ec2_instance". In some cases
+
+        PrimaryEntity:
+            The primary object associated with the audit event. examples of primary entities
+            include "aws_connection", "aws_ebs_volume" and "aws_ec2_instance". in some cases
             like
             global settings, the primary entity may be null.
-        status:
-            The status of the performed action. 'success', 'failure', 'partial_success'
-        timestamp:
-            The Timestamp of when the activity began. Represented in RFC-3339 format.
-        user_email:
+
+        Status:
+            The status of the performed action. 'success', 'failure', 'partial_success'.
+
+        Timestamp:
+            The timestamp of when the activity began. represented in rfc-3339 format.
+
+        UserEmail:
             The email address of the logged in user making the request.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'action': 'action',
-        'category': 'category',
-        'details': 'details',
-        'p_id': 'id',
-        'interface': 'interface',
-        'ip_address': 'ip_address',
-        'parent_entity': 'parent_entity',
-        'primary_entity': 'primary_entity',
-        'status': 'status',
-        'timestamp': 'timestamp',
-        'user_email': 'user_email',
-    }
+    Action: str | None = None
+    Category: str | None = None
+    Details: str | None = None
+    DetailsJson: details_.Details | None = None
+    Id: str | None = None
+    Interface: str | None = None
+    IpAddress: str | None = None
+    ParentEntity: audit_parent_entity_.AuditParentEntity | None = None
+    PrimaryEntity: audit_primary_entity_.AuditPrimaryEntity | None = None
+    Status: str | None = None
+    Timestamp: str | None = None
+    UserEmail: str | None = None
 
-    def __init__(
-        self,
-        action: str | None = None,
-        category: str | None = None,
-        details: str | None = None,
-        p_id: str | None = None,
-        interface: str | None = None,
-        ip_address: str | None = None,
-        parent_entity: audit_parent_entity_.AuditParentEntity | None = None,
-        primary_entity: audit_primary_entity_.AuditPrimaryEntity | None = None,
-        status: str | None = None,
-        timestamp: str | None = None,
-        user_email: str | None = None,
-    ) -> None:
-        """Constructor for the AuditTrails class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.action: str | None = action
-        self.category: str | None = category
-        self.details: str | None = details
-        self.p_id: str | None = p_id
-        self.interface: str | None = interface
-        self.ip_address: str | None = ip_address
-        self.parent_entity: audit_parent_entity_.AuditParentEntity | None = parent_entity
-        self.primary_entity: audit_primary_entity_.AuditPrimaryEntity | None = primary_entity
-        self.status: str | None = status
-        self.timestamp: str | None = timestamp
-        self.user_email: str | None = user_email
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -212,8 +221,8 @@ class AuditTrails:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('action', None)
         val_action = val
@@ -224,8 +233,11 @@ class AuditTrails:
         val = dictionary.get('details', None)
         val_details = val
 
+        val = dictionary.get('details_json', None)
+        val_details_json = details_.Details.from_dictionary(val)
+
         val = dictionary.get('id', None)
-        val_p_id = val
+        val_id = val
 
         val = dictionary.get('interface', None)
         val_interface = val
@@ -253,7 +265,8 @@ class AuditTrails:
             val_action,
             val_category,
             val_details,
-            val_p_id,
+            val_details_json,
+            val_id,
             val_interface,
             val_ip_address,
             val_parent_entity,
@@ -262,3 +275,19 @@ class AuditTrails:
             val_timestamp,
             val_user_email,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

@@ -17,10 +17,18 @@ clumioapi.models.rds\_resource\_list\_embedded.RdsResourceListEmbedded
    .. autosummary::
    
       ~RdsResourceListEmbedded.__init__
+      ~RdsResourceListEmbedded.dict
       ~RdsResourceListEmbedded.from_dictionary
+      ~RdsResourceListEmbedded.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~RdsResourceListEmbedded.Items
    
    

@@ -17,10 +17,19 @@ clumioapi.models.ec2\_mssql\_database\_backup\_advanced\_setting.EC2MSSQLDatabas
    .. autosummary::
    
       ~EC2MSSQLDatabaseBackupAdvancedSetting.__init__
+      ~EC2MSSQLDatabaseBackupAdvancedSetting.dict
       ~EC2MSSQLDatabaseBackupAdvancedSetting.from_dictionary
+      ~EC2MSSQLDatabaseBackupAdvancedSetting.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~EC2MSSQLDatabaseBackupAdvancedSetting.AlternativeReplica
+      ~EC2MSSQLDatabaseBackupAdvancedSetting.PreferredReplica
    
    

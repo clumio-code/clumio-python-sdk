@@ -1,34 +1,55 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='SingleErrorResponse')
 
 
+@dataclasses.dataclass
 class SingleErrorResponse:
     """Implementation of the 'SingleErrorResponse' model.
 
     Attributes:
-        error_code:
+        ErrorCode
 
-        error_message:
+        ErrorMessage:
             The reason for the error.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {'error_code': 'error_code', 'error_message': 'error_message'}
+    ErrorCode: int | None = None
+    ErrorMessage: str | None = None
+    raw_response: Optional[requests.Response] = None
 
-    def __init__(self, error_code: int | None = None, error_message: str | None = None) -> None:
-        """Constructor for the SingleErrorResponse class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.error_code: int | None = error_code
-        self.error_message: str | None = error_message
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -39,8 +60,8 @@ class SingleErrorResponse:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('error_code', None)
         val_error_code = val
@@ -53,3 +74,20 @@ class SingleErrorResponse:
             val_error_code,
             val_error_message,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        model_instance.raw_response = response
+        return model_instance

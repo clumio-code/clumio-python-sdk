@@ -17,10 +17,19 @@ clumioapi.models.consolidated\_alert\_details.ConsolidatedAlertDetails
    .. autosummary::
    
       ~ConsolidatedAlertDetails.__init__
+      ~ConsolidatedAlertDetails.dict
       ~ConsolidatedAlertDetails.from_dictionary
+      ~ConsolidatedAlertDetails.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ConsolidatedAlertDetails.Cause
+      ~ConsolidatedAlertDetails.Type
    
    

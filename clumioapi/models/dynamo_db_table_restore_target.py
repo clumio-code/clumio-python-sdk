@@ -1,9 +1,10 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import aws_tag_common_model as aws_tag_common_model_
 from clumioapi.models import global_secondary_index as global_secondary_index_
 from clumioapi.models import local_secondary_index as local_secondary_index_
@@ -11,10 +12,12 @@ from clumioapi.models import provisioned_throughput as provisioned_throughput_
 from clumioapi.models import replica_description as replica_description_
 from clumioapi.models import sse_specification as sse_specification_
 from clumioapi.models import stream_specification as stream_specification_
+import requests
 
 T = TypeVar('T', bound='DynamoDBTableRestoreTarget')
 
 
+@dataclasses.dataclass
 class DynamoDBTableRestoreTarget:
     """Implementation of the 'DynamoDBTableRestoreTarget' model.
 
@@ -27,169 +30,155 @@ class DynamoDBTableRestoreTarget:
     values if they are specified as `null`.
 
     Attributes:
-        billing_mode:
-            The billing mode of the DynamoDB table. Possible values are PROVISIONED or
-            PAY_PER_REQUEST.
-            For [POST /restores/aws/dynamodb](#operation/restore-aws-dynamodb-table), this
+        BillingMode:
+            The billing mode of the dynamodb table. possible values are provisioned or
+            pay_per_request.
+            for [post /restores/aws/dynamodb](#operation/restore-aws-dynamodb-table), this
             is defaulted to the
             configuration of source table if both 'billing_mode' and
             'provisioned_throughput' are empty or `null`.
-        contributor_insights_status:
-            Indicates whether DynamoDB Contributor Insights is enabled (true) or disabled
+
+        ContributorInsightsStatus:
+            Indicates whether dynamodb contributor insights is enabled (true) or disabled
             (false)
             on the table.
-            For [POST /restores/aws/dynamodb](#operation/restore-aws-dynamodb-table), this
+            for [post /restores/aws/dynamodb](#operation/restore-aws-dynamodb-table), this
             is defaulted to the
             value set in backup if `null`.
-        deletion_protection_enabled:
-            Indicates whether DynamoDB Deletion Protection is enabled (true) or disabled
+
+        DeletionProtectionEnabled:
+            Indicates whether dynamodb deletion protection is enabled (true) or disabled
             (false)
             on the table.
-            For [POST /restores/aws/dynamodb](#operation/restore-aws-dynamodb-table), this
+            for [post /restores/aws/dynamodb](#operation/restore-aws-dynamodb-table), this
             is defaulted to the
             value set in backup if `null`.
-        environment_id:
-            The Clumio-assigned ID of the AWS environment to be used as the restore
+
+        EnvironmentId:
+            The clumio-assigned id of the aws environment to be used as the restore
             destination.
-            Use the [GET /datasources/aws/environments](#operation/list-aws-environments)
+            use the [get /datasources/aws/environments](#operation/list-aws-environments)
             endpoint
             to fetch valid values.
-        global_secondary_indexes:
-            Describes the global secondary indexes of the DynamoDB table.
-            For [POST /restores/aws/dynamodb](#operation/restore-aws-dynamodb-table), a
+
+        GlobalSecondaryIndexes:
+            Describes the global secondary indexes of the dynamodb table.
+            for [post /restores/aws/dynamodb](#operation/restore-aws-dynamodb-table), a
             subset of the source tables'
             global_secondary_indexes can be specified.
-            The restored table will not have any global secondary indexes if this is
+            the restored table will not have any global secondary indexes if this is
             specified empty or `null`.
-        global_table_version:
+
+        GlobalTableVersion:
             Describes the version of global tables in use, if the table is replicated across
-            AWS Regions. If the table
-            is not a global table, then this field has a value of `null`. Possible values
+            aws regions. if the table
+            is not a global table, then this field has a value of `null`. possible values
             are 2017.11.29 or 2019.11.21.
-            For [POST /restores/aws/dynamodb](#operation/restore-aws-dynamodb-table), the
+            for [post /restores/aws/dynamodb](#operation/restore-aws-dynamodb-table), the
             version is defaulted to 2019.11.21.
-        local_secondary_indexes:
-            Describes the local secondary indexes of the DynamoDB table.
-            For [POST /restores/aws/dynamodb](#operation/restore-aws-dynamodb-table), a
+
+        LocalSecondaryIndexes:
+            Describes the local secondary indexes of the dynamodb table.
+            for [post /restores/aws/dynamodb](#operation/restore-aws-dynamodb-table), a
             subset of the source tables'
             local_secondary_indexes can be specified.
-            The restored table will not have any local secondary indexes if this is
+            the restored table will not have any local secondary indexes if this is
             specified empty or `null`.
-        pitr_status:
-            Indicates whether DynamoDB Continuous Backup (PITR) is enabled (true) or
+
+        PitrStatus:
+            Indicates whether dynamodb continuous backup (pitr) is enabled (true) or
             disabled (false)
             on the table.
-            For [POST /restores/aws/dynamodb](#operation/restore-aws-dynamodb-table), this
+            for [post /restores/aws/dynamodb](#operation/restore-aws-dynamodb-table), this
             is defaulted to the
             value set in backup if `null`.
-        provisioned_throughput:
-            Represents the provisioned throughput settings for a DynamoDB table.
-        replicas:
-            Describes the replicas of the table, if the table is replicated across AWS
-            Regions.
-            Not applicable for [POST /restores/aws/dynamodb](#operation/restore-aws-
+
+        ProvisionedThroughput:
+            Represents the provisioned throughput settings for a dynamodb table.
+
+        Replicas:
+            Describes the replicas of the table, if the table is replicated across aws
+            regions.
+            not applicable for [post /restores/aws/dynamodb](#operation/restore-aws-
             dynamodb-table) currently,
             but will be used to specify the replication group information in a future
             release.
-        restore_wcu:
-            Specifies the Write Capacity Units to use during table restore operations.
-            This is not used for restore to a new table without local secondary indexes.
-        sse_specification:
+
+        RestoreWcu:
+            Specifies the write capacity units to use during table restore operations.
+            this is not used for restore to a new table without local secondary indexes.
+
+        SseSpecification:
             Represents the server-side encryption settings for a table.
-        stream_specification:
-            Represents the DynamoDB Streams configuration for a table in DynamoDB.
-            and the data type (`S` for string, `N` for number, `B` for binary).
-        table_class:
-            The table class of the DynamoDB table. Possible values are STANDARD or
-            STANDARD_INFREQUENT_ACCESS.
-            For [POST /restores/aws/dynamodb](#operation/restore-aws-dynamodb-table), this
+
+        StreamSpecification:
+            Represents the dynamodb streams configuration for a table in dynamodb.
+            and the data type (`s` for string, `n` for number, `b` for binary).
+
+        TableClass:
+            The table class of the dynamodb table. possible values are standard or
+            standard_infrequent_access.
+            for [post /restores/aws/dynamodb](#operation/restore-aws-dynamodb-table), this
             is defaulted to the
-            STANDARD storage class if empty.
-        table_name:
+            standard storage class if empty.
+
+        TableName:
             The name of the new table to which the backup must be restored.
-        tags:
-            The AWS tags to be applied to the restored table. The tags are stored in the AWS
-            cloud as part of your AWS account.
-            A DynamoDB table can be have multiple tags. To find the tags that were applied
+
+        Tags:
+            The aws tags to be applied to the restored table. the tags are stored in the aws
+            cloud as part of your aws account.
+            a dynamodb table can be have multiple tags. to find the tags that were applied
             to the original table,
-            use the [GET /datasources/aws/dynamodb-tables/{table_id}](#operation/read-aws-
+            use the [get /datasources/aws/dynamodb-tables/{table_id}](#operation/read-aws-
             dynamodb-table) endpoint to display
             the original table's tag keys (`tags.key`) and tag values (`tags.value`).
-            The restored table will not have any tags applied if this is specified as
+            the restored table will not have any tags applied if this is specified as
             `null`.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'billing_mode': 'billing_mode',
-        'contributor_insights_status': 'contributor_insights_status',
-        'deletion_protection_enabled': 'deletion_protection_enabled',
-        'environment_id': 'environment_id',
-        'global_secondary_indexes': 'global_secondary_indexes',
-        'global_table_version': 'global_table_version',
-        'local_secondary_indexes': 'local_secondary_indexes',
-        'pitr_status': 'pitr_status',
-        'provisioned_throughput': 'provisioned_throughput',
-        'replicas': 'replicas',
-        'restore_wcu': 'restore_wcu',
-        'sse_specification': 'sse_specification',
-        'stream_specification': 'stream_specification',
-        'table_class': 'table_class',
-        'table_name': 'table_name',
-        'tags': 'tags',
-    }
+    BillingMode: str | None = None
+    ContributorInsightsStatus: bool | None = None
+    DeletionProtectionEnabled: bool | None = None
+    EnvironmentId: str | None = None
+    GlobalSecondaryIndexes: Sequence[global_secondary_index_.GlobalSecondaryIndex] | None = None
+    GlobalTableVersion: str | None = None
+    LocalSecondaryIndexes: Sequence[local_secondary_index_.LocalSecondaryIndex] | None = None
+    PitrStatus: bool | None = None
+    ProvisionedThroughput: provisioned_throughput_.ProvisionedThroughput | None = None
+    Replicas: Sequence[replica_description_.ReplicaDescription] | None = None
+    RestoreWcu: int | None = None
+    SseSpecification: sse_specification_.SSESpecification | None = None
+    StreamSpecification: stream_specification_.StreamSpecification | None = None
+    TableClass: str | None = None
+    TableName: str | None = None
+    Tags: Sequence[aws_tag_common_model_.AwsTagCommonModel] | None = None
 
-    def __init__(
-        self,
-        billing_mode: str | None = None,
-        contributor_insights_status: bool | None = None,
-        deletion_protection_enabled: bool | None = None,
-        environment_id: str | None = None,
-        global_secondary_indexes: (
-            Sequence[global_secondary_index_.GlobalSecondaryIndex] | None
-        ) = None,
-        global_table_version: str | None = None,
-        local_secondary_indexes: Sequence[local_secondary_index_.LocalSecondaryIndex] | None = None,
-        pitr_status: bool | None = None,
-        provisioned_throughput: provisioned_throughput_.ProvisionedThroughput | None = None,
-        replicas: Sequence[replica_description_.ReplicaDescription] | None = None,
-        restore_wcu: int | None = None,
-        sse_specification: sse_specification_.SSESpecification | None = None,
-        stream_specification: stream_specification_.StreamSpecification | None = None,
-        table_class: str | None = None,
-        table_name: str | None = None,
-        tags: Sequence[aws_tag_common_model_.AwsTagCommonModel] | None = None,
-    ) -> None:
-        """Constructor for the DynamoDBTableRestoreTarget class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.billing_mode: str | None = billing_mode
-        self.contributor_insights_status: bool | None = contributor_insights_status
-        self.deletion_protection_enabled: bool | None = deletion_protection_enabled
-        self.environment_id: str | None = environment_id
-        self.global_secondary_indexes: (
-            Sequence[global_secondary_index_.GlobalSecondaryIndex] | None
-        ) = global_secondary_indexes
-        self.global_table_version: str | None = global_table_version
-        self.local_secondary_indexes: (
-            Sequence[local_secondary_index_.LocalSecondaryIndex] | None
-        ) = local_secondary_indexes
-        self.pitr_status: bool | None = pitr_status
-        self.provisioned_throughput: provisioned_throughput_.ProvisionedThroughput | None = (
-            provisioned_throughput
-        )
-        self.replicas: Sequence[replica_description_.ReplicaDescription] | None = replicas
-        self.restore_wcu: int | None = restore_wcu
-        self.sse_specification: sse_specification_.SSESpecification | None = sse_specification
-        self.stream_specification: stream_specification_.StreamSpecification | None = (
-            stream_specification
-        )
-        self.table_class: str | None = table_class
-        self.table_name: str | None = table_name
-        self.tags: Sequence[aws_tag_common_model_.AwsTagCommonModel] | None = tags
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -200,8 +189,8 @@ class DynamoDBTableRestoreTarget:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('billing_mode', None)
         val_billing_mode = val
@@ -217,9 +206,8 @@ class DynamoDBTableRestoreTarget:
 
         val = dictionary.get('global_secondary_indexes', None)
 
-        val_global_secondary_indexes = None
+        val_global_secondary_indexes = []
         if val:
-            val_global_secondary_indexes = list()
             for value in val:
                 val_global_secondary_indexes.append(
                     global_secondary_index_.GlobalSecondaryIndex.from_dictionary(value)
@@ -230,9 +218,8 @@ class DynamoDBTableRestoreTarget:
 
         val = dictionary.get('local_secondary_indexes', None)
 
-        val_local_secondary_indexes = None
+        val_local_secondary_indexes = []
         if val:
-            val_local_secondary_indexes = list()
             for value in val:
                 val_local_secondary_indexes.append(
                     local_secondary_index_.LocalSecondaryIndex.from_dictionary(value)
@@ -248,9 +235,8 @@ class DynamoDBTableRestoreTarget:
 
         val = dictionary.get('replicas', None)
 
-        val_replicas = None
+        val_replicas = []
         if val:
-            val_replicas = list()
             for value in val:
                 val_replicas.append(replica_description_.ReplicaDescription.from_dictionary(value))
 
@@ -271,9 +257,8 @@ class DynamoDBTableRestoreTarget:
 
         val = dictionary.get('tags', None)
 
-        val_tags = None
+        val_tags = []
         if val:
-            val_tags = list()
             for value in val:
                 val_tags.append(aws_tag_common_model_.AwsTagCommonModel.from_dictionary(value))
 
@@ -296,3 +281,19 @@ class DynamoDBTableRestoreTarget:
             val_table_name,
             val_tags,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

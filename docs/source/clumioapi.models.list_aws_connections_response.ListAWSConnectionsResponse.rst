@@ -17,10 +17,24 @@ clumioapi.models.list\_aws\_connections\_response.ListAWSConnectionsResponse
    .. autosummary::
    
       ~ListAWSConnectionsResponse.__init__
+      ~ListAWSConnectionsResponse.dict
       ~ListAWSConnectionsResponse.from_dictionary
+      ~ListAWSConnectionsResponse.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ListAWSConnectionsResponse.CurrentCount
+      ~ListAWSConnectionsResponse.Embedded
+      ~ListAWSConnectionsResponse.FilterApplied
+      ~ListAWSConnectionsResponse.Limit
+      ~ListAWSConnectionsResponse.Links
+      ~ListAWSConnectionsResponse.Start
+      ~ListAWSConnectionsResponse.raw_response
    
    

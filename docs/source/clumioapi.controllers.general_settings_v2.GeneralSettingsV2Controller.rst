@@ -24,11 +24,4 @@ clumioapi.controllers.general\_settings\_v2.GeneralSettingsV2Controller
 
    
    
-   .. rubric:: Attributes
-
-   .. autosummary::
-   
-      ~GeneralSettingsV2Controller.client
-      ~GeneralSettingsV2Controller.global_headers
-   
    

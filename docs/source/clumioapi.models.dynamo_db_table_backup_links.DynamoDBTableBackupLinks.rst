@@ -17,10 +17,20 @@ clumioapi.models.dynamo\_db\_table\_backup\_links.DynamoDBTableBackupLinks
    .. autosummary::
    
       ~DynamoDBTableBackupLinks.__init__
+      ~DynamoDBTableBackupLinks.dict
       ~DynamoDBTableBackupLinks.from_dictionary
+      ~DynamoDBTableBackupLinks.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~DynamoDBTableBackupLinks.RestoreAwsDynamodbRecords
+      ~DynamoDBTableBackupLinks.RestoreAwsDynamodbTable
+      ~DynamoDBTableBackupLinks.Self
    
    

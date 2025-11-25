@@ -17,10 +17,19 @@ clumioapi.models.aws\_ds\_grouping\_criteria.AwsDsGroupingCriteria
    .. autosummary::
    
       ~AwsDsGroupingCriteria.__init__
+      ~AwsDsGroupingCriteria.dict
       ~AwsDsGroupingCriteria.from_dictionary
+      ~AwsDsGroupingCriteria.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~AwsDsGroupingCriteria.IsEditable
+      ~AwsDsGroupingCriteria.Type
    
    

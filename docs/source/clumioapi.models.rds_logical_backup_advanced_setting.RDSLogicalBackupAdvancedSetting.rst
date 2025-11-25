@@ -17,10 +17,18 @@ clumioapi.models.rds\_logical\_backup\_advanced\_setting.RDSLogicalBackupAdvance
    .. autosummary::
    
       ~RDSLogicalBackupAdvancedSetting.__init__
+      ~RDSLogicalBackupAdvancedSetting.dict
       ~RDSLogicalBackupAdvancedSetting.from_dictionary
+      ~RDSLogicalBackupAdvancedSetting.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~RDSLogicalBackupAdvancedSetting.BackupTier
    
    

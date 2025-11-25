@@ -1,85 +1,90 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import aws_tag_common_model as aws_tag_common_model_
+import requests
 
 T = TypeVar('T', bound='AttachedEBSVolumeFullModel')
 
 
+@dataclasses.dataclass
 class AttachedEBSVolumeFullModel:
     """Implementation of the 'AttachedEBSVolumeFullModel' model.
 
     Attributes:
-        p_id:
-            The Clumio-assigned id for the volume.
-        is_root:
+        Id:
+            The clumio-assigned id for the volume.
+
+        IsRoot:
             Determines whether this device is the root for the instance.
-        kms_key_native_id:
-            The AWS-assigned id of the KMS key used for encryption of the volume.
-        name:
-            The device name for the EBS volume. For example, '/dev/xvda'.
-        size:
-            The size of the EBS volume. Measured in bytes (B).
-        status:
-            The status of the EBS volume. Possible values include 'attaching', 'attached',
+
+        KmsKeyNativeId:
+            The aws-assigned id of the kms key used for encryption of the volume.
+
+        Name:
+            The device name for the ebs volume. for example, '/dev/xvda'.
+
+        Size:
+            The size of the ebs volume. measured in bytes (b).
+
+        Status:
+            The status of the ebs volume. possible values include 'attaching', 'attached',
             'detaching', 'detached'.
-        tags:
-            The AWS tags applied to the EBS volume.
-        p_type:
-            The type of the volume. Possible values include 'gp2', 'io1', 'st1', 'sc1', and
+
+        Tags:
+            The aws tags applied to the ebs volume.
+
+        Type:
+            The type of the volume. possible values include 'gp2', 'io1', 'st1', 'sc1', and
             'standard'.
-        utilized_size_in_bytes:
-            The number of bytes written in the EBS volume.
-        volume_native_id:
-            The AWS-assigned ID of the EBS volume.
+
+        UtilizedSizeInBytes:
+            The number of bytes written in the ebs volume.
+
+        VolumeNativeId:
+            The aws-assigned id of the ebs volume.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'p_id': 'id',
-        'is_root': 'is_root',
-        'kms_key_native_id': 'kms_key_native_id',
-        'name': 'name',
-        'size': 'size',
-        'status': 'status',
-        'tags': 'tags',
-        'p_type': 'type',
-        'utilized_size_in_bytes': 'utilized_size_in_bytes',
-        'volume_native_id': 'volume_native_id',
-    }
+    Id: str | None = None
+    IsRoot: bool | None = None
+    KmsKeyNativeId: str | None = None
+    Name: str | None = None
+    Size: int | None = None
+    Status: str | None = None
+    Tags: Sequence[aws_tag_common_model_.AwsTagCommonModel] | None = None
+    Type: str | None = None
+    UtilizedSizeInBytes: int | None = None
+    VolumeNativeId: str | None = None
 
-    def __init__(
-        self,
-        p_id: str | None = None,
-        is_root: bool | None = None,
-        kms_key_native_id: str | None = None,
-        name: str | None = None,
-        size: int | None = None,
-        status: str | None = None,
-        tags: Sequence[aws_tag_common_model_.AwsTagCommonModel] | None = None,
-        p_type: str | None = None,
-        utilized_size_in_bytes: int | None = None,
-        volume_native_id: str | None = None,
-    ) -> None:
-        """Constructor for the AttachedEBSVolumeFullModel class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.p_id: str | None = p_id
-        self.is_root: bool | None = is_root
-        self.kms_key_native_id: str | None = kms_key_native_id
-        self.name: str | None = name
-        self.size: int | None = size
-        self.status: str | None = status
-        self.tags: Sequence[aws_tag_common_model_.AwsTagCommonModel] | None = tags
-        self.p_type: str | None = p_type
-        self.utilized_size_in_bytes: int | None = utilized_size_in_bytes
-        self.volume_native_id: str | None = volume_native_id
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -90,11 +95,11 @@ class AttachedEBSVolumeFullModel:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('id', None)
-        val_p_id = val
+        val_id = val
 
         val = dictionary.get('is_root', None)
         val_is_root = val
@@ -113,14 +118,13 @@ class AttachedEBSVolumeFullModel:
 
         val = dictionary.get('tags', None)
 
-        val_tags = None
+        val_tags = []
         if val:
-            val_tags = list()
             for value in val:
                 val_tags.append(aws_tag_common_model_.AwsTagCommonModel.from_dictionary(value))
 
         val = dictionary.get('type', None)
-        val_p_type = val
+        val_type = val
 
         val = dictionary.get('utilized_size_in_bytes', None)
         val_utilized_size_in_bytes = val
@@ -130,14 +134,30 @@ class AttachedEBSVolumeFullModel:
 
         # Return an object of this model
         return cls(
-            val_p_id,
+            val_id,
             val_is_root,
             val_kms_key_native_id,
             val_name,
             val_size,
             val_status,
             val_tags,
-            val_p_type,
+            val_type,
             val_utilized_size_in_bytes,
             val_volume_native_id,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

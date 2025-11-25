@@ -1,12 +1,16 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='BackupWindow')
 
 
+@dataclasses.dataclass
 class BackupWindow:
     """Implementation of the 'BackupWindow' model.
 
@@ -14,31 +18,48 @@ class BackupWindow:
     is deprecated, use `backup_window_tz` instead.
 
     Attributes:
-        end_time:
-            The time when the backup window closes. Specify the end time in the format
+        EndTime:
+            The time when the backup window closes. specify the end time in the format
             `hh:mm`, where `hh` represents the hour of the day and `mm` represents the
-            minute of the day, based on a 24 hour clock. Leave empty if you do not want to
-            specify an end time. If the backup window closes while a backup is in progress,
-            the entire backup process is aborted. Clumio will perform the next backup when
+            minute of the day, based on a 24 hour clock. leave empty if you do not want to
+            specify an end time. if the backup window closes while a backup is in progress,
+            the entire backup process is aborted. clumio will perform the next backup when
             the backup window re-opens.
-        start_time:
-            The time when the backup window opens. Specify the start time in the format
+
+        StartTime:
+            The time when the backup window opens. specify the start time in the format
             `hh:mm`, where `hh` represents the hour of the day and `mm` represents the
             minute of the day based on the 24 hour clock.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {'end_time': 'end_time', 'start_time': 'start_time'}
+    EndTime: str | None = None
+    StartTime: str | None = None
 
-    def __init__(self, end_time: str | None = None, start_time: str | None = None) -> None:
-        """Constructor for the BackupWindow class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.end_time: str | None = end_time
-        self.start_time: str | None = start_time
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -49,8 +70,8 @@ class BackupWindow:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('end_time', None)
         val_end_time = val
@@ -63,3 +84,19 @@ class BackupWindow:
             val_end_time,
             val_start_time,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

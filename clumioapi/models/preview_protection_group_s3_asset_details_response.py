@@ -1,53 +1,67 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import object as object_
 from clumioapi.models import \
     preview_protection_group_s3_asset_details_links as \
     preview_protection_group_s3_asset_details_links_
+import requests
 
 T = TypeVar('T', bound='PreviewProtectionGroupS3AssetDetailsResponse')
 
 
+@dataclasses.dataclass
 class PreviewProtectionGroupS3AssetDetailsResponse:
     """Implementation of the 'PreviewProtectionGroupS3AssetDetailsResponse' model.
 
     Attributes:
-        etag:
-            The ETag value.
-        links:
-            URLs to pages related to the resource.
-        objects:
+        Etag:
+            The etag value.
+
+        Links:
+            Urls to pages related to the resource.
+
+        Objects:
             The fetched objects as a result of the preview.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {'etag': '_etag', 'links': '_links', 'objects': 'objects'}
+    Etag: str | None = None
+    Links: (
+        preview_protection_group_s3_asset_details_links_.PreviewProtectionGroupS3AssetDetailsLinks
+        | None
+    ) = None
+    Objects: Sequence[object_.Object] | None = None
+    raw_response: Optional[requests.Response] = None
 
-    def __init__(
-        self,
-        etag: str | None = None,
-        links: (
-            preview_protection_group_s3_asset_details_links_.PreviewProtectionGroupS3AssetDetailsLinks
-            | None
-        ) = None,
-        objects: Sequence[object_.Object] | None = None,
-    ) -> None:
-        """Constructor for the PreviewProtectionGroupS3AssetDetailsResponse class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.etag: str | None = etag
-        self.links: (
-            preview_protection_group_s3_asset_details_links_.PreviewProtectionGroupS3AssetDetailsLinks
-            | None
-        ) = links
-        self.objects: Sequence[object_.Object] | None = objects
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -58,8 +72,8 @@ class PreviewProtectionGroupS3AssetDetailsResponse:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('_etag', None)
         val_etag = val
@@ -71,9 +85,8 @@ class PreviewProtectionGroupS3AssetDetailsResponse:
 
         val = dictionary.get('objects', None)
 
-        val_objects = None
+        val_objects = []
         if val:
-            val_objects = list()
             for value in val:
                 val_objects.append(object_.Object.from_dictionary(value))
 
@@ -83,3 +96,20 @@ class PreviewProtectionGroupS3AssetDetailsResponse:
             val_links,
             val_objects,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        model_instance.raw_response = response
+        return model_instance

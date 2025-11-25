@@ -1,44 +1,60 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import attribute_definition as attribute_definition_
+import requests
 
 T = TypeVar('T', bound='DynamoDBKeys')
 
 
+@dataclasses.dataclass
 class DynamoDBKeys:
     """Implementation of the 'DynamoDBKeys' model.
 
     Represents the DynamoDB table keys.
 
     Attributes:
-        partition_key:
-            Represents the attributes within a DynamoDB table by the name
-            and the data type (`S` for string, `N` for number, `B` for binary).
-        sort_key:
-            Represents the attributes within a DynamoDB table by the name
-            and the data type (`S` for string, `N` for number, `B` for binary).
+        PartitionKey:
+            Represents the attributes within a dynamodb table by the name
+            and the data type (`s` for string, `n` for number, `b` for binary).
+
+        SortKey:
+            Represents the attributes within a dynamodb table by the name
+            and the data type (`s` for string, `n` for number, `b` for binary).
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {'partition_key': 'partition_key', 'sort_key': 'sort_key'}
+    PartitionKey: attribute_definition_.AttributeDefinition | None = None
+    SortKey: attribute_definition_.AttributeDefinition | None = None
 
-    def __init__(
-        self,
-        partition_key: attribute_definition_.AttributeDefinition | None = None,
-        sort_key: attribute_definition_.AttributeDefinition | None = None,
-    ) -> None:
-        """Constructor for the DynamoDBKeys class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.partition_key: attribute_definition_.AttributeDefinition | None = partition_key
-        self.sort_key: attribute_definition_.AttributeDefinition | None = sort_key
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -49,8 +65,8 @@ class DynamoDBKeys:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('partition_key', None)
         val_partition_key = attribute_definition_.AttributeDefinition.from_dictionary(val)
@@ -63,3 +79,19 @@ class DynamoDBKeys:
             val_partition_key,
             val_sort_key,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

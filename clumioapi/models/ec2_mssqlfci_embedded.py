@@ -1,63 +1,69 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='EC2MSSQLFCIEmbedded')
 
 
+@dataclasses.dataclass
 class EC2MSSQLFCIEmbedded:
     """Implementation of the 'EC2MSSQLFCIEmbedded' model.
 
     Embedded responses related to the resource.
 
     Attributes:
-        get_ec2_mssql_failover_cluster_backup_status_stats:
-            FCIBackupStatusStats contain information about the backup status of the
-            databases in the cluster
-        get_ec2_mssql_failover_cluster_hosts_info:
-            ConnectedHostsInfo contains information about the hosts associated with the
-            cluster
-        get_ec2_mssql_failover_cluster_stats:
-            FCIStats contain information about the compliant databases in the cluster
-        read_policy_definition:
+        GetEc2MssqlFailoverClusterBackupStatusStats:
+            Fcibackupstatusstats contain information about the backup status of the
+            databases in the cluster.
+
+        GetEc2MssqlFailoverClusterHostsInfo:
+            Connectedhostsinfo contains information about the hosts associated with the
+            cluster.
+
+        GetEc2MssqlFailoverClusterStats:
+            Fcistats contain information about the compliant databases in the cluster.
+
+        ReadPolicyDefinition:
             Embeds the associated policy of a protected resource in the response if
-            requested using the `embed` query parameter. Unprotected resources will not have
+            requested using the `embed` query parameter. unprotected resources will not have
             an associated policy.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'get_ec2_mssql_failover_cluster_backup_status_stats': 'get-ec2-mssql-failover-cluster-backup-status-stats',
-        'get_ec2_mssql_failover_cluster_hosts_info': 'get-ec2-mssql-failover-cluster-hosts-info',
-        'get_ec2_mssql_failover_cluster_stats': 'get-ec2-mssql-failover-cluster-stats',
-        'read_policy_definition': 'read-policy-definition',
-    }
+    GetEc2MssqlFailoverClusterBackupStatusStats: object | None = None
+    GetEc2MssqlFailoverClusterHostsInfo: object | None = None
+    GetEc2MssqlFailoverClusterStats: object | None = None
+    ReadPolicyDefinition: object | None = None
 
-    def __init__(
-        self,
-        get_ec2_mssql_failover_cluster_backup_status_stats: object | None = None,
-        get_ec2_mssql_failover_cluster_hosts_info: object | None = None,
-        get_ec2_mssql_failover_cluster_stats: object | None = None,
-        read_policy_definition: object | None = None,
-    ) -> None:
-        """Constructor for the EC2MSSQLFCIEmbedded class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.get_ec2_mssql_failover_cluster_backup_status_stats: object | None = (
-            get_ec2_mssql_failover_cluster_backup_status_stats
-        )
-        self.get_ec2_mssql_failover_cluster_hosts_info: object | None = (
-            get_ec2_mssql_failover_cluster_hosts_info
-        )
-        self.get_ec2_mssql_failover_cluster_stats: object | None = (
-            get_ec2_mssql_failover_cluster_stats
-        )
-        self.read_policy_definition: object | None = read_policy_definition
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -68,8 +74,8 @@ class EC2MSSQLFCIEmbedded:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('get-ec2-mssql-failover-cluster-backup-status-stats', None)
         val_get_ec2_mssql_failover_cluster_backup_status_stats = val
@@ -90,3 +96,19 @@ class EC2MSSQLFCIEmbedded:
             val_get_ec2_mssql_failover_cluster_stats,
             val_read_policy_definition,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

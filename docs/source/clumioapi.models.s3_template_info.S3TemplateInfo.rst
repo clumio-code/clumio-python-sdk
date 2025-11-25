@@ -17,10 +17,18 @@ clumioapi.models.s3\_template\_info.S3TemplateInfo
    .. autosummary::
    
       ~S3TemplateInfo.__init__
+      ~S3TemplateInfo.dict
       ~S3TemplateInfo.from_dictionary
+      ~S3TemplateInfo.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~S3TemplateInfo.AvailableTemplateVersion
    
    

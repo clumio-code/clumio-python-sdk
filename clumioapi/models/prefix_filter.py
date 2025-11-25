@@ -1,38 +1,57 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='PrefixFilter')
 
 
+@dataclasses.dataclass
 class PrefixFilter:
     """Implementation of the 'PrefixFilter' model.
 
     PrefixFilter
 
     Attributes:
-        excluded_sub_prefixes:
+        ExcludedSubPrefixes:
             List of subprefixes to exclude from the prefix.
-        prefix:
+
+        Prefix:
             Prefix to include.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {'excluded_sub_prefixes': 'excluded_sub_prefixes', 'prefix': 'prefix'}
+    ExcludedSubPrefixes: Sequence[str] | None = None
+    Prefix: str | None = None
 
-    def __init__(
-        self, excluded_sub_prefixes: Sequence[str] | None = None, prefix: str | None = None
-    ) -> None:
-        """Constructor for the PrefixFilter class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.excluded_sub_prefixes: Sequence[str] | None = excluded_sub_prefixes
-        self.prefix: str | None = prefix
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -43,8 +62,8 @@ class PrefixFilter:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('excluded_sub_prefixes', None)
         val_excluded_sub_prefixes = val
@@ -57,3 +76,19 @@ class PrefixFilter:
             val_excluded_sub_prefixes,
             val_prefix,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

@@ -17,10 +17,19 @@ clumioapi.models.restore\_ebs\_response\_v1.RestoreEBSResponseV1
    .. autosummary::
    
       ~RestoreEBSResponseV1.__init__
+      ~RestoreEBSResponseV1.dict
       ~RestoreEBSResponseV1.from_dictionary
+      ~RestoreEBSResponseV1.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~RestoreEBSResponseV1.Links
+      ~RestoreEBSResponseV1.raw_response
    
    

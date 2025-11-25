@@ -17,10 +17,21 @@ clumioapi.models.create\_rule\_response.CreateRuleResponse
    .. autosummary::
    
       ~CreateRuleResponse.__init__
+      ~CreateRuleResponse.dict
       ~CreateRuleResponse.from_dictionary
+      ~CreateRuleResponse.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~CreateRuleResponse.Links
+      ~CreateRuleResponse.Rule
+      ~CreateRuleResponse.TaskId
+      ~CreateRuleResponse.raw_response
    
    

@@ -20,6 +20,7 @@ clumioapi.controllers.organizational\_units\_v1
       :template: custom-class-template.rst
    
       OrganizationalUnitsV1Controller
+      OrganizationalUnitsV1ControllerPaginator
    
    
 

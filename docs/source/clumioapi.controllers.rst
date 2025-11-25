@@ -92,6 +92,7 @@
    restored_records_aws_dynamodb_tables_v1
    roles_v1
    tasks_v1
+   types
    users_v1
    users_v2
    wallets_v1

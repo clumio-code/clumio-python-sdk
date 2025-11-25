@@ -17,10 +17,20 @@ clumioapi.models.ec2\_mssql\_instance\_embedded.EC2MSSQLInstanceEmbedded
    .. autosummary::
    
       ~EC2MSSQLInstanceEmbedded.__init__
+      ~EC2MSSQLInstanceEmbedded.dict
       ~EC2MSSQLInstanceEmbedded.from_dictionary
+      ~EC2MSSQLInstanceEmbedded.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~EC2MSSQLInstanceEmbedded.GetEc2MssqlInstanceBackupStatusStats
+      ~EC2MSSQLInstanceEmbedded.GetEc2MssqlInstanceStats
+      ~EC2MSSQLInstanceEmbedded.ReadPolicyDefinition
    
    

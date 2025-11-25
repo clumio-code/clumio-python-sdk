@@ -17,10 +17,26 @@ clumioapi.models.aws\_tag.AwsTag
    .. autosummary::
    
       ~AwsTag.__init__
+      ~AwsTag.dict
       ~AwsTag.from_dictionary
+      ~AwsTag.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~AwsTag.Embedded
+      ~AwsTag.Id
+      ~AwsTag.Key
+      ~AwsTag.KeyId
+      ~AwsTag.Links
+      ~AwsTag.OrganizationalUnitId
+      ~AwsTag.ProtectionInfo
+      ~AwsTag.ProtectionStatus
+      ~AwsTag.Value
    
    

@@ -1,16 +1,19 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import event_rules as event_rules_
 from clumioapi.models import service_instance_profiles as service_instance_profiles_
 from clumioapi.models import service_roles as service_roles_
+import requests
 
 T = TypeVar('T', bound='Resources')
 
 
+@dataclasses.dataclass
 class Resources:
     """Implementation of the 'Resources' model.
 
@@ -18,53 +21,54 @@ class Resources:
     configured resources,including those for resources that are not being updated.
 
     Attributes:
-        clumio_event_pub_arn:
-            SNS topic created in the account to receive relevant events.
-        clumio_iam_role_arn:
-            ARN of the IAM role created in the account, which will be assumed by Clumio.
-        clumio_support_role_arn:
-            ARN of the support role which will be used by the Clumio support team.
-        event_rules:
+        ClumioEventPubArn:
+            Sns topic created in the account to receive relevant events.
 
-        service_instance_profiles:
+        ClumioIamRoleArn:
+            Arn of the iam role created in the account, which will be assumed by clumio.
 
-        service_roles:
+        ClumioSupportRoleArn:
+            Arn of the support role which will be used by the clumio support team.
+
+        EventRules
+
+        ServiceInstanceProfiles
+
+        ServiceRoles
 
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'clumio_event_pub_arn': 'clumio_event_pub_arn',
-        'clumio_iam_role_arn': 'clumio_iam_role_arn',
-        'clumio_support_role_arn': 'clumio_support_role_arn',
-        'event_rules': 'event_rules',
-        'service_instance_profiles': 'service_instance_profiles',
-        'service_roles': 'service_roles',
-    }
+    ClumioEventPubArn: str | None = None
+    ClumioIamRoleArn: str | None = None
+    ClumioSupportRoleArn: str | None = None
+    EventRules: event_rules_.EventRules | None = None
+    ServiceInstanceProfiles: service_instance_profiles_.ServiceInstanceProfiles | None = None
+    ServiceRoles: service_roles_.ServiceRoles | None = None
 
-    def __init__(
-        self,
-        clumio_event_pub_arn: str | None = None,
-        clumio_iam_role_arn: str | None = None,
-        clumio_support_role_arn: str | None = None,
-        event_rules: event_rules_.EventRules | None = None,
-        service_instance_profiles: service_instance_profiles_.ServiceInstanceProfiles | None = None,
-        service_roles: service_roles_.ServiceRoles | None = None,
-    ) -> None:
-        """Constructor for the Resources class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.clumio_event_pub_arn: str | None = clumio_event_pub_arn
-        self.clumio_iam_role_arn: str | None = clumio_iam_role_arn
-        self.clumio_support_role_arn: str | None = clumio_support_role_arn
-        self.event_rules: event_rules_.EventRules | None = event_rules
-        self.service_instance_profiles: (
-            service_instance_profiles_.ServiceInstanceProfiles | None
-        ) = service_instance_profiles
-        self.service_roles: service_roles_.ServiceRoles | None = service_roles
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -75,8 +79,8 @@ class Resources:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('clumio_event_pub_arn', None)
         val_clumio_event_pub_arn = val
@@ -107,3 +111,19 @@ class Resources:
             val_service_instance_profiles,
             val_service_roles,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

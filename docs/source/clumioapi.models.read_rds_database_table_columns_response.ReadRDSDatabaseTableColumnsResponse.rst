@@ -17,10 +17,20 @@ clumioapi.models.read\_rds\_database\_table\_columns\_response.ReadRDSDatabaseTa
    .. autosummary::
    
       ~ReadRDSDatabaseTableColumnsResponse.__init__
+      ~ReadRDSDatabaseTableColumnsResponse.dict
       ~ReadRDSDatabaseTableColumnsResponse.from_dictionary
+      ~ReadRDSDatabaseTableColumnsResponse.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ReadRDSDatabaseTableColumnsResponse.Columns
+      ~ReadRDSDatabaseTableColumnsResponse.Links
+      ~ReadRDSDatabaseTableColumnsResponse.raw_response
    
    

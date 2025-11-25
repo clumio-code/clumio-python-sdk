@@ -17,10 +17,19 @@ clumioapi.models.on\_demand\_ebs\_backup\_links.OnDemandEBSBackupLinks
    .. autosummary::
    
       ~OnDemandEBSBackupLinks.__init__
+      ~OnDemandEBSBackupLinks.dict
       ~OnDemandEBSBackupLinks.from_dictionary
+      ~OnDemandEBSBackupLinks.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~OnDemandEBSBackupLinks.ReadTask
+      ~OnDemandEBSBackupLinks.Self
    
    

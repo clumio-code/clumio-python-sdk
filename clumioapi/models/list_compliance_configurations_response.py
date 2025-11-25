@@ -1,73 +1,79 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import \
     compliance_configuration_list_embedded as compliance_configuration_list_embedded_
 from clumioapi.models import \
     compliance_configuration_list_links as compliance_configuration_list_links_
+import requests
 
 T = TypeVar('T', bound='ListComplianceConfigurationsResponse')
 
 
+@dataclasses.dataclass
 class ListComplianceConfigurationsResponse:
     """Implementation of the 'ListComplianceConfigurationsResponse' model.
 
     Attributes:
-        embedded:
+        Embedded:
             An array of embedded resources related to this resource.
-        links:
-            URLs to pages related to the resource.
-        current_count:
+
+        Links:
+            Urls to pages related to the resource.
+
+        CurrentCount:
             The number of items listed on the current page.
-        filter_applied:
-            The filter used in the request. The filter includes both manually-specified and
+
+        FilterApplied:
+            The filter used in the request. the filter includes both manually-specified and
             system-generated filters.
-        limit:
+
+        Limit:
             The maximum number of items displayed per page in the response.
-        start:
+
+        Start:
             The page token used to get this response.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'embedded': '_embedded',
-        'links': '_links',
-        'current_count': 'current_count',
-        'filter_applied': 'filter_applied',
-        'limit': 'limit',
-        'start': 'start',
-    }
+    Embedded: compliance_configuration_list_embedded_.ComplianceConfigurationListEmbedded | None = (
+        None
+    )
+    Links: compliance_configuration_list_links_.ComplianceConfigurationListLinks | None = None
+    CurrentCount: int | None = None
+    FilterApplied: str | None = None
+    Limit: int | None = None
+    Start: str | None = None
+    raw_response: Optional[requests.Response] = None
 
-    def __init__(
-        self,
-        embedded: (
-            compliance_configuration_list_embedded_.ComplianceConfigurationListEmbedded | None
-        ) = None,
-        links: compliance_configuration_list_links_.ComplianceConfigurationListLinks | None = None,
-        current_count: int | None = None,
-        filter_applied: str | None = None,
-        limit: int | None = None,
-        start: str | None = None,
-    ) -> None:
-        """Constructor for the ListComplianceConfigurationsResponse class."""
-
-        # Initialize members of the class
-        self.embedded: (
-            compliance_configuration_list_embedded_.ComplianceConfigurationListEmbedded | None
-        ) = embedded
-        self.links: compliance_configuration_list_links_.ComplianceConfigurationListLinks | None = (
-            links
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
         )
-        self.current_count: int | None = current_count
-        self.filter_applied: str | None = filter_applied
-        self.limit: int | None = limit
-        self.start: str | None = start
+
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -78,8 +84,8 @@ class ListComplianceConfigurationsResponse:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('_embedded', None)
         val_embedded = compliance_configuration_list_embedded_.ComplianceConfigurationListEmbedded.from_dictionary(
@@ -114,3 +120,20 @@ class ListComplianceConfigurationsResponse:
             val_limit,
             val_start,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        model_instance.raw_response = response
+        return model_instance

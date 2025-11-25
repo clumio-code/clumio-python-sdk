@@ -1,130 +1,127 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import consolidated_alert_details as consolidated_alert_details_
 from clumioapi.models import consolidated_alert_links as consolidated_alert_links_
 from clumioapi.models import consolidated_alert_parent_entity as consolidated_alert_parent_entity_
+import requests
 
 T = TypeVar('T', bound='ReadConsolidatedAlertResponse')
 
 
+@dataclasses.dataclass
 class ReadConsolidatedAlertResponse:
     """Implementation of the 'ReadConsolidatedAlertResponse' model.
 
     Attributes:
-        etag:
-            The ETag value.
-        links:
-            URLs to pages related to the resource.
-        active_entity_count:
+        Etag:
+            The etag value.
+
+        Links:
+            Urls to pages related to the resource.
+
+        ActiveEntityCount:
             The number of currently active individual alerts associated with the
             consolidated alert.
-        cause:
-            The issue that generated the alert. Each alert cause is associated with an alert
+
+        Cause:
+            The issue that generated the alert. each alert cause is associated with an alert
             type.
-        cleared_entity_count:
+
+        ClearedEntityCount:
             The number of cleared individual alerts associated with the consolidated alert.
-        cleared_timestamp:
-            The timestamp of when the consolidated alert was cleared, if ever. Represented
-            in RFC-3339 format. If this alert has not been cleared, this field will have a
+
+        ClearedTimestamp:
+            The timestamp of when the consolidated alert was cleared, if ever. represented
+            in rfc-3339 format. if this alert has not been cleared, this field will have a
             value of `null`.
-            A consolidated alert goes into "cleared" status when all of its associated
-            individual alerts are in "cleared" status or when a Clumio user manually clears
+            a consolidated alert goes into "cleared" status when all of its associated
+            individual alerts are in "cleared" status or when a clumio user manually clears
             it.
-        details:
+
+        Details:
             Additional information about the consolidated alert.
-        p_id:
-            The Clumio-assigned ID of the consolidated alert.
-        notes:
+
+        Id:
+            The clumio-assigned id of the consolidated alert.
+
+        Notes:
             A record of user-provided information about the alert.
-        parent_entity:
+
+        ParentEntity:
             The entity associated with or affected by the alert.
-        raised_timestamp:
-            The timestamp of when the consolidated alert was initially raised. Represented
-            in RFC-3339 format.
-        severity:
-            The alert severity level. Values include "error" and "warning".
-        status:
-            The consolidated alert status. A consolidated alert is in "active" status if one
+
+        RaisedTimestamp:
+            The timestamp of when the consolidated alert was initially raised. represented
+            in rfc-3339 format.
+
+        Severity:
+            The alert severity level. values include "error" and "warning".
+
+        Status:
+            The consolidated alert status. a consolidated alert is in "active" status if one
             or more of its associated individual alerts is in "active" status.
-            A consolidated alert goes into "cleared" status when all of its associated
-            individual alerts are in "cleared" status or when a Clumio user manually clears
+            a consolidated alert goes into "cleared" status when all of its associated
+            individual alerts are in "cleared" status or when a clumio user manually clears
             it.
-        p_type:
-            The general alert category. An alert type may be associated with multiple alert
-            causes. Examples of alert types include "tag_conflict" and "policy_violated".
-            Refer to the Alert Type table for a complete list of alert types.
-        updated_timestamp:
-            The timestamp of when the consolidated alert was last updated. Represented in
-            RFC-3339 format.
-            Raising a new individual alert will update its associated consolidated alert.
+
+        Type:
+            The general alert category. an alert type may be associated with multiple alert
+            causes. examples of alert types include "tag_conflict" and "policy_violated".
+            refer to the alert type table for a complete list of alert types.
+
+        UpdatedTimestamp:
+            The timestamp of when the consolidated alert was last updated. represented in
+            rfc-3339 format.
+            raising a new individual alert will update its associated consolidated alert.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'etag': '_etag',
-        'links': '_links',
-        'active_entity_count': 'active_entity_count',
-        'cause': 'cause',
-        'cleared_entity_count': 'cleared_entity_count',
-        'cleared_timestamp': 'cleared_timestamp',
-        'details': 'details',
-        'p_id': 'id',
-        'notes': 'notes',
-        'parent_entity': 'parent_entity',
-        'raised_timestamp': 'raised_timestamp',
-        'severity': 'severity',
-        'status': 'status',
-        'p_type': 'type',
-        'updated_timestamp': 'updated_timestamp',
-    }
+    Etag: str | None = None
+    Links: consolidated_alert_links_.ConsolidatedAlertLinks | None = None
+    ActiveEntityCount: int | None = None
+    Cause: str | None = None
+    ClearedEntityCount: int | None = None
+    ClearedTimestamp: str | None = None
+    Details: consolidated_alert_details_.ConsolidatedAlertDetails | None = None
+    Id: str | None = None
+    Notes: str | None = None
+    ParentEntity: consolidated_alert_parent_entity_.ConsolidatedAlertParentEntity | None = None
+    RaisedTimestamp: str | None = None
+    Severity: str | None = None
+    Status: str | None = None
+    Type: str | None = None
+    UpdatedTimestamp: str | None = None
+    raw_response: Optional[requests.Response] = None
 
-    def __init__(
-        self,
-        etag: str | None = None,
-        links: consolidated_alert_links_.ConsolidatedAlertLinks | None = None,
-        active_entity_count: int | None = None,
-        cause: str | None = None,
-        cleared_entity_count: int | None = None,
-        cleared_timestamp: str | None = None,
-        details: consolidated_alert_details_.ConsolidatedAlertDetails | None = None,
-        p_id: str | None = None,
-        notes: str | None = None,
-        parent_entity: (
-            consolidated_alert_parent_entity_.ConsolidatedAlertParentEntity | None
-        ) = None,
-        raised_timestamp: str | None = None,
-        severity: str | None = None,
-        status: str | None = None,
-        p_type: str | None = None,
-        updated_timestamp: str | None = None,
-    ) -> None:
-        """Constructor for the ReadConsolidatedAlertResponse class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.etag: str | None = etag
-        self.links: consolidated_alert_links_.ConsolidatedAlertLinks | None = links
-        self.active_entity_count: int | None = active_entity_count
-        self.cause: str | None = cause
-        self.cleared_entity_count: int | None = cleared_entity_count
-        self.cleared_timestamp: str | None = cleared_timestamp
-        self.details: consolidated_alert_details_.ConsolidatedAlertDetails | None = details
-        self.p_id: str | None = p_id
-        self.notes: str | None = notes
-        self.parent_entity: (
-            consolidated_alert_parent_entity_.ConsolidatedAlertParentEntity | None
-        ) = parent_entity
-        self.raised_timestamp: str | None = raised_timestamp
-        self.severity: str | None = severity
-        self.status: str | None = status
-        self.p_type: str | None = p_type
-        self.updated_timestamp: str | None = updated_timestamp
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -135,8 +132,8 @@ class ReadConsolidatedAlertResponse:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('_etag', None)
         val_etag = val
@@ -160,7 +157,7 @@ class ReadConsolidatedAlertResponse:
         val_details = consolidated_alert_details_.ConsolidatedAlertDetails.from_dictionary(val)
 
         val = dictionary.get('id', None)
-        val_p_id = val
+        val_id = val
 
         val = dictionary.get('notes', None)
         val_notes = val
@@ -180,7 +177,7 @@ class ReadConsolidatedAlertResponse:
         val_status = val
 
         val = dictionary.get('type', None)
-        val_p_type = val
+        val_type = val
 
         val = dictionary.get('updated_timestamp', None)
         val_updated_timestamp = val
@@ -194,12 +191,29 @@ class ReadConsolidatedAlertResponse:
             val_cleared_entity_count,
             val_cleared_timestamp,
             val_details,
-            val_p_id,
+            val_id,
             val_notes,
             val_parent_entity,
             val_raised_timestamp,
             val_severity,
             val_status,
-            val_p_type,
+            val_type,
             val_updated_timestamp,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        model_instance.raw_response = response
+        return model_instance

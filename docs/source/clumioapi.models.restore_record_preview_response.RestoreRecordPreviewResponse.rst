@@ -17,10 +17,20 @@ clumioapi.models.restore\_record\_preview\_response.RestoreRecordPreviewResponse
    .. autosummary::
    
       ~RestoreRecordPreviewResponse.__init__
+      ~RestoreRecordPreviewResponse.dict
       ~RestoreRecordPreviewResponse.from_dictionary
+      ~RestoreRecordPreviewResponse.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~RestoreRecordPreviewResponse.Links
+      ~RestoreRecordPreviewResponse.PreviewResult
+      ~RestoreRecordPreviewResponse.raw_response
    
    

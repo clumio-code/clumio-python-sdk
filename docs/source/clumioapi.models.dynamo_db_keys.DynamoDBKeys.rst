@@ -17,10 +17,19 @@ clumioapi.models.dynamo\_db\_keys.DynamoDBKeys
    .. autosummary::
    
       ~DynamoDBKeys.__init__
+      ~DynamoDBKeys.dict
       ~DynamoDBKeys.from_dictionary
+      ~DynamoDBKeys.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~DynamoDBKeys.PartitionKey
+      ~DynamoDBKeys.SortKey
    
    

@@ -17,10 +17,22 @@ clumioapi.models.preview\_protection\_group\_s3\_asset\_v1\_request.PreviewProte
    .. autosummary::
    
       ~PreviewProtectionGroupS3AssetV1Request.__init__
+      ~PreviewProtectionGroupS3AssetV1Request.dict
       ~PreviewProtectionGroupS3AssetV1Request.from_dictionary
+      ~PreviewProtectionGroupS3AssetV1Request.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~PreviewProtectionGroupS3AssetV1Request.BackupId
+      ~PreviewProtectionGroupS3AssetV1Request.IsSyncPreview
+      ~PreviewProtectionGroupS3AssetV1Request.ObjectFilters
+      ~PreviewProtectionGroupS3AssetV1Request.PitrEndTimestamp
+      ~PreviewProtectionGroupS3AssetV1Request.PitrStartTimestamp
    
    

@@ -29,11 +29,4 @@ clumioapi.controllers.protection\_groups\_v1.ProtectionGroupsV1Controller
 
    
    
-   .. rubric:: Attributes
-
-   .. autosummary::
-   
-      ~ProtectionGroupsV1Controller.client
-      ~ProtectionGroupsV1Controller.global_headers
-   
    

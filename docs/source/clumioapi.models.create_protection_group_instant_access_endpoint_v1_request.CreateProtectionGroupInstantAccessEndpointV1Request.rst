@@ -17,10 +17,20 @@ clumioapi.models.create\_protection\_group\_instant\_access\_endpoint\_v1\_reque
    .. autosummary::
    
       ~CreateProtectionGroupInstantAccessEndpointV1Request.__init__
+      ~CreateProtectionGroupInstantAccessEndpointV1Request.dict
       ~CreateProtectionGroupInstantAccessEndpointV1Request.from_dictionary
+      ~CreateProtectionGroupInstantAccessEndpointV1Request.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~CreateProtectionGroupInstantAccessEndpointV1Request.ExpiryTimestamp
+      ~CreateProtectionGroupInstantAccessEndpointV1Request.Name
+      ~CreateProtectionGroupInstantAccessEndpointV1Request.Source
    
    

@@ -1,40 +1,57 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import compliance_run_hateoas_links as compliance_run_hateoas_links_
+import requests
 
 T = TypeVar('T', bound='SendComplianceRunEmailResponse')
 
 
+@dataclasses.dataclass
 class SendComplianceRunEmailResponse:
     """Implementation of the 'SendComplianceRunEmailResponse' model.
 
     Attributes:
-        embedded:
+        Embedded:
             Embedded responses related to the resource.
-        links:
-            URLs to pages related to the resource.
+
+        Links:
+            Urls to pages related to the resource.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {'embedded': '_embedded', 'links': '_links'}
+    Embedded: object | None = None
+    Links: compliance_run_hateoas_links_.ComplianceRunHateoasLinks | None = None
+    raw_response: Optional[requests.Response] = None
 
-    def __init__(
-        self,
-        embedded: object | None = None,
-        links: compliance_run_hateoas_links_.ComplianceRunHateoasLinks | None = None,
-    ) -> None:
-        """Constructor for the SendComplianceRunEmailResponse class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.embedded: object | None = embedded
-        self.links: compliance_run_hateoas_links_.ComplianceRunHateoasLinks | None = links
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -45,8 +62,8 @@ class SendComplianceRunEmailResponse:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('_embedded', None)
         val_embedded = val
@@ -59,3 +76,20 @@ class SendComplianceRunEmailResponse:
             val_embedded,
             val_links,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        model_instance.raw_response = response
+        return model_instance

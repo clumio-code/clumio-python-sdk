@@ -17,10 +17,20 @@ clumioapi.models.create\_backup\_ec2\_mssql\_database\_v1\_request.CreateBackupE
    .. autosummary::
    
       ~CreateBackupEc2MssqlDatabaseV1Request.__init__
+      ~CreateBackupEc2MssqlDatabaseV1Request.dict
       ~CreateBackupEc2MssqlDatabaseV1Request.from_dictionary
+      ~CreateBackupEc2MssqlDatabaseV1Request.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~CreateBackupEc2MssqlDatabaseV1Request.AssetId
+      ~CreateBackupEc2MssqlDatabaseV1Request.Settings
+      ~CreateBackupEc2MssqlDatabaseV1Request.Type
    
    

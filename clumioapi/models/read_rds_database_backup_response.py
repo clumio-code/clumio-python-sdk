@@ -1,148 +1,143 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import aws_tag_common_model as aws_tag_common_model_
 from clumioapi.models import rds_database_backup_links as rds_database_backup_links_
 from clumioapi.models import rds_instance_model as rds_instance_model_
+import requests
 
 T = TypeVar('T', bound='ReadRdsDatabaseBackupResponse')
 
 
+@dataclasses.dataclass
 class ReadRdsDatabaseBackupResponse:
     """Implementation of the 'ReadRdsDatabaseBackupResponse' model.
 
     Attributes:
-        links:
-            URLs to pages related to the resource.
-        account_native_id:
-            The AWS-assigned ID of the account associated with this database at the time of
+        Links:
+            Urls to pages related to the resource.
+
+        AccountNativeId:
+            The aws-assigned id of the account associated with this database at the time of
             backup.
-        aws_azs:
-            The AWS availability zones associated with this database at the time of backup.
-        aws_region:
-            The AWS region associated with this environment.
-        database_native_id:
-            The AWS-assigned ID of the database at the time of backup.
-        engine:
-            The AWS database engine at the time of backup.
-        engine_version:
+
+        AwsAzs:
+            The aws availability zones associated with this database at the time of backup.
+
+        AwsRegion:
+            The aws region associated with this environment.
+
+        DatabaseNativeId:
+            The aws-assigned id of the database at the time of backup.
+
+        Engine:
+            The aws database engine at the time of backup.
+
+        EngineVersion:
             The aws database engine version at the time of backup.
-        expiration_timestamp:
-            The timestamp of when this backup expires. Represented in RFC-3339 format.
-        p_id:
-            The Clumio-assigned ID of the backup.
-        instances:
-            The instances associated with a backup RDS resource.
-        kms_key_native_id:
-            The AWS-assigned ID of the KMS key associated with this database at the time of
+
+        ExpirationTimestamp:
+            The timestamp of when this backup expires. represented in rfc-3339 format.
+
+        Id:
+            The clumio-assigned id of the backup.
+
+        Instances:
+            The instances associated with a backup rds resource.
+
+        KmsKeyNativeId:
+            The aws-assigned id of the kms key associated with this database at the time of
             backup.
-        migration_timestamp:
-            The timestamp of when the migration was triggered. This field will be set only
+
+        MigrationTimestamp:
+            The timestamp of when the migration was triggered. this field will be set only
             for
-            migration granular backups. Represented in RFC-3339 format.
-        option_group_name:
-            Option group name associated with the backed up RDS resource
-        resource_id:
-            The Clumio-assigned ID of the database associated with this backup.
-        resource_type:
-            The type of the RDS resource associated with this backup. Possible values
+            migration granular backups. represented in rfc-3339 format.
+
+        OptionGroupName:
+            Option group name associated with the backed up rds resource.
+
+        ResourceId:
+            The clumio-assigned id of the database associated with this backup.
+
+        ResourceType:
+            The type of the rds resource associated with this backup. possible values
             include `aws_rds_cluster` and `aws_rds_instance`.
-        security_group_native_ids:
-            The AWS-assigned IDs of the security groups associated with this RDS resource
+
+        SecurityGroupNativeIds:
+            The aws-assigned ids of the security groups associated with this rds resource
             backup.
-        size:
-            The size of the RDS resource backup. Measured in bytes (B).
-        start_timestamp:
-            The timestamp of when this backup started. Represented in RFC-3339 format.
-        subnet_group_name:
-            The AWS-assigned name of the subnet group associated with this RDS resource
+
+        Size:
+            The size of the rds resource backup. measured in bytes (b).
+
+        StartTimestamp:
+            The timestamp of when this backup started. represented in rfc-3339 format.
+
+        SubnetGroupName:
+            The aws-assigned name of the subnet group associated with this rds resource
             backup.
-        tags:
-            The AWS tags associated with the database at the time of backup.
-        p_type:
-            The type of backup. Possible values include `clumio_snapshot` and
+
+        Tags:
+            The aws tags associated with the database at the time of backup.
+
+        Type:
+            The type of backup. possible values include `clumio_snapshot` and
             `granular_backup`.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'links': '_links',
-        'account_native_id': 'account_native_id',
-        'aws_azs': 'aws_azs',
-        'aws_region': 'aws_region',
-        'database_native_id': 'database_native_id',
-        'engine': 'engine',
-        'engine_version': 'engine_version',
-        'expiration_timestamp': 'expiration_timestamp',
-        'p_id': 'id',
-        'instances': 'instances',
-        'kms_key_native_id': 'kms_key_native_id',
-        'migration_timestamp': 'migration_timestamp',
-        'option_group_name': 'option_group_name',
-        'resource_id': 'resource_id',
-        'resource_type': 'resource_type',
-        'security_group_native_ids': 'security_group_native_ids',
-        'size': 'size',
-        'start_timestamp': 'start_timestamp',
-        'subnet_group_name': 'subnet_group_name',
-        'tags': 'tags',
-        'p_type': 'type',
-    }
+    Links: rds_database_backup_links_.RdsDatabaseBackupLinks | None = None
+    AccountNativeId: str | None = None
+    AwsAzs: Sequence[str] | None = None
+    AwsRegion: str | None = None
+    DatabaseNativeId: str | None = None
+    Engine: str | None = None
+    EngineVersion: str | None = None
+    ExpirationTimestamp: str | None = None
+    Id: str | None = None
+    Instances: Sequence[rds_instance_model_.RdsInstanceModel] | None = None
+    KmsKeyNativeId: str | None = None
+    MigrationTimestamp: str | None = None
+    OptionGroupName: str | None = None
+    ResourceId: str | None = None
+    ResourceType: str | None = None
+    SecurityGroupNativeIds: Sequence[str] | None = None
+    Size: int | None = None
+    StartTimestamp: str | None = None
+    SubnetGroupName: str | None = None
+    Tags: Sequence[aws_tag_common_model_.AwsTagCommonModel] | None = None
+    Type: str | None = None
+    raw_response: Optional[requests.Response] = None
 
-    def __init__(
-        self,
-        links: rds_database_backup_links_.RdsDatabaseBackupLinks | None = None,
-        account_native_id: str | None = None,
-        aws_azs: Sequence[str] | None = None,
-        aws_region: str | None = None,
-        database_native_id: str | None = None,
-        engine: str | None = None,
-        engine_version: str | None = None,
-        expiration_timestamp: str | None = None,
-        p_id: str | None = None,
-        instances: Sequence[rds_instance_model_.RdsInstanceModel] | None = None,
-        kms_key_native_id: str | None = None,
-        migration_timestamp: str | None = None,
-        option_group_name: str | None = None,
-        resource_id: str | None = None,
-        resource_type: str | None = None,
-        security_group_native_ids: Sequence[str] | None = None,
-        size: int | None = None,
-        start_timestamp: str | None = None,
-        subnet_group_name: str | None = None,
-        tags: Sequence[aws_tag_common_model_.AwsTagCommonModel] | None = None,
-        p_type: str | None = None,
-    ) -> None:
-        """Constructor for the ReadRdsDatabaseBackupResponse class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.links: rds_database_backup_links_.RdsDatabaseBackupLinks | None = links
-        self.account_native_id: str | None = account_native_id
-        self.aws_azs: Sequence[str] | None = aws_azs
-        self.aws_region: str | None = aws_region
-        self.database_native_id: str | None = database_native_id
-        self.engine: str | None = engine
-        self.engine_version: str | None = engine_version
-        self.expiration_timestamp: str | None = expiration_timestamp
-        self.p_id: str | None = p_id
-        self.instances: Sequence[rds_instance_model_.RdsInstanceModel] | None = instances
-        self.kms_key_native_id: str | None = kms_key_native_id
-        self.migration_timestamp: str | None = migration_timestamp
-        self.option_group_name: str | None = option_group_name
-        self.resource_id: str | None = resource_id
-        self.resource_type: str | None = resource_type
-        self.security_group_native_ids: Sequence[str] | None = security_group_native_ids
-        self.size: int | None = size
-        self.start_timestamp: str | None = start_timestamp
-        self.subnet_group_name: str | None = subnet_group_name
-        self.tags: Sequence[aws_tag_common_model_.AwsTagCommonModel] | None = tags
-        self.p_type: str | None = p_type
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -153,8 +148,8 @@ class ReadRdsDatabaseBackupResponse:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('_links', None)
         val_links = rds_database_backup_links_.RdsDatabaseBackupLinks.from_dictionary(val)
@@ -181,13 +176,12 @@ class ReadRdsDatabaseBackupResponse:
         val_expiration_timestamp = val
 
         val = dictionary.get('id', None)
-        val_p_id = val
+        val_id = val
 
         val = dictionary.get('instances', None)
 
-        val_instances = None
+        val_instances = []
         if val:
-            val_instances = list()
             for value in val:
                 val_instances.append(rds_instance_model_.RdsInstanceModel.from_dictionary(value))
 
@@ -220,14 +214,13 @@ class ReadRdsDatabaseBackupResponse:
 
         val = dictionary.get('tags', None)
 
-        val_tags = None
+        val_tags = []
         if val:
-            val_tags = list()
             for value in val:
                 val_tags.append(aws_tag_common_model_.AwsTagCommonModel.from_dictionary(value))
 
         val = dictionary.get('type', None)
-        val_p_type = val
+        val_type = val
 
         # Return an object of this model
         return cls(
@@ -239,7 +232,7 @@ class ReadRdsDatabaseBackupResponse:
             val_engine,
             val_engine_version,
             val_expiration_timestamp,
-            val_p_id,
+            val_id,
             val_instances,
             val_kms_key_native_id,
             val_migration_timestamp,
@@ -251,5 +244,22 @@ class ReadRdsDatabaseBackupResponse:
             val_start_timestamp,
             val_subnet_group_name,
             val_tags,
-            val_p_type,
+            val_type,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        model_instance.raw_response = response
+        return model_instance

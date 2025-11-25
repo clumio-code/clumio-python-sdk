@@ -1,16 +1,19 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import ec2_ami_restore_target as ec2_ami_restore_target_
 from clumioapi.models import ec2_instance_restore_target as ec2_instance_restore_target_
 from clumioapi.models import ec2_volumes_restore_target as ec2_volumes_restore_target_
+import requests
 
 T = TypeVar('T', bound='EC2RestoreTarget')
 
 
+@dataclasses.dataclass
 class EC2RestoreTarget:
     """Implementation of the 'EC2RestoreTarget' model.
 
@@ -18,44 +21,45 @@ class EC2RestoreTarget:
     be set.
 
     Attributes:
-        ami_restore_target:
-            The configuration for the restore to AMI.
-        instance_restore_target:
-            The configuration of an EC2 instance to be restored.
-        volumes_restore_target:
+        AmiRestoreTarget:
+            The configuration for the restore to ami.
+
+        InstanceRestoreTarget:
+            The configuration of an ec2 instance to be restored.
+
+        VolumesRestoreTarget:
             The target configuration for the volumes to be restored.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'ami_restore_target': 'ami_restore_target',
-        'instance_restore_target': 'instance_restore_target',
-        'volumes_restore_target': 'volumes_restore_target',
-    }
+    AmiRestoreTarget: ec2_ami_restore_target_.EC2AMIRestoreTarget | None = None
+    InstanceRestoreTarget: ec2_instance_restore_target_.EC2InstanceRestoreTarget | None = None
+    VolumesRestoreTarget: ec2_volumes_restore_target_.EC2VolumesRestoreTarget | None = None
 
-    def __init__(
-        self,
-        ami_restore_target: ec2_ami_restore_target_.EC2AMIRestoreTarget | None = None,
-        instance_restore_target: (
-            ec2_instance_restore_target_.EC2InstanceRestoreTarget | None
-        ) = None,
-        volumes_restore_target: ec2_volumes_restore_target_.EC2VolumesRestoreTarget | None = None,
-    ) -> None:
-        """Constructor for the EC2RestoreTarget class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.ami_restore_target: ec2_ami_restore_target_.EC2AMIRestoreTarget | None = (
-            ami_restore_target
-        )
-        self.instance_restore_target: (
-            ec2_instance_restore_target_.EC2InstanceRestoreTarget | None
-        ) = instance_restore_target
-        self.volumes_restore_target: ec2_volumes_restore_target_.EC2VolumesRestoreTarget | None = (
-            volumes_restore_target
-        )
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -66,8 +70,8 @@ class EC2RestoreTarget:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('ami_restore_target', None)
         val_ami_restore_target = ec2_ami_restore_target_.EC2AMIRestoreTarget.from_dictionary(val)
@@ -88,3 +92,19 @@ class EC2RestoreTarget:
             val_instance_restore_target,
             val_volumes_restore_target,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

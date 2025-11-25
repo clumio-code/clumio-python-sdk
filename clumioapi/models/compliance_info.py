@@ -1,66 +1,75 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import control_info as control_info_
 from clumioapi.models import items_covered as items_covered_
+import requests
 
 T = TypeVar('T', bound='ComplianceInfo')
 
 
+@dataclasses.dataclass
 class ComplianceInfo:
     """Implementation of the 'ComplianceInfo' model.
 
     The status per controls in the compliance report created by the report run.
 
     Attributes:
-        compliance_status:
+        ComplianceStatus:
             The compliance status of the report run.
-        compliant_count:
+
+        CompliantCount:
             The count of compliant items of the report run.
-        controls:
+
+        Controls:
             The status per controls in the compliance report created by the report run.
-        items_covered:
+
+        ItemsCovered:
             The items covered in the compliance report created by the report run.
-        non_compliant_count:
+
+        NonCompliantCount:
             The count of non-compliant items of the report run.
-        unknown_count:
+
+        UnknownCount:
             The count of unknown items of the report run.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'compliance_status': 'compliance_status',
-        'compliant_count': 'compliant_count',
-        'controls': 'controls',
-        'items_covered': 'items_covered',
-        'non_compliant_count': 'non_compliant_count',
-        'unknown_count': 'unknown_count',
-    }
+    ComplianceStatus: str | None = None
+    CompliantCount: int | None = None
+    Controls: Sequence[control_info_.ControlInfo] | None = None
+    ItemsCovered: items_covered_.ItemsCovered | None = None
+    NonCompliantCount: int | None = None
+    UnknownCount: int | None = None
 
-    def __init__(
-        self,
-        compliance_status: str | None = None,
-        compliant_count: int | None = None,
-        controls: Sequence[control_info_.ControlInfo] | None = None,
-        items_covered: items_covered_.ItemsCovered | None = None,
-        non_compliant_count: int | None = None,
-        unknown_count: int | None = None,
-    ) -> None:
-        """Constructor for the ComplianceInfo class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.compliance_status: str | None = compliance_status
-        self.compliant_count: int | None = compliant_count
-        self.controls: Sequence[control_info_.ControlInfo] | None = controls
-        self.items_covered: items_covered_.ItemsCovered | None = items_covered
-        self.non_compliant_count: int | None = non_compliant_count
-        self.unknown_count: int | None = unknown_count
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -71,8 +80,8 @@ class ComplianceInfo:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('compliance_status', None)
         val_compliance_status = val
@@ -82,9 +91,8 @@ class ComplianceInfo:
 
         val = dictionary.get('controls', None)
 
-        val_controls = None
+        val_controls = []
         if val:
-            val_controls = list()
             for value in val:
                 val_controls.append(control_info_.ControlInfo.from_dictionary(value))
 
@@ -106,3 +114,19 @@ class ComplianceInfo:
             val_non_compliant_count,
             val_unknown_count,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

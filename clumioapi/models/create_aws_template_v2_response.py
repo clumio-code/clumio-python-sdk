@@ -1,71 +1,80 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import categorised_resources as categorised_resources_
 from clumioapi.models import template_configuration_v2 as template_configuration_v2_
 from clumioapi.models import template_links as template_links_
+import requests
 
 T = TypeVar('T', bound='CreateAWSTemplateV2Response')
 
 
+@dataclasses.dataclass
 class CreateAWSTemplateV2Response:
     """Implementation of the 'CreateAWSTemplateV2Response' model.
 
     Attributes:
-        links:
-            URLs to pages related to the resource.
-        cloudformation_url:
-            The latest available URL for the template.
-        config:
-            The configuration of the given template
-        deployable_cloudformation_url:
-            The latest available URL for the deployable template.
-        group_token:
-            swagger: ignore
-        resources:
-            Categorised Resources, based on the generated template, to be created manually
-            by the user
-        terraform_url:
-            The latest available URL for the terraform template.
+        Links:
+            Urls to pages related to the resource.
+
+        CloudformationUrl:
+            The latest available url for the template.
+
+        Config:
+            The configuration of the given template.
+
+        DeployableCloudformationUrl:
+            The latest available url for the deployable template.
+
+        GroupToken:
+            Ignore.
+
+        Resources:
+            Categorised resources, based on the generated template, to be created manually
+            by the user.
+
+        TerraformUrl:
+            The latest available url for the terraform template.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'links': '_links',
-        'cloudformation_url': 'cloudformation_url',
-        'config': 'config',
-        'deployable_cloudformation_url': 'deployable_cloudformation_url',
-        'group_token': 'group_token',
-        'resources': 'resources',
-        'terraform_url': 'terraform_url',
-    }
+    Links: template_links_.TemplateLinks | None = None
+    CloudformationUrl: str | None = None
+    Config: template_configuration_v2_.TemplateConfigurationV2 | None = None
+    DeployableCloudformationUrl: str | None = None
+    GroupToken: str | None = None
+    Resources: categorised_resources_.CategorisedResources | None = None
+    TerraformUrl: str | None = None
+    raw_response: Optional[requests.Response] = None
 
-    def __init__(
-        self,
-        links: template_links_.TemplateLinks | None = None,
-        cloudformation_url: str | None = None,
-        config: template_configuration_v2_.TemplateConfigurationV2 | None = None,
-        deployable_cloudformation_url: str | None = None,
-        group_token: str | None = None,
-        resources: categorised_resources_.CategorisedResources | None = None,
-        terraform_url: str | None = None,
-    ) -> None:
-        """Constructor for the CreateAWSTemplateV2Response class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.links: template_links_.TemplateLinks | None = links
-        self.cloudformation_url: str | None = cloudformation_url
-        self.config: template_configuration_v2_.TemplateConfigurationV2 | None = config
-        self.deployable_cloudformation_url: str | None = deployable_cloudformation_url
-        self.group_token: str | None = group_token
-        self.resources: categorised_resources_.CategorisedResources | None = resources
-        self.terraform_url: str | None = terraform_url
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -76,8 +85,8 @@ class CreateAWSTemplateV2Response:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('_links', None)
         val_links = template_links_.TemplateLinks.from_dictionary(val)
@@ -110,3 +119,20 @@ class CreateAWSTemplateV2Response:
             val_resources,
             val_terraform_url,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        model_instance.raw_response = response
+        return model_instance

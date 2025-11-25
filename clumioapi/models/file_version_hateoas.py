@@ -1,35 +1,54 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import hateoas_link as hateoas_link_
+import requests
 
 T = TypeVar('T', bound='FileVersionHateoas')
 
 
+@dataclasses.dataclass
 class FileVersionHateoas:
     """Implementation of the 'FileVersionHateoas' model.
 
     URLs to pages related to the resource.
 
     Attributes:
-        restore_files:
-            A resource-specific HATEOAS link.
+        RestoreFiles:
+            A resource-specific hateoas link.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {'restore_files': 'restore-files'}
+    RestoreFiles: hateoas_link_.HateoasLink | None = None
 
-    def __init__(self, restore_files: hateoas_link_.HateoasLink | None = None) -> None:
-        """Constructor for the FileVersionHateoas class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.restore_files: hateoas_link_.HateoasLink | None = restore_files
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -40,8 +59,8 @@ class FileVersionHateoas:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('restore-files', None)
         val_restore_files = hateoas_link_.HateoasLink.from_dictionary(val)
@@ -50,3 +69,19 @@ class FileVersionHateoas:
         return cls(
             val_restore_files,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

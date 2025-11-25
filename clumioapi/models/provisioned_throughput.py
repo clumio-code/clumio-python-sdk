@@ -1,41 +1,57 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='ProvisionedThroughput')
 
 
+@dataclasses.dataclass
 class ProvisionedThroughput:
     """Implementation of the 'ProvisionedThroughput' model.
 
     Represents the provisioned throughput settings for a DynamoDB table.
 
     Attributes:
-        read_capacity_units:
+        ReadCapacityUnits:
             The maximum number of strongly consistent reads consumed per second.
-        write_capacity_units:
+
+        WriteCapacityUnits:
             The maximum number of writes consumed per second.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'read_capacity_units': 'read_capacity_units',
-        'write_capacity_units': 'write_capacity_units',
-    }
+    ReadCapacityUnits: int | None = None
+    WriteCapacityUnits: int | None = None
 
-    def __init__(
-        self, read_capacity_units: int | None = None, write_capacity_units: int | None = None
-    ) -> None:
-        """Constructor for the ProvisionedThroughput class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.read_capacity_units: int | None = read_capacity_units
-        self.write_capacity_units: int | None = write_capacity_units
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -46,8 +62,8 @@ class ProvisionedThroughput:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('read_capacity_units', None)
         val_read_capacity_units = val
@@ -60,3 +76,19 @@ class ProvisionedThroughput:
             val_read_capacity_units,
             val_write_capacity_units,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

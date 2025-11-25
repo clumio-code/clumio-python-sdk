@@ -17,10 +17,23 @@ clumioapi.models.compliance\_info.ComplianceInfo
    .. autosummary::
    
       ~ComplianceInfo.__init__
+      ~ComplianceInfo.dict
       ~ComplianceInfo.from_dictionary
+      ~ComplianceInfo.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ComplianceInfo.ComplianceStatus
+      ~ComplianceInfo.CompliantCount
+      ~ComplianceInfo.Controls
+      ~ComplianceInfo.ItemsCovered
+      ~ComplianceInfo.NonCompliantCount
+      ~ComplianceInfo.UnknownCount
    
    

@@ -1,9 +1,11 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from clumioapi.exceptions import clumio_exception
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='CreateReportDownloadV1Request')
 
@@ -14,136 +16,26 @@ TypeValues = [
 ]
 
 
+@dataclasses.dataclass
 class CreateReportDownloadV1Request:
     """Implementation of the 'CreateReportDownloadV1Request' model.
 
     Attributes:
-        file_name:
-            The name of the report. Field cannot be empty.
-        filter:
+        FileName:
+            The name of the report. field cannot be empty.
 
-            +----------------------+------------------+-------------+----------------------+
-            |        Field         | Filter Condition | Report Type |     Description      |
-            +======================+==================+=============+======================+
-            | activity_start_times | $gte, $lt, $eq   | Activity    | Activity start       |
-            | tamp                 |                  |             | timestamp denotes    |
-            |                      |                  |             | the time filter for  |
-            |                      |                  |             | Activity reports.    |
-            |                      |                  |             | $gte and $lt accept  |
-            |                      |                  |             | RFC-3339 timestamps  |
-            |                      |                  |             | and $eq accepts a    |
-            |                      |                  |             | unix timestamp       |
-            |                      |                  |             | denoting the offset  |
-            |                      |                  |             | from the current     |
-            |                      |                  |             | time. $eq takes      |
-            |                      |                  |             | precedence over both |
-            |                      |                  |             | $gte and $lt so if   |
-            |                      |                  |             | $eq is used, the     |
-            |                      |                  |             | backend will use the |
-            |                      |                  |             | relative time filter |
-            |                      |                  |             | instead of absolute  |
-            |                      |                  |             | time filters.For     |
-            |                      |                  |             | example,             |
-            |                      |                  |             |                      |
-            |                      |                  |             | "filter":"{"activity |
-            |                      |                  |             | _start_timestamp":{" |
-            |                      |                  |             | $eq":86400}}"        |
-            |                      |                  |             |                      |
-            |                      |                  |             |                      |
-            +----------------------+------------------+-------------+----------------------+
-            | timestamp            | $gte, $lte, $eq  | Consumption | timestamp denotes    |
-            |                      |                  |             | the time filter for  |
-            |                      |                  |             | Consumption reports. |
-            |                      |                  |             | $gte and $lte accept |
-            |                      |                  |             | RFC-3339 timestamps  |
-            |                      |                  |             | and $eq accepts a    |
-            |                      |                  |             | duration in seconds  |
-            |                      |                  |             | denoting the offset  |
-            |                      |                  |             | from the current     |
-            |                      |                  |             | time. $eq takes      |
-            |                      |                  |             | precedence over both |
-            |                      |                  |             | $gte and $lte so if  |
-            |                      |                  |             | $eq is used, the     |
-            |                      |                  |             | backend will use the |
-            |                      |                  |             | relative time filter |
-            |                      |                  |             | instead of absolute  |
-            |                      |                  |             | time filters.        |
-            |                      |                  |             |                      |
-            |                      |                  |             | "filter": "{\"timest |
-            |                      |                  |             | amp\":{\"$gte\":\"20 |
-            |                      |                  |             | 22-07-               |
-            |                      |                  |             | 27T14:35:33.735Z\",\\ |
-            |                      |                  |             | "$lte\":\"2022-08-   |
-            |                      |                  |             | 03T14:35:33.735Z\"}} |
-            |                      |                  |             | "                    |
-            |                      |                  |             |                      |
-            |                      |                  |             |                      |
-            +----------------------+------------------+-------------+----------------------+
-            | organizational_unit_ | $in              | Consumption | Organizational Unit  |
-            | id                   |                  |             | ID (OU ID) filters   |
-            |                      |                  |             | the consumption data |
-            |                      |                  |             | generated for the    |
-            |                      |                  |             | report to the given  |
-            |                      |                  |             | OU IDs and its       |
-            |                      |                  |             | children.            |
-            |                      |                  |             |                      |
-            |                      |                  |             | "filter": "{\"organi |
-            |                      |                  |             | zational_unit_id\":{ |
-            |                      |                  |             | \"$in\":[\"00000000- |
-            |                      |                  |             | 0000-0000-0000-      |
-            |                      |                  |             | 000000000000\"]}}"   |
-            |                      |                  |             |                      |
-            |                      |                  |             |                      |
-            +----------------------+------------------+-------------+----------------------+
-            | entity_type          | $in              | Consumption |                      |
-            |                      |                  |             | Entity type filters  |
-            |                      |                  |             | the consumption data |
-            |                      |                  |             | generated for the    |
-            |                      |                  |             | report to the given  |
-            |                      |                  |             | entity types.        |
-            |                      |                  |             | If filter is empty,  |
-            |                      |                  |             | it shows consumption |
-            |                      |                  |             | report of the all    |
-            |                      |                  |             | entity types.        |
-            |                      |                  |             |                      |
-            |                      |                  |             | filter={"entity_type |
-            |                      |                  |             | ":{"$in":["LocalProt |
-            |                      |                  |             | ectionGroup,         |
-            |                      |                  |             | DynamoDB"]}}         |
-            |                      |                  |             |                      |
-            |                      |                  |             |                      |
-            +----------------------+------------------+-------------+----------------------+
-            | task                 | $in              | Activity    |  Possible values for |
-            |                      |                  |             | task include backup  |
-            |                      |                  |             | and                  |
-            |                      |                  |             | restore.             |
-            |                      |                  |             | For example,         |
-            |                      |                  |             |                      |
-            |                      |                  |             | "filter":"{"task":{" |
-            |                      |                  |             | $in":["ebs_increment |
-            |                      |                  |             | al_backup"]}}"       |
-            |                      |                  |             |                      |
-            |                      |                  |             |                      |
-            +----------------------+------------------+-------------+----------------------+
-            | status               | $in              | Activity    |  Filter on activity  |
-            |                      |                  |             | status of entity.    |
-            |                      |                  |             | Possible values for  |
-            |                      |                  |             | activity status      |
-            |                      |                  |             | include aborted,     |
-            |                      |                  |             | failed, and success  |
-            |                      |                  |             | For example,         |
-            |                      |                  |             |                      |
-            |                      |                  |             | "filter": "{"status" |
+        Filter:
+            "{"status" |
             |                      |                  |             | :{"$in":["success"]} |
             |                      |                  |             | }"                   |
             |                      |                  |             |                      |
             |                      |                  |             |                      |
             +----------------------+------------------+-------------+----------------------+
-            | primary_entity.id    | $in              | Any         | The system-generated |
-            |                      |                  |             | IDs of the primary   |
+            | primary_entity.id    | $in              | any         | the system-generated |
+            |                      |                  |             | ids of the primary   |
             |                      |                  |             | entities affected by |
             |                      |                  |             | the activity.        |
-            |                      |                  |             | For example,         |
+            |                      |                  |             | for example,         |
             |                      |                  |             |                      |
             |                      |                  |             | filter={"primary_ent |
             |                      |                  |             | ity.id":{"$in":["9c2 |
@@ -153,15 +45,15 @@ class CreateReportDownloadV1Request:
             |                      |                  |             |                      |
             |                      |                  |             |                      |
             +----------------------+------------------+-------------+----------------------+
-            | primary_entity.type  | $eq              | Any         | The type of primary  |
+            | primary_entity.type  | $eq              | any         | the type of primary  |
             |                      |                  |             | entities affected by |
             |                      |                  |             | the activity.        |
-            |                      |                  |             | Examples of primary  |
+            |                      |                  |             | examples of primary  |
             |                      |                  |             | entity types include |
             |                      |                  |             | "aws_ebs_volume",    |
             |                      |                  |             | "aws_ec2_instance",  |
             |                      |                  |             | "microsoft365_mailbo |
-            |                      |                  |             | x". For example,     |
+            |                      |                  |             | x". for example,     |
             |                      |                  |             |                      |
             |                      |                  |             | filter={"primary_ent |
             |                      |                  |             | ity.type":{"$in":["a |
@@ -169,12 +61,12 @@ class CreateReportDownloadV1Request:
             |                      |                  |             |                      |
             |                      |                  |             |                      |
             +----------------------+------------------+-------------+----------------------+
-            | primary_entity.value | $in              | Any         | The value or name    |
+            | primary_entity.value | $in              | any         | the value or name    |
             |                      |                  |             | associated with the  |
             |                      |                  |             | primary entities     |
             |                      |                  |             | affected by          |
             |                      |                  |             | the compliance       |
-            |                      |                  |             | event. For example,  |
+            |                      |                  |             | event. for example,  |
             |                      |                  |             | the primary entity   |
             |                      |                  |             | value associated     |
             |                      |                  |             | with                 |
@@ -183,12 +75,12 @@ class CreateReportDownloadV1Request:
             |                      |                  |             | "vol-                |
             |                      |                  |             | 0a5f2e52d6decd664"   |
             |                      |                  |             | representing         |
-            |                      |                  |             | the name of the EBS  |
-            |                      |                  |             | volume. The filter   |
+            |                      |                  |             | the name of the ebs  |
+            |                      |                  |             | volume. the filter   |
             |                      |                  |             | supports substring   |
             |                      |                  |             | search for all       |
             |                      |                  |             | elements in the      |
-            |                      |                  |             | array For example,   |
+            |                      |                  |             | array for example,   |
             |                      |                  |             |                      |
             |                      |                  |             | filter={"primary_ent |
             |                      |                  |             | ity.value":{"$in":[" |
@@ -196,18 +88,18 @@ class CreateReportDownloadV1Request:
             |                      |                  |             |                      |
             |                      |                  |             |                      |
             +----------------------+------------------+-------------+----------------------+
-            | parent_entity.type   | $in              | Any         |  The types of the    |
+            | parent_entity.type   | $in              | any         |  the types of the    |
             |                      |                  |             | parent entities      |
             |                      |                  |             | which are associated |
             |                      |                  |             | with the primary     |
             |                      |                  |             | entity affected by   |
             |                      |                  |             | the activity.        |
-            |                      |                  |             | Examples of the      |
+            |                      |                  |             | examples of the      |
             |                      |                  |             | parent entity types  |
             |                      |                  |             | include              |
             |                      |                  |             | "aws_environment",   |
             |                      |                  |             | "microsoft365_domain |
-            |                      |                  |             | ". For example,      |
+            |                      |                  |             | ". for example,      |
             |                      |                  |             |                      |
             |                      |                  |             | filter={"parent_enti |
             |                      |                  |             | ty.type":{"$in":["aw |
@@ -215,13 +107,13 @@ class CreateReportDownloadV1Request:
             |                      |                  |             |                      |
             |                      |                  |             |                      |
             +----------------------+------------------+-------------+----------------------+
-            | parent_entity.id     | $in              | Any         |                      |
-            |                      |                  |             | The value or name    |
+            | parent_entity.id     | $in              | any         |                      |
+            |                      |                  |             | the value or name    |
             |                      |                  |             | associated with the  |
             |                      |                  |             | parent entities      |
             |                      |                  |             | affected by          |
             |                      |                  |             | the compliance       |
-            |                      |                  |             | event. For example,  |
+            |                      |                  |             | event. for example,  |
             |                      |                  |             | the parent entity    |
             |                      |                  |             | value associated     |
             |                      |                  |             | with                 |
@@ -229,8 +121,8 @@ class CreateReportDownloadV1Request:
             |                      |                  |             | "aws_ebs_volume" is  |
             |                      |                  |             | "891106093485/us-    |
             |                      |                  |             | west-2" representing |
-            |                      |                  |             | the name of the AWS  |
-            |                      |                  |             | Account Region. For  |
+            |                      |                  |             | the name of the aws  |
+            |                      |                  |             | account region. for  |
             |                      |                  |             | example,             |
             |                      |                  |             |                      |
             |                      |                  |             | filter={"parent_enti |
@@ -241,33 +133,44 @@ class CreateReportDownloadV1Request:
             |                      |                  |             |                      |
             +----------------------+------------------+-------------+----------------------+
 
-            For more information about filtering, refer to the
-            Filtering section of this guide.
-        p_type:
-            The report type. Examples of report types include, "activity", "audit", and
+            for more information about filtering, refer to the
+            filtering section of this guide.
+
+        Type:
+            The report type. examples of report types include, "activity", "audit", and
             "consumption".
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {'file_name': 'file_name', 'filter': 'filter', 'p_type': 'type'}
+    FileName: str | None = None
+    Filter: str | None = None
 
-    def __init__(
-        self, file_name: str | None = None, filter: str | None = None, p_type: str | None = None
-    ) -> None:
-        """Constructor for the CreateReportDownloadV1Request class."""
+    Type: str | None = None
 
-        # Initialize members of the class
-        self.file_name: str | None = file_name
-        self.filter: str | None = filter
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        if p_type not in TypeValues:
-            raise clumio_exception.ClumioException(
-                f'Invalid value for p_type: { p_type }. Valid values are { TypeValues }.'
-            )
-        self.p_type: str | None = p_type
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -278,8 +181,8 @@ class CreateReportDownloadV1Request:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('file_name', None)
         val_file_name = val
@@ -288,11 +191,27 @@ class CreateReportDownloadV1Request:
         val_filter = val
 
         val = dictionary.get('type', None)
-        val_p_type = val
+        val_type = val
 
         # Return an object of this model
         return cls(
             val_file_name,
             val_filter,
-            val_p_type,
+            val_type,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

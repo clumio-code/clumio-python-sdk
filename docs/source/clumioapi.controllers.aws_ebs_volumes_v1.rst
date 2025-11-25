@@ -20,6 +20,7 @@ clumioapi.controllers.aws\_ebs\_volumes\_v1
       :template: custom-class-template.rst
    
       AwsEbsVolumesV1Controller
+      AwsEbsVolumesV1ControllerPaginator
    
    
 

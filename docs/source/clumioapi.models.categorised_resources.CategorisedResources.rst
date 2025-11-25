@@ -17,10 +17,22 @@ clumioapi.models.categorised\_resources.CategorisedResources
    .. autosummary::
    
       ~CategorisedResources.__init__
+      ~CategorisedResources.dict
       ~CategorisedResources.from_dictionary
+      ~CategorisedResources.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~CategorisedResources.Policies
+      ~CategorisedResources.Roles
+      ~CategorisedResources.Rules
+      ~CategorisedResources.SsmDocuments
+      ~CategorisedResources.Topics
    
    

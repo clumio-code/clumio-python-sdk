@@ -17,10 +17,18 @@ clumioapi.models.ec2\_mssqlag\_list\_embedded.EC2MSSQLAGListEmbedded
    .. autosummary::
    
       ~EC2MSSQLAGListEmbedded.__init__
+      ~EC2MSSQLAGListEmbedded.dict
       ~EC2MSSQLAGListEmbedded.from_dictionary
+      ~EC2MSSQLAGListEmbedded.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~EC2MSSQLAGListEmbedded.Items
    
    

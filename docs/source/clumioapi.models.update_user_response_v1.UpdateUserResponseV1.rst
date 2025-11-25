@@ -17,10 +17,30 @@ clumioapi.models.update\_user\_response\_v1.UpdateUserResponseV1
    .. autosummary::
    
       ~UpdateUserResponseV1.__init__
+      ~UpdateUserResponseV1.dict
       ~UpdateUserResponseV1.from_dictionary
+      ~UpdateUserResponseV1.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~UpdateUserResponseV1.AssignedOrganizationalUnitIds
+      ~UpdateUserResponseV1.AssignedRole
+      ~UpdateUserResponseV1.Email
+      ~UpdateUserResponseV1.Embedded
+      ~UpdateUserResponseV1.FullName
+      ~UpdateUserResponseV1.Id
+      ~UpdateUserResponseV1.Inviter
+      ~UpdateUserResponseV1.IsConfirmed
+      ~UpdateUserResponseV1.IsEnabled
+      ~UpdateUserResponseV1.LastActivityTimestamp
+      ~UpdateUserResponseV1.Links
+      ~UpdateUserResponseV1.OrganizationalUnitCount
+      ~UpdateUserResponseV1.raw_response
    
    

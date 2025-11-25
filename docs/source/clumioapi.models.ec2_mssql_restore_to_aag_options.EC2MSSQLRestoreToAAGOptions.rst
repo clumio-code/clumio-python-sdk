@@ -17,10 +17,18 @@ clumioapi.models.ec2\_mssql\_restore\_to\_aag\_options.EC2MSSQLRestoreToAAGOptio
    .. autosummary::
    
       ~EC2MSSQLRestoreToAAGOptions.__init__
+      ~EC2MSSQLRestoreToAAGOptions.dict
       ~EC2MSSQLRestoreToAAGOptions.from_dictionary
+      ~EC2MSSQLRestoreToAAGOptions.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~EC2MSSQLRestoreToAAGOptions.DatabaseId
    
    

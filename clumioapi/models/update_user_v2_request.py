@@ -1,57 +1,67 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import entity_group_assignment_updates as entity_group_assignment_updates_
+import requests
 
 T = TypeVar('T', bound='UpdateUserV2Request')
 
 
+@dataclasses.dataclass
 class UpdateUserV2Request:
     """Implementation of the 'UpdateUserV2Request' model.
 
     Attributes:
-        access_control_configuration_updates:
+        AccessControlConfigurationUpdates:
             Updates to the organizational units along with the role assigned to the user.
-        full_name:
+
+        FullName:
             The full name of the user that is to replace the existing full name.
-            For example, enter the user's first name and last name.
-        is_enabled:
-            If `true`, enables a user who has been disabled from Clumio,
-            returning the user to its previous "Activated" or "Invited" status. If `false`,
-            disables a user from Clumio.
-            The user will not be able log in to Clumio until another Clumio user re-enables
+            for example, enter the user's first name and last name.
+
+        IsEnabled:
+            If `true`, enables a user who has been disabled from clumio,
+            returning the user to its previous "activated" or "invited" status. if `false`,
+            disables a user from clumio.
+            the user will not be able log in to clumio until another clumio user re-enables
             the account.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'access_control_configuration_updates': 'access_control_configuration_updates',
-        'full_name': 'full_name',
-        'is_enabled': 'is_enabled',
-    }
+    AccessControlConfigurationUpdates: (
+        entity_group_assignment_updates_.EntityGroupAssignmentUpdates | None
+    ) = None
+    FullName: str | None = None
+    IsEnabled: bool | None = None
 
-    def __init__(
-        self,
-        access_control_configuration_updates: (
-            entity_group_assignment_updates_.EntityGroupAssignmentUpdates | None
-        ) = None,
-        full_name: str | None = None,
-        is_enabled: bool | None = None,
-    ) -> None:
-        """Constructor for the UpdateUserV2Request class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.access_control_configuration_updates: (
-            entity_group_assignment_updates_.EntityGroupAssignmentUpdates | None
-        ) = access_control_configuration_updates
-        self.full_name: str | None = full_name
-        self.is_enabled: bool | None = is_enabled
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -62,8 +72,8 @@ class UpdateUserV2Request:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('access_control_configuration_updates', None)
         val_access_control_configuration_updates = (
@@ -82,3 +92,19 @@ class UpdateUserV2Request:
             val_full_name,
             val_is_enabled,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

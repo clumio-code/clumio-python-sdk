@@ -17,10 +17,19 @@ clumioapi.models.dynamo\_db\_restore\_key\_filters.DynamoDBRestoreKeyFilters
    .. autosummary::
    
       ~DynamoDBRestoreKeyFilters.__init__
+      ~DynamoDBRestoreKeyFilters.dict
       ~DynamoDBRestoreKeyFilters.from_dictionary
+      ~DynamoDBRestoreKeyFilters.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~DynamoDBRestoreKeyFilters.PartitionKeyFilter
+      ~DynamoDBRestoreKeyFilters.SortKeyFilter
    
    

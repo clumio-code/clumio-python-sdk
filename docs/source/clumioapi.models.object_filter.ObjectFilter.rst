@@ -17,10 +17,21 @@ clumioapi.models.object\_filter.ObjectFilter
    .. autosummary::
    
       ~ObjectFilter.__init__
+      ~ObjectFilter.dict
       ~ObjectFilter.from_dictionary
+      ~ObjectFilter.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ObjectFilter.EarliestLastModifiedTimestamp
+      ~ObjectFilter.LatestVersionOnly
+      ~ObjectFilter.PrefixFilters
+      ~ObjectFilter.StorageClasses
    
    

@@ -1,43 +1,57 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='ChangePasswordV2Request')
 
 
+@dataclasses.dataclass
 class ChangePasswordV2Request:
     """Implementation of the 'ChangePasswordV2Request' model.
 
     Attributes:
-        current_password:
+        CurrentPassword:
             The user's current password.
-        new_password:
-            The new password that is to replace the user's current password. Passwords must
-            be between 14 and 64 characters
-            and include the following: one uppercase character, one lowercase character, one
-            number, and one special character.
-            Spaces are not allowed.
+
+        NewPassword:
+            One uppercase character, one lowercase character, one number, and one special
+            character.
+            spaces are not allowed.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'current_password': 'current_password',
-        'new_password': 'new_password',
-    }
+    CurrentPassword: str | None = None
+    NewPassword: str | None = None
 
-    def __init__(
-        self, current_password: str | None = None, new_password: str | None = None
-    ) -> None:
-        """Constructor for the ChangePasswordV2Request class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.current_password: str | None = current_password
-        self.new_password: str | None = new_password
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -48,8 +62,8 @@ class ChangePasswordV2Request:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('current_password', None)
         val_current_password = val
@@ -62,3 +76,19 @@ class ChangePasswordV2Request:
             val_current_password,
             val_new_password,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

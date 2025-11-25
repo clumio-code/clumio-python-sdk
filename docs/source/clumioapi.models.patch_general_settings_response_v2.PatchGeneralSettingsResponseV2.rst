@@ -17,10 +17,23 @@ clumioapi.models.patch\_general\_settings\_response\_v2.PatchGeneralSettingsResp
    .. autosummary::
    
       ~PatchGeneralSettingsResponseV2.__init__
+      ~PatchGeneralSettingsResponseV2.dict
       ~PatchGeneralSettingsResponseV2.from_dictionary
+      ~PatchGeneralSettingsResponseV2.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~PatchGeneralSettingsResponseV2.AutoLogoutDuration
+      ~PatchGeneralSettingsResponseV2.IpAllowlist
+      ~PatchGeneralSettingsResponseV2.Links
+      ~PatchGeneralSettingsResponseV2.OrganizationalUnitDataGroups
+      ~PatchGeneralSettingsResponseV2.PasswordExpirationDuration
+      ~PatchGeneralSettingsResponseV2.raw_response
    
    

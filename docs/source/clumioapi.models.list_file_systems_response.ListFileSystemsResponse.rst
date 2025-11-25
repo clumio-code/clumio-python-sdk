@@ -17,10 +17,25 @@ clumioapi.models.list\_file\_systems\_response.ListFileSystemsResponse
    .. autosummary::
    
       ~ListFileSystemsResponse.__init__
+      ~ListFileSystemsResponse.dict
       ~ListFileSystemsResponse.from_dictionary
+      ~ListFileSystemsResponse.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ListFileSystemsResponse.CurrentCount
+      ~ListFileSystemsResponse.Embedded
+      ~ListFileSystemsResponse.Limit
+      ~ListFileSystemsResponse.Links
+      ~ListFileSystemsResponse.Start
+      ~ListFileSystemsResponse.TotalCount
+      ~ListFileSystemsResponse.TotalPagesCount
+      ~ListFileSystemsResponse.raw_response
    
    

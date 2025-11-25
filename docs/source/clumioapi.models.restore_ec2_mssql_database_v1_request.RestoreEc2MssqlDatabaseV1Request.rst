@@ -17,10 +17,19 @@ clumioapi.models.restore\_ec2\_mssql\_database\_v1\_request.RestoreEc2MssqlDatab
    .. autosummary::
    
       ~RestoreEc2MssqlDatabaseV1Request.__init__
+      ~RestoreEc2MssqlDatabaseV1Request.dict
       ~RestoreEc2MssqlDatabaseV1Request.from_dictionary
+      ~RestoreEc2MssqlDatabaseV1Request.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~RestoreEc2MssqlDatabaseV1Request.Source
+      ~RestoreEc2MssqlDatabaseV1Request.Target
    
    

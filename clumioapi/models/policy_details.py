@@ -1,48 +1,61 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='PolicyDetails')
 
 
+@dataclasses.dataclass
 class PolicyDetails:
     """Implementation of the 'PolicyDetails' model.
 
     Attributes:
-        description:
-            "description" is a Clumio assigned term. User can choose to ignore it.
-        name:
-            "name" is a Clumio assigned term. User can choose to ignore it.
-        policy_document:
-            "policy_document" has stringified JSON blob. The user has to JSONify it and then
+        Description:
+            "description" is a clumio assigned term. user can choose to ignore it.
+
+        Name:
+            "name" is a clumio assigned term. user can choose to ignore it.
+
+        PolicyDocument:
+            "policy_document" has stringified json blob. the user has to jsonify it and then
             paste
-            the JSONified blob in aws console while creating the policy.
+            the jsonified blob in aws console while creating the policy.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'description': 'description',
-        'name': 'name',
-        'policy_document': 'policy_document',
-    }
+    Description: str | None = None
+    Name: str | None = None
+    PolicyDocument: object | None = None
 
-    def __init__(
-        self,
-        description: str | None = None,
-        name: str | None = None,
-        policy_document: object | None = None,
-    ) -> None:
-        """Constructor for the PolicyDetails class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.description: str | None = description
-        self.name: str | None = name
-        self.policy_document: object | None = policy_document
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -53,8 +66,8 @@ class PolicyDetails:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('description', None)
         val_description = val
@@ -71,3 +84,19 @@ class PolicyDetails:
             val_name,
             val_policy_document,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

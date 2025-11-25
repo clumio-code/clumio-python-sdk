@@ -12,7 +12,7 @@ else:
 
 setup(
     name='clumioapi',
-    version='0.16.10',
+    version='1.0.0',
     description='Python SDK for Clumio REST API',
     long_description=long_description,
     long_description_content_type='text/markdown',
@@ -28,14 +28,14 @@ setup(
         'Programming Language :: Python :: 3.9',
         'Programming Language :: Python :: 3.10',
     ],
-    packages=find_packages(),
+    packages=find_packages(include=['clumioapi', 'clumioapi.*']),
+    package_data={'clumioapi': ['py.typed']},
     install_requires=[
         'requests>=2.32.4',
         'jsonpickle>=2.2.0',
-        'cachecontrol>=0.13.1',
-        'python-dateutil>=2.8.2',
+        'python-dateutil>=2.9.0.post0',
         'urllib3>=2.5.0',
         'rest3client>=0.5.0',
-        'jsonpickle>=2.2.0',
+        'pydantic>=2.11.7',
     ],
 )

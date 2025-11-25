@@ -1,12 +1,16 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='ProtectionInfo')
 
 
+@dataclasses.dataclass
 class ProtectionInfo:
     """Implementation of the 'ProtectionInfo' model.
 
@@ -14,45 +18,54 @@ class ProtectionInfo:
     protected, then this field has a value of `null`.
 
     Attributes:
-        inheriting_entity_id:
-            The ID of the entity from which protection was inherited.
-            If protection was not inherited, then this field has a value of `null`.
-        inheriting_entity_type:
+        InheritingEntityId:
+            The id of the entity from which protection was inherited.
+            if protection was not inherited, then this field has a value of `null`.
+
+        InheritingEntityType:
             The type of entity from which protection was inherited.
-            If protection was not inherited, then this field has a value of `null`.
-            Entities from which protection can be inherited include the following:
+            if protection was not inherited, then this field has a value of `null`.
+            entities from which protection can be inherited include the following:
 
             +------------------------+----------+
-            | Inheriting Entity Type | Details  |
+            | inheriting entity type | details  |
             +========================+==========+
-            | aws_tag                | AWS tag. |
+            | aws_tag                | aws tag. |
             +------------------------+----------+
-        policy_id:
-            A system-generated ID assigned to the policy protecting this resource.
+
+        PolicyId:
+            A system-generated id assigned to the policy protecting this resource.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'inheriting_entity_id': 'inheriting_entity_id',
-        'inheriting_entity_type': 'inheriting_entity_type',
-        'policy_id': 'policy_id',
-    }
+    InheritingEntityId: str | None = None
+    InheritingEntityType: str | None = None
+    PolicyId: str | None = None
 
-    def __init__(
-        self,
-        inheriting_entity_id: str | None = None,
-        inheriting_entity_type: str | None = None,
-        policy_id: str | None = None,
-    ) -> None:
-        """Constructor for the ProtectionInfo class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.inheriting_entity_id: str | None = inheriting_entity_id
-        self.inheriting_entity_type: str | None = inheriting_entity_type
-        self.policy_id: str | None = policy_id
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -63,8 +76,8 @@ class ProtectionInfo:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('inheriting_entity_id', None)
         val_inheriting_entity_id = val
@@ -81,3 +94,19 @@ class ProtectionInfo:
             val_inheriting_entity_type,
             val_policy_id,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

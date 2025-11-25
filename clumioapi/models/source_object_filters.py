@@ -1,88 +1,91 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='SourceObjectFilters')
 
 
+@dataclasses.dataclass
 class SourceObjectFilters:
     """Implementation of the 'SourceObjectFilters' model.
 
     Search for or restore only objects that pass the source object filter.
 
     Attributes:
-        etag:
+        Etag:
             Filter for objects with this etag.
-        latest_version_only:
-            If set to true, filter for latest versions only. Otherwise, all versions will
+
+        LatestVersionOnly:
+            If set to true, filter for latest versions only. otherwise, all versions will
             be returned.
-        max_object_size_bytes:
+
+        MaxObjectSizeBytes:
             Filter for objects with at most this size in bytes.
-        min_object_size_bytes:
+
+        MinObjectSizeBytes:
             Filter for objects with at least this size in bytes.
-        object_key_contains:
+
+        ObjectKeyContains:
             Filter for objects whose key contains this string.
-        object_key_matches:
+
+        ObjectKeyMatches:
             Filter for objects whose key matches this string.
-        object_key_prefix:
+
+        ObjectKeyPrefix:
             Filter for objects that start with this key prefix.
-        object_key_suffix:
+
+        ObjectKeySuffix:
             Filter for objects that end with this key suffix.
-        storage_classes:
-            Storage class to include in the restore. If not specified, then all objects
-            across all storage
-            classes will be restored. Valid values are: `S3 Standard`, `S3 Standard-IA`, `S3
-            Intelligent-Tiering`
-            and `S3 One Zone-IA`.
-        version_id:
-            Filter for objects with this version ID.
+
+        StorageClasses:
+            `s3 standard`, `s3 standard-ia`, `s3 intelligent-tiering`
+            and `s3 one zone-ia`.
+
+        VersionId:
+            Filter for objects with this version id.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'etag': 'etag',
-        'latest_version_only': 'latest_version_only',
-        'max_object_size_bytes': 'max_object_size_bytes',
-        'min_object_size_bytes': 'min_object_size_bytes',
-        'object_key_contains': 'object_key_contains',
-        'object_key_matches': 'object_key_matches',
-        'object_key_prefix': 'object_key_prefix',
-        'object_key_suffix': 'object_key_suffix',
-        'storage_classes': 'storage_classes',
-        'version_id': 'version_id',
-    }
+    Etag: str | None = None
+    LatestVersionOnly: bool | None = None
+    MaxObjectSizeBytes: int | None = None
+    MinObjectSizeBytes: int | None = None
+    ObjectKeyContains: str | None = None
+    ObjectKeyMatches: str | None = None
+    ObjectKeyPrefix: str | None = None
+    ObjectKeySuffix: str | None = None
+    StorageClasses: Sequence[str] | None = None
+    VersionId: str | None = None
 
-    def __init__(
-        self,
-        etag: str | None = None,
-        latest_version_only: bool | None = None,
-        max_object_size_bytes: int | None = None,
-        min_object_size_bytes: int | None = None,
-        object_key_contains: str | None = None,
-        object_key_matches: str | None = None,
-        object_key_prefix: str | None = None,
-        object_key_suffix: str | None = None,
-        storage_classes: Sequence[str] | None = None,
-        version_id: str | None = None,
-    ) -> None:
-        """Constructor for the SourceObjectFilters class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.etag: str | None = etag
-        self.latest_version_only: bool | None = latest_version_only
-        self.max_object_size_bytes: int | None = max_object_size_bytes
-        self.min_object_size_bytes: int | None = min_object_size_bytes
-        self.object_key_contains: str | None = object_key_contains
-        self.object_key_matches: str | None = object_key_matches
-        self.object_key_prefix: str | None = object_key_prefix
-        self.object_key_suffix: str | None = object_key_suffix
-        self.storage_classes: Sequence[str] | None = storage_classes
-        self.version_id: str | None = version_id
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -93,8 +96,8 @@ class SourceObjectFilters:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('etag', None)
         val_etag = val
@@ -139,3 +142,19 @@ class SourceObjectFilters:
             val_storage_classes,
             val_version_id,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

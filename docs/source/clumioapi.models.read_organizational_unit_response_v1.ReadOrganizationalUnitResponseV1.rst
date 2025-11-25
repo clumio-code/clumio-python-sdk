@@ -17,10 +17,31 @@ clumioapi.models.read\_organizational\_unit\_response\_v1.ReadOrganizationalUnit
    .. autosummary::
    
       ~ReadOrganizationalUnitResponseV1.__init__
+      ~ReadOrganizationalUnitResponseV1.dict
       ~ReadOrganizationalUnitResponseV1.from_dictionary
+      ~ReadOrganizationalUnitResponseV1.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ReadOrganizationalUnitResponseV1.ChildrenCount
+      ~ReadOrganizationalUnitResponseV1.ConfiguredDatasourceTypes
+      ~ReadOrganizationalUnitResponseV1.DescendantIds
+      ~ReadOrganizationalUnitResponseV1.Description
+      ~ReadOrganizationalUnitResponseV1.Embedded
+      ~ReadOrganizationalUnitResponseV1.Etag
+      ~ReadOrganizationalUnitResponseV1.Id
+      ~ReadOrganizationalUnitResponseV1.Links
+      ~ReadOrganizationalUnitResponseV1.Name
+      ~ReadOrganizationalUnitResponseV1.ParentId
+      ~ReadOrganizationalUnitResponseV1.TaskId
+      ~ReadOrganizationalUnitResponseV1.UserCount
+      ~ReadOrganizationalUnitResponseV1.Users
+      ~ReadOrganizationalUnitResponseV1.raw_response
    
    

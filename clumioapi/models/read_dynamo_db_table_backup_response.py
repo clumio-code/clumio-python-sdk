@@ -1,9 +1,10 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import aws_tag_common_model as aws_tag_common_model_
 from clumioapi.models import dynamo_db_table_backup_links as dynamo_db_table_backup_links_
 from clumioapi.models import global_secondary_index as global_secondary_index_
@@ -12,210 +13,190 @@ from clumioapi.models import provisioned_throughput as provisioned_throughput_
 from clumioapi.models import replica_description as replica_description_
 from clumioapi.models import sse_specification as sse_specification_
 from clumioapi.models import stream_specification as stream_specification_
+import requests
 
 T = TypeVar('T', bound='ReadDynamoDBTableBackupResponse')
 
 
+@dataclasses.dataclass
 class ReadDynamoDBTableBackupResponse:
     """Implementation of the 'ReadDynamoDBTableBackupResponse' model.
 
     Attributes:
-        etag:
-            The ETag value.
-        links:
-            URLs to pages related to the resource.
-        account_native_id:
-            The AWS-assigned ID of the account associated with this database at the time of
+        Etag:
+            The etag value.
+
+        Links:
+            Urls to pages related to the resource.
+
+        AccountNativeId:
+            The aws-assigned id of the account associated with this database at the time of
             backup.
-        aws_region:
-            The AWS region associated with this environment.
-        billing_mode:
-            The billing mode of the DynamoDB table. Possible values are PROVISIONED or
-            PAY_PER_REQUEST.
-            For [POST /restores/aws/dynamodb](#operation/restore-aws-dynamodb-table), this
+
+        AwsRegion:
+            The aws region associated with this environment.
+
+        BillingMode:
+            The billing mode of the dynamodb table. possible values are provisioned or
+            pay_per_request.
+            for [post /restores/aws/dynamodb](#operation/restore-aws-dynamodb-table), this
             is defaulted to the
             configuration of source table if both 'billing_mode' and
             'provisioned_throughput' are empty or `null`.
-        contributor_insights_status:
-            Indicates whether DynamoDB Contributor Insights is enabled (true) or disabled
+
+        ContributorInsightsStatus:
+            Indicates whether dynamodb contributor insights is enabled (true) or disabled
             (false)
             on the table.
-            For [POST /restores/aws/dynamodb](#operation/restore-aws-dynamodb-table), this
+            for [post /restores/aws/dynamodb](#operation/restore-aws-dynamodb-table), this
             is defaulted to the
             value set in backup if `null`.
-        deletion_protection_enabled:
-            Indicates whether DynamoDB Deletion Protection is enabled (true) or disabled
+
+        DeletionProtectionEnabled:
+            Indicates whether dynamodb deletion protection is enabled (true) or disabled
             (false)
             on the table.
-            For [POST /restores/aws/dynamodb](#operation/restore-aws-dynamodb-table), this
+            for [post /restores/aws/dynamodb](#operation/restore-aws-dynamodb-table), this
             is defaulted to the
             value set in backup if `null`.
-        expiration_timestamp:
-            The timestamp of when this backup expires. Represented in RFC-3339 format.
-        global_secondary_indexes:
-            Describes the global secondary indexes of the DynamoDB table.
-            For [POST /restores/aws/dynamodb](#operation/restore-aws-dynamodb-table), a
+
+        ExpirationTimestamp:
+            The timestamp of when this backup expires. represented in rfc-3339 format.
+
+        GlobalSecondaryIndexes:
+            Describes the global secondary indexes of the dynamodb table.
+            for [post /restores/aws/dynamodb](#operation/restore-aws-dynamodb-table), a
             subset of the source tables'
             global_secondary_indexes can be specified.
-            The restored table will not have any global secondary indexes if this is
+            the restored table will not have any global secondary indexes if this is
             specified empty or `null`.
-        global_table_version:
+
+        GlobalTableVersion:
             Describes the version of global tables in use, if the table is replicated across
-            AWS Regions. If the table
-            is not a global table, then this field has a value of `null`. Possible values
+            aws regions. if the table
+            is not a global table, then this field has a value of `null`. possible values
             are 2017.11.29 or 2019.11.21.
-            For [POST /restores/aws/dynamodb](#operation/restore-aws-dynamodb-table), the
+            for [post /restores/aws/dynamodb](#operation/restore-aws-dynamodb-table), the
             version is defaulted to 2019.11.21.
-        p_id:
-            The Clumio-assigned ID of the backup.
-        item_count:
-            The number of items in DynamoDB table backup.
-        local_secondary_indexes:
-            Describes the local secondary indexes of the DynamoDB table.
-            For [POST /restores/aws/dynamodb](#operation/restore-aws-dynamodb-table), a
+
+        Id:
+            The clumio-assigned id of the backup.
+
+        ItemCount:
+            The number of items in dynamodb table backup.
+
+        LocalSecondaryIndexes:
+            Describes the local secondary indexes of the dynamodb table.
+            for [post /restores/aws/dynamodb](#operation/restore-aws-dynamodb-table), a
             subset of the source tables'
             local_secondary_indexes can be specified.
-            The restored table will not have any local secondary indexes if this is
+            the restored table will not have any local secondary indexes if this is
             specified empty or `null`.
-        pitr_status:
-            Indicates whether DynamoDB Continuous Backup (PITR) is enabled (true) or
+
+        PitrStatus:
+            Indicates whether dynamodb continuous backup (pitr) is enabled (true) or
             disabled (false)
             on the table.
-            For [POST /restores/aws/dynamodb](#operation/restore-aws-dynamodb-table), this
+            for [post /restores/aws/dynamodb](#operation/restore-aws-dynamodb-table), this
             is defaulted to the
             value set in backup if `null`.
-        provisioned_throughput:
-            Represents the provisioned throughput settings for a DynamoDB table.
-        replicas:
-            Describes the replicas of the table, if the table is replicated across AWS
-            Regions.
-            Not applicable for [POST /restores/aws/dynamodb](#operation/restore-aws-
+
+        ProvisionedThroughput:
+            Represents the provisioned throughput settings for a dynamodb table.
+
+        Replicas:
+            Describes the replicas of the table, if the table is replicated across aws
+            regions.
+            not applicable for [post /restores/aws/dynamodb](#operation/restore-aws-
             dynamodb-table) currently,
             but will be used to specify the replication group information in a future
             release.
-        size:
-            The size of the DynamoDB table backup in bytes.
-        sse_specification:
+
+        Size:
+            The size of the dynamodb table backup in bytes.
+
+        SseSpecification:
             Represents the server-side encryption settings for a table.
-        start_timestamp:
-            The timestamp of when this backup started. Represented in RFC-3339 format.
-        stream_specification:
-            Represents the DynamoDB Streams configuration for a table in DynamoDB.
-            and the data type (`S` for string, `N` for number, `B` for binary).
-        table_class:
-            The table class of the DynamoDB table. Possible values are STANDARD or
-            STANDARD_INFREQUENT_ACCESS.
-            For [POST /restores/aws/dynamodb](#operation/restore-aws-dynamodb-table), this
+
+        StartTimestamp:
+            The timestamp of when this backup started. represented in rfc-3339 format.
+
+        StreamSpecification:
+            Represents the dynamodb streams configuration for a table in dynamodb.
+            and the data type (`s` for string, `n` for number, `b` for binary).
+
+        TableClass:
+            The table class of the dynamodb table. possible values are standard or
+            standard_infrequent_access.
+            for [post /restores/aws/dynamodb](#operation/restore-aws-dynamodb-table), this
             is defaulted to the
-            STANDARD storage class if empty.
-        table_id:
-            The Clumio-assigned ID of the DynamoDB table.
-        table_name:
-            The name of the DynamoDB table.
-        tags:
-            The AWS tags associated with the table at the time of backup.
-        p_type:
-            The type of backup. Possible values include `clumio_backup` and `aws_snapshot`.
+            standard storage class if empty.
+
+        TableId:
+            The clumio-assigned id of the dynamodb table.
+
+        TableName:
+            The name of the dynamodb table.
+
+        Tags:
+            The aws tags associated with the table at the time of backup.
+
+        Type:
+            The type of backup. possible values include `clumio_backup` and `aws_snapshot`.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'etag': '_etag',
-        'links': '_links',
-        'account_native_id': 'account_native_id',
-        'aws_region': 'aws_region',
-        'billing_mode': 'billing_mode',
-        'contributor_insights_status': 'contributor_insights_status',
-        'deletion_protection_enabled': 'deletion_protection_enabled',
-        'expiration_timestamp': 'expiration_timestamp',
-        'global_secondary_indexes': 'global_secondary_indexes',
-        'global_table_version': 'global_table_version',
-        'p_id': 'id',
-        'item_count': 'item_count',
-        'local_secondary_indexes': 'local_secondary_indexes',
-        'pitr_status': 'pitr_status',
-        'provisioned_throughput': 'provisioned_throughput',
-        'replicas': 'replicas',
-        'size': 'size',
-        'sse_specification': 'sse_specification',
-        'start_timestamp': 'start_timestamp',
-        'stream_specification': 'stream_specification',
-        'table_class': 'table_class',
-        'table_id': 'table_id',
-        'table_name': 'table_name',
-        'tags': 'tags',
-        'p_type': 'type',
-    }
+    Etag: str | None = None
+    Links: dynamo_db_table_backup_links_.DynamoDBTableBackupLinks | None = None
+    AccountNativeId: str | None = None
+    AwsRegion: str | None = None
+    BillingMode: str | None = None
+    ContributorInsightsStatus: bool | None = None
+    DeletionProtectionEnabled: bool | None = None
+    ExpirationTimestamp: str | None = None
+    GlobalSecondaryIndexes: Sequence[global_secondary_index_.GlobalSecondaryIndex] | None = None
+    GlobalTableVersion: str | None = None
+    Id: str | None = None
+    ItemCount: int | None = None
+    LocalSecondaryIndexes: Sequence[local_secondary_index_.LocalSecondaryIndex] | None = None
+    PitrStatus: bool | None = None
+    ProvisionedThroughput: provisioned_throughput_.ProvisionedThroughput | None = None
+    Replicas: Sequence[replica_description_.ReplicaDescription] | None = None
+    Size: int | None = None
+    SseSpecification: sse_specification_.SSESpecification | None = None
+    StartTimestamp: str | None = None
+    StreamSpecification: stream_specification_.StreamSpecification | None = None
+    TableClass: str | None = None
+    TableId: str | None = None
+    TableName: str | None = None
+    Tags: Sequence[aws_tag_common_model_.AwsTagCommonModel] | None = None
+    Type: str | None = None
+    raw_response: Optional[requests.Response] = None
 
-    def __init__(
-        self,
-        etag: str | None = None,
-        links: dynamo_db_table_backup_links_.DynamoDBTableBackupLinks | None = None,
-        account_native_id: str | None = None,
-        aws_region: str | None = None,
-        billing_mode: str | None = None,
-        contributor_insights_status: bool | None = None,
-        deletion_protection_enabled: bool | None = None,
-        expiration_timestamp: str | None = None,
-        global_secondary_indexes: (
-            Sequence[global_secondary_index_.GlobalSecondaryIndex] | None
-        ) = None,
-        global_table_version: str | None = None,
-        p_id: str | None = None,
-        item_count: int | None = None,
-        local_secondary_indexes: Sequence[local_secondary_index_.LocalSecondaryIndex] | None = None,
-        pitr_status: bool | None = None,
-        provisioned_throughput: provisioned_throughput_.ProvisionedThroughput | None = None,
-        replicas: Sequence[replica_description_.ReplicaDescription] | None = None,
-        size: int | None = None,
-        sse_specification: sse_specification_.SSESpecification | None = None,
-        start_timestamp: str | None = None,
-        stream_specification: stream_specification_.StreamSpecification | None = None,
-        table_class: str | None = None,
-        table_id: str | None = None,
-        table_name: str | None = None,
-        tags: Sequence[aws_tag_common_model_.AwsTagCommonModel] | None = None,
-        p_type: str | None = None,
-    ) -> None:
-        """Constructor for the ReadDynamoDBTableBackupResponse class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.etag: str | None = etag
-        self.links: dynamo_db_table_backup_links_.DynamoDBTableBackupLinks | None = links
-        self.account_native_id: str | None = account_native_id
-        self.aws_region: str | None = aws_region
-        self.billing_mode: str | None = billing_mode
-        self.contributor_insights_status: bool | None = contributor_insights_status
-        self.deletion_protection_enabled: bool | None = deletion_protection_enabled
-        self.expiration_timestamp: str | None = expiration_timestamp
-        self.global_secondary_indexes: (
-            Sequence[global_secondary_index_.GlobalSecondaryIndex] | None
-        ) = global_secondary_indexes
-        self.global_table_version: str | None = global_table_version
-        self.p_id: str | None = p_id
-        self.item_count: int | None = item_count
-        self.local_secondary_indexes: (
-            Sequence[local_secondary_index_.LocalSecondaryIndex] | None
-        ) = local_secondary_indexes
-        self.pitr_status: bool | None = pitr_status
-        self.provisioned_throughput: provisioned_throughput_.ProvisionedThroughput | None = (
-            provisioned_throughput
-        )
-        self.replicas: Sequence[replica_description_.ReplicaDescription] | None = replicas
-        self.size: int | None = size
-        self.sse_specification: sse_specification_.SSESpecification | None = sse_specification
-        self.start_timestamp: str | None = start_timestamp
-        self.stream_specification: stream_specification_.StreamSpecification | None = (
-            stream_specification
-        )
-        self.table_class: str | None = table_class
-        self.table_id: str | None = table_id
-        self.table_name: str | None = table_name
-        self.tags: Sequence[aws_tag_common_model_.AwsTagCommonModel] | None = tags
-        self.p_type: str | None = p_type
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -226,8 +207,8 @@ class ReadDynamoDBTableBackupResponse:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('_etag', None)
         val_etag = val
@@ -255,9 +236,8 @@ class ReadDynamoDBTableBackupResponse:
 
         val = dictionary.get('global_secondary_indexes', None)
 
-        val_global_secondary_indexes = None
+        val_global_secondary_indexes = []
         if val:
-            val_global_secondary_indexes = list()
             for value in val:
                 val_global_secondary_indexes.append(
                     global_secondary_index_.GlobalSecondaryIndex.from_dictionary(value)
@@ -267,16 +247,15 @@ class ReadDynamoDBTableBackupResponse:
         val_global_table_version = val
 
         val = dictionary.get('id', None)
-        val_p_id = val
+        val_id = val
 
         val = dictionary.get('item_count', None)
         val_item_count = val
 
         val = dictionary.get('local_secondary_indexes', None)
 
-        val_local_secondary_indexes = None
+        val_local_secondary_indexes = []
         if val:
-            val_local_secondary_indexes = list()
             for value in val:
                 val_local_secondary_indexes.append(
                     local_secondary_index_.LocalSecondaryIndex.from_dictionary(value)
@@ -292,9 +271,8 @@ class ReadDynamoDBTableBackupResponse:
 
         val = dictionary.get('replicas', None)
 
-        val_replicas = None
+        val_replicas = []
         if val:
-            val_replicas = list()
             for value in val:
                 val_replicas.append(replica_description_.ReplicaDescription.from_dictionary(value))
 
@@ -321,14 +299,13 @@ class ReadDynamoDBTableBackupResponse:
 
         val = dictionary.get('tags', None)
 
-        val_tags = None
+        val_tags = []
         if val:
-            val_tags = list()
             for value in val:
                 val_tags.append(aws_tag_common_model_.AwsTagCommonModel.from_dictionary(value))
 
         val = dictionary.get('type', None)
-        val_p_type = val
+        val_type = val
 
         # Return an object of this model
         return cls(
@@ -342,7 +319,7 @@ class ReadDynamoDBTableBackupResponse:
             val_expiration_timestamp,
             val_global_secondary_indexes,
             val_global_table_version,
-            val_p_id,
+            val_id,
             val_item_count,
             val_local_secondary_indexes,
             val_pitr_status,
@@ -356,5 +333,22 @@ class ReadDynamoDBTableBackupResponse:
             val_table_id,
             val_table_name,
             val_tags,
-            val_p_type,
+            val_type,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        model_instance.raw_response = response
+        return model_instance

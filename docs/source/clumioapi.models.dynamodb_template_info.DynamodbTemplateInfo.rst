@@ -17,10 +17,18 @@ clumioapi.models.dynamodb\_template\_info.DynamodbTemplateInfo
    .. autosummary::
    
       ~DynamodbTemplateInfo.__init__
+      ~DynamodbTemplateInfo.dict
       ~DynamodbTemplateInfo.from_dictionary
+      ~DynamodbTemplateInfo.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~DynamodbTemplateInfo.AvailableTemplateVersion
    
    

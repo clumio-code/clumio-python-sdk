@@ -1,45 +1,61 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='UpdateProtectionGroupInstantAccessEndpointRoleV1Request')
 
 
+@dataclasses.dataclass
 class UpdateProtectionGroupInstantAccessEndpointRoleV1Request:
     """Implementation of the 'UpdateProtectionGroupInstantAccessEndpointRoleV1Request' model.
 
     Attributes:
-        updated_role_alias:
-            The updated descriptive alias of the IAM role. The current alias will be
+        UpdatedRoleAlias:
+            The updated descriptive alias of the iam role. the current alias will be
             retained if
             empty updated_role_alias is passed.
-        updated_role_arn:
-            The updated ARN of the IAM role to allow access to the endpoint. The role must
+
+        UpdatedRoleArn:
+            The updated arn of the iam role to allow access to the endpoint. the role must
             be
-            accessible from an AWS account registered with Clumio. The current ARN will be
+            accessible from an aws account registered with clumio. the current arn will be
             retained
             if empty updated_role_arn is passed.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'updated_role_alias': 'updated_role_alias',
-        'updated_role_arn': 'updated_role_arn',
-    }
+    UpdatedRoleAlias: str | None = None
+    UpdatedRoleArn: str | None = None
 
-    def __init__(
-        self, updated_role_alias: str | None = None, updated_role_arn: str | None = None
-    ) -> None:
-        """Constructor for the UpdateProtectionGroupInstantAccessEndpointRoleV1Request class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.updated_role_alias: str | None = updated_role_alias
-        self.updated_role_arn: str | None = updated_role_arn
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -50,8 +66,8 @@ class UpdateProtectionGroupInstantAccessEndpointRoleV1Request:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('updated_role_alias', None)
         val_updated_role_alias = val
@@ -64,3 +80,19 @@ class UpdateProtectionGroupInstantAccessEndpointRoleV1Request:
             val_updated_role_alias,
             val_updated_role_arn,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

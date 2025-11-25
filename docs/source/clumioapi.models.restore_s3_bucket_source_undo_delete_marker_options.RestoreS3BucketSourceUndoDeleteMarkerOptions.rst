@@ -17,10 +17,18 @@ clumioapi.models.restore\_s3\_bucket\_source\_undo\_delete\_marker\_options.Rest
    .. autosummary::
    
       ~RestoreS3BucketSourceUndoDeleteMarkerOptions.__init__
+      ~RestoreS3BucketSourceUndoDeleteMarkerOptions.dict
       ~RestoreS3BucketSourceUndoDeleteMarkerOptions.from_dictionary
+      ~RestoreS3BucketSourceUndoDeleteMarkerOptions.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~RestoreS3BucketSourceUndoDeleteMarkerOptions.StartTimestamp
    
    

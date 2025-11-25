@@ -1,33 +1,53 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='S3TemplateInfo')
 
 
+@dataclasses.dataclass
 class S3TemplateInfo:
     """Implementation of the 'S3TemplateInfo' model.
 
     The latest available information for the S3 feature.
 
     Attributes:
-        available_template_version:
+        AvailableTemplateVersion:
             The latest available feature version for the asset.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {'available_template_version': 'available_template_version'}
+    AvailableTemplateVersion: str | None = None
 
-    def __init__(self, available_template_version: str | None = None) -> None:
-        """Constructor for the S3TemplateInfo class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.available_template_version: str | None = available_template_version
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -38,8 +58,8 @@ class S3TemplateInfo:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('available_template_version', None)
         val_available_template_version = val
@@ -48,3 +68,19 @@ class S3TemplateInfo:
         return cls(
             val_available_template_version,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

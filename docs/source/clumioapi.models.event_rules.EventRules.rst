@@ -17,10 +17,19 @@ clumioapi.models.event\_rules.EventRules
    .. autosummary::
    
       ~EventRules.__init__
+      ~EventRules.dict
       ~EventRules.from_dictionary
+      ~EventRules.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~EventRules.CloudtrailRuleArn
+      ~EventRules.CloudwatchRuleArn
    
    

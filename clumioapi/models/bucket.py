@@ -1,9 +1,10 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import aws_tag_model as aws_tag_model_
 from clumioapi.models import bucket_links as bucket_links_
 from clumioapi.models import \
@@ -13,171 +14,149 @@ from clumioapi.models import s3_cloudwatch_metrics as s3_cloudwatch_metrics_
 from clumioapi.models import s3_encryption_output as s3_encryption_output_
 from clumioapi.models import s3_replication_output as s3_replication_output_
 from clumioapi.models import s3_versioning_output as s3_versioning_output_
+import requests
 
 T = TypeVar('T', bound='Bucket')
 
 
+@dataclasses.dataclass
 class Bucket:
     """Implementation of the 'Bucket' model.
 
     Attributes:
-        embedded:
+        Embedded:
             Embedded responses related to the resource.
-        links:
-            URLs to pages related to the resource.
-        account_native_id:
-            The AWS-assigned ID of the account associated with the S3 bucket.
-        aws_region:
-            The AWS region associated with the S3 bucket.
-        bucket_size_bytes_breakdown:
-            The total size breakdown of S3 buckets in bytes per storage class. This
+
+        Links:
+            Urls to pages related to the resource.
+
+        AccountNativeId:
+            The aws-assigned id of the account associated with the s3 bucket.
+
+        AwsRegion:
+            The aws region associated with the s3 bucket.
+
+        BucketSizeBytesBreakdown:
+            The total size breakdown of s3 buckets in bytes per storage class. this
             parameter aggregates relevant fields from cloudwatch_metrics >
-            size_bytes_per_storage_class
-        cloudwatch_metrics:
-            The Cloudwatch metrics of the bucket.
-        creation_timestamp:
-            The timestamp of when the bucket was created. Represented in RFC-3339 format.
-        encryption_setting:
-            The AWS encryption output of the bucket.
-        environment_id:
-            The Clumio-assigned ID of the AWS environment associated with the S3 bucket.
-        event_bridge_enabled:
-            The EventBridge enablement state for the S3 bucket.
-        p_id:
-            The Clumio-assigned ID of the bucket.
-        is_encryption_enabled:
-            The Encryption enablement state for the S3 bucket.
-        is_replication_enabled:
-            The Replication enablement state for the S3 bucket.
-        is_versioning_enabled:
-            The Versioning enablement state for the S3 bucket.
-        last_backtrack_sync_timestamp:
-            Time of the last S3 Backtrack sync in RFC-3339 format.
-        last_backup_timestamp:
-            Time of the last backup in RFC-3339 format.
-        last_continuous_backup_timestamp:
-            Time of the last continuous backup in RFC-3339 format.
-        name:
-            The AWS-assigned name of the bucket.
-        object_count:
+            size_bytes_per_storage_class.
+
+        CloudwatchMetrics:
+            The cloudwatch metrics of the bucket.
+
+        CreationTimestamp:
+            The timestamp of when the bucket was created. represented in rfc-3339 format.
+
+        EncryptionSetting:
+            The aws encryption output of the bucket.
+
+        EnvironmentId:
+            The clumio-assigned id of the aws environment associated with the s3 bucket.
+
+        EventBridgeEnabled:
+            The eventbridge enablement state for the s3 bucket.
+
+        Id:
+            The clumio-assigned id of the bucket.
+
+        IsEncryptionEnabled:
+            The encryption enablement state for the s3 bucket.
+
+        IsReplicationEnabled:
+            The replication enablement state for the s3 bucket.
+
+        IsVersioningEnabled:
+            The versioning enablement state for the s3 bucket.
+
+        LastBacktrackSyncTimestamp:
+            Time of the last s3 backtrack sync in rfc-3339 format.
+
+        LastBackupTimestamp:
+            Time of the last backup in rfc-3339 format.
+
+        LastContinuousBackupTimestamp:
+            Time of the last continuous backup in rfc-3339 format.
+
+        Name:
+            The aws-assigned name of the bucket.
+
+        ObjectCount:
             Number of objects in bucket.
-        organizational_unit_id:
-            The Clumio-assigned ID of the organizational unit associated with the S3 bucket.
-        protection_group_count:
+
+        OrganizationalUnitId:
+            The clumio-assigned id of the organizational unit associated with the s3 bucket.
+
+        ProtectionGroupCount:
             Protection group count reflects how many protection groups are linked to this
             bucket.
-        replication_setting:
-            The AWS replication output of the bucket.
-        size_bytes:
+
+        ReplicationSetting:
+            The aws replication output of the bucket.
+
+        SizeBytes:
             Size of bucket in bytes.
-        tags:
-            The AWS tags applied to the S3 bucket.
-        versioning_setting:
-            The AWS versioning output of the bucket.
+
+        Tags:
+            The aws tags applied to the s3 bucket.
+
+        VersioningSetting:
+            The aws versioning output of the bucket.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'embedded': '_embedded',
-        'links': '_links',
-        'account_native_id': 'account_native_id',
-        'aws_region': 'aws_region',
-        'bucket_size_bytes_breakdown': 'bucket_size_bytes_breakdown',
-        'cloudwatch_metrics': 'cloudwatch_metrics',
-        'creation_timestamp': 'creation_timestamp',
-        'encryption_setting': 'encryption_setting',
-        'environment_id': 'environment_id',
-        'event_bridge_enabled': 'event_bridge_enabled',
-        'p_id': 'id',
-        'is_encryption_enabled': 'is_encryption_enabled',
-        'is_replication_enabled': 'is_replication_enabled',
-        'is_versioning_enabled': 'is_versioning_enabled',
-        'last_backtrack_sync_timestamp': 'last_backtrack_sync_timestamp',
-        'last_backup_timestamp': 'last_backup_timestamp',
-        'last_continuous_backup_timestamp': 'last_continuous_backup_timestamp',
-        'name': 'name',
-        'object_count': 'object_count',
-        'organizational_unit_id': 'organizational_unit_id',
-        'protection_group_count': 'protection_group_count',
-        'replication_setting': 'replication_setting',
-        'size_bytes': 'size_bytes',
-        'tags': 'tags',
-        'versioning_setting': 'versioning_setting',
-    }
+    Embedded: object | None = None
+    Links: bucket_links_.BucketLinks | None = None
+    AccountNativeId: str | None = None
+    AwsRegion: str | None = None
+    BucketSizeBytesBreakdown: (
+        s3_buckets_inventory_summary_bucket_size_breakdown_.S3BucketsInventorySummaryBucketSizeBreakdown
+        | None
+    ) = None
+    CloudwatchMetrics: s3_cloudwatch_metrics_.S3CloudwatchMetrics | None = None
+    CreationTimestamp: str | None = None
+    EncryptionSetting: s3_encryption_output_.S3EncryptionOutput | None = None
+    EnvironmentId: str | None = None
+    EventBridgeEnabled: bool | None = None
+    Id: str | None = None
+    IsEncryptionEnabled: bool | None = None
+    IsReplicationEnabled: bool | None = None
+    IsVersioningEnabled: bool | None = None
+    LastBacktrackSyncTimestamp: str | None = None
+    LastBackupTimestamp: str | None = None
+    LastContinuousBackupTimestamp: str | None = None
+    Name: str | None = None
+    ObjectCount: int | None = None
+    OrganizationalUnitId: str | None = None
+    ProtectionGroupCount: int | None = None
+    ReplicationSetting: s3_replication_output_.S3ReplicationOutput | None = None
+    SizeBytes: int | None = None
+    Tags: Sequence[aws_tag_model_.AwsTagModel] | None = None
+    VersioningSetting: s3_versioning_output_.S3VersioningOutput | None = None
 
-    def __init__(
-        self,
-        embedded: object | None = None,
-        links: bucket_links_.BucketLinks | None = None,
-        account_native_id: str | None = None,
-        aws_region: str | None = None,
-        bucket_size_bytes_breakdown: (
-            s3_buckets_inventory_summary_bucket_size_breakdown_.S3BucketsInventorySummaryBucketSizeBreakdown
-            | None
-        ) = None,
-        cloudwatch_metrics: s3_cloudwatch_metrics_.S3CloudwatchMetrics | None = None,
-        creation_timestamp: str | None = None,
-        encryption_setting: s3_encryption_output_.S3EncryptionOutput | None = None,
-        environment_id: str | None = None,
-        event_bridge_enabled: bool | None = None,
-        p_id: str | None = None,
-        is_encryption_enabled: bool | None = None,
-        is_replication_enabled: bool | None = None,
-        is_versioning_enabled: bool | None = None,
-        last_backtrack_sync_timestamp: str | None = None,
-        last_backup_timestamp: str | None = None,
-        last_continuous_backup_timestamp: str | None = None,
-        name: str | None = None,
-        object_count: int | None = None,
-        organizational_unit_id: str | None = None,
-        protection_group_count: int | None = None,
-        replication_setting: s3_replication_output_.S3ReplicationOutput | None = None,
-        size_bytes: int | None = None,
-        tags: Sequence[aws_tag_model_.AwsTagModel] | None = None,
-        versioning_setting: s3_versioning_output_.S3VersioningOutput | None = None,
-    ) -> None:
-        """Constructor for the Bucket class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.embedded: object | None = embedded
-        self.links: bucket_links_.BucketLinks | None = links
-        self.account_native_id: str | None = account_native_id
-        self.aws_region: str | None = aws_region
-        self.bucket_size_bytes_breakdown: (
-            s3_buckets_inventory_summary_bucket_size_breakdown_.S3BucketsInventorySummaryBucketSizeBreakdown
-            | None
-        ) = bucket_size_bytes_breakdown
-        self.cloudwatch_metrics: s3_cloudwatch_metrics_.S3CloudwatchMetrics | None = (
-            cloudwatch_metrics
-        )
-        self.creation_timestamp: str | None = creation_timestamp
-        self.encryption_setting: s3_encryption_output_.S3EncryptionOutput | None = (
-            encryption_setting
-        )
-        self.environment_id: str | None = environment_id
-        self.event_bridge_enabled: bool | None = event_bridge_enabled
-        self.p_id: str | None = p_id
-        self.is_encryption_enabled: bool | None = is_encryption_enabled
-        self.is_replication_enabled: bool | None = is_replication_enabled
-        self.is_versioning_enabled: bool | None = is_versioning_enabled
-        self.last_backtrack_sync_timestamp: str | None = last_backtrack_sync_timestamp
-        self.last_backup_timestamp: str | None = last_backup_timestamp
-        self.last_continuous_backup_timestamp: str | None = last_continuous_backup_timestamp
-        self.name: str | None = name
-        self.object_count: int | None = object_count
-        self.organizational_unit_id: str | None = organizational_unit_id
-        self.protection_group_count: int | None = protection_group_count
-        self.replication_setting: s3_replication_output_.S3ReplicationOutput | None = (
-            replication_setting
-        )
-        self.size_bytes: int | None = size_bytes
-        self.tags: Sequence[aws_tag_model_.AwsTagModel] | None = tags
-        self.versioning_setting: s3_versioning_output_.S3VersioningOutput | None = (
-            versioning_setting
-        )
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -188,8 +167,8 @@ class Bucket:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('_embedded', None)
         val_embedded = val
@@ -224,7 +203,7 @@ class Bucket:
         val_event_bridge_enabled = val
 
         val = dictionary.get('id', None)
-        val_p_id = val
+        val_id = val
 
         val = dictionary.get('is_encryption_enabled', None)
         val_is_encryption_enabled = val
@@ -264,9 +243,8 @@ class Bucket:
 
         val = dictionary.get('tags', None)
 
-        val_tags = None
+        val_tags = []
         if val:
-            val_tags = list()
             for value in val:
                 val_tags.append(aws_tag_model_.AwsTagModel.from_dictionary(value))
 
@@ -285,7 +263,7 @@ class Bucket:
             val_encryption_setting,
             val_environment_id,
             val_event_bridge_enabled,
-            val_p_id,
+            val_id,
             val_is_encryption_enabled,
             val_is_replication_enabled,
             val_is_versioning_enabled,
@@ -301,3 +279,19 @@ class Bucket:
             val_tags,
             val_versioning_setting,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

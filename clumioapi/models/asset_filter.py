@@ -1,15 +1,18 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import asset_group_filter as asset_group_filter_
 from clumioapi.models import tag as tag_
+import requests
 
 T = TypeVar('T', bound='AssetFilter')
 
 
+@dataclasses.dataclass
 class AssetFilter:
     """Implementation of the 'AssetFilter' model.
 
@@ -17,33 +20,46 @@ class AssetFilter:
     controls.
 
     Attributes:
-        groups:
+        Groups:
             The asset groups to be filtered.
-        tag_op_mode:
-            The tag filter operation to be applied to the given tags. This is supported for
-            AWS assets only.
-        tags:
-            The asset tags to be filtered. This is supported for AWS assets only.
+
+        TagOpMode:
+            The tag filter operation to be applied to the given tags. this is supported for
+            aws assets only.
+
+        Tags:
+            The asset tags to be filtered. this is supported for aws assets only.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {'groups': 'groups', 'tag_op_mode': 'tag_op_mode', 'tags': 'tags'}
+    Groups: Sequence[asset_group_filter_.AssetGroupFilter] | None = None
+    TagOpMode: str | None = None
+    Tags: Sequence[tag_.Tag] | None = None
 
-    def __init__(
-        self,
-        groups: Sequence[asset_group_filter_.AssetGroupFilter] | None = None,
-        tag_op_mode: str | None = None,
-        tags: Sequence[tag_.Tag] | None = None,
-    ) -> None:
-        """Constructor for the AssetFilter class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.groups: Sequence[asset_group_filter_.AssetGroupFilter] | None = groups
-        self.tag_op_mode: str | None = tag_op_mode
-        self.tags: Sequence[tag_.Tag] | None = tags
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -54,14 +70,13 @@ class AssetFilter:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('groups', None)
 
-        val_groups = None
+        val_groups = []
         if val:
-            val_groups = list()
             for value in val:
                 val_groups.append(asset_group_filter_.AssetGroupFilter.from_dictionary(value))
 
@@ -70,9 +85,8 @@ class AssetFilter:
 
         val = dictionary.get('tags', None)
 
-        val_tags = None
+        val_tags = []
         if val:
-            val_tags = list()
             for value in val:
                 val_tags.append(tag_.Tag.from_dictionary(value))
 
@@ -82,3 +96,19 @@ class AssetFilter:
             val_tag_op_mode,
             val_tags,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

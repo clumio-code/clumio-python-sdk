@@ -1,55 +1,68 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='RdsInstanceModel')
 
 
+@dataclasses.dataclass
 class RdsInstanceModel:
     """Implementation of the 'RdsInstanceModel' model.
 
     Attributes:
-        p_class:
-            The class of the RDS instance at the time of backup. Possible values include
+        Class:
+            The class of the rds instance at the time of backup. possible values include
             `db.r5.2xlarge` and `db.t2.small`.
-            For a full list of possible values, refer to the Amazon documentation at
-            https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.
+            for a full list of possible values, refer to the amazon documentation at
+            https://docs.aws.amazon.com/amazonrds/latest/userguide/concepts.dbinstanceclass.
             html.
-        is_publicly_accessible:
-            Determines whether the RDS instance had a public IP address in addition to the
-            private IP address at the time of backup.
-            For more information about the public access option, refer to the Amazon
+
+        IsPubliclyAccessible:
+            Determines whether the rds instance had a public ip address in addition to the
+            private ip address at the time of backup.
+            for more information about the public access option, refer to the amazon
             documentation at
-            https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_VPC.WorkingWithRDSIn
-            stanceinaVPC.html.
-        name:
-            The AWS-assigned name of the RDS instance at the time of backup.
+            https://docs.aws.amazon.com/amazonrds/latest/userguide/user_vpc.workingwithrdsin
+            stanceinavpc.html.
+
+        Name:
+            The aws-assigned name of the rds instance at the time of backup.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'p_class': 'class',
-        'is_publicly_accessible': 'is_publicly_accessible',
-        'name': 'name',
-    }
+    Class: str | None = None
+    IsPubliclyAccessible: bool | None = None
+    Name: str | None = None
 
-    def __init__(
-        self,
-        p_class: str | None = None,
-        is_publicly_accessible: bool | None = None,
-        name: str | None = None,
-    ) -> None:
-        """Constructor for the RdsInstanceModel class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.p_class: str | None = p_class
-        self.is_publicly_accessible: bool | None = is_publicly_accessible
-        self.name: str | None = name
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -60,11 +73,11 @@ class RdsInstanceModel:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('class', None)
-        val_p_class = val
+        val_class = val
 
         val = dictionary.get('is_publicly_accessible', None)
         val_is_publicly_accessible = val
@@ -74,7 +87,23 @@ class RdsInstanceModel:
 
         # Return an object of this model
         return cls(
-            val_p_class,
+            val_class,
             val_is_publicly_accessible,
             val_name,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

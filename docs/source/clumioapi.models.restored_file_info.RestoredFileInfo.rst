@@ -17,10 +17,25 @@ clumioapi.models.restored\_file\_info.RestoredFileInfo
    .. autosummary::
    
       ~RestoredFileInfo.__init__
+      ~RestoredFileInfo.dict
       ~RestoredFileInfo.from_dictionary
+      ~RestoredFileInfo.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~RestoredFileInfo.AccessMethods
+      ~RestoredFileInfo.BackupId
+      ~RestoredFileInfo.BackupTimestamp
+      ~RestoredFileInfo.ExpirationTimestamp
+      ~RestoredFileInfo.Id
+      ~RestoredFileInfo.Name
+      ~RestoredFileInfo.Size
+      ~RestoredFileInfo.TaskId
    
    

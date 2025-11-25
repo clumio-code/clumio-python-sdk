@@ -1,54 +1,66 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='ClumioRuleResource')
 
 
+@dataclasses.dataclass
 class ClumioRuleResource:
     """Implementation of the 'ClumioRuleResource' model.
 
     Attributes:
-        description:
-            "description" is optional
-        event_pattern:
-            "event_pattern" has stringified JSON blob. The user has to JSONify it and then
+        Description:
+            "description" is optional.
+
+        EventPattern:
+            "event_pattern" has stringified json blob. the user has to jsonify it and then
             paste
-            the JSONified blob in aws console while creating the rule.
-        steps:
-            "steps" refers to commands to be executed
-        targets:
-            "targets" is a string that essentially stores the target for the rule. It
-            generally is an ARN.
+            the jsonified blob in aws console while creating the rule.
+
+        Steps:
+            "steps" refers to commands to be executed.
+
+        Targets:
+            "targets" is a string that essentially stores the target for the rule. it
+            generally is an arn.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'description': 'description',
-        'event_pattern': 'event_pattern',
-        'steps': 'steps',
-        'targets': 'targets',
-    }
+    Description: str | None = None
+    EventPattern: object | None = None
+    Steps: str | None = None
+    Targets: Sequence[object] | None = None
 
-    def __init__(
-        self,
-        description: str | None = None,
-        event_pattern: object | None = None,
-        steps: str | None = None,
-        targets: Sequence[object] | None = None,
-    ) -> None:
-        """Constructor for the ClumioRuleResource class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.description: str | None = description
-        self.event_pattern: object | None = event_pattern
-        self.steps: str | None = steps
-        self.targets: Sequence[object] | None = targets
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -59,8 +71,8 @@ class ClumioRuleResource:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('description', None)
         val_description = val
@@ -81,3 +93,19 @@ class ClumioRuleResource:
             val_steps,
             val_targets,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

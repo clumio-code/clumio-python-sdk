@@ -17,10 +17,18 @@ clumioapi.models.rds\_asset\_info.RdsAssetInfo
    .. autosummary::
    
       ~RdsAssetInfo.__init__
+      ~RdsAssetInfo.dict
       ~RdsAssetInfo.from_dictionary
+      ~RdsAssetInfo.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~RdsAssetInfo.InstalledTemplateVersion
    
    

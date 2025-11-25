@@ -24,11 +24,4 @@ clumioapi.controllers.auto\_user\_provisioning\_settings\_v1.AutoUserProvisionin
 
    
    
-   .. rubric:: Attributes
-
-   .. autosummary::
-   
-      ~AutoUserProvisioningSettingsV1Controller.client
-      ~AutoUserProvisioningSettingsV1Controller.global_headers
-   
    

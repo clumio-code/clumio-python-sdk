@@ -17,10 +17,26 @@ clumioapi.models.list\_permissions\_response.ListPermissionsResponse
    .. autosummary::
    
       ~ListPermissionsResponse.__init__
+      ~ListPermissionsResponse.dict
       ~ListPermissionsResponse.from_dictionary
+      ~ListPermissionsResponse.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ListPermissionsResponse.CurrentCount
+      ~ListPermissionsResponse.Embedded
+      ~ListPermissionsResponse.FilterApplied
+      ~ListPermissionsResponse.Limit
+      ~ListPermissionsResponse.Links
+      ~ListPermissionsResponse.Start
+      ~ListPermissionsResponse.TotalCount
+      ~ListPermissionsResponse.TotalPagesCount
+      ~ListPermissionsResponse.raw_response
    
    

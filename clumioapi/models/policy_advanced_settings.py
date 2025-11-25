@@ -1,9 +1,10 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import ebs_backup_advanced_setting as ebs_backup_advanced_setting_
 from clumioapi.models import ec2_backup_advanced_setting as ec2_backup_advanced_setting_
 from clumioapi.models import \
@@ -26,10 +27,12 @@ from clumioapi.models import \
 from clumioapi.models import rds_config_sync_advanced_setting as rds_config_sync_advanced_setting_
 from clumioapi.models import \
     rds_logical_backup_advanced_setting as rds_logical_backup_advanced_setting_
+import requests
 
 T = TypeVar('T', bound='PolicyAdvancedSettings')
 
 
+@dataclasses.dataclass
 class PolicyAdvancedSettings:
     """Implementation of the 'PolicyAdvancedSettings' model.
 
@@ -37,157 +40,123 @@ class PolicyAdvancedSettings:
     support additional settings, this field is `null`.
 
     Attributes:
-        aws_ebs_volume_backup:
-            Advanced settings for EBS backup.
-        aws_ec2_instance_backup:
-            Advanced settings for EC2 backup.
-        aws_iceberg_table_backup:
-            IcebergBackupAdvancedSetting defines the advanced settings for Iceberg backup
-            operations
-        aws_rds_config_sync:
-            Advanced settings for RDS PITR configuration sync.
-        aws_rds_resource_granular_backup:
-            Settings for determining if a RDS policy is created with standard or archive
+        AwsEbsVolumeBackup:
+            Advanced settings for ebs backup.
+
+        AwsEc2InstanceBackup:
+            Advanced settings for ec2 backup.
+
+        AwsIcebergTableBackup:
+            Icebergbackupadvancedsetting defines the advanced settings for iceberg backup
+            operations.
+
+        AwsRdsConfigSync:
+            Advanced settings for rds pitr configuration sync.
+
+        AwsRdsResourceGranularBackup:
+            Settings for determining if a rds policy is created with standard or archive
             tier.
-        ec2_mssql_database_backup:
+
+        Ec2MssqlDatabaseBackup:
             Additional policy configuration settings for the `ec2_mssql_database_backup`
-            operation. If this operation is not of type `ec2_mssql_database_backup`, then
+            operation. if this operation is not of type `ec2_mssql_database_backup`, then
             this field is omitted from the response.
-        ec2_mssql_log_backup:
+
+        Ec2MssqlLogBackup:
             Additional policy configuration settings for the `ec2_mssql_log_backup`
-            operation. If this operation is not of type `ec2_mssql_log_backup`, then this
+            operation. if this operation is not of type `ec2_mssql_log_backup`, then this
             field is omitted from the response.
-        mssql_database_backup:
+
+        MssqlDatabaseBackup:
             Additional policy configuration settings for the `mssql_database_backup`
-            operation. If this operation is not of type `mssql_database_backup`, then this
+            operation. if this operation is not of type `mssql_database_backup`, then this
             field is omitted from the response.
-        mssql_log_backup:
+
+        MssqlLogBackup:
             Additional policy configuration settings for the `mssql_log_backup` operation.
-            If this operation is not of type `mssql_log_backup`, then this field is omitted
+            if this operation is not of type `mssql_log_backup`, then this field is omitted
             from the response.
-        oracle_database_backup:
+
+        OracleDatabaseBackup:
             Additional policy configuration settings for the `oracle_database_backup`
-            operation. If this operation is not of type `oracle_database_backup`, then this
+            operation. if this operation is not of type `oracle_database_backup`, then this
             field is omitted from the response.
-        oracle_log_backup:
+
+        OracleLogBackup:
             Additional policy configuration settings for the `oracle_log_backup` operation.
-            If this operation is not of type `oracle_log_backup`, then this field is omitted
+            if this operation is not of type `oracle_log_backup`, then this field is omitted
             from the response.
-        protection_group_backup:
+
+        ProtectionGroupBackup:
             Additional policy configuration settings for the `protection_group_backup`
-            operation. If this operation is not of type `protection_group_backup`, then this
+            operation. if this operation is not of type `protection_group_backup`, then this
             field is omitted from the response.
-        protection_group_continuous_backup:
+
+        ProtectionGroupContinuousBackup:
             Additional policy configuration settings for the
-            `protection_group_continuous_backup` operation. If this operation is not of type
+            `protection_group_continuous_backup` operation. if this operation is not of type
             `protection_group_continuous_backup`, then this field is omitted from the
             response.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'aws_ebs_volume_backup': 'aws_ebs_volume_backup',
-        'aws_ec2_instance_backup': 'aws_ec2_instance_backup',
-        'aws_iceberg_table_backup': 'aws_iceberg_table_backup',
-        'aws_rds_config_sync': 'aws_rds_config_sync',
-        'aws_rds_resource_granular_backup': 'aws_rds_resource_granular_backup',
-        'ec2_mssql_database_backup': 'ec2_mssql_database_backup',
-        'ec2_mssql_log_backup': 'ec2_mssql_log_backup',
-        'mssql_database_backup': 'mssql_database_backup',
-        'mssql_log_backup': 'mssql_log_backup',
-        'oracle_database_backup': 'oracle_database_backup',
-        'oracle_log_backup': 'oracle_log_backup',
-        'protection_group_backup': 'protection_group_backup',
-        'protection_group_continuous_backup': 'protection_group_continuous_backup',
-    }
+    AwsEbsVolumeBackup: ebs_backup_advanced_setting_.EBSBackupAdvancedSetting | None = None
+    AwsEc2InstanceBackup: ec2_backup_advanced_setting_.EC2BackupAdvancedSetting | None = None
+    AwsIcebergTableBackup: iceberg_backup_advanced_setting_.IcebergBackupAdvancedSetting | None = (
+        None
+    )
+    AwsRdsConfigSync: rds_config_sync_advanced_setting_.RDSConfigSyncAdvancedSetting | None = None
+    AwsRdsResourceGranularBackup: (
+        rds_logical_backup_advanced_setting_.RDSLogicalBackupAdvancedSetting | None
+    ) = None
+    Ec2MssqlDatabaseBackup: (
+        ec2_mssql_database_backup_advanced_setting_.EC2MSSQLDatabaseBackupAdvancedSetting | None
+    ) = None
+    Ec2MssqlLogBackup: (
+        ec2_mssql_log_backup_advanced_setting_.EC2MSSQLLogBackupAdvancedSetting | None
+    ) = None
+    MssqlDatabaseBackup: (
+        mssql_database_backup_advanced_setting_.MSSQLDatabaseBackupAdvancedSetting | None
+    ) = None
+    MssqlLogBackup: mssql_log_backup_advanced_setting_.MSSQLLogBackupAdvancedSetting | None = None
+    OracleDatabaseBackup: (
+        oracle_database_backup_advanced_setting_.OracleDatabaseBackupAdvancedSetting | None
+    ) = None
+    OracleLogBackup: oracle_log_backup_advanced_setting_.OracleLogBackupAdvancedSetting | None = (
+        None
+    )
+    ProtectionGroupBackup: (
+        protection_group_backup_advanced_setting_.ProtectionGroupBackupAdvancedSetting | None
+    ) = None
+    ProtectionGroupContinuousBackup: (
+        protection_group_continuous_backup_advanced_setting_.ProtectionGroupContinuousBackupAdvancedSetting
+        | None
+    ) = None
 
-    def __init__(
-        self,
-        aws_ebs_volume_backup: ebs_backup_advanced_setting_.EBSBackupAdvancedSetting | None = None,
-        aws_ec2_instance_backup: (
-            ec2_backup_advanced_setting_.EC2BackupAdvancedSetting | None
-        ) = None,
-        aws_iceberg_table_backup: (
-            iceberg_backup_advanced_setting_.IcebergBackupAdvancedSetting | None
-        ) = None,
-        aws_rds_config_sync: (
-            rds_config_sync_advanced_setting_.RDSConfigSyncAdvancedSetting | None
-        ) = None,
-        aws_rds_resource_granular_backup: (
-            rds_logical_backup_advanced_setting_.RDSLogicalBackupAdvancedSetting | None
-        ) = None,
-        ec2_mssql_database_backup: (
-            ec2_mssql_database_backup_advanced_setting_.EC2MSSQLDatabaseBackupAdvancedSetting | None
-        ) = None,
-        ec2_mssql_log_backup: (
-            ec2_mssql_log_backup_advanced_setting_.EC2MSSQLLogBackupAdvancedSetting | None
-        ) = None,
-        mssql_database_backup: (
-            mssql_database_backup_advanced_setting_.MSSQLDatabaseBackupAdvancedSetting | None
-        ) = None,
-        mssql_log_backup: (
-            mssql_log_backup_advanced_setting_.MSSQLLogBackupAdvancedSetting | None
-        ) = None,
-        oracle_database_backup: (
-            oracle_database_backup_advanced_setting_.OracleDatabaseBackupAdvancedSetting | None
-        ) = None,
-        oracle_log_backup: (
-            oracle_log_backup_advanced_setting_.OracleLogBackupAdvancedSetting | None
-        ) = None,
-        protection_group_backup: (
-            protection_group_backup_advanced_setting_.ProtectionGroupBackupAdvancedSetting | None
-        ) = None,
-        protection_group_continuous_backup: (
-            protection_group_continuous_backup_advanced_setting_.ProtectionGroupContinuousBackupAdvancedSetting
-            | None
-        ) = None,
-    ) -> None:
-        """Constructor for the PolicyAdvancedSettings class."""
-
-        # Initialize members of the class
-        self.aws_ebs_volume_backup: ebs_backup_advanced_setting_.EBSBackupAdvancedSetting | None = (
-            aws_ebs_volume_backup
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
         )
-        self.aws_ec2_instance_backup: (
-            ec2_backup_advanced_setting_.EC2BackupAdvancedSetting | None
-        ) = aws_ec2_instance_backup
-        self.aws_iceberg_table_backup: (
-            iceberg_backup_advanced_setting_.IcebergBackupAdvancedSetting | None
-        ) = aws_iceberg_table_backup
-        self.aws_rds_config_sync: (
-            rds_config_sync_advanced_setting_.RDSConfigSyncAdvancedSetting | None
-        ) = aws_rds_config_sync
-        self.aws_rds_resource_granular_backup: (
-            rds_logical_backup_advanced_setting_.RDSLogicalBackupAdvancedSetting | None
-        ) = aws_rds_resource_granular_backup
-        self.ec2_mssql_database_backup: (
-            ec2_mssql_database_backup_advanced_setting_.EC2MSSQLDatabaseBackupAdvancedSetting | None
-        ) = ec2_mssql_database_backup
-        self.ec2_mssql_log_backup: (
-            ec2_mssql_log_backup_advanced_setting_.EC2MSSQLLogBackupAdvancedSetting | None
-        ) = ec2_mssql_log_backup
-        self.mssql_database_backup: (
-            mssql_database_backup_advanced_setting_.MSSQLDatabaseBackupAdvancedSetting | None
-        ) = mssql_database_backup
-        self.mssql_log_backup: (
-            mssql_log_backup_advanced_setting_.MSSQLLogBackupAdvancedSetting | None
-        ) = mssql_log_backup
-        self.oracle_database_backup: (
-            oracle_database_backup_advanced_setting_.OracleDatabaseBackupAdvancedSetting | None
-        ) = oracle_database_backup
-        self.oracle_log_backup: (
-            oracle_log_backup_advanced_setting_.OracleLogBackupAdvancedSetting | None
-        ) = oracle_log_backup
-        self.protection_group_backup: (
-            protection_group_backup_advanced_setting_.ProtectionGroupBackupAdvancedSetting | None
-        ) = protection_group_backup
-        self.protection_group_continuous_backup: (
-            protection_group_continuous_backup_advanced_setting_.ProtectionGroupContinuousBackupAdvancedSetting
-            | None
-        ) = protection_group_continuous_backup
+
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -198,8 +167,8 @@ class PolicyAdvancedSettings:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('aws_ebs_volume_backup', None)
         val_aws_ebs_volume_backup = (
@@ -286,3 +255,19 @@ class PolicyAdvancedSettings:
             val_protection_group_backup,
             val_protection_group_continuous_backup,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

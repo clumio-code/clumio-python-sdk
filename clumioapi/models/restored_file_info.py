@@ -1,82 +1,89 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import data_access_object as data_access_object_
+import requests
 
 T = TypeVar('T', bound='RestoredFileInfo')
 
 
+@dataclasses.dataclass
 class RestoredFileInfo:
     """Implementation of the 'RestoredFileInfo' model.
 
     Attributes:
-        access_methods:
-            The access options for this restored file. Users can access the restored file in
+        AccessMethods:
+            The access options for this restored file. users can access the restored file in
             one of two ways, depending on the option selected by the user who generated the
-            restored file. The direct download (`direct_download`) option allows users to
-            directly download the restored file from the Clumio UI. The email (`email`)
+            restored file. the direct download (`direct_download`) option allows users to
+            directly download the restored file from the clumio ui. the email (`email`)
             option
             allows users to access the restored file using a downloadable link they receive
             by
             email.
-        backup_id:
-            The Clumio-assigned ID of the backup associated with this restored file.
-        backup_timestamp:
+
+        BackupId:
+            The clumio-assigned id of the backup associated with this restored file.
+
+        BackupTimestamp:
             The timestamp of the when the backup associated with this file started.
-            Represented in RFC-3339 format.
-        expiration_timestamp:
-            The timestamp of when the restored file will expire. Represented in RFC-3339
+            represented in rfc-3339 format.
+
+        ExpirationTimestamp:
+            The timestamp of when the restored file will expire. represented in rfc-3339
             format.
-        p_id:
-            The Clumio-assigned ID of the restored file.
-        name:
-            The Clumio-assigned name of the restored file.
-        size:
-            The size of the restored file. Measured in bytes (B).
-        task_id:
-            The Clumio-assigned ID of the task which generated the restored file.
+
+        Id:
+            The clumio-assigned id of the restored file.
+
+        Name:
+            The clumio-assigned name of the restored file.
+
+        Size:
+            The size of the restored file. measured in bytes (b).
+
+        TaskId:
+            The clumio-assigned id of the task which generated the restored file.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'access_methods': 'access_methods',
-        'backup_id': 'backup_id',
-        'backup_timestamp': 'backup_timestamp',
-        'expiration_timestamp': 'expiration_timestamp',
-        'p_id': 'id',
-        'name': 'name',
-        'size': 'size',
-        'task_id': 'task_id',
-    }
+    AccessMethods: Sequence[data_access_object_.DataAccessObject] | None = None
+    BackupId: str | None = None
+    BackupTimestamp: str | None = None
+    ExpirationTimestamp: str | None = None
+    Id: str | None = None
+    Name: str | None = None
+    Size: int | None = None
+    TaskId: str | None = None
 
-    def __init__(
-        self,
-        access_methods: Sequence[data_access_object_.DataAccessObject] | None = None,
-        backup_id: str | None = None,
-        backup_timestamp: str | None = None,
-        expiration_timestamp: str | None = None,
-        p_id: str | None = None,
-        name: str | None = None,
-        size: int | None = None,
-        task_id: str | None = None,
-    ) -> None:
-        """Constructor for the RestoredFileInfo class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.access_methods: Sequence[data_access_object_.DataAccessObject] | None = access_methods
-        self.backup_id: str | None = backup_id
-        self.backup_timestamp: str | None = backup_timestamp
-        self.expiration_timestamp: str | None = expiration_timestamp
-        self.p_id: str | None = p_id
-        self.name: str | None = name
-        self.size: int | None = size
-        self.task_id: str | None = task_id
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -87,14 +94,13 @@ class RestoredFileInfo:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('access_methods', None)
 
-        val_access_methods = None
+        val_access_methods = []
         if val:
-            val_access_methods = list()
             for value in val:
                 val_access_methods.append(
                     data_access_object_.DataAccessObject.from_dictionary(value)
@@ -110,7 +116,7 @@ class RestoredFileInfo:
         val_expiration_timestamp = val
 
         val = dictionary.get('id', None)
-        val_p_id = val
+        val_id = val
 
         val = dictionary.get('name', None)
         val_name = val
@@ -127,8 +133,24 @@ class RestoredFileInfo:
             val_backup_id,
             val_backup_timestamp,
             val_expiration_timestamp,
-            val_p_id,
+            val_id,
             val_name,
             val_size,
             val_task_id,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

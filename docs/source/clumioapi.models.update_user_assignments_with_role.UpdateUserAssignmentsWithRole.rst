@@ -17,10 +17,19 @@ clumioapi.models.update\_user\_assignments\_with\_role.UpdateUserAssignmentsWith
    .. autosummary::
    
       ~UpdateUserAssignmentsWithRole.__init__
+      ~UpdateUserAssignmentsWithRole.dict
       ~UpdateUserAssignmentsWithRole.from_dictionary
+      ~UpdateUserAssignmentsWithRole.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~UpdateUserAssignmentsWithRole.Add
+      ~UpdateUserAssignmentsWithRole.Remove
    
    

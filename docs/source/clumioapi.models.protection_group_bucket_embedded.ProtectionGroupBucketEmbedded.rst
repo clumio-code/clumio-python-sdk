@@ -17,10 +17,19 @@ clumioapi.models.protection\_group\_bucket\_embedded.ProtectionGroupBucketEmbedd
    .. autosummary::
    
       ~ProtectionGroupBucketEmbedded.__init__
+      ~ProtectionGroupBucketEmbedded.dict
       ~ProtectionGroupBucketEmbedded.from_dictionary
+      ~ProtectionGroupBucketEmbedded.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ProtectionGroupBucketEmbedded.ReadOrganizationalUnit
+      ~ProtectionGroupBucketEmbedded.ReadPolicyDefinition
    
    

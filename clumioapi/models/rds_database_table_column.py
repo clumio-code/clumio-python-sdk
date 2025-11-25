@@ -1,37 +1,58 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='RDSDatabaseTableColumn')
 
 
+@dataclasses.dataclass
 class RDSDatabaseTableColumn:
     """Implementation of the 'RDSDatabaseTableColumn' model.
 
     RDSDatabaseTableColumn denotes the model for rds database column
 
     Attributes:
-        name:
+        Name:
             The name of the column.
-        p_type:
-            The Hive data type of the column. Possible values include `int`, `bigint`,
+
+        Type:
+            The hive data type of the column. possible values include `int`, `bigint`,
             `string`, and `boolean`.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {'name': 'name', 'p_type': 'type'}
+    Name: str | None = None
+    Type: str | None = None
 
-    def __init__(self, name: str | None = None, p_type: str | None = None) -> None:
-        """Constructor for the RDSDatabaseTableColumn class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.name: str | None = name
-        self.p_type: str | None = p_type
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -42,17 +63,33 @@ class RDSDatabaseTableColumn:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('name', None)
         val_name = val
 
         val = dictionary.get('type', None)
-        val_p_type = val
+        val_type = val
 
         # Return an object of this model
         return cls(
             val_name,
-            val_p_type,
+            val_type,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

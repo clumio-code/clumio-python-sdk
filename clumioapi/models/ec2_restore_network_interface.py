@@ -1,75 +1,85 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='EC2RestoreNetworkInterface')
 
 
+@dataclasses.dataclass
 class EC2RestoreNetworkInterface:
     """Implementation of the 'EC2RestoreNetworkInterface' model.
 
     Attributes:
-        device_index:
-            The position of the network interface in the attachment order. A primary
+        DeviceIndex:
+            The position of the network interface in the attachment order. a primary
             network interface has a device index of 0.
-        network_interface_native_id:
-            The AWS-assigned ID of the existing network interface to attach to the
-            restored instance. If one wishes to restore this network interface from the
+
+        NetworkInterfaceNativeId:
+            The aws-assigned id of the existing network interface to attach to the
+            restored instance. if one wishes to restore this network interface from the
             backup,
             then this field should be set to `null`.
-        restore_default:
-            Whether or not a default network interface should be restored. It will not have
+
+        RestoreDefault:
+            Whether or not a default network interface should be restored. it will not have
             any of
             the same configurations as the backup network interface.
-        restore_from_backup:
+
+        RestoreFromBackup:
             Whether or not the network interface should be restored the backup network
             interface.
-            It will be configured with the same configurations as the backup network
+            it will be configured with the same configurations as the backup network
             interface.
-        security_group_native_ids:
-            The AWS-assigned IDs for the security groups to associate with this network
+
+        SecurityGroupNativeIds:
+            The aws-assigned ids for the security groups to associate with this network
             interface.
-            If one wishes to attach an existing network interface, then this field should be
+            if one wishes to attach an existing network interface, then this field should be
             set to `null`.
-        subnet_native_id:
-            The AWS-assigned ID of the subnet associated with the network interface.
-            If one wishes to attach an existing network interface, then this field should be
+
+        SubnetNativeId:
+            The aws-assigned id of the subnet associated with the network interface.
+            if one wishes to attach an existing network interface, then this field should be
             set to `null`.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'device_index': 'device_index',
-        'network_interface_native_id': 'network_interface_native_id',
-        'restore_default': 'restore_default',
-        'restore_from_backup': 'restore_from_backup',
-        'security_group_native_ids': 'security_group_native_ids',
-        'subnet_native_id': 'subnet_native_id',
-    }
+    DeviceIndex: int | None = None
+    NetworkInterfaceNativeId: str | None = None
+    RestoreDefault: bool | None = None
+    RestoreFromBackup: bool | None = None
+    SecurityGroupNativeIds: Sequence[str] | None = None
+    SubnetNativeId: str | None = None
 
-    def __init__(
-        self,
-        device_index: int | None = None,
-        network_interface_native_id: str | None = None,
-        restore_default: bool | None = None,
-        restore_from_backup: bool | None = None,
-        security_group_native_ids: Sequence[str] | None = None,
-        subnet_native_id: str | None = None,
-    ) -> None:
-        """Constructor for the EC2RestoreNetworkInterface class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.device_index: int | None = device_index
-        self.network_interface_native_id: str | None = network_interface_native_id
-        self.restore_default: bool | None = restore_default
-        self.restore_from_backup: bool | None = restore_from_backup
-        self.security_group_native_ids: Sequence[str] | None = security_group_native_ids
-        self.subnet_native_id: str | None = subnet_native_id
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -80,8 +90,8 @@ class EC2RestoreNetworkInterface:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('device_index', None)
         val_device_index = val
@@ -110,3 +120,19 @@ class EC2RestoreNetworkInterface:
             val_security_group_native_ids,
             val_subnet_native_id,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

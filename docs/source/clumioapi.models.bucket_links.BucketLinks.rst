@@ -17,10 +17,18 @@ clumioapi.models.bucket\_links.BucketLinks
    .. autosummary::
    
       ~BucketLinks.__init__
+      ~BucketLinks.dict
       ~BucketLinks.from_dictionary
+      ~BucketLinks.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~BucketLinks.Self
    
    

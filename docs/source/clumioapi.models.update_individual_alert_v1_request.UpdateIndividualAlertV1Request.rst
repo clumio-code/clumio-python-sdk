@@ -17,10 +17,19 @@ clumioapi.models.update\_individual\_alert\_v1\_request.UpdateIndividualAlertV1R
    .. autosummary::
    
       ~UpdateIndividualAlertV1Request.__init__
+      ~UpdateIndividualAlertV1Request.dict
       ~UpdateIndividualAlertV1Request.from_dictionary
+      ~UpdateIndividualAlertV1Request.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~UpdateIndividualAlertV1Request.Notes
+      ~UpdateIndividualAlertV1Request.Status
    
    

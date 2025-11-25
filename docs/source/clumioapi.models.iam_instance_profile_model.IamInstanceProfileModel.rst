@@ -17,10 +17,20 @@ clumioapi.models.iam\_instance\_profile\_model.IamInstanceProfileModel
    .. autosummary::
    
       ~IamInstanceProfileModel.__init__
+      ~IamInstanceProfileModel.dict
       ~IamInstanceProfileModel.from_dictionary
+      ~IamInstanceProfileModel.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~IamInstanceProfileModel.Arn
+      ~IamInstanceProfileModel.Name
+      ~IamInstanceProfileModel.NativeId
    
    

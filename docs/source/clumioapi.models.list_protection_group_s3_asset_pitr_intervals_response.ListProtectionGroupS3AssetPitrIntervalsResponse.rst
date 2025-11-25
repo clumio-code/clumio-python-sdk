@@ -17,10 +17,24 @@ clumioapi.models.list\_protection\_group\_s3\_asset\_pitr\_intervals\_response.L
    .. autosummary::
    
       ~ListProtectionGroupS3AssetPitrIntervalsResponse.__init__
+      ~ListProtectionGroupS3AssetPitrIntervalsResponse.dict
       ~ListProtectionGroupS3AssetPitrIntervalsResponse.from_dictionary
+      ~ListProtectionGroupS3AssetPitrIntervalsResponse.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ListProtectionGroupS3AssetPitrIntervalsResponse.CurrentCount
+      ~ListProtectionGroupS3AssetPitrIntervalsResponse.Embedded
+      ~ListProtectionGroupS3AssetPitrIntervalsResponse.FilterApplied
+      ~ListProtectionGroupS3AssetPitrIntervalsResponse.Limit
+      ~ListProtectionGroupS3AssetPitrIntervalsResponse.Links
+      ~ListProtectionGroupS3AssetPitrIntervalsResponse.Start
+      ~ListProtectionGroupS3AssetPitrIntervalsResponse.raw_response
    
    

@@ -17,10 +17,21 @@ clumioapi.models.wallet\_links.WalletLinks
    .. autosummary::
    
       ~WalletLinks.__init__
+      ~WalletLinks.dict
       ~WalletLinks.from_dictionary
+      ~WalletLinks.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~WalletLinks.DeleteWallet
+      ~WalletLinks.ListWalletKeys
+      ~WalletLinks.RefreshWallet
+      ~WalletLinks.Self
    
    

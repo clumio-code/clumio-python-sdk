@@ -20,6 +20,7 @@ clumioapi.controllers.aws\_regions\_v1
       :template: custom-class-template.rst
    
       AwsRegionsV1Controller
+      AwsRegionsV1ControllerPaginator
    
    
 

@@ -17,10 +17,22 @@ clumioapi.models.audit\_trail\_list\_links.AuditTrailListLinks
    .. autosummary::
    
       ~AuditTrailListLinks.__init__
+      ~AuditTrailListLinks.dict
       ~AuditTrailListLinks.from_dictionary
+      ~AuditTrailListLinks.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~AuditTrailListLinks.First
+      ~AuditTrailListLinks.Last
+      ~AuditTrailListLinks.Next
+      ~AuditTrailListLinks.Prev
+      ~AuditTrailListLinks.Self
    
    

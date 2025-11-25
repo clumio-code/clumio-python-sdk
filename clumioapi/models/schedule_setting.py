@@ -1,12 +1,16 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='ScheduleSetting')
 
 
+@dataclasses.dataclass
 class ScheduleSetting:
     """Implementation of the 'ScheduleSetting' model.
 
@@ -14,60 +18,67 @@ class ScheduleSetting:
     adefault value will be used.
 
     Attributes:
-        day_of_month:
-            The day of the month when the report will be sent out. This is required for the
+        DayOfMonth:
+            The day of the month when the report will be sent out. this is required for the
             'monthly'
-            report frequency. It has to be >= 1 and <= 28, or '-1', which signifies end of
+            report frequency. it has to be >= 1 and <= 28, or '-1', which signifies end of
             month.
-            If the day_of_month is set to -1 then the report will be sent out at the end of
+            if the day_of_month is set to -1 then the report will be sent out at the end of
             every month.
-        day_of_week:
-            Which day the report will be sent out. This is required for 'weekly' report
+
+        DayOfWeek:
+            Which day the report will be sent out. this is required for 'weekly' report
             frequency.
-        frequency:
+
+        Frequency:
             The unit of frequency in which the report is generated.
-        start_time:
-            When the report will be send out. This field should follow the format "HH:MM"
+
+        StartTime:
+            When the report will be send out. this field should follow the format "hh:mm"
             based
-            on a 24-hour clock. Only values where HH ranges from 0 to 23 and MM ranges from
+            on a 24-hour clock. only values where hh ranges from 0 to 23 and mm ranges from
             0 to
             59 are allowed.
-        timezone:
-            The timezone for the report schedule. The timezone must be a valid location name
+
+        Timezone:
+            The timezone for the report schedule. the timezone must be a valid location name
             from
-            the IANA Time Zone database. For instance, it can be "America/New_York",
-            "US/Central",
-            "UTC", or similar. If empty, then the timezone is considered as UTC.
+            the iana time zone database. for instance, it can be "america/new_york",
+            "us/central",
+            "utc", or similar. if empty, then the timezone is considered as utc.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'day_of_month': 'day_of_month',
-        'day_of_week': 'day_of_week',
-        'frequency': 'frequency',
-        'start_time': 'start_time',
-        'timezone': 'timezone',
-    }
+    DayOfMonth: int | None = None
+    DayOfWeek: str | None = None
+    Frequency: str | None = None
+    StartTime: str | None = None
+    Timezone: str | None = None
 
-    def __init__(
-        self,
-        day_of_month: int | None = None,
-        day_of_week: str | None = None,
-        frequency: str | None = None,
-        start_time: str | None = None,
-        timezone: str | None = None,
-    ) -> None:
-        """Constructor for the ScheduleSetting class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.day_of_month: int | None = day_of_month
-        self.day_of_week: str | None = day_of_week
-        self.frequency: str | None = frequency
-        self.start_time: str | None = start_time
-        self.timezone: str | None = timezone
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -78,8 +89,8 @@ class ScheduleSetting:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('day_of_month', None)
         val_day_of_month = val
@@ -104,3 +115,19 @@ class ScheduleSetting:
             val_start_time,
             val_timezone,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

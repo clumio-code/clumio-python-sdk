@@ -17,10 +17,21 @@ clumioapi.models.create\_policy\_rule\_v1\_request.CreatePolicyRuleV1Request
    .. autosummary::
    
       ~CreatePolicyRuleV1Request.__init__
+      ~CreatePolicyRuleV1Request.dict
       ~CreatePolicyRuleV1Request.from_dictionary
+      ~CreatePolicyRuleV1Request.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~CreatePolicyRuleV1Request.Action
+      ~CreatePolicyRuleV1Request.Condition
+      ~CreatePolicyRuleV1Request.Name
+      ~CreatePolicyRuleV1Request.Priority
    
    

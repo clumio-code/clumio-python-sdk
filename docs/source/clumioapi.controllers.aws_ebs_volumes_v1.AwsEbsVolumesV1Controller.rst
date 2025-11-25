@@ -24,11 +24,4 @@ clumioapi.controllers.aws\_ebs\_volumes\_v1.AwsEbsVolumesV1Controller
 
    
    
-   .. rubric:: Attributes
-
-   .. autosummary::
-   
-      ~AwsEbsVolumesV1Controller.client
-      ~AwsEbsVolumesV1Controller.global_headers
-   
    

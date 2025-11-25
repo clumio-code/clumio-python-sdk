@@ -24,11 +24,4 @@ clumioapi.controllers.backups\_files\_v1.BackupsFilesV1Controller
 
    
    
-   .. rubric:: Attributes
-
-   .. autosummary::
-   
-      ~BackupsFilesV1Controller.client
-      ~BackupsFilesV1Controller.global_headers
-   
    

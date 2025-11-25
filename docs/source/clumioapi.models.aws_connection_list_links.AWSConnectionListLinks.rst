@@ -17,10 +17,21 @@ clumioapi.models.aws\_connection\_list\_links.AWSConnectionListLinks
    .. autosummary::
    
       ~AWSConnectionListLinks.__init__
+      ~AWSConnectionListLinks.dict
       ~AWSConnectionListLinks.from_dictionary
+      ~AWSConnectionListLinks.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~AWSConnectionListLinks.CreateAwsConnection
+      ~AWSConnectionListLinks.First
+      ~AWSConnectionListLinks.Next
+      ~AWSConnectionListLinks.Self
    
    

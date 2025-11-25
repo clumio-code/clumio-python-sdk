@@ -17,10 +17,18 @@ clumioapi.models.update\_user\_profile\_v1\_request.UpdateUserProfileV1Request
    .. autosummary::
    
       ~UpdateUserProfileV1Request.__init__
+      ~UpdateUserProfileV1Request.dict
       ~UpdateUserProfileV1Request.from_dictionary
+      ~UpdateUserProfileV1Request.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~UpdateUserProfileV1Request.FullName
    
    

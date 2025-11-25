@@ -1,46 +1,59 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='ConnectionRegion')
 
 
+@dataclasses.dataclass
 class ConnectionRegion:
     """Implementation of the 'ConnectionRegion' model.
 
     Attributes:
-        p_id:
-            The ID of the aws region.
-        is_data_plane_region:
-            Boolean that notes which regions can be designated as targets
-        name:
-            Name is a user friendly name of the AWS region.
+        Id:
+            The id of the aws region.
+
+        IsDataPlaneRegion:
+            Boolean that notes which regions can be designated as targets.
+
+        Name:
+            Name is a user friendly name of the aws region.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'p_id': 'id',
-        'is_data_plane_region': 'is_data_plane_region',
-        'name': 'name',
-    }
+    Id: str | None = None
+    IsDataPlaneRegion: bool | None = None
+    Name: str | None = None
 
-    def __init__(
-        self,
-        p_id: str | None = None,
-        is_data_plane_region: bool | None = None,
-        name: str | None = None,
-    ) -> None:
-        """Constructor for the ConnectionRegion class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.p_id: str | None = p_id
-        self.is_data_plane_region: bool | None = is_data_plane_region
-        self.name: str | None = name
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -51,11 +64,11 @@ class ConnectionRegion:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('id', None)
-        val_p_id = val
+        val_id = val
 
         val = dictionary.get('is_data_plane_region', None)
         val_is_data_plane_region = val
@@ -65,7 +78,23 @@ class ConnectionRegion:
 
         # Return an object of this model
         return cls(
-            val_p_id,
+            val_id,
             val_is_data_plane_region,
             val_name,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

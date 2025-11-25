@@ -27,11 +27,4 @@ clumioapi.controllers.organizational\_units\_v2.OrganizationalUnitsV2Controller
 
    
    
-   .. rubric:: Attributes
-
-   .. autosummary::
-   
-      ~OrganizationalUnitsV2Controller.client
-      ~OrganizationalUnitsV2Controller.global_headers
-   
    

@@ -17,10 +17,26 @@ clumioapi.models.list\_protection\_group\_s3\_asset\_backups\_response.ListProte
    .. autosummary::
    
       ~ListProtectionGroupS3AssetBackupsResponse.__init__
+      ~ListProtectionGroupS3AssetBackupsResponse.dict
       ~ListProtectionGroupS3AssetBackupsResponse.from_dictionary
+      ~ListProtectionGroupS3AssetBackupsResponse.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ListProtectionGroupS3AssetBackupsResponse.CurrentCount
+      ~ListProtectionGroupS3AssetBackupsResponse.Embedded
+      ~ListProtectionGroupS3AssetBackupsResponse.FilterApplied
+      ~ListProtectionGroupS3AssetBackupsResponse.Limit
+      ~ListProtectionGroupS3AssetBackupsResponse.Links
+      ~ListProtectionGroupS3AssetBackupsResponse.Start
+      ~ListProtectionGroupS3AssetBackupsResponse.TotalCount
+      ~ListProtectionGroupS3AssetBackupsResponse.TotalPagesCount
+      ~ListProtectionGroupS3AssetBackupsResponse.raw_response
    
    

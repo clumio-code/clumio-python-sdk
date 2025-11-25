@@ -17,10 +17,21 @@ clumioapi.models.create\_rds\_resource\_restore\_response.CreateRdsResourceResto
    .. autosummary::
    
       ~CreateRdsResourceRestoreResponse.__init__
+      ~CreateRdsResourceRestoreResponse.dict
       ~CreateRdsResourceRestoreResponse.from_dictionary
+      ~CreateRdsResourceRestoreResponse.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~CreateRdsResourceRestoreResponse.Embedded
+      ~CreateRdsResourceRestoreResponse.Links
+      ~CreateRdsResourceRestoreResponse.TaskId
+      ~CreateRdsResourceRestoreResponse.raw_response
    
    

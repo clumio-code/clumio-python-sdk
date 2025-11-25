@@ -17,10 +17,30 @@ clumioapi.models.user\_with\_e\_tag.UserWithETag
    .. autosummary::
    
       ~UserWithETag.__init__
+      ~UserWithETag.dict
       ~UserWithETag.from_dictionary
+      ~UserWithETag.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~UserWithETag.AccessControlConfiguration
+      ~UserWithETag.Email
+      ~UserWithETag.Embedded
+      ~UserWithETag.Etag
+      ~UserWithETag.FullName
+      ~UserWithETag.Id
+      ~UserWithETag.Inviter
+      ~UserWithETag.IsConfirmed
+      ~UserWithETag.IsEnabled
+      ~UserWithETag.LastActivityTimestamp
+      ~UserWithETag.LastPasswordChangeTimestamp
+      ~UserWithETag.Links
+      ~UserWithETag.OrganizationalUnitCount
    
    

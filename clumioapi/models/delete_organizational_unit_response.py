@@ -1,52 +1,67 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import entity_group_embedded as entity_group_embedded_
 from clumioapi.models import \
     organizational_unit_links_for_delete as organizational_unit_links_for_delete_
+import requests
 
 T = TypeVar('T', bound='DeleteOrganizationalUnitResponse')
 
 
+@dataclasses.dataclass
 class DeleteOrganizationalUnitResponse:
     """Implementation of the 'DeleteOrganizationalUnitResponse' model.
 
     Accepted
 
     Attributes:
-        embedded:
+        Embedded:
             Embedded responses related to the resource.
-        links:
-            URLs to pages related to the resource.
-        task_id:
-            The Clumio-assigned ID of the task associated with this organizational unit.
-            The progress of the task can be monitored using the
-            [GET /tasks/{task_id}](#operation/read-task) endpoint.
+
+        Links:
+            Urls to pages related to the resource.
+
+        TaskId:
+            The clumio-assigned id of the task associated with this organizational unit.
+            the progress of the task can be monitored using the
+            [get /tasks/{task_id}](#operation/read-task) endpoint.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {'embedded': '_embedded', 'links': '_links', 'task_id': 'task_id'}
+    Embedded: entity_group_embedded_.EntityGroupEmbedded | None = None
+    Links: organizational_unit_links_for_delete_.OrganizationalUnitLinksForDelete | None = None
+    TaskId: str | None = None
+    raw_response: Optional[requests.Response] = None
 
-    def __init__(
-        self,
-        embedded: entity_group_embedded_.EntityGroupEmbedded | None = None,
-        links: organizational_unit_links_for_delete_.OrganizationalUnitLinksForDelete | None = None,
-        task_id: str | None = None,
-    ) -> None:
-        """Constructor for the DeleteOrganizationalUnitResponse class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.embedded: entity_group_embedded_.EntityGroupEmbedded | None = embedded
-        self.links: (
-            organizational_unit_links_for_delete_.OrganizationalUnitLinksForDelete | None
-        ) = links
-        self.task_id: str | None = task_id
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -57,8 +72,8 @@ class DeleteOrganizationalUnitResponse:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('_embedded', None)
         val_embedded = entity_group_embedded_.EntityGroupEmbedded.from_dictionary(val)
@@ -79,3 +94,20 @@ class DeleteOrganizationalUnitResponse:
             val_links,
             val_task_id,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        model_instance.raw_response = response
+        return model_instance

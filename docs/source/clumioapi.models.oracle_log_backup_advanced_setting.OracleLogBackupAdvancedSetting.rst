@@ -17,10 +17,19 @@ clumioapi.models.oracle\_log\_backup\_advanced\_setting.OracleLogBackupAdvancedS
    .. autosummary::
    
       ~OracleLogBackupAdvancedSetting.__init__
+      ~OracleLogBackupAdvancedSetting.dict
       ~OracleLogBackupAdvancedSetting.from_dictionary
+      ~OracleLogBackupAdvancedSetting.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~OracleLogBackupAdvancedSetting.AlternativeReplica
+      ~OracleLogBackupAdvancedSetting.PreferredReplica
    
    

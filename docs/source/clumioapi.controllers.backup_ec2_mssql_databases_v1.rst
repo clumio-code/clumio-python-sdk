@@ -20,6 +20,7 @@ clumioapi.controllers.backup\_ec2\_mssql\_databases\_v1
       :template: custom-class-template.rst
    
       BackupEc2MssqlDatabasesV1Controller
+      BackupEc2MssqlDatabasesV1ControllerPaginator
    
    
 

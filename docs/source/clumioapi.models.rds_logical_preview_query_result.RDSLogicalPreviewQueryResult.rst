@@ -17,10 +17,19 @@ clumioapi.models.rds\_logical\_preview\_query\_result.RDSLogicalPreviewQueryResu
    .. autosummary::
    
       ~RDSLogicalPreviewQueryResult.__init__
+      ~RDSLogicalPreviewQueryResult.dict
       ~RDSLogicalPreviewQueryResult.from_dictionary
+      ~RDSLogicalPreviewQueryResult.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~RDSLogicalPreviewQueryResult.Columns
+      ~RDSLogicalPreviewQueryResult.Rows
    
    

@@ -1,47 +1,62 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import dynamo_db_query_preview_result as dynamo_db_query_preview_result_
 from clumioapi.models import restore_records_links_sync as restore_records_links_sync_
+import requests
 
 T = TypeVar('T', bound='RestoreRecordsResponseSync')
 
 
+@dataclasses.dataclass
 class RestoreRecordsResponseSync:
     """Implementation of the 'RestoreRecordsResponseSync' model.
 
     Records preview success
 
     Attributes:
-        links:
-            URLs to pages related to the resource.
-        preview_result:
+        Links:
+            Urls to pages related to the resource.
+
+        PreviewResult:
             If preview was not set to true in the request, then the result of the query will
             be
             available for download asynchronously and this field has a value of `null`.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {'links': '_links', 'preview_result': 'preview_result'}
+    Links: restore_records_links_sync_.RestoreRecordsLinksSync | None = None
+    PreviewResult: dynamo_db_query_preview_result_.DynamoDBQueryPreviewResult | None = None
+    raw_response: Optional[requests.Response] = None
 
-    def __init__(
-        self,
-        links: restore_records_links_sync_.RestoreRecordsLinksSync | None = None,
-        preview_result: dynamo_db_query_preview_result_.DynamoDBQueryPreviewResult | None = None,
-    ) -> None:
-        """Constructor for the RestoreRecordsResponseSync class."""
-
-        # Initialize members of the class
-        self.links: restore_records_links_sync_.RestoreRecordsLinksSync | None = links
-        self.preview_result: dynamo_db_query_preview_result_.DynamoDBQueryPreviewResult | None = (
-            preview_result
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
         )
 
+    @overload
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
+
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -52,8 +67,8 @@ class RestoreRecordsResponseSync:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('_links', None)
         val_links = restore_records_links_sync_.RestoreRecordsLinksSync.from_dictionary(val)
@@ -68,3 +83,20 @@ class RestoreRecordsResponseSync:
             val_links,
             val_preview_result,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        model_instance.raw_response = response
+        return model_instance

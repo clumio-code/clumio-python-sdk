@@ -1,118 +1,118 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import role_for_organizational_units as role_for_organizational_units_
 from clumioapi.models import user_embedded as user_embedded_
 from clumioapi.models import user_links as user_links_
+import requests
 
 T = TypeVar('T', bound='UserWithETag')
 
 
+@dataclasses.dataclass
 class UserWithETag:
     """Implementation of the 'UserWithETag' model.
 
     UserWithETag to support etag string to be calculated.
 
     Attributes:
-        embedded:
+        Embedded:
             Embedded responses related to the resource.
-        etag:
-            ETag value
-        links:
-            URLs to pages related to the resource.
-        access_control_configuration:
-            The list of organizational unit IDs along with role assigned to the user.
-        email:
-            The email address of the Clumio user.
-        full_name:
-            The first and last name of the Clumio user. The name appears in the
-            User Management screen and is used to identify the user.
-        p_id:
-            The Clumio-assigned ID of the Clumio user.
-        inviter:
-            The ID number of the user who sent the email invitation.
-        is_confirmed:
-            Determines whether the user has activated their Clumio account.
-            If `true`, the user has activated the account.
-        is_enabled:
-            Determines whether the user is enabled (in "Activated" or "Invited" status) in
-            Clumio.
-            If `true`, the user is in "Activated" or "Invited" status in Clumio.
-            Users in "Activated" status can log in to Clumio.
-            Users in "Invited" status have been invited to log in to Clumio via an email
+
+        Etag:
+            Etag value.
+
+        Links:
+            Urls to pages related to the resource.
+
+        AccessControlConfiguration:
+            The list of organizational unit ids along with role assigned to the user.
+
+        Email:
+            The email address of the clumio user.
+
+        FullName:
+            The first and last name of the clumio user. the name appears in the
+            user management screen and is used to identify the user.
+
+        Id:
+            The clumio-assigned id of the clumio user.
+
+        Inviter:
+            The id number of the user who sent the email invitation.
+
+        IsConfirmed:
+            Determines whether the user has activated their clumio account.
+            if `true`, the user has activated the account.
+
+        IsEnabled:
+            Determines whether the user is enabled (in "activated" or "invited" status) in
+            clumio.
+            if `true`, the user is in "activated" or "invited" status in clumio.
+            users in "activated" status can log in to clumio.
+            users in "invited" status have been invited to log in to clumio via an email
             invitation and
             the invitation is pending acceptance from the user.
-            If `false`, the user has been manually suspended and cannot log in to Clumio
-            until another Clumio user reactivates the account.
-        last_activity_timestamp:
-            The timestamp of when the user was last active in the Clumio system.
-            Represented in RFC-3339 format.
-        last_password_change_timestamp:
-            The last password change time of the Clumio user. Represented in RFC-3339
+            if `false`, the user has been manually suspended and cannot log in to clumio
+            until another clumio user reactivates the account.
+
+        LastActivityTimestamp:
+            The timestamp of when the user was last active in the clumio system.
+            represented in rfc-3339 format.
+
+        LastPasswordChangeTimestamp:
+            The last password change time of the clumio user. represented in rfc-3339
             format.
-        organizational_unit_count:
+
+        OrganizationalUnitCount:
             The number of organizational units accessible to the user.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'embedded': '_embedded',
-        'etag': '_etag',
-        'links': '_links',
-        'access_control_configuration': 'access_control_configuration',
-        'email': 'email',
-        'full_name': 'full_name',
-        'p_id': 'id',
-        'inviter': 'inviter',
-        'is_confirmed': 'is_confirmed',
-        'is_enabled': 'is_enabled',
-        'last_activity_timestamp': 'last_activity_timestamp',
-        'last_password_change_timestamp': 'last_password_change_timestamp',
-        'organizational_unit_count': 'organizational_unit_count',
-    }
+    Embedded: user_embedded_.UserEmbedded | None = None
+    Etag: str | None = None
+    Links: user_links_.UserLinks | None = None
+    AccessControlConfiguration: (
+        Sequence[role_for_organizational_units_.RoleForOrganizationalUnits] | None
+    ) = None
+    Email: str | None = None
+    FullName: str | None = None
+    Id: str | None = None
+    Inviter: str | None = None
+    IsConfirmed: bool | None = None
+    IsEnabled: bool | None = None
+    LastActivityTimestamp: str | None = None
+    LastPasswordChangeTimestamp: str | None = None
+    OrganizationalUnitCount: int | None = None
 
-    def __init__(
-        self,
-        embedded: user_embedded_.UserEmbedded | None = None,
-        etag: str | None = None,
-        links: user_links_.UserLinks | None = None,
-        access_control_configuration: (
-            Sequence[role_for_organizational_units_.RoleForOrganizationalUnits] | None
-        ) = None,
-        email: str | None = None,
-        full_name: str | None = None,
-        p_id: str | None = None,
-        inviter: str | None = None,
-        is_confirmed: bool | None = None,
-        is_enabled: bool | None = None,
-        last_activity_timestamp: str | None = None,
-        last_password_change_timestamp: str | None = None,
-        organizational_unit_count: int | None = None,
-    ) -> None:
-        """Constructor for the UserWithETag class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.embedded: user_embedded_.UserEmbedded | None = embedded
-        self.etag: str | None = etag
-        self.links: user_links_.UserLinks | None = links
-        self.access_control_configuration: (
-            Sequence[role_for_organizational_units_.RoleForOrganizationalUnits] | None
-        ) = access_control_configuration
-        self.email: str | None = email
-        self.full_name: str | None = full_name
-        self.p_id: str | None = p_id
-        self.inviter: str | None = inviter
-        self.is_confirmed: bool | None = is_confirmed
-        self.is_enabled: bool | None = is_enabled
-        self.last_activity_timestamp: str | None = last_activity_timestamp
-        self.last_password_change_timestamp: str | None = last_password_change_timestamp
-        self.organizational_unit_count: int | None = organizational_unit_count
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -123,8 +123,8 @@ class UserWithETag:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('_embedded', None)
         val_embedded = user_embedded_.UserEmbedded.from_dictionary(val)
@@ -137,9 +137,8 @@ class UserWithETag:
 
         val = dictionary.get('access_control_configuration', None)
 
-        val_access_control_configuration = None
+        val_access_control_configuration = []
         if val:
-            val_access_control_configuration = list()
             for value in val:
                 val_access_control_configuration.append(
                     role_for_organizational_units_.RoleForOrganizationalUnits.from_dictionary(value)
@@ -152,7 +151,7 @@ class UserWithETag:
         val_full_name = val
 
         val = dictionary.get('id', None)
-        val_p_id = val
+        val_id = val
 
         val = dictionary.get('inviter', None)
         val_inviter = val
@@ -180,7 +179,7 @@ class UserWithETag:
             val_access_control_configuration,
             val_email,
             val_full_name,
-            val_p_id,
+            val_id,
             val_inviter,
             val_is_confirmed,
             val_is_enabled,
@@ -188,3 +187,19 @@ class UserWithETag:
             val_last_password_change_timestamp,
             val_organizational_unit_count,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

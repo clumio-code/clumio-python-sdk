@@ -1,17 +1,20 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import \
     protection_group_s3_asset_restore_source_pitr_options as \
     protection_group_s3_asset_restore_source_pitr_options_
 from clumioapi.models import source_object_filters as source_object_filters_
+import requests
 
 T = TypeVar('T', bound='ProtectionGroupS3AssetRestoreSource')
 
 
+@dataclasses.dataclass
 class ProtectionGroupS3AssetRestoreSource:
     """Implementation of the 'ProtectionGroupS3AssetRestoreSource' model.
 
@@ -19,48 +22,54 @@ class ProtectionGroupS3AssetRestoreSource:
     an instant access endpoint from a backup.
 
     Attributes:
-        backup_id:
-            The Clumio-assigned ID of the protection group S3 asset backup to be restored.
-            Use the
-            [GET /backups/protection-groups/s3-assets](#operation/list-backup-protection-
+        BackupId:
+            The clumio-assigned id of the protection group s3 asset backup to be restored.
+            use the
+            [get /backups/protection-groups/s3-assets](#operation/list-backup-protection-
             group-s3-assets)
             endpoint to fetch valid values.
-            Note that only one of `backup_id` or `pitr` must be given.
-        object_filters:
+            note that only one of `backup_id` or `pitr` must be given.
+
+        ObjectFilters:
             Search for or restore only objects that pass the source object filter.
-        pitr:
+
+        Pitr:
             The parameters for initiating a point in time restore.
-            Note that only one of `backup_id` or `pitr` must be given.
+            note that only one of `backup_id` or `pitr` must be given.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'backup_id': 'backup_id',
-        'object_filters': 'object_filters',
-        'pitr': 'pitr',
-    }
+    BackupId: str | None = None
+    ObjectFilters: source_object_filters_.SourceObjectFilters | None = None
+    Pitr: (
+        protection_group_s3_asset_restore_source_pitr_options_.ProtectionGroupS3AssetRestoreSourcePitrOptions
+        | None
+    ) = None
 
-    def __init__(
-        self,
-        backup_id: str | None = None,
-        object_filters: source_object_filters_.SourceObjectFilters | None = None,
-        pitr: (
-            protection_group_s3_asset_restore_source_pitr_options_.ProtectionGroupS3AssetRestoreSourcePitrOptions
-            | None
-        ) = None,
-    ) -> None:
-        """Constructor for the ProtectionGroupS3AssetRestoreSource class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.backup_id: str | None = backup_id
-        self.object_filters: source_object_filters_.SourceObjectFilters | None = object_filters
-        self.pitr: (
-            protection_group_s3_asset_restore_source_pitr_options_.ProtectionGroupS3AssetRestoreSourcePitrOptions
-            | None
-        ) = pitr
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -71,8 +80,8 @@ class ProtectionGroupS3AssetRestoreSource:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('backup_id', None)
         val_backup_id = val
@@ -91,3 +100,19 @@ class ProtectionGroupS3AssetRestoreSource:
             val_object_filters,
             val_pitr,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

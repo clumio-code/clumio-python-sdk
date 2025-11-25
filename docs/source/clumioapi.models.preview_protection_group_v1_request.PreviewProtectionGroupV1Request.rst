@@ -17,10 +17,23 @@ clumioapi.models.preview\_protection\_group\_v1\_request.PreviewProtectionGroupV
    .. autosummary::
    
       ~PreviewProtectionGroupV1Request.__init__
+      ~PreviewProtectionGroupV1Request.dict
       ~PreviewProtectionGroupV1Request.from_dictionary
+      ~PreviewProtectionGroupV1Request.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~PreviewProtectionGroupV1Request.BackupId
+      ~PreviewProtectionGroupV1Request.IsSyncPreview
+      ~PreviewProtectionGroupV1Request.ObjectFilters
+      ~PreviewProtectionGroupV1Request.PitrEndTimestamp
+      ~PreviewProtectionGroupV1Request.PitrStartTimestamp
+      ~PreviewProtectionGroupV1Request.ProtectionGroupS3AssetIds
    
    

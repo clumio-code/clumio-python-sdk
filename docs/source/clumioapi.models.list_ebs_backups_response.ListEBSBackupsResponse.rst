@@ -17,10 +17,26 @@ clumioapi.models.list\_ebs\_backups\_response.ListEBSBackupsResponse
    .. autosummary::
    
       ~ListEBSBackupsResponse.__init__
+      ~ListEBSBackupsResponse.dict
       ~ListEBSBackupsResponse.from_dictionary
+      ~ListEBSBackupsResponse.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ListEBSBackupsResponse.CurrentCount
+      ~ListEBSBackupsResponse.Embedded
+      ~ListEBSBackupsResponse.FilterApplied
+      ~ListEBSBackupsResponse.Limit
+      ~ListEBSBackupsResponse.Links
+      ~ListEBSBackupsResponse.Start
+      ~ListEBSBackupsResponse.TotalCount
+      ~ListEBSBackupsResponse.TotalPagesCount
+      ~ListEBSBackupsResponse.raw_response
    
    

@@ -17,10 +17,19 @@ clumioapi.models.backup\_window.BackupWindow
    .. autosummary::
    
       ~BackupWindow.__init__
+      ~BackupWindow.dict
       ~BackupWindow.from_dictionary
+      ~BackupWindow.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~BackupWindow.EndTime
+      ~BackupWindow.StartTime
    
    

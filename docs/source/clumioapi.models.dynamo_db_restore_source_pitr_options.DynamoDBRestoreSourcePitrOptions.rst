@@ -17,10 +17,21 @@ clumioapi.models.dynamo\_db\_restore\_source\_pitr\_options.DynamoDBRestoreSourc
    .. autosummary::
    
       ~DynamoDBRestoreSourcePitrOptions.__init__
+      ~DynamoDBRestoreSourcePitrOptions.dict
       ~DynamoDBRestoreSourcePitrOptions.from_dictionary
+      ~DynamoDBRestoreSourcePitrOptions.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~DynamoDBRestoreSourcePitrOptions.TableId
+      ~DynamoDBRestoreSourcePitrOptions.Timestamp
+      ~DynamoDBRestoreSourcePitrOptions.Type
+      ~DynamoDBRestoreSourcePitrOptions.UseLatestRestorableTime
    
    

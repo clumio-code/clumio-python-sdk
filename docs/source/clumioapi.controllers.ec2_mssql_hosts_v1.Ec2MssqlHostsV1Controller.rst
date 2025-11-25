@@ -24,11 +24,4 @@ clumioapi.controllers.ec2\_mssql\_hosts\_v1.Ec2MssqlHostsV1Controller
 
    
    
-   .. rubric:: Attributes
-
-   .. autosummary::
-   
-      ~Ec2MssqlHostsV1Controller.client
-      ~Ec2MssqlHostsV1Controller.global_headers
-   
    

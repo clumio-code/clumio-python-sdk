@@ -17,10 +17,21 @@ clumioapi.models.create\_s3\_instant\_access\_endpoint\_response\_links.CreateS3
    .. autosummary::
    
       ~CreateS3InstantAccessEndpointResponseLinks.__init__
+      ~CreateS3InstantAccessEndpointResponseLinks.dict
       ~CreateS3InstantAccessEndpointResponseLinks.from_dictionary
+      ~CreateS3InstantAccessEndpointResponseLinks.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~CreateS3InstantAccessEndpointResponseLinks.ReadProtectionGroupInstantAccessEndpoint
+      ~CreateS3InstantAccessEndpointResponseLinks.ReadTask
+      ~CreateS3InstantAccessEndpointResponseLinks.Self
+      ~CreateS3InstantAccessEndpointResponseLinks.raw_response
    
    

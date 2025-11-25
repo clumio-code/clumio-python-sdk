@@ -17,10 +17,19 @@ clumioapi.models.restore\_protection\_group\_links.RestoreProtectionGroupLinks
    .. autosummary::
    
       ~RestoreProtectionGroupLinks.__init__
+      ~RestoreProtectionGroupLinks.dict
       ~RestoreProtectionGroupLinks.from_dictionary
+      ~RestoreProtectionGroupLinks.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~RestoreProtectionGroupLinks.ReadTask
+      ~RestoreProtectionGroupLinks.Self
    
    

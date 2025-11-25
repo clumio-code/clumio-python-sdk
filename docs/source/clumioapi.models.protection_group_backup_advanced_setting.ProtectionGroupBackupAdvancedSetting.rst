@@ -17,10 +17,18 @@ clumioapi.models.protection\_group\_backup\_advanced\_setting.ProtectionGroupBac
    .. autosummary::
    
       ~ProtectionGroupBackupAdvancedSetting.__init__
+      ~ProtectionGroupBackupAdvancedSetting.dict
       ~ProtectionGroupBackupAdvancedSetting.from_dictionary
+      ~ProtectionGroupBackupAdvancedSetting.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ProtectionGroupBackupAdvancedSetting.BackupTier
    
    

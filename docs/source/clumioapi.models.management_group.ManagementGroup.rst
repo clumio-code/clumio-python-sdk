@@ -17,10 +17,22 @@ clumioapi.models.management\_group.ManagementGroup
    .. autosummary::
    
       ~ManagementGroup.__init__
+      ~ManagementGroup.dict
       ~ManagementGroup.from_dictionary
+      ~ManagementGroup.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ManagementGroup.Id
+      ~ManagementGroup.Links
+      ~ManagementGroup.Name
+      ~ManagementGroup.Type
+      ~ManagementGroup.VcenterId
    
    

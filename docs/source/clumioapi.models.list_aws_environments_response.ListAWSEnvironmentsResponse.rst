@@ -17,10 +17,23 @@ clumioapi.models.list\_aws\_environments\_response.ListAWSEnvironmentsResponse
    .. autosummary::
    
       ~ListAWSEnvironmentsResponse.__init__
+      ~ListAWSEnvironmentsResponse.dict
       ~ListAWSEnvironmentsResponse.from_dictionary
+      ~ListAWSEnvironmentsResponse.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ListAWSEnvironmentsResponse.CurrentCount
+      ~ListAWSEnvironmentsResponse.Embedded
+      ~ListAWSEnvironmentsResponse.Limit
+      ~ListAWSEnvironmentsResponse.Links
+      ~ListAWSEnvironmentsResponse.Start
+      ~ListAWSEnvironmentsResponse.raw_response
    
    

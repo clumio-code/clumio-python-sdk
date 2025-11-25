@@ -1,31 +1,50 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='AddBucketProtectionGroupV1Request')
 
 
+@dataclasses.dataclass
 class AddBucketProtectionGroupV1Request:
     """Implementation of the 'AddBucketProtectionGroupV1Request' model.
 
     Attributes:
-        bucket_id:
+        BucketId
 
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {'bucket_id': 'bucket_id'}
+    BucketId: str | None = None
 
-    def __init__(self, bucket_id: str | None = None) -> None:
-        """Constructor for the AddBucketProtectionGroupV1Request class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.bucket_id: str | None = bucket_id
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -36,8 +55,8 @@ class AddBucketProtectionGroupV1Request:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('bucket_id', None)
         val_bucket_id = val
@@ -46,3 +65,19 @@ class AddBucketProtectionGroupV1Request:
         return cls(
             val_bucket_id,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

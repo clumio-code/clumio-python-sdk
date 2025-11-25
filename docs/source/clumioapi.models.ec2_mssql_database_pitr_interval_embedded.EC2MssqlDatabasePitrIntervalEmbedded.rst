@@ -17,7 +17,9 @@ clumioapi.models.ec2\_mssql\_database\_pitr\_interval\_embedded.EC2MssqlDatabase
    .. autosummary::
    
       ~EC2MssqlDatabasePitrIntervalEmbedded.__init__
+      ~EC2MssqlDatabasePitrIntervalEmbedded.dict
       ~EC2MssqlDatabasePitrIntervalEmbedded.from_dictionary
+      ~EC2MssqlDatabasePitrIntervalEmbedded.from_response
    
    
 

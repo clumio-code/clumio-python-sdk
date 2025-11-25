@@ -20,6 +20,7 @@ clumioapi.controllers.ec2\_mssql\_failover\_clusters\_v1
       :template: custom-class-template.rst
    
       Ec2MssqlFailoverClustersV1Controller
+      Ec2MssqlFailoverClustersV1ControllerPaginator
    
    
 

@@ -17,10 +17,19 @@ clumioapi.models.grr\_target.GrrTarget
    .. autosummary::
    
       ~GrrTarget.__init__
+      ~GrrTarget.dict
       ~GrrTarget.from_dictionary
+      ~GrrTarget.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~GrrTarget.Preview
+      ~GrrTarget.QueryStatement
    
    

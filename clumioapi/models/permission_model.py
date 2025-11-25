@@ -1,63 +1,83 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='PermissionModel')
 
 
+@dataclasses.dataclass
 class PermissionModel:
     """Implementation of the 'PermissionModel' model.
 
     Attributes:
-        description:
+        Description:
             Description of the permission.
-        p_id:
-            The Clumio-assigned ID of the permission.
-        name:
+
+        Id:
+            The clumio-assigned id of the permission.
+
+        Name:
             Name of the permission.
-            The following table lists the supported permissions for a role:
+            the following table lists the supported permissions for a role:
 
             +----------------------------------------------------+-------------------------+
-            |                  Permission Name                   | Full/Partial Applicable |
+            |                  permission name                   | full/partial applicable |
             +====================================================+=========================+
-            | Policy Management                                  | Yes                     |
+            | policy management                                  | yes                     |
             +----------------------------------------------------+-------------------------+
-            | Data Source Management                             | Yes                     |
+            | data source management                             | yes                     |
             +----------------------------------------------------+-------------------------+
-            | Perform Backup (Scheduled or On-demand)            | Yes                     |
+            | perform backup (scheduled or on-demand)            | yes                     |
             +----------------------------------------------------+-------------------------+
-            | Regular Restore                                    | No                      |
+            | regular restore                                    | no                      |
             +----------------------------------------------------+-------------------------+
-            | Redirected Granular Restore (things like GRR &     | Yes                     |
+            | redirected granular restore (things like grr &     | yes                     |
             | content download)                                  |                         |
             +----------------------------------------------------+-------------------------+
-            | Dashboards & Reports                               | Yes                     |
+            | dashboards & reports                               | yes                     |
             +----------------------------------------------------+-------------------------+
-            | Some Admin Functions (User mgmt, SSO/MFA, IP       | No                      |
-            | Allow, Password expiry, OU, KMS)                   |                         |
+            | some admin functions (user mgmt, sso/mfa, ip       | no                      |
+            | allow, password expiry, ou, kms)                   |                         |
             +----------------------------------------------------+-------------------------+
-            | Other Admin Functions (API Tokens, Tasks, Alerts   | Yes                     |
-            | and Audit Logs)                                    |                         |
+            | other admin functions (api tokens, tasks, alerts   | yes                     |
+            | and audit logs)                                    |                         |
             +----------------------------------------------------+-------------------------+
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {'description': 'description', 'p_id': 'id', 'name': 'name'}
+    Description: str | None = None
+    Id: str | None = None
+    Name: str | None = None
 
-    def __init__(
-        self, description: str | None = None, p_id: str | None = None, name: str | None = None
-    ) -> None:
-        """Constructor for the PermissionModel class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.description: str | None = description
-        self.p_id: str | None = p_id
-        self.name: str | None = name
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -68,14 +88,14 @@ class PermissionModel:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('description', None)
         val_description = val
 
         val = dictionary.get('id', None)
-        val_p_id = val
+        val_id = val
 
         val = dictionary.get('name', None)
         val_name = val
@@ -83,6 +103,22 @@ class PermissionModel:
         # Return an object of this model
         return cls(
             val_description,
-            val_p_id,
+            val_id,
             val_name,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

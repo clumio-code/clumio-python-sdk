@@ -1,54 +1,71 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import asset_backup_control as asset_backup_control_
 from clumioapi.models import asset_protection_control as asset_protection_control_
 from clumioapi.models import policy_control as policy_control_
+import requests
 
 T = TypeVar('T', bound='ComplianceControls')
 
 
+@dataclasses.dataclass
 class ComplianceControls:
     """Implementation of the 'ComplianceControls' model.
 
-    The set of controls supported in compliance report.
+    Compliance controls to evaluate policy or assets for compliance.
 
     Attributes:
-        asset_backup:
-            The control for asset backup.
-        asset_protection:
-            The control for asset protection.
-        policy:
-            The control for policy.
+        AssetBackup:
+            The control evaluating whether assets have at least one backup within each
+            window of the specified look back period,
+            with retention meeting the minimum required duration.
+            for example, a look_back_period of 7 days, window_size of 1 day, and
+            retention_duration of 1 month means that
+            there should be a backup every day for the past week and that the retention of
+            that backup should be at least 1 month.
+
+        AssetProtection:
+            The control evaluating if all assets are protected with a policy or not.
+
+        Policy:
+            The control evaluating if policies have a minimum backup retention and
+            frequency.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'asset_backup': 'asset_backup',
-        'asset_protection': 'asset_protection',
-        'policy': 'policy',
-    }
+    AssetBackup: asset_backup_control_.AssetBackupControl | None = None
+    AssetProtection: asset_protection_control_.AssetProtectionControl | None = None
+    Policy: policy_control_.PolicyControl | None = None
 
-    def __init__(
-        self,
-        asset_backup: asset_backup_control_.AssetBackupControl | None = None,
-        asset_protection: asset_protection_control_.AssetProtectionControl | None = None,
-        policy: policy_control_.PolicyControl | None = None,
-    ) -> None:
-        """Constructor for the ComplianceControls class."""
-
-        # Initialize members of the class
-        self.asset_backup: asset_backup_control_.AssetBackupControl | None = asset_backup
-        self.asset_protection: asset_protection_control_.AssetProtectionControl | None = (
-            asset_protection
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
         )
-        self.policy: policy_control_.PolicyControl | None = policy
+
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -59,8 +76,8 @@ class ComplianceControls:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('asset_backup', None)
         val_asset_backup = asset_backup_control_.AssetBackupControl.from_dictionary(val)
@@ -77,3 +94,19 @@ class ComplianceControls:
             val_asset_protection,
             val_policy,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

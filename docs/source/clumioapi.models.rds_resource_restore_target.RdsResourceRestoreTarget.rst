@@ -17,10 +17,27 @@ clumioapi.models.rds\_resource\_restore\_target.RdsResourceRestoreTarget
    .. autosummary::
    
       ~RdsResourceRestoreTarget.__init__
+      ~RdsResourceRestoreTarget.dict
       ~RdsResourceRestoreTarget.from_dictionary
+      ~RdsResourceRestoreTarget.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~RdsResourceRestoreTarget.EnvironmentId
+      ~RdsResourceRestoreTarget.InstanceClass
+      ~RdsResourceRestoreTarget.IsPubliclyAccessible
+      ~RdsResourceRestoreTarget.KmsKeyNativeId
+      ~RdsResourceRestoreTarget.Name
+      ~RdsResourceRestoreTarget.OptionGroupName
+      ~RdsResourceRestoreTarget.ParameterGroupName
+      ~RdsResourceRestoreTarget.SecurityGroupNativeIds
+      ~RdsResourceRestoreTarget.SubnetGroupName
+      ~RdsResourceRestoreTarget.Tags
    
    

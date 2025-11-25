@@ -17,10 +17,18 @@ clumioapi.models.protection\_group\_backup\_links.ProtectionGroupBackupLinks
    .. autosummary::
    
       ~ProtectionGroupBackupLinks.__init__
+      ~ProtectionGroupBackupLinks.dict
       ~ProtectionGroupBackupLinks.from_dictionary
+      ~ProtectionGroupBackupLinks.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ProtectionGroupBackupLinks.Self
    
    

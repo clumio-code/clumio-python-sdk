@@ -1,37 +1,54 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import assignment_input_model as assignment_input_model_
+import requests
 
 T = TypeVar('T', bound='SetPolicyAssignmentsV1Request')
 
 
+@dataclasses.dataclass
 class SetPolicyAssignmentsV1Request:
     """Implementation of the 'SetPolicyAssignmentsV1Request' model.
 
     Attributes:
-        items:
+        Items:
             Items are inputs that represent the list of assets to which a policy is to be
             assigned or
             unassigned.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {'items': 'items'}
+    Items: Sequence[assignment_input_model_.AssignmentInputModel] | None = None
 
-    def __init__(
-        self, items: Sequence[assignment_input_model_.AssignmentInputModel] | None = None
-    ) -> None:
-        """Constructor for the SetPolicyAssignmentsV1Request class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.items: Sequence[assignment_input_model_.AssignmentInputModel] | None = items
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -42,14 +59,13 @@ class SetPolicyAssignmentsV1Request:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('items', None)
 
-        val_items = None
+        val_items = []
         if val:
-            val_items = list()
             for value in val:
                 val_items.append(
                     assignment_input_model_.AssignmentInputModel.from_dictionary(value)
@@ -59,3 +75,19 @@ class SetPolicyAssignmentsV1Request:
         return cls(
             val_items,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

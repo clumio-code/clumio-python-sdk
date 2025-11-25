@@ -1,49 +1,64 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import on_demand_ebs_backup_links as on_demand_ebs_backup_links_
 from clumioapi.models import read_task_hateoas_outer_embedded as read_task_hateoas_outer_embedded_
+import requests
 
 T = TypeVar('T', bound='OnDemandEBSBackupResponse')
 
 
+@dataclasses.dataclass
 class OnDemandEBSBackupResponse:
     """Implementation of the 'OnDemandEBSBackupResponse' model.
 
     Attributes:
-        embedded:
+        Embedded:
             Embedded responses related to the resource.
-        links:
-            URLs to pages related to the resource.
-        task_id:
-            The Clumio-assigned ID of the task created for EBS backup.
-            The progress of the task can be monitored using the
-            `GET /tasks/{task_id}` endpoint.
+
+        Links:
+            Urls to pages related to the resource.
+
+        TaskId:
+            The clumio-assigned id of the task created for ebs backup.
+            the progress of the task can be monitored using the
+            `get /tasks/{task_id}` endpoint.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {'embedded': '_embedded', 'links': '_links', 'task_id': 'task_id'}
+    Embedded: read_task_hateoas_outer_embedded_.ReadTaskHateoasOuterEmbedded | None = None
+    Links: on_demand_ebs_backup_links_.OnDemandEBSBackupLinks | None = None
+    TaskId: str | None = None
+    raw_response: Optional[requests.Response] = None
 
-    def __init__(
-        self,
-        embedded: read_task_hateoas_outer_embedded_.ReadTaskHateoasOuterEmbedded | None = None,
-        links: on_demand_ebs_backup_links_.OnDemandEBSBackupLinks | None = None,
-        task_id: str | None = None,
-    ) -> None:
-        """Constructor for the OnDemandEBSBackupResponse class."""
-
-        # Initialize members of the class
-        self.embedded: read_task_hateoas_outer_embedded_.ReadTaskHateoasOuterEmbedded | None = (
-            embedded
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
         )
-        self.links: on_demand_ebs_backup_links_.OnDemandEBSBackupLinks | None = links
-        self.task_id: str | None = task_id
+
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -54,8 +69,8 @@ class OnDemandEBSBackupResponse:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('_embedded', None)
         val_embedded = (
@@ -74,3 +89,20 @@ class OnDemandEBSBackupResponse:
             val_links,
             val_task_id,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        model_instance.raw_response = response
+        return model_instance

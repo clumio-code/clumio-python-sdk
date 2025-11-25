@@ -1,41 +1,58 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import object_v2 as object_v2_
 from clumioapi.models import preview_details_s3_bucket_links as preview_details_s3_bucket_links_
+import requests
 
 T = TypeVar('T', bound='PreviewDetailsS3BucketResponse')
 
 
+@dataclasses.dataclass
 class PreviewDetailsS3BucketResponse:
     """Implementation of the 'PreviewDetailsS3BucketResponse' model.
 
     Attributes:
-        links:
-            URLs to pages related to the resource.
-        objects:
+        Links:
+            Urls to pages related to the resource.
+
+        Objects:
             The fetched objects as a result of the preview.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {'links': '_links', 'objects': 'objects'}
+    Links: preview_details_s3_bucket_links_.PreviewDetailsS3BucketLinks | None = None
+    Objects: Sequence[object_v2_.ObjectV2] | None = None
+    raw_response: Optional[requests.Response] = None
 
-    def __init__(
-        self,
-        links: preview_details_s3_bucket_links_.PreviewDetailsS3BucketLinks | None = None,
-        objects: Sequence[object_v2_.ObjectV2] | None = None,
-    ) -> None:
-        """Constructor for the PreviewDetailsS3BucketResponse class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.links: preview_details_s3_bucket_links_.PreviewDetailsS3BucketLinks | None = links
-        self.objects: Sequence[object_v2_.ObjectV2] | None = objects
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -46,8 +63,8 @@ class PreviewDetailsS3BucketResponse:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('_links', None)
         val_links = preview_details_s3_bucket_links_.PreviewDetailsS3BucketLinks.from_dictionary(
@@ -56,9 +73,8 @@ class PreviewDetailsS3BucketResponse:
 
         val = dictionary.get('objects', None)
 
-        val_objects = None
+        val_objects = []
         if val:
-            val_objects = list()
             for value in val:
                 val_objects.append(object_v2_.ObjectV2.from_dictionary(value))
 
@@ -67,3 +83,20 @@ class PreviewDetailsS3BucketResponse:
             val_links,
             val_objects,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        model_instance.raw_response = response
+        return model_instance

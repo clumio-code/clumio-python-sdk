@@ -1,60 +1,70 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import permission_model as permission_model_
+import requests
 
 T = TypeVar('T', bound='RoleModel')
 
 
+@dataclasses.dataclass
 class RoleModel:
     """Implementation of the 'RoleModel' model.
 
     RoleModel denotes the Model for Role
 
     Attributes:
-        description:
+        Description:
             A description of the role.
-        p_id:
-            The Clumio-assigned ID of the role.
-        name:
+
+        Id:
+            The clumio-assigned id of the role.
+
+        Name:
             Unique name assigned to the role.
-        permissions:
+
+        Permissions:
             Permissions contained in the role.
-        user_count:
+
+        UserCount:
             Number of users to whom the role has been assigned.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'description': 'description',
-        'p_id': 'id',
-        'name': 'name',
-        'permissions': 'permissions',
-        'user_count': 'user_count',
-    }
+    Description: str | None = None
+    Id: str | None = None
+    Name: str | None = None
+    Permissions: Sequence[permission_model_.PermissionModel] | None = None
+    UserCount: int | None = None
 
-    def __init__(
-        self,
-        description: str | None = None,
-        p_id: str | None = None,
-        name: str | None = None,
-        permissions: Sequence[permission_model_.PermissionModel] | None = None,
-        user_count: int | None = None,
-    ) -> None:
-        """Constructor for the RoleModel class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.description: str | None = description
-        self.p_id: str | None = p_id
-        self.name: str | None = name
-        self.permissions: Sequence[permission_model_.PermissionModel] | None = permissions
-        self.user_count: int | None = user_count
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -65,23 +75,22 @@ class RoleModel:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('description', None)
         val_description = val
 
         val = dictionary.get('id', None)
-        val_p_id = val
+        val_id = val
 
         val = dictionary.get('name', None)
         val_name = val
 
         val = dictionary.get('permissions', None)
 
-        val_permissions = None
+        val_permissions = []
         if val:
-            val_permissions = list()
             for value in val:
                 val_permissions.append(permission_model_.PermissionModel.from_dictionary(value))
 
@@ -91,8 +100,24 @@ class RoleModel:
         # Return an object of this model
         return cls(
             val_description,
-            val_p_id,
+            val_id,
             val_name,
             val_permissions,
             val_user_count,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

@@ -25,11 +25,4 @@ clumioapi.controllers.backup\_aws\_ec2\_instances\_v1.BackupAwsEc2InstancesV1Con
 
    
    
-   .. rubric:: Attributes
-
-   .. autosummary::
-   
-      ~BackupAwsEc2InstancesV1Controller.client
-      ~BackupAwsEc2InstancesV1Controller.global_headers
-   
    

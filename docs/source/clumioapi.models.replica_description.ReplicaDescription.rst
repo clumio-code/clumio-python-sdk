@@ -17,10 +17,23 @@ clumioapi.models.replica\_description.ReplicaDescription
    .. autosummary::
    
       ~ReplicaDescription.__init__
+      ~ReplicaDescription.dict
       ~ReplicaDescription.from_dictionary
+      ~ReplicaDescription.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ReplicaDescription.GlobalSecondaryIndexes
+      ~ReplicaDescription.KmsMasterKeyId
+      ~ReplicaDescription.OnDemandThroughputOverride
+      ~ReplicaDescription.ProvisionedThroughputOverride
+      ~ReplicaDescription.RegionName
+      ~ReplicaDescription.ReplicaTableClass
    
    

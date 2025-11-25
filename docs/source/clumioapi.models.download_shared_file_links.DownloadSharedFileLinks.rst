@@ -17,10 +17,18 @@ clumioapi.models.download\_shared\_file\_links.DownloadSharedFileLinks
    .. autosummary::
    
       ~DownloadSharedFileLinks.__init__
+      ~DownloadSharedFileLinks.dict
       ~DownloadSharedFileLinks.from_dictionary
+      ~DownloadSharedFileLinks.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~DownloadSharedFileLinks.Self
    
    

@@ -17,10 +17,25 @@ clumioapi.models.list\_dynamo\_db\_table\_response.ListDynamoDBTableResponse
    .. autosummary::
    
       ~ListDynamoDBTableResponse.__init__
+      ~ListDynamoDBTableResponse.dict
       ~ListDynamoDBTableResponse.from_dictionary
+      ~ListDynamoDBTableResponse.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ListDynamoDBTableResponse.CurrentCount
+      ~ListDynamoDBTableResponse.Embedded
+      ~ListDynamoDBTableResponse.Limit
+      ~ListDynamoDBTableResponse.Links
+      ~ListDynamoDBTableResponse.Start
+      ~ListDynamoDBTableResponse.TotalCount
+      ~ListDynamoDBTableResponse.TotalPagesCount
+      ~ListDynamoDBTableResponse.raw_response
    
    

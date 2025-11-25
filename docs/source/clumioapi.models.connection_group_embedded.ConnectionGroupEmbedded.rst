@@ -17,7 +17,9 @@ clumioapi.models.connection\_group\_embedded.ConnectionGroupEmbedded
    .. autosummary::
    
       ~ConnectionGroupEmbedded.__init__
+      ~ConnectionGroupEmbedded.dict
       ~ConnectionGroupEmbedded.from_dictionary
+      ~ConnectionGroupEmbedded.from_response
    
    
 

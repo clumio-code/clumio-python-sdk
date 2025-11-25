@@ -1,133 +1,125 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import error_model as error_model_
 from clumioapi.models import wallet_links as wallet_links_
+import requests
 
 T = TypeVar('T', bound='Wallet')
 
 
+@dataclasses.dataclass
 class Wallet:
     """Implementation of the 'Wallet' model.
 
     Attributes:
-        embedded:
+        Embedded:
             Embedded responses related to the resource.
-        links:
-            URLs to pages related to the resource.
-        account_native_id:
-            AWS Account ID associated with the wallet.
-        available_version:
-            Version of the template available
-        aws_region:
-            The AWS region associated with the wallet.
-        clumio_aws_account_id:
-            Clumio AWS Account ID.
-        deployment_url:
-            DeploymentURL is an (external) link to an AWS console page for quick-creation
+
+        Links:
+            Urls to pages related to the resource.
+
+        AccountNativeId:
+            Aws account id associated with the wallet.
+
+        AvailableVersion:
+            Version of the template available.
+
+        AwsRegion:
+            The aws region associated with the wallet.
+
+        ClumioAwsAccountId:
+            Clumio aws account id.
+
+        DeploymentUrl:
+            Deploymenturl is an (external) link to an aws console page for quick-creation
             of the stack.
-        error_code:
-            ErrorCode is a short string describing the error, if any.
-        error_message:
-            ErrorMessage is a longer description explaining the error, if any, and how to
+
+        ErrorCode:
+            Errorcode is a short string describing the error, if any.
+
+        ErrorMessage:
+            Errormessage is a longer description explaining the error, if any, and how to
             fix it.
-        p_id:
-            The Clumio-assigned ID of the wallet.
-        installed_regions:
+
+        Id:
+            The clumio-assigned id of the wallet.
+
+        InstalledRegions:
             The regions where the wallet is installed.
-        key_errors:
+
+        KeyErrors:
             Errors, if any, in accessing the multi-region key in the wallet.
-        role_arn:
-            RoleArn is the AWS Resource Name of the IAM Role created by the stack.
-        stack_version:
+
+        RoleArn:
+            Rolearn is the aws resource name of the iam role created by the stack.
+
+        StackVersion:
             The version of the stack used or being used.
-        state:
-            State describes the state of the wallet. Valid states are:
-            Waiting: The wallet has been created, but a stack hasn't been created. The
-            wallet can't be used in this state.
-            Enabled: The wallet has been created and a stack has been created for the
-            wallet. This is the normal expected state of a wallet in use.
-            Error:   The wallet is inaccessible. See ErrorCode and ErrorMessage fields for
+
+        State:
+              the wallet is inaccessible. see errorcode and errormessage fields for
             additional details.
-        supported_regions:
+
+        SupportedRegions:
             The supported regions for the wallet.
-        template_url:
-            TemplateURL is the URL to the CloudFormation template to be used to create the
-            CloudFormation stack.
-        token:
-            Token is used to identify and authenticate the CloudFormation stack creation.
+
+        TemplateUrl:
+            Templateurl is the url to the cloudformation template to be used to create the
+            cloudformation stack.
+
+        Token:
+            Token is used to identify and authenticate the cloudformation stack creation.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'embedded': '_embedded',
-        'links': '_links',
-        'account_native_id': 'account_native_id',
-        'available_version': 'available_version',
-        'aws_region': 'aws_region',
-        'clumio_aws_account_id': 'clumio_aws_account_id',
-        'deployment_url': 'deployment_url',
-        'error_code': 'error_code',
-        'error_message': 'error_message',
-        'p_id': 'id',
-        'installed_regions': 'installed_regions',
-        'key_errors': 'key_errors',
-        'role_arn': 'role_arn',
-        'stack_version': 'stack_version',
-        'state': 'state',
-        'supported_regions': 'supported_regions',
-        'template_url': 'template_url',
-        'token': 'token',
-    }
+    Embedded: object | None = None
+    Links: wallet_links_.WalletLinks | None = None
+    AccountNativeId: str | None = None
+    AvailableVersion: int | None = None
+    AwsRegion: str | None = None
+    ClumioAwsAccountId: str | None = None
+    DeploymentUrl: str | None = None
+    ErrorCode: str | None = None
+    ErrorMessage: str | None = None
+    Id: str | None = None
+    InstalledRegions: Sequence[str] | None = None
+    KeyErrors: Mapping[str, error_model_.ErrorModel] | None = None
+    RoleArn: str | None = None
+    StackVersion: int | None = None
+    State: str | None = None
+    SupportedRegions: Sequence[str] | None = None
+    TemplateUrl: str | None = None
+    Token: str | None = None
 
-    def __init__(
-        self,
-        embedded: object | None = None,
-        links: wallet_links_.WalletLinks | None = None,
-        account_native_id: str | None = None,
-        available_version: int | None = None,
-        aws_region: str | None = None,
-        clumio_aws_account_id: str | None = None,
-        deployment_url: str | None = None,
-        error_code: str | None = None,
-        error_message: str | None = None,
-        p_id: str | None = None,
-        installed_regions: Sequence[str] | None = None,
-        key_errors: Mapping[str, error_model_.ErrorModel] | None = None,
-        role_arn: str | None = None,
-        stack_version: int | None = None,
-        state: str | None = None,
-        supported_regions: Sequence[str] | None = None,
-        template_url: str | None = None,
-        token: str | None = None,
-    ) -> None:
-        """Constructor for the Wallet class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.embedded: object | None = embedded
-        self.links: wallet_links_.WalletLinks | None = links
-        self.account_native_id: str | None = account_native_id
-        self.available_version: int | None = available_version
-        self.aws_region: str | None = aws_region
-        self.clumio_aws_account_id: str | None = clumio_aws_account_id
-        self.deployment_url: str | None = deployment_url
-        self.error_code: str | None = error_code
-        self.error_message: str | None = error_message
-        self.p_id: str | None = p_id
-        self.installed_regions: Sequence[str] | None = installed_regions
-        self.key_errors: Mapping[str, error_model_.ErrorModel] | None = key_errors
-        self.role_arn: str | None = role_arn
-        self.stack_version: int | None = stack_version
-        self.state: str | None = state
-        self.supported_regions: Sequence[str] | None = supported_regions
-        self.template_url: str | None = template_url
-        self.token: str | None = token
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -138,8 +130,8 @@ class Wallet:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('_embedded', None)
         val_embedded = val
@@ -169,7 +161,7 @@ class Wallet:
         val_error_message = val
 
         val = dictionary.get('id', None)
-        val_p_id = val
+        val_id = val
 
         val = dictionary.get('installed_regions', None)
         val_installed_regions = val
@@ -208,7 +200,7 @@ class Wallet:
             val_deployment_url,
             val_error_code,
             val_error_message,
-            val_p_id,
+            val_id,
             val_installed_regions,
             val_key_errors,
             val_role_arn,
@@ -218,3 +210,19 @@ class Wallet:
             val_template_url,
             val_token,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

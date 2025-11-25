@@ -17,10 +17,20 @@ clumioapi.models.create\_ec2\_mssql\_database\_restore\_response\_links.CreateEC
    .. autosummary::
    
       ~CreateEC2MSSQLDatabaseRestoreResponseLinks.__init__
+      ~CreateEC2MSSQLDatabaseRestoreResponseLinks.dict
       ~CreateEC2MSSQLDatabaseRestoreResponseLinks.from_dictionary
+      ~CreateEC2MSSQLDatabaseRestoreResponseLinks.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~CreateEC2MSSQLDatabaseRestoreResponseLinks.ReadTask
+      ~CreateEC2MSSQLDatabaseRestoreResponseLinks.Self
+      ~CreateEC2MSSQLDatabaseRestoreResponseLinks.raw_response
    
    

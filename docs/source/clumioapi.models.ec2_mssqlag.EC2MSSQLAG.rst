@@ -17,10 +17,24 @@ clumioapi.models.ec2\_mssqlag.EC2MSSQLAG
    .. autosummary::
    
       ~EC2MSSQLAG.__init__
+      ~EC2MSSQLAG.dict
       ~EC2MSSQLAG.from_dictionary
+      ~EC2MSSQLAG.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~EC2MSSQLAG.Embedded
+      ~EC2MSSQLAG.Id
+      ~EC2MSSQLAG.Links
+      ~EC2MSSQLAG.Name
+      ~EC2MSSQLAG.OrganizationalUnitId
+      ~EC2MSSQLAG.ProtectionInfo
+      ~EC2MSSQLAG.Status
    
    

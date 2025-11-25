@@ -27,11 +27,4 @@ clumioapi.controllers.restored\_files\_v1.RestoredFilesV1Controller
 
    
    
-   .. rubric:: Attributes
-
-   .. autosummary::
-   
-      ~RestoredFilesV1Controller.client
-      ~RestoredFilesV1Controller.global_headers
-   
    

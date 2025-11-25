@@ -17,10 +17,18 @@ clumioapi.models.entity\_group\_embedded.EntityGroupEmbedded
    .. autosummary::
    
       ~EntityGroupEmbedded.__init__
+      ~EntityGroupEmbedded.dict
       ~EntityGroupEmbedded.from_dictionary
+      ~EntityGroupEmbedded.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~EntityGroupEmbedded.ReadTask
    
    

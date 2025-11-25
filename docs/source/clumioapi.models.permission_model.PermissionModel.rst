@@ -17,10 +17,20 @@ clumioapi.models.permission\_model.PermissionModel
    .. autosummary::
    
       ~PermissionModel.__init__
+      ~PermissionModel.dict
       ~PermissionModel.from_dictionary
+      ~PermissionModel.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~PermissionModel.Description
+      ~PermissionModel.Id
+      ~PermissionModel.Name
    
    

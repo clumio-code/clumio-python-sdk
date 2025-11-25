@@ -17,10 +17,18 @@ clumioapi.models.ec2\_backup\_advanced\_setting.EC2BackupAdvancedSetting
    .. autosummary::
    
       ~EC2BackupAdvancedSetting.__init__
+      ~EC2BackupAdvancedSetting.dict
       ~EC2BackupAdvancedSetting.from_dictionary
+      ~EC2BackupAdvancedSetting.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~EC2BackupAdvancedSetting.BackupTier
    
    

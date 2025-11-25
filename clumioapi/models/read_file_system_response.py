@@ -1,101 +1,105 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import hateoas_common_links as hateoas_common_links_
+import requests
 
 T = TypeVar('T', bound='ReadFileSystemResponse')
 
 
+@dataclasses.dataclass
 class ReadFileSystemResponse:
     """Implementation of the 'ReadFileSystemResponse' model.
 
     Attributes:
-        links:
-            HateoasCommonLinks are the common fields for HATEOAS response.
-        available:
-            The amount of available memory on the filesystem in bytes. Does not include
+        Links:
+            Hateoascommonlinks are the common fields for hateoas response.
+
+        Available:
+            The amount of available memory on the filesystem in bytes. does not include
             reserved memory.
-        filesystem_native_id:
-            The filesystem UUID produced by the `lsblk` linux command. If this filesystem
-            was not given a UUID in the host environment, then this field has a value of
+
+        FilesystemNativeId:
+            The filesystem uuid produced by the `lsblk` linux command. if this filesystem
+            was not given a uuid in the host environment, then this field has a value of
             `null`.
-        p_id:
-            The Clumio-assigned ID of the filesystem.
-        indexing_failed_reason:
-            The reason why file indexing failed. If file indexing succeeded, then this field
-            has a value of `null`. Possible values include "unsupported" and "encrypted".
-        is_encrypted:
+
+        Id:
+            The clumio-assigned id of the filesystem.
+
+        IndexingFailedReason:
+            The reason why file indexing failed. if file indexing succeeded, then this field
+            has a value of `null`. possible values include "unsupported" and "encrypted".
+
+        IsEncrypted:
             Determines whether the file system was encrypted.
-        is_indexed:
+
+        IsIndexed:
             Determines whether the file system has been indexed.
-            If `true`, file indexing completed successfully.
-        mount_path:
-            The location of this filesystem in the host environment. Only identifies mount
-            points that correspond to Windows drive letters. All other mount points are
+            if `true`, file indexing completed successfully.
+
+        MountPath:
+            The location of this filesystem in the host environment. only identifies mount
+            points that correspond to windows drive letters. all other mount points are
             identified by a '/'.
-        num_files_indexed:
+
+        NumFilesIndexed:
             The number of files (including directories) indexed in the file system.
-        size:
+
+        Size:
             The total amount of memory available to the filesystem in bytes.
-        p_type:
-            The type of the filesystem. This field is populated with values returned from
-            the lsblk command. Possible values include `ntfs`, `xfs`, and `ext3`.
-        used:
+
+        Type:
+            The type of the filesystem. this field is populated with values returned from
+            the lsblk command. possible values include `ntfs`, `xfs`, and `ext3`.
+
+        Used:
             The amount of memory used by the filesystem in bytes.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'links': '_links',
-        'available': 'available',
-        'filesystem_native_id': 'filesystem_native_id',
-        'p_id': 'id',
-        'indexing_failed_reason': 'indexing_failed_reason',
-        'is_encrypted': 'is_encrypted',
-        'is_indexed': 'is_indexed',
-        'mount_path': 'mount_path',
-        'num_files_indexed': 'num_files_indexed',
-        'size': 'size',
-        'p_type': 'type',
-        'used': 'used',
-    }
+    Links: hateoas_common_links_.HateoasCommonLinks | None = None
+    Available: int | None = None
+    FilesystemNativeId: str | None = None
+    Id: str | None = None
+    IndexingFailedReason: str | None = None
+    IsEncrypted: bool | None = None
+    IsIndexed: bool | None = None
+    MountPath: str | None = None
+    NumFilesIndexed: int | None = None
+    Size: int | None = None
+    Type: str | None = None
+    Used: int | None = None
+    raw_response: Optional[requests.Response] = None
 
-    def __init__(
-        self,
-        links: hateoas_common_links_.HateoasCommonLinks | None = None,
-        available: int | None = None,
-        filesystem_native_id: str | None = None,
-        p_id: str | None = None,
-        indexing_failed_reason: str | None = None,
-        is_encrypted: bool | None = None,
-        is_indexed: bool | None = None,
-        mount_path: str | None = None,
-        num_files_indexed: int | None = None,
-        size: int | None = None,
-        p_type: str | None = None,
-        used: int | None = None,
-    ) -> None:
-        """Constructor for the ReadFileSystemResponse class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.links: hateoas_common_links_.HateoasCommonLinks | None = links
-        self.available: int | None = available
-        self.filesystem_native_id: str | None = filesystem_native_id
-        self.p_id: str | None = p_id
-        self.indexing_failed_reason: str | None = indexing_failed_reason
-        self.is_encrypted: bool | None = is_encrypted
-        self.is_indexed: bool | None = is_indexed
-        self.mount_path: str | None = mount_path
-        self.num_files_indexed: int | None = num_files_indexed
-        self.size: int | None = size
-        self.p_type: str | None = p_type
-        self.used: int | None = used
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -106,8 +110,8 @@ class ReadFileSystemResponse:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('_links', None)
         val_links = hateoas_common_links_.HateoasCommonLinks.from_dictionary(val)
@@ -119,7 +123,7 @@ class ReadFileSystemResponse:
         val_filesystem_native_id = val
 
         val = dictionary.get('id', None)
-        val_p_id = val
+        val_id = val
 
         val = dictionary.get('indexing_failed_reason', None)
         val_indexing_failed_reason = val
@@ -140,7 +144,7 @@ class ReadFileSystemResponse:
         val_size = val
 
         val = dictionary.get('type', None)
-        val_p_type = val
+        val_type = val
 
         val = dictionary.get('used', None)
         val_used = val
@@ -150,13 +154,30 @@ class ReadFileSystemResponse:
             val_links,
             val_available,
             val_filesystem_native_id,
-            val_p_id,
+            val_id,
             val_indexing_failed_reason,
             val_is_encrypted,
             val_is_indexed,
             val_mount_path,
             val_num_files_indexed,
             val_size,
-            val_p_type,
+            val_type,
             val_used,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        model_instance.raw_response = response
+        return model_instance

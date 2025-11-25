@@ -20,6 +20,7 @@ clumioapi.controllers.consolidated\_alerts\_v1
       :template: custom-class-template.rst
    
       ConsolidatedAlertsV1Controller
+      ConsolidatedAlertsV1ControllerPaginator
    
    
 

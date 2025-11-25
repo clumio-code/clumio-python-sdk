@@ -17,10 +17,18 @@ clumioapi.models.rule\_embedded.RuleEmbedded
    .. autosummary::
    
       ~RuleEmbedded.__init__
+      ~RuleEmbedded.dict
       ~RuleEmbedded.from_dictionary
+      ~RuleEmbedded.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~RuleEmbedded.ReadPolicyDefinition
    
    

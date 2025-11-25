@@ -1,18 +1,21 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import clumio_role_resource as clumio_role_resource_
 from clumioapi.models import clumio_rule_resource as clumio_rule_resource_
 from clumioapi.models import clumio_ssm_document_resource as clumio_ssm_document_resource_
 from clumioapi.models import clumio_topic_resource as clumio_topic_resource_
 from clumioapi.models import policy_details as policy_details_
+import requests
 
 T = TypeVar('T', bound='CategorisedResources')
 
 
+@dataclasses.dataclass
 class CategorisedResources:
     """Implementation of the 'CategorisedResources' model.
 
@@ -20,51 +23,56 @@ class CategorisedResources:
     by the user
 
     Attributes:
-        policies:
-            Consists of policies that are not attached to any other resource (Roles, Topics,
-            Rules)
-        roles:
-            Consists of the IAM Roles and the attached policies
-        rules:
-            Consists of the EventBridge Rules
-        ssm_documents:
-            Consists of SSM Documents
-        topics:
-            Consists of the SNS Topics
+        Policies:
+            Consists of policies that are not attached to any other resource (roles, topics,
+            rules).
+
+        Roles:
+            Consists of the iam roles and the attached policies.
+
+        Rules:
+            Consists of the eventbridge rules.
+
+        SsmDocuments:
+            Consists of ssm documents.
+
+        Topics:
+            Consists of the sns topics.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'policies': 'policies',
-        'roles': 'roles',
-        'rules': 'rules',
-        'ssm_documents': 'ssm_documents',
-        'topics': 'topics',
-    }
+    Policies: Mapping[str, policy_details_.PolicyDetails] | None = None
+    Roles: Mapping[str, clumio_role_resource_.ClumioRoleResource] | None = None
+    Rules: Mapping[str, clumio_rule_resource_.ClumioRuleResource] | None = None
+    SsmDocuments: Mapping[str, clumio_ssm_document_resource_.ClumioSsmDocumentResource] | None = (
+        None
+    )
+    Topics: Mapping[str, clumio_topic_resource_.ClumioTopicResource] | None = None
 
-    def __init__(
-        self,
-        policies: Mapping[str, policy_details_.PolicyDetails] | None = None,
-        roles: Mapping[str, clumio_role_resource_.ClumioRoleResource] | None = None,
-        rules: Mapping[str, clumio_rule_resource_.ClumioRuleResource] | None = None,
-        ssm_documents: (
-            Mapping[str, clumio_ssm_document_resource_.ClumioSsmDocumentResource] | None
-        ) = None,
-        topics: Mapping[str, clumio_topic_resource_.ClumioTopicResource] | None = None,
-    ) -> None:
-        """Constructor for the CategorisedResources class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.policies: Mapping[str, policy_details_.PolicyDetails] | None = policies
-        self.roles: Mapping[str, clumio_role_resource_.ClumioRoleResource] | None = roles
-        self.rules: Mapping[str, clumio_rule_resource_.ClumioRuleResource] | None = rules
-        self.ssm_documents: (
-            Mapping[str, clumio_ssm_document_resource_.ClumioSsmDocumentResource] | None
-        ) = ssm_documents
-        self.topics: Mapping[str, clumio_topic_resource_.ClumioTopicResource] | None = topics
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -75,8 +83,8 @@ class CategorisedResources:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('policies', None)
         val_policies: Dict[str, policy_details_.PolicyDetails] = {}
@@ -113,3 +121,19 @@ class CategorisedResources:
             val_ssm_documents,
             val_topics,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

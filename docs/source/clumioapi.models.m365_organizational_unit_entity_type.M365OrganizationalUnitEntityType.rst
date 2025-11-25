@@ -17,7 +17,9 @@ clumioapi.models.m365\_organizational\_unit\_entity\_type.M365OrganizationalUnit
    .. autosummary::
    
       ~M365OrganizationalUnitEntityType.__init__
+      ~M365OrganizationalUnitEntityType.dict
       ~M365OrganizationalUnitEntityType.from_dictionary
+      ~M365OrganizationalUnitEntityType.from_response
    
    
 

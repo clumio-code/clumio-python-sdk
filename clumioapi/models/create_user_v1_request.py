@@ -1,67 +1,79 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='CreateUserV1Request')
 
 
+@dataclasses.dataclass
 class CreateUserV1Request:
     """Implementation of the 'CreateUserV1Request' model.
 
     Attributes:
-        assigned_role:
-            The Clumio-assigned ID of the role to assign to the user.
-            The available roles can be retrieved via the [GET /roles](#operation/list-roles)
-            API.
-            When not set, the role is determined as follows
+        AssignedRole:
+            The clumio-assigned id of the role to assign to the user.
+            the available roles can be retrieved via the [get /roles](#operation/list-roles)
+            api.
+            when not set, the role is determined as follows
 
             +-------------+---------------------------+----------------+
-            |   Inviter   |       Assigned OUs        | Resulting Role |
+            |   inviter   |       assigned ous        | resulting role |
             +=============+===========================+================+
-            | Super Admin | Global OU is assigned     | Super Admin    |
+            | super admin | global ou is assigned     | super admin    |
             +-------------+---------------------------+----------------+
-            | Super Admin | Global OU is not assigned | OU Admin       |
+            | super admin | global ou is not assigned | ou admin       |
             +-------------+---------------------------+----------------+
-            | OU Admin    | Any                       | OU Admin       |
+            | ou admin    | any                       | ou admin       |
             +-------------+---------------------------+----------------+
-        email:
-            The email address of the user to be added to Clumio.
-        full_name:
-            The full name of the user to be added to Clumio. For example, type the user's
+
+        Email:
+            The email address of the user to be added to clumio.
+
+        FullName:
+            The full name of the user to be added to clumio. for example, type the user's
             first name and last name.
-            The name displays on the User Management screen and in the body of the email
+            the name displays on the user management screen and in the body of the email
             invitation.
-        organizational_unit_ids:
-            The Clumio-assigned IDs of the organizational units to be assigned to the user.
+
+        OrganizationalUnitIds:
+            The clumio-assigned ids of the organizational units to be assigned to the user.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'assigned_role': 'assigned_role',
-        'email': 'email',
-        'full_name': 'full_name',
-        'organizational_unit_ids': 'organizational_unit_ids',
-    }
+    AssignedRole: str | None = None
+    Email: str | None = None
+    FullName: str | None = None
+    OrganizationalUnitIds: Sequence[str] | None = None
 
-    def __init__(
-        self,
-        assigned_role: str | None = None,
-        email: str | None = None,
-        full_name: str | None = None,
-        organizational_unit_ids: Sequence[str] | None = None,
-    ) -> None:
-        """Constructor for the CreateUserV1Request class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.assigned_role: str | None = assigned_role
-        self.email: str | None = email
-        self.full_name: str | None = full_name
-        self.organizational_unit_ids: Sequence[str] | None = organizational_unit_ids
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -72,8 +84,8 @@ class CreateUserV1Request:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('assigned_role', None)
         val_assigned_role = val
@@ -94,3 +106,19 @@ class CreateUserV1Request:
             val_full_name,
             val_organizational_unit_ids,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

@@ -17,10 +17,38 @@ clumioapi.models.add\_bucket\_to\_protection\_group\_response.AddBucketToProtect
    .. autosummary::
    
       ~AddBucketToProtectionGroupResponse.__init__
+      ~AddBucketToProtectionGroupResponse.dict
       ~AddBucketToProtectionGroupResponse.from_dictionary
+      ~AddBucketToProtectionGroupResponse.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~AddBucketToProtectionGroupResponse.AccountNativeId
+      ~AddBucketToProtectionGroupResponse.AddedByBucketRule
+      ~AddBucketToProtectionGroupResponse.AddedByUser
+      ~AddBucketToProtectionGroupResponse.AwsRegion
+      ~AddBucketToProtectionGroupResponse.BackupTargetAwsRegion
+      ~AddBucketToProtectionGroupResponse.BackupTierStats
+      ~AddBucketToProtectionGroupResponse.BucketId
+      ~AddBucketToProtectionGroupResponse.BucketName
+      ~AddBucketToProtectionGroupResponse.CreatedTimestamp
+      ~AddBucketToProtectionGroupResponse.EnvironmentId
+      ~AddBucketToProtectionGroupResponse.GroupId
+      ~AddBucketToProtectionGroupResponse.GroupName
+      ~AddBucketToProtectionGroupResponse.Id
+      ~AddBucketToProtectionGroupResponse.IsDeleted
+      ~AddBucketToProtectionGroupResponse.LastBackupTimestamp
+      ~AddBucketToProtectionGroupResponse.LastContinuousBackupTimestamp
+      ~AddBucketToProtectionGroupResponse.OrganizationalUnitId
+      ~AddBucketToProtectionGroupResponse.TotalBackedUpObjectCount
+      ~AddBucketToProtectionGroupResponse.TotalBackedUpSizeBytes
+      ~AddBucketToProtectionGroupResponse.UnsupportedReason
+      ~AddBucketToProtectionGroupResponse.raw_response
    
    

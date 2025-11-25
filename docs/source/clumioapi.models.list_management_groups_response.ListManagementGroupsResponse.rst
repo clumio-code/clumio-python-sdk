@@ -17,10 +17,24 @@ clumioapi.models.list\_management\_groups\_response.ListManagementGroupsResponse
    .. autosummary::
    
       ~ListManagementGroupsResponse.__init__
+      ~ListManagementGroupsResponse.dict
       ~ListManagementGroupsResponse.from_dictionary
+      ~ListManagementGroupsResponse.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ListManagementGroupsResponse.CurrentCount
+      ~ListManagementGroupsResponse.Embedded
+      ~ListManagementGroupsResponse.Limit
+      ~ListManagementGroupsResponse.Links
+      ~ListManagementGroupsResponse.MinCount
+      ~ListManagementGroupsResponse.Start
+      ~ListManagementGroupsResponse.raw_response
    
    

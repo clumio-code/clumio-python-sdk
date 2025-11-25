@@ -17,10 +17,21 @@ clumioapi.models.ec2\_mssqlfci\_embedded.EC2MSSQLFCIEmbedded
    .. autosummary::
    
       ~EC2MSSQLFCIEmbedded.__init__
+      ~EC2MSSQLFCIEmbedded.dict
       ~EC2MSSQLFCIEmbedded.from_dictionary
+      ~EC2MSSQLFCIEmbedded.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~EC2MSSQLFCIEmbedded.GetEc2MssqlFailoverClusterBackupStatusStats
+      ~EC2MSSQLFCIEmbedded.GetEc2MssqlFailoverClusterHostsInfo
+      ~EC2MSSQLFCIEmbedded.GetEc2MssqlFailoverClusterStats
+      ~EC2MSSQLFCIEmbedded.ReadPolicyDefinition
    
    

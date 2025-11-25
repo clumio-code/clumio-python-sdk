@@ -29,11 +29,4 @@ clumioapi.controllers.users\_v1.UsersV1Controller
 
    
    
-   .. rubric:: Attributes
-
-   .. autosummary::
-   
-      ~UsersV1Controller.client
-      ~UsersV1Controller.global_headers
-   
    

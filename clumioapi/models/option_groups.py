@@ -1,108 +1,105 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import option_groups_links as option_groups_links_
 from clumioapi.models import option_model as option_model_
+import requests
 
 T = TypeVar('T', bound='OptionGroups')
 
 
+@dataclasses.dataclass
 class OptionGroups:
     """Implementation of the 'OptionGroups' model.
 
     Attributes:
-        embedded:
+        Embedded:
             Embedded responses related to the resource.
-        links:
-            URLs to pages related to the resource.
-        engine:
-            The AWS database engine at the time of backup.
-        engine_version:
-            The AWS database engine version at the time of backup.
-        has_additional_non_permanent_options:
+
+        Links:
+            Urls to pages related to the resource.
+
+        Engine:
+            The aws database engine at the time of backup.
+
+        EngineVersion:
+            The aws database engine version at the time of backup.
+
+        HasAdditionalNonPermanentOptions:
             Determines whether this option group contains additional non-permanent options
             apart from
             the non-permanent options at the time of backup.
-        has_additional_non_persistent_options:
+
+        HasAdditionalNonPersistentOptions:
             Determines whether this option group contains additional non-persistent options
             apart from
             the non-persistent options at time of backup.
-        has_additional_permanent_options:
+
+        HasAdditionalPermanentOptions:
             Determines whether this option group contains additional permanent options apart
             from
             the permanent options at the time of backup.
-        has_additional_persistent_options:
+
+        HasAdditionalPersistentOptions:
             Determines whether this option group contains additional persistent options
             apart from
             the persistent options at the time of backup.
-        is_compatible:
-            Compatibility of the Option Group
-        minimum_required_minor_engine_version:
+
+        IsCompatible:
+            Compatibility of the option group.
+
+        MinimumRequiredMinorEngineVersion:
             Minimum required minor engine version for this option-group to be applicable.
-        name:
-            Name of the option group
-        options:
+
+        Name:
+            Name of the option group.
+
+        Options:
             List of options configurations.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'embedded': '_embedded',
-        'links': '_links',
-        'engine': 'engine',
-        'engine_version': 'engine_version',
-        'has_additional_non_permanent_options': 'has_additional_non_permanent_options',
-        'has_additional_non_persistent_options': 'has_additional_non_persistent_options',
-        'has_additional_permanent_options': 'has_additional_permanent_options',
-        'has_additional_persistent_options': 'has_additional_persistent_options',
-        'is_compatible': 'is_compatible',
-        'minimum_required_minor_engine_version': 'minimum_required_minor_engine_version',
-        'name': 'name',
-        'options': 'options',
-    }
+    Embedded: object | None = None
+    Links: option_groups_links_.OptionGroupsLinks | None = None
+    Engine: str | None = None
+    EngineVersion: str | None = None
+    HasAdditionalNonPermanentOptions: bool | None = None
+    HasAdditionalNonPersistentOptions: bool | None = None
+    HasAdditionalPermanentOptions: bool | None = None
+    HasAdditionalPersistentOptions: bool | None = None
+    IsCompatible: bool | None = None
+    MinimumRequiredMinorEngineVersion: str | None = None
+    Name: str | None = None
+    Options: Sequence[option_model_.OptionModel] | None = None
 
-    def __init__(
-        self,
-        embedded: object | None = None,
-        links: option_groups_links_.OptionGroupsLinks | None = None,
-        engine: str | None = None,
-        engine_version: str | None = None,
-        has_additional_non_permanent_options: bool | None = None,
-        has_additional_non_persistent_options: bool | None = None,
-        has_additional_permanent_options: bool | None = None,
-        has_additional_persistent_options: bool | None = None,
-        is_compatible: bool | None = None,
-        minimum_required_minor_engine_version: str | None = None,
-        name: str | None = None,
-        options: Sequence[option_model_.OptionModel] | None = None,
-    ) -> None:
-        """Constructor for the OptionGroups class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.embedded: object | None = embedded
-        self.links: option_groups_links_.OptionGroupsLinks | None = links
-        self.engine: str | None = engine
-        self.engine_version: str | None = engine_version
-        self.has_additional_non_permanent_options: bool | None = (
-            has_additional_non_permanent_options
-        )
-        self.has_additional_non_persistent_options: bool | None = (
-            has_additional_non_persistent_options
-        )
-        self.has_additional_permanent_options: bool | None = has_additional_permanent_options
-        self.has_additional_persistent_options: bool | None = has_additional_persistent_options
-        self.is_compatible: bool | None = is_compatible
-        self.minimum_required_minor_engine_version: str | None = (
-            minimum_required_minor_engine_version
-        )
-        self.name: str | None = name
-        self.options: Sequence[option_model_.OptionModel] | None = options
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -113,8 +110,8 @@ class OptionGroups:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('_embedded', None)
         val_embedded = val
@@ -151,9 +148,8 @@ class OptionGroups:
 
         val = dictionary.get('options', None)
 
-        val_options = None
+        val_options = []
         if val:
-            val_options = list()
             for value in val:
                 val_options.append(option_model_.OptionModel.from_dictionary(value))
 
@@ -172,3 +168,19 @@ class OptionGroups:
             val_name,
             val_options,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

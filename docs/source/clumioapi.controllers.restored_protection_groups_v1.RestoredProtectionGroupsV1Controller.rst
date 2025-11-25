@@ -26,11 +26,4 @@ clumioapi.controllers.restored\_protection\_groups\_v1.RestoredProtectionGroupsV
 
    
    
-   .. rubric:: Attributes
-
-   .. autosummary::
-   
-      ~RestoredProtectionGroupsV1Controller.client
-      ~RestoredProtectionGroupsV1Controller.global_headers
-   
    

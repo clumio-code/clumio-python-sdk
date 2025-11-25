@@ -17,10 +17,21 @@ clumioapi.models.on\_demand\_ebs\_backup\_response\_v1.OnDemandEBSBackupResponse
    .. autosummary::
    
       ~OnDemandEBSBackupResponseV1.__init__
+      ~OnDemandEBSBackupResponseV1.dict
       ~OnDemandEBSBackupResponseV1.from_dictionary
+      ~OnDemandEBSBackupResponseV1.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~OnDemandEBSBackupResponseV1.Embedded
+      ~OnDemandEBSBackupResponseV1.Links
+      ~OnDemandEBSBackupResponseV1.TaskId
+      ~OnDemandEBSBackupResponseV1.raw_response
    
    

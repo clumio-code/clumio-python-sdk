@@ -17,10 +17,18 @@ clumioapi.models.delete\_protection\_group\_response.DeleteProtectionGroupRespon
    .. autosummary::
    
       ~DeleteProtectionGroupResponse.__init__
+      ~DeleteProtectionGroupResponse.dict
       ~DeleteProtectionGroupResponse.from_dictionary
+      ~DeleteProtectionGroupResponse.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~DeleteProtectionGroupResponse.raw_response
    
    

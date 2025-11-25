@@ -17,10 +17,22 @@ clumioapi.models.schedule\_setting.ScheduleSetting
    .. autosummary::
    
       ~ScheduleSetting.__init__
+      ~ScheduleSetting.dict
       ~ScheduleSetting.from_dictionary
+      ~ScheduleSetting.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ScheduleSetting.DayOfMonth
+      ~ScheduleSetting.DayOfWeek
+      ~ScheduleSetting.Frequency
+      ~ScheduleSetting.StartTime
+      ~ScheduleSetting.Timezone
    
    

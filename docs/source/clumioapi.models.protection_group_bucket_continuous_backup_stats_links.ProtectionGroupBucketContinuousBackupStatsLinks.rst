@@ -17,10 +17,18 @@ clumioapi.models.protection\_group\_bucket\_continuous\_backup\_stats\_links.Pro
    .. autosummary::
    
       ~ProtectionGroupBucketContinuousBackupStatsLinks.__init__
+      ~ProtectionGroupBucketContinuousBackupStatsLinks.dict
       ~ProtectionGroupBucketContinuousBackupStatsLinks.from_dictionary
+      ~ProtectionGroupBucketContinuousBackupStatsLinks.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ProtectionGroupBucketContinuousBackupStatsLinks.Self
    
    

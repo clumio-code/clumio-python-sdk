@@ -17,10 +17,21 @@ clumioapi.models.preview\_details\_protection\_group\_response.PreviewDetailsPro
    .. autosummary::
    
       ~PreviewDetailsProtectionGroupResponse.__init__
+      ~PreviewDetailsProtectionGroupResponse.dict
       ~PreviewDetailsProtectionGroupResponse.from_dictionary
+      ~PreviewDetailsProtectionGroupResponse.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~PreviewDetailsProtectionGroupResponse.Etag
+      ~PreviewDetailsProtectionGroupResponse.Links
+      ~PreviewDetailsProtectionGroupResponse.Objects
+      ~PreviewDetailsProtectionGroupResponse.raw_response
    
    

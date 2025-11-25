@@ -17,10 +17,20 @@ clumioapi.models.directory\_browse\_links.DirectoryBrowseLinks
    .. autosummary::
    
       ~DirectoryBrowseLinks.__init__
+      ~DirectoryBrowseLinks.dict
       ~DirectoryBrowseLinks.from_dictionary
+      ~DirectoryBrowseLinks.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~DirectoryBrowseLinks.First
+      ~DirectoryBrowseLinks.Next
+      ~DirectoryBrowseLinks.Self
    
    

@@ -24,11 +24,4 @@ clumioapi.controllers.ec2\_mssql\_instance\_v1.Ec2MssqlInstanceV1Controller
 
    
    
-   .. rubric:: Attributes
-
-   .. autosummary::
-   
-      ~Ec2MssqlInstanceV1Controller.client
-      ~Ec2MssqlInstanceV1Controller.global_headers
-   
    

@@ -17,10 +17,23 @@ clumioapi.models.list\_wallets\_response.ListWalletsResponse
    .. autosummary::
    
       ~ListWalletsResponse.__init__
+      ~ListWalletsResponse.dict
       ~ListWalletsResponse.from_dictionary
+      ~ListWalletsResponse.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ListWalletsResponse.CurrentCount
+      ~ListWalletsResponse.Embedded
+      ~ListWalletsResponse.Limit
+      ~ListWalletsResponse.Links
+      ~ListWalletsResponse.Start
+      ~ListWalletsResponse.raw_response
    
    

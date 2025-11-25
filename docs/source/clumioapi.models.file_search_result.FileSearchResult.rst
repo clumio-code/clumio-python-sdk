@@ -17,10 +17,20 @@ clumioapi.models.file\_search\_result.FileSearchResult
    .. autosummary::
    
       ~FileSearchResult.__init__
+      ~FileSearchResult.dict
       ~FileSearchResult.from_dictionary
+      ~FileSearchResult.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~FileSearchResult.Links
+      ~FileSearchResult.Path
+      ~FileSearchResult.SearchResultId
    
    

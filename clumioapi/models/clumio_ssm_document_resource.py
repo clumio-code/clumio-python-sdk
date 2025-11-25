@@ -1,63 +1,70 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import \
     clumio_ssm_document_parameter_value as clumio_ssm_document_parameter_value_
 from clumioapi.models import clumio_ssm_document_step as clumio_ssm_document_step_
+import requests
 
 T = TypeVar('T', bound='ClumioSsmDocumentResource')
 
 
+@dataclasses.dataclass
 class ClumioSsmDocumentResource:
     """Implementation of the 'ClumioSsmDocumentResource' model.
 
     Details for the ssm document attached to any resource
 
     Attributes:
-        description:
-            "description" must contain the version being followed
-        mainSteps:
-            "mainSteps" refers to commands to be executed
-        parameters:
-            "parameters" refers to the parameters to be applied while executing commands
-        schemaVersion:
-            "schemaVersion" is an AWS value for versioning
+        Description:
+            "description" must contain the version being followed.
+
+        Mainsteps:
+            "mainsteps" refers to commands to be executed.
+
+        Parameters:
+            "parameters" refers to the parameters to be applied while executing commands.
+
+        Schemaversion:
+            "schemaversion" is an aws value for versioning.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'description': 'description',
-        'mainSteps': 'mainSteps',
-        'parameters': 'parameters',
-        'schemaVersion': 'schemaVersion',
-    }
+    Description: str | None = None
+    Mainsteps: Sequence[clumio_ssm_document_step_.ClumioSsmDocumentStep] | None = None
+    Parameters: (
+        Mapping[str, clumio_ssm_document_parameter_value_.ClumioSsmDocumentParameterValue] | None
+    ) = None
+    Schemaversion: str | None = None
 
-    def __init__(
-        self,
-        description: str | None = None,
-        mainSteps: Sequence[clumio_ssm_document_step_.ClumioSsmDocumentStep] | None = None,
-        parameters: (
-            Mapping[str, clumio_ssm_document_parameter_value_.ClumioSsmDocumentParameterValue]
-            | None
-        ) = None,
-        schemaVersion: str | None = None,
-    ) -> None:
-        """Constructor for the ClumioSsmDocumentResource class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.description: str | None = description
-        self.mainSteps: Sequence[clumio_ssm_document_step_.ClumioSsmDocumentStep] | None = mainSteps
-        self.parameters: (
-            Mapping[str, clumio_ssm_document_parameter_value_.ClumioSsmDocumentParameterValue]
-            | None
-        ) = parameters
-        self.schemaVersion: str | None = schemaVersion
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -68,17 +75,16 @@ class ClumioSsmDocumentResource:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('description', None)
         val_description = val
 
         val = dictionary.get('mainSteps', None)
 
-        val_mainSteps = None
+        val_mainSteps = []
         if val:
-            val_mainSteps = list()
             for value in val:
                 val_mainSteps.append(
                     clumio_ssm_document_step_.ClumioSsmDocumentStep.from_dictionary(value)
@@ -105,3 +111,19 @@ class ClumioSsmDocumentResource:
             val_parameters,
             val_schemaVersion,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

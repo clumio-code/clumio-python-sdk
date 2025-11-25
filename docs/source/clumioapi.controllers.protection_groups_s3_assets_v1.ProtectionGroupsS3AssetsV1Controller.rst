@@ -26,11 +26,4 @@ clumioapi.controllers.protection\_groups\_s3\_assets\_v1.ProtectionGroupsS3Asset
 
    
    
-   .. rubric:: Attributes
-
-   .. autosummary::
-   
-      ~ProtectionGroupsS3AssetsV1Controller.client
-      ~ProtectionGroupsS3AssetsV1Controller.global_headers
-   
    

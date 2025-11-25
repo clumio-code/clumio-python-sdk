@@ -25,11 +25,4 @@ clumioapi.controllers.tasks\_v1.TasksV1Controller
 
    
    
-   .. rubric:: Attributes
-
-   .. autosummary::
-   
-      ~TasksV1Controller.client
-      ~TasksV1Controller.global_headers
-   
    

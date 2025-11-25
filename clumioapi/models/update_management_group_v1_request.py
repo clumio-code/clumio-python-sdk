@@ -1,37 +1,56 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='UpdateManagementGroupV1Request')
 
 
+@dataclasses.dataclass
 class UpdateManagementGroupV1Request:
     """Implementation of the 'UpdateManagementGroupV1Request' model.
 
     Attributes:
-        backup_across_subgroups:
+        BackupAcrossSubgroups:
             Determines whether backups are allowed to occur across different subgroups or
             cloud connectors.
-        name:
+
+        Name:
             The name of the management group.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {'backup_across_subgroups': 'backup_across_subgroups', 'name': 'name'}
+    BackupAcrossSubgroups: bool | None = None
+    Name: str | None = None
 
-    def __init__(
-        self, backup_across_subgroups: bool | None = None, name: str | None = None
-    ) -> None:
-        """Constructor for the UpdateManagementGroupV1Request class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.backup_across_subgroups: bool | None = backup_across_subgroups
-        self.name: str | None = name
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -42,8 +61,8 @@ class UpdateManagementGroupV1Request:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('backup_across_subgroups', None)
         val_backup_across_subgroups = val
@@ -56,3 +75,19 @@ class UpdateManagementGroupV1Request:
             val_backup_across_subgroups,
             val_name,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

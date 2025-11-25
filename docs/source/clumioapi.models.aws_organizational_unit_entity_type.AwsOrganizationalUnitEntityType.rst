@@ -17,7 +17,9 @@ clumioapi.models.aws\_organizational\_unit\_entity\_type.AwsOrganizationalUnitEn
    .. autosummary::
    
       ~AwsOrganizationalUnitEntityType.__init__
+      ~AwsOrganizationalUnitEntityType.dict
       ~AwsOrganizationalUnitEntityType.from_dictionary
+      ~AwsOrganizationalUnitEntityType.from_response
    
    
 

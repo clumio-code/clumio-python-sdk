@@ -17,10 +17,22 @@ clumioapi.models.wallet\_list\_links.WalletListLinks
    .. autosummary::
    
       ~WalletListLinks.__init__
+      ~WalletListLinks.dict
       ~WalletListLinks.from_dictionary
+      ~WalletListLinks.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~WalletListLinks.First
+      ~WalletListLinks.Last
+      ~WalletListLinks.Next
+      ~WalletListLinks.Prev
+      ~WalletListLinks.Self
    
    

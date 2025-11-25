@@ -20,6 +20,7 @@ clumioapi.controllers.restored\_records\_aws\_dynamodb\_tables\_v1
       :template: custom-class-template.rst
    
       RestoredRecordsAwsDynamodbTablesV1Controller
+      RestoredRecordsAwsDynamodbTablesV1ControllerPaginator
    
    
 

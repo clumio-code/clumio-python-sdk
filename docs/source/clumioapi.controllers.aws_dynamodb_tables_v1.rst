@@ -20,6 +20,7 @@ clumioapi.controllers.aws\_dynamodb\_tables\_v1
       :template: custom-class-template.rst
    
       AwsDynamodbTablesV1Controller
+      AwsDynamodbTablesV1ControllerPaginator
    
    
 

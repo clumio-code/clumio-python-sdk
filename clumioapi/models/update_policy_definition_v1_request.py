@@ -1,65 +1,71 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import policy_operation_input as policy_operation_input_
+import requests
 
 T = TypeVar('T', bound='UpdatePolicyDefinitionV1Request')
 
 
+@dataclasses.dataclass
 class UpdatePolicyDefinitionV1Request:
     """Implementation of the 'UpdatePolicyDefinitionV1Request' model.
 
     Attributes:
-        activation_status:
+        ActivationStatus:
             The status of the policy.
-            Refer to the Policy Activation Status table for a complete list of policy
+            refer to the policy activation status table for a complete list of policy
             statuses.
-        name:
+
+        Name:
             The user-provided name of the policy.
-        operations:
-            A set of service level agreements (SLA) for the policy. A policy can include
-            one or more SLA sets that span across various operations.
-        organizational_unit_id:
-            The Clumio-assigned ID of the organizational unit associated with the policy.
-        timezone:
-            The policy-level timezone is deprecated, as the operation-level timezone should
-            be used instead.
-            The timezone must be a valid location name from the IANA Time Zone database.
-            For instance, "America/New_York", "US/Central", "UTC".
-            Deprecated: true
+
+        Operations:
+            A set of service level agreements (sla) for the policy. a policy can include
+            one or more sla sets that span across various operations.
+
+        OrganizationalUnitId:
+            The clumio-assigned id of the organizational unit associated with the policy.
+
+        Timezone:
+            True.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'activation_status': 'activation_status',
-        'name': 'name',
-        'operations': 'operations',
-        'organizational_unit_id': 'organizational_unit_id',
-        'timezone': 'timezone',
-    }
+    ActivationStatus: str | None = None
+    Name: str | None = None
+    Operations: Sequence[policy_operation_input_.PolicyOperationInput] | None = None
+    OrganizationalUnitId: str | None = None
+    Timezone: str | None = None
 
-    def __init__(
-        self,
-        activation_status: str | None = None,
-        name: str | None = None,
-        operations: Sequence[policy_operation_input_.PolicyOperationInput] | None = None,
-        organizational_unit_id: str | None = None,
-        timezone: str | None = None,
-    ) -> None:
-        """Constructor for the UpdatePolicyDefinitionV1Request class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.activation_status: str | None = activation_status
-        self.name: str | None = name
-        self.operations: Sequence[policy_operation_input_.PolicyOperationInput] | None = operations
-        self.organizational_unit_id: str | None = organizational_unit_id
-        self.timezone: str | None = timezone
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -70,8 +76,8 @@ class UpdatePolicyDefinitionV1Request:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('activation_status', None)
         val_activation_status = val
@@ -81,9 +87,8 @@ class UpdatePolicyDefinitionV1Request:
 
         val = dictionary.get('operations', None)
 
-        val_operations = None
+        val_operations = []
         if val:
-            val_operations = list()
             for value in val:
                 val_operations.append(
                     policy_operation_input_.PolicyOperationInput.from_dictionary(value)
@@ -103,3 +108,19 @@ class UpdatePolicyDefinitionV1Request:
             val_organizational_unit_id,
             val_timezone,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

@@ -1,58 +1,65 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import \
     ec2_mssql_database_pitr_interval_links as ec2_mssql_database_pitr_interval_links_
+import requests
 
 T = TypeVar('T', bound='EC2MssqlDatabasePitrInterval')
 
 
+@dataclasses.dataclass
 class EC2MssqlDatabasePitrInterval:
     """Implementation of the 'EC2MssqlDatabasePitrInterval' model.
 
     Attributes:
-        embedded:
+        Embedded:
             Embedded responses related to the resource.
-        links:
-            URLs to pages related to the resource.
-        end_timestamp:
-            End timestamp of the interval. Represented in RFC-3339 format.
-        start_timestamp:
-            Start timestamp of the interval. Represented in RFC-3339 format.
+
+        Links:
+            Urls to pages related to the resource.
+
+        EndTimestamp:
+            End timestamp of the interval. represented in rfc-3339 format.
+
+        StartTimestamp:
+            Start timestamp of the interval. represented in rfc-3339 format.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'embedded': '_embedded',
-        'links': '_links',
-        'end_timestamp': 'end_timestamp',
-        'start_timestamp': 'start_timestamp',
-    }
+    Embedded: object | None = None
+    Links: ec2_mssql_database_pitr_interval_links_.EC2MssqlDatabasePitrIntervalLinks | None = None
+    EndTimestamp: str | None = None
+    StartTimestamp: str | None = None
 
-    def __init__(
-        self,
-        embedded: object | None = None,
-        links: (
-            ec2_mssql_database_pitr_interval_links_.EC2MssqlDatabasePitrIntervalLinks | None
-        ) = None,
-        end_timestamp: str | None = None,
-        start_timestamp: str | None = None,
-    ) -> None:
-        """Constructor for the EC2MssqlDatabasePitrInterval class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.embedded: object | None = embedded
-        self.links: (
-            ec2_mssql_database_pitr_interval_links_.EC2MssqlDatabasePitrIntervalLinks | None
-        ) = links
-        self.end_timestamp: str | None = end_timestamp
-        self.start_timestamp: str | None = start_timestamp
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -63,8 +70,8 @@ class EC2MssqlDatabasePitrInterval:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('_embedded', None)
         val_embedded = val
@@ -87,3 +94,19 @@ class EC2MssqlDatabasePitrInterval:
             val_end_timestamp,
             val_start_timestamp,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

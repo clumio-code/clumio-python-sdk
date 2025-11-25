@@ -1,49 +1,62 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='AddProtectionGroupInstantAccessEndpointRoleV1Request')
 
 
+@dataclasses.dataclass
 class AddProtectionGroupInstantAccessEndpointRoleV1Request:
     """Implementation of the 'AddProtectionGroupInstantAccessEndpointRoleV1Request' model.
 
     Attributes:
-        is_allow_external_account:
-            Allow the addition of a role from an external account. This requires a feature
+        IsAllowExternalAccount:
+            Allow the addition of a role from an external account. this requires a feature
             flag to be enabled, contact support@clumio.com.
-        role_alias:
-            Descriptive alias of the IAM role.
-        role_arn:
-            ARN of the IAM role to allow access the endpoint. The role must be accessible
-            from AWS account
-            registered with Clumio.
+
+        RoleAlias:
+            Descriptive alias of the iam role.
+
+        RoleArn:
+            Arn of the iam role to allow access the endpoint. the role must be accessible
+            from aws account
+            registered with clumio.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'is_allow_external_account': 'is_allow_external_account',
-        'role_alias': 'role_alias',
-        'role_arn': 'role_arn',
-    }
+    IsAllowExternalAccount: bool | None = None
+    RoleAlias: str | None = None
+    RoleArn: str | None = None
 
-    def __init__(
-        self,
-        is_allow_external_account: bool | None = None,
-        role_alias: str | None = None,
-        role_arn: str | None = None,
-    ) -> None:
-        """Constructor for the AddProtectionGroupInstantAccessEndpointRoleV1Request class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.is_allow_external_account: bool | None = is_allow_external_account
-        self.role_alias: str | None = role_alias
-        self.role_arn: str | None = role_arn
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -54,8 +67,8 @@ class AddProtectionGroupInstantAccessEndpointRoleV1Request:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('is_allow_external_account', None)
         val_is_allow_external_account = val
@@ -72,3 +85,19 @@ class AddProtectionGroupInstantAccessEndpointRoleV1Request:
             val_role_alias,
             val_role_arn,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

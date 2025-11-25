@@ -17,10 +17,23 @@ clumioapi.models.user\_list\_hateoas\_links.UserListHateoasLinks
    .. autosummary::
    
       ~UserListHateoasLinks.__init__
+      ~UserListHateoasLinks.dict
       ~UserListHateoasLinks.from_dictionary
+      ~UserListHateoasLinks.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~UserListHateoasLinks.CreateUser
+      ~UserListHateoasLinks.First
+      ~UserListHateoasLinks.Last
+      ~UserListHateoasLinks.Next
+      ~UserListHateoasLinks.Prev
+      ~UserListHateoasLinks.Self
    
    

@@ -25,11 +25,4 @@ clumioapi.controllers.backup\_ec2\_mssql\_databases\_v1.BackupEc2MssqlDatabasesV
 
    
    
-   .. rubric:: Attributes
-
-   .. autosummary::
-   
-      ~BackupEc2MssqlDatabasesV1Controller.client
-      ~BackupEc2MssqlDatabasesV1Controller.global_headers
-   
    

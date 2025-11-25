@@ -17,10 +17,18 @@ clumioapi.models.permission\_list\_embedded.PermissionListEmbedded
    .. autosummary::
    
       ~PermissionListEmbedded.__init__
+      ~PermissionListEmbedded.dict
       ~PermissionListEmbedded.from_dictionary
+      ~PermissionListEmbedded.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~PermissionListEmbedded.Items
    
    

@@ -1,12 +1,16 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='Projection')
 
 
+@dataclasses.dataclass
 class Projection:
     """Implementation of the 'Projection' model.
 
@@ -15,34 +19,45 @@ class Projection:
     which are automatically projected.
 
     Attributes:
-        non_key_attributes:
+        NonKeyAttributes:
             Represents the non-key attribute names which will be projected into the index.
-            For [POST /restores/aws/dynamodb](#operation/restore-aws-dynamodb-table), this
+            for [post /restores/aws/dynamodb](#operation/restore-aws-dynamodb-table), this
             must be empty if
-            'projection_type' is ALL or KEYS_ONLY, and non-empty if 'projection_type' is
-            INCLUDE.
-        projection_type:
-            The set of attributes that are projected into the index. Valid Values: ALL,
-            KEYS_ONLY, INCLUDE.
+            'projection_type' is all or keys_only, and non-empty if 'projection_type' is
+            include.
+
+        ProjectionType:
+            All, keys_only, include.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'non_key_attributes': 'non_key_attributes',
-        'projection_type': 'projection_type',
-    }
+    NonKeyAttributes: Sequence[str] | None = None
+    ProjectionType: str | None = None
 
-    def __init__(
-        self, non_key_attributes: Sequence[str] | None = None, projection_type: str | None = None
-    ) -> None:
-        """Constructor for the Projection class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.non_key_attributes: Sequence[str] | None = non_key_attributes
-        self.projection_type: str | None = projection_type
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -53,8 +68,8 @@ class Projection:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('non_key_attributes', None)
         val_non_key_attributes = val
@@ -67,3 +82,19 @@ class Projection:
             val_non_key_attributes,
             val_projection_type,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

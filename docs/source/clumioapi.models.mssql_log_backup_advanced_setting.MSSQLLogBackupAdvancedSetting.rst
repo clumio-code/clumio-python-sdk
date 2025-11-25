@@ -17,10 +17,19 @@ clumioapi.models.mssql\_log\_backup\_advanced\_setting.MSSQLLogBackupAdvancedSet
    .. autosummary::
    
       ~MSSQLLogBackupAdvancedSetting.__init__
+      ~MSSQLLogBackupAdvancedSetting.dict
       ~MSSQLLogBackupAdvancedSetting.from_dictionary
+      ~MSSQLLogBackupAdvancedSetting.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~MSSQLLogBackupAdvancedSetting.AlternativeReplica
+      ~MSSQLLogBackupAdvancedSetting.PreferredReplica
    
    

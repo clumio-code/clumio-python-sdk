@@ -1,17 +1,20 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import \
     dynamo_db_restore_source_backup_options as dynamo_db_restore_source_backup_options_
 from clumioapi.models import \
     dynamo_db_restore_source_pitr_options as dynamo_db_restore_source_pitr_options_
+import requests
 
 T = TypeVar('T', bound='DynamoDBTableRestoreSource')
 
 
+@dataclasses.dataclass
 class DynamoDBTableRestoreSource:
     """Implementation of the 'DynamoDBTableRestoreSource' model.
 
@@ -19,40 +22,46 @@ class DynamoDBTableRestoreSource:
     these fields should be set.
 
     Attributes:
-        continuous_backup:
-            The parameters for initiating a DynamoDB table point-in-time restore.
-            Only one of `timestamp` or `use_latest_restorable_time` should be set.
-        securevault_backup:
-            The parameters for initiating a DynamoDB table restore from a backup.
+        ContinuousBackup:
+            The parameters for initiating a dynamodb table point-in-time restore.
+            only one of `timestamp` or `use_latest_restorable_time` should be set.
+
+        SecurevaultBackup:
+            The parameters for initiating a dynamodb table restore from a backup.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'continuous_backup': 'continuous_backup',
-        'securevault_backup': 'securevault_backup',
-    }
+    ContinuousBackup: (
+        dynamo_db_restore_source_pitr_options_.DynamoDBRestoreSourcePitrOptions | None
+    ) = None
+    SecurevaultBackup: (
+        dynamo_db_restore_source_backup_options_.DynamoDBRestoreSourceBackupOptions | None
+    ) = None
 
-    def __init__(
-        self,
-        continuous_backup: (
-            dynamo_db_restore_source_pitr_options_.DynamoDBRestoreSourcePitrOptions | None
-        ) = None,
-        securevault_backup: (
-            dynamo_db_restore_source_backup_options_.DynamoDBRestoreSourceBackupOptions | None
-        ) = None,
-    ) -> None:
-        """Constructor for the DynamoDBTableRestoreSource class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.continuous_backup: (
-            dynamo_db_restore_source_pitr_options_.DynamoDBRestoreSourcePitrOptions | None
-        ) = continuous_backup
-        self.securevault_backup: (
-            dynamo_db_restore_source_backup_options_.DynamoDBRestoreSourceBackupOptions | None
-        ) = securevault_backup
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -63,8 +72,8 @@ class DynamoDBTableRestoreSource:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('continuous_backup', None)
         val_continuous_backup = (
@@ -83,3 +92,19 @@ class DynamoDBTableRestoreSource:
             val_continuous_backup,
             val_securevault_backup,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

@@ -1,53 +1,64 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import hateoas_self_link as hateoas_self_link_
 from clumioapi.models import read_task_hateoas_link as read_task_hateoas_link_
+import requests
 
 T = TypeVar('T', bound='EstimateCostS3InstantAccessEndpointAsyncResponseLinks')
 
 
+@dataclasses.dataclass
 class EstimateCostS3InstantAccessEndpointAsyncResponseLinks:
     """Implementation of the 'EstimateCostS3InstantAccessEndpointAsyncResponseLinks' model.
 
     URLs to pages related to the resource.
 
     Attributes:
-        p_self:
-            The HATEOAS link to this resource.
-        cost_estimates_details_protection_group_instant_access_endpoint:
-            URL to retrieve details of cost estimates
-        read_task:
-            A HATEOAS link to the task associated with this resource.
+        Self:
+            The hateoas link to this resource.
+
+        CostEstimatesDetailsProtectionGroupInstantAccessEndpoint:
+            Url to retrieve details of cost estimates.
+
+        ReadTask:
+            A hateoas link to the task associated with this resource.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'p_self': '_self',
-        'cost_estimates_details_protection_group_instant_access_endpoint': 'cost-estimates-details-protection-group-instant-access-endpoint',
-        'read_task': 'read-task',
-    }
+    Self: hateoas_self_link_.HateoasSelfLink | None = None
+    CostEstimatesDetailsProtectionGroupInstantAccessEndpoint: object | None = None
+    ReadTask: read_task_hateoas_link_.ReadTaskHateoasLink | None = None
+    raw_response: Optional[requests.Response] = None
 
-    def __init__(
-        self,
-        p_self: hateoas_self_link_.HateoasSelfLink | None = None,
-        cost_estimates_details_protection_group_instant_access_endpoint: object | None = None,
-        read_task: read_task_hateoas_link_.ReadTaskHateoasLink | None = None,
-    ) -> None:
-        """Constructor for the EstimateCostS3InstantAccessEndpointAsyncResponseLinks class."""
-
-        # Initialize members of the class
-        self.p_self: hateoas_self_link_.HateoasSelfLink | None = p_self
-        self.cost_estimates_details_protection_group_instant_access_endpoint: object | None = (
-            cost_estimates_details_protection_group_instant_access_endpoint
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
         )
-        self.read_task: read_task_hateoas_link_.ReadTaskHateoasLink | None = read_task
+
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -58,11 +69,11 @@ class EstimateCostS3InstantAccessEndpointAsyncResponseLinks:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('_self', None)
-        val_p_self = hateoas_self_link_.HateoasSelfLink.from_dictionary(val)
+        val_self = hateoas_self_link_.HateoasSelfLink.from_dictionary(val)
 
         val = dictionary.get(
             'cost-estimates-details-protection-group-instant-access-endpoint', None
@@ -74,7 +85,24 @@ class EstimateCostS3InstantAccessEndpointAsyncResponseLinks:
 
         # Return an object of this model
         return cls(
-            val_p_self,
+            val_self,
             val_cost_estimates_details_protection_group_instant_access_endpoint,
             val_read_task,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        model_instance.raw_response = response
+        return model_instance

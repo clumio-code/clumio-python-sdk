@@ -3,35 +3,39 @@
 #
 
 import json
-from typing import Any, Optional, Union
+import re
+from typing import Any, Iterator, Optional, Union
+import urllib.parse
 
 from clumioapi import api_helper
 from clumioapi import configuration
 from clumioapi import sdk_version
 from clumioapi.controllers import base_controller
+from clumioapi.controllers.types import aws_s3_buckets_v1_bucket_matcher_types
 from clumioapi.exceptions import clumio_exception
 from clumioapi.models import post_process_kms_v1_request
 import requests
+import retrying
 
 
-class PostProcessKmsV1Controller(base_controller.BaseController):
+class PostProcessKmsV1Controller:
     """A Controller to access Endpoints for post-process-kms resource."""
 
-    def __init__(self, config: configuration.Configuration) -> None:
-        super().__init__(config)
-        self.config = config
+    def __init__(self, controller: base_controller.BaseController) -> None:
+        self.controller = controller
+        self.client = self.controller.client
         self.headers = {
             'accept': 'application/api.clumio.post-process-kms=v1+json',
-            'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
+            'x-clumio-organizationalunit-context': self.controller.config.organizational_unit_context,
             'x-clumio-api-client': 'clumio-python-sdk',
             'x-clumio-sdk-version': f'clumio-python-sdk:{sdk_version}',
         }
-        if config.custom_headers != None:
-            self.headers.update(config.custom_headers)
+        if self.controller.config.custom_headers != None:
+            self.headers.update(self.controller.config.custom_headers)
 
     def post_process_kms(
         self, body: post_process_kms_v1_request.PostProcessKmsV1Request | None = None, **kwargs
-    ) -> Union[object, tuple[requests.Response, Optional[object]]]:
+    ) -> object:
         """This API runs automatically and performs post-processing after a KMS template
         Create, Update, or Delete operation. It must be invoked by the Clumio Terraform
         provider and must not be invoked manually.
@@ -39,38 +43,42 @@ class PostProcessKmsV1Controller(base_controller.BaseController):
         Args:
             body:
                 The body of the request.
-        Returns:
-            requests.Response: Raw Response from the API if config.raw_response is set to True.
-            object: Response from the API.
-        Raises:
-            ClumioException: An error occured while executing the API.
-                This exception includes the HTTP response code, an error
-                message, and the HTTP body that was received in the request.
         """
+
+        def get_instance_from_response(resp: requests.Response) -> Any:
+            return resp
 
         # Prepare query URL
         _url_path = '/wallets/_post-process'
 
         _query_parameters: dict[str, Any] = {}
 
-        raw_response = self.config.raw_response
+        resp_instance: object
         # Execute request
+        resp: requests.Response
         try:
-            resp: requests.Response = self.client.post(
+            resp = self.client.post(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                json=api_helper.to_dictionary(body),
+                json=body.dict() if body else None,
                 raw_response=True,
                 **kwargs,
             )
-        except requests.exceptions.HTTPError as http_error:
-            if raw_response:
-                return http_error.response, None
-            raise clumio_exception.ClumioException(
-                'Error occurred while executing post_process_kms', error=http_error
-            )
+        except requests.exceptions.HTTPError as e:
+            resp = e.response
 
-        if raw_response:
-            return resp, resp.json()
-        return resp
+        if not resp.ok:
+            error_str = f'post_process_kms for url {urllib.parse.unquote(resp.url)} failed.'
+            raise clumio_exception.ClumioException(error_str, resp=resp)
+
+        resp_instance = get_instance_from_response(resp)
+
+        return resp_instance
+
+
+class PostProcessKmsV1ControllerPaginator:
+    """A Controller to access Endpoints for post-process-kms resource with pagination."""
+
+    def __init__(self, controller: base_controller.BaseController) -> None:
+        self.controller = controller

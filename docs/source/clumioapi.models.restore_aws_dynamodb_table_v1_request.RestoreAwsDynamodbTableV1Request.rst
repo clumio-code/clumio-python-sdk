@@ -17,10 +17,20 @@ clumioapi.models.restore\_aws\_dynamodb\_table\_v1\_request.RestoreAwsDynamodbTa
    .. autosummary::
    
       ~RestoreAwsDynamodbTableV1Request.__init__
+      ~RestoreAwsDynamodbTableV1Request.dict
       ~RestoreAwsDynamodbTableV1Request.from_dictionary
+      ~RestoreAwsDynamodbTableV1Request.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~RestoreAwsDynamodbTableV1Request.QueryFilter
+      ~RestoreAwsDynamodbTableV1Request.Source
+      ~RestoreAwsDynamodbTableV1Request.Target
    
    

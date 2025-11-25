@@ -25,11 +25,4 @@ clumioapi.controllers.restored\_aws\_s3\_buckets\_v1.RestoredAwsS3BucketsV1Contr
 
    
    
-   .. rubric:: Attributes
-
-   .. autosummary::
-   
-      ~RestoredAwsS3BucketsV1Controller.client
-      ~RestoredAwsS3BucketsV1Controller.global_headers
-   
    

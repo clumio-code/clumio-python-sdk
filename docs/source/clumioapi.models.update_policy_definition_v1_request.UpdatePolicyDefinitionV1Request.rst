@@ -17,10 +17,22 @@ clumioapi.models.update\_policy\_definition\_v1\_request.UpdatePolicyDefinitionV
    .. autosummary::
    
       ~UpdatePolicyDefinitionV1Request.__init__
+      ~UpdatePolicyDefinitionV1Request.dict
       ~UpdatePolicyDefinitionV1Request.from_dictionary
+      ~UpdatePolicyDefinitionV1Request.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~UpdatePolicyDefinitionV1Request.ActivationStatus
+      ~UpdatePolicyDefinitionV1Request.Name
+      ~UpdatePolicyDefinitionV1Request.Operations
+      ~UpdatePolicyDefinitionV1Request.OrganizationalUnitId
+      ~UpdatePolicyDefinitionV1Request.Timezone
    
    

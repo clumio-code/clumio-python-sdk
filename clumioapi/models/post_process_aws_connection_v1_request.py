@@ -1,86 +1,92 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='PostProcessAwsConnectionV1Request')
 
 
+@dataclasses.dataclass
 class PostProcessAwsConnectionV1Request:
     """Implementation of the 'PostProcessAwsConnectionV1Request' model.
 
     The body of the request.
 
     Attributes:
-        account_native_id:
-            The AWS-assigned ID of the account associated with the connection.
-        aws_region:
-            The AWS region associated with the connection. For example, `us-east-1`.
-        clumio_event_pub_id:
-            ClumioEventPubId is the Clumio Event Pub SNS topic ID.
-        configuration:
-            Configuration represents the AWS connection configuration in json string format
-        intermediate_role_arn:
-            Role arn to be assumed before accessing ClumioRole in customer account
-        properties:
+        AccountNativeId:
+            The aws-assigned id of the account associated with the connection.
+
+        AwsRegion:
+            The aws region associated with the connection. for example, `us-east-1`.
+
+        ClumioEventPubId:
+            Clumioeventpubid is the clumio event pub sns topic id.
+
+        Configuration:
+            Configuration represents the aws connection configuration in json string format.
+
+        IntermediateRoleArn:
+            Role arn to be assumed before accessing clumiorole in customer account.
+
+        Properties:
             Properties is a key value map meant to be used for passing additional
             information
-            like resource IDs/ARNs.
-        request_type:
-            RequestType indicates whether this is a Create, Update or Delete request
-        role_arn:
-            RoleArn is the ARN of the ClumioIAMRole created in the customer account
-        role_external_id:
-            Role External Id is the unique string passed while creating the AWS resources .
-        token:
-            The 36-character Clumio AWS integration ID token used to identify the
-            installation of the CloudFormation/Terraform template on the account.
+            like resource ids/arns.
+
+        RequestType:
+            Requesttype indicates whether this is a create, update or delete request.
+
+        RoleArn:
+            Rolearn is the arn of the clumioiamrole created in the customer account.
+
+        RoleExternalId:
+            Role external id is the unique string passed while creating the aws resources .
+
+        Token:
+            The 36-character clumio aws integration id token used to identify the
+            installation of the cloudformation/terraform template on the account.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'account_native_id': 'account_native_id',
-        'aws_region': 'aws_region',
-        'clumio_event_pub_id': 'clumio_event_pub_id',
-        'configuration': 'configuration',
-        'intermediate_role_arn': 'intermediate_role_arn',
-        'properties': 'properties',
-        'request_type': 'request_type',
-        'role_arn': 'role_arn',
-        'role_external_id': 'role_external_id',
-        'token': 'token',
-    }
+    AccountNativeId: str | None = None
+    AwsRegion: str | None = None
+    ClumioEventPubId: str | None = None
+    Configuration: str | None = None
+    IntermediateRoleArn: str | None = None
+    Properties: Mapping[str, str] | None = None
+    RequestType: str | None = None
+    RoleArn: str | None = None
+    RoleExternalId: str | None = None
+    Token: str | None = None
 
-    def __init__(
-        self,
-        account_native_id: str | None = None,
-        aws_region: str | None = None,
-        clumio_event_pub_id: str | None = None,
-        configuration: str | None = None,
-        intermediate_role_arn: str | None = None,
-        properties: Mapping[str, str] | None = None,
-        request_type: str | None = None,
-        role_arn: str | None = None,
-        role_external_id: str | None = None,
-        token: str | None = None,
-    ) -> None:
-        """Constructor for the PostProcessAwsConnectionV1Request class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.account_native_id: str | None = account_native_id
-        self.aws_region: str | None = aws_region
-        self.clumio_event_pub_id: str | None = clumio_event_pub_id
-        self.configuration: str | None = configuration
-        self.intermediate_role_arn: str | None = intermediate_role_arn
-        self.properties: Mapping[str, str] | None = properties
-        self.request_type: str | None = request_type
-        self.role_arn: str | None = role_arn
-        self.role_external_id: str | None = role_external_id
-        self.token: str | None = token
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -91,8 +97,8 @@ class PostProcessAwsConnectionV1Request:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('account_native_id', None)
         val_account_native_id = val
@@ -137,3 +143,19 @@ class PostProcessAwsConnectionV1Request:
             val_role_external_id,
             val_token,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

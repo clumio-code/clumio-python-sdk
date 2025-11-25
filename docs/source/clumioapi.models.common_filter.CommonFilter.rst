@@ -17,10 +17,20 @@ clumioapi.models.common\_filter.CommonFilter
    .. autosummary::
    
       ~CommonFilter.__init__
+      ~CommonFilter.dict
       ~CommonFilter.from_dictionary
+      ~CommonFilter.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~CommonFilter.AssetTypes
+      ~CommonFilter.DataSources
+      ~CommonFilter.OrganizationalUnits
    
    

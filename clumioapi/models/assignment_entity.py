@@ -1,59 +1,80 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='AssignmentEntity')
 
 
+@dataclasses.dataclass
 class AssignmentEntity:
     """Implementation of the 'AssignmentEntity' model.
 
     An entity being assigned or unassigned a policy.
 
     Attributes:
-        p_id:
-            A system-generated ID assigned of an entity being assigned or unassigned to a
+        Id:
+            A system-generated id assigned of an entity being assigned or unassigned to a
             policy.
-        p_type:
 
-            The type of an entity being associated or disassociated with a policy.
-            Valid primary entity types include the following:
+        Type:
+
+            the type of an entity being associated or disassociated with a policy.
+            valid primary entity types include the following:
 
             +------------------------+-------------------------+
-            |  Primary Entity Type   |         Details         |
+            |  primary entity type   |         details         |
             +========================+=========================+
-            | aws_ebs_volume         | AWS EBS volume.         |
+            | aws_ebs_volume         | aws ebs volume.         |
             +------------------------+-------------------------+
-            | aws_ec2_instance       | AWS EC2 instance.       |
+            | aws_ec2_instance       | aws ec2 instance.       |
             +------------------------+-------------------------+
-            | aws_rds_cluster        | AWS RDS cluster.        |
+            | aws_rds_cluster        | aws rds cluster.        |
             +------------------------+-------------------------+
-            | aws_rds_instance       | AWS RDS instance.       |
+            | aws_rds_instance       | aws rds instance.       |
             +------------------------+-------------------------+
-            | aws_dynamodb_table     | AWS DynamoDB table.     |
+            | aws_dynamodb_table     | aws dynamodb table.     |
             +------------------------+-------------------------+
-            | protection_group       | Protection group.       |
+            | protection_group       | protection group.       |
             +------------------------+-------------------------+
-            | aws_iceberg_glue_table | AWS Iceberg Glue table. |
+            | aws_iceberg_glue_table | aws iceberg glue table. |
             +------------------------+-------------------------+
-            | aws_iceberg_s3_table   | AWS Iceberg S3 table.   |
+            | aws_iceberg_s3_table   | aws iceberg s3 table.   |
             +------------------------+-------------------------+
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {'p_id': 'id', 'p_type': 'type'}
+    Id: str | None = None
+    Type: str | None = None
 
-    def __init__(self, p_id: str | None = None, p_type: str | None = None) -> None:
-        """Constructor for the AssignmentEntity class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.p_id: str | None = p_id
-        self.p_type: str | None = p_type
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -64,17 +85,33 @@ class AssignmentEntity:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('id', None)
-        val_p_id = val
+        val_id = val
 
         val = dictionary.get('type', None)
-        val_p_type = val
+        val_type = val
 
         # Return an object of this model
         return cls(
-            val_p_id,
-            val_p_type,
+            val_id,
+            val_type,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

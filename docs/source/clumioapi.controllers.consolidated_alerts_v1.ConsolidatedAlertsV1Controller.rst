@@ -25,11 +25,4 @@ clumioapi.controllers.consolidated\_alerts\_v1.ConsolidatedAlertsV1Controller
 
    
    
-   .. rubric:: Attributes
-
-   .. autosummary::
-   
-      ~ConsolidatedAlertsV1Controller.client
-      ~ConsolidatedAlertsV1Controller.global_headers
-   
    

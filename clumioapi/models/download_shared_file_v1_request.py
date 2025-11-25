@@ -1,37 +1,58 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='DownloadSharedFileV1Request')
 
 
+@dataclasses.dataclass
 class DownloadSharedFileV1Request:
     """Implementation of the 'DownloadSharedFileV1Request' model.
 
     Attributes:
-        email_link:
-            The download link that was sent to you by email. To get the download link,
-            open the email message, click "Download File" to launch the Clumio "Access
-            Requested File" page, and copy the URL.
-        passcode:
-            The passcode used to access the restored file. Obtain the passcode from the
+        EmailLink:
+            The download link that was sent to you by email. to get the download link,
+            open the email message, click "download file" to launch the clumio "access
+            requested file" page, and copy the url.
+
+        Passcode:
+            The passcode used to access the restored file. obtain the passcode from the
             user who generated the restored file.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {'email_link': 'email_link', 'passcode': 'passcode'}
+    EmailLink: str | None = None
+    Passcode: str | None = None
 
-    def __init__(self, email_link: str | None = None, passcode: str | None = None) -> None:
-        """Constructor for the DownloadSharedFileV1Request class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.email_link: str | None = email_link
-        self.passcode: str | None = passcode
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -42,8 +63,8 @@ class DownloadSharedFileV1Request:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('email_link', None)
         val_email_link = val
@@ -56,3 +77,19 @@ class DownloadSharedFileV1Request:
             val_email_link,
             val_passcode,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

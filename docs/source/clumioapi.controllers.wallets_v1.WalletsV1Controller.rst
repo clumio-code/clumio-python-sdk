@@ -27,11 +27,4 @@ clumioapi.controllers.wallets\_v1.WalletsV1Controller
 
    
    
-   .. rubric:: Attributes
-
-   .. autosummary::
-   
-      ~WalletsV1Controller.client
-      ~WalletsV1Controller.global_headers
-   
    

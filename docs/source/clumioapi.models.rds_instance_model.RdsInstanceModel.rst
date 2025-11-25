@@ -17,10 +17,20 @@ clumioapi.models.rds\_instance\_model.RdsInstanceModel
    .. autosummary::
    
       ~RdsInstanceModel.__init__
+      ~RdsInstanceModel.dict
       ~RdsInstanceModel.from_dictionary
+      ~RdsInstanceModel.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~RdsInstanceModel.Class
+      ~RdsInstanceModel.IsPubliclyAccessible
+      ~RdsInstanceModel.Name
    
    

@@ -1,65 +1,73 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import policy_details as policy_details_
+import requests
 
 T = TypeVar('T', bound='ClumioRoleResource')
 
 
+@dataclasses.dataclass
 class ClumioRoleResource:
     """Implementation of the 'ClumioRoleResource' model.
 
     Details for the IAM Role
 
     Attributes:
-        description:
+        Description
 
-        inline_policies:
-            "inline_policies" stores all the Customer Inline Policies to be attached to the
+        InlinePolicies:
+            "inline_policies" stores all the customer inline policies to be attached to the
             role.
-        managed_policies:
-            "managed_policies" stores all the Customer Managed Policies to be attached to
-            the role.
-        steps:
 
-        trust_policy:
-            "trust_policy" stores the Trust Relationship policy for the role. It is a
-            stringified JSON blob.
-            The user has to JSONify it and then paste the JSONified blob in aws console
+        ManagedPolicies:
+            "managed_policies" stores all the customer managed policies to be attached to
+            the role.
+
+        Steps
+
+        TrustPolicy:
+            "trust_policy" stores the trust relationship policy for the role. it is a
+            stringified json blob.
+            the user has to jsonify it and then paste the jsonified blob in aws console
             while creating the role.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'description': 'description',
-        'inline_policies': 'inline_policies',
-        'managed_policies': 'managed_policies',
-        'steps': 'steps',
-        'trust_policy': 'trust_policy',
-    }
+    Description: str | None = None
+    InlinePolicies: Sequence[policy_details_.PolicyDetails] | None = None
+    ManagedPolicies: Sequence[policy_details_.PolicyDetails] | None = None
+    Steps: str | None = None
+    TrustPolicy: object | None = None
 
-    def __init__(
-        self,
-        description: str | None = None,
-        inline_policies: Sequence[policy_details_.PolicyDetails] | None = None,
-        managed_policies: Sequence[policy_details_.PolicyDetails] | None = None,
-        steps: str | None = None,
-        trust_policy: object | None = None,
-    ) -> None:
-        """Constructor for the ClumioRoleResource class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.description: str | None = description
-        self.inline_policies: Sequence[policy_details_.PolicyDetails] | None = inline_policies
-        self.managed_policies: Sequence[policy_details_.PolicyDetails] | None = managed_policies
-        self.steps: str | None = steps
-        self.trust_policy: object | None = trust_policy
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -70,25 +78,23 @@ class ClumioRoleResource:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('description', None)
         val_description = val
 
         val = dictionary.get('inline_policies', None)
 
-        val_inline_policies = None
+        val_inline_policies = []
         if val:
-            val_inline_policies = list()
             for value in val:
                 val_inline_policies.append(policy_details_.PolicyDetails.from_dictionary(value))
 
         val = dictionary.get('managed_policies', None)
 
-        val_managed_policies = None
+        val_managed_policies = []
         if val:
-            val_managed_policies = list()
             for value in val:
                 val_managed_policies.append(policy_details_.PolicyDetails.from_dictionary(value))
 
@@ -106,3 +112,19 @@ class ClumioRoleResource:
             val_steps,
             val_trust_policy,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

@@ -17,10 +17,19 @@ clumioapi.models.ec2\_instance\_links.Ec2InstanceLinks
    .. autosummary::
    
       ~Ec2InstanceLinks.__init__
+      ~Ec2InstanceLinks.dict
       ~Ec2InstanceLinks.from_dictionary
+      ~Ec2InstanceLinks.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~Ec2InstanceLinks.ReadPolicyDefinition
+      ~Ec2InstanceLinks.Self
    
    

@@ -17,10 +17,28 @@ clumioapi.models.template\_configuration\_v2.TemplateConfigurationV2
    .. autosummary::
    
       ~TemplateConfigurationV2.__init__
+      ~TemplateConfigurationV2.dict
       ~TemplateConfigurationV2.from_dictionary
+      ~TemplateConfigurationV2.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~TemplateConfigurationV2.AssetTypesEnabled
+      ~TemplateConfigurationV2.AvailableTemplateVersion
+      ~TemplateConfigurationV2.Dynamodb
+      ~TemplateConfigurationV2.Ebs
+      ~TemplateConfigurationV2.Ec2
+      ~TemplateConfigurationV2.Ec2Mssql
+      ~TemplateConfigurationV2.IcebergOnGlue
+      ~TemplateConfigurationV2.IcebergOnS3Tables
+      ~TemplateConfigurationV2.Rds
+      ~TemplateConfigurationV2.S3
+      ~TemplateConfigurationV2.WarmTierProtect
    
    

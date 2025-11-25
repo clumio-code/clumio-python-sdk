@@ -17,10 +17,19 @@ clumioapi.models.retention\_backup\_sla\_param.RetentionBackupSLAParam
    .. autosummary::
    
       ~RetentionBackupSLAParam.__init__
+      ~RetentionBackupSLAParam.dict
       ~RetentionBackupSLAParam.from_dictionary
+      ~RetentionBackupSLAParam.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~RetentionBackupSLAParam.Unit
+      ~RetentionBackupSLAParam.Value
    
    

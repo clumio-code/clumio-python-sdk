@@ -23,11 +23,4 @@ clumioapi.controllers.post\_process\_aws\_connection\_v1.PostProcessAwsConnectio
 
    
    
-   .. rubric:: Attributes
-
-   .. autosummary::
-   
-      ~PostProcessAwsConnectionV1Controller.client
-      ~PostProcessAwsConnectionV1Controller.global_headers
-   
    

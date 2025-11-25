@@ -3,12 +3,16 @@
 #
 
 import json
-from typing import Any, Optional, Union
+import re
+from typing import Any, Iterator, Optional, Union
+import urllib.parse
 
 from clumioapi import api_helper
 from clumioapi import configuration
 from clumioapi import sdk_version
 from clumioapi.controllers import base_controller
+from clumioapi.controllers.types import aws_s3_buckets_v1_bucket_matcher_types
+from clumioapi.controllers.types import organizational_units_types
 from clumioapi.exceptions import clumio_exception
 from clumioapi.models import create_organizational_unit_no_task_response_v1
 from clumioapi.models import create_organizational_unit_response_v1
@@ -20,41 +24,36 @@ from clumioapi.models import patch_organizational_unit_response_v1
 from clumioapi.models import patch_organizational_unit_v1_request
 from clumioapi.models import read_organizational_unit_response_v1
 import requests
+import retrying
 
 
-class OrganizationalUnitsV1Controller(base_controller.BaseController):
+class OrganizationalUnitsV1Controller:
     """A Controller to access Endpoints for organizational-units resource."""
 
-    def __init__(self, config: configuration.Configuration) -> None:
-        super().__init__(config)
-        self.config = config
+    def __init__(self, controller: base_controller.BaseController) -> None:
+        self.controller = controller
+        self.client = self.controller.client
         self.headers = {
             'accept': 'application/api.clumio.organizational-units=v1+json',
-            'x-clumio-organizationalunit-context': self.config.organizational_unit_context,
+            'x-clumio-organizationalunit-context': self.controller.config.organizational_unit_context,
             'x-clumio-api-client': 'clumio-python-sdk',
             'x-clumio-sdk-version': f'clumio-python-sdk:{sdk_version}',
         }
-        if config.custom_headers != None:
-            self.headers.update(config.custom_headers)
+        if self.controller.config.custom_headers != None:
+            self.headers.update(self.controller.config.custom_headers)
 
     def list_organizational_units(
         self,
         limit: int | None = None,
         start: str | None = None,
-        filter: str | None = None,
+        filter: organizational_units_types.ListOrganizationalUnitsV1FilterT | None = None,
         **kwargs,
-    ) -> Union[
-        list_organizational_units_response_v1.ListOrganizationalUnitsResponseV1,
-        tuple[
-            requests.Response,
-            Optional[list_organizational_units_response_v1.ListOrganizationalUnitsResponseV1],
-        ],
-    ]:
+    ) -> list_organizational_units_response_v1.ListOrganizationalUnitsResponseV1:
         """Returns a list of organizational units.
 
         Args:
             limit:
-                Limits the size of the response on each page to the specified number of items.
+                Limits the size of the items returned in the response.
             start:
                 Sets the page number used to browse the collection.
                 Pages are indexed starting from 1 (i.e., `start=1`).
@@ -77,46 +76,46 @@ class OrganizationalUnitsV1Controller(base_controller.BaseController):
                 |           |                  | values.                                       |
                 +-----------+------------------+-----------------------------------------------+
 
-        Returns:
-            requests.Response: Raw Response from the API if config.raw_response is set to True.
-            list_organizational_units_response_v1.ListOrganizationalUnitsResponseV1: Response from the API.
-        Raises:
-            ClumioException: An error occured while executing the API.
-                This exception includes the HTTP response code, an error
-                message, and the HTTP body that was received in the request.
         """
+
+        def get_instance_from_response(resp: requests.Response) -> Any:
+            return list_organizational_units_response_v1.ListOrganizationalUnitsResponseV1.from_response(
+                resp
+            )
 
         # Prepare query URL
         _url_path = '/organizational-units'
 
         _query_parameters: dict[str, Any] = {}
-        _query_parameters = {'limit': limit, 'start': start, 'filter': filter}
+        _query_parameters = {
+            'limit': limit,
+            'start': start,
+            'filter': filter.query_str if filter else None,
+        }
 
-        raw_response = self.config.raw_response
+        resp_instance: list_organizational_units_response_v1.ListOrganizationalUnitsResponseV1
         # Execute request
+        resp: requests.Response
         try:
-            resp: requests.Response = self.client.get(
+            resp = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
                 raw_response=True,
                 **kwargs,
             )
-        except requests.exceptions.HTTPError as http_error:
-            if raw_response:
-                return http_error.response, None
-            raise clumio_exception.ClumioException(
-                'Error occurred while executing list_organizational_units', error=http_error
-            )
+        except requests.exceptions.HTTPError as e:
+            resp = e.response
 
-        obj = (
-            list_organizational_units_response_v1.ListOrganizationalUnitsResponseV1.from_dictionary(
-                resp.json()
+        if not resp.ok:
+            error_str = (
+                f'list_organizational_units for url {urllib.parse.unquote(resp.url)} failed.'
             )
-        )
-        if raw_response:
-            return resp, obj
-        return obj
+            raise clumio_exception.ClumioException(error_str, resp=resp)
+
+        resp_instance = get_instance_from_response(resp)
+
+        return resp_instance
 
     def create_organizational_unit(
         self,
@@ -124,19 +123,8 @@ class OrganizationalUnitsV1Controller(base_controller.BaseController):
         body: create_organizational_unit_v1_request.CreateOrganizationalUnitV1Request | None = None,
         **kwargs,
     ) -> Union[
-        Union[
-            create_organizational_unit_no_task_response_v1.CreateOrganizationalUnitNoTaskResponseV1,
-            create_organizational_unit_response_v1.CreateOrganizationalUnitResponseV1,
-        ],
-        tuple[
-            requests.Response,
-            Optional[
-                Union[
-                    create_organizational_unit_no_task_response_v1.CreateOrganizationalUnitNoTaskResponseV1,
-                    create_organizational_unit_response_v1.CreateOrganizationalUnitResponseV1,
-                ]
-            ],
-        ],
+        create_organizational_unit_no_task_response_v1.CreateOrganizationalUnitNoTaskResponseV1,
+        create_organizational_unit_response_v1.CreateOrganizationalUnitResponseV1,
     ]:
         """Create a new organizational unit. Adding entities to the OU is an asynchronous
         operation and has a task associated.
@@ -159,71 +147,67 @@ class OrganizationalUnitsV1Controller(base_controller.BaseController):
 
             body:
 
-        Returns:
-            requests.Response: Raw Response from the API if config.raw_response is set to True.
-            Union[create_organizational_unit_no_task_response_v1.CreateOrganizationalUnitNoTaskResponseV1, create_organizational_unit_response_v1.CreateOrganizationalUnitResponseV1]: Response from the API.
-        Raises:
-            ClumioException: An error occured while executing the API.
-                This exception includes the HTTP response code, an error
-                message, and the HTTP body that was received in the request.
         """
+
+        def get_instance_from_response(resp: requests.Response) -> Any:
+
+            obj: Any
+
+            if resp.status_code == 200:
+                obj = create_organizational_unit_no_task_response_v1.CreateOrganizationalUnitNoTaskResponseV1.from_response(
+                    resp
+                )
+                return obj
+
+            if resp.status_code == 202:
+                obj = create_organizational_unit_response_v1.CreateOrganizationalUnitResponseV1.from_response(
+                    resp
+                )
+                return obj
+
+            raise clumio_exception.ClumioException(
+                f'Unexpected response code for create_organizational_unit.', resp=resp
+            )
 
         # Prepare query URL
         _url_path = '/organizational-units'
 
         _query_parameters: dict[str, Any] = {}
-        _query_parameters = {'embed': embed}
+        _query_parameters = {
+            'embed': embed,
+        }
 
-        raw_response = self.config.raw_response
+        resp_instance: Union[
+            create_organizational_unit_no_task_response_v1.CreateOrganizationalUnitNoTaskResponseV1,
+            create_organizational_unit_response_v1.CreateOrganizationalUnitResponseV1,
+        ]
         # Execute request
+        resp: requests.Response
         try:
-            resp: requests.Response = self.client.post(
+            resp = self.client.post(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                json=api_helper.to_dictionary(body),
+                json=body.dict() if body else None,
                 raw_response=True,
                 **kwargs,
             )
-        except requests.exceptions.HTTPError as http_error:
-            if raw_response:
-                return http_error.response, None
-            raise clumio_exception.ClumioException(
-                'Error occurred while executing create_organizational_unit', error=http_error
+        except requests.exceptions.HTTPError as e:
+            resp = e.response
+
+        if not resp.ok:
+            error_str = (
+                f'create_organizational_unit for url {urllib.parse.unquote(resp.url)} failed.'
             )
-        text_unmarshalled_dict = json.loads(resp.text)
+            raise clumio_exception.ClumioException(error_str, resp=resp)
 
-        obj: Any
+        resp_instance = get_instance_from_response(resp)
 
-        obj = create_organizational_unit_no_task_response_v1.CreateOrganizationalUnitNoTaskResponseV1.from_dictionary(
-            text_unmarshalled_dict
-        )
-        if resp.status_code == 200:
-            if raw_response:
-                return resp, obj
-            return obj
-
-        obj = create_organizational_unit_response_v1.CreateOrganizationalUnitResponseV1.from_dictionary(
-            text_unmarshalled_dict
-        )
-        if resp.status_code == 202:
-            if raw_response:
-                return resp, obj
-            return obj
-
-        raise RuntimeError(
-            f'Code should be unreachable; Unexpected response code: {resp.status_code}. '
-        )
+        return resp_instance
 
     def read_organizational_unit(
         self, id: str | None = None, embed: str | None = None, **kwargs
-    ) -> Union[
-        read_organizational_unit_response_v1.ReadOrganizationalUnitResponseV1,
-        tuple[
-            requests.Response,
-            Optional[read_organizational_unit_response_v1.ReadOrganizationalUnitResponseV1],
-        ],
-    ]:
+    ) -> read_organizational_unit_response_v1.ReadOrganizationalUnitResponseV1:
         """Returns a representation of the specified organizational unit.
 
         Args:
@@ -241,54 +225,49 @@ class OrganizationalUnitsV1Controller(base_controller.BaseController):
                 |                 | embed=read-task                                            |
                 +-----------------+------------------------------------------------------------+
 
-        Returns:
-            requests.Response: Raw Response from the API if config.raw_response is set to True.
-            read_organizational_unit_response_v1.ReadOrganizationalUnitResponseV1: Response from the API.
-        Raises:
-            ClumioException: An error occured while executing the API.
-                This exception includes the HTTP response code, an error
-                message, and the HTTP body that was received in the request.
         """
+
+        def get_instance_from_response(resp: requests.Response) -> Any:
+            return (
+                read_organizational_unit_response_v1.ReadOrganizationalUnitResponseV1.from_response(
+                    resp
+                )
+            )
 
         # Prepare query URL
         _url_path = '/organizational-units/{id}'
         _url_path = api_helper.append_url_with_template_parameters(_url_path, {'id': id})
-        _query_parameters: dict[str, Any] = {}
-        _query_parameters = {'embed': embed}
 
-        raw_response = self.config.raw_response
+        _query_parameters: dict[str, Any] = {}
+        _query_parameters = {
+            'embed': embed,
+        }
+
+        resp_instance: read_organizational_unit_response_v1.ReadOrganizationalUnitResponseV1
         # Execute request
+        resp: requests.Response
         try:
-            resp: requests.Response = self.client.get(
+            resp = self.client.get(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
                 raw_response=True,
                 **kwargs,
             )
-        except requests.exceptions.HTTPError as http_error:
-            if raw_response:
-                return http_error.response, None
-            raise clumio_exception.ClumioException(
-                'Error occurred while executing read_organizational_unit', error=http_error
-            )
+        except requests.exceptions.HTTPError as e:
+            resp = e.response
 
-        obj = read_organizational_unit_response_v1.ReadOrganizationalUnitResponseV1.from_dictionary(
-            resp.json()
-        )
-        if raw_response:
-            return resp, obj
-        return obj
+        if not resp.ok:
+            error_str = f'read_organizational_unit for url {urllib.parse.unquote(resp.url)} failed.'
+            raise clumio_exception.ClumioException(error_str, resp=resp)
+
+        resp_instance = get_instance_from_response(resp)
+
+        return resp_instance
 
     def delete_organizational_unit(
         self, id: str | None = None, embed: str | None = None, **kwargs
-    ) -> Union[
-        delete_organizational_unit_response.DeleteOrganizationalUnitResponse,
-        tuple[
-            requests.Response,
-            Optional[delete_organizational_unit_response.DeleteOrganizationalUnitResponse],
-        ],
-    ]:
+    ) -> delete_organizational_unit_response.DeleteOrganizationalUnitResponse:
         """Delete the specified organizational unit.
 
         Args:
@@ -306,44 +285,47 @@ class OrganizationalUnitsV1Controller(base_controller.BaseController):
                 |                 | embed=read-task                                            |
                 +-----------------+------------------------------------------------------------+
 
-        Returns:
-            requests.Response: Raw Response from the API if config.raw_response is set to True.
-            delete_organizational_unit_response.DeleteOrganizationalUnitResponse: Response from the API.
-        Raises:
-            ClumioException: An error occured while executing the API.
-                This exception includes the HTTP response code, an error
-                message, and the HTTP body that was received in the request.
         """
+
+        def get_instance_from_response(resp: requests.Response) -> Any:
+            return (
+                delete_organizational_unit_response.DeleteOrganizationalUnitResponse.from_response(
+                    resp
+                )
+            )
 
         # Prepare query URL
         _url_path = '/organizational-units/{id}'
         _url_path = api_helper.append_url_with_template_parameters(_url_path, {'id': id})
-        _query_parameters: dict[str, Any] = {}
-        _query_parameters = {'embed': embed}
 
-        raw_response = self.config.raw_response
+        _query_parameters: dict[str, Any] = {}
+        _query_parameters = {
+            'embed': embed,
+        }
+
+        resp_instance: delete_organizational_unit_response.DeleteOrganizationalUnitResponse
         # Execute request
+        resp: requests.Response
         try:
-            resp: requests.Response = self.client.delete(
+            resp = self.client.delete(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
                 raw_response=True,
                 **kwargs,
             )
-        except requests.exceptions.HTTPError as http_error:
-            if raw_response:
-                return http_error.response, None
-            raise clumio_exception.ClumioException(
-                'Error occurred while executing delete_organizational_unit', error=http_error
-            )
+        except requests.exceptions.HTTPError as e:
+            resp = e.response
 
-        obj = delete_organizational_unit_response.DeleteOrganizationalUnitResponse.from_dictionary(
-            resp.json()
-        )
-        if raw_response:
-            return resp, obj
-        return obj
+        if not resp.ok:
+            error_str = (
+                f'delete_organizational_unit for url {urllib.parse.unquote(resp.url)} failed.'
+            )
+            raise clumio_exception.ClumioException(error_str, resp=resp)
+
+        resp_instance = get_instance_from_response(resp)
+
+        return resp_instance
 
     def patch_organizational_unit(
         self,
@@ -352,19 +334,8 @@ class OrganizationalUnitsV1Controller(base_controller.BaseController):
         body: patch_organizational_unit_v1_request.PatchOrganizationalUnitV1Request | None = None,
         **kwargs,
     ) -> Union[
-        Union[
-            patch_organizational_unit_no_task_response_v1.PatchOrganizationalUnitNoTaskResponseV1,
-            patch_organizational_unit_response_v1.PatchOrganizationalUnitResponseV1,
-        ],
-        tuple[
-            requests.Response,
-            Optional[
-                Union[
-                    patch_organizational_unit_no_task_response_v1.PatchOrganizationalUnitNoTaskResponseV1,
-                    patch_organizational_unit_response_v1.PatchOrganizationalUnitResponseV1,
-                ]
-            ],
-        ],
+        patch_organizational_unit_no_task_response_v1.PatchOrganizationalUnitNoTaskResponseV1,
+        patch_organizational_unit_response_v1.PatchOrganizationalUnitResponseV1,
     ]:
         """Patch the specified organizational unit.
         The complete updated attribute(s) of the organizational unit must be provided in
@@ -392,60 +363,125 @@ class OrganizationalUnitsV1Controller(base_controller.BaseController):
 
             body:
 
-        Returns:
-            requests.Response: Raw Response from the API if config.raw_response is set to True.
-            Union[patch_organizational_unit_no_task_response_v1.PatchOrganizationalUnitNoTaskResponseV1, patch_organizational_unit_response_v1.PatchOrganizationalUnitResponseV1]: Response from the API.
-        Raises:
-            ClumioException: An error occured while executing the API.
-                This exception includes the HTTP response code, an error
-                message, and the HTTP body that was received in the request.
         """
+
+        def get_instance_from_response(resp: requests.Response) -> Any:
+
+            obj: Any
+
+            if resp.status_code == 200:
+                obj = patch_organizational_unit_no_task_response_v1.PatchOrganizationalUnitNoTaskResponseV1.from_response(
+                    resp
+                )
+                return obj
+
+            if resp.status_code == 202:
+                obj = patch_organizational_unit_response_v1.PatchOrganizationalUnitResponseV1.from_response(
+                    resp
+                )
+                return obj
+
+            raise clumio_exception.ClumioException(
+                f'Unexpected response code for patch_organizational_unit.', resp=resp
+            )
 
         # Prepare query URL
         _url_path = '/organizational-units/{id}'
         _url_path = api_helper.append_url_with_template_parameters(_url_path, {'id': id})
-        _query_parameters: dict[str, Any] = {}
-        _query_parameters = {'embed': embed}
 
-        raw_response = self.config.raw_response
+        _query_parameters: dict[str, Any] = {}
+        _query_parameters = {
+            'embed': embed,
+        }
+
+        resp_instance: Union[
+            patch_organizational_unit_no_task_response_v1.PatchOrganizationalUnitNoTaskResponseV1,
+            patch_organizational_unit_response_v1.PatchOrganizationalUnitResponseV1,
+        ]
         # Execute request
+        resp: requests.Response
         try:
-            resp: requests.Response = self.client.patch(
+            resp = self.client.patch(
                 _url_path,
                 headers=self.headers,
                 params=_query_parameters,
-                json=api_helper.to_dictionary(body),
+                json=body.dict() if body else None,
                 raw_response=True,
                 **kwargs,
             )
-        except requests.exceptions.HTTPError as http_error:
-            if raw_response:
-                return http_error.response, None
-            raise clumio_exception.ClumioException(
-                'Error occurred while executing patch_organizational_unit', error=http_error
+        except requests.exceptions.HTTPError as e:
+            resp = e.response
+
+        if not resp.ok:
+            error_str = (
+                f'patch_organizational_unit for url {urllib.parse.unquote(resp.url)} failed.'
             )
-        text_unmarshalled_dict = json.loads(resp.text)
+            raise clumio_exception.ClumioException(error_str, resp=resp)
 
-        obj: Any
+        resp_instance = get_instance_from_response(resp)
 
-        obj = patch_organizational_unit_no_task_response_v1.PatchOrganizationalUnitNoTaskResponseV1.from_dictionary(
-            text_unmarshalled_dict
-        )
-        if resp.status_code == 200:
-            if raw_response:
-                return resp, obj
-            return obj
+        return resp_instance
 
-        obj = (
-            patch_organizational_unit_response_v1.PatchOrganizationalUnitResponseV1.from_dictionary(
-                text_unmarshalled_dict
+
+class OrganizationalUnitsV1ControllerPaginator:
+    """A Controller to access Endpoints for organizational-units resource with pagination."""
+
+    def __init__(self, controller: base_controller.BaseController) -> None:
+        self.controller = controller
+
+    @retrying.retry(
+        retry_on_exception=requests.exceptions.ConnectionError,
+        wait_exponential_multiplier=2000,
+        stop_max_attempt_number=5,
+    )
+    def list_organizational_units(
+        self,
+        limit: int | None = None,
+        start: str | None = None,
+        filter: organizational_units_types.ListOrganizationalUnitsV1FilterT | None = None,
+        **kwargs,
+    ) -> Iterator[list_organizational_units_response_v1.ListOrganizationalUnitsResponseV1]:
+        """Returns a list of organizational units.
+
+        Args:
+            limit:
+                Limits the size of the items returned in the response.
+            start:
+                Sets the page number used to browse the collection.
+                Pages are indexed starting from 1 (i.e., `start=1`).
+            filter:
+                Narrows down the results to only the items that satisfy the filter criteria. The
+                following table lists
+                the supported filter fields for this resource and the filter conditions that can
+                be applied on those fields:
+
+                +-----------+------------------+-----------------------------------------------+
+                |   Field   | Filter Condition |                  Description                  |
+                +===========+==================+===============================================+
+                | parent_id | $eq              | Retrieve the list of child OUs under this     |
+                |           |                  | organizational unit.                          |
+                +-----------+------------------+-----------------------------------------------+
+                | name      | $contains        | A substring of the name of the organizational |
+                |           |                  | unit.                                         |
+                +-----------+------------------+-----------------------------------------------+
+                | id        | $in              | Filter OUs whose ID is one of the given       |
+                |           |                  | values.                                       |
+                +-----------+------------------+-----------------------------------------------+
+
+        """
+        controller = OrganizationalUnitsV1Controller(self.controller)
+        while True:
+            response = controller.list_organizational_units(
+                limit=limit, start=start, filter=filter, **kwargs
             )
-        )
-        if resp.status_code == 202:
-            if raw_response:
-                return resp, obj
-            return obj
-
-        raise RuntimeError(
-            f'Code should be unreachable; Unexpected response code: {resp.status_code}. '
-        )
+            yield response
+            next_link = response.Links.Next  # type: ignore
+            if not next_link:
+                break
+            next_link = next_link.Href
+            if match := re.search(r'start=([^&]+)', next_link):  # type: ignore
+                start = match.group(1)
+            else:
+                raise clumio_exception.ClumioException(
+                    'Next link is malformed. Please contact clumio support.'
+                )

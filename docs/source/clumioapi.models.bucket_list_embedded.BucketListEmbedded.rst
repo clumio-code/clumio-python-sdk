@@ -17,10 +17,18 @@ clumioapi.models.bucket\_list\_embedded.BucketListEmbedded
    .. autosummary::
    
       ~BucketListEmbedded.__init__
+      ~BucketListEmbedded.dict
       ~BucketListEmbedded.from_dictionary
+      ~BucketListEmbedded.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~BucketListEmbedded.Items
    
    

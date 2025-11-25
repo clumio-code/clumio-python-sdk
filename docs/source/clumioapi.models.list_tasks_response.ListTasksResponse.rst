@@ -17,10 +17,26 @@ clumioapi.models.list\_tasks\_response.ListTasksResponse
    .. autosummary::
    
       ~ListTasksResponse.__init__
+      ~ListTasksResponse.dict
       ~ListTasksResponse.from_dictionary
+      ~ListTasksResponse.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ListTasksResponse.CurrentCount
+      ~ListTasksResponse.Embedded
+      ~ListTasksResponse.FilterApplied
+      ~ListTasksResponse.Limit
+      ~ListTasksResponse.Links
+      ~ListTasksResponse.Start
+      ~ListTasksResponse.TotalCount
+      ~ListTasksResponse.TotalPagesCount
+      ~ListTasksResponse.raw_response
    
    

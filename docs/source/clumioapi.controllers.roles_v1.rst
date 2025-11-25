@@ -20,6 +20,7 @@ clumioapi.controllers.roles\_v1
       :template: custom-class-template.rst
    
       RolesV1Controller
+      RolesV1ControllerPaginator
    
    
 

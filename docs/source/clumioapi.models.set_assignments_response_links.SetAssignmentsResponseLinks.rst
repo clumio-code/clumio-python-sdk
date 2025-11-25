@@ -17,10 +17,20 @@ clumioapi.models.set\_assignments\_response\_links.SetAssignmentsResponseLinks
    .. autosummary::
    
       ~SetAssignmentsResponseLinks.__init__
+      ~SetAssignmentsResponseLinks.dict
       ~SetAssignmentsResponseLinks.from_dictionary
+      ~SetAssignmentsResponseLinks.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~SetAssignmentsResponseLinks.ReadTask
+      ~SetAssignmentsResponseLinks.Self
+      ~SetAssignmentsResponseLinks.raw_response
    
    

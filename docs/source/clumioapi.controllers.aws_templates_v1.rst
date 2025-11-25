@@ -20,6 +20,7 @@ clumioapi.controllers.aws\_templates\_v1
       :template: custom-class-template.rst
    
       AwsTemplatesV1Controller
+      AwsTemplatesV1ControllerPaginator
    
    
 

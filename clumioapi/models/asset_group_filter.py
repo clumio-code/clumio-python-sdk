@@ -1,42 +1,62 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
+from clumioapi.api_helper import camel_to_snake
+import requests
 
 T = TypeVar('T', bound='AssetGroupFilter')
 
 
+@dataclasses.dataclass
 class AssetGroupFilter:
     """Implementation of the 'AssetGroupFilter' model.
 
     The asset groups to be filtered.
 
     Attributes:
-        p_id:
+        Id:
             The id of asset group.
-        region:
-            The region of asset group. For example, `us-west-2`.
-            This is supported for AWS asset groups only.
-        p_type:
+
+        Region:
+            The region of asset group. for example, `us-west-2`.
+            this is supported for aws asset groups only.
+
+        Type:
             The type of asset group.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {'p_id': 'id', 'region': 'region', 'p_type': 'type'}
+    Id: str | None = None
+    Region: str | None = None
+    Type: str | None = None
 
-    def __init__(
-        self, p_id: str | None = None, region: str | None = None, p_type: str | None = None
-    ) -> None:
-        """Constructor for the AssetGroupFilter class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.p_id: str | None = p_id
-        self.region: str | None = region
-        self.p_type: str | None = p_type
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -47,21 +67,37 @@ class AssetGroupFilter:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('id', None)
-        val_p_id = val
+        val_id = val
 
         val = dictionary.get('region', None)
         val_region = val
 
         val = dictionary.get('type', None)
-        val_p_type = val
+        val_type = val
 
         # Return an object of this model
         return cls(
-            val_p_id,
+            val_id,
             val_region,
-            val_p_type,
+            val_type,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

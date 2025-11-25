@@ -17,10 +17,21 @@ clumioapi.models.dynamo\_dbgrr\_attribute\_filter.DynamoDBGRRAttributeFilter
    .. autosummary::
    
       ~DynamoDBGRRAttributeFilter.__init__
+      ~DynamoDBGRRAttributeFilter.dict
       ~DynamoDBGRRAttributeFilter.from_dictionary
+      ~DynamoDBGRRAttributeFilter.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~DynamoDBGRRAttributeFilter.Condition
+      ~DynamoDBGRRAttributeFilter.Name
+      ~DynamoDBGRRAttributeFilter.Type
+      ~DynamoDBGRRAttributeFilter.Values
    
    

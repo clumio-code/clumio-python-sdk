@@ -17,10 +17,20 @@ clumioapi.models.send\_compliance\_run\_email\_response.SendComplianceRunEmailRe
    .. autosummary::
    
       ~SendComplianceRunEmailResponse.__init__
+      ~SendComplianceRunEmailResponse.dict
       ~SendComplianceRunEmailResponse.from_dictionary
+      ~SendComplianceRunEmailResponse.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~SendComplianceRunEmailResponse.Embedded
+      ~SendComplianceRunEmailResponse.Links
+      ~SendComplianceRunEmailResponse.raw_response
    
    

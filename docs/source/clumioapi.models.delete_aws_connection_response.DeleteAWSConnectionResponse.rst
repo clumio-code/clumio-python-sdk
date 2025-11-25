@@ -17,10 +17,18 @@ clumioapi.models.delete\_aws\_connection\_response.DeleteAWSConnectionResponse
    .. autosummary::
    
       ~DeleteAWSConnectionResponse.__init__
+      ~DeleteAWSConnectionResponse.dict
       ~DeleteAWSConnectionResponse.from_dictionary
+      ~DeleteAWSConnectionResponse.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~DeleteAWSConnectionResponse.raw_response
    
    

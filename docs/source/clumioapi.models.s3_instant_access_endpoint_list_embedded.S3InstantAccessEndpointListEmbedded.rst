@@ -17,10 +17,18 @@ clumioapi.models.s3\_instant\_access\_endpoint\_list\_embedded.S3InstantAccessEn
    .. autosummary::
    
       ~S3InstantAccessEndpointListEmbedded.__init__
+      ~S3InstantAccessEndpointListEmbedded.dict
       ~S3InstantAccessEndpointListEmbedded.from_dictionary
+      ~S3InstantAccessEndpointListEmbedded.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~S3InstantAccessEndpointListEmbedded.Items
    
    

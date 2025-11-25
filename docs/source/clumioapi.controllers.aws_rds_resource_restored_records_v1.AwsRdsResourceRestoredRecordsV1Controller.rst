@@ -24,11 +24,4 @@ clumioapi.controllers.aws\_rds\_resource\_restored\_records\_v1.AwsRdsResourceRe
 
    
    
-   .. rubric:: Attributes
-
-   .. autosummary::
-   
-      ~AwsRdsResourceRestoredRecordsV1Controller.client
-      ~AwsRdsResourceRestoredRecordsV1Controller.global_headers
-   
    

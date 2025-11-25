@@ -17,10 +17,24 @@ clumioapi.models.aws\_tag\_embedded.AwsTagEmbedded
    .. autosummary::
    
       ~AwsTagEmbedded.__init__
+      ~AwsTagEmbedded.dict
       ~AwsTagEmbedded.from_dictionary
+      ~AwsTagEmbedded.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~AwsTagEmbedded.ReadAwsEnvironmentTagBackupStatusStats
+      ~AwsTagEmbedded.ReadAwsEnvironmentTagDynamodbTablesProtectionStats
+      ~AwsTagEmbedded.ReadAwsEnvironmentTagEbsVolumesProtectionStats
+      ~AwsTagEmbedded.ReadAwsEnvironmentTagEc2InstancesProtectionStats
+      ~AwsTagEmbedded.ReadAwsEnvironmentTagProtectionGroupsProtectionStats
+      ~AwsTagEmbedded.ReadAwsEnvironmentTagRdsResourcesProtectionStats
+      ~AwsTagEmbedded.ReadPolicyDefinition
    
    

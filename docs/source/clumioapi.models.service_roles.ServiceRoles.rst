@@ -17,10 +17,19 @@ clumioapi.models.service\_roles.ServiceRoles
    .. autosummary::
    
       ~ServiceRoles.__init__
+      ~ServiceRoles.dict
       ~ServiceRoles.from_dictionary
+      ~ServiceRoles.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ServiceRoles.Mssql
+      ~ServiceRoles.S3
    
    

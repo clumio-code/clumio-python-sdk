@@ -17,10 +17,22 @@ clumioapi.models.update\_aws\_connection\_group\_v1\_request.UpdateAwsConnection
    .. autosummary::
    
       ~UpdateAwsConnectionGroupV1Request.__init__
+      ~UpdateAwsConnectionGroupV1Request.dict
       ~UpdateAwsConnectionGroupV1Request.from_dictionary
+      ~UpdateAwsConnectionGroupV1Request.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~UpdateAwsConnectionGroupV1Request.AssetTypes
+      ~UpdateAwsConnectionGroupV1Request.AssetTypesEnabled
+      ~UpdateAwsConnectionGroupV1Request.AwsRegions
+      ~UpdateAwsConnectionGroupV1Request.Description
+      ~UpdateAwsConnectionGroupV1Request.TemplatePermissionSet
    
    

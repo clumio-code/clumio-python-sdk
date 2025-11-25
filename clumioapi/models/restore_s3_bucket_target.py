@@ -1,69 +1,78 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import aws_tag_common_model as aws_tag_common_model_
+import requests
 
 T = TypeVar('T', bound='RestoreS3BucketTarget')
 
 
+@dataclasses.dataclass
 class RestoreS3BucketTarget:
     """Implementation of the 'RestoreS3BucketTarget' model.
 
     The destination where the S3 bucket will be restored.
 
     Attributes:
-        bucket_name:
+        BucketName:
             The name of the destination bucket.
-        environment_id:
-            The Clumio-assigned ID of the AWS environment to be used as the restore
-            destination. Use the
-            [GET /datasources/aws/s3-buckets/{bucket_id}](#operation/read-aws-s3-bucket)
+
+        EnvironmentId:
+            The clumio-assigned id of the aws environment to be used as the restore
+            destination. use the
+            [get /datasources/aws/s3-buckets/{bucket_id}](#operation/read-aws-s3-bucket)
             endpoint
-            to fetch the environment ID for a bucket.
-        prefix:
+            to fetch the environment id for a bucket.
+
+        Prefix:
             Prefix to restore the objects under.
-        storage_class:
-            Storage class for restored objects. Valid values are: `S3 Standard`, `S3
-            Standard-IA`,
-            `S3 Intelligent-Tiering` and `S3 One Zone-IA`.
-            If not given or empty, objects are restored with their original storage classes.
-        tags:
-            The AWS tags to be applied to the restored objects.
-            The restored objects will not have any tags applied if this is specified as
+
+        StorageClass:
+            `s3 standard`, `s3 standard-ia`,
+            `s3 intelligent-tiering` and `s3 one zone-ia`.
+            if not given or empty, objects are restored with their original storage classes.
+
+        Tags:
+            The aws tags to be applied to the restored objects.
+            the restored objects will not have any tags applied if this is specified as
             `null`.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'bucket_name': 'bucket_name',
-        'environment_id': 'environment_id',
-        'prefix': 'prefix',
-        'storage_class': 'storage_class',
-        'tags': 'tags',
-    }
+    BucketName: str | None = None
+    EnvironmentId: str | None = None
+    Prefix: str | None = None
+    StorageClass: str | None = None
+    Tags: Sequence[aws_tag_common_model_.AwsTagCommonModel] | None = None
 
-    def __init__(
-        self,
-        bucket_name: str | None = None,
-        environment_id: str | None = None,
-        prefix: str | None = None,
-        storage_class: str | None = None,
-        tags: Sequence[aws_tag_common_model_.AwsTagCommonModel] | None = None,
-    ) -> None:
-        """Constructor for the RestoreS3BucketTarget class."""
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
+        )
 
-        # Initialize members of the class
-        self.bucket_name: str | None = bucket_name
-        self.environment_id: str | None = environment_id
-        self.prefix: str | None = prefix
-        self.storage_class: str | None = storage_class
-        self.tags: Sequence[aws_tag_common_model_.AwsTagCommonModel] | None = tags
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
 
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -74,8 +83,8 @@ class RestoreS3BucketTarget:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('bucket_name', None)
         val_bucket_name = val
@@ -91,9 +100,8 @@ class RestoreS3BucketTarget:
 
         val = dictionary.get('tags', None)
 
-        val_tags = None
+        val_tags = []
         if val:
-            val_tags = list()
             for value in val:
                 val_tags.append(aws_tag_common_model_.AwsTagCommonModel.from_dictionary(value))
 
@@ -105,3 +113,19 @@ class RestoreS3BucketTarget:
             val_storage_class,
             val_tags,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

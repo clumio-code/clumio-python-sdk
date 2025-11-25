@@ -20,6 +20,7 @@ clumioapi.controllers.audit\_trails\_v1
       :template: custom-class-template.rst
    
       AuditTrailsV1Controller
+      AuditTrailsV1ControllerPaginator
    
    
 

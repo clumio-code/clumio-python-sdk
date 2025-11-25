@@ -17,10 +17,18 @@ clumioapi.models.rds\_database\_table\_embedded.RDSDatabaseTableEmbedded
    .. autosummary::
    
       ~RDSDatabaseTableEmbedded.__init__
+      ~RDSDatabaseTableEmbedded.dict
       ~RDSDatabaseTableEmbedded.from_dictionary
+      ~RDSDatabaseTableEmbedded.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~RDSDatabaseTableEmbedded.ReadBackupAwsRdsResourceDatabaseTableColumns
    
    

@@ -1,60 +1,69 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
+import dataclasses
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from typing import Any, Dict, Mapping, Optional, Sequence, Type, TypeVar
-
+from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import hateoas_first_link as hateoas_first_link_
 from clumioapi.models import hateoas_link as hateoas_link_
 from clumioapi.models import hateoas_next_link as hateoas_next_link_
 from clumioapi.models import hateoas_self_link as hateoas_self_link_
+import requests
 
 T = TypeVar('T', bound='ComplianceRunListHateoasLinks')
 
 
+@dataclasses.dataclass
 class ComplianceRunListHateoasLinks:
     """Implementation of the 'ComplianceRunListHateoasLinks' model.
 
     URLs to pages related to the resource.
 
     Attributes:
-        first:
-            The HATEOAS link to the first page of results.
-        p_next:
-            The HATEOAS link to the next page of results.
-        p_self:
-            The HATEOAS link to this resource.
-        create_compliance_report_configuration:
-            A resource-specific HATEOAS link.
+        First:
+            The hateoas link to the first page of results.
+
+        Next:
+            The hateoas link to the next page of results.
+
+        Self:
+            The hateoas link to this resource.
+
+        CreateComplianceReportConfiguration:
+            A resource-specific hateoas link.
+
     """
 
-    # Create a mapping from Model property names to API property names
-    _names: dict[str, str] = {
-        'first': '_first',
-        'p_next': '_next',
-        'p_self': '_self',
-        'create_compliance_report_configuration': 'create-compliance-report-configuration',
-    }
+    First: hateoas_first_link_.HateoasFirstLink | None = None
+    Next: hateoas_next_link_.HateoasNextLink | None = None
+    Self: hateoas_self_link_.HateoasSelfLink | None = None
+    CreateComplianceReportConfiguration: hateoas_link_.HateoasLink | None = None
 
-    def __init__(
-        self,
-        first: hateoas_first_link_.HateoasFirstLink | None = None,
-        p_next: hateoas_next_link_.HateoasNextLink | None = None,
-        p_self: hateoas_self_link_.HateoasSelfLink | None = None,
-        create_compliance_report_configuration: hateoas_link_.HateoasLink | None = None,
-    ) -> None:
-        """Constructor for the ComplianceRunListHateoasLinks class."""
-
-        # Initialize members of the class
-        self.first: hateoas_first_link_.HateoasFirstLink | None = first
-        self.p_next: hateoas_next_link_.HateoasNextLink | None = p_next
-        self.p_self: hateoas_self_link_.HateoasSelfLink | None = p_self
-        self.create_compliance_report_configuration: hateoas_link_.HateoasLink | None = (
-            create_compliance_report_configuration
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return dataclasses.asdict(
+            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
         )
 
+    @overload
     @classmethod
-    def from_dictionary(cls: Type[T], dictionary: Mapping[str, Any]) -> T:
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
+
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
         """Creates an instance of this model from a dictionary
 
         Args:
@@ -65,17 +74,17 @@ class ComplianceRunListHateoasLinks:
         Returns:
             object: An instance of this structure class.
         """
-
-        dictionary = dictionary or {}
+        if not dictionary:
+            return None
         # Extract variables from the dictionary
         val = dictionary.get('_first', None)
         val_first = hateoas_first_link_.HateoasFirstLink.from_dictionary(val)
 
         val = dictionary.get('_next', None)
-        val_p_next = hateoas_next_link_.HateoasNextLink.from_dictionary(val)
+        val_next = hateoas_next_link_.HateoasNextLink.from_dictionary(val)
 
         val = dictionary.get('_self', None)
-        val_p_self = hateoas_self_link_.HateoasSelfLink.from_dictionary(val)
+        val_self = hateoas_self_link_.HateoasSelfLink.from_dictionary(val)
 
         val = dictionary.get('create-compliance-report-configuration', None)
         val_create_compliance_report_configuration = hateoas_link_.HateoasLink.from_dictionary(val)
@@ -83,7 +92,23 @@ class ComplianceRunListHateoasLinks:
         # Return an object of this model
         return cls(
             val_first,
-            val_p_next,
-            val_p_self,
+            val_next,
+            val_self,
             val_create_compliance_report_configuration,
         )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

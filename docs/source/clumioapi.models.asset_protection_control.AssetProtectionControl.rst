@@ -17,10 +17,18 @@ clumioapi.models.asset\_protection\_control.AssetProtectionControl
    .. autosummary::
    
       ~AssetProtectionControl.__init__
+      ~AssetProtectionControl.dict
       ~AssetProtectionControl.from_dictionary
+      ~AssetProtectionControl.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~AssetProtectionControl.ShouldIgnoreDeactivatedPolicy
    
    

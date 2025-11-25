@@ -17,10 +17,18 @@ clumioapi.models.send\_compliance\_report\_run\_email\_v1\_request.SendComplianc
    .. autosummary::
    
       ~SendComplianceReportRunEmailV1Request.__init__
+      ~SendComplianceReportRunEmailV1Request.dict
       ~SendComplianceReportRunEmailV1Request.from_dictionary
+      ~SendComplianceReportRunEmailV1Request.from_response
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~SendComplianceReportRunEmailV1Request.EmailList
    
    
