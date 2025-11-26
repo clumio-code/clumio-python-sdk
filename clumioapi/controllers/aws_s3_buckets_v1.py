@@ -16,8 +16,6 @@ from clumioapi.controllers.types import aws_s3_buckets_v1_bucket_matcher_types
 from clumioapi.exceptions import clumio_exception
 from clumioapi.models import list_buckets_response
 from clumioapi.models import read_bucket_response
-from clumioapi.models import set_bucket_properties_response
-from clumioapi.models import set_bucket_properties_v1_request
 import requests
 import retrying
 
@@ -446,56 +444,6 @@ class AwsS3BucketsV1Controller:
 
         if not resp.ok:
             error_str = f'read_aws_s3_bucket for url {urllib.parse.unquote(resp.url)} failed.'
-            raise clumio_exception.ClumioException(error_str, resp=resp)
-
-        resp_instance = get_instance_from_response(resp)
-
-        return resp_instance
-
-    def set_bucket_properties(
-        self,
-        bucket_id: str | None = None,
-        body: set_bucket_properties_v1_request.SetBucketPropertiesV1Request | None = None,
-        **kwargs,
-    ) -> set_bucket_properties_response.SetBucketPropertiesResponse:
-        """Idempotent call to set properties on an S3 bucket to enable S3 continuous
-        backup.
-
-        Args:
-            bucket_id:
-                Set the properties for the bucket with the specified ID.
-            body:
-                The set of properties that are being updated for the given bucket.
-        """
-
-        def get_instance_from_response(resp: requests.Response) -> Any:
-            return set_bucket_properties_response.SetBucketPropertiesResponse.from_response(resp)
-
-        # Prepare query URL
-        _url_path = '/datasources/aws/s3-buckets/{bucket_id}'
-        _url_path = api_helper.append_url_with_template_parameters(
-            _url_path, {'bucket_id': bucket_id}
-        )
-
-        _query_parameters: dict[str, Any] = {}
-
-        resp_instance: set_bucket_properties_response.SetBucketPropertiesResponse
-        # Execute request
-        resp: requests.Response
-        try:
-            resp = self.client.patch(
-                _url_path,
-                headers=self.headers,
-                params=_query_parameters,
-                json=body.dict() if body else None,
-                raw_response=True,
-                **kwargs,
-            )
-        except requests.exceptions.HTTPError as e:
-            resp = e.response
-
-        if not resp.ok:
-            error_str = f'set_bucket_properties for url {urllib.parse.unquote(resp.url)} failed.'
             raise clumio_exception.ClumioException(error_str, resp=resp)
 
         resp_instance = get_instance_from_response(resp)

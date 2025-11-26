@@ -56,9 +56,6 @@ class ReadBucketResponse:
         EnvironmentId:
             The clumio-assigned id of the aws environment associated with the s3 bucket.
 
-        EventBridgeEnabled:
-            The eventbridge enablement state for the s3 bucket.
-
         Id:
             The clumio-assigned id of the bucket.
 
@@ -120,7 +117,6 @@ class ReadBucketResponse:
     CreationTimestamp: str | None = None
     EncryptionSetting: s3_encryption_output_.S3EncryptionOutput | None = None
     EnvironmentId: str | None = None
-    EventBridgeEnabled: bool | None = None
     Id: str | None = None
     IsEncryptionEnabled: bool | None = None
     IsReplicationEnabled: bool | None = None
@@ -207,9 +203,6 @@ class ReadBucketResponse:
         val = dictionary.get('environment_id', None)
         val_environment_id = val
 
-        val = dictionary.get('event_bridge_enabled', None)
-        val_event_bridge_enabled = val
-
         val = dictionary.get('id', None)
         val_id = val
 
@@ -271,7 +264,6 @@ class ReadBucketResponse:
             val_creation_timestamp,
             val_encryption_setting,
             val_environment_id,
-            val_event_bridge_enabled,
             val_id,
             val_is_encryption_enabled,
             val_is_replication_enabled,

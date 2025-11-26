@@ -29,7 +29,6 @@ clumioapi.models.rds\_database\_table\_links.RDSDatabaseTableLinks
 
    .. autosummary::
    
-      ~RDSDatabaseTableLinks.ReadBackupAwsRdsResourceDatabaseTableColumns
       ~RDSDatabaseTableLinks.Self
    
    

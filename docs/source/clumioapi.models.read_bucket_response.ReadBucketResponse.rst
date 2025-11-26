@@ -38,7 +38,6 @@ clumioapi.models.read\_bucket\_response.ReadBucketResponse
       ~ReadBucketResponse.EncryptionSetting
       ~ReadBucketResponse.EnvironmentId
       ~ReadBucketResponse.Etag
-      ~ReadBucketResponse.EventBridgeEnabled
       ~ReadBucketResponse.Id
       ~ReadBucketResponse.IsEncryptionEnabled
       ~ReadBucketResponse.IsReplicationEnabled

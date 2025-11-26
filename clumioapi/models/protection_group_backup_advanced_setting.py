@@ -22,9 +22,13 @@ class ProtectionGroupBackupAdvancedSetting:
         BackupTier:
             `standard`, `archive`.
 
+        MalwareScan:
+            Determines whether malware scanning is enabled for protection group backups.
+
     """
 
     BackupTier: str | None = None
+    MalwareScan: bool | None = None
 
     def dict(self) -> Dict[str, Any]:
         """Returns the dictionary representation of the model."""
@@ -66,9 +70,13 @@ class ProtectionGroupBackupAdvancedSetting:
         val = dictionary.get('backup_tier', None)
         val_backup_tier = val
 
+        val = dictionary.get('malware_scan', None)
+        val_malware_scan = val
+
         # Return an object of this model
         return cls(
             val_backup_tier,
+            val_malware_scan,
         )
 
     @classmethod
