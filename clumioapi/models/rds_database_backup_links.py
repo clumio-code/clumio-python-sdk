@@ -5,6 +5,7 @@ import dataclasses
 from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
 from clumioapi.api_helper import camel_to_snake
+from clumioapi.models import hateoas_link as hateoas_link_
 from clumioapi.models import hateoas_self_link as hateoas_self_link_
 import requests
 
@@ -21,9 +22,21 @@ class RdsDatabaseBackupLinks:
         Self:
             The hateoas link to this resource.
 
+        ListAwsRdsResourcesOptionGroups:
+            A resource-specific hateoas link.
+
+        RestoreAwsRdsResource:
+            A resource-specific hateoas link.
+
+        RestoreRdsRecord:
+            A resource-specific hateoas link.
+
     """
 
     Self: hateoas_self_link_.HateoasSelfLink | None = None
+    ListAwsRdsResourcesOptionGroups: hateoas_link_.HateoasLink | None = None
+    RestoreAwsRdsResource: hateoas_link_.HateoasLink | None = None
+    RestoreRdsRecord: hateoas_link_.HateoasLink | None = None
 
     def dict(self) -> Dict[str, Any]:
         """Returns the dictionary representation of the model."""
@@ -65,9 +78,21 @@ class RdsDatabaseBackupLinks:
         val = dictionary.get('_self', None)
         val_self = hateoas_self_link_.HateoasSelfLink.from_dictionary(val)
 
+        val = dictionary.get('list-aws-rds-resources-option-groups', None)
+        val_list_aws_rds_resources_option_groups = hateoas_link_.HateoasLink.from_dictionary(val)
+
+        val = dictionary.get('restore-aws-rds-resource', None)
+        val_restore_aws_rds_resource = hateoas_link_.HateoasLink.from_dictionary(val)
+
+        val = dictionary.get('restore-rds-record', None)
+        val_restore_rds_record = hateoas_link_.HateoasLink.from_dictionary(val)
+
         # Return an object of this model
         return cls(
             val_self,
+            val_list_aws_rds_resources_option_groups,
+            val_restore_aws_rds_resource,
+            val_restore_rds_record,
         )
 
     @classmethod

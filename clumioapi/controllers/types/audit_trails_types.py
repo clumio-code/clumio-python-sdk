@@ -20,7 +20,7 @@ class ListAuditTrailsParentEntityV1T(base_controller_filter_types.BaseController
 
 
 class ListAuditTrailsV1FilterT(base_controller_filter_types.BaseControllerFilterTypes):
-    StartTimestamp: Optional[dict[Literal['gte', 'lt', 'eq'], str | int]] = None
+    StartTimestamp: Optional[dict[Literal['gte', 'lt', 'eq'], int | str]] = None
     Category: Optional[dict[Literal['in'], list]] = None
     Action: Optional[dict[Literal['in'], list]] = None
     Status: Optional[dict[Literal['in'], list]] = None

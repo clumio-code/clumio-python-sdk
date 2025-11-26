@@ -12,6 +12,6 @@ class ListPolicyDefinitionsOperationsV1T(base_controller_filter_types.BaseContro
 
 
 class ListPolicyDefinitionsV1FilterT(base_controller_filter_types.BaseControllerFilterTypes):
-    Name: Optional[dict[Literal['eq', 'begins_with'], str | list]] = None
+    Name: Optional[dict[Literal['eq', 'begins_with'], list | str]] = None
     Operations: Optional[ListPolicyDefinitionsOperationsV1T] = None
     ActivationStatus: Optional[dict[Literal['eq'], str]] = None

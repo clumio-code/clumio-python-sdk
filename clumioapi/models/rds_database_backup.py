@@ -7,6 +7,7 @@ from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 from clumioapi.api_helper import camel_to_snake
 from clumioapi.models import aws_tag_common_model as aws_tag_common_model_
 from clumioapi.models import rds_database_backup_links as rds_database_backup_links_
+from clumioapi.models import rds_instance_model as rds_instance_model_
 import requests
 
 T = TypeVar('T', bound='RdsDatabaseBackup')
@@ -27,27 +28,11 @@ class RdsDatabaseBackup:
         AwsAzs:
             The aws availability zones associated with this database at the time of backup.
 
-        AwsKmsKeyId:
-            The aws-assigned id of the kms key associated with this database at the time of
-            backup.
-
         AwsRegion:
             The aws region associated with this environment.
 
-        AwsSecurityGroup:
-            Security groups of instance of cluster at the time of backup.
-
-        AwsSubnetGroup:
-            The subnet group of rds instance or cluster at the time of backup.
-
-        DatabaseId:
-            The clumio-assigned id of the database associated with this backup.
-
         DatabaseNativeId:
             The aws-assigned id of the database at the time of backup.
-
-        DatabaseType:
-            The type of the rds database associated with this backup.
 
         Engine:
             The aws database engine at the time of backup.
@@ -61,17 +46,41 @@ class RdsDatabaseBackup:
         Id:
             The clumio-assigned id of the backup.
 
-        InstanceClass:
-            Instance class of the rds instance at the time of backup.
+        Instances:
+            The instances associated with a backup rds resource.
 
-        PublicAccess:
-            Public accessibility of instances.
+        KmsKeyNativeId:
+            The aws-assigned id of the kms key associated with this database at the time of
+            backup.
+
+        MigrationTimestamp:
+            The timestamp of when the migration was triggered. this field will be set only
+            for
+            migration granular backups. represented in rfc-3339 format.
+
+        OptionGroupName:
+            Option group name associated with the backed up rds resource.
+
+        ResourceId:
+            The clumio-assigned id of the database associated with this backup.
+
+        ResourceType:
+            The type of the rds resource associated with this backup. possible values
+            include `aws_rds_cluster` and `aws_rds_instance`.
+
+        SecurityGroupNativeIds:
+            The aws-assigned ids of the security groups associated with this rds resource
+            backup.
 
         Size:
-            The size of the database (i.e. in gib) as noted by aws at the time of backup.
+            The size of the rds resource backup. measured in bytes (b).
 
         StartTimestamp:
             The timestamp of when this backup started. represented in rfc-3339 format.
+
+        SubnetGroupName:
+            The aws-assigned name of the subnet group associated with this rds resource
+            backup.
 
         Tags:
             The aws tags associated with the database at the time of backup.
@@ -85,21 +94,22 @@ class RdsDatabaseBackup:
     Links: rds_database_backup_links_.RdsDatabaseBackupLinks | None = None
     AccountNativeId: str | None = None
     AwsAzs: Sequence[str] | None = None
-    AwsKmsKeyId: str | None = None
     AwsRegion: str | None = None
-    AwsSecurityGroup: Sequence[str] | None = None
-    AwsSubnetGroup: str | None = None
-    DatabaseId: str | None = None
     DatabaseNativeId: str | None = None
-    DatabaseType: str | None = None
     Engine: str | None = None
     EngineVersion: str | None = None
     ExpirationTimestamp: str | None = None
     Id: str | None = None
-    InstanceClass: Sequence[str] | None = None
-    PublicAccess: Sequence[bool] | None = None
+    Instances: Sequence[rds_instance_model_.RdsInstanceModel] | None = None
+    KmsKeyNativeId: str | None = None
+    MigrationTimestamp: str | None = None
+    OptionGroupName: str | None = None
+    ResourceId: str | None = None
+    ResourceType: str | None = None
+    SecurityGroupNativeIds: Sequence[str] | None = None
     Size: int | None = None
     StartTimestamp: str | None = None
+    SubnetGroupName: str | None = None
     Tags: Sequence[aws_tag_common_model_.AwsTagCommonModel] | None = None
     Type: str | None = None
 
@@ -149,26 +159,11 @@ class RdsDatabaseBackup:
         val = dictionary.get('aws_azs', None)
         val_aws_azs = val
 
-        val = dictionary.get('aws_kms_key_id', None)
-        val_aws_kms_key_id = val
-
         val = dictionary.get('aws_region', None)
         val_aws_region = val
 
-        val = dictionary.get('aws_security_group', None)
-        val_aws_security_group = val
-
-        val = dictionary.get('aws_subnet_group', None)
-        val_aws_subnet_group = val
-
-        val = dictionary.get('database_id', None)
-        val_database_id = val
-
         val = dictionary.get('database_native_id', None)
         val_database_native_id = val
-
-        val = dictionary.get('database_type', None)
-        val_database_type = val
 
         val = dictionary.get('engine', None)
         val_engine = val
@@ -182,17 +177,39 @@ class RdsDatabaseBackup:
         val = dictionary.get('id', None)
         val_id = val
 
-        val = dictionary.get('instance_class', None)
-        val_instance_class = val
+        val = dictionary.get('instances', None)
 
-        val = dictionary.get('public_access', None)
-        val_public_access = val
+        val_instances = []
+        if val:
+            for value in val:
+                val_instances.append(rds_instance_model_.RdsInstanceModel.from_dictionary(value))
+
+        val = dictionary.get('kms_key_native_id', None)
+        val_kms_key_native_id = val
+
+        val = dictionary.get('migration_timestamp', None)
+        val_migration_timestamp = val
+
+        val = dictionary.get('option_group_name', None)
+        val_option_group_name = val
+
+        val = dictionary.get('resource_id', None)
+        val_resource_id = val
+
+        val = dictionary.get('resource_type', None)
+        val_resource_type = val
+
+        val = dictionary.get('security_group_native_ids', None)
+        val_security_group_native_ids = val
 
         val = dictionary.get('size', None)
         val_size = val
 
         val = dictionary.get('start_timestamp', None)
         val_start_timestamp = val
+
+        val = dictionary.get('subnet_group_name', None)
+        val_subnet_group_name = val
 
         val = dictionary.get('tags', None)
 
@@ -209,21 +226,22 @@ class RdsDatabaseBackup:
             val_links,
             val_account_native_id,
             val_aws_azs,
-            val_aws_kms_key_id,
             val_aws_region,
-            val_aws_security_group,
-            val_aws_subnet_group,
-            val_database_id,
             val_database_native_id,
-            val_database_type,
             val_engine,
             val_engine_version,
             val_expiration_timestamp,
             val_id,
-            val_instance_class,
-            val_public_access,
+            val_instances,
+            val_kms_key_native_id,
+            val_migration_timestamp,
+            val_option_group_name,
+            val_resource_id,
+            val_resource_type,
+            val_security_group_native_ids,
             val_size,
             val_start_timestamp,
+            val_subnet_group_name,
             val_tags,
             val_type,
         )

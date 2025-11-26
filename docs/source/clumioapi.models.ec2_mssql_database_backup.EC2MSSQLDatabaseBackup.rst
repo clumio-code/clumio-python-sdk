@@ -29,7 +29,6 @@ clumioapi.models.ec2\_mssql\_database\_backup.EC2MSSQLDatabaseBackup
 
    .. autosummary::
    
-      ~EC2MSSQLDatabaseBackup.AwsRegion
       ~EC2MSSQLDatabaseBackup.DatabaseFiles
       ~EC2MSSQLDatabaseBackup.DatabaseId
       ~EC2MSSQLDatabaseBackup.Embedded

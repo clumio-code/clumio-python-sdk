@@ -9,7 +9,7 @@ from clumioapi.controllers.types import base_controller_filter_types
 
 class ListBackupAwsRdsResourcesV1FilterT(base_controller_filter_types.BaseControllerFilterTypes):
     ResourceId: Optional[dict[Literal['eq'], str]] = None
-    StartTimestamp: Optional[dict[Literal['lte', 'gt'], str | int]] = None
+    StartTimestamp: Optional[dict[Literal['lte', 'gt'], int | str]] = None
 
 
 class ListAwsRdsResourcesOptionGroupsV1FilterT(

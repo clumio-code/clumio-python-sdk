@@ -47,7 +47,6 @@ clumioapi.models.read\_dynamo\_db\_table\_response.ReadDynamoDBTableResponse
       ~ReadDynamoDBTableResponse.IsDeleted
       ~ReadDynamoDBTableResponse.IsSupported
       ~ReadDynamoDBTableResponse.ItemCount
-      ~ReadDynamoDBTableResponse.LastBackupTimestamp
       ~ReadDynamoDBTableResponse.LastSnapshotTimestamp
       ~ReadDynamoDBTableResponse.LatestContinuousSnapshotRestorableTimestamp
       ~ReadDynamoDBTableResponse.Links

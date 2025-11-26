@@ -29,6 +29,9 @@ clumioapi.models.rds\_database\_backup\_links.RdsDatabaseBackupLinks
 
    .. autosummary::
    
+      ~RdsDatabaseBackupLinks.ListAwsRdsResourcesOptionGroups
+      ~RdsDatabaseBackupLinks.RestoreAwsRdsResource
+      ~RdsDatabaseBackupLinks.RestoreRdsRecord
       ~RdsDatabaseBackupLinks.Self
    
    

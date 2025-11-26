@@ -47,7 +47,6 @@ clumioapi.models.dynamo\_db\_table.DynamoDBTable
       ~DynamoDBTable.IsDeleted
       ~DynamoDBTable.IsSupported
       ~DynamoDBTable.ItemCount
-      ~DynamoDBTable.LastBackupTimestamp
       ~DynamoDBTable.LastSnapshotTimestamp
       ~DynamoDBTable.LatestContinuousSnapshotRestorableTimestamp
       ~DynamoDBTable.Links
