@@ -5,7 +5,6 @@ import dataclasses
 from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
 from clumioapi.api_helper import camel_to_snake
-from clumioapi.models import hateoas_link as hateoas_link_
 from clumioapi.models import hateoas_self_link as hateoas_self_link_
 import requests
 
@@ -22,13 +21,9 @@ class RDSDatabaseTableLinks:
         Self:
             The hateoas link to this resource.
 
-        ReadBackupAwsRdsResourceDatabaseTableColumns:
-            A resource-specific hateoas link.
-
     """
 
     Self: hateoas_self_link_.HateoasSelfLink | None = None
-    ReadBackupAwsRdsResourceDatabaseTableColumns: hateoas_link_.HateoasLink | None = None
 
     def dict(self) -> Dict[str, Any]:
         """Returns the dictionary representation of the model."""
@@ -70,15 +65,9 @@ class RDSDatabaseTableLinks:
         val = dictionary.get('_self', None)
         val_self = hateoas_self_link_.HateoasSelfLink.from_dictionary(val)
 
-        val = dictionary.get('read-backup-aws-rds-resource-database-table-columns', None)
-        val_read_backup_aws_rds_resource_database_table_columns = (
-            hateoas_link_.HateoasLink.from_dictionary(val)
-        )
-
         # Return an object of this model
         return cls(
             val_self,
-            val_read_backup_aws_rds_resource_database_table_columns,
         )
 
     @classmethod

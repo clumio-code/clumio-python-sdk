@@ -37,7 +37,6 @@ clumioapi.models.bucket.Bucket
       ~Bucket.Embedded
       ~Bucket.EncryptionSetting
       ~Bucket.EnvironmentId
-      ~Bucket.EventBridgeEnabled
       ~Bucket.Id
       ~Bucket.IsEncryptionEnabled
       ~Bucket.IsReplicationEnabled
