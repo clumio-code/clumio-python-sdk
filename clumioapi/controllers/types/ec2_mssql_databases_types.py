@@ -33,4 +33,4 @@ class ListEc2MssqlDatabasesV1FilterT(base_controller_filter_types.BaseController
 class ListEc2MssqlDatabasePitrIntervalsV1FilterT(
     base_controller_filter_types.BaseControllerFilterTypes
 ):
-    Timestamp: Optional[dict[Literal['lte', 'gt'], str | int]] = None
+    Timestamp: Optional[dict[Literal['lte', 'gt'], int | str]] = None

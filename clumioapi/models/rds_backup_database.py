@@ -16,7 +16,7 @@ class RDSBackupDatabase:
 
     Attributes:
         Name:
-            Name of the database.
+            The name of the database.
 
     """
 

@@ -115,11 +115,6 @@ class DynamoDBTable:
         ItemCount:
             The number of items in the dynamodb table.
 
-        LastBackupTimestamp:
-            The timestamp of the most recent backup of the dynamodb table. if the table has
-            never been
-            backed up, then this field has a value of `null`.
-
         LastSnapshotTimestamp:
             The timestamp of the most recent snapshot of the dynamodb table taken as part of
             awssnapmgr. represented in rfc-3339 format. if the table has never been
@@ -233,7 +228,6 @@ class DynamoDBTable:
     IsDeleted: bool | None = None
     IsSupported: bool | None = None
     ItemCount: int | None = None
-    LastBackupTimestamp: str | None = None
     LastSnapshotTimestamp: str | None = None
     LatestContinuousSnapshotRestorableTimestamp: str | None = None
     LocalSecondaryIndexes: Sequence[local_secondary_index_.LocalSecondaryIndex] | None = None
@@ -355,9 +349,6 @@ class DynamoDBTable:
         val = dictionary.get('item_count', None)
         val_item_count = val
 
-        val = dictionary.get('last_backup_timestamp', None)
-        val_last_backup_timestamp = val
-
         val = dictionary.get('last_snapshot_timestamp', None)
         val_last_snapshot_timestamp = val
 
@@ -455,7 +446,6 @@ class DynamoDBTable:
             val_is_deleted,
             val_is_supported,
             val_item_count,
-            val_last_backup_timestamp,
             val_last_snapshot_timestamp,
             val_latest_continuous_snapshot_restorable_timestamp,
             val_local_secondary_indexes,

@@ -762,6 +762,9 @@
    service_roles
    set_assignments_response
    set_assignments_response_links
+   set_bucket_properties_response
+   set_bucket_properties_response_links
+   set_bucket_properties_v1_request
    set_policy_assignments_v1_request
    share_file_restore_email_links
    share_file_restore_email_response

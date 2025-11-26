@@ -9,9 +9,9 @@ from clumioapi.controllers.types import base_controller_filter_types
 
 class ListBackupAwsEbsVolumesV1FilterT(base_controller_filter_types.BaseControllerFilterTypes):
     VolumeId: Optional[dict[Literal['eq'], str]] = None
-    StartTimestamp: Optional[dict[Literal['lte', 'gt'], str | int]] = None
+    StartTimestamp: Optional[dict[Literal['lte', 'gt'], int | str]] = None
 
 
 class ListBackupAwsEbsVolumesV2FilterT(base_controller_filter_types.BaseControllerFilterTypes):
     VolumeId: Optional[dict[Literal['eq'], str]] = None
-    StartTimestamp: Optional[dict[Literal['lte', 'gt'], str | int]] = None
+    StartTimestamp: Optional[dict[Literal['lte', 'gt'], int | str]] = None

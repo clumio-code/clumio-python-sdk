@@ -31,22 +31,23 @@ clumioapi.models.rds\_database\_backup.RdsDatabaseBackup
    
       ~RdsDatabaseBackup.AccountNativeId
       ~RdsDatabaseBackup.AwsAzs
-      ~RdsDatabaseBackup.AwsKmsKeyId
       ~RdsDatabaseBackup.AwsRegion
-      ~RdsDatabaseBackup.AwsSecurityGroup
-      ~RdsDatabaseBackup.AwsSubnetGroup
-      ~RdsDatabaseBackup.DatabaseId
       ~RdsDatabaseBackup.DatabaseNativeId
-      ~RdsDatabaseBackup.DatabaseType
       ~RdsDatabaseBackup.Engine
       ~RdsDatabaseBackup.EngineVersion
       ~RdsDatabaseBackup.ExpirationTimestamp
       ~RdsDatabaseBackup.Id
-      ~RdsDatabaseBackup.InstanceClass
+      ~RdsDatabaseBackup.Instances
+      ~RdsDatabaseBackup.KmsKeyNativeId
       ~RdsDatabaseBackup.Links
-      ~RdsDatabaseBackup.PublicAccess
+      ~RdsDatabaseBackup.MigrationTimestamp
+      ~RdsDatabaseBackup.OptionGroupName
+      ~RdsDatabaseBackup.ResourceId
+      ~RdsDatabaseBackup.ResourceType
+      ~RdsDatabaseBackup.SecurityGroupNativeIds
       ~RdsDatabaseBackup.Size
       ~RdsDatabaseBackup.StartTimestamp
+      ~RdsDatabaseBackup.SubnetGroupName
       ~RdsDatabaseBackup.Tags
       ~RdsDatabaseBackup.Type
    

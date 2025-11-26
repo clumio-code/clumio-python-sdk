@@ -29,7 +29,6 @@ clumioapi.models.read\_ec2\_mssql\_database\_backup\_response.ReadEC2MSSQLDataba
 
    .. autosummary::
    
-      ~ReadEC2MSSQLDatabaseBackupResponse.AwsRegion
       ~ReadEC2MSSQLDatabaseBackupResponse.DatabaseFiles
       ~ReadEC2MSSQLDatabaseBackupResponse.DatabaseId
       ~ReadEC2MSSQLDatabaseBackupResponse.Embedded
