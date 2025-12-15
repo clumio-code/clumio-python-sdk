@@ -1,0 +1,64 @@
+name: Auto Release from SDK Generator version.
+
+on:
+  push:
+    branches:
+    - main
+
+jobs:
+  create_release:
+    name: Create GitHub Release
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4.3.1
+  
+      # 1. Extract the version number from setup.py using shell commands and add a 'v' prefix.
+      - name: Extract Version from setup.py
+        id: tag_version
+        # setup.py example:
+        # setup(
+        #    ...
+        #    version='1.2.3',
+        #    ...
+        # )
+        run: |
+          VERSION=$(grep 'version=' setup.py | sed -e 's/version=//g' -e 's/,//g' -e 's/ //g' -e "s/'//g" -e 's/"//g')
+          
+          TAG_NAME="v$VERSION"
+          
+          if [ -z "$VERSION" ]; then
+            echo "error: Could not find version string in setup.py."
+            exit 1
+          fi
+          
+          echo "tag_name=$TAG_NAME" >> $GITHUB_OUTPUT
+          echo "Extracted Tag: $TAG_NAME"
+          
+      - name: Check if tag already exists
+        id: check_tag
+        run: |
+          TAG_NAME=${{ steps.tag_version.outputs.tag_name }}
+          git fetch --tags
+          if git rev-parse $TAG_NAME >/dev/null 2>&1; then
+            echo "Tag $TAG_NAME already exists. Skipping release."
+            echo "should_release=false" >> $GITHUB_OUTPUT
+          else
+            echo "Tag $TAG_NAME does not exist. Proceeding with release."
+            echo "should_release=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create Release
+        if: steps.check_tag.outputs.should_release == 'true'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.tag_version.outputs.tag_name }}
+          name: Release ${{ steps.tag_version.outputs.tag_name }}
+          body: |
+            ## New Release (${{ steps.tag_version.outputs.tag_name }})
+          draft: false
+          prerelease: false
