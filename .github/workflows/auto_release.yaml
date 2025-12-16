@@ -27,7 +27,7 @@ jobs:
         #    ...
         # )
         run: |
-          VERSION=$(grep 'version=' setup.py | sed -e 's/version=//g' -e 's/,//g' -e 's/ //g' -e "s/'//g" -e 's/"//g')
+          VERSION=$(sed -n "s/.*version *= *['\"]\(.*\)['\"].*/\1/p" setup.py)
           
           TAG_NAME="v$VERSION"
           
