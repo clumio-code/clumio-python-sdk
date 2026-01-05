@@ -9,5 +9,5 @@ from clumioapi.controllers.types import base_controller_filter_types
 
 class ListBackupAwsDynamodbTablesV1FilterT(base_controller_filter_types.BaseControllerFilterTypes):
     TableId: Optional[dict[Literal['eq'], str]] = None
-    StartTimestamp: Optional[dict[Literal['lte', 'gt'], int | str]] = None
+    StartTimestamp: Optional[dict[Literal['lte', 'gt'], str | int]] = None
     Type: Optional[dict[Literal['all'], list]] = None
