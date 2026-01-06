@@ -28,7 +28,7 @@ class ListAwsS3BucketsV1FilterT(base_controller_filter_types.BaseControllerFilte
     AwsTag: Optional[
         dict[
             Literal['eq', 'not_eq', 'contains', 'not_contains', 'all', 'not_all', 'in', 'not_in'],
-            list | dict,
+            dict | list,
         ]
     ] = None
     AwsAccountNativeId: Optional[dict[Literal['eq', 'in'], str | list]] = None

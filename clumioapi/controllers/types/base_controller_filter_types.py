@@ -41,9 +41,9 @@ class BaseControllerFilterTypes(BaseModel):
             filter['Param2'] = {'gt': 10}
             filter['Param3'] = SubFilterType(SubFilterField={'eq': 'value3'})
             filter.query_str == '{
-                param1: {"$eq": "value1"},
-                param2: {"$gt": 10},
-                param3.sub_filter_field: {"$eq": "value3"}
+                "param1": {"$eq": "value1"},
+                "param2": {"$gt": 10},
+                "param3.sub_filter_field": {"$eq": "value3"}
             }'
             ```
         """
@@ -59,6 +59,10 @@ class BaseControllerFilterTypes(BaseModel):
 
         def _format_nested_filter(value: BaseControllerFilterTypes, parent_key: str) -> str:
             """Formats a nested filter object for inclusion in the query string."""
+            nested_query_str = value.query_str
+            if not (nested_query_str.startswith('{') and nested_query_str.endswith('}')):
+                raise ValueError('Nested filter query_str must be enclosed in braces')
+
             nested_str = value.query_str[1:-1]  # Remove the surrounding braces
             formatted_str = ''
             for part in nested_str.split(','):
