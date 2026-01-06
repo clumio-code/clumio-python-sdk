@@ -12,6 +12,6 @@ class ListAwsConnectionsV1FilterT(base_controller_filter_types.BaseControllerFil
     AwsRegion: Optional[dict[Literal['in'], list]] = None
     AccountAlias: Optional[dict[Literal['contains'], str]] = None
     ConnectionType: Optional[dict[Literal['eq'], str]] = None
-    ConnectionStatus: Optional[dict[Literal['eq', 'in'], list | str]] = None
+    ConnectionStatus: Optional[dict[Literal['eq', 'in'], str | list]] = None
     OrganizationalUnitId: Optional[dict[Literal['in'], list]] = None
     ServicesEnabled: Optional[dict[Literal['contains'], str]] = None

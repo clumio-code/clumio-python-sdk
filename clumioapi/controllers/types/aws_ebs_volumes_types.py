@@ -20,7 +20,7 @@ class ListAwsEbsVolumesV1FilterT(base_controller_filter_types.BaseControllerFilt
     Name: Optional[dict[Literal['contains', 'eq'], str]] = None
     VolumeNativeId: Optional[dict[Literal['eq', 'contains'], str]] = None
     AccountNativeId: Optional[dict[Literal['eq'], str]] = None
-    ProtectionStatus: Optional[dict[Literal['eq', 'in'], list | str]] = None
+    ProtectionStatus: Optional[dict[Literal['eq', 'in'], str | list]] = None
     Deactivated: Optional[dict[Literal['eq'], str]] = None
     BackupStatus: Optional[dict[Literal['in'], list]] = None
     ProtectionInfo: Optional[ListAwsEbsVolumesProtectionInfoV1T] = None

@@ -41,14 +41,14 @@ class BaseControllerFilterTypes(BaseModel):
             filter['Param2'] = {'gt': 10}
             filter['Param3'] = SubFilterType(SubFilterField={'eq': 'value3'})
             filter.query_str == '{
-                param1: {"$eq": "value1"},
-                param2: {"$gt": 10},
-                param3.sub_filter_field: {"$eq": "value3"}
+                "param1": {"$eq": "value1"},
+                "param2": {"$gt": 10},
+                "param3.sub_filter_field": {"$eq": "value3"}
             }'
             ```
         """
 
-        def format_dict_value(value: dict) -> str:
+        def _format_dict_value(value: dict) -> str:
             """Formats a dictionary value for inclusion in the query string."""
             dict_str = ''
             for k, v in value.items():
@@ -57,11 +57,24 @@ class BaseControllerFilterTypes(BaseModel):
                 dict_str += f'"{'$' if k in operations else ''}{k.lower()}":{format_value(v)}'
             return f'{{{dict_str}}}'
 
+        def _format_nested_filter(value: BaseControllerFilterTypes, parent_key: str) -> str:
+            """Formats a nested filter object for inclusion in the query string."""
+            nested_query_str = value.query_str
+            if not (nested_query_str.startswith('{') and nested_query_str.endswith('}')):
+                raise ValueError('Nested filter query_str must be enclosed in braces')
+
+            nested_str = value.query_str[1:-1]  # Remove the surrounding braces
+            formatted_str = ''
+            for part in nested_str.split(','):
+                key, val = part.split(':', 1)
+                formatted_str += f',"{parent_key}.{key.replace('"','')}":{val}'
+            return formatted_str.strip(',')
+
         def format_value(value: Any, prefix: str = '') -> str:
             """Formats the value for inclusion in the query string, handling nested objects."""
             if isinstance(value, dict):
                 if not value:
-                    return f'{prefix}:{{}}' if prefix else '{}'
+                    return f'"{prefix}":{{}}' if prefix else '{}'
                 # Check if the dict is a tag
                 is_tag = False
                 if ['Key', 'Value'] == list(value.keys()):
@@ -74,24 +87,26 @@ class BaseControllerFilterTypes(BaseModel):
                     )
                     result += format_value(value[key], new_prefix)
                     return result
-                dict_str = format_dict_value(value)
-                return f'{prefix}:{dict_str}' if prefix else dict_str
+                dict_str = _format_dict_value(value)
+                return f'"{prefix}":{dict_str}' if prefix else dict_str
             if isinstance(value, bool):
                 formatted_bool = str(value).lower()
-                return f'{prefix}:{formatted_bool}' if prefix else formatted_bool
+                return f'"{prefix}":{formatted_bool}' if prefix else formatted_bool
             if isinstance(value, str):
                 formatted_str = f'"{value}"'
-                return f'{prefix}:{formatted_str}' if prefix else formatted_str
+                return f'"{prefix}":{formatted_str}' if prefix else formatted_str
             if isinstance(value, list):
                 formatted_list = ', '.join(format_value(v) for v in value)
-                return f'{prefix}:[{formatted_list}]' if prefix else f'[{formatted_list}]'
+                return f'"{prefix}":[{formatted_list}]' if prefix else f'[{formatted_list}]'
             if isinstance(value, int):
-                return f'{prefix}:{value}' if prefix else str(value)
+                return f'"{prefix}":{value}' if prefix else str(value)
+            if isinstance(value, BaseControllerFilterTypes):
+                return _format_nested_filter(value, prefix)
             raise ValueError(f'Unsupported value type: {type(value)}')
 
         converted_str_list: list[str] = []
-        for key, value in self.model_dump(exclude_none=True).items():
-            converted_str_list.append(
-                f'"{format_value(value, camel_to_snake(key)).replace(':', '":', 1)}'
-            )
+        for key in self.model_fields_set:
+            value = getattr(self, key)
+            if value is not None:
+                converted_str_list.append(format_value(value, camel_to_snake(key)))
         return f'{{{','.join(converted_str_list)}}}'
