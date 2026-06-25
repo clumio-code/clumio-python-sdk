@@ -14,11 +14,9 @@ from clumioapi.controllers import base_controller
 from clumioapi.controllers.types import aws_s3_buckets_v1_bucket_matcher_types
 from clumioapi.controllers.types import users_types
 from clumioapi.exceptions import clumio_exception
-from clumioapi.models import change_password_response
 from clumioapi.models import change_password_v1_request
 from clumioapi.models import create_user_response_v1
 from clumioapi.models import create_user_v1_request
-from clumioapi.models import delete_user_response_v1
 from clumioapi.models import edit_profile_response_v1
 from clumioapi.models import list_users_response_v1
 from clumioapi.models import read_user_response_v1
@@ -236,9 +234,7 @@ class UsersV1Controller:
 
         return resp_instance
 
-    def delete_user(
-        self, user_id: int | None = None, **kwargs
-    ) -> delete_user_response_v1.DeleteUserResponseV1:
+    def delete_user(self, user_id: int | None = None, **kwargs) -> object:
         """Deletes an existing user from Clumio, revoking the user's access to Clumio. A
         deleted user cannot be recovered.
 
@@ -248,7 +244,7 @@ class UsersV1Controller:
         """
 
         def get_instance_from_response(resp: requests.Response) -> Any:
-            return delete_user_response_v1.DeleteUserResponseV1.from_response(resp)
+            return resp
 
         # Prepare query URL
         _url_path = '/users/{user_id}'
@@ -256,7 +252,7 @@ class UsersV1Controller:
 
         _query_parameters: dict[str, Any] = {}
 
-        resp_instance: delete_user_response_v1.DeleteUserResponseV1
+        resp_instance: object
         # Execute request
         resp: requests.Response
         try:
@@ -332,7 +328,7 @@ class UsersV1Controller:
         user_id: int | None = None,
         body: change_password_v1_request.ChangePasswordV1Request | None = None,
         **kwargs,
-    ) -> change_password_response.ChangePasswordResponse:
+    ) -> object:
         """Change the password of the specified user. Users can change their own passwords.
 
         Args:
@@ -343,7 +339,7 @@ class UsersV1Controller:
         """
 
         def get_instance_from_response(resp: requests.Response) -> Any:
-            return change_password_response.ChangePasswordResponse.from_response(resp)
+            return resp
 
         # Prepare query URL
         _url_path = '/users/{user_id}/password'
@@ -351,7 +347,7 @@ class UsersV1Controller:
 
         _query_parameters: dict[str, Any] = {}
 
-        resp_instance: change_password_response.ChangePasswordResponse
+        resp_instance: object
         # Execute request
         resp: requests.Response
         try:

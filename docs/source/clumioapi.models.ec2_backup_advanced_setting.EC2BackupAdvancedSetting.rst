@@ -30,5 +30,6 @@ clumioapi.models.ec2\_backup\_advanced\_setting.EC2BackupAdvancedSetting
    .. autosummary::
    
       ~EC2BackupAdvancedSetting.BackupTier
+      ~EC2BackupAdvancedSetting.RansomwareAnalysis
    
    

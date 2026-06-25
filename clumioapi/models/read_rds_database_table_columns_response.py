@@ -2,9 +2,9 @@
 # Copyright 2023. Clumio, A Commvault Company.
 #
 import dataclasses
-from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
+from typing import Any, ClassVar, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from clumioapi.api_helper import camel_to_snake
+from clumioapi import api_helper
 from clumioapi.models import rds_database_table_column as rds_database_table_column_
 from clumioapi.models import rds_database_table_column_links as rds_database_table_column_links_
 import requests
@@ -25,15 +25,20 @@ class ReadRDSDatabaseTableColumnsResponse:
 
     """
 
+    # Maps Python attribute names to API keys that cannot be recovered from the
+    # attribute name, so serialization round-trips correctly. E.g. attribute
+    # ``Eq`` <-> key ``$eq``, ``Links`` <-> ``_links``, ``Type`` <-> ``@type``.
+    _names: ClassVar[Dict[str, str]] = {
+        'Links': '_links',
+    }
+
     Links: rds_database_table_column_links_.RDSDatabaseTableColumnLinks | None = None
     Columns: Sequence[rds_database_table_column_.RDSDatabaseTableColumn] | None = None
     raw_response: Optional[requests.Response] = None
 
     def dict(self) -> Dict[str, Any]:
         """Returns the dictionary representation of the model."""
-        return dataclasses.asdict(
-            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
-        )
+        return api_helper.to_dictionary(self)
 
     @overload
     @classmethod

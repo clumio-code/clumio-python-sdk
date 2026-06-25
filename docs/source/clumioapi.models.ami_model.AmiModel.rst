@@ -43,6 +43,7 @@ clumioapi.models.ami\_model.AmiModel
       ~AmiModel.RootDeviceName
       ~AmiModel.RootDeviceType
       ~AmiModel.SriovNetSupport
+      ~AmiModel.State
       ~AmiModel.VirtualizationType
    
    

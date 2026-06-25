@@ -273,15 +273,13 @@ class PolicyRulesV1Controller:
         return resp_instance
 
     def delete_policy_rule(
-        self, rule_id: str | None = None, body: object | None = None, **kwargs
+        self, rule_id: str | None = None, **kwargs
     ) -> delete_rule_response.DeleteRuleResponse:
         """Deletes the specified policy rule.
 
         Args:
             rule_id:
                 Performs the operation on the rule with the specified ID.
-            body:
-
         """
 
         def get_instance_from_response(resp: requests.Response) -> Any:

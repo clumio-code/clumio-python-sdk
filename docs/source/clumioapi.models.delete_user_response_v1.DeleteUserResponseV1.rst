@@ -29,7 +29,6 @@ clumioapi.models.delete\_user\_response\_v1.DeleteUserResponseV1
 
    .. autosummary::
    
-      ~DeleteUserResponseV1.Links
       ~DeleteUserResponseV1.raw_response
    
    

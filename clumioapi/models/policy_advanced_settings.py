@@ -2,15 +2,17 @@
 # Copyright 2023. Clumio, A Commvault Company.
 #
 import dataclasses
-from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
+from typing import Any, ClassVar, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from clumioapi.api_helper import camel_to_snake
+from clumioapi import api_helper
 from clumioapi.models import ebs_backup_advanced_setting as ebs_backup_advanced_setting_
 from clumioapi.models import ec2_backup_advanced_setting as ec2_backup_advanced_setting_
 from clumioapi.models import \
     ec2_mssql_database_backup_advanced_setting as ec2_mssql_database_backup_advanced_setting_
 from clumioapi.models import \
     ec2_mssql_log_backup_advanced_setting as ec2_mssql_log_backup_advanced_setting_
+from clumioapi.models import \
+    gcp_protection_group_backup_advanced_setting as gcp_protection_group_backup_advanced_setting_
 from clumioapi.models import iceberg_backup_advanced_setting as iceberg_backup_advanced_setting_
 from clumioapi.models import \
     mssql_database_backup_advanced_setting as mssql_database_backup_advanced_setting_
@@ -67,6 +69,10 @@ class PolicyAdvancedSettings:
             operation. if this operation is not of type `ec2_mssql_log_backup`, then this
             field is omitted from the response.
 
+        GcpProtectionGroupBackup:
+            Additional policy configuration settings for the `gcp_protection_group_backup`
+            operation.
+
         MssqlDatabaseBackup:
             Additional policy configuration settings for the `mssql_database_backup`
             operation. if this operation is not of type `mssql_database_backup`, then this
@@ -115,6 +121,9 @@ class PolicyAdvancedSettings:
     Ec2MssqlLogBackup: (
         ec2_mssql_log_backup_advanced_setting_.EC2MSSQLLogBackupAdvancedSetting | None
     ) = None
+    GcpProtectionGroupBackup: (
+        gcp_protection_group_backup_advanced_setting_.GcpProtectionGroupBackupAdvancedSetting | None
+    ) = None
     MssqlDatabaseBackup: (
         mssql_database_backup_advanced_setting_.MSSQLDatabaseBackupAdvancedSetting | None
     ) = None
@@ -135,9 +144,7 @@ class PolicyAdvancedSettings:
 
     def dict(self) -> Dict[str, Any]:
         """Returns the dictionary representation of the model."""
-        return dataclasses.asdict(
-            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
-        )
+        return api_helper.to_dictionary(self)
 
     @overload
     @classmethod
@@ -209,6 +216,11 @@ class PolicyAdvancedSettings:
             )
         )
 
+        val = dictionary.get('gcp_protection_group_backup', None)
+        val_gcp_protection_group_backup = gcp_protection_group_backup_advanced_setting_.GcpProtectionGroupBackupAdvancedSetting.from_dictionary(
+            val
+        )
+
         val = dictionary.get('mssql_database_backup', None)
         val_mssql_database_backup = mssql_database_backup_advanced_setting_.MSSQLDatabaseBackupAdvancedSetting.from_dictionary(
             val
@@ -248,6 +260,7 @@ class PolicyAdvancedSettings:
             val_aws_rds_resource_granular_backup,
             val_ec2_mssql_database_backup,
             val_ec2_mssql_log_backup,
+            val_gcp_protection_group_backup,
             val_mssql_database_backup,
             val_mssql_log_backup,
             val_oracle_database_backup,

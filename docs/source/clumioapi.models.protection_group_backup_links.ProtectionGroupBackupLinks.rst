@@ -29,6 +29,7 @@ clumioapi.models.protection\_group\_backup\_links.ProtectionGroupBackupLinks
 
    .. autosummary::
    
+      ~ProtectionGroupBackupLinks.RestoreProtectionGroup
       ~ProtectionGroupBackupLinks.Self
    
    

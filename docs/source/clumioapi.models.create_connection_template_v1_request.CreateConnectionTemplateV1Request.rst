@@ -32,6 +32,7 @@ clumioapi.models.create\_connection\_template\_v1\_request.CreateConnectionTempl
       ~CreateConnectionTemplateV1Request.AssetTypesEnabled
       ~CreateConnectionTemplateV1Request.AwsAccountId
       ~CreateConnectionTemplateV1Request.AwsRegion
+      ~CreateConnectionTemplateV1Request.OrganizationTemplate
       ~CreateConnectionTemplateV1Request.ShowManualResources
       ~CreateConnectionTemplateV1Request.TemplatePermissionSet
    

@@ -2,9 +2,9 @@
 # Copyright 2023. Clumio, A Commvault Company.
 #
 import dataclasses
-from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
+from typing import Any, ClassVar, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from clumioapi.api_helper import camel_to_snake
+from clumioapi import api_helper
 from clumioapi.models import consolidated_alert_list_embedded as consolidated_alert_list_embedded_
 from clumioapi.models import consolidated_alert_list_links as consolidated_alert_list_links_
 import requests
@@ -33,6 +33,9 @@ class ListConsolidatedAlertsResponse:
         Limit:
             The maximum number of items displayed per page in the response.
 
+        SortApplied:
+            The sort order used in the request.
+
         Start:
             "1"`).
 
@@ -44,11 +47,20 @@ class ListConsolidatedAlertsResponse:
 
     """
 
+    # Maps Python attribute names to API keys that cannot be recovered from the
+    # attribute name, so serialization round-trips correctly. E.g. attribute
+    # ``Eq`` <-> key ``$eq``, ``Links`` <-> ``_links``, ``Type`` <-> ``@type``.
+    _names: ClassVar[Dict[str, str]] = {
+        'Embedded': '_embedded',
+        'Links': '_links',
+    }
+
     Embedded: consolidated_alert_list_embedded_.ConsolidatedAlertListEmbedded | None = None
     Links: consolidated_alert_list_links_.ConsolidatedAlertListLinks | None = None
     CurrentCount: int | None = None
     FilterApplied: str | None = None
     Limit: int | None = None
+    SortApplied: str | None = None
     Start: str | None = None
     TotalCount: int | None = None
     TotalPagesCount: int | None = None
@@ -56,9 +68,7 @@ class ListConsolidatedAlertsResponse:
 
     def dict(self) -> Dict[str, Any]:
         """Returns the dictionary representation of the model."""
-        return dataclasses.asdict(
-            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
-        )
+        return api_helper.to_dictionary(self)
 
     @overload
     @classmethod
@@ -108,6 +118,9 @@ class ListConsolidatedAlertsResponse:
         val = dictionary.get('limit', None)
         val_limit = val
 
+        val = dictionary.get('sort_applied', None)
+        val_sort_applied = val
+
         val = dictionary.get('start', None)
         val_start = val
 
@@ -124,6 +137,7 @@ class ListConsolidatedAlertsResponse:
             val_current_count,
             val_filter_applied,
             val_limit,
+            val_sort_applied,
             val_start,
             val_total_count,
             val_total_pages_count,

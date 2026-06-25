@@ -30,5 +30,6 @@ clumioapi.models.dynamo\_db\_grr\_source.DynamoDBGrrSource
    .. autosummary::
    
       ~DynamoDBGrrSource.BackupId
+      ~DynamoDBGrrSource.ContinuousBackup
    
    

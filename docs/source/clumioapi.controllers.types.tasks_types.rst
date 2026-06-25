@@ -19,6 +19,7 @@ clumioapi.controllers.types.tasks\_types
       :toctree:
       :template: custom-class-template.rst
    
+      ListTasksParentEntityV1T
       ListTasksPrimaryEntityV1T
       ListTasksV1FilterT
    

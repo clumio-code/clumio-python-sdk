@@ -36,6 +36,8 @@ clumioapi.models.protection\_group\_backup.ProtectionGroupBackup
       ~ProtectionGroupBackup.FailedSizeBytes
       ~ProtectionGroupBackup.Id
       ~ProtectionGroupBackup.Links
+      ~ProtectionGroupBackup.MaliciousObjectCount
+      ~ProtectionGroupBackup.MaliciousObjectsListLink
       ~ProtectionGroupBackup.MissingObjectCount
       ~ProtectionGroupBackup.MissingSizeBytes
       ~ProtectionGroupBackup.ProtectionGroupId

@@ -38,6 +38,7 @@ clumioapi.controllers.types
    aws_ec2_instances_types
    aws_environment_tags_types
    aws_environments_types
+   aws_iceberg_tables_types
    aws_rds_resource_restored_records_types
    aws_rds_resources_types
    aws_regions_types
@@ -47,12 +48,15 @@ clumioapi.controllers.types
    backup_aws_dynamodb_tables_types
    backup_aws_ebs_volumes_types
    backup_aws_ec2_instances_types
+   backup_aws_iceberg_tables_types
    backup_aws_rds_resource_database_tables_types
    backup_aws_rds_resource_databases_types
    backup_aws_rds_resources_types
    backup_ec2_mssql_databases_types
    backup_filesystem_directories_types
    backup_filesystems_types
+   backup_gcp_protection_groups_gcs_assets_types
+   backup_gcp_protection_groups_types
    backup_protection_groups_types
    backups_files_types
    base_controller_filter_types
@@ -63,6 +67,13 @@ clumioapi.controllers.types
    ec2_mssql_failover_clusters_types
    ec2_mssql_hosts_types
    ec2_mssql_instance_types
+   gcp_connections_types
+   gcp_gcs_assets_types
+   gcp_gcs_buckets_types
+   gcp_labels_types
+   gcp_projects_types
+   gcp_protection_groups_types
+   gcp_report_types
    general_settings_types
    individual_alerts_types
    management_groups_types
@@ -81,9 +92,12 @@ clumioapi.controllers.types
    restored_aws_dynamodb_tables_types
    restored_aws_ebs_volumes_types
    restored_aws_ec2_instances_types
+   restored_aws_iceberg_tables_types
    restored_aws_rds_resources_types
    restored_aws_s3_buckets_types
    restored_files_types
+   restored_gcs_protection_group_assets_types
+   restored_gcs_protection_groups_types
    restored_protection_group_instant_access_endpoints_types
    restored_protection_group_s3_assets_types
    restored_protection_groups_types

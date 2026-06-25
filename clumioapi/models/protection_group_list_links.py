@@ -2,11 +2,12 @@
 # Copyright 2023. Clumio, A Commvault Company.
 #
 import dataclasses
-from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
+from typing import Any, ClassVar, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from clumioapi.api_helper import camel_to_snake
+from clumioapi import api_helper
 from clumioapi.models import hateoas_first_link as hateoas_first_link_
 from clumioapi.models import hateoas_last_link as hateoas_last_link_
+from clumioapi.models import hateoas_link as hateoas_link_
 from clumioapi.models import hateoas_next_link as hateoas_next_link_
 from clumioapi.models import hateoas_prev_link as hateoas_prev_link_
 from clumioapi.models import hateoas_self_link as hateoas_self_link_
@@ -37,19 +38,33 @@ class ProtectionGroupListLinks:
         Self:
             The hateoas link to this resource.
 
+        CreateProtectionGroup:
+            A resource-specific hateoas link.
+
     """
+
+    # Maps Python attribute names to API keys that cannot be recovered from the
+    # attribute name, so serialization round-trips correctly. E.g. attribute
+    # ``Eq`` <-> key ``$eq``, ``Links`` <-> ``_links``, ``Type`` <-> ``@type``.
+    _names: ClassVar[Dict[str, str]] = {
+        'First': '_first',
+        'Last': '_last',
+        'Next': '_next',
+        'Prev': '_prev',
+        'Self': '_self',
+        'CreateProtectionGroup': 'create-protection-group',
+    }
 
     First: hateoas_first_link_.HateoasFirstLink | None = None
     Last: hateoas_last_link_.HateoasLastLink | None = None
     Next: hateoas_next_link_.HateoasNextLink | None = None
     Prev: hateoas_prev_link_.HateoasPrevLink | None = None
     Self: hateoas_self_link_.HateoasSelfLink | None = None
+    CreateProtectionGroup: hateoas_link_.HateoasLink | None = None
 
     def dict(self) -> Dict[str, Any]:
         """Returns the dictionary representation of the model."""
-        return dataclasses.asdict(
-            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
-        )
+        return api_helper.to_dictionary(self)
 
     @overload
     @classmethod
@@ -97,6 +112,9 @@ class ProtectionGroupListLinks:
         val = dictionary.get('_self', None)
         val_self = hateoas_self_link_.HateoasSelfLink.from_dictionary(val)
 
+        val = dictionary.get('create-protection-group', None)
+        val_create_protection_group = hateoas_link_.HateoasLink.from_dictionary(val)
+
         # Return an object of this model
         return cls(
             val_first,
@@ -104,6 +122,7 @@ class ProtectionGroupListLinks:
             val_next,
             val_prev,
             val_self,
+            val_create_protection_group,
         )
 
     @classmethod

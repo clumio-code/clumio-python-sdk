@@ -19,7 +19,6 @@ from clumioapi.models import add_s3_instant_access_endpoint_role_response
 from clumioapi.models import cost_estimates_protection_group_instant_access_endpoint_v1_request
 from clumioapi.models import create_protection_group_instant_access_endpoint_v1_request
 from clumioapi.models import create_s3_instant_access_endpoint_response
-from clumioapi.models import delete_s3_instant_access_endpoint_role_response
 from clumioapi.models import estimate_cost_details_s3_instant_access_endpoint_response
 from clumioapi.models import estimate_cost_s3_instant_access_endpoint_async_response
 from clumioapi.models import estimate_cost_s3_instant_access_endpoint_sync_response
@@ -30,7 +29,6 @@ from clumioapi.models import read_s3_instant_access_endpoint_uri_response
 from clumioapi.models import update_protection_group_instant_access_endpoint_role_v1_request
 from clumioapi.models import update_protection_group_instant_access_endpoint_v1_request
 from clumioapi.models import update_s3_instant_access_endpoint_response
-from clumioapi.models import update_s3_instant_access_endpoint_role_response
 import requests
 import retrying
 
@@ -615,7 +613,7 @@ class RestoredProtectionGroupInstantAccessEndpointsV1Controller:
             | None
         ) = None,
         **kwargs,
-    ) -> update_s3_instant_access_endpoint_role_response.UpdateS3InstantAccessEndpointRoleResponse:
+    ) -> object:
         """Updates a user-defined IAM role that is attached to an S3 Instant Access
         endpoint if any
         changes are made to that role.
@@ -630,9 +628,7 @@ class RestoredProtectionGroupInstantAccessEndpointsV1Controller:
         """
 
         def get_instance_from_response(resp: requests.Response) -> Any:
-            return update_s3_instant_access_endpoint_role_response.UpdateS3InstantAccessEndpointRoleResponse.from_response(
-                resp
-            )
+            return resp
 
         # Prepare query URL
         _url_path = (
@@ -644,9 +640,7 @@ class RestoredProtectionGroupInstantAccessEndpointsV1Controller:
 
         _query_parameters: dict[str, Any] = {}
 
-        resp_instance: (
-            update_s3_instant_access_endpoint_role_response.UpdateS3InstantAccessEndpointRoleResponse
-        )
+        resp_instance: object
         # Execute request
         resp: requests.Response
         try:
@@ -671,7 +665,7 @@ class RestoredProtectionGroupInstantAccessEndpointsV1Controller:
 
     def delete_protection_group_instant_access_endpoint_role(
         self, endpoint_id: str | None = None, role_id: str | None = None, **kwargs
-    ) -> delete_s3_instant_access_endpoint_role_response.DeleteS3InstantAccessEndpointRoleResponse:
+    ) -> object:
         """Deletes a user-defined IAM role attached to an S3 Instant Access endpoint.
 
         Args:
@@ -683,9 +677,7 @@ class RestoredProtectionGroupInstantAccessEndpointsV1Controller:
         """
 
         def get_instance_from_response(resp: requests.Response) -> Any:
-            return delete_s3_instant_access_endpoint_role_response.DeleteS3InstantAccessEndpointRoleResponse.from_response(
-                resp
-            )
+            return resp
 
         # Prepare query URL
         _url_path = (
@@ -697,9 +689,7 @@ class RestoredProtectionGroupInstantAccessEndpointsV1Controller:
 
         _query_parameters: dict[str, Any] = {}
 
-        resp_instance: (
-            delete_s3_instant_access_endpoint_role_response.DeleteS3InstantAccessEndpointRoleResponse
-        )
+        resp_instance: object
         # Execute request
         resp: requests.Response
         try:

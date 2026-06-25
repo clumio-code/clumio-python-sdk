@@ -2,9 +2,9 @@
 # Copyright 2023. Clumio, A Commvault Company.
 #
 import dataclasses
-from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
+from typing import Any, ClassVar, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from clumioapi.api_helper import camel_to_snake
+from clumioapi import api_helper
 import requests
 
 T = TypeVar('T', bound='IcebergBackupAdvancedSetting')
@@ -18,18 +18,22 @@ class IcebergBackupAdvancedSetting:
     operations
 
     Attributes:
+        BackupCompactedSnapshotOnly
+
+        BackupLastSnapshotOnly
+
         BackupTier:
             `standard`.
 
     """
 
+    BackupCompactedSnapshotOnly: bool | None = None
+    BackupLastSnapshotOnly: bool | None = None
     BackupTier: str | None = None
 
     def dict(self) -> Dict[str, Any]:
         """Returns the dictionary representation of the model."""
-        return dataclasses.asdict(
-            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
-        )
+        return api_helper.to_dictionary(self)
 
     @overload
     @classmethod
@@ -62,11 +66,19 @@ class IcebergBackupAdvancedSetting:
         if not dictionary:
             return None
         # Extract variables from the dictionary
+        val = dictionary.get('backup_compacted_snapshot_only', None)
+        val_backup_compacted_snapshot_only = val
+
+        val = dictionary.get('backup_last_snapshot_only', None)
+        val_backup_last_snapshot_only = val
+
         val = dictionary.get('backup_tier', None)
         val_backup_tier = val
 
         # Return an object of this model
         return cls(
+            val_backup_compacted_snapshot_only,
+            val_backup_last_snapshot_only,
             val_backup_tier,
         )
 

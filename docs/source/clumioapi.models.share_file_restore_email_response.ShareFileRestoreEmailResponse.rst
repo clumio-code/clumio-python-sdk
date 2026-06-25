@@ -29,7 +29,6 @@ clumioapi.models.share\_file\_restore\_email\_response.ShareFileRestoreEmailResp
 
    .. autosummary::
    
-      ~ShareFileRestoreEmailResponse.Links
       ~ShareFileRestoreEmailResponse.raw_response
    
    

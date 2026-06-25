@@ -30,5 +30,6 @@ clumioapi.models.protection\_group\_backup\_advanced\_setting.ProtectionGroupBac
    .. autosummary::
    
       ~ProtectionGroupBackupAdvancedSetting.BackupTier
+      ~ProtectionGroupBackupAdvancedSetting.MalwareScan
    
    

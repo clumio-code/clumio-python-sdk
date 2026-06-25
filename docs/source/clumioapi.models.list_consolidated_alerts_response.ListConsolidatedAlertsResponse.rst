@@ -34,6 +34,7 @@ clumioapi.models.list\_consolidated\_alerts\_response.ListConsolidatedAlertsResp
       ~ListConsolidatedAlertsResponse.FilterApplied
       ~ListConsolidatedAlertsResponse.Limit
       ~ListConsolidatedAlertsResponse.Links
+      ~ListConsolidatedAlertsResponse.SortApplied
       ~ListConsolidatedAlertsResponse.Start
       ~ListConsolidatedAlertsResponse.TotalCount
       ~ListConsolidatedAlertsResponse.TotalPagesCount

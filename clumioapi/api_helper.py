@@ -82,3 +82,29 @@ def camel_to_snake(name: str) -> str:
     name = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', name)
     name = re.sub('([a-z0-9])([A-Z])', r'\1_\2', name).lower()
     return name.replace('__', '_')
+
+
+def to_dictionary(value: Any) -> Any:
+    """Recursively convert a model into its API dictionary representation.
+
+    Each model exposes a ``_names`` mapping from its Python attribute name to
+    the exact API key. Keys that cannot be recovered from the attribute name are
+    preserved via that mapping; any attribute missing from it falls back to
+    ``camel_to_snake``. For example::
+
+        GCPStringOperatorModel(Eq='us', NotIn=['eu']).dict()
+            -> {'$eq': 'us', '$in': None, '$not_eq': None, '$not_in': ['eu']}
+            #   'Eq'/'NotIn' come from _names; a plain 'UserId' would become 'user_id'
+    """
+    if dataclasses.is_dataclass(value) and not isinstance(value, type):
+        names = getattr(value, '_names', {})
+        result: Dict[str, Any] = {}
+        for field in dataclasses.fields(value):
+            attr = field.name
+            result[names.get(attr, camel_to_snake(attr))] = to_dictionary(getattr(value, attr))
+        return result
+    if isinstance(value, (list, tuple)):
+        return [to_dictionary(item) for item in value]
+    if isinstance(value, dict):
+        return {key: to_dictionary(item) for key, item in value.items()}
+    return value

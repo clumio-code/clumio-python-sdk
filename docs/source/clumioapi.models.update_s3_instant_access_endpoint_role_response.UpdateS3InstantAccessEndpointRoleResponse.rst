@@ -29,8 +29,6 @@ clumioapi.models.update\_s3\_instant\_access\_endpoint\_role\_response.UpdateS3I
 
    .. autosummary::
    
-      ~UpdateS3InstantAccessEndpointRoleResponse.Embedded
-      ~UpdateS3InstantAccessEndpointRoleResponse.Links
       ~UpdateS3InstantAccessEndpointRoleResponse.raw_response
    
    

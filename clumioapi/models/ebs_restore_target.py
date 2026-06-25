@@ -2,9 +2,9 @@
 # Copyright 2023. Clumio, A Commvault Company.
 #
 import dataclasses
-from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
+from typing import Any, ClassVar, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from clumioapi.api_helper import camel_to_snake
+from clumioapi import api_helper
 from clumioapi.models import aws_tag_common_model as aws_tag_common_model_
 import requests
 
@@ -51,6 +51,10 @@ class EBSRestoreTarget:
         Type:
             Gp2, gp3, io1, io2, sc1, st1, standard.
 
+        VolumeInitializationRate:
+            The rate (in mb/s) at which data is initialized on the restored volume.
+            accepted values are between 100 and 300.
+
     """
 
     AwsAz: str | None = None
@@ -59,12 +63,11 @@ class EBSRestoreTarget:
     KmsKeyNativeId: str | None = None
     Tags: Sequence[aws_tag_common_model_.AwsTagCommonModel] | None = None
     Type: str | None = None
+    VolumeInitializationRate: int | None = None
 
     def dict(self) -> Dict[str, Any]:
         """Returns the dictionary representation of the model."""
-        return dataclasses.asdict(
-            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
-        )
+        return api_helper.to_dictionary(self)
 
     @overload
     @classmethod
@@ -119,6 +122,9 @@ class EBSRestoreTarget:
         val = dictionary.get('type', None)
         val_type = val
 
+        val = dictionary.get('volume_initialization_rate', None)
+        val_volume_initialization_rate = val
+
         # Return an object of this model
         return cls(
             val_aws_az,
@@ -127,6 +133,7 @@ class EBSRestoreTarget:
             val_kms_key_native_id,
             val_tags,
             val_type,
+            val_volume_initialization_rate,
         )
 
     @classmethod

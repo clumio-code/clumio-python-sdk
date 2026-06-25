@@ -2,9 +2,9 @@
 # Copyright 2023. Clumio, A Commvault Company.
 #
 import dataclasses
-from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
+from typing import Any, ClassVar, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from clumioapi.api_helper import camel_to_snake
+from clumioapi import api_helper
 from clumioapi.models import ami_model as ami_model_
 from clumioapi.models import attached_ebs_volume_full_model as attached_ebs_volume_full_model_
 from clumioapi.models import aws_tag_common_model as aws_tag_common_model_
@@ -124,6 +124,13 @@ class EC2Backup:
 
     """
 
+    # Maps Python attribute names to API keys that cannot be recovered from the
+    # attribute name, so serialization round-trips correctly. E.g. attribute
+    # ``Eq`` <-> key ``$eq``, ``Links`` <-> ``_links``, ``Type`` <-> ``@type``.
+    _names: ClassVar[Dict[str, str]] = {
+        'Links': '_links',
+    }
+
     Links: ec2_backup_links_.EC2BackupLinks | None = None
     AccountNativeId: str | None = None
     Ami: ami_model_.AmiModel | None = None
@@ -160,9 +167,7 @@ class EC2Backup:
 
     def dict(self) -> Dict[str, Any]:
         """Returns the dictionary representation of the model."""
-        return dataclasses.asdict(
-            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
-        )
+        return api_helper.to_dictionary(self)
 
     @overload
     @classmethod

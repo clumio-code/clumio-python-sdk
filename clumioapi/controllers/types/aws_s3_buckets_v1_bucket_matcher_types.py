@@ -11,9 +11,9 @@ class ListAwsS3BucketsV1BucketMatcherT(base_controller_filter_types.BaseControll
     AwsTag: Optional[
         dict[
             Literal['eq', 'not_eq', 'contains', 'not_contains', 'all', 'not_all', 'in', 'not_in'],
-            dict | list,
+            list | dict,
         ]
     ] = None
-    AwsAccountNativeId: Optional[dict[Literal['eq', 'in'], str | list]] = None
-    AccountNativeIddeprecated: Optional[dict[Literal['eq', 'in'], str | list]] = None
-    AwsRegion: Optional[dict[Literal['eq', 'in'], str | list]] = None
+    AwsAccountNativeId: Optional[dict[Literal['eq', 'in'], list | str]] = None
+    AccountNativeIddeprecated: Optional[dict[Literal['eq', 'in'], list | str]] = None
+    AwsRegion: Optional[dict[Literal['eq', 'in'], list | str]] = None

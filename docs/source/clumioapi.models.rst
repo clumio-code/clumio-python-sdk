@@ -114,6 +114,8 @@
    compliance_run_hateoas_links
    compliance_run_list_hateoas_embedded
    compliance_run_list_hateoas_links
+   configuration
+   configuration_object
    connection_group_embedded
    connection_group_links
    connection_group_list_links
@@ -141,6 +143,7 @@
    create_backup_aws_ebs_volume_v1_request
    create_backup_aws_ebs_volume_v2_request
    create_backup_aws_ec2_instance_v1_request
+   create_backup_aws_iceberg_table_v1_request
    create_backup_ec2_mssql_database_v1_request
    create_compliance_configuration_response
    create_compliance_report_configuration_v1_request
@@ -151,6 +154,10 @@
    create_connection_template_v1_request
    create_ec2_mssql_database_restore_response
    create_ec2_mssql_database_restore_response_links
+   create_gcp_connection_response
+   create_gcp_connection_v1_request
+   create_gcp_protection_group_response
+   create_gcp_protection_group_v1_request
    create_on_demand_ec2_mssql_database_backup_response_links
    create_organizational_unit_no_task_response
    create_organizational_unit_no_task_response_v1
@@ -186,10 +193,11 @@
    delete_bucket_from_protection_group_response
    delete_compliance_configuration_response
    delete_compliance_run_response
+   delete_gcp_connection_response
+   delete_gcp_protection_group_response
    delete_organizational_unit_response
    delete_policy_response
    delete_policy_response_links
-   delete_policy_rule_v1_request
    delete_protection_group_response
    delete_rule_response
    delete_rule_response_links
@@ -210,6 +218,7 @@
    download_shared_file_response
    download_shared_file_v1_request
    dynamo_db_grr_source
+   dynamo_db_grr_source_pitr_options
    dynamo_db_grr_target
    dynamo_db_key_filter
    dynamo_db_keys
@@ -335,6 +344,9 @@
    estimate_cost_s3_instant_access_endpoint_sync_response
    estimate_cost_s3_instant_access_endpoint_sync_response_links
    event_rules
+   export_malware_report_links
+   export_malware_report_response
+   export_protection_group_s3_asset_malware_report_v1_request
    file_descriptor
    file_list_response
    file_restore_source
@@ -350,10 +362,81 @@
    file_version_hateoas
    file_versions_list_embedded
    file_versions_list_links
+   gcp_bucket_rule_label_model
+   gcp_bucket_rule_model
+   gcp_connection
+   gcp_connection_links
+   gcp_connection_list_embedded
+   gcp_connection_list_links
+   gcp_label_key
+   gcp_label_key_embedded
+   gcp_label_key_links
+   gcp_label_key_list_embedded
+   gcp_label_key_list_links
+   gcp_label_model
+   gcp_label_operator_model
+   gcp_label_value
+   gcp_label_value_embedded
+   gcp_label_value_links
+   gcp_label_value_list_embedded
+   gcp_label_value_list_links
+   gcp_project
+   gcp_project_embedded
+   gcp_project_links
+   gcp_project_list_embedded
+   gcp_project_list_links
+   gcp_protection_group
+   gcp_protection_group_backup_advanced_setting
+   gcp_protection_group_embedded
+   gcp_protection_group_filter
+   gcp_protection_group_links
+   gcp_protection_group_list_embedded
+   gcp_protection_group_list_links
+   gcp_protection_info_model
+   gcp_string_operator_model
+   gcpgcs_asset
+   gcpgcs_asset_continuous_backup_stats
+   gcpgcs_asset_continuous_backup_stats_links
+   gcpgcs_asset_embedded
+   gcpgcs_asset_links
+   gcpgcs_asset_list_embedded
+   gcpgcs_asset_list_links
+   gcpgcs_asset_pitr_interval
+   gcpgcs_asset_pitr_interval_list_embedded
+   gcpgcs_asset_pitr_interval_list_links
+   gcs_asset_error_report_v1_request
+   gcs_asset_error_report_v1_response
+   gcs_bucket
+   gcs_bucket_embedded
+   gcs_bucket_links
+   gcs_bucket_list_embedded
+   gcs_bucket_list_links
+   gcs_object
+   gcs_protection_group_asset_backup
+   gcs_protection_group_asset_backup_links
+   gcs_protection_group_asset_backup_list_embedded
+   gcs_protection_group_asset_backup_list_links
+   gcs_protection_group_asset_restore_source
+   gcs_protection_group_asset_restore_source_pitr_options
+   gcs_protection_group_backup
+   gcs_protection_group_backup_links
+   gcs_protection_group_backup_list_embedded
+   gcs_protection_group_backup_list_links
+   gcs_protection_group_error_report_v1_request
+   gcs_protection_group_error_report_v1_response
+   gcs_protection_group_restore_source
+   gcs_protection_group_restore_source_pitr_options
+   gcs_protection_group_restore_target
+   gcs_restore_pitr_timestamps
+   gcs_source_object_filters
    general_settings_links
    generate_restored_file_passcode_links
    generate_restored_file_passcode_response
    global_secondary_index
+   glue_compaction_configuration
+   glue_optimizer
+   glue_orphan_file_deletion_configuration
+   glue_retention_configuration
    grr_source
    grr_target
    hateoas_common_links
@@ -369,6 +452,17 @@
    iceberg_on_glue_template_info
    iceberg_on_s3_tables_asset_info
    iceberg_on_s3_tables_template_info
+   iceberg_restore_source
+   iceberg_restore_target
+   iceberg_table
+   iceberg_table_backup
+   iceberg_table_backup_links
+   iceberg_table_backup_list_embedded
+   iceberg_table_backup_list_links
+   iceberg_table_embedded
+   iceberg_table_links
+   iceberg_table_list_embedded
+   iceberg_table_list_links
    individual_alert_details
    instance_store_block_device_mapping
    items_covered
@@ -403,6 +497,18 @@
    list_file_systems_response
    list_file_versions_hateoas_link
    list_file_versions_hateoas_links
+   list_gcp_connections_response
+   list_gcp_label_keys_response
+   list_gcp_label_values_response
+   list_gcp_projects_response
+   list_gcp_protection_groups_response
+   list_gcpgcs_asset_pitr_intervals_response
+   list_gcpgcs_assets_response
+   list_gcs_buckets_response
+   list_gcs_protection_group_asset_backups_response
+   list_gcs_protection_group_backups_response
+   list_iceberg_table_backups_response
+   list_iceberg_tables_response
    list_management_groups_response
    list_organizational_units_response
    list_organizational_units_response_v1
@@ -430,10 +536,12 @@
    local_secondary_index
    m365_grouping_criteria
    m365_organizational_unit_entity_type
+   malware_report_protection_group_backup
    management_group
    management_group_links
    management_group_list_embedded
    management_group_list_links
+   model_summary
    mssql_database_backup_advanced_setting
    mssql_database_file
    mssql_log_backup_advanced_setting
@@ -444,6 +552,8 @@
    object
    object_filter
    object_v2
+   on_demand_aws_iceberg_table_backup_links
+   on_demand_aws_iceberg_table_backup_response
    on_demand_dynamo_db_backup_links
    on_demand_dynamo_db_backup_response
    on_demand_ebs_backup_links
@@ -455,6 +565,7 @@
    on_demand_setting
    on_demand_throughput_override
    operation_info
+   optimizer
    option_groups
    option_groups_embedded
    option_groups_links
@@ -498,14 +609,26 @@
    policy_operation_input
    post_process_aws_connection_response
    post_process_aws_connection_v1_request
+   post_process_gcp_connection_response
+   post_process_gcp_connection_v1_request
    post_process_kms_response
    post_process_kms_v1_request
    prefix_filter
    preview_aws_s3_bucket_v1_request
+   preview_details_gcs_protection_group_links
+   preview_details_gcs_protection_group_response
    preview_details_protection_group_links
    preview_details_protection_group_response
    preview_details_s3_bucket_links
    preview_details_s3_bucket_response
+   preview_gcs_protection_group_asset_async_links
+   preview_gcs_protection_group_asset_async_response
+   preview_gcs_protection_group_asset_details_links
+   preview_gcs_protection_group_asset_details_response
+   preview_gcs_protection_group_asset_v1_request
+   preview_gcs_protection_group_async_links
+   preview_gcs_protection_group_async_response
+   preview_gcs_protection_group_v1_request
    preview_protection_group_async_links
    preview_protection_group_async_response
    preview_protection_group_s3_asset_async_links
@@ -615,7 +738,16 @@
    read_ec2_mssql_inv_host_response
    read_ec2_mssqlfci_response
    read_file_system_response
+   read_gcp_connection_response
+   read_gcp_protection_group_response
+   read_gcpgcs_asset_continuous_backup_stats_response
+   read_gcpgcs_asset_response
+   read_gcs_bucket_response
+   read_gcs_protection_group_asset_backup_response
+   read_gcs_protection_group_backup_response
    read_general_settings_response_v2
+   read_iceberg_table_backup_response
+   read_iceberg_table_response
    read_management_group_response
    read_organizational_unit_response
    read_organizational_unit_response_v1
@@ -658,6 +790,8 @@
    restore_aws_ebs_volume_v1_request
    restore_aws_ebs_volume_v2_request
    restore_aws_ec2_instance_v1_request
+   restore_aws_iceberg_table_response
+   restore_aws_iceberg_table_v1_request
    restore_aws_rds_resource_v1_request
    restore_aws_s3_bucket_v1_request
    restore_dynamo_db_table_links
@@ -671,6 +805,16 @@
    restore_file_links
    restore_file_response
    restore_files_v1_request
+   restore_gcs_objects_links
+   restore_gcs_objects_response
+   restore_gcs_protection_group_asset_v1_request
+   restore_gcs_protection_group_bucket_links
+   restore_gcs_protection_group_bucket_response
+   restore_gcs_protection_group_links
+   restore_gcs_protection_group_objects_v1_request
+   restore_gcs_protection_group_response
+   restore_gcs_protection_group_v1_request
+   restore_iceberg_table_links
    restore_objects_links
    restore_objects_response
    restore_protection_group_links
@@ -719,7 +863,11 @@
    rule_priority
    rule_provision
    s3_access_control_translation
+   s3_asset_backup_time_range
    s3_asset_info
+   s3_asset_malware_report_source
+   s3_asset_malware_report_target
+   s3_asset_malware_scan_task
    s3_bucket_size_res
    s3_buckets_inventory_summary_bucket_size_breakdown
    s3_cloudwatch_metrics
@@ -752,6 +900,9 @@
    s3_service_roles
    s3_source_selection_criteria
    s3_sse_kms_encrypted_objects
+   s3_tables_iceberg_compaction
+   s3_tables_iceberg_snapshot_management
+   s3_tables_optimizer
    s3_tag
    s3_template_info
    s3_versioning_output
@@ -762,11 +913,7 @@
    service_roles
    set_assignments_response
    set_assignments_response_links
-   set_bucket_properties_response
-   set_bucket_properties_response_links
-   set_bucket_properties_v1_request
    set_policy_assignments_v1_request
-   share_file_restore_email_links
    share_file_restore_email_response
    share_restored_file_v1_request
    single_error_response
@@ -804,6 +951,10 @@
    update_consolidated_alert_response
    update_consolidated_alert_v1_request
    update_entities
+   update_gcp_connection_response
+   update_gcp_connection_v1_request
+   update_gcp_protection_group_response
+   update_gcp_protection_group_v1_request
    update_general_settings_v2_request
    update_individual_alert_v1_request
    update_management_group_response
@@ -840,6 +991,7 @@
    user_list_hateoas_links
    user_with_e_tag
    user_with_role
+   vpc_configuration
    wallet
    wallet_embedded
    wallet_links

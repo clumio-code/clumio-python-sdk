@@ -1,17 +1,14 @@
 import sys
 
-from setuptools import find_packages, setup
+from setuptools import find_packages
+from setuptools import setup
 
-if sys.version_info[0] < 3:
-    with open('README.md') as fh:
-        long_description = fh.read()
-else:
-    with open('README.md', encoding='utf-8') as fh:
-        long_description = fh.read()
+with open('README.md', encoding='utf-8') as fh:
+    long_description = fh.read()
 
 setup(
     name='clumioapi',
-    version='1.0.3',
+    version='1.0.4',
     description='Python SDK for Clumio REST API',
     long_description=long_description,
     long_description_content_type='text/markdown',

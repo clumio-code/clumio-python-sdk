@@ -2,9 +2,9 @@
 # Copyright 2023. Clumio, A Commvault Company.
 #
 import dataclasses
-from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
+from typing import Any, ClassVar, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from clumioapi.api_helper import camel_to_snake
+from clumioapi import api_helper
 import requests
 
 T = TypeVar('T', bound='EC2MSSQLDatabaseEmbedded')
@@ -33,6 +33,16 @@ class EC2MSSQLDatabaseEmbedded:
 
     """
 
+    # Maps Python attribute names to API keys that cannot be recovered from the
+    # attribute name, so serialization round-trips correctly. E.g. attribute
+    # ``Eq`` <-> key ``$eq``, ``Links`` <-> ``_links``, ``Type`` <-> ``@type``.
+    _names: ClassVar[Dict[str, str]] = {
+        'GetEc2MssqlFailoverClustersHostsInfo': 'get-ec2-mssql-failover-clusters-hosts-info',
+        'ReadAwsEc2Instance': 'read-aws-ec2-instance',
+        'ReadAwsEnvironment': 'read-aws-environment',
+        'ReadPolicyDefinition': 'read-policy-definition',
+    }
+
     GetEc2MssqlFailoverClustersHostsInfo: object | None = None
     ReadAwsEc2Instance: object | None = None
     ReadAwsEnvironment: object | None = None
@@ -40,9 +50,7 @@ class EC2MSSQLDatabaseEmbedded:
 
     def dict(self) -> Dict[str, Any]:
         """Returns the dictionary representation of the model."""
-        return dataclasses.asdict(
-            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
-        )
+        return api_helper.to_dictionary(self)
 
     @overload
     @classmethod

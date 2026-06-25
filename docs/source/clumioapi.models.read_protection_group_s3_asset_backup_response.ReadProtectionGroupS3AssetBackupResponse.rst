@@ -39,6 +39,8 @@ clumioapi.models.read\_protection\_group\_s3\_asset\_backup\_response.ReadProtec
       ~ReadProtectionGroupS3AssetBackupResponse.FailedSizeBytes
       ~ReadProtectionGroupS3AssetBackupResponse.Id
       ~ReadProtectionGroupS3AssetBackupResponse.Links
+      ~ReadProtectionGroupS3AssetBackupResponse.MaliciousObjectCount
+      ~ReadProtectionGroupS3AssetBackupResponse.MaliciousObjectsListLink
       ~ReadProtectionGroupS3AssetBackupResponse.MissingObjectCount
       ~ReadProtectionGroupS3AssetBackupResponse.MissingSizeBytes
       ~ReadProtectionGroupS3AssetBackupResponse.ProtectionGroupId

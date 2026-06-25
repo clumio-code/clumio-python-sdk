@@ -29,6 +29,8 @@ clumioapi.models.aws\_connection\_links.AWSConnectionLinks
 
    .. autosummary::
    
+      ~AWSConnectionLinks.CreatePolicyRule
+      ~AWSConnectionLinks.CreateProtectionGroup
       ~AWSConnectionLinks.DeleteConnectionAws
       ~AWSConnectionLinks.ReadOrganizationalUnit
       ~AWSConnectionLinks.Self

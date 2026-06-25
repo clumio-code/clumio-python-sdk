@@ -9,7 +9,7 @@ from clumioapi.controllers.types import base_controller_filter_types
 
 class ListAuditTrailsPrimaryEntityV1T(base_controller_filter_types.BaseControllerFilterTypes):
     Id: Optional[dict[Literal['in'], list]] = None
-    Type: Optional[dict[Literal['eq'], str]] = None
+    Type: Optional[dict[Literal['in'], list]] = None
     Value: Optional[dict[Literal['in'], list]] = None
 
 
@@ -20,7 +20,7 @@ class ListAuditTrailsParentEntityV1T(base_controller_filter_types.BaseController
 
 
 class ListAuditTrailsV1FilterT(base_controller_filter_types.BaseControllerFilterTypes):
-    StartTimestamp: Optional[dict[Literal['gte', 'lt', 'eq'], str | int]] = None
+    StartTimestamp: Optional[dict[Literal['gte', 'lt', 'eq'], int | str]] = None
     Category: Optional[dict[Literal['in'], list]] = None
     Action: Optional[dict[Literal['in'], list]] = None
     Status: Optional[dict[Literal['in'], list]] = None

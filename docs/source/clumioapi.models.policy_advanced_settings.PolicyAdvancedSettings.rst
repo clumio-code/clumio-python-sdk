@@ -36,6 +36,7 @@ clumioapi.models.policy\_advanced\_settings.PolicyAdvancedSettings
       ~PolicyAdvancedSettings.AwsRdsResourceGranularBackup
       ~PolicyAdvancedSettings.Ec2MssqlDatabaseBackup
       ~PolicyAdvancedSettings.Ec2MssqlLogBackup
+      ~PolicyAdvancedSettings.GcpProtectionGroupBackup
       ~PolicyAdvancedSettings.MssqlDatabaseBackup
       ~PolicyAdvancedSettings.MssqlLogBackup
       ~PolicyAdvancedSettings.OracleDatabaseBackup

@@ -8,7 +8,7 @@ from clumioapi.controllers.types import base_controller_filter_types
 
 
 class ListIndividualAlertsPrimaryEntityV1T(base_controller_filter_types.BaseControllerFilterTypes):
-    Id: Optional[dict[Literal['eq'], str]] = None
+    Id: Optional[dict[Literal['eq', 'in'], list | str]] = None
     Type: Optional[dict[Literal['eq'], str]] = None
     Value: Optional[dict[Literal['contains'], str]] = None
 

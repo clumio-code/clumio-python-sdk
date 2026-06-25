@@ -156,7 +156,7 @@ class AuditTrailsV1Controller:
                 |                        |                  |                                  |
                 |                        |                  |                                  |
                 +------------------------+------------------+----------------------------------+
-                | primary_entity.type    | $eq              |  The type(s) of primary entities |
+                | primary_entity.type    | $in              |  The type(s) of primary entities |
                 |                        |                  | to filter on.                    |
                 |                        |                  | For example,                     |
                 |                        |                  |                                  |
@@ -408,7 +408,7 @@ class AuditTrailsV1ControllerPaginator:
                 |                        |                  |                                  |
                 |                        |                  |                                  |
                 +------------------------+------------------+----------------------------------+
-                | primary_entity.type    | $eq              |  The type(s) of primary entities |
+                | primary_entity.type    | $in              |  The type(s) of primary entities |
                 |                        |                  | to filter on.                    |
                 |                        |                  | For example,                     |
                 |                        |                  |                                  |

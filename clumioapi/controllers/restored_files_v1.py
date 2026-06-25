@@ -20,7 +20,6 @@ from clumioapi.models import generate_restored_file_passcode_response
 from clumioapi.models import restore_file_response
 from clumioapi.models import restore_files_v1_request
 from clumioapi.models import restored_files_response
-from clumioapi.models import share_file_restore_email_response
 from clumioapi.models import share_restored_file_v1_request
 import requests
 import retrying
@@ -276,7 +275,7 @@ class RestoredFilesV1Controller:
         restored_file_id: str | None = None,
         body: share_restored_file_v1_request.ShareRestoredFileV1Request | None = None,
         **kwargs,
-    ) -> share_file_restore_email_response.ShareFileRestoreEmailResponse:
+    ) -> object:
         """Sends a downloadable link to the specified email recipient to access restored
         files
         shared by email. Restored files are initially sent by email using
@@ -297,9 +296,7 @@ class RestoredFilesV1Controller:
         """
 
         def get_instance_from_response(resp: requests.Response) -> Any:
-            return share_file_restore_email_response.ShareFileRestoreEmailResponse.from_response(
-                resp
-            )
+            return resp
 
         # Prepare query URL
         _url_path = '/restores/files/{restored_file_id}/_share'
@@ -309,7 +306,7 @@ class RestoredFilesV1Controller:
 
         _query_parameters: dict[str, Any] = {}
 
-        resp_instance: share_file_restore_email_response.ShareFileRestoreEmailResponse
+        resp_instance: object
         # Execute request
         resp: requests.Response
         try:

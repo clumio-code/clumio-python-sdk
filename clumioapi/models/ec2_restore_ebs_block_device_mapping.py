@@ -2,9 +2,9 @@
 # Copyright 2023. Clumio, A Commvault Company.
 #
 import dataclasses
-from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
+from typing import Any, ClassVar, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from clumioapi.api_helper import camel_to_snake
+from clumioapi import api_helper
 from clumioapi.models import aws_tag_common_model as aws_tag_common_model_
 import requests
 
@@ -29,6 +29,9 @@ class EC2RestoreEbsBlockDeviceMapping:
         Tags:
             The aws tags to be applied to the volume.
 
+        VolumeInitializationRate:
+            The initialization rate (in mb/s) for the restored volume.
+
         VolumeNativeId:
             The aws-assigned id of the backed-up volume.
 
@@ -37,13 +40,12 @@ class EC2RestoreEbsBlockDeviceMapping:
     KmsKeyNativeId: str | None = None
     Name: str | None = None
     Tags: Sequence[aws_tag_common_model_.AwsTagCommonModel] | None = None
+    VolumeInitializationRate: int | None = None
     VolumeNativeId: str | None = None
 
     def dict(self) -> Dict[str, Any]:
         """Returns the dictionary representation of the model."""
-        return dataclasses.asdict(
-            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
-        )
+        return api_helper.to_dictionary(self)
 
     @overload
     @classmethod
@@ -89,6 +91,9 @@ class EC2RestoreEbsBlockDeviceMapping:
             for value in val:
                 val_tags.append(aws_tag_common_model_.AwsTagCommonModel.from_dictionary(value))
 
+        val = dictionary.get('volume_initialization_rate', None)
+        val_volume_initialization_rate = val
+
         val = dictionary.get('volume_native_id', None)
         val_volume_native_id = val
 
@@ -97,6 +102,7 @@ class EC2RestoreEbsBlockDeviceMapping:
             val_kms_key_native_id,
             val_name,
             val_tags,
+            val_volume_initialization_rate,
             val_volume_native_id,
         )
 

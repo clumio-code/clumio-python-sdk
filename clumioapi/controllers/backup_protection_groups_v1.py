@@ -14,6 +14,8 @@ from clumioapi.controllers import base_controller
 from clumioapi.controllers.types import aws_s3_buckets_v1_bucket_matcher_types
 from clumioapi.controllers.types import backup_protection_groups_types
 from clumioapi.exceptions import clumio_exception
+from clumioapi.models import export_malware_report_response
+from clumioapi.models import export_protection_group_s3_asset_malware_report_v1_request
 from clumioapi.models import list_protection_group_backups_response
 from clumioapi.models import list_protection_group_s3_asset_backups_response
 from clumioapi.models import read_protection_group_backup_response
@@ -238,6 +240,68 @@ class BackupProtectionGroupsV1Controller:
 
         if not resp.ok:
             error_str = f'list_backup_protection_group_s3_assets for url {urllib.parse.unquote(resp.url)} failed.'
+            raise clumio_exception.ClumioException(error_str, resp=resp)
+
+        resp_instance = get_instance_from_response(resp)
+
+        return resp_instance
+
+    def export_protection_group_s3_asset_malware_report(
+        self,
+        embed: str | None = None,
+        body: (
+            export_protection_group_s3_asset_malware_report_v1_request.ExportProtectionGroupS3AssetMalwareReportV1Request
+            | None
+        ) = None,
+        **kwargs,
+    ) -> export_malware_report_response.ExportMalwareReportResponse:
+        """Exports the specified malware report for a protection group S3 asset.
+
+        Args:
+            embed:
+                Embeds the details of each associated resource. Set the parameter to one of the
+                following embeddable links to include additional details associated with the
+                resource.
+
+                +-----------------+------------------------------------------------------------+
+                | Embeddable Link |                        Description                         |
+                +=================+============================================================+
+                | read-task       | Embeds the associated task in the response. For example,   |
+                |                 | embed=read-task                                            |
+                +-----------------+------------------------------------------------------------+
+
+            body:
+
+        """
+
+        def get_instance_from_response(resp: requests.Response) -> Any:
+            return export_malware_report_response.ExportMalwareReportResponse.from_response(resp)
+
+        # Prepare query URL
+        _url_path = '/backups/protection-groups/s3-assets/malware-report'
+
+        _query_parameters: dict[str, Any] = {}
+        _query_parameters = {
+            'embed': embed,
+        }
+
+        resp_instance: export_malware_report_response.ExportMalwareReportResponse
+        # Execute request
+        resp: requests.Response
+        try:
+            resp = self.client.post(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                json=body.dict() if body else None,
+                raw_response=True,
+                **kwargs,
+            )
+        except requests.exceptions.HTTPError as e:
+            resp = e.response
+
+        if not resp.ok:
+            error_str = f'export_protection_group_s3_asset_malware_report for url {urllib.parse.unquote(resp.url)} failed.'
             raise clumio_exception.ClumioException(error_str, resp=resp)
 
         resp_instance = get_instance_from_response(resp)

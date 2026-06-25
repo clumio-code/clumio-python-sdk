@@ -29,8 +29,6 @@ clumioapi.models.send\_compliance\_run\_email\_response.SendComplianceRunEmailRe
 
    .. autosummary::
    
-      ~SendComplianceRunEmailResponse.Embedded
-      ~SendComplianceRunEmailResponse.Links
       ~SendComplianceRunEmailResponse.raw_response
    
    

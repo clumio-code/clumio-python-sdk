@@ -38,6 +38,7 @@
    aws_ec2_instances_v1
    aws_environment_tags_v1
    aws_environments_v1
+   aws_iceberg_tables_v1
    aws_rds_resource_restored_records_v1
    aws_rds_resources_v1
    aws_regions_v1
@@ -47,12 +48,15 @@
    backup_aws_ebs_volumes_v1
    backup_aws_ebs_volumes_v2
    backup_aws_ec2_instances_v1
+   backup_aws_iceberg_tables_v1
    backup_aws_rds_resource_database_tables_v1
    backup_aws_rds_resource_databases_v1
    backup_aws_rds_resources_v1
    backup_ec2_mssql_databases_v1
    backup_filesystem_directories_v1
    backup_filesystems_v1
+   backup_gcp_protection_groups_gcs_assets_v1
+   backup_gcp_protection_groups_v1
    backup_protection_groups_v1
    backups_files_v1
    base_controller
@@ -63,6 +67,13 @@
    ec2_mssql_failover_clusters_v1
    ec2_mssql_hosts_v1
    ec2_mssql_instance_v1
+   gcp_connections_v1
+   gcp_gcs_assets_v1
+   gcp_gcs_buckets_v1
+   gcp_labels_v1
+   gcp_projects_v1
+   gcp_protection_groups_v1
+   gcp_report_v1
    general_settings_v2
    individual_alerts_v1
    management_groups_v1
@@ -83,9 +94,12 @@
    restored_aws_ebs_volumes_v1
    restored_aws_ebs_volumes_v2
    restored_aws_ec2_instances_v1
+   restored_aws_iceberg_tables_v1
    restored_aws_rds_resources_v1
    restored_aws_s3_buckets_v1
    restored_files_v1
+   restored_gcs_protection_group_assets_v1
+   restored_gcs_protection_groups_v1
    restored_protection_group_instant_access_endpoints_v1
    restored_protection_group_s3_assets_v1
    restored_protection_groups_v1

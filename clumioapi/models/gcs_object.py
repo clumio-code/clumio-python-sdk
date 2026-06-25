@@ -1,0 +1,145 @@
+#
+# Copyright 2023. Clumio, A Commvault Company.
+#
+import dataclasses
+from typing import Any, ClassVar, Dict, Mapping, Optional, overload, Sequence, TypeVar
+
+from clumioapi import api_helper
+import requests
+
+T = TypeVar('T', bound='GCSObject')
+
+
+@dataclasses.dataclass
+class GCSObject:
+    """Implementation of the 'GCSObject' model.
+
+    GCSObject defines one object to restore
+
+    Attributes:
+        Bucket:
+            Bucket the object belongs to.
+
+        GcsAssetId:
+            The clumio-assigned id of a gcs asset,
+            which represents the bucket within the protection group to restore from.
+
+        LastModifiedTime:
+            Last modified time of the object as an rfc3339 string.
+
+        ObjectKey:
+            Object key.
+
+        RestoreCookie:
+            Encrypted metadata for the object to be restored
+            you can get `restore_cookie` via
+            [post /restores/gcp/protection-
+            groups/{gcs_protection_group_id}/previews](#operation/preview-gcs-protection-
+            group).
+
+        SizeInBytes:
+            Size in bytes.
+
+        StorageClass:
+            Storage class.
+
+        VersionId:
+            Version id.
+
+    """
+
+    Bucket: str | None = None
+    GcsAssetId: str | None = None
+    LastModifiedTime: str | None = None
+    ObjectKey: str | None = None
+    RestoreCookie: str | None = None
+    SizeInBytes: int | None = None
+    StorageClass: str | None = None
+    VersionId: str | None = None
+
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return api_helper.to_dictionary(self)
+
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
+
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
+        """Creates an instance of this model from a dictionary
+
+        Args:
+            dictionary: A dictionary representation of the object as obtained
+                from the deserialization of the server's response. The keys
+                MUST match property names in the API description.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        if not dictionary:
+            return None
+        # Extract variables from the dictionary
+        val = dictionary.get('bucket', None)
+        val_bucket = val
+
+        val = dictionary.get('gcs_asset_id', None)
+        val_gcs_asset_id = val
+
+        val = dictionary.get('last_modified_time', None)
+        val_last_modified_time = val
+
+        val = dictionary.get('object_key', None)
+        val_object_key = val
+
+        val = dictionary.get('restore_cookie', None)
+        val_restore_cookie = val
+
+        val = dictionary.get('size_in_bytes', None)
+        val_size_in_bytes = val
+
+        val = dictionary.get('storage_class', None)
+        val_storage_class = val
+
+        val = dictionary.get('version_id', None)
+        val_version_id = val
+
+        # Return an object of this model
+        return cls(
+            val_bucket,
+            val_gcs_asset_id,
+            val_last_modified_time,
+            val_object_key,
+            val_restore_cookie,
+            val_size_in_bytes,
+            val_storage_class,
+            val_version_id,
+        )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

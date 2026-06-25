@@ -14,7 +14,6 @@ from clumioapi.controllers import base_controller
 from clumioapi.controllers.types import aws_s3_buckets_v1_bucket_matcher_types
 from clumioapi.exceptions import clumio_exception
 from clumioapi.models import restore_aws_ebs_volume_v1_request
-from clumioapi.models import restore_ebs_response_v1
 import requests
 import retrying
 
@@ -38,7 +37,7 @@ class RestoredAwsEbsVolumesV1Controller:
         self,
         body: restore_aws_ebs_volume_v1_request.RestoreAwsEbsVolumeV1Request | None = None,
         **kwargs,
-    ) -> restore_ebs_response_v1.RestoreEBSResponseV1:
+    ) -> object:
         """TODO: Add comment
 
         Args:
@@ -47,14 +46,14 @@ class RestoredAwsEbsVolumesV1Controller:
         """
 
         def get_instance_from_response(resp: requests.Response) -> Any:
-            return restore_ebs_response_v1.RestoreEBSResponseV1.from_response(resp)
+            return resp
 
         # Prepare query URL
         _url_path = '/restores/aws/ebs-volumes'
 
         _query_parameters: dict[str, Any] = {}
 
-        resp_instance: restore_ebs_response_v1.RestoreEBSResponseV1
+        resp_instance: object
         # Execute request
         resp: requests.Response
         try:

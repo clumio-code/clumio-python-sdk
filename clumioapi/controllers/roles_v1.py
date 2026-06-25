@@ -12,6 +12,7 @@ from clumioapi import configuration
 from clumioapi import sdk_version
 from clumioapi.controllers import base_controller
 from clumioapi.controllers.types import aws_s3_buckets_v1_bucket_matcher_types
+from clumioapi.controllers.types import roles_types
 from clumioapi.exceptions import clumio_exception
 from clumioapi.models import list_permissions_response
 from clumioapi.models import list_roles_response
@@ -35,11 +36,28 @@ class RolesV1Controller:
         if self.controller.config.custom_headers != None:
             self.headers.update(self.controller.config.custom_headers)
 
-    def list_roles(self, **kwargs):
+    def list_roles(
+        self, filter: roles_types.ListRolesV1FilterT | None = None, **kwargs
+    ) -> list_roles_response.ListRolesResponse:
         """Returns a list of roles that can be assigned to users, either while inviting
         users using the
         [POST /users](#operation/create-user) API, or by updating the user using the
         [PATCH /users/{user_id}](#operation/update-user) API.
+
+        Args:
+            filter:
+                Narrows down the results to only the items that satisfy the filter criteria. The
+                following table lists
+                the supported filter fields for this resource and the filter conditions that can
+                be applied on those fields:
+
+                +-------+------------------+---------------------------------------------------+
+                | Field | Filter Condition |                    Description                    |
+                +=======+==================+===================================================+
+                | type  | $eq              | Filter roles whose type (default or custom) is    |
+                |       |                  | equal to the given string.                        |
+                +-------+------------------+---------------------------------------------------+
+
         """
 
         def get_instance_from_response(resp: requests.Response) -> Any:
@@ -49,6 +67,9 @@ class RolesV1Controller:
         _url_path = '/roles'
 
         _query_parameters: dict[str, Any] = {}
+        _query_parameters = {
+            'filter': filter.query_str if filter else None,
+        }
 
         resp_instance: list_roles_response.ListRolesResponse
         # Execute request

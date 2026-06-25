@@ -56,6 +56,7 @@ clumioapi.controllers.types.tasks\_types.ListTasksV1FilterT
       ~ListTasksV1FilterT.model_fields_set
       ~ListTasksV1FilterT.query_str
       ~ListTasksV1FilterT.PrimaryEntity
+      ~ListTasksV1FilterT.ParentEntity
       ~ListTasksV1FilterT.CreatedTimestamp
       ~ListTasksV1FilterT.Type
       ~ListTasksV1FilterT.Category

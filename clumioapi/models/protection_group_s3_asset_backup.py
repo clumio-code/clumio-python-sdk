@@ -2,9 +2,9 @@
 # Copyright 2023. Clumio, A Commvault Company.
 #
 import dataclasses
-from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
+from typing import Any, ClassVar, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from clumioapi.api_helper import camel_to_snake
+from clumioapi import api_helper
 from clumioapi.models import \
     protection_group_s3_asset_backup_links as protection_group_s3_asset_backup_links_
 import requests
@@ -51,6 +51,12 @@ class ProtectionGroupS3AssetBackup:
         Id:
             The clumio-assigned id of the protection group s3 asset backup.
 
+        MaliciousObjectCount:
+            The number of objects that were detected to be malicious during the backup.
+
+        MaliciousObjectsListLink:
+            The link for the malicious objects list.
+
         MissingObjectCount:
             The number of objects in the protection group s3 asset that were missing during
             backup.
@@ -76,6 +82,13 @@ class ProtectionGroupS3AssetBackup:
 
     """
 
+    # Maps Python attribute names to API keys that cannot be recovered from the
+    # attribute name, so serialization round-trips correctly. E.g. attribute
+    # ``Eq`` <-> key ``$eq``, ``Links`` <-> ``_links``, ``Type`` <-> ``@type``.
+    _names: ClassVar[Dict[str, str]] = {
+        'Links': '_links',
+    }
+
     Links: protection_group_s3_asset_backup_links_.ProtectionGroupS3AssetBackupLinks | None = None
     AwsRegion: str | None = None
     BackedUpObjectCount: int | None = None
@@ -86,6 +99,8 @@ class ProtectionGroupS3AssetBackup:
     FailedObjectCount: int | None = None
     FailedSizeBytes: int | None = None
     Id: str | None = None
+    MaliciousObjectCount: int | None = None
+    MaliciousObjectsListLink: str | None = None
     MissingObjectCount: int | None = None
     MissingSizeBytes: int | None = None
     ProtectionGroupId: str | None = None
@@ -96,9 +111,7 @@ class ProtectionGroupS3AssetBackup:
 
     def dict(self) -> Dict[str, Any]:
         """Returns the dictionary representation of the model."""
-        return dataclasses.asdict(
-            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
-        )
+        return api_helper.to_dictionary(self)
 
     @overload
     @classmethod
@@ -163,6 +176,12 @@ class ProtectionGroupS3AssetBackup:
         val = dictionary.get('id', None)
         val_id = val
 
+        val = dictionary.get('malicious_object_count', None)
+        val_malicious_object_count = val
+
+        val = dictionary.get('malicious_objects_list_link', None)
+        val_malicious_objects_list_link = val
+
         val = dictionary.get('missing_object_count', None)
         val_missing_object_count = val
 
@@ -196,6 +215,8 @@ class ProtectionGroupS3AssetBackup:
             val_failed_object_count,
             val_failed_size_bytes,
             val_id,
+            val_malicious_object_count,
+            val_malicious_objects_list_link,
             val_missing_object_count,
             val_missing_size_bytes,
             val_protection_group_id,
