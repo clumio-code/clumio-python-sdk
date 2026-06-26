@@ -34,6 +34,7 @@ clumioapi.models.protection\_group\_links.ProtectionGroupLinks
       ~ProtectionGroupLinks.ListBackupProtectionGroups
       ~ProtectionGroupLinks.ReadOrganizationalUnit
       ~ProtectionGroupLinks.ReadPolicyDefinition
+      ~ProtectionGroupLinks.RestoreProtectionGroup
       ~ProtectionGroupLinks.Self
       ~ProtectionGroupLinks.UpdateProtectionGroup
    

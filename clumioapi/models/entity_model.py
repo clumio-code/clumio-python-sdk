@@ -2,9 +2,9 @@
 # Copyright 2023. Clumio, A Commvault Company.
 #
 import dataclasses
-from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
+from typing import Any, ClassVar, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from clumioapi.api_helper import camel_to_snake
+from clumioapi import api_helper
 from clumioapi.models import organizational_unit_parent_entity as organizational_unit_parent_entity_
 from clumioapi.models import \
     organizational_unit_primary_entity as organizational_unit_primary_entity_
@@ -21,12 +21,9 @@ class EntityModel:
 
     Attributes:
         ParentEntity:
-            The parent object of the primary entity associated with the organizational unit.
-            the parent object is optional and can be omitted.
+            The parent object is optional and can be omitted.
 
-        PrimaryEntity:
-            The primary object associated with the organizational unit. examples of primary
-            entities include "aws_environment".
+        PrimaryEntity
 
     """
 
@@ -35,9 +32,7 @@ class EntityModel:
 
     def dict(self) -> Dict[str, Any]:
         """Returns the dictionary representation of the model."""
-        return dataclasses.asdict(
-            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
-        )
+        return api_helper.to_dictionary(self)
 
     @overload
     @classmethod

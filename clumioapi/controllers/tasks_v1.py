@@ -134,11 +134,24 @@ class TasksV1Controller:
                 |                      |                  | ty.value":{"$contains":"ubuntu-    |
                 |                      |                  | bbp-medium-01"}}                   |
                 +----------------------+------------------+------------------------------------+
-                | primary_entity.id    | $contains        | The unique ID given to the entity  |
+                | primary_entity.id    | $eq, $in         | The unique ID given to the entity  |
                 |                      |                  | affected by the task.              |
                 |                      |                  | For example, filter={"primary_enti |
-                |                      |                  | ty.id":{"eq":"c8011712-9e16-11eb-  |
+                |                      |                  | ty.id":{"$eq":"c8011712-9e16-11eb- |
                 |                      |                  | bb8f-0a06889d7896"}}               |
+                +----------------------+------------------+------------------------------------+
+                | parent_entity.id     | $eq              | The unique ID given to the parent  |
+                |                      |                  | entity affected by the task.       |
+                |                      |                  | For example, filter={"parent_entit |
+                |                      |                  | y.id":{"$eq":"c8011712-9e16-11eb-  |
+                |                      |                  | bb8f-0a06889d7896"}}               |
+                +----------------------+------------------+------------------------------------+
+                | parent_entity.value  | $contains        | The name or value given to the     |
+                |                      |                  | parent entity affected by the      |
+                |                      |                  | task.                              |
+                |                      |                  | For example, filter={"parent_entit |
+                |                      |                  | y.value":{"$contains":"ubuntu-bbp- |
+                |                      |                  | medium-01"}}                       |
                 +----------------------+------------------+------------------------------------+
                 | created_timestamp    | $lte, $gte       | The timestamp value of when the    |
                 |                      |                  | task was started                   |
@@ -183,8 +196,8 @@ class TasksV1Controller:
                 | id                   | $in              | The Clumio-assigned ID of the      |
                 |                      |                  | task. Multiple tasks can be        |
                 |                      |                  | specified.                         |
-                |                      |                  | For example,                       |
-                |                      |                  | filter={"id":{"in":["101","114"]}} |
+                |                      |                  | For example, filter={"id":{"$in":[ |
+                |                      |                  | "101","114"]}}                     |
                 +----------------------+------------------+------------------------------------+
 
         """
@@ -422,11 +435,24 @@ class TasksV1ControllerPaginator:
                 |                      |                  | ty.value":{"$contains":"ubuntu-    |
                 |                      |                  | bbp-medium-01"}}                   |
                 +----------------------+------------------+------------------------------------+
-                | primary_entity.id    | $contains        | The unique ID given to the entity  |
+                | primary_entity.id    | $eq, $in         | The unique ID given to the entity  |
                 |                      |                  | affected by the task.              |
                 |                      |                  | For example, filter={"primary_enti |
-                |                      |                  | ty.id":{"eq":"c8011712-9e16-11eb-  |
+                |                      |                  | ty.id":{"$eq":"c8011712-9e16-11eb- |
                 |                      |                  | bb8f-0a06889d7896"}}               |
+                +----------------------+------------------+------------------------------------+
+                | parent_entity.id     | $eq              | The unique ID given to the parent  |
+                |                      |                  | entity affected by the task.       |
+                |                      |                  | For example, filter={"parent_entit |
+                |                      |                  | y.id":{"$eq":"c8011712-9e16-11eb-  |
+                |                      |                  | bb8f-0a06889d7896"}}               |
+                +----------------------+------------------+------------------------------------+
+                | parent_entity.value  | $contains        | The name or value given to the     |
+                |                      |                  | parent entity affected by the      |
+                |                      |                  | task.                              |
+                |                      |                  | For example, filter={"parent_entit |
+                |                      |                  | y.value":{"$contains":"ubuntu-bbp- |
+                |                      |                  | medium-01"}}                       |
                 +----------------------+------------------+------------------------------------+
                 | created_timestamp    | $lte, $gte       | The timestamp value of when the    |
                 |                      |                  | task was started                   |
@@ -471,8 +497,8 @@ class TasksV1ControllerPaginator:
                 | id                   | $in              | The Clumio-assigned ID of the      |
                 |                      |                  | task. Multiple tasks can be        |
                 |                      |                  | specified.                         |
-                |                      |                  | For example,                       |
-                |                      |                  | filter={"id":{"in":["101","114"]}} |
+                |                      |                  | For example, filter={"id":{"$in":[ |
+                |                      |                  | "101","114"]}}                     |
                 +----------------------+------------------+------------------------------------+
 
         """

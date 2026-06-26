@@ -2,9 +2,9 @@
 # Copyright 2023. Clumio, A Commvault Company.
 #
 import dataclasses
-from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
+from typing import Any, ClassVar, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from clumioapi.api_helper import camel_to_snake
+from clumioapi import api_helper
 from clumioapi.models import aws_tag_model as aws_tag_model_
 from clumioapi.models import bucket_links as bucket_links_
 from clumioapi.models import \
@@ -52,9 +52,6 @@ class Bucket:
 
         EnvironmentId:
             The clumio-assigned id of the aws environment associated with the s3 bucket.
-
-        EventBridgeEnabled:
-            The eventbridge enablement state for the s3 bucket.
 
         Id:
             The clumio-assigned id of the bucket.
@@ -104,6 +101,14 @@ class Bucket:
 
     """
 
+    # Maps Python attribute names to API keys that cannot be recovered from the
+    # attribute name, so serialization round-trips correctly. E.g. attribute
+    # ``Eq`` <-> key ``$eq``, ``Links`` <-> ``_links``, ``Type`` <-> ``@type``.
+    _names: ClassVar[Dict[str, str]] = {
+        'Embedded': '_embedded',
+        'Links': '_links',
+    }
+
     Embedded: object | None = None
     Links: bucket_links_.BucketLinks | None = None
     AccountNativeId: str | None = None
@@ -116,7 +121,6 @@ class Bucket:
     CreationTimestamp: str | None = None
     EncryptionSetting: s3_encryption_output_.S3EncryptionOutput | None = None
     EnvironmentId: str | None = None
-    EventBridgeEnabled: bool | None = None
     Id: str | None = None
     IsEncryptionEnabled: bool | None = None
     IsReplicationEnabled: bool | None = None
@@ -135,9 +139,7 @@ class Bucket:
 
     def dict(self) -> Dict[str, Any]:
         """Returns the dictionary representation of the model."""
-        return dataclasses.asdict(
-            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
-        )
+        return api_helper.to_dictionary(self)
 
     @overload
     @classmethod
@@ -199,9 +201,6 @@ class Bucket:
         val = dictionary.get('environment_id', None)
         val_environment_id = val
 
-        val = dictionary.get('event_bridge_enabled', None)
-        val_event_bridge_enabled = val
-
         val = dictionary.get('id', None)
         val_id = val
 
@@ -262,7 +261,6 @@ class Bucket:
             val_creation_timestamp,
             val_encryption_setting,
             val_environment_id,
-            val_event_bridge_enabled,
             val_id,
             val_is_encryption_enabled,
             val_is_replication_enabled,

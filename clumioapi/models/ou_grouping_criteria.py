@@ -2,9 +2,9 @@
 # Copyright 2023. Clumio, A Commvault Company.
 #
 import dataclasses
-from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
+from typing import Any, ClassVar, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from clumioapi.api_helper import camel_to_snake
+from clumioapi import api_helper
 from clumioapi.models import aws_ds_grouping_criteria as aws_ds_grouping_criteria_
 from clumioapi.models import m365_grouping_criteria as m365_grouping_criteria_
 import requests
@@ -35,9 +35,7 @@ class OUGroupingCriteria:
 
     def dict(self) -> Dict[str, Any]:
         """Returns the dictionary representation of the model."""
-        return dataclasses.asdict(
-            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
-        )
+        return api_helper.to_dictionary(self)
 
     @overload
     @classmethod

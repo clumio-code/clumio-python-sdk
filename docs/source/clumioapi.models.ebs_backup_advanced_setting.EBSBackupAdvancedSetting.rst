@@ -30,5 +30,6 @@ clumioapi.models.ebs\_backup\_advanced\_setting.EBSBackupAdvancedSetting
    .. autosummary::
    
       ~EBSBackupAdvancedSetting.BackupTier
+      ~EBSBackupAdvancedSetting.RansomwareAnalysis
    
    

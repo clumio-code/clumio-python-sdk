@@ -39,6 +39,7 @@ class AwsEbsVolumesV1Controller:
         self,
         limit: int | None = None,
         start: str | None = None,
+        sort: str | None = None,
         filter: aws_ebs_volumes_types.ListAwsEbsVolumesV1FilterT | None = None,
         embed: str | None = None,
         lookback_days: int | None = None,
@@ -52,6 +53,24 @@ class AwsEbsVolumesV1Controller:
             start:
                 Sets the page number used to browse the collection.
                 Pages are indexed starting from 1 (i.e., `start=1`).
+            sort:
+                Sets the sort order of the results. By default, results are sorted in ascending
+                order by the specified field name. To sort in descending order, prefix the field
+                name with a minus sign (`-`). Multiple fields may be provided as a comma-
+                separated
+                list, in which case sorting is performed in the order the fields are provided.
+
+                The following table lists the supported sort fields for this resource:
+
+                +------------+---------------------------------------------------+
+                | Sort Field |                    Description                    |
+                +============+===================================================+
+                | name       | Sorts the results by volume name.                 |
+                +------------+---------------------------------------------------+
+                | aws_region | Sorts the results by AWS region (e.g. us-east-1). |
+                +------------+---------------------------------------------------+
+                | size       | Sorts the results by volume size.                 |
+                +------------+---------------------------------------------------+
             filter:
                 Narrows down the results to only the items that satisfy the filter criteria. The
                 following
@@ -171,6 +190,7 @@ class AwsEbsVolumesV1Controller:
         _query_parameters = {
             'limit': limit,
             'start': start,
+            'sort': sort,
             'filter': filter.query_str if filter else None,
             'embed': embed,
             'lookback_days': lookback_days,
@@ -280,6 +300,7 @@ class AwsEbsVolumesV1ControllerPaginator:
         self,
         limit: int | None = None,
         start: str | None = None,
+        sort: str | None = None,
         filter: aws_ebs_volumes_types.ListAwsEbsVolumesV1FilterT | None = None,
         embed: str | None = None,
         lookback_days: int | None = None,
@@ -293,6 +314,24 @@ class AwsEbsVolumesV1ControllerPaginator:
             start:
                 Sets the page number used to browse the collection.
                 Pages are indexed starting from 1 (i.e., `start=1`).
+            sort:
+                Sets the sort order of the results. By default, results are sorted in ascending
+                order by the specified field name. To sort in descending order, prefix the field
+                name with a minus sign (`-`). Multiple fields may be provided as a comma-
+                separated
+                list, in which case sorting is performed in the order the fields are provided.
+
+                The following table lists the supported sort fields for this resource:
+
+                +------------+---------------------------------------------------+
+                | Sort Field |                    Description                    |
+                +============+===================================================+
+                | name       | Sorts the results by volume name.                 |
+                +------------+---------------------------------------------------+
+                | aws_region | Sorts the results by AWS region (e.g. us-east-1). |
+                +------------+---------------------------------------------------+
+                | size       | Sorts the results by volume size.                 |
+                +------------+---------------------------------------------------+
             filter:
                 Narrows down the results to only the items that satisfy the filter criteria. The
                 following
@@ -406,6 +445,7 @@ class AwsEbsVolumesV1ControllerPaginator:
             response = controller.list_aws_ebs_volumes(
                 limit=limit,
                 start=start,
+                sort=sort,
                 filter=filter,
                 embed=embed,
                 lookback_days=lookback_days,

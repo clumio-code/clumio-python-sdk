@@ -181,12 +181,21 @@ class IndividualAlertsV1Controller:
                 |                             |                  | 819-ab15-48e2-acea-         |
                 |                             |                  | 3f94d3a9f2fb"}}             |
                 +-----------------------------+------------------+-----------------------------+
-                | primary_entity.id           | $eq              | The system-generated ID of  |
+                | primary_entity.id           | $eq, $in         | The system-generated ID of  |
                 |                             |                  | the primary entity affected |
                 |                             |                  | by the alert. For example,  |
                 |                             |                  | filter={"primary_entity.id" |
-                |                             |                  | :{"eq":"503765b4-62af-536d- |
-                |                             |                  | c7ab-c5850a123194"}}        |
+                |                             |                  | :{"$eq":"503765b4-62af-     |
+                |                             |                  | 536d-c7ab-c5850a123194"}}.  |
+                |                             |                  | To look up alerts for       |
+                |                             |                  | multiple primary entities   |
+                |                             |                  | in one call (up to 100      |
+                |                             |                  | IDs), use filter={"primary_ |
+                |                             |                  | entity.id":{"$in":["503765b |
+                |                             |                  | 4-...","8a9c12fe-..."]}}.   |
+                |                             |                  | $eq and $in cannot be       |
+                |                             |                  | combined on this field in   |
+                |                             |                  | the same request.           |
                 +-----------------------------+------------------+-----------------------------+
                 | primary_entity.type         | $eq              | The type of primary entity  |
                 |                             |                  | affected by the alert.      |
@@ -554,12 +563,21 @@ class IndividualAlertsV1ControllerPaginator:
                 |                             |                  | 819-ab15-48e2-acea-         |
                 |                             |                  | 3f94d3a9f2fb"}}             |
                 +-----------------------------+------------------+-----------------------------+
-                | primary_entity.id           | $eq              | The system-generated ID of  |
+                | primary_entity.id           | $eq, $in         | The system-generated ID of  |
                 |                             |                  | the primary entity affected |
                 |                             |                  | by the alert. For example,  |
                 |                             |                  | filter={"primary_entity.id" |
-                |                             |                  | :{"eq":"503765b4-62af-536d- |
-                |                             |                  | c7ab-c5850a123194"}}        |
+                |                             |                  | :{"$eq":"503765b4-62af-     |
+                |                             |                  | 536d-c7ab-c5850a123194"}}.  |
+                |                             |                  | To look up alerts for       |
+                |                             |                  | multiple primary entities   |
+                |                             |                  | in one call (up to 100      |
+                |                             |                  | IDs), use filter={"primary_ |
+                |                             |                  | entity.id":{"$in":["503765b |
+                |                             |                  | 4-...","8a9c12fe-..."]}}.   |
+                |                             |                  | $eq and $in cannot be       |
+                |                             |                  | combined on this field in   |
+                |                             |                  | the same request.           |
                 +-----------------------------+------------------+-----------------------------+
                 | primary_entity.type         | $eq              | The type of primary entity  |
                 |                             |                  | affected by the alert.      |

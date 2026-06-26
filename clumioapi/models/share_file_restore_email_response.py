@@ -2,10 +2,9 @@
 # Copyright 2023. Clumio, A Commvault Company.
 #
 import dataclasses
-from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
+from typing import Any, ClassVar, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from clumioapi.api_helper import camel_to_snake
-from clumioapi.models import share_file_restore_email_links as share_file_restore_email_links_
+from clumioapi import api_helper
 import requests
 
 T = TypeVar('T', bound='ShareFileRestoreEmailResponse')
@@ -16,19 +15,13 @@ class ShareFileRestoreEmailResponse:
     """Implementation of the 'ShareFileRestoreEmailResponse' model.
 
     Attributes:
-        Links:
-            Urls to pages related to the resource.
-
     """
 
-    Links: share_file_restore_email_links_.ShareFileRestoreEmailLinks | None = None
     raw_response: Optional[requests.Response] = None
 
     def dict(self) -> Dict[str, Any]:
         """Returns the dictionary representation of the model."""
-        return dataclasses.asdict(
-            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
-        )
+        return api_helper.to_dictionary(self)
 
     @overload
     @classmethod
@@ -61,13 +54,9 @@ class ShareFileRestoreEmailResponse:
         if not dictionary:
             return None
         # Extract variables from the dictionary
-        val = dictionary.get('_links', None)
-        val_links = share_file_restore_email_links_.ShareFileRestoreEmailLinks.from_dictionary(val)
 
         # Return an object of this model
-        return cls(
-            val_links,
-        )
+        return cls()
 
     @classmethod
     def from_response(

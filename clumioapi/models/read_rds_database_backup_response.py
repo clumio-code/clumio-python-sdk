@@ -2,9 +2,9 @@
 # Copyright 2023. Clumio, A Commvault Company.
 #
 import dataclasses
-from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
+from typing import Any, ClassVar, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from clumioapi.api_helper import camel_to_snake
+from clumioapi import api_helper
 from clumioapi.models import aws_tag_common_model as aws_tag_common_model_
 from clumioapi.models import rds_database_backup_links as rds_database_backup_links_
 from clumioapi.models import rds_instance_model as rds_instance_model_
@@ -61,6 +61,9 @@ class ReadRdsDatabaseBackupResponse:
         OptionGroupName:
             Option group name associated with the backed up rds resource.
 
+        ParameterGroupName:
+            Parameter group name associated with the backed up rds resource.
+
         ResourceId:
             The clumio-assigned id of the database associated with this backup.
 
@@ -91,6 +94,13 @@ class ReadRdsDatabaseBackupResponse:
 
     """
 
+    # Maps Python attribute names to API keys that cannot be recovered from the
+    # attribute name, so serialization round-trips correctly. E.g. attribute
+    # ``Eq`` <-> key ``$eq``, ``Links`` <-> ``_links``, ``Type`` <-> ``@type``.
+    _names: ClassVar[Dict[str, str]] = {
+        'Links': '_links',
+    }
+
     Links: rds_database_backup_links_.RdsDatabaseBackupLinks | None = None
     AccountNativeId: str | None = None
     AwsAzs: Sequence[str] | None = None
@@ -104,6 +114,7 @@ class ReadRdsDatabaseBackupResponse:
     KmsKeyNativeId: str | None = None
     MigrationTimestamp: str | None = None
     OptionGroupName: str | None = None
+    ParameterGroupName: str | None = None
     ResourceId: str | None = None
     ResourceType: str | None = None
     SecurityGroupNativeIds: Sequence[str] | None = None
@@ -116,9 +127,7 @@ class ReadRdsDatabaseBackupResponse:
 
     def dict(self) -> Dict[str, Any]:
         """Returns the dictionary representation of the model."""
-        return dataclasses.asdict(
-            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
-        )
+        return api_helper.to_dictionary(self)
 
     @overload
     @classmethod
@@ -194,6 +203,9 @@ class ReadRdsDatabaseBackupResponse:
         val = dictionary.get('option_group_name', None)
         val_option_group_name = val
 
+        val = dictionary.get('parameter_group_name', None)
+        val_parameter_group_name = val
+
         val = dictionary.get('resource_id', None)
         val_resource_id = val
 
@@ -237,6 +249,7 @@ class ReadRdsDatabaseBackupResponse:
             val_kms_key_native_id,
             val_migration_timestamp,
             val_option_group_name,
+            val_parameter_group_name,
             val_resource_id,
             val_resource_type,
             val_security_group_native_ids,

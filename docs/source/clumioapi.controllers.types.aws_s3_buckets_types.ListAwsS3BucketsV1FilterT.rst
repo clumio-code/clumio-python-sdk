@@ -68,6 +68,7 @@ clumioapi.controllers.types.aws\_s3\_buckets\_types.ListAwsS3BucketsV1FilterT
       ~ListAwsS3BucketsV1FilterT.IsSupported
       ~ListAwsS3BucketsV1FilterT.IsActive
       ~ListAwsS3BucketsV1FilterT.ProtectionMethod
+      ~ListAwsS3BucketsV1FilterT.BackupStatus
       ~ListAwsS3BucketsV1FilterT.AwsTag
       ~ListAwsS3BucketsV1FilterT.AwsAccountNativeId
       ~ListAwsS3BucketsV1FilterT.AccountNativeIddeprecated

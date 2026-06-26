@@ -1,0 +1,90 @@
+#
+# Copyright 2023. Clumio, A Commvault Company.
+#
+import dataclasses
+from typing import Any, ClassVar, Dict, Mapping, Optional, overload, Sequence, TypeVar
+
+from clumioapi import api_helper
+import requests
+
+T = TypeVar('T', bound='GCPGCSAssetPitrInterval')
+
+
+@dataclasses.dataclass
+class GCPGCSAssetPitrInterval:
+    """Implementation of the 'GCPGCSAssetPitrInterval' model.
+
+    Attributes:
+        EndTimestamp:
+            The end time of the interval, represented in rfc3339 format.
+
+        StartTimestamp:
+            The start time of the interval, represented in rfc3339 format.
+
+    """
+
+    EndTimestamp: str | None = None
+    StartTimestamp: str | None = None
+
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return api_helper.to_dictionary(self)
+
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
+
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
+        """Creates an instance of this model from a dictionary
+
+        Args:
+            dictionary: A dictionary representation of the object as obtained
+                from the deserialization of the server's response. The keys
+                MUST match property names in the API description.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        if not dictionary:
+            return None
+        # Extract variables from the dictionary
+        val = dictionary.get('end_timestamp', None)
+        val_end_timestamp = val
+
+        val = dictionary.get('start_timestamp', None)
+        val_start_timestamp = val
+
+        # Return an object of this model
+        return cls(
+            val_end_timestamp,
+            val_start_timestamp,
+        )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

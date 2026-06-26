@@ -2,9 +2,9 @@
 # Copyright 2023. Clumio, A Commvault Company.
 #
 import dataclasses
-from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
+from typing import Any, ClassVar, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from clumioapi.api_helper import camel_to_snake
+from clumioapi import api_helper
 from clumioapi.models import \
     create_on_demand_ec2_mssql_database_backup_response_links as \
     create_on_demand_ec2_mssql_database_backup_response_links_
@@ -34,6 +34,15 @@ class OnDemandEC2MSSQLDatabaseBackupResponse:
 
     """
 
+    # Maps Python attribute names to API keys that cannot be recovered from the
+    # attribute name, so serialization round-trips correctly. E.g. attribute
+    # ``Eq`` <-> key ``$eq``, ``Links`` <-> ``_links``, ``Type`` <-> ``@type``.
+    _names: ClassVar[Dict[str, str]] = {
+        'Embedded': '_embedded',
+        'Links': '_links',
+        'Self': '_self',
+    }
+
     Embedded: read_task_hateoas_outer_embedded_.ReadTaskHateoasOuterEmbedded | None = None
     Links: (
         create_on_demand_ec2_mssql_database_backup_response_links_.CreateOnDemandEC2MSSQLDatabaseBackupResponseLinks
@@ -45,9 +54,7 @@ class OnDemandEC2MSSQLDatabaseBackupResponse:
 
     def dict(self) -> Dict[str, Any]:
         """Returns the dictionary representation of the model."""
-        return dataclasses.asdict(
-            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
-        )
+        return api_helper.to_dictionary(self)
 
     @overload
     @classmethod

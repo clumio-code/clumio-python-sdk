@@ -33,6 +33,7 @@ clumioapi.models.protection\_group\_bucket\_links.ProtectionGroupBucketLinks
       ~ProtectionGroupBucketLinks.ListBackupProtectionGroupS3Assets
       ~ProtectionGroupBucketLinks.ReadOrganizationalUnit
       ~ProtectionGroupBucketLinks.ReadPolicyDefinition
+      ~ProtectionGroupBucketLinks.RestoreProtectionGroupS3Asset
       ~ProtectionGroupBucketLinks.Self
    
    

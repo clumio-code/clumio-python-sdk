@@ -13,6 +13,14 @@ clumioapi.controllers.types.roles\_types
 
    
    
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree:
+      :template: custom-class-template.rst
+   
+      ListRolesV1FilterT
+   
    
 
    

@@ -269,6 +269,8 @@ class OrganizationalUnitsV1Controller:
         self, id: str | None = None, embed: str | None = None, **kwargs
     ) -> delete_organizational_unit_response.DeleteOrganizationalUnitResponse:
         """Delete the specified organizational unit.
+        Concurrent AWS OU operations that move overlapping scopes across multiple OUs
+        should be issued sequentially.
 
         Args:
             id:

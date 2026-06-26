@@ -42,6 +42,7 @@ clumioapi.models.read\_rds\_database\_backup\_response.ReadRdsDatabaseBackupResp
       ~ReadRdsDatabaseBackupResponse.Links
       ~ReadRdsDatabaseBackupResponse.MigrationTimestamp
       ~ReadRdsDatabaseBackupResponse.OptionGroupName
+      ~ReadRdsDatabaseBackupResponse.ParameterGroupName
       ~ReadRdsDatabaseBackupResponse.ResourceId
       ~ReadRdsDatabaseBackupResponse.ResourceType
       ~ReadRdsDatabaseBackupResponse.SecurityGroupNativeIds

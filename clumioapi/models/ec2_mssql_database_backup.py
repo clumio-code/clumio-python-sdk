@@ -2,9 +2,9 @@
 # Copyright 2023. Clumio, A Commvault Company.
 #
 import dataclasses
-from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
+from typing import Any, ClassVar, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from clumioapi.api_helper import camel_to_snake
+from clumioapi import api_helper
 from clumioapi.models import \
     ec2_mssql_database_backup_embedded as ec2_mssql_database_backup_embedded_
 from clumioapi.models import ec2_mssql_database_backup_links as ec2_mssql_database_backup_links_
@@ -24,6 +24,9 @@ class EC2MSSQLDatabaseBackup:
 
         Links:
             Urls to pages related to the resource.
+
+        AwsRegion:
+            The aws region in which the backup resides.
 
         DatabaseFiles:
             List of database files at the time of backup.
@@ -69,8 +72,17 @@ class EC2MSSQLDatabaseBackup:
 
     """
 
+    # Maps Python attribute names to API keys that cannot be recovered from the
+    # attribute name, so serialization round-trips correctly. E.g. attribute
+    # ``Eq`` <-> key ``$eq``, ``Links`` <-> ``_links``, ``Type`` <-> ``@type``.
+    _names: ClassVar[Dict[str, str]] = {
+        'Embedded': '_embedded',
+        'Links': '_links',
+    }
+
     Embedded: ec2_mssql_database_backup_embedded_.EC2MSSQLDatabaseBackupEmbedded | None = None
     Links: ec2_mssql_database_backup_links_.EC2MSSQLDatabaseBackupLinks | None = None
+    AwsRegion: str | None = None
     DatabaseFiles: Sequence[mssql_database_file_.MssqlDatabaseFile] | None = None
     DatabaseId: str | None = None
     Engine: str | None = None
@@ -87,9 +99,7 @@ class EC2MSSQLDatabaseBackup:
 
     def dict(self) -> Dict[str, Any]:
         """Returns the dictionary representation of the model."""
-        return dataclasses.asdict(
-            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
-        )
+        return api_helper.to_dictionary(self)
 
     @overload
     @classmethod
@@ -131,6 +141,9 @@ class EC2MSSQLDatabaseBackup:
         val_links = ec2_mssql_database_backup_links_.EC2MSSQLDatabaseBackupLinks.from_dictionary(
             val
         )
+
+        val = dictionary.get('aws_region', None)
+        val_aws_region = val
 
         val = dictionary.get('database_files', None)
 
@@ -181,6 +194,7 @@ class EC2MSSQLDatabaseBackup:
         return cls(
             val_embedded,
             val_links,
+            val_aws_region,
             val_database_files,
             val_database_id,
             val_engine,

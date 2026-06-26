@@ -41,6 +41,7 @@ class ConsolidatedAlertsV1Controller:
         self,
         limit: int | None = None,
         start: str | None = None,
+        sort: str | None = None,
         filter: consolidated_alerts_types.ListConsolidatedAlertsV1FilterT | None = None,
         **kwargs,
     ) -> list_consolidated_alerts_response.ListConsolidatedAlertsResponse:
@@ -52,6 +53,38 @@ class ConsolidatedAlertsV1Controller:
             start:
                 Sets the page number used to browse the collection.
                 Pages are indexed starting from 1 (i.e., `start=1`).
+            sort:
+                Returns the list of consolidated alerts in the order specified. Set `sort` to
+                the name of the sort
+                field by which to sort in ascending order.
+                To sort the list in reverse order, prefix the field name with a minus sign
+                (`-`).
+                Only one field may be sorted at a time.
+
+                The following table lists the supported sort fields for this resource:
+
+                +-------------------+----------------------------------------------------------+
+                |    Sort Field     |                       Description                        |
+                +===================+==========================================================+
+                | raised_timestamp  | Sorts the consolidated alerts in chronological ascending |
+                |                   | (oldest first)                                           |
+                |                   | order by when the alert was raised. For example,         |
+                |                   | sort=raised_timestamp                                    |
+                +-------------------+----------------------------------------------------------+
+                | updated_timestamp | Sorts the consolidated alerts in chronological ascending |
+                |                   | (oldest first)                                           |
+                |                   | order by when the alert was last updated. For example,   |
+                |                   | sort=updated_timestamp                                   |
+                +-------------------+----------------------------------------------------------+
+                | cleared_timestamp | Sorts the consolidated alerts in chronological ascending |
+                |                   | (oldest first)                                           |
+                |                   | order by when the alert was cleared, either              |
+                |                   | automatically by Clumio or manually by a Clumio user.    |
+                |                   | For example, sort=cleared_timestamp                      |
+                +-------------------+----------------------------------------------------------+
+
+                If a sort order is not specified, the consolidated alerts are sorted by
+                "raised_timestamp" in chronological descending (newest first) order.
             filter:
                 Narrows down the results to only the items that satisfy the filter criteria. The
                 following table lists
@@ -115,6 +148,7 @@ class ConsolidatedAlertsV1Controller:
         _query_parameters = {
             'limit': limit,
             'start': start,
+            'sort': sort,
             'filter': filter.query_str if filter else None,
         }
 
@@ -251,6 +285,7 @@ class ConsolidatedAlertsV1ControllerPaginator:
         self,
         limit: int | None = None,
         start: str | None = None,
+        sort: str | None = None,
         filter: consolidated_alerts_types.ListConsolidatedAlertsV1FilterT | None = None,
         **kwargs,
     ) -> Iterator[list_consolidated_alerts_response.ListConsolidatedAlertsResponse]:
@@ -262,6 +297,38 @@ class ConsolidatedAlertsV1ControllerPaginator:
             start:
                 Sets the page number used to browse the collection.
                 Pages are indexed starting from 1 (i.e., `start=1`).
+            sort:
+                Returns the list of consolidated alerts in the order specified. Set `sort` to
+                the name of the sort
+                field by which to sort in ascending order.
+                To sort the list in reverse order, prefix the field name with a minus sign
+                (`-`).
+                Only one field may be sorted at a time.
+
+                The following table lists the supported sort fields for this resource:
+
+                +-------------------+----------------------------------------------------------+
+                |    Sort Field     |                       Description                        |
+                +===================+==========================================================+
+                | raised_timestamp  | Sorts the consolidated alerts in chronological ascending |
+                |                   | (oldest first)                                           |
+                |                   | order by when the alert was raised. For example,         |
+                |                   | sort=raised_timestamp                                    |
+                +-------------------+----------------------------------------------------------+
+                | updated_timestamp | Sorts the consolidated alerts in chronological ascending |
+                |                   | (oldest first)                                           |
+                |                   | order by when the alert was last updated. For example,   |
+                |                   | sort=updated_timestamp                                   |
+                +-------------------+----------------------------------------------------------+
+                | cleared_timestamp | Sorts the consolidated alerts in chronological ascending |
+                |                   | (oldest first)                                           |
+                |                   | order by when the alert was cleared, either              |
+                |                   | automatically by Clumio or manually by a Clumio user.    |
+                |                   | For example, sort=cleared_timestamp                      |
+                +-------------------+----------------------------------------------------------+
+
+                If a sort order is not specified, the consolidated alerts are sorted by
+                "raised_timestamp" in chronological descending (newest first) order.
             filter:
                 Narrows down the results to only the items that satisfy the filter criteria. The
                 following table lists
@@ -315,7 +382,7 @@ class ConsolidatedAlertsV1ControllerPaginator:
         controller = ConsolidatedAlertsV1Controller(self.controller)
         while True:
             response = controller.list_consolidated_alerts(
-                limit=limit, start=start, filter=filter, **kwargs
+                limit=limit, start=start, sort=sort, filter=filter, **kwargs
             )
             yield response
             next_link = response.Links.Next  # type: ignore

@@ -29,7 +29,6 @@ clumioapi.models.change\_password\_response.ChangePasswordResponse
 
    .. autosummary::
    
-      ~ChangePasswordResponse.Links
       ~ChangePasswordResponse.raw_response
    
    

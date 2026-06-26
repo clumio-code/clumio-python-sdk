@@ -29,6 +29,8 @@ clumioapi.models.iceberg\_backup\_advanced\_setting.IcebergBackupAdvancedSetting
 
    .. autosummary::
    
+      ~IcebergBackupAdvancedSetting.BackupCompactedSnapshotOnly
+      ~IcebergBackupAdvancedSetting.BackupLastSnapshotOnly
       ~IcebergBackupAdvancedSetting.BackupTier
    
    

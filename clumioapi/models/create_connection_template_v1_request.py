@@ -2,9 +2,9 @@
 # Copyright 2023. Clumio, A Commvault Company.
 #
 import dataclasses
-from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
+from typing import Any, ClassVar, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from clumioapi.api_helper import camel_to_snake
+from clumioapi import api_helper
 import requests
 
 T = TypeVar('T', bound='CreateConnectionTemplateV1Request')
@@ -37,6 +37,9 @@ class CreateConnectionTemplateV1Request:
             Aws region of the aws environment to be connected
             mandatory to pass a non-empty string if show_manual_resources is set to true.
 
+        OrganizationTemplate:
+            If the template generated should be deployed on organization level.
+
         ShowManualResources:
             Returns the resources to be created manually if set to true.
 
@@ -47,15 +50,14 @@ class CreateConnectionTemplateV1Request:
     AssetTypesEnabled: Sequence[str] | None = None
     AwsAccountId: str | None = None
     AwsRegion: str | None = None
+    OrganizationTemplate: bool | None = None
     ShowManualResources: bool | None = None
 
     TemplatePermissionSet: str | None = None
 
     def dict(self) -> Dict[str, Any]:
         """Returns the dictionary representation of the model."""
-        return dataclasses.asdict(
-            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
-        )
+        return api_helper.to_dictionary(self)
 
     @overload
     @classmethod
@@ -97,6 +99,9 @@ class CreateConnectionTemplateV1Request:
         val = dictionary.get('aws_region', None)
         val_aws_region = val
 
+        val = dictionary.get('organization_template', None)
+        val_organization_template = val
+
         val = dictionary.get('show_manual_resources', None)
         val_show_manual_resources = val
 
@@ -108,6 +113,7 @@ class CreateConnectionTemplateV1Request:
             val_asset_types_enabled,
             val_aws_account_id,
             val_aws_region,
+            val_organization_template,
             val_show_manual_resources,
             val_template_permission_set,
         )

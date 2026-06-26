@@ -39,6 +39,8 @@ clumioapi.models.protection\_group\_s3\_asset\_backup.ProtectionGroupS3AssetBack
       ~ProtectionGroupS3AssetBackup.FailedSizeBytes
       ~ProtectionGroupS3AssetBackup.Id
       ~ProtectionGroupS3AssetBackup.Links
+      ~ProtectionGroupS3AssetBackup.MaliciousObjectCount
+      ~ProtectionGroupS3AssetBackup.MaliciousObjectsListLink
       ~ProtectionGroupS3AssetBackup.MissingObjectCount
       ~ProtectionGroupS3AssetBackup.MissingSizeBytes
       ~ProtectionGroupS3AssetBackup.ProtectionGroupId

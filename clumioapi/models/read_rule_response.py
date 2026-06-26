@@ -2,9 +2,9 @@
 # Copyright 2023. Clumio, A Commvault Company.
 #
 import dataclasses
-from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
+from typing import Any, ClassVar, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from clumioapi.api_helper import camel_to_snake
+from clumioapi import api_helper
 from clumioapi.models import rule_action as rule_action_
 from clumioapi.models import rule_embedded as rule_embedded_
 from clumioapi.models import rule_links as rule_links_
@@ -59,6 +59,48 @@ class ReadRuleResponse:
             |                       |                           |                          |
             |                       |                           |                          |
             +-----------------------+---------------------------+--------------------------+
+            | asset_name            | $eq, $not_eq, $in,        | denotes the asset        |
+            |                       | $not_in, $contains,       | name(s) to               |
+            |                       | $not_contains             | conditionalize on. max   |
+            |                       |                           | 100 names allowed        |
+            |                       |                           | in each rule and each    |
+            |                       |                           | name can be upto 256     |
+            |                       |                           | characters long. for ec2 |
+            |                       |                           | instances and ebs        |
+            |                       |                           | volumes, asset_name is   |
+            |                       |                           | derived from the         |
+            |                       |                           | aws name tag (case-      |
+            |                       |                           | sensitive key);          |
+            |                       |                           | resources without a      |
+            |                       |                           | name tag will have an    |
+            |                       |                           | empty asset name.        |
+            |                       |                           |                          |
+            |                       |                           | {"asset_name":{"$eq":"my |
+            |                       |                           | -asset"}}                |
+            |                       |                           |                          |
+            |                       |                           |                          |
+            |                       |                           | {"asset_name":{"$not_eq" |
+            |                       |                           | :"my-asset"}}            |
+            |                       |                           |                          |
+            |                       |                           |                          |
+            |                       |                           | {"asset_name":{"$in":["a |
+            |                       |                           | sset-1", "asset-2"]}}    |
+            |                       |                           |                          |
+            |                       |                           |                          |
+            |                       |                           | {"asset_name":{"$not_in" |
+            |                       |                           | :["asset-1",             |
+            |                       |                           | "asset-2"]}}             |
+            |                       |                           |                          |
+            |                       |                           |                          |
+            |                       |                           | {"asset_name":{"$contain |
+            |                       |                           | s":"backup"}}            |
+            |                       |                           |                          |
+            |                       |                           |                          |
+            |                       |                           | {"asset_name":{"$not_con |
+            |                       |                           | tains":"temp"}}          |
+            |                       |                           |                          |
+            |                       |                           |                          |
+            +-----------------------+---------------------------+--------------------------+
             | entity_type           | $eq, $in                  | denotes the aws entity   |
             |                       |                           | type to conditionalize   |
             |                       |                           | on. (required)           |
@@ -68,11 +110,14 @@ class ReadRuleResponse:
             |                       |                           |                          |
             |                       |                           |                          |
             |                       |                           | {"entity_type":{"$in":[" |
-            |                       |                           | aws_rds_instance",       |
-            |                       |                           | "aws_ebs_volume", "aws_e |
-            |                       |                           | c2_instance","aws_dynamo |
-            |                       |                           | db_table",               |
-            |                       |                           | "aws_rds_cluster"]}}     |
+            |                       |                           | aws_documentdb",         |
+            |                       |                           | "aws_dynamodb_table",    |
+            |                       |                           | "aws_ebs_volume",        |
+            |                       |                           | "aws_ec2_instance",      |
+            |                       |                           | "aws_iceberg_s3_table",  |
+            |                       |                           | "aws_neptune",           |
+            |                       |                           | "aws_rds_cluster",       |
+            |                       |                           | "aws_rds_instance"]}}    |
             |                       |                           |                          |
             |                       |                           |                          |
             +-----------------------+---------------------------+--------------------------+
@@ -92,6 +137,14 @@ class ReadRuleResponse:
 
     """
 
+    # Maps Python attribute names to API keys that cannot be recovered from the
+    # attribute name, so serialization round-trips correctly. E.g. attribute
+    # ``Eq`` <-> key ``$eq``, ``Links`` <-> ``_links``, ``Type`` <-> ``@type``.
+    _names: ClassVar[Dict[str, str]] = {
+        'Embedded': '_embedded',
+        'Links': '_links',
+    }
+
     Embedded: rule_embedded_.RuleEmbedded | None = None
     Links: rule_links_.RuleLinks | None = None
     Action: rule_action_.RuleAction | None = None
@@ -104,9 +157,7 @@ class ReadRuleResponse:
 
     def dict(self) -> Dict[str, Any]:
         """Returns the dictionary representation of the model."""
-        return dataclasses.asdict(
-            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
-        )
+        return api_helper.to_dictionary(self)
 
     @overload
     @classmethod

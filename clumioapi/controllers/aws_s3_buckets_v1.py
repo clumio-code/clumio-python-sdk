@@ -16,8 +16,6 @@ from clumioapi.controllers.types import aws_s3_buckets_v1_bucket_matcher_types
 from clumioapi.exceptions import clumio_exception
 from clumioapi.models import list_buckets_response
 from clumioapi.models import read_bucket_response
-from clumioapi.models import set_bucket_properties_response
-from clumioapi.models import set_bucket_properties_v1_request
 import requests
 import retrying
 
@@ -41,7 +39,9 @@ class AwsS3BucketsV1Controller:
         self,
         limit: int | None = None,
         start: str | None = None,
+        sort: str | None = None,
         filter: aws_s3_buckets_types.ListAwsS3BucketsV1FilterT | None = None,
+        lookback_days: int | None = None,
         bucket_matcher: (
             aws_s3_buckets_v1_bucket_matcher_types.ListAwsS3BucketsV1BucketMatcherT | None
         ) = None,
@@ -55,6 +55,26 @@ class AwsS3BucketsV1Controller:
             start:
                 Sets the page number used to browse the collection.
                 Pages are indexed starting from 1 (i.e., `start=1`).
+            sort:
+                Sets the sort order of the results. By default, results are sorted in ascending
+                order by the specified field name. To sort in descending order, prefix the field
+                name with a minus sign (`-`). Multiple fields may be provided as a comma-
+                separated
+                list, in which case sorting is performed in the order the fields are provided.
+
+                The following table lists the supported sort fields for this resource:
+
+                +---------------------------+--------------------------------------------------+
+                |        Sort Field         |                   Description                    |
+                +===========================+==================================================+
+                | size_bytes                | Sorts the results by total bucket size in bytes. |
+                +---------------------------+--------------------------------------------------+
+                | object_count              | Sorts the results by the number of objects in    |
+                |                           | the bucket.                                      |
+                +---------------------------+--------------------------------------------------+
+                | average_object_size_bytes | Sorts the results by average object size in      |
+                |                           | bytes.                                           |
+                +---------------------------+--------------------------------------------------+
             filter:
                 Narrows down the results to only the items that satisfy the filter criteria. The
                 following
@@ -237,6 +257,21 @@ class AwsS3BucketsV1Controller:
                 |                             |                  | 'securevault', 'backtrack', |
                 |                             |                  | 'none'                      |
                 +-----------------------------+------------------+-----------------------------+
+                | backup_status               | $in              | Aggregated S3 bucket backup |
+                |                             |                  | status. Requires            |
+                |                             |                  | lookback_days.              |
+                |                             |                  | For example,                |
+                |                             |                  | filter={"backup_status":{"$ |
+                |                             |                  | in":["failure"]}}&lookback_ |
+                |                             |                  | days=7                      |
+                |                             |                  | Possible values include:    |
+                |                             |                  | 'success',                  |
+                |                             |                  | 'partial_success',          |
+                |                             |                  | 'failure', 'no_backup'.     |
+                |                             |                  | Requests matching more than |
+                |                             |                  | 5000 buckets must be        |
+                |                             |                  | narrowed by other filters.  |
+                +-----------------------------+------------------+-----------------------------+
 
                 For more information about filtering, refer to the Filtering section
                 of this guide.
@@ -306,6 +341,10 @@ class AwsS3BucketsV1Controller:
                 |                          |                         |                         |
                 |                          |                         |                         |
                 +--------------------------+-------------------------+-------------------------+
+            lookback_days:
+                The number of days to use for the backup status lookback window. Required when
+                the
+                backup_status filter is set. Must be greater than 0 and at most 60.
             bucket_matcher:
                 The Bucket matcher query parameter receives an expression to query the bucket.
                 This field is an expression to match s3 buckets. Search for buckets that match
@@ -383,7 +422,9 @@ class AwsS3BucketsV1Controller:
         _query_parameters = {
             'limit': limit,
             'start': start,
+            'sort': sort,
             'filter': filter.query_str if filter else None,
+            'lookback_days': lookback_days,
             'bucket_matcher': bucket_matcher.query_str if bucket_matcher else None,
         }
 
@@ -452,56 +493,6 @@ class AwsS3BucketsV1Controller:
 
         return resp_instance
 
-    def set_bucket_properties(
-        self,
-        bucket_id: str | None = None,
-        body: set_bucket_properties_v1_request.SetBucketPropertiesV1Request | None = None,
-        **kwargs,
-    ) -> set_bucket_properties_response.SetBucketPropertiesResponse:
-        """Idempotent call to set properties on an S3 bucket to enable S3 continuous
-        backup.
-
-        Args:
-            bucket_id:
-                Set the properties for the bucket with the specified ID.
-            body:
-                The set of properties that are being updated for the given bucket.
-        """
-
-        def get_instance_from_response(resp: requests.Response) -> Any:
-            return set_bucket_properties_response.SetBucketPropertiesResponse.from_response(resp)
-
-        # Prepare query URL
-        _url_path = '/datasources/aws/s3-buckets/{bucket_id}'
-        _url_path = api_helper.append_url_with_template_parameters(
-            _url_path, {'bucket_id': bucket_id}
-        )
-
-        _query_parameters: dict[str, Any] = {}
-
-        resp_instance: set_bucket_properties_response.SetBucketPropertiesResponse
-        # Execute request
-        resp: requests.Response
-        try:
-            resp = self.client.patch(
-                _url_path,
-                headers=self.headers,
-                params=_query_parameters,
-                json=body.dict() if body else None,
-                raw_response=True,
-                **kwargs,
-            )
-        except requests.exceptions.HTTPError as e:
-            resp = e.response
-
-        if not resp.ok:
-            error_str = f'set_bucket_properties for url {urllib.parse.unquote(resp.url)} failed.'
-            raise clumio_exception.ClumioException(error_str, resp=resp)
-
-        resp_instance = get_instance_from_response(resp)
-
-        return resp_instance
-
 
 class AwsS3BucketsV1ControllerPaginator:
     """A Controller to access Endpoints for aws-s3-buckets resource with pagination."""
@@ -518,7 +509,9 @@ class AwsS3BucketsV1ControllerPaginator:
         self,
         limit: int | None = None,
         start: str | None = None,
+        sort: str | None = None,
         filter: aws_s3_buckets_types.ListAwsS3BucketsV1FilterT | None = None,
+        lookback_days: int | None = None,
         bucket_matcher: (
             aws_s3_buckets_v1_bucket_matcher_types.ListAwsS3BucketsV1BucketMatcherT | None
         ) = None,
@@ -532,6 +525,26 @@ class AwsS3BucketsV1ControllerPaginator:
             start:
                 Sets the page number used to browse the collection.
                 Pages are indexed starting from 1 (i.e., `start=1`).
+            sort:
+                Sets the sort order of the results. By default, results are sorted in ascending
+                order by the specified field name. To sort in descending order, prefix the field
+                name with a minus sign (`-`). Multiple fields may be provided as a comma-
+                separated
+                list, in which case sorting is performed in the order the fields are provided.
+
+                The following table lists the supported sort fields for this resource:
+
+                +---------------------------+--------------------------------------------------+
+                |        Sort Field         |                   Description                    |
+                +===========================+==================================================+
+                | size_bytes                | Sorts the results by total bucket size in bytes. |
+                +---------------------------+--------------------------------------------------+
+                | object_count              | Sorts the results by the number of objects in    |
+                |                           | the bucket.                                      |
+                +---------------------------+--------------------------------------------------+
+                | average_object_size_bytes | Sorts the results by average object size in      |
+                |                           | bytes.                                           |
+                +---------------------------+--------------------------------------------------+
             filter:
                 Narrows down the results to only the items that satisfy the filter criteria. The
                 following
@@ -714,6 +727,21 @@ class AwsS3BucketsV1ControllerPaginator:
                 |                             |                  | 'securevault', 'backtrack', |
                 |                             |                  | 'none'                      |
                 +-----------------------------+------------------+-----------------------------+
+                | backup_status               | $in              | Aggregated S3 bucket backup |
+                |                             |                  | status. Requires            |
+                |                             |                  | lookback_days.              |
+                |                             |                  | For example,                |
+                |                             |                  | filter={"backup_status":{"$ |
+                |                             |                  | in":["failure"]}}&lookback_ |
+                |                             |                  | days=7                      |
+                |                             |                  | Possible values include:    |
+                |                             |                  | 'success',                  |
+                |                             |                  | 'partial_success',          |
+                |                             |                  | 'failure', 'no_backup'.     |
+                |                             |                  | Requests matching more than |
+                |                             |                  | 5000 buckets must be        |
+                |                             |                  | narrowed by other filters.  |
+                +-----------------------------+------------------+-----------------------------+
 
                 For more information about filtering, refer to the Filtering section
                 of this guide.
@@ -783,6 +811,10 @@ class AwsS3BucketsV1ControllerPaginator:
                 |                          |                         |                         |
                 |                          |                         |                         |
                 +--------------------------+-------------------------+-------------------------+
+            lookback_days:
+                The number of days to use for the backup status lookback window. Required when
+                the
+                backup_status filter is set. Must be greater than 0 and at most 60.
             bucket_matcher:
                 The Bucket matcher query parameter receives an expression to query the bucket.
                 This field is an expression to match s3 buckets. Search for buckets that match
@@ -852,7 +884,13 @@ class AwsS3BucketsV1ControllerPaginator:
         controller = AwsS3BucketsV1Controller(self.controller)
         while True:
             response = controller.list_aws_s3_buckets(
-                limit=limit, start=start, filter=filter, bucket_matcher=bucket_matcher, **kwargs
+                limit=limit,
+                start=start,
+                sort=sort,
+                filter=filter,
+                lookback_days=lookback_days,
+                bucket_matcher=bucket_matcher,
+                **kwargs,
             )
             yield response
             next_link = response.Links.Next  # type: ignore

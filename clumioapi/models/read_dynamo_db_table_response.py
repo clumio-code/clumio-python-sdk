@@ -2,9 +2,9 @@
 # Copyright 2023. Clumio, A Commvault Company.
 #
 import dataclasses
-from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
+from typing import Any, ClassVar, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from clumioapi.api_helper import camel_to_snake
+from clumioapi import api_helper
 from clumioapi.models import aws_tag_model as aws_tag_model_
 from clumioapi.models import backup_status_info as backup_status_info_
 from clumioapi.models import dynamo_db_keys as dynamo_db_keys_
@@ -115,6 +115,11 @@ class ReadDynamoDBTableResponse:
         ItemCount:
             The number of items in the dynamodb table.
 
+        LastBackupTimestamp:
+            The timestamp of the most recent backup of the dynamodb table. if the table has
+            never been
+            backed up, then this field has a value of `null`.
+
         LastSnapshotTimestamp:
             The timestamp of the most recent snapshot of the dynamodb table taken as part of
             awssnapmgr. represented in rfc-3339 format. if the table has never been
@@ -209,6 +214,14 @@ class ReadDynamoDBTableResponse:
 
     """
 
+    # Maps Python attribute names to API keys that cannot be recovered from the
+    # attribute name, so serialization round-trips correctly. E.g. attribute
+    # ``Eq`` <-> key ``$eq``, ``Links`` <-> ``_links``, ``Type`` <-> ``@type``.
+    _names: ClassVar[Dict[str, str]] = {
+        'Embedded': '_embedded',
+        'Links': '_links',
+    }
+
     Embedded: dynamo_db_table_embedded_.DynamoDBTableEmbedded | None = None
     Links: dynamo_db_table_links_.DynamoDBTableLinks | None = None
     AccountNativeId: str | None = None
@@ -228,6 +241,7 @@ class ReadDynamoDBTableResponse:
     IsDeleted: bool | None = None
     IsSupported: bool | None = None
     ItemCount: int | None = None
+    LastBackupTimestamp: str | None = None
     LastSnapshotTimestamp: str | None = None
     LatestContinuousSnapshotRestorableTimestamp: str | None = None
     LocalSecondaryIndexes: Sequence[local_secondary_index_.LocalSecondaryIndex] | None = None
@@ -252,9 +266,7 @@ class ReadDynamoDBTableResponse:
 
     def dict(self) -> Dict[str, Any]:
         """Returns the dictionary representation of the model."""
-        return dataclasses.asdict(
-            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
-        )
+        return api_helper.to_dictionary(self)
 
     @overload
     @classmethod
@@ -349,6 +361,9 @@ class ReadDynamoDBTableResponse:
 
         val = dictionary.get('item_count', None)
         val_item_count = val
+
+        val = dictionary.get('last_backup_timestamp', None)
+        val_last_backup_timestamp = val
 
         val = dictionary.get('last_snapshot_timestamp', None)
         val_last_snapshot_timestamp = val
@@ -447,6 +462,7 @@ class ReadDynamoDBTableResponse:
             val_is_deleted,
             val_is_supported,
             val_item_count,
+            val_last_backup_timestamp,
             val_last_snapshot_timestamp,
             val_latest_continuous_snapshot_restorable_timestamp,
             val_local_secondary_indexes,

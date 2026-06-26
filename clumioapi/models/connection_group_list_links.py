@@ -2,9 +2,9 @@
 # Copyright 2023. Clumio, A Commvault Company.
 #
 import dataclasses
-from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
+from typing import Any, ClassVar, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from clumioapi.api_helper import camel_to_snake
+from clumioapi import api_helper
 from clumioapi.models import hateoas_first_link as hateoas_first_link_
 from clumioapi.models import hateoas_link as hateoas_link_
 from clumioapi.models import hateoas_next_link as hateoas_next_link_
@@ -38,6 +38,17 @@ class ConnectionGroupListLinks:
 
     """
 
+    # Maps Python attribute names to API keys that cannot be recovered from the
+    # attribute name, so serialization round-trips correctly. E.g. attribute
+    # ``Eq`` <-> key ``$eq``, ``Links`` <-> ``_links``, ``Type`` <-> ``@type``.
+    _names: ClassVar[Dict[str, str]] = {
+        'First': '_first',
+        'Next': '_next',
+        'Self': '_self',
+        'CreateAwsConnection': 'create-aws-connection',
+        'CreateAwsConnectionGroup': 'create-aws-connection-group',
+    }
+
     First: hateoas_first_link_.HateoasFirstLink | None = None
     Next: hateoas_next_link_.HateoasNextLink | None = None
     Self: hateoas_self_link_.HateoasSelfLink | None = None
@@ -46,9 +57,7 @@ class ConnectionGroupListLinks:
 
     def dict(self) -> Dict[str, Any]:
         """Returns the dictionary representation of the model."""
-        return dataclasses.asdict(
-            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
-        )
+        return api_helper.to_dictionary(self)
 
     @overload
     @classmethod

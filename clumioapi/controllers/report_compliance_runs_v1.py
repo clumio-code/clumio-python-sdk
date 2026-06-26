@@ -18,7 +18,6 @@ from clumioapi.models import create_compliance_report_run_v1_request
 from clumioapi.models import create_compliance_run_response
 from clumioapi.models import list_compliance_runs_response
 from clumioapi.models import send_compliance_report_run_email_v1_request
-from clumioapi.models import send_compliance_run_email_response
 import requests
 import retrying
 
@@ -240,7 +239,7 @@ class ReportComplianceRunsV1Controller:
             send_compliance_report_run_email_v1_request.SendComplianceReportRunEmailV1Request | None
         ) = None,
         **kwargs,
-    ) -> send_compliance_run_email_response.SendComplianceRunEmailResponse:
+    ) -> object:
         """Send a compliance report run to the given emails.
 
         Args:
@@ -254,9 +253,7 @@ class ReportComplianceRunsV1Controller:
         """
 
         def get_instance_from_response(resp: requests.Response) -> Any:
-            return send_compliance_run_email_response.SendComplianceRunEmailResponse.from_response(
-                resp
-            )
+            return resp
 
         # Prepare query URL
         _url_path = '/reports/compliance/configurations/{configuration_id}/runs/{run_id}/_notify'
@@ -266,7 +263,7 @@ class ReportComplianceRunsV1Controller:
 
         _query_parameters: dict[str, Any] = {}
 
-        resp_instance: send_compliance_run_email_response.SendComplianceRunEmailResponse
+        resp_instance: object
         # Execute request
         resp: requests.Response
         try:

@@ -35,5 +35,6 @@ clumioapi.models.ebs\_restore\_target.EBSRestoreTarget
       ~EBSRestoreTarget.KmsKeyNativeId
       ~EBSRestoreTarget.Tags
       ~EBSRestoreTarget.Type
+      ~EBSRestoreTarget.VolumeInitializationRate
    
    

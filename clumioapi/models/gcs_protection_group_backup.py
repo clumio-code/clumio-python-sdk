@@ -1,0 +1,201 @@
+#
+# Copyright 2023. Clumio, A Commvault Company.
+#
+import dataclasses
+from typing import Any, ClassVar, Dict, Mapping, Optional, overload, Sequence, TypeVar
+
+from clumioapi import api_helper
+from clumioapi.models import gcs_protection_group_backup_links as gcs_protection_group_backup_links_
+import requests
+
+T = TypeVar('T', bound='GCSProtectionGroupBackup')
+
+
+@dataclasses.dataclass
+class GCSProtectionGroupBackup:
+    """Implementation of the 'GCSProtectionGroupBackup' model.
+
+    Attributes:
+        Links:
+            Urls to pages related to the resource.
+
+        BackedUpObjectCount:
+            The number of objects in the gcs protection group that were successfully backed
+            up.
+
+        BackedUpSizeBytes:
+            The total size in bytes of objects in the gcs protection group that were
+            successfully backed up.
+
+        ExpirationTimestamp:
+            The timestamp of when this backup expires. represented in rfc-3339 format.
+
+        FailedObjectCount:
+            The number of objects in the gcs protection group that failed to be backed up.
+
+        FailedSizeBytes:
+            The total size in bytes of objects in the gcs protection group that failed
+            to be backed up.
+
+        Id:
+            The clumio-assigned id of the gcs protection group backup.
+
+        MissingObjectCount:
+            The number of objects in the gcs protection group that were missing during
+            backup.
+
+        MissingSizeBytes:
+            The total size in bytes of objects in the gcs protection group that were missing
+            during backup.
+
+        ProtectionGroupId:
+            The clumio-assigned id of the gcs protection group.
+
+        ProtectionGroupName:
+            The user-assigned name of the gcs protection group.
+
+        ProtectionGroupVersion:
+            The version of the gcs protection group at the time of backup.
+
+        StartTimestamp:
+            The timestamp of when this backup started. represented in rfc-3339 format.
+
+        Type:
+            The type of backup. possible values include `gcp_protection_group_backup`.
+
+    """
+
+    # Maps Python attribute names to API keys that cannot be recovered from the
+    # attribute name, so serialization round-trips correctly. E.g. attribute
+    # ``Eq`` <-> key ``$eq``, ``Links`` <-> ``_links``, ``Type`` <-> ``@type``.
+    _names: ClassVar[Dict[str, str]] = {
+        'Links': '_links',
+    }
+
+    Links: gcs_protection_group_backup_links_.GCSProtectionGroupBackupLinks | None = None
+    BackedUpObjectCount: int | None = None
+    BackedUpSizeBytes: int | None = None
+    ExpirationTimestamp: str | None = None
+    FailedObjectCount: int | None = None
+    FailedSizeBytes: int | None = None
+    Id: str | None = None
+    MissingObjectCount: int | None = None
+    MissingSizeBytes: int | None = None
+    ProtectionGroupId: str | None = None
+    ProtectionGroupName: str | None = None
+    ProtectionGroupVersion: int | None = None
+    StartTimestamp: str | None = None
+    Type: str | None = None
+
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return api_helper.to_dictionary(self)
+
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
+
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
+        """Creates an instance of this model from a dictionary
+
+        Args:
+            dictionary: A dictionary representation of the object as obtained
+                from the deserialization of the server's response. The keys
+                MUST match property names in the API description.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        if not dictionary:
+            return None
+        # Extract variables from the dictionary
+        val = dictionary.get('_links', None)
+        val_links = (
+            gcs_protection_group_backup_links_.GCSProtectionGroupBackupLinks.from_dictionary(val)
+        )
+
+        val = dictionary.get('backed_up_object_count', None)
+        val_backed_up_object_count = val
+
+        val = dictionary.get('backed_up_size_bytes', None)
+        val_backed_up_size_bytes = val
+
+        val = dictionary.get('expiration_timestamp', None)
+        val_expiration_timestamp = val
+
+        val = dictionary.get('failed_object_count', None)
+        val_failed_object_count = val
+
+        val = dictionary.get('failed_size_bytes', None)
+        val_failed_size_bytes = val
+
+        val = dictionary.get('id', None)
+        val_id = val
+
+        val = dictionary.get('missing_object_count', None)
+        val_missing_object_count = val
+
+        val = dictionary.get('missing_size_bytes', None)
+        val_missing_size_bytes = val
+
+        val = dictionary.get('protection_group_id', None)
+        val_protection_group_id = val
+
+        val = dictionary.get('protection_group_name', None)
+        val_protection_group_name = val
+
+        val = dictionary.get('protection_group_version', None)
+        val_protection_group_version = val
+
+        val = dictionary.get('start_timestamp', None)
+        val_start_timestamp = val
+
+        val = dictionary.get('type', None)
+        val_type = val
+
+        # Return an object of this model
+        return cls(
+            val_links,
+            val_backed_up_object_count,
+            val_backed_up_size_bytes,
+            val_expiration_timestamp,
+            val_failed_object_count,
+            val_failed_size_bytes,
+            val_id,
+            val_missing_object_count,
+            val_missing_size_bytes,
+            val_protection_group_id,
+            val_protection_group_name,
+            val_protection_group_version,
+            val_start_timestamp,
+            val_type,
+        )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

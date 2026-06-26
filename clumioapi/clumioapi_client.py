@@ -14,6 +14,7 @@ from clumioapi.controllers import aws_ebs_volumes_v1
 from clumioapi.controllers import aws_ec2_instances_v1
 from clumioapi.controllers import aws_environment_tags_v1
 from clumioapi.controllers import aws_environments_v1
+from clumioapi.controllers import aws_iceberg_tables_v1
 from clumioapi.controllers import aws_rds_resource_restored_records_v1
 from clumioapi.controllers import aws_rds_resources_v1
 from clumioapi.controllers import aws_regions_v1
@@ -23,12 +24,15 @@ from clumioapi.controllers import backup_aws_dynamodb_tables_v1
 from clumioapi.controllers import backup_aws_ebs_volumes_v1
 from clumioapi.controllers import backup_aws_ebs_volumes_v2
 from clumioapi.controllers import backup_aws_ec2_instances_v1
+from clumioapi.controllers import backup_aws_iceberg_tables_v1
 from clumioapi.controllers import backup_aws_rds_resource_database_tables_v1
 from clumioapi.controllers import backup_aws_rds_resource_databases_v1
 from clumioapi.controllers import backup_aws_rds_resources_v1
 from clumioapi.controllers import backup_ec2_mssql_databases_v1
 from clumioapi.controllers import backup_filesystem_directories_v1
 from clumioapi.controllers import backup_filesystems_v1
+from clumioapi.controllers import backup_gcp_protection_groups_gcs_assets_v1
+from clumioapi.controllers import backup_gcp_protection_groups_v1
 from clumioapi.controllers import backup_protection_groups_v1
 from clumioapi.controllers import backups_files_v1
 from clumioapi.controllers import base_controller
@@ -39,6 +43,13 @@ from clumioapi.controllers import ec2_mssql_failover_cluster_v1
 from clumioapi.controllers import ec2_mssql_failover_clusters_v1
 from clumioapi.controllers import ec2_mssql_hosts_v1
 from clumioapi.controllers import ec2_mssql_instance_v1
+from clumioapi.controllers import gcp_connections_v1
+from clumioapi.controllers import gcp_gcs_assets_v1
+from clumioapi.controllers import gcp_gcs_buckets_v1
+from clumioapi.controllers import gcp_labels_v1
+from clumioapi.controllers import gcp_projects_v1
+from clumioapi.controllers import gcp_protection_groups_v1
+from clumioapi.controllers import gcp_report_v1
 from clumioapi.controllers import general_settings_v2
 from clumioapi.controllers import individual_alerts_v1
 from clumioapi.controllers import management_groups_v1
@@ -59,9 +70,12 @@ from clumioapi.controllers import restored_aws_dynamodb_tables_v1
 from clumioapi.controllers import restored_aws_ebs_volumes_v1
 from clumioapi.controllers import restored_aws_ebs_volumes_v2
 from clumioapi.controllers import restored_aws_ec2_instances_v1
+from clumioapi.controllers import restored_aws_iceberg_tables_v1
 from clumioapi.controllers import restored_aws_rds_resources_v1
 from clumioapi.controllers import restored_aws_s3_buckets_v1
 from clumioapi.controllers import restored_files_v1
+from clumioapi.controllers import restored_gcs_protection_group_assets_v1
+from clumioapi.controllers import restored_gcs_protection_groups_v1
 from clumioapi.controllers import restored_protection_group_instant_access_endpoints_v1
 from clumioapi.controllers import restored_protection_group_s3_assets_v1
 from clumioapi.controllers import restored_protection_groups_v1
@@ -182,6 +196,20 @@ class ClumioAPIClient:
         )
 
     @property
+    def backup_aws_iceberg_tables_v1_paginator(
+        self,
+    ) -> backup_aws_iceberg_tables_v1.BackupAwsIcebergTablesV1ControllerPaginator:
+        return backup_aws_iceberg_tables_v1.BackupAwsIcebergTablesV1ControllerPaginator(
+            self.base_controller
+        )
+
+    @property
+    def backup_aws_iceberg_tables_v1(
+        self,
+    ) -> backup_aws_iceberg_tables_v1.BackupAwsIcebergTablesV1Controller:
+        return backup_aws_iceberg_tables_v1.BackupAwsIcebergTablesV1Controller(self.base_controller)
+
+    @property
     def backup_aws_rds_resources_v1_paginator(
         self,
     ) -> backup_aws_rds_resources_v1.BackupAwsRdsResourcesV1ControllerPaginator:
@@ -238,6 +266,40 @@ class ClumioAPIClient:
     @property
     def backups_files_v1(self) -> backups_files_v1.BackupsFilesV1Controller:
         return backups_files_v1.BackupsFilesV1Controller(self.base_controller)
+
+    @property
+    def backup_gcp_protection_groups_v1_paginator(
+        self,
+    ) -> backup_gcp_protection_groups_v1.BackupGcpProtectionGroupsV1ControllerPaginator:
+        return backup_gcp_protection_groups_v1.BackupGcpProtectionGroupsV1ControllerPaginator(
+            self.base_controller
+        )
+
+    @property
+    def backup_gcp_protection_groups_v1(
+        self,
+    ) -> backup_gcp_protection_groups_v1.BackupGcpProtectionGroupsV1Controller:
+        return backup_gcp_protection_groups_v1.BackupGcpProtectionGroupsV1Controller(
+            self.base_controller
+        )
+
+    @property
+    def backup_gcp_protection_groups_gcs_assets_v1_paginator(
+        self,
+    ) -> (
+        backup_gcp_protection_groups_gcs_assets_v1.BackupGcpProtectionGroupsGcsAssetsV1ControllerPaginator
+    ):
+        return backup_gcp_protection_groups_gcs_assets_v1.BackupGcpProtectionGroupsGcsAssetsV1ControllerPaginator(
+            self.base_controller
+        )
+
+    @property
+    def backup_gcp_protection_groups_gcs_assets_v1(
+        self,
+    ) -> backup_gcp_protection_groups_gcs_assets_v1.BackupGcpProtectionGroupsGcsAssetsV1Controller:
+        return backup_gcp_protection_groups_gcs_assets_v1.BackupGcpProtectionGroupsGcsAssetsV1Controller(
+            self.base_controller
+        )
 
     @property
     def backup_protection_groups_v1_paginator(
@@ -332,6 +394,16 @@ class ClumioAPIClient:
     @property
     def aws_templates_v1(self) -> aws_templates_v1.AwsTemplatesV1Controller:
         return aws_templates_v1.AwsTemplatesV1Controller(self.base_controller)
+
+    @property
+    def gcp_connections_v1_paginator(
+        self,
+    ) -> gcp_connections_v1.GcpConnectionsV1ControllerPaginator:
+        return gcp_connections_v1.GcpConnectionsV1ControllerPaginator(self.base_controller)
+
+    @property
+    def gcp_connections_v1(self) -> gcp_connections_v1.GcpConnectionsV1Controller:
+        return gcp_connections_v1.GcpConnectionsV1Controller(self.base_controller)
 
     @property
     def aws_dynamodb_tables_v1_paginator(
@@ -458,6 +530,16 @@ class ClumioAPIClient:
         return aws_environment_tags_v1.AwsEnvironmentTagsV1Controller(self.base_controller)
 
     @property
+    def aws_iceberg_tables_v1_paginator(
+        self,
+    ) -> aws_iceberg_tables_v1.AwsIcebergTablesV1ControllerPaginator:
+        return aws_iceberg_tables_v1.AwsIcebergTablesV1ControllerPaginator(self.base_controller)
+
+    @property
+    def aws_iceberg_tables_v1(self) -> aws_iceberg_tables_v1.AwsIcebergTablesV1Controller:
+        return aws_iceberg_tables_v1.AwsIcebergTablesV1Controller(self.base_controller)
+
+    @property
     def aws_rds_resources_v1_paginator(
         self,
     ) -> aws_rds_resources_v1.AwsRdsResourcesV1ControllerPaginator:
@@ -474,6 +556,58 @@ class ClumioAPIClient:
     @property
     def aws_s3_buckets_v1(self) -> aws_s3_buckets_v1.AwsS3BucketsV1Controller:
         return aws_s3_buckets_v1.AwsS3BucketsV1Controller(self.base_controller)
+
+    @property
+    def gcp_gcs_assets_v1_paginator(self) -> gcp_gcs_assets_v1.GcpGcsAssetsV1ControllerPaginator:
+        return gcp_gcs_assets_v1.GcpGcsAssetsV1ControllerPaginator(self.base_controller)
+
+    @property
+    def gcp_gcs_assets_v1(self) -> gcp_gcs_assets_v1.GcpGcsAssetsV1Controller:
+        return gcp_gcs_assets_v1.GcpGcsAssetsV1Controller(self.base_controller)
+
+    @property
+    def gcp_gcs_buckets_v1_paginator(self) -> gcp_gcs_buckets_v1.GcpGcsBucketsV1ControllerPaginator:
+        return gcp_gcs_buckets_v1.GcpGcsBucketsV1ControllerPaginator(self.base_controller)
+
+    @property
+    def gcp_gcs_buckets_v1(self) -> gcp_gcs_buckets_v1.GcpGcsBucketsV1Controller:
+        return gcp_gcs_buckets_v1.GcpGcsBucketsV1Controller(self.base_controller)
+
+    @property
+    def gcp_labels_v1_paginator(self) -> gcp_labels_v1.GcpLabelsV1ControllerPaginator:
+        return gcp_labels_v1.GcpLabelsV1ControllerPaginator(self.base_controller)
+
+    @property
+    def gcp_labels_v1(self) -> gcp_labels_v1.GcpLabelsV1Controller:
+        return gcp_labels_v1.GcpLabelsV1Controller(self.base_controller)
+
+    @property
+    def gcp_projects_v1_paginator(self) -> gcp_projects_v1.GcpProjectsV1ControllerPaginator:
+        return gcp_projects_v1.GcpProjectsV1ControllerPaginator(self.base_controller)
+
+    @property
+    def gcp_projects_v1(self) -> gcp_projects_v1.GcpProjectsV1Controller:
+        return gcp_projects_v1.GcpProjectsV1Controller(self.base_controller)
+
+    @property
+    def gcp_protection_groups_v1_paginator(
+        self,
+    ) -> gcp_protection_groups_v1.GcpProtectionGroupsV1ControllerPaginator:
+        return gcp_protection_groups_v1.GcpProtectionGroupsV1ControllerPaginator(
+            self.base_controller
+        )
+
+    @property
+    def gcp_protection_groups_v1(self) -> gcp_protection_groups_v1.GcpProtectionGroupsV1Controller:
+        return gcp_protection_groups_v1.GcpProtectionGroupsV1Controller(self.base_controller)
+
+    @property
+    def gcp_report_v1_paginator(self) -> gcp_report_v1.GcpReportV1ControllerPaginator:
+        return gcp_report_v1.GcpReportV1ControllerPaginator(self.base_controller)
+
+    @property
+    def gcp_report_v1(self) -> gcp_report_v1.GcpReportV1Controller:
+        return gcp_report_v1.GcpReportV1Controller(self.base_controller)
 
     @property
     def protection_groups_v1_paginator(
@@ -692,6 +826,22 @@ class ClumioAPIClient:
         )
 
     @property
+    def restored_aws_iceberg_tables_v1_paginator(
+        self,
+    ) -> restored_aws_iceberg_tables_v1.RestoredAwsIcebergTablesV1ControllerPaginator:
+        return restored_aws_iceberg_tables_v1.RestoredAwsIcebergTablesV1ControllerPaginator(
+            self.base_controller
+        )
+
+    @property
+    def restored_aws_iceberg_tables_v1(
+        self,
+    ) -> restored_aws_iceberg_tables_v1.RestoredAwsIcebergTablesV1Controller:
+        return restored_aws_iceberg_tables_v1.RestoredAwsIcebergTablesV1Controller(
+            self.base_controller
+        )
+
+    @property
     def restored_aws_rds_resources_v1_paginator(
         self,
     ) -> restored_aws_rds_resources_v1.RestoredAwsRdsResourcesV1ControllerPaginator:
@@ -746,6 +896,40 @@ class ClumioAPIClient:
     @property
     def restored_files_v1(self) -> restored_files_v1.RestoredFilesV1Controller:
         return restored_files_v1.RestoredFilesV1Controller(self.base_controller)
+
+    @property
+    def restored_gcs_protection_groups_v1_paginator(
+        self,
+    ) -> restored_gcs_protection_groups_v1.RestoredGcsProtectionGroupsV1ControllerPaginator:
+        return restored_gcs_protection_groups_v1.RestoredGcsProtectionGroupsV1ControllerPaginator(
+            self.base_controller
+        )
+
+    @property
+    def restored_gcs_protection_groups_v1(
+        self,
+    ) -> restored_gcs_protection_groups_v1.RestoredGcsProtectionGroupsV1Controller:
+        return restored_gcs_protection_groups_v1.RestoredGcsProtectionGroupsV1Controller(
+            self.base_controller
+        )
+
+    @property
+    def restored_gcs_protection_group_assets_v1_paginator(
+        self,
+    ) -> (
+        restored_gcs_protection_group_assets_v1.RestoredGcsProtectionGroupAssetsV1ControllerPaginator
+    ):
+        return restored_gcs_protection_group_assets_v1.RestoredGcsProtectionGroupAssetsV1ControllerPaginator(
+            self.base_controller
+        )
+
+    @property
+    def restored_gcs_protection_group_assets_v1(
+        self,
+    ) -> restored_gcs_protection_group_assets_v1.RestoredGcsProtectionGroupAssetsV1Controller:
+        return restored_gcs_protection_group_assets_v1.RestoredGcsProtectionGroupAssetsV1Controller(
+            self.base_controller
+        )
 
     @property
     def restored_protection_groups_v1_paginator(

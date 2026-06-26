@@ -64,8 +64,26 @@ class BaseControllerFilterTypes(BaseModel):
                 raise ValueError('Nested filter query_str must be enclosed in braces')
 
             nested_str = value.query_str[1:-1]  # Remove the surrounding braces
+            # Split on top-level commas only: list values ($in: ["a", "b"]) and
+            # multi-operator dicts ({"$gte":1,"$lte":2}) contain commas inside
+            # braces/brackets that must not split a key:value pair.
+            parts: list[str] = []
+            depth = 0
+            current = ''
+            for char in nested_str:
+                if char in '{[':
+                    depth += 1
+                elif char in '}]':
+                    depth -= 1
+                if char == ',' and depth == 0:
+                    parts.append(current)
+                    current = ''
+                else:
+                    current += char
+            if current:
+                parts.append(current)
             formatted_str = ''
-            for part in nested_str.split(','):
+            for part in parts:
                 key, val = part.split(':', 1)
                 formatted_str += f',"{parent_key}.{key.replace('"','')}":{val}'
             return formatted_str.strip(',')

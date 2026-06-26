@@ -30,9 +30,12 @@ clumioapi.models.aws\_tag\_embedded.AwsTagEmbedded
    .. autosummary::
    
       ~AwsTagEmbedded.ReadAwsEnvironmentTagBackupStatusStats
+      ~AwsTagEmbedded.ReadAwsEnvironmentTagDocumentdbProtectionStats
       ~AwsTagEmbedded.ReadAwsEnvironmentTagDynamodbTablesProtectionStats
       ~AwsTagEmbedded.ReadAwsEnvironmentTagEbsVolumesProtectionStats
       ~AwsTagEmbedded.ReadAwsEnvironmentTagEc2InstancesProtectionStats
+      ~AwsTagEmbedded.ReadAwsEnvironmentTagIcebergS3TablesProtectionStats
+      ~AwsTagEmbedded.ReadAwsEnvironmentTagNeptuneProtectionStats
       ~AwsTagEmbedded.ReadAwsEnvironmentTagProtectionGroupsProtectionStats
       ~AwsTagEmbedded.ReadAwsEnvironmentTagRdsResourcesProtectionStats
       ~AwsTagEmbedded.ReadPolicyDefinition

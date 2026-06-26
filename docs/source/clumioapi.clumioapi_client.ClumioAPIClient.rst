@@ -46,6 +46,8 @@ clumioapi.clumioapi\_client.ClumioAPIClient
       ~ClumioAPIClient.aws_environment_tags_v1_paginator
       ~ClumioAPIClient.aws_environments_v1
       ~ClumioAPIClient.aws_environments_v1_paginator
+      ~ClumioAPIClient.aws_iceberg_tables_v1
+      ~ClumioAPIClient.aws_iceberg_tables_v1_paginator
       ~ClumioAPIClient.aws_rds_resource_restored_records_v1
       ~ClumioAPIClient.aws_rds_resource_restored_records_v1_paginator
       ~ClumioAPIClient.aws_rds_resources_v1
@@ -64,6 +66,8 @@ clumioapi.clumioapi\_client.ClumioAPIClient
       ~ClumioAPIClient.backup_aws_ebs_volumes_v2_paginator
       ~ClumioAPIClient.backup_aws_ec2_instances_v1
       ~ClumioAPIClient.backup_aws_ec2_instances_v1_paginator
+      ~ClumioAPIClient.backup_aws_iceberg_tables_v1
+      ~ClumioAPIClient.backup_aws_iceberg_tables_v1_paginator
       ~ClumioAPIClient.backup_aws_rds_resource_database_tables_v1
       ~ClumioAPIClient.backup_aws_rds_resource_database_tables_v1_paginator
       ~ClumioAPIClient.backup_aws_rds_resource_databases_v1
@@ -76,6 +80,10 @@ clumioapi.clumioapi\_client.ClumioAPIClient
       ~ClumioAPIClient.backup_filesystem_directories_v1_paginator
       ~ClumioAPIClient.backup_filesystems_v1
       ~ClumioAPIClient.backup_filesystems_v1_paginator
+      ~ClumioAPIClient.backup_gcp_protection_groups_gcs_assets_v1
+      ~ClumioAPIClient.backup_gcp_protection_groups_gcs_assets_v1_paginator
+      ~ClumioAPIClient.backup_gcp_protection_groups_v1
+      ~ClumioAPIClient.backup_gcp_protection_groups_v1_paginator
       ~ClumioAPIClient.backup_protection_groups_v1
       ~ClumioAPIClient.backup_protection_groups_v1_paginator
       ~ClumioAPIClient.backups_files_v1
@@ -94,6 +102,20 @@ clumioapi.clumioapi\_client.ClumioAPIClient
       ~ClumioAPIClient.ec2_mssql_hosts_v1_paginator
       ~ClumioAPIClient.ec2_mssql_instance_v1
       ~ClumioAPIClient.ec2_mssql_instance_v1_paginator
+      ~ClumioAPIClient.gcp_connections_v1
+      ~ClumioAPIClient.gcp_connections_v1_paginator
+      ~ClumioAPIClient.gcp_gcs_assets_v1
+      ~ClumioAPIClient.gcp_gcs_assets_v1_paginator
+      ~ClumioAPIClient.gcp_gcs_buckets_v1
+      ~ClumioAPIClient.gcp_gcs_buckets_v1_paginator
+      ~ClumioAPIClient.gcp_labels_v1
+      ~ClumioAPIClient.gcp_labels_v1_paginator
+      ~ClumioAPIClient.gcp_projects_v1
+      ~ClumioAPIClient.gcp_projects_v1_paginator
+      ~ClumioAPIClient.gcp_protection_groups_v1
+      ~ClumioAPIClient.gcp_protection_groups_v1_paginator
+      ~ClumioAPIClient.gcp_report_v1
+      ~ClumioAPIClient.gcp_report_v1_paginator
       ~ClumioAPIClient.general_settings_v2
       ~ClumioAPIClient.general_settings_v2_paginator
       ~ClumioAPIClient.individual_alerts_v1
@@ -134,12 +156,18 @@ clumioapi.clumioapi\_client.ClumioAPIClient
       ~ClumioAPIClient.restored_aws_ebs_volumes_v2_paginator
       ~ClumioAPIClient.restored_aws_ec2_instances_v1
       ~ClumioAPIClient.restored_aws_ec2_instances_v1_paginator
+      ~ClumioAPIClient.restored_aws_iceberg_tables_v1
+      ~ClumioAPIClient.restored_aws_iceberg_tables_v1_paginator
       ~ClumioAPIClient.restored_aws_rds_resources_v1
       ~ClumioAPIClient.restored_aws_rds_resources_v1_paginator
       ~ClumioAPIClient.restored_aws_s3_buckets_v1
       ~ClumioAPIClient.restored_aws_s3_buckets_v1_paginator
       ~ClumioAPIClient.restored_files_v1
       ~ClumioAPIClient.restored_files_v1_paginator
+      ~ClumioAPIClient.restored_gcs_protection_group_assets_v1
+      ~ClumioAPIClient.restored_gcs_protection_group_assets_v1_paginator
+      ~ClumioAPIClient.restored_gcs_protection_groups_v1
+      ~ClumioAPIClient.restored_gcs_protection_groups_v1_paginator
       ~ClumioAPIClient.restored_protection_group_instant_access_endpoints_v1
       ~ClumioAPIClient.restored_protection_group_instant_access_endpoints_v1_paginator
       ~ClumioAPIClient.restored_protection_group_s3_assets_v1

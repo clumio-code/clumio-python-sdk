@@ -39,6 +39,7 @@ class AwsEc2InstancesV1Controller:
         self,
         limit: int | None = None,
         start: str | None = None,
+        sort: str | None = None,
         filter: aws_ec2_instances_types.ListAwsEc2InstancesV1FilterT | None = None,
         embed: str | None = None,
         lookback_days: int | None = None,
@@ -52,6 +53,26 @@ class AwsEc2InstancesV1Controller:
             start:
                 Sets the page number used to browse the collection.
                 Pages are indexed starting from 1 (i.e., `start=1`).
+            sort:
+                Sets the sort order of the results. By default, results are sorted in ascending
+                order by the specified field name. To sort in descending order, prefix the field
+                name with a minus sign (`-`). Multiple fields may be provided as a comma-
+                separated
+                list, in which case sorting is performed in the order the fields are provided.
+
+                The following table lists the supported sort fields for this resource:
+
+                +------------+-----------------------------------------------------+
+                | Sort Field |                     Description                     |
+                +============+=====================================================+
+                | name       | Sorts the results by instance name.                 |
+                +------------+-----------------------------------------------------+
+                | aws_region | Sorts the results by AWS region (e.g. us-east-1).   |
+                +------------+-----------------------------------------------------+
+                | state      | Sorts the results by instance state (e.g. running). |
+                +------------+-----------------------------------------------------+
+                | type       | Sorts the results by instance type (e.g. m5.large). |
+                +------------+-----------------------------------------------------+
             filter:
                 Narrows down the results to only the items that satisfy the filter criteria. The
                 following
@@ -182,6 +203,7 @@ class AwsEc2InstancesV1Controller:
         _query_parameters = {
             'limit': limit,
             'start': start,
+            'sort': sort,
             'filter': filter.query_str if filter else None,
             'embed': embed,
             'lookback_days': lookback_days,
@@ -291,6 +313,7 @@ class AwsEc2InstancesV1ControllerPaginator:
         self,
         limit: int | None = None,
         start: str | None = None,
+        sort: str | None = None,
         filter: aws_ec2_instances_types.ListAwsEc2InstancesV1FilterT | None = None,
         embed: str | None = None,
         lookback_days: int | None = None,
@@ -304,6 +327,26 @@ class AwsEc2InstancesV1ControllerPaginator:
             start:
                 Sets the page number used to browse the collection.
                 Pages are indexed starting from 1 (i.e., `start=1`).
+            sort:
+                Sets the sort order of the results. By default, results are sorted in ascending
+                order by the specified field name. To sort in descending order, prefix the field
+                name with a minus sign (`-`). Multiple fields may be provided as a comma-
+                separated
+                list, in which case sorting is performed in the order the fields are provided.
+
+                The following table lists the supported sort fields for this resource:
+
+                +------------+-----------------------------------------------------+
+                | Sort Field |                     Description                     |
+                +============+=====================================================+
+                | name       | Sorts the results by instance name.                 |
+                +------------+-----------------------------------------------------+
+                | aws_region | Sorts the results by AWS region (e.g. us-east-1).   |
+                +------------+-----------------------------------------------------+
+                | state      | Sorts the results by instance state (e.g. running). |
+                +------------+-----------------------------------------------------+
+                | type       | Sorts the results by instance type (e.g. m5.large). |
+                +------------+-----------------------------------------------------+
             filter:
                 Narrows down the results to only the items that satisfy the filter criteria. The
                 following
@@ -428,6 +471,7 @@ class AwsEc2InstancesV1ControllerPaginator:
             response = controller.list_aws_ec2_instances(
                 limit=limit,
                 start=start,
+                sort=sort,
                 filter=filter,
                 embed=embed,
                 lookback_days=lookback_days,

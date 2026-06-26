@@ -2,9 +2,9 @@
 # Copyright 2023. Clumio, A Commvault Company.
 #
 import dataclasses
-from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
+from typing import Any, ClassVar, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from clumioapi.api_helper import camel_to_snake
+from clumioapi import api_helper
 from clumioapi.models import hateoas_link as hateoas_link_
 from clumioapi.models import hateoas_self_link as hateoas_self_link_
 import requests
@@ -22,6 +22,12 @@ class AWSConnectionLinks:
         Self:
             The hateoas link to this resource.
 
+        CreatePolicyRule:
+            A resource-specific hateoas link.
+
+        CreateProtectionGroup:
+            A resource-specific hateoas link.
+
         DeleteConnectionAws:
             A resource-specific hateoas link.
 
@@ -33,16 +39,28 @@ class AWSConnectionLinks:
 
     """
 
+    # Maps Python attribute names to API keys that cannot be recovered from the
+    # attribute name, so serialization round-trips correctly. E.g. attribute
+    # ``Eq`` <-> key ``$eq``, ``Links`` <-> ``_links``, ``Type`` <-> ``@type``.
+    _names: ClassVar[Dict[str, str]] = {
+        'Self': '_self',
+        'CreatePolicyRule': 'create-policy-rule',
+        'CreateProtectionGroup': 'create-protection-group',
+        'DeleteConnectionAws': 'delete-connection-aws',
+        'ReadOrganizationalUnit': 'read-organizational-unit',
+        'UpdateConnectionAws': 'update-connection-aws',
+    }
+
     Self: hateoas_self_link_.HateoasSelfLink | None = None
+    CreatePolicyRule: hateoas_link_.HateoasLink | None = None
+    CreateProtectionGroup: hateoas_link_.HateoasLink | None = None
     DeleteConnectionAws: hateoas_link_.HateoasLink | None = None
     ReadOrganizationalUnit: hateoas_link_.HateoasLink | None = None
     UpdateConnectionAws: hateoas_link_.HateoasLink | None = None
 
     def dict(self) -> Dict[str, Any]:
         """Returns the dictionary representation of the model."""
-        return dataclasses.asdict(
-            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
-        )
+        return api_helper.to_dictionary(self)
 
     @overload
     @classmethod
@@ -78,6 +96,12 @@ class AWSConnectionLinks:
         val = dictionary.get('_self', None)
         val_self = hateoas_self_link_.HateoasSelfLink.from_dictionary(val)
 
+        val = dictionary.get('create-policy-rule', None)
+        val_create_policy_rule = hateoas_link_.HateoasLink.from_dictionary(val)
+
+        val = dictionary.get('create-protection-group', None)
+        val_create_protection_group = hateoas_link_.HateoasLink.from_dictionary(val)
+
         val = dictionary.get('delete-connection-aws', None)
         val_delete_connection_aws = hateoas_link_.HateoasLink.from_dictionary(val)
 
@@ -90,6 +114,8 @@ class AWSConnectionLinks:
         # Return an object of this model
         return cls(
             val_self,
+            val_create_policy_rule,
+            val_create_protection_group,
             val_delete_connection_aws,
             val_read_organizational_unit,
             val_update_connection_aws,

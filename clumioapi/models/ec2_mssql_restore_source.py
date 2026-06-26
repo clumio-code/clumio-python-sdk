@@ -2,9 +2,9 @@
 # Copyright 2023. Clumio, A Commvault Company.
 #
 import dataclasses
-from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
+from typing import Any, ClassVar, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from clumioapi.api_helper import camel_to_snake
+from clumioapi import api_helper
 from clumioapi.models import \
     ec2_mssql_restore_from_backup_options as ec2_mssql_restore_from_backup_options_
 from clumioapi.models import ec2_mssql_restore_to_aag_options as ec2_mssql_restore_to_aag_options_
@@ -18,9 +18,9 @@ T = TypeVar('T', bound='EC2MSSQLRestoreSource')
 class EC2MSSQLRestoreSource:
     """Implementation of the 'EC2MSSQLRestoreSource' model.
 
-    The EC2 MSSQL database backup to be restored. Only one of `backup` or
-    `pitr`should be set.`pitr` A database backup at a specific point in time to be
-    restored.
+    The EC2 MSSQL database backup to be restored. Only one of `backup`, `pitr`,or
+    `restore_to_aag` should be set.`pitr` A database backup at a specific point in
+    time to be restored.
 
     Attributes:
         Backup:
@@ -40,9 +40,7 @@ class EC2MSSQLRestoreSource:
 
     def dict(self) -> Dict[str, Any]:
         """Returns the dictionary representation of the model."""
-        return dataclasses.asdict(
-            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
-        )
+        return api_helper.to_dictionary(self)
 
     @overload
     @classmethod

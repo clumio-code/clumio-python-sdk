@@ -2,9 +2,9 @@
 # Copyright 2023. Clumio, A Commvault Company.
 #
 import dataclasses
-from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
+from typing import Any, ClassVar, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from clumioapi.api_helper import camel_to_snake
+from clumioapi import api_helper
 import requests
 
 T = TypeVar('T', bound='AmiModel')
@@ -62,6 +62,9 @@ class AmiModel:
             A value of simple indicates that enhanced networking with the intel 82599 vf
             interface is enabled.
 
+        State:
+            The current state of the ami.
+
         VirtualizationType:
             The type of virtualization of the ami. possible values include 'hvm' and
             'paravirtual.'.
@@ -82,13 +85,12 @@ class AmiModel:
     RootDeviceName: str | None = None
     RootDeviceType: str | None = None
     SriovNetSupport: str | None = None
+    State: str | None = None
     VirtualizationType: str | None = None
 
     def dict(self) -> Dict[str, Any]:
         """Returns the dictionary representation of the model."""
-        return dataclasses.asdict(
-            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
-        )
+        return api_helper.to_dictionary(self)
 
     @overload
     @classmethod
@@ -163,6 +165,9 @@ class AmiModel:
         val = dictionary.get('sriov_net_support', None)
         val_sriov_net_support = val
 
+        val = dictionary.get('state', None)
+        val_state = val
+
         val = dictionary.get('virtualization_type', None)
         val_virtualization_type = val
 
@@ -182,6 +187,7 @@ class AmiModel:
             val_root_device_name,
             val_root_device_type,
             val_sriov_net_support,
+            val_state,
             val_virtualization_type,
         )
 

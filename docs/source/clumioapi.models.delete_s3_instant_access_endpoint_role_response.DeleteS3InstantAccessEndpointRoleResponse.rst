@@ -29,8 +29,6 @@ clumioapi.models.delete\_s3\_instant\_access\_endpoint\_role\_response.DeleteS3I
 
    .. autosummary::
    
-      ~DeleteS3InstantAccessEndpointRoleResponse.Embedded
-      ~DeleteS3InstantAccessEndpointRoleResponse.Links
       ~DeleteS3InstantAccessEndpointRoleResponse.raw_response
    
    

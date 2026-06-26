@@ -134,11 +134,29 @@ class AwsEnvironmentTagsV1Controller:
                 |                                       | embed=read-aws-environment-tag-rds-  |
                 |                                       | volumes-protection-stats             |
                 +---------------------------------------+--------------------------------------+
+                | read-aws-environment-tag-neptune-     | Embeds protection stats about        |
+                | protection-stats                      | Neptune resources associated with    |
+                |                                       | this tag into the response. For      |
+                |                                       | example, embed=read-aws-environment- |
+                |                                       | tag-neptune-protection-stats         |
+                +---------------------------------------+--------------------------------------+
+                | read-aws-environment-tag-documentdb-  | Embeds protection stats about        |
+                | protection-stats                      | DocumentDB resources associated with |
+                |                                       | this tag into the response. For      |
+                |                                       | example, embed=read-aws-environment- |
+                |                                       | tag-documentdb-protection-stats      |
+                +---------------------------------------+--------------------------------------+
                 | read-aws-environment-tag-dynamodb-    | Embeds protection stats about        |
                 | tables-protection-stats               | DynamoDB tables associated with this |
                 |                                       | tag into the response. For example,  |
                 |                                       | embed=read-aws-environment-tag-      |
                 |                                       | dynamodb-tables-protection-stats     |
+                +---------------------------------------+--------------------------------------+
+                | read-aws-environment-tag-             | Embeds protection stats about S3     |
+                | iceberg-s3-tables-protection-stats    | Iceberg tables associated with this  |
+                |                                       | tag into the response. For example,  |
+                |                                       | embed=read-aws-environment-tag-      |
+                |                                       | iceberg-s3-tables-protection-stats   |
                 +---------------------------------------+--------------------------------------+
                 | read-aws-environment-tag-protection-  | Embeds protection stats about        |
                 | groups-protection-stats               | Protection Groups associated with    |
@@ -248,11 +266,29 @@ class AwsEnvironmentTagsV1Controller:
                 |                                       | embed=read-aws-environment-tag-rds-  |
                 |                                       | volumes-protection-stats             |
                 +---------------------------------------+--------------------------------------+
+                | read-aws-environment-tag-neptune-     | Embeds protection stats about        |
+                | protection-stats                      | Neptune resources associated with    |
+                |                                       | this tag into the response. For      |
+                |                                       | example, embed=read-aws-environment- |
+                |                                       | tag-neptune-protection-stats         |
+                +---------------------------------------+--------------------------------------+
+                | read-aws-environment-tag-documentdb-  | Embeds protection stats about        |
+                | protection-stats                      | DocumentDB resources associated with |
+                |                                       | this tag into the response. For      |
+                |                                       | example, embed=read-aws-environment- |
+                |                                       | tag-documentdb-protection-stats      |
+                +---------------------------------------+--------------------------------------+
                 | read-aws-environment-tag-dynamodb-    | Embeds protection stats about        |
                 | tables-protection-stats               | DynamoDB tables associated with this |
                 |                                       | tag into the response. For example,  |
                 |                                       | embed=read-aws-environment-tag-      |
                 |                                       | dynamodb-tables-protection-stats     |
+                +---------------------------------------+--------------------------------------+
+                | read-aws-environment-tag-             | Embeds protection stats about S3     |
+                | iceberg-s3-tables-protection-stats    | Iceberg tables associated with this  |
+                |                                       | tag into the response. For example,  |
+                |                                       | embed=read-aws-environment-tag-      |
+                |                                       | iceberg-s3-tables-protection-stats   |
                 +---------------------------------------+--------------------------------------+
                 | read-aws-environment-tag-protection-  | Embeds protection stats about        |
                 | groups-protection-stats               | Protection Groups associated with    |
@@ -424,11 +460,29 @@ class AwsEnvironmentTagsV1ControllerPaginator:
                 |                                       | embed=read-aws-environment-tag-rds-  |
                 |                                       | volumes-protection-stats             |
                 +---------------------------------------+--------------------------------------+
+                | read-aws-environment-tag-neptune-     | Embeds protection stats about        |
+                | protection-stats                      | Neptune resources associated with    |
+                |                                       | this tag into the response. For      |
+                |                                       | example, embed=read-aws-environment- |
+                |                                       | tag-neptune-protection-stats         |
+                +---------------------------------------+--------------------------------------+
+                | read-aws-environment-tag-documentdb-  | Embeds protection stats about        |
+                | protection-stats                      | DocumentDB resources associated with |
+                |                                       | this tag into the response. For      |
+                |                                       | example, embed=read-aws-environment- |
+                |                                       | tag-documentdb-protection-stats      |
+                +---------------------------------------+--------------------------------------+
                 | read-aws-environment-tag-dynamodb-    | Embeds protection stats about        |
                 | tables-protection-stats               | DynamoDB tables associated with this |
                 |                                       | tag into the response. For example,  |
                 |                                       | embed=read-aws-environment-tag-      |
                 |                                       | dynamodb-tables-protection-stats     |
+                +---------------------------------------+--------------------------------------+
+                | read-aws-environment-tag-             | Embeds protection stats about S3     |
+                | iceberg-s3-tables-protection-stats    | Iceberg tables associated with this  |
+                |                                       | tag into the response. For example,  |
+                |                                       | embed=read-aws-environment-tag-      |
+                |                                       | iceberg-s3-tables-protection-stats   |
                 +---------------------------------------+--------------------------------------+
                 | read-aws-environment-tag-protection-  | Embeds protection stats about        |
                 | groups-protection-stats               | Protection Groups associated with    |

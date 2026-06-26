@@ -31,8 +31,10 @@ clumioapi.models.bucket\_list\_links.BucketListLinks
    
       ~BucketListLinks.First
       ~BucketListLinks.Last
+      ~BucketListLinks.ListBackupProtectionGroupBuckets
       ~BucketListLinks.Next
       ~BucketListLinks.Prev
+      ~BucketListLinks.RestoreProtectionGroupS3Asset
       ~BucketListLinks.Self
    
    

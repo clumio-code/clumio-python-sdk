@@ -2,9 +2,9 @@
 # Copyright 2023. Clumio, A Commvault Company.
 #
 import dataclasses
-from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
+from typing import Any, ClassVar, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from clumioapi.api_helper import camel_to_snake
+from clumioapi import api_helper
 from clumioapi.models import entity_model as entity_model_
 import requests
 
@@ -17,7 +17,8 @@ class UpdateEntities:
 
     Updates to the entities in the organizational unit.Adding or removing entities
     from the OU is an asynchronous operation.The response has a task ID which can be
-    used to track the progress of the operation.
+    used to track the progress of the operation.Concurrent AWS OU operations that
+    move overlapping scopes across multiple OUsshould be issued sequentially.
 
     Attributes:
         Add:
@@ -33,9 +34,7 @@ class UpdateEntities:
 
     def dict(self) -> Dict[str, Any]:
         """Returns the dictionary representation of the model."""
-        return dataclasses.asdict(
-            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
-        )
+        return api_helper.to_dictionary(self)
 
     @overload
     @classmethod

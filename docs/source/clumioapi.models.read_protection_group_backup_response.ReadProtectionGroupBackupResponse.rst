@@ -36,6 +36,8 @@ clumioapi.models.read\_protection\_group\_backup\_response.ReadProtectionGroupBa
       ~ReadProtectionGroupBackupResponse.FailedSizeBytes
       ~ReadProtectionGroupBackupResponse.Id
       ~ReadProtectionGroupBackupResponse.Links
+      ~ReadProtectionGroupBackupResponse.MaliciousObjectCount
+      ~ReadProtectionGroupBackupResponse.MaliciousObjectsListLink
       ~ReadProtectionGroupBackupResponse.MissingObjectCount
       ~ReadProtectionGroupBackupResponse.MissingSizeBytes
       ~ReadProtectionGroupBackupResponse.ProtectionGroupId

@@ -2,9 +2,10 @@
 # Copyright 2023. Clumio, A Commvault Company.
 #
 import dataclasses
-from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
+from typing import Any, ClassVar, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from clumioapi.api_helper import camel_to_snake
+from clumioapi import api_helper
+from clumioapi.models import dynamo_db_grr_source_pitr_options as dynamo_db_grr_source_pitr_options_
 import requests
 
 T = TypeVar('T', bound='DynamoDBGrrSource')
@@ -23,15 +24,23 @@ class DynamoDBGrrSource:
             tables)
             endpoint to fetch valid values.
 
+        ContinuousBackup:
+            Dynamodbgrrsourcepitroptions represents the parameters required to initiate a
+            point-in-time restore (pitr)
+            operation for a dynamodb table. this struct is used to specify the target table
+            and the specific point in time
+            to which the table should be restored. only one of `timestamp` or
+            `use_latest_restorable_time` should be set
+            to indicate the desired restore time.
+
     """
 
     BackupId: str | None = None
+    ContinuousBackup: dynamo_db_grr_source_pitr_options_.DynamoDBGrrSourcePitrOptions | None = None
 
     def dict(self) -> Dict[str, Any]:
         """Returns the dictionary representation of the model."""
-        return dataclasses.asdict(
-            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
-        )
+        return api_helper.to_dictionary(self)
 
     @overload
     @classmethod
@@ -67,9 +76,15 @@ class DynamoDBGrrSource:
         val = dictionary.get('backup_id', None)
         val_backup_id = val
 
+        val = dictionary.get('continuous_backup', None)
+        val_continuous_backup = (
+            dynamo_db_grr_source_pitr_options_.DynamoDBGrrSourcePitrOptions.from_dictionary(val)
+        )
+
         # Return an object of this model
         return cls(
             val_backup_id,
+            val_continuous_backup,
         )
 
     @classmethod

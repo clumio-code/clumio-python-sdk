@@ -2,9 +2,9 @@
 # Copyright 2023. Clumio, A Commvault Company.
 #
 import dataclasses
-from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
+from typing import Any, ClassVar, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
-from clumioapi.api_helper import camel_to_snake
+from clumioapi import api_helper
 from clumioapi.models import entity_model as entity_model_
 from clumioapi.models import user_with_role as user_with_role_
 import requests
@@ -23,8 +23,10 @@ class CreateOrganizationalUnitV2Request:
         Entities:
             List of entities to add to the organizational unit. adding entities to the ou is
             an asynchronous operation.
-            the response will has a task id, which can be used to track the progress of the
+            the response has a task id, which can be used to track the progress of the
             operation.
+            concurrent aws ou operations that move overlapping scopes across multiple ous
+            should be issued sequentially.
 
         Name:
             Unique name assigned to the organizational unit.
@@ -48,9 +50,7 @@ class CreateOrganizationalUnitV2Request:
 
     def dict(self) -> Dict[str, Any]:
         """Returns the dictionary representation of the model."""
-        return dataclasses.asdict(
-            self, dict_factory=lambda x: {camel_to_snake(k): v for (k, v) in x}
-        )
+        return api_helper.to_dictionary(self)
 
     @overload
     @classmethod

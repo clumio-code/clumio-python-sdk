@@ -29,7 +29,6 @@ clumioapi.models.restore\_ebs\_response\_v1.RestoreEBSResponseV1
 
    .. autosummary::
    
-      ~RestoreEBSResponseV1.Links
       ~RestoreEBSResponseV1.raw_response
    
    

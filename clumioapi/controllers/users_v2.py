@@ -14,7 +14,6 @@ from clumioapi.controllers import base_controller
 from clumioapi.controllers.types import aws_s3_buckets_v1_bucket_matcher_types
 from clumioapi.controllers.types import users_types
 from clumioapi.exceptions import clumio_exception
-from clumioapi.models import change_password_response
 from clumioapi.models import change_password_v2_request
 from clumioapi.models import create_user_response
 from clumioapi.models import create_user_v2_request
@@ -160,7 +159,7 @@ class UsersV2Controller:
 
     def change_password(
         self, body: change_password_v2_request.ChangePasswordV2Request | None = None, **kwargs
-    ) -> change_password_response.ChangePasswordResponse:
+    ) -> object:
         """Change the password of the current user. Users can only change their own
         passwords.
 
@@ -170,14 +169,14 @@ class UsersV2Controller:
         """
 
         def get_instance_from_response(resp: requests.Response) -> Any:
-            return change_password_response.ChangePasswordResponse.from_response(resp)
+            return resp
 
         # Prepare query URL
         _url_path = '/users/_change_password'
 
         _query_parameters: dict[str, Any] = {}
 
-        resp_instance: change_password_response.ChangePasswordResponse
+        resp_instance: object
         # Execute request
         resp: requests.Response
         try:

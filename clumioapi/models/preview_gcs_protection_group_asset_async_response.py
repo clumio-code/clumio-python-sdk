@@ -1,0 +1,121 @@
+#
+# Copyright 2023. Clumio, A Commvault Company.
+#
+import dataclasses
+from typing import Any, ClassVar, Dict, Mapping, Optional, overload, Sequence, TypeVar
+
+from clumioapi import api_helper
+from clumioapi.models import \
+    preview_gcs_protection_group_asset_async_links as \
+    preview_gcs_protection_group_asset_async_links_
+import requests
+
+T = TypeVar('T', bound='PreviewGCSProtectionGroupAssetAsyncResponse')
+
+
+@dataclasses.dataclass
+class PreviewGCSProtectionGroupAssetAsyncResponse:
+    """Implementation of the 'PreviewGCSProtectionGroupAssetAsyncResponse' model.
+
+    Success (Async)
+
+    Attributes:
+        Links:
+            Urls to pages related to the resource.
+
+        PreviewId:
+            The identifier for the requested preview which is used to fetch results of the
+            preview.
+
+        TaskId:
+            The clumio-assigned id of the task created by this restore request.
+            the progress of the task can be monitored using the
+            `get /tasks/{task_id}` endpoint.
+            note that this field is given only for async request.
+
+    """
+
+    # Maps Python attribute names to API keys that cannot be recovered from the
+    # attribute name, so serialization round-trips correctly. E.g. attribute
+    # ``Eq`` <-> key ``$eq``, ``Links`` <-> ``_links``, ``Type`` <-> ``@type``.
+    _names: ClassVar[Dict[str, str]] = {
+        'Links': '_links',
+    }
+
+    Links: (
+        preview_gcs_protection_group_asset_async_links_.PreviewGCSProtectionGroupAssetAsyncLinks
+        | None
+    ) = None
+    PreviewId: str | None = None
+    TaskId: str | None = None
+    raw_response: Optional[requests.Response] = None
+
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return api_helper.to_dictionary(self)
+
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
+
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
+        """Creates an instance of this model from a dictionary
+
+        Args:
+            dictionary: A dictionary representation of the object as obtained
+                from the deserialization of the server's response. The keys
+                MUST match property names in the API description.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        if not dictionary:
+            return None
+        # Extract variables from the dictionary
+        val = dictionary.get('_links', None)
+        val_links = preview_gcs_protection_group_asset_async_links_.PreviewGCSProtectionGroupAssetAsyncLinks.from_dictionary(
+            val
+        )
+
+        val = dictionary.get('preview_id', None)
+        val_preview_id = val
+
+        val = dictionary.get('task_id', None)
+        val_task_id = val
+
+        # Return an object of this model
+        return cls(
+            val_links,
+            val_preview_id,
+            val_task_id,
+        )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        model_instance.raw_response = response
+        return model_instance

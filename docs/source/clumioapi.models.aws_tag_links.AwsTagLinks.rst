@@ -31,9 +31,12 @@ clumioapi.models.aws\_tag\_links.AwsTagLinks
    
       ~AwsTagLinks.ProtectEntities
       ~AwsTagLinks.ReadAwsEnvironmentTagBackupStatusStats
+      ~AwsTagLinks.ReadAwsEnvironmentTagDocumentdbProtectionStats
       ~AwsTagLinks.ReadAwsEnvironmentTagDynamodbTablesProtectionStats
       ~AwsTagLinks.ReadAwsEnvironmentTagEbsVolumesProtectionStats
       ~AwsTagLinks.ReadAwsEnvironmentTagEc2InstancesProtectionStats
+      ~AwsTagLinks.ReadAwsEnvironmentTagIcebergS3TablesProtectionStats
+      ~AwsTagLinks.ReadAwsEnvironmentTagNeptuneProtectionStats
       ~AwsTagLinks.ReadAwsEnvironmentTagProtectionGroupsProtectionStats
       ~AwsTagLinks.ReadAwsEnvironmentTagRdsResourcesProtectionStats
       ~AwsTagLinks.ReadPolicyDefinition

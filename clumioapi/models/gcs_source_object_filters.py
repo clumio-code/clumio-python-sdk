@@ -1,0 +1,167 @@
+#
+# Copyright 2023. Clumio, A Commvault Company.
+#
+import dataclasses
+from typing import Any, ClassVar, Dict, Mapping, Optional, overload, Sequence, TypeVar
+
+from clumioapi import api_helper
+import requests
+
+T = TypeVar('T', bound='GCSSourceObjectFilters')
+
+
+@dataclasses.dataclass
+class GCSSourceObjectFilters:
+    """Implementation of the 'GCSSourceObjectFilters' model.
+
+    Search for or restore only objects that pass the source object filter.
+
+    Attributes:
+        Etag:
+            Filter for objects with this etag.
+
+        LatestVersionOnly:
+            If set to true, filter for latest versions only. otherwise, all versions will
+            be returned.
+
+        MaxObjectSizeBytes:
+            Filter for objects with at most this size in bytes.
+
+        MinObjectSizeBytes:
+            Filter for objects with at least this size in bytes.
+
+        ObjectKeyContains:
+            Filter for objects whose key contains this string.
+
+        ObjectKeyMatches:
+            Filter for objects whose key exactly equals this string.
+
+        ObjectKeyPrefix:
+            Filter for objects that start with this key prefix.
+
+        ObjectKeyRegexMatches:
+            Filter for objects whose key matches this re2 regular expression
+            as a full match. the backend wraps the pattern as `^()$`,
+            so you do not need to add anchors yourself.
+
+        ObjectKeySuffix:
+            Filter for objects that end with this key suffix.
+
+        StorageClasses:
+            `standard`, `nearline`, `coldline`, `archive`.
+
+        VersionId:
+            Filter for objects with this version id.
+
+    """
+
+    Etag: str | None = None
+    LatestVersionOnly: bool | None = None
+    MaxObjectSizeBytes: int | None = None
+    MinObjectSizeBytes: int | None = None
+    ObjectKeyContains: str | None = None
+    ObjectKeyMatches: str | None = None
+    ObjectKeyPrefix: str | None = None
+    ObjectKeyRegexMatches: str | None = None
+    ObjectKeySuffix: str | None = None
+    StorageClasses: Sequence[str] | None = None
+    VersionId: str | None = None
+
+    def dict(self) -> Dict[str, Any]:
+        """Returns the dictionary representation of the model."""
+        return api_helper.to_dictionary(self)
+
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Mapping[str, Any],
+    ) -> T: ...
+    @overload
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: None = None,
+    ) -> None: ...
+
+    @classmethod
+    def from_dictionary(
+        cls: type[T],
+        dictionary: Optional[Mapping[str, Any]] = None,
+    ) -> T | None:
+        """Creates an instance of this model from a dictionary
+
+        Args:
+            dictionary: A dictionary representation of the object as obtained
+                from the deserialization of the server's response. The keys
+                MUST match property names in the API description.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        if not dictionary:
+            return None
+        # Extract variables from the dictionary
+        val = dictionary.get('etag', None)
+        val_etag = val
+
+        val = dictionary.get('latest_version_only', None)
+        val_latest_version_only = val
+
+        val = dictionary.get('max_object_size_bytes', None)
+        val_max_object_size_bytes = val
+
+        val = dictionary.get('min_object_size_bytes', None)
+        val_min_object_size_bytes = val
+
+        val = dictionary.get('object_key_contains', None)
+        val_object_key_contains = val
+
+        val = dictionary.get('object_key_matches', None)
+        val_object_key_matches = val
+
+        val = dictionary.get('object_key_prefix', None)
+        val_object_key_prefix = val
+
+        val = dictionary.get('object_key_regex_matches', None)
+        val_object_key_regex_matches = val
+
+        val = dictionary.get('object_key_suffix', None)
+        val_object_key_suffix = val
+
+        val = dictionary.get('storage_classes', None)
+        val_storage_classes = val
+
+        val = dictionary.get('version_id', None)
+        val_version_id = val
+
+        # Return an object of this model
+        return cls(
+            val_etag,
+            val_latest_version_only,
+            val_max_object_size_bytes,
+            val_min_object_size_bytes,
+            val_object_key_contains,
+            val_object_key_matches,
+            val_object_key_prefix,
+            val_object_key_regex_matches,
+            val_object_key_suffix,
+            val_storage_classes,
+            val_version_id,
+        )
+
+    @classmethod
+    def from_response(
+        cls: type[T],
+        response: requests.Response,
+    ) -> T:
+        """Creates an instance of this model from a response object.
+
+        Args:
+            response: The response object from which the model is to be created.
+
+        Returns:
+            object: An instance of this structure class.
+        """
+        model_instance = cls.from_dictionary(response.json())
+        return model_instance

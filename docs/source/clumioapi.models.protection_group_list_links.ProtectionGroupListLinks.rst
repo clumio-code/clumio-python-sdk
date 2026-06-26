@@ -29,6 +29,7 @@ clumioapi.models.protection\_group\_list\_links.ProtectionGroupListLinks
 
    .. autosummary::
    
+      ~ProtectionGroupListLinks.CreateProtectionGroup
       ~ProtectionGroupListLinks.First
       ~ProtectionGroupListLinks.Last
       ~ProtectionGroupListLinks.Next

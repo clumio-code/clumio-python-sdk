@@ -29,6 +29,7 @@ clumioapi.models.protection\_group\_s3\_asset\_backup\_links.ProtectionGroupS3As
 
    .. autosummary::
    
+      ~ProtectionGroupS3AssetBackupLinks.RestoreProtectionGroupS3Asset
       ~ProtectionGroupS3AssetBackupLinks.Self
    
    
