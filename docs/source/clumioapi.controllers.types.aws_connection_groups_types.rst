@@ -20,6 +20,7 @@ clumioapi.controllers.types.aws\_connection\_groups\_types
       :template: custom-class-template.rst
    
       ListAwsConnectionGroupsV1FilterT
+      ListAwsConnectionGroupsV1FilterTypeDef
    
    
 

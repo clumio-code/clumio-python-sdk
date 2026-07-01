@@ -2,16 +2,13 @@
 # Copyright 2023. Clumio, A Commvault Company.
 #
 
-import json
 import re
-from typing import Any, Iterator, Optional, Union
+from typing import Any, Iterator
 import urllib.parse
 
 from clumioapi import api_helper
-from clumioapi import configuration
 from clumioapi import sdk_version
 from clumioapi.controllers import base_controller
-from clumioapi.controllers.types import aws_s3_buckets_v1_bucket_matcher_types
 from clumioapi.controllers.types import backup_aws_rds_resource_databases_types
 from clumioapi.exceptions import clumio_exception
 from clumioapi.models import list_rds_backup_databases_response
@@ -41,6 +38,7 @@ class BackupAwsRdsResourceDatabasesV1Controller:
         start: str | None = None,
         filter: (
             backup_aws_rds_resource_databases_types.ListBackupAwsRdsResourceDatabasesV1FilterT
+            | backup_aws_rds_resource_databases_types.ListBackupAwsRdsResourceDatabasesV1FilterTypeDef
             | None
         ) = None,
         **kwargs,
@@ -84,7 +82,10 @@ class BackupAwsRdsResourceDatabasesV1Controller:
         _query_parameters = {
             'limit': limit,
             'start': start,
-            'filter': filter.query_str if filter else None,
+            'filter': api_helper.to_filter_query_str(
+                filter,
+                backup_aws_rds_resource_databases_types.ListBackupAwsRdsResourceDatabasesV1FilterT,
+            ),
         }
 
         resp_instance: list_rds_backup_databases_response.ListRDSBackupDatabasesResponse
@@ -128,6 +129,7 @@ class BackupAwsRdsResourceDatabasesV1ControllerPaginator:
         start: str | None = None,
         filter: (
             backup_aws_rds_resource_databases_types.ListBackupAwsRdsResourceDatabasesV1FilterT
+            | backup_aws_rds_resource_databases_types.ListBackupAwsRdsResourceDatabasesV1FilterTypeDef
             | None
         ) = None,
         **kwargs,

@@ -2,16 +2,13 @@
 # Copyright 2023. Clumio, A Commvault Company.
 #
 
-import json
 import re
-from typing import Any, Iterator, Optional, Union
+from typing import Any, Iterator
 import urllib.parse
 
 from clumioapi import api_helper
-from clumioapi import configuration
 from clumioapi import sdk_version
 from clumioapi.controllers import base_controller
-from clumioapi.controllers.types import aws_s3_buckets_v1_bucket_matcher_types
 from clumioapi.controllers.types import backups_files_types
 from clumioapi.exceptions import clumio_exception
 from clumioapi.models import file_list_response
@@ -39,7 +36,11 @@ class BackupsFilesV1Controller:
         self,
         limit: int | None = None,
         start: str | None = None,
-        filter: backups_files_types.ListFilesV1FilterT | None = None,
+        filter: (
+            backups_files_types.ListFilesV1FilterT
+            | backups_files_types.ListFilesV1FilterTypeDef
+            | None
+        ) = None,
         **kwargs,
     ) -> file_search_response.FileSearchResponse:
         """Retrieve the list of files whose name matches a given regex pattern.
@@ -88,7 +89,9 @@ class BackupsFilesV1Controller:
         _query_parameters: dict[str, Any] = {}
         _query_parameters = {
             'limit': limit,
-            'filter': filter.query_str if filter else None,
+            'filter': api_helper.to_filter_query_str(
+                filter, backups_files_types.ListFilesV1FilterT
+            ),
         }
 
         resp_instance: file_search_response.FileSearchResponse
@@ -188,7 +191,11 @@ class BackupsFilesV1ControllerPaginator:
         self,
         limit: int | None = None,
         start: str | None = None,
-        filter: backups_files_types.ListFilesV1FilterT | None = None,
+        filter: (
+            backups_files_types.ListFilesV1FilterT
+            | backups_files_types.ListFilesV1FilterTypeDef
+            | None
+        ) = None,
         **kwargs,
     ) -> Iterator[file_search_response.FileSearchResponse]:
         """Retrieve the list of files whose name matches a given regex pattern.

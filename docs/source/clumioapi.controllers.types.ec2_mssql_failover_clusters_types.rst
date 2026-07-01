@@ -21,6 +21,7 @@ clumioapi.controllers.types.ec2\_mssql\_failover\_clusters\_types
    
       ListEc2MssqlFailoverClustersProtectionInfoV1T
       ListEc2MssqlFailoverClustersV1FilterT
+      ListEc2MssqlFailoverClustersV1FilterTypeDef
    
    
 

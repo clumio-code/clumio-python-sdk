@@ -1,0 +1,31 @@
+clumioapi.models.export\_protection\_group\_s3\_asset\_threat\_report\_v1\_request
+==================================================================================
+
+.. automodule:: clumioapi.models.export_protection_group_s3_asset_threat_report_v1_request
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree:
+      :template: custom-class-template.rst
+   
+      ExportProtectionGroupS3AssetThreatReportV1Request
+   
+   
+
+   
+   
+   
+
+
+

@@ -2,16 +2,13 @@
 # Copyright 2023. Clumio, A Commvault Company.
 #
 
-import json
 import re
-from typing import Any, Iterator, Optional, Union
+from typing import Any, Iterator
 import urllib.parse
 
 from clumioapi import api_helper
-from clumioapi import configuration
 from clumioapi import sdk_version
 from clumioapi.controllers import base_controller
-from clumioapi.controllers.types import aws_s3_buckets_v1_bucket_matcher_types
 from clumioapi.controllers.types import ec2_mssql_databases_types
 from clumioapi.exceptions import clumio_exception
 from clumioapi.models import list_ec2_mssql_database_pitr_intervals_response
@@ -40,7 +37,11 @@ class Ec2MssqlDatabasesV1Controller:
         self,
         limit: int | None = None,
         start: str | None = None,
-        filter: ec2_mssql_databases_types.ListEc2MssqlDatabasesV1FilterT | None = None,
+        filter: (
+            ec2_mssql_databases_types.ListEc2MssqlDatabasesV1FilterT
+            | ec2_mssql_databases_types.ListEc2MssqlDatabasesV1FilterTypeDef
+            | None
+        ) = None,
         embed: str | None = None,
         lookback_days: int | None = None,
         **kwargs,
@@ -155,7 +156,9 @@ class Ec2MssqlDatabasesV1Controller:
         _query_parameters = {
             'limit': limit,
             'start': start,
-            'filter': filter.query_str if filter else None,
+            'filter': api_helper.to_filter_query_str(
+                filter, ec2_mssql_databases_types.ListEc2MssqlDatabasesV1FilterT
+            ),
             'embed': embed,
             'lookback_days': lookback_days,
         }
@@ -235,7 +238,11 @@ class Ec2MssqlDatabasesV1Controller:
         database_id: str | None = None,
         limit: int | None = None,
         start: str | None = None,
-        filter: ec2_mssql_databases_types.ListEc2MssqlDatabasePitrIntervalsV1FilterT | None = None,
+        filter: (
+            ec2_mssql_databases_types.ListEc2MssqlDatabasePitrIntervalsV1FilterT
+            | ec2_mssql_databases_types.ListEc2MssqlDatabasePitrIntervalsV1FilterTypeDef
+            | None
+        ) = None,
         **kwargs,
     ) -> list_ec2_mssql_database_pitr_intervals_response.ListEC2MssqlDatabasePitrIntervalsResponse:
         """Returns a list of time intervals (start timestamp and end timestamp) in which
@@ -283,7 +290,9 @@ class Ec2MssqlDatabasesV1Controller:
         _query_parameters: dict[str, Any] = {}
         _query_parameters = {
             'limit': limit,
-            'filter': filter.query_str if filter else None,
+            'filter': api_helper.to_filter_query_str(
+                filter, ec2_mssql_databases_types.ListEc2MssqlDatabasePitrIntervalsV1FilterT
+            ),
         }
 
         resp_instance: (
@@ -326,7 +335,11 @@ class Ec2MssqlDatabasesV1ControllerPaginator:
         self,
         limit: int | None = None,
         start: str | None = None,
-        filter: ec2_mssql_databases_types.ListEc2MssqlDatabasesV1FilterT | None = None,
+        filter: (
+            ec2_mssql_databases_types.ListEc2MssqlDatabasesV1FilterT
+            | ec2_mssql_databases_types.ListEc2MssqlDatabasesV1FilterTypeDef
+            | None
+        ) = None,
         embed: str | None = None,
         lookback_days: int | None = None,
         **kwargs,
@@ -460,7 +473,11 @@ class Ec2MssqlDatabasesV1ControllerPaginator:
         database_id: str | None = None,
         limit: int | None = None,
         start: str | None = None,
-        filter: ec2_mssql_databases_types.ListEc2MssqlDatabasePitrIntervalsV1FilterT | None = None,
+        filter: (
+            ec2_mssql_databases_types.ListEc2MssqlDatabasePitrIntervalsV1FilterT
+            | ec2_mssql_databases_types.ListEc2MssqlDatabasePitrIntervalsV1FilterTypeDef
+            | None
+        ) = None,
         **kwargs,
     ) -> Iterator[
         list_ec2_mssql_database_pitr_intervals_response.ListEC2MssqlDatabasePitrIntervalsResponse

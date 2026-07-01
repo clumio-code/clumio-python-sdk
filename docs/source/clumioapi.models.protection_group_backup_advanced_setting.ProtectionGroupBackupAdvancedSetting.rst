@@ -31,5 +31,6 @@ clumioapi.models.protection\_group\_backup\_advanced\_setting.ProtectionGroupBac
    
       ~ProtectionGroupBackupAdvancedSetting.BackupTier
       ~ProtectionGroupBackupAdvancedSetting.MalwareScan
+      ~ProtectionGroupBackupAdvancedSetting.ThreatScan
    
    

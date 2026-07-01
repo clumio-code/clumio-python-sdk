@@ -20,6 +20,7 @@ clumioapi.controllers.types.report\_downloads\_types
       :template: custom-class-template.rst
    
       ListReportDownloadsV1FilterT
+      ListReportDownloadsV1FilterTypeDef
    
    
 

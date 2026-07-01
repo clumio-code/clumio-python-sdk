@@ -2,16 +2,13 @@
 # Copyright 2023. Clumio, A Commvault Company.
 #
 
-import json
 import re
-from typing import Any, Iterator, Optional, Union
+from typing import Any, Iterator
 import urllib.parse
 
 from clumioapi import api_helper
-from clumioapi import configuration
 from clumioapi import sdk_version
 from clumioapi.controllers import base_controller
-from clumioapi.controllers.types import aws_s3_buckets_v1_bucket_matcher_types
 from clumioapi.controllers.types import backup_aws_ec2_instances_types
 from clumioapi.exceptions import clumio_exception
 from clumioapi.models import create_backup_aws_ec2_instance_v1_request
@@ -42,7 +39,11 @@ class BackupAwsEc2InstancesV1Controller:
         limit: int | None = None,
         start: str | None = None,
         sort: str | None = None,
-        filter: backup_aws_ec2_instances_types.ListBackupAwsEc2InstancesV1FilterT | None = None,
+        filter: (
+            backup_aws_ec2_instances_types.ListBackupAwsEc2InstancesV1FilterT
+            | backup_aws_ec2_instances_types.ListBackupAwsEc2InstancesV1FilterTypeDef
+            | None
+        ) = None,
         **kwargs,
     ) -> list_ec2_backups_response.ListEC2BackupsResponse:
         """Returns a list of EC2 instances that have been backed up by Clumio. EC2 instance
@@ -106,7 +107,9 @@ class BackupAwsEc2InstancesV1Controller:
             'limit': limit,
             'start': start,
             'sort': sort,
-            'filter': filter.query_str if filter else None,
+            'filter': api_helper.to_filter_query_str(
+                filter, backup_aws_ec2_instances_types.ListBackupAwsEc2InstancesV1FilterT
+            ),
         }
 
         resp_instance: list_ec2_backups_response.ListEC2BackupsResponse
@@ -260,7 +263,11 @@ class BackupAwsEc2InstancesV1ControllerPaginator:
         limit: int | None = None,
         start: str | None = None,
         sort: str | None = None,
-        filter: backup_aws_ec2_instances_types.ListBackupAwsEc2InstancesV1FilterT | None = None,
+        filter: (
+            backup_aws_ec2_instances_types.ListBackupAwsEc2InstancesV1FilterT
+            | backup_aws_ec2_instances_types.ListBackupAwsEc2InstancesV1FilterTypeDef
+            | None
+        ) = None,
         **kwargs,
     ) -> Iterator[list_ec2_backups_response.ListEC2BackupsResponse]:
         """Returns a list of EC2 instances that have been backed up by Clumio. EC2 instance

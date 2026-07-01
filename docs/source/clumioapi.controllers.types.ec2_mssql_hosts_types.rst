@@ -21,6 +21,7 @@ clumioapi.controllers.types.ec2\_mssql\_hosts\_types
    
       ListEc2MssqlHostsProtectionInfoV1T
       ListEc2MssqlHostsV1FilterT
+      ListEc2MssqlHostsV1FilterTypeDef
    
    
 

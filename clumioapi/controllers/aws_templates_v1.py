@@ -2,22 +2,16 @@
 # Copyright 2023. Clumio, A Commvault Company.
 #
 
-import json
-import re
-from typing import Any, Iterator, Optional, Union
+from typing import Any
 import urllib.parse
 
-from clumioapi import api_helper
-from clumioapi import configuration
 from clumioapi import sdk_version
 from clumioapi.controllers import base_controller
-from clumioapi.controllers.types import aws_s3_buckets_v1_bucket_matcher_types
 from clumioapi.exceptions import clumio_exception
 from clumioapi.models import create_aws_template_v2_response
 from clumioapi.models import create_connection_template_v1_request
 from clumioapi.models import read_aws_templates_v2_response
 import requests
-import retrying
 
 
 class AwsTemplatesV1Controller:

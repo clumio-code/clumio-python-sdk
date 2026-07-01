@@ -21,6 +21,7 @@ clumioapi.controllers.types.gcp\_protection\_groups\_types
    
       ListGcpProtectionGroupsProtectionInfoV1T
       ListGcpProtectionGroupsV1FilterT
+      ListGcpProtectionGroupsV1FilterTypeDef
    
    
 

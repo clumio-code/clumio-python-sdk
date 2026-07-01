@@ -2,17 +2,14 @@
 # Copyright 2023. Clumio, A Commvault Company.
 #
 
-import json
 import re
-from typing import Any, Iterator, Optional, Union
+from typing import Any, Iterator
 import urllib.parse
 
 from clumioapi import api_helper
-from clumioapi import configuration
 from clumioapi import sdk_version
 from clumioapi.controllers import base_controller
 from clumioapi.controllers.types import audit_trails_types
-from clumioapi.controllers.types import aws_s3_buckets_v1_bucket_matcher_types
 from clumioapi.exceptions import clumio_exception
 from clumioapi.models import list_audit_trails_response
 import requests
@@ -38,7 +35,11 @@ class AuditTrailsV1Controller:
         self,
         limit: int | None = None,
         start: str | None = None,
-        filter: audit_trails_types.ListAuditTrailsV1FilterT | None = None,
+        filter: (
+            audit_trails_types.ListAuditTrailsV1FilterT
+            | audit_trails_types.ListAuditTrailsV1FilterTypeDef
+            | None
+        ) = None,
         **kwargs,
     ) -> list_audit_trails_response.ListAuditTrailsResponse:
         """Returns a list of audit trails.
@@ -91,8 +92,7 @@ class AuditTrailsV1Controller:
                 |                        |                  | cloud_connector,                 |
                 |                        |                  | cloudformation_template,         |
                 |                        |                  | bandwidth_config,                |
-                |                        |                  | partner_ecosystem, and           |
-                |                        |                  | ecosystem_changes.               |
+                |                        |                  | partner_ecosystem.               |
                 |                        |                  | For example,                     |
                 |                        |                  |                                  |
                 |                        |                  | filter={"category":{"$in":["poli |
@@ -249,7 +249,9 @@ class AuditTrailsV1Controller:
         _query_parameters = {
             'limit': limit,
             'start': start,
-            'filter': filter.query_str if filter else None,
+            'filter': api_helper.to_filter_query_str(
+                filter, audit_trails_types.ListAuditTrailsV1FilterT
+            ),
         }
 
         resp_instance: list_audit_trails_response.ListAuditTrailsResponse
@@ -290,7 +292,11 @@ class AuditTrailsV1ControllerPaginator:
         self,
         limit: int | None = None,
         start: str | None = None,
-        filter: audit_trails_types.ListAuditTrailsV1FilterT | None = None,
+        filter: (
+            audit_trails_types.ListAuditTrailsV1FilterT
+            | audit_trails_types.ListAuditTrailsV1FilterTypeDef
+            | None
+        ) = None,
         **kwargs,
     ) -> Iterator[list_audit_trails_response.ListAuditTrailsResponse]:
         """Returns a list of audit trails.
@@ -343,8 +349,7 @@ class AuditTrailsV1ControllerPaginator:
                 |                        |                  | cloud_connector,                 |
                 |                        |                  | cloudformation_template,         |
                 |                        |                  | bandwidth_config,                |
-                |                        |                  | partner_ecosystem, and           |
-                |                        |                  | ecosystem_changes.               |
+                |                        |                  | partner_ecosystem.               |
                 |                        |                  | For example,                     |
                 |                        |                  |                                  |
                 |                        |                  | filter={"category":{"$in":["poli |

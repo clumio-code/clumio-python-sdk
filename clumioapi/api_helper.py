@@ -3,7 +3,6 @@
 #
 
 import dataclasses
-import enum
 import json
 import re
 from typing import Any, Dict, Mapping
@@ -82,6 +81,38 @@ def camel_to_snake(name: str) -> str:
     name = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', name)
     name = re.sub('([a-z0-9])([A-Z])', r'\1_\2', name).lower()
     return name.replace('__', '_')
+
+
+def to_filter_query_str(filter: Any, filter_cls: Any = None) -> str | None:
+    """Serialize a controller ``filter`` argument into the API query string.
+
+    Accepts three forms:
+
+    * a ``...FilterT`` pydantic object (exposes a ``query_str`` property);
+    * a plain dict copied straight from the API reference, matching the API JSON
+      1:1 (snake_case / dotted keys, ``$``-prefixed operators), serialized as-is;
+    * a legacy dict keyed by ``filter_cls``'s PascalCase field names, coerced
+      through ``filter_cls`` for backward compatibility.
+    """
+    if not filter:
+        return None
+    if hasattr(filter, 'query_str'):
+        return filter.query_str
+    if filter_cls is not None and _is_legacy_filter_dict(filter, filter_cls):
+        return filter_cls(**filter).query_str
+    return json.dumps(filter, separators=(',', ':'))
+
+
+def _is_legacy_filter_dict(filter: dict, filter_cls: Any) -> bool:
+    """Whether ``filter`` is keyed by ``filter_cls``'s pydantic field names.
+
+    Legacy callers passed dicts keyed by the model's PascalCase field names; the
+    plain-dict surface uses the snake_case / dotted API field names. The two key
+    sets never overlap, so membership in ``model_fields`` cleanly identifies the
+    old form (and coerces it through the model to preserve its serialization).
+    """
+    fields = filter_cls.model_fields
+    return all(key in fields for key in filter)
 
 
 def to_dictionary(value: Any) -> Any:

@@ -20,7 +20,9 @@ clumioapi.controllers.types.backup\_aws\_ebs\_volumes\_types
       :template: custom-class-template.rst
    
       ListBackupAwsEbsVolumesV1FilterT
+      ListBackupAwsEbsVolumesV1FilterTypeDef
       ListBackupAwsEbsVolumesV2FilterT
+      ListBackupAwsEbsVolumesV2FilterTypeDef
    
    
 

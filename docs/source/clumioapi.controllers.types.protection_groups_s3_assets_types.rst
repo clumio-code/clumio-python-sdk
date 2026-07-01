@@ -20,8 +20,10 @@ clumioapi.controllers.types.protection\_groups\_s3\_assets\_types
       :template: custom-class-template.rst
    
       ListProtectionGroupS3AssetPitrIntervalsV1FilterT
+      ListProtectionGroupS3AssetPitrIntervalsV1FilterTypeDef
       ListProtectionGroupS3AssetsProtectionInfoV1T
       ListProtectionGroupS3AssetsV1FilterT
+      ListProtectionGroupS3AssetsV1FilterTypeDef
    
    
 

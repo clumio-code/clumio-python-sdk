@@ -2,16 +2,13 @@
 # Copyright 2023. Clumio, A Commvault Company.
 #
 
-import json
 import re
-from typing import Any, Iterator, Optional, Union
+from typing import Any, Iterator
 import urllib.parse
 
 from clumioapi import api_helper
-from clumioapi import configuration
 from clumioapi import sdk_version
 from clumioapi.controllers import base_controller
-from clumioapi.controllers.types import aws_s3_buckets_v1_bucket_matcher_types
 from clumioapi.controllers.types import consolidated_alerts_types
 from clumioapi.exceptions import clumio_exception
 from clumioapi.models import list_consolidated_alerts_response
@@ -42,7 +39,11 @@ class ConsolidatedAlertsV1Controller:
         limit: int | None = None,
         start: str | None = None,
         sort: str | None = None,
-        filter: consolidated_alerts_types.ListConsolidatedAlertsV1FilterT | None = None,
+        filter: (
+            consolidated_alerts_types.ListConsolidatedAlertsV1FilterT
+            | consolidated_alerts_types.ListConsolidatedAlertsV1FilterTypeDef
+            | None
+        ) = None,
         **kwargs,
     ) -> list_consolidated_alerts_response.ListConsolidatedAlertsResponse:
         """Returns a list of consolidated alerts.
@@ -149,7 +150,9 @@ class ConsolidatedAlertsV1Controller:
             'limit': limit,
             'start': start,
             'sort': sort,
-            'filter': filter.query_str if filter else None,
+            'filter': api_helper.to_filter_query_str(
+                filter, consolidated_alerts_types.ListConsolidatedAlertsV1FilterT
+            ),
         }
 
         resp_instance: list_consolidated_alerts_response.ListConsolidatedAlertsResponse
@@ -286,7 +289,11 @@ class ConsolidatedAlertsV1ControllerPaginator:
         limit: int | None = None,
         start: str | None = None,
         sort: str | None = None,
-        filter: consolidated_alerts_types.ListConsolidatedAlertsV1FilterT | None = None,
+        filter: (
+            consolidated_alerts_types.ListConsolidatedAlertsV1FilterT
+            | consolidated_alerts_types.ListConsolidatedAlertsV1FilterTypeDef
+            | None
+        ) = None,
         **kwargs,
     ) -> Iterator[list_consolidated_alerts_response.ListConsolidatedAlertsResponse]:
         """Returns a list of consolidated alerts.

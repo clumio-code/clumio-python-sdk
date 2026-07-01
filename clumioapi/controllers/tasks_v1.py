@@ -2,16 +2,13 @@
 # Copyright 2023. Clumio, A Commvault Company.
 #
 
-import json
 import re
-from typing import Any, Iterator, Optional, Union
+from typing import Any, Iterator
 import urllib.parse
 
 from clumioapi import api_helper
-from clumioapi import configuration
 from clumioapi import sdk_version
 from clumioapi.controllers import base_controller
-from clumioapi.controllers.types import aws_s3_buckets_v1_bucket_matcher_types
 from clumioapi.controllers.types import tasks_types
 from clumioapi.exceptions import clumio_exception
 from clumioapi.models import list_tasks_response
@@ -41,7 +38,7 @@ class TasksV1Controller:
         self,
         limit: int | None = None,
         start: str | None = None,
-        filter: tasks_types.ListTasksV1FilterT | None = None,
+        filter: tasks_types.ListTasksV1FilterT | tasks_types.ListTasksV1FilterTypeDef | None = None,
         **kwargs,
     ) -> list_tasks_response.ListTasksResponse:
         """Returns a list of tasks. Tasks include scheduled backup and on-demand restore
@@ -212,7 +209,7 @@ class TasksV1Controller:
         _query_parameters = {
             'limit': limit,
             'start': start,
-            'filter': filter.query_str if filter else None,
+            'filter': api_helper.to_filter_query_str(filter, tasks_types.ListTasksV1FilterT),
         }
 
         resp_instance: list_tasks_response.ListTasksResponse
@@ -342,7 +339,7 @@ class TasksV1ControllerPaginator:
         self,
         limit: int | None = None,
         start: str | None = None,
-        filter: tasks_types.ListTasksV1FilterT | None = None,
+        filter: tasks_types.ListTasksV1FilterT | tasks_types.ListTasksV1FilterTypeDef | None = None,
         **kwargs,
     ) -> Iterator[list_tasks_response.ListTasksResponse]:
         """Returns a list of tasks. Tasks include scheduled backup and on-demand restore

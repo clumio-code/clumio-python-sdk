@@ -20,6 +20,7 @@ clumioapi.controllers.types.backup\_aws\_dynamodb\_tables\_types
       :template: custom-class-template.rst
    
       ListBackupAwsDynamodbTablesV1FilterT
+      ListBackupAwsDynamodbTablesV1FilterTypeDef
    
    
 

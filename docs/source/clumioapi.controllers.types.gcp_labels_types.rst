@@ -20,7 +20,9 @@ clumioapi.controllers.types.gcp\_labels\_types
       :template: custom-class-template.rst
    
       ListGcpLabelKeysV1FilterT
+      ListGcpLabelKeysV1FilterTypeDef
       ListGcpLabelValuesV1FilterT
+      ListGcpLabelValuesV1FilterTypeDef
    
    
 

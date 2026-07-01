@@ -20,7 +20,9 @@ clumioapi.controllers.types.users\_types
       :template: custom-class-template.rst
    
       ListUsersV1FilterT
+      ListUsersV1FilterTypeDef
       ListUsersV2FilterT
+      ListUsersV2FilterTypeDef
    
    
 

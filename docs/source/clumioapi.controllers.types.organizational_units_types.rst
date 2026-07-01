@@ -20,7 +20,9 @@ clumioapi.controllers.types.organizational\_units\_types
       :template: custom-class-template.rst
    
       ListOrganizationalUnitsV1FilterT
+      ListOrganizationalUnitsV1FilterTypeDef
       ListOrganizationalUnitsV2FilterT
+      ListOrganizationalUnitsV2FilterTypeDef
    
    
 

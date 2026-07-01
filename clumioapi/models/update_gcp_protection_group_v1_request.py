@@ -2,7 +2,7 @@
 # Copyright 2023. Clumio, A Commvault Company.
 #
 import dataclasses
-from typing import Any, ClassVar, Dict, Mapping, Optional, overload, Sequence, TypeVar
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
 from clumioapi import api_helper
 from clumioapi.models import gcp_bucket_rule_model as gcp_bucket_rule_model_
@@ -63,10 +63,7 @@ class UpdateGcpProtectionGroupV1Request:
             A list of bucket uuids to remove from this protection group.
 
         StorageClasses:
-            Storage classes to include in the backup. part of the put-style filter
-            group (see model docs); an empty array is rejected. omitting the field
-            leaves the filter unchanged unless another group field is present, in which
-            case the storage-class filter resets to all storage classes.
+            `standard`, `nearline`, `coldline`, `archive`.
 
         UpdatedAfter:
             Only back up objects created after this timestamp (rfc-3339). part of the

@@ -20,6 +20,7 @@ clumioapi.controllers.types.gcp\_gcs\_buckets\_types
       :template: custom-class-template.rst
    
       ListGcpGcsBucketsV1FilterT
+      ListGcpGcsBucketsV1FilterTypeDef
    
    
 

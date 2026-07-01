@@ -2,16 +2,13 @@
 # Copyright 2023. Clumio, A Commvault Company.
 #
 
-import json
 import re
-from typing import Any, Iterator, Optional, Union
+from typing import Any, Iterator
 import urllib.parse
 
 from clumioapi import api_helper
-from clumioapi import configuration
 from clumioapi import sdk_version
 from clumioapi.controllers import base_controller
-from clumioapi.controllers.types import aws_s3_buckets_v1_bucket_matcher_types
 from clumioapi.controllers.types import backup_aws_ebs_volumes_types
 from clumioapi.exceptions import clumio_exception
 from clumioapi.models import create_backup_aws_ebs_volume_v2_request
@@ -42,7 +39,11 @@ class BackupAwsEbsVolumesV2Controller:
         limit: int | None = None,
         start: str | None = None,
         sort: str | None = None,
-        filter: backup_aws_ebs_volumes_types.ListBackupAwsEbsVolumesV2FilterT | None = None,
+        filter: (
+            backup_aws_ebs_volumes_types.ListBackupAwsEbsVolumesV2FilterT
+            | backup_aws_ebs_volumes_types.ListBackupAwsEbsVolumesV2FilterTypeDef
+            | None
+        ) = None,
         **kwargs,
     ) -> list_ebs_backups_response.ListEBSBackupsResponse:
         """Returns a list of EBS volumes that have been backed up by Clumio. EBS volume
@@ -106,7 +107,9 @@ class BackupAwsEbsVolumesV2Controller:
             'limit': limit,
             'start': start,
             'sort': sort,
-            'filter': filter.query_str if filter else None,
+            'filter': api_helper.to_filter_query_str(
+                filter, backup_aws_ebs_volumes_types.ListBackupAwsEbsVolumesV2FilterT
+            ),
         }
 
         resp_instance: list_ebs_backups_response.ListEBSBackupsResponse
@@ -260,7 +263,11 @@ class BackupAwsEbsVolumesV2ControllerPaginator:
         limit: int | None = None,
         start: str | None = None,
         sort: str | None = None,
-        filter: backup_aws_ebs_volumes_types.ListBackupAwsEbsVolumesV2FilterT | None = None,
+        filter: (
+            backup_aws_ebs_volumes_types.ListBackupAwsEbsVolumesV2FilterT
+            | backup_aws_ebs_volumes_types.ListBackupAwsEbsVolumesV2FilterTypeDef
+            | None
+        ) = None,
         **kwargs,
     ) -> Iterator[list_ebs_backups_response.ListEBSBackupsResponse]:
         """Returns a list of EBS volumes that have been backed up by Clumio. EBS volume

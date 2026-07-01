@@ -21,6 +21,7 @@ clumioapi.controllers.types.ec2\_mssql\_instance\_types
    
       ListEc2MssqlInstancesProtectionInfoV1T
       ListEc2MssqlInstancesV1FilterT
+      ListEc2MssqlInstancesV1FilterTypeDef
    
    
 

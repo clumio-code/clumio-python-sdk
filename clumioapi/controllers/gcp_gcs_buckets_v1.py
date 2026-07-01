@@ -2,16 +2,13 @@
 # Copyright 2023. Clumio, A Commvault Company.
 #
 
-import json
 import re
-from typing import Any, Iterator, Optional, Union
+from typing import Any, Iterator
 import urllib.parse
 
 from clumioapi import api_helper
-from clumioapi import configuration
 from clumioapi import sdk_version
 from clumioapi.controllers import base_controller
-from clumioapi.controllers.types import aws_s3_buckets_v1_bucket_matcher_types
 from clumioapi.controllers.types import gcp_gcs_buckets_types
 from clumioapi.exceptions import clumio_exception
 from clumioapi.models import list_gcs_buckets_response
@@ -39,7 +36,11 @@ class GcpGcsBucketsV1Controller:
         self,
         limit: int | None = None,
         start: str | None = None,
-        filter: gcp_gcs_buckets_types.ListGcpGcsBucketsV1FilterT | None = None,
+        filter: (
+            gcp_gcs_buckets_types.ListGcpGcsBucketsV1FilterT
+            | gcp_gcs_buckets_types.ListGcpGcsBucketsV1FilterTypeDef
+            | None
+        ) = None,
         bucket_matcher: str | None = None,
         **kwargs,
     ) -> list_gcs_buckets_response.ListGCSBucketsResponse:
@@ -96,7 +97,9 @@ class GcpGcsBucketsV1Controller:
         _query_parameters = {
             'limit': limit,
             'start': start,
-            'filter': filter.query_str if filter else None,
+            'filter': api_helper.to_filter_query_str(
+                filter, gcp_gcs_buckets_types.ListGcpGcsBucketsV1FilterT
+            ),
             'bucket_matcher': bucket_matcher,
         }
 
@@ -181,7 +184,11 @@ class GcpGcsBucketsV1ControllerPaginator:
         self,
         limit: int | None = None,
         start: str | None = None,
-        filter: gcp_gcs_buckets_types.ListGcpGcsBucketsV1FilterT | None = None,
+        filter: (
+            gcp_gcs_buckets_types.ListGcpGcsBucketsV1FilterT
+            | gcp_gcs_buckets_types.ListGcpGcsBucketsV1FilterTypeDef
+            | None
+        ) = None,
         bucket_matcher: str | None = None,
         **kwargs,
     ) -> Iterator[list_gcs_buckets_response.ListGCSBucketsResponse]:

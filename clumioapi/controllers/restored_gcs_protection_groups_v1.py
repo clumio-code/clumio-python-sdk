@@ -2,16 +2,12 @@
 # Copyright 2023. Clumio, A Commvault Company.
 #
 
-import json
-import re
-from typing import Any, Iterator, Optional, Union
+from typing import Any
 import urllib.parse
 
 from clumioapi import api_helper
-from clumioapi import configuration
 from clumioapi import sdk_version
 from clumioapi.controllers import base_controller
-from clumioapi.controllers.types import aws_s3_buckets_v1_bucket_matcher_types
 from clumioapi.exceptions import clumio_exception
 from clumioapi.models import preview_details_gcs_protection_group_response
 from clumioapi.models import preview_gcs_protection_group_async_response
@@ -21,7 +17,6 @@ from clumioapi.models import restore_gcs_protection_group_objects_v1_request
 from clumioapi.models import restore_gcs_protection_group_response
 from clumioapi.models import restore_gcs_protection_group_v1_request
 import requests
-import retrying
 
 
 class RestoredGcsProtectionGroupsV1Controller:

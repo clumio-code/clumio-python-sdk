@@ -2,16 +2,13 @@
 # Copyright 2023. Clumio, A Commvault Company.
 #
 
-import json
 import re
-from typing import Any, Iterator, Optional, Union
+from typing import Any, Iterator
 import urllib.parse
 
 from clumioapi import api_helper
-from clumioapi import configuration
 from clumioapi import sdk_version
 from clumioapi.controllers import base_controller
-from clumioapi.controllers.types import aws_s3_buckets_v1_bucket_matcher_types
 from clumioapi.controllers.types import gcp_gcs_assets_types
 from clumioapi.exceptions import clumio_exception
 from clumioapi.models import list_gcpgcs_asset_pitr_intervals_response
@@ -41,7 +38,11 @@ class GcpGcsAssetsV1Controller:
         self,
         limit: int | None = None,
         start: str | None = None,
-        filter: gcp_gcs_assets_types.ListGcpGcsAssetsV1FilterT | None = None,
+        filter: (
+            gcp_gcs_assets_types.ListGcpGcsAssetsV1FilterT
+            | gcp_gcs_assets_types.ListGcpGcsAssetsV1FilterTypeDef
+            | None
+        ) = None,
         embed: str | None = None,
         **kwargs,
     ) -> list_gcpgcs_assets_response.ListGCPGCSAssetsResponse:
@@ -109,7 +110,9 @@ class GcpGcsAssetsV1Controller:
         _query_parameters = {
             'limit': limit,
             'start': start,
-            'filter': filter.query_str if filter else None,
+            'filter': api_helper.to_filter_query_str(
+                filter, gcp_gcs_assets_types.ListGcpGcsAssetsV1FilterT
+            ),
             'embed': embed,
         }
 
@@ -272,7 +275,11 @@ class GcpGcsAssetsV1Controller:
         gcs_asset_id: str | None = None,
         limit: int | None = None,
         start: str | None = None,
-        filter: gcp_gcs_assets_types.ListGcpGcsAssetPitrIntervalsV1FilterT | None = None,
+        filter: (
+            gcp_gcs_assets_types.ListGcpGcsAssetPitrIntervalsV1FilterT
+            | gcp_gcs_assets_types.ListGcpGcsAssetPitrIntervalsV1FilterTypeDef
+            | None
+        ) = None,
         **kwargs,
     ) -> list_gcpgcs_asset_pitr_intervals_response.ListGCPGCSAssetPitrIntervalsResponse:
         """Returns a list of time intervals (start timestamp and end timestamp) in which
@@ -320,7 +327,9 @@ class GcpGcsAssetsV1Controller:
         _query_parameters: dict[str, Any] = {}
         _query_parameters = {
             'limit': limit,
-            'filter': filter.query_str if filter else None,
+            'filter': api_helper.to_filter_query_str(
+                filter, gcp_gcs_assets_types.ListGcpGcsAssetPitrIntervalsV1FilterT
+            ),
         }
 
         resp_instance: (
@@ -363,7 +372,11 @@ class GcpGcsAssetsV1ControllerPaginator:
         self,
         limit: int | None = None,
         start: str | None = None,
-        filter: gcp_gcs_assets_types.ListGcpGcsAssetsV1FilterT | None = None,
+        filter: (
+            gcp_gcs_assets_types.ListGcpGcsAssetsV1FilterT
+            | gcp_gcs_assets_types.ListGcpGcsAssetsV1FilterTypeDef
+            | None
+        ) = None,
         embed: str | None = None,
         **kwargs,
     ) -> Iterator[list_gcpgcs_assets_response.ListGCPGCSAssetsResponse]:
@@ -447,7 +460,11 @@ class GcpGcsAssetsV1ControllerPaginator:
         gcs_asset_id: str | None = None,
         limit: int | None = None,
         start: str | None = None,
-        filter: gcp_gcs_assets_types.ListGcpGcsAssetPitrIntervalsV1FilterT | None = None,
+        filter: (
+            gcp_gcs_assets_types.ListGcpGcsAssetPitrIntervalsV1FilterT
+            | gcp_gcs_assets_types.ListGcpGcsAssetPitrIntervalsV1FilterTypeDef
+            | None
+        ) = None,
         **kwargs,
     ) -> Iterator[list_gcpgcs_asset_pitr_intervals_response.ListGCPGCSAssetPitrIntervalsResponse]:
         """Returns a list of time intervals (start timestamp and end timestamp) in which

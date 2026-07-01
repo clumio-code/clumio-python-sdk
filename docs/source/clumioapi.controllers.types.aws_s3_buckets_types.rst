@@ -21,6 +21,7 @@ clumioapi.controllers.types.aws\_s3\_buckets\_types
    
       ListAwsS3BucketsTagsV1T
       ListAwsS3BucketsV1FilterT
+      ListAwsS3BucketsV1FilterTypeDef
    
    
 

@@ -18,6 +18,7 @@ clumioapi.controllers.backup\_protection\_groups\_v1.BackupProtectionGroupsV1Con
    
       ~BackupProtectionGroupsV1Controller.__init__
       ~BackupProtectionGroupsV1Controller.export_protection_group_s3_asset_malware_report
+      ~BackupProtectionGroupsV1Controller.export_protection_group_s3_asset_threat_report
       ~BackupProtectionGroupsV1Controller.list_backup_protection_group_s3_assets
       ~BackupProtectionGroupsV1Controller.list_backup_protection_groups
       ~BackupProtectionGroupsV1Controller.read_backup_protection_group

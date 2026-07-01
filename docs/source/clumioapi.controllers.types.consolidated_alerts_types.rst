@@ -21,6 +21,7 @@ clumioapi.controllers.types.consolidated\_alerts\_types
    
       ListConsolidatedAlertsParentEntityV1T
       ListConsolidatedAlertsV1FilterT
+      ListConsolidatedAlertsV1FilterTypeDef
    
    
 

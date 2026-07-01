@@ -20,7 +20,9 @@ clumioapi.controllers.types.backup\_protection\_groups\_types
       :template: custom-class-template.rst
    
       ListBackupProtectionGroupS3AssetsV1FilterT
+      ListBackupProtectionGroupS3AssetsV1FilterTypeDef
       ListBackupProtectionGroupsV1FilterT
+      ListBackupProtectionGroupsV1FilterTypeDef
    
    
 

@@ -20,6 +20,7 @@ clumioapi.controllers.types.gcp\_connections\_types
       :template: custom-class-template.rst
    
       ListGcpConnectionsV1FilterT
+      ListGcpConnectionsV1FilterTypeDef
    
    
 

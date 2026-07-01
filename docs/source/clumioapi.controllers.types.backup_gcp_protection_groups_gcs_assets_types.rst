@@ -20,6 +20,7 @@ clumioapi.controllers.types.backup\_gcp\_protection\_groups\_gcs\_assets\_types
       :template: custom-class-template.rst
    
       ListBackupGcpProtectionGroupGcsAssetsV1FilterT
+      ListBackupGcpProtectionGroupGcsAssetsV1FilterTypeDef
    
    
 

@@ -20,6 +20,7 @@ clumioapi.controllers.types.backup\_aws\_iceberg\_tables\_types
       :template: custom-class-template.rst
    
       ListBackupAwsIcebergTablesV1FilterT
+      ListBackupAwsIcebergTablesV1FilterTypeDef
    
    
 

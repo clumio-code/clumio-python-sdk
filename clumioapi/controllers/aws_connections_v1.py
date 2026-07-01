@@ -2,17 +2,14 @@
 # Copyright 2023. Clumio, A Commvault Company.
 #
 
-import json
 import re
-from typing import Any, Iterator, Optional, Union
+from typing import Any, Iterator
 import urllib.parse
 
 from clumioapi import api_helper
-from clumioapi import configuration
 from clumioapi import sdk_version
 from clumioapi.controllers import base_controller
 from clumioapi.controllers.types import aws_connections_types
-from clumioapi.controllers.types import aws_s3_buckets_v1_bucket_matcher_types
 from clumioapi.exceptions import clumio_exception
 from clumioapi.models import create_aws_connection_response
 from clumioapi.models import create_aws_connection_v1_request
@@ -43,7 +40,11 @@ class AwsConnectionsV1Controller:
         self,
         limit: int | None = None,
         start: str | None = None,
-        filter: aws_connections_types.ListAwsConnectionsV1FilterT | None = None,
+        filter: (
+            aws_connections_types.ListAwsConnectionsV1FilterT
+            | aws_connections_types.ListAwsConnectionsV1FilterTypeDef
+            | None
+        ) = None,
         **kwargs,
     ) -> list_aws_connections_response.ListAWSConnectionsResponse:
         """Returns a list of AWS Connections
@@ -151,7 +152,9 @@ class AwsConnectionsV1Controller:
         _query_parameters: dict[str, Any] = {}
         _query_parameters = {
             'limit': limit,
-            'filter': filter.query_str if filter else None,
+            'filter': api_helper.to_filter_query_str(
+                filter, aws_connections_types.ListAwsConnectionsV1FilterT
+            ),
         }
 
         resp_instance: list_aws_connections_response.ListAWSConnectionsResponse
@@ -373,7 +376,11 @@ class AwsConnectionsV1ControllerPaginator:
         self,
         limit: int | None = None,
         start: str | None = None,
-        filter: aws_connections_types.ListAwsConnectionsV1FilterT | None = None,
+        filter: (
+            aws_connections_types.ListAwsConnectionsV1FilterT
+            | aws_connections_types.ListAwsConnectionsV1FilterTypeDef
+            | None
+        ) = None,
         **kwargs,
     ) -> Iterator[list_aws_connections_response.ListAWSConnectionsResponse]:
         """Returns a list of AWS Connections

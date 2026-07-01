@@ -20,8 +20,10 @@ clumioapi.controllers.types.ec2\_mssql\_databases\_types
       :template: custom-class-template.rst
    
       ListEc2MssqlDatabasePitrIntervalsV1FilterT
+      ListEc2MssqlDatabasePitrIntervalsV1FilterTypeDef
       ListEc2MssqlDatabasesProtectionInfoV1T
       ListEc2MssqlDatabasesV1FilterT
+      ListEc2MssqlDatabasesV1FilterTypeDef
    
    
 

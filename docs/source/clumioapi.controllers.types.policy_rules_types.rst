@@ -20,6 +20,7 @@ clumioapi.controllers.types.policy\_rules\_types
       :template: custom-class-template.rst
    
       ListPolicyRulesV1FilterT
+      ListPolicyRulesV1FilterTypeDef
    
    
 

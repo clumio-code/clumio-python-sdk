@@ -2,20 +2,19 @@
 # Copyright 2023. Clumio, A Commvault Company.
 #
 
-import json
 import re
-from typing import Any, Iterator, Optional, Union
+from typing import Any, Iterator
 import urllib.parse
 
 from clumioapi import api_helper
-from clumioapi import configuration
 from clumioapi import sdk_version
 from clumioapi.controllers import base_controller
-from clumioapi.controllers.types import aws_s3_buckets_v1_bucket_matcher_types
 from clumioapi.controllers.types import backup_protection_groups_types
 from clumioapi.exceptions import clumio_exception
 from clumioapi.models import export_malware_report_response
 from clumioapi.models import export_protection_group_s3_asset_malware_report_v1_request
+from clumioapi.models import export_protection_group_s3_asset_threat_report_v1_request
+from clumioapi.models import export_threat_report_response
 from clumioapi.models import list_protection_group_backups_response
 from clumioapi.models import list_protection_group_s3_asset_backups_response
 from clumioapi.models import read_protection_group_backup_response
@@ -44,7 +43,11 @@ class BackupProtectionGroupsV1Controller:
         limit: int | None = None,
         start: str | None = None,
         sort: str | None = None,
-        filter: backup_protection_groups_types.ListBackupProtectionGroupsV1FilterT | None = None,
+        filter: (
+            backup_protection_groups_types.ListBackupProtectionGroupsV1FilterT
+            | backup_protection_groups_types.ListBackupProtectionGroupsV1FilterTypeDef
+            | None
+        ) = None,
         **kwargs,
     ) -> list_protection_group_backups_response.ListProtectionGroupBackupsResponse:
         """Retrieves a list of protection group backups.
@@ -107,7 +110,9 @@ class BackupProtectionGroupsV1Controller:
             'limit': limit,
             'start': start,
             'sort': sort,
-            'filter': filter.query_str if filter else None,
+            'filter': api_helper.to_filter_query_str(
+                filter, backup_protection_groups_types.ListBackupProtectionGroupsV1FilterT
+            ),
         }
 
         resp_instance: list_protection_group_backups_response.ListProtectionGroupBackupsResponse
@@ -140,7 +145,9 @@ class BackupProtectionGroupsV1Controller:
         start: str | None = None,
         sort: str | None = None,
         filter: (
-            backup_protection_groups_types.ListBackupProtectionGroupS3AssetsV1FilterT | None
+            backup_protection_groups_types.ListBackupProtectionGroupS3AssetsV1FilterT
+            | backup_protection_groups_types.ListBackupProtectionGroupS3AssetsV1FilterTypeDef
+            | None
         ) = None,
         **kwargs,
     ) -> list_protection_group_s3_asset_backups_response.ListProtectionGroupS3AssetBackupsResponse:
@@ -219,7 +226,9 @@ class BackupProtectionGroupsV1Controller:
             'limit': limit,
             'start': start,
             'sort': sort,
-            'filter': filter.query_str if filter else None,
+            'filter': api_helper.to_filter_query_str(
+                filter, backup_protection_groups_types.ListBackupProtectionGroupS3AssetsV1FilterT
+            ),
         }
 
         resp_instance: (
@@ -255,7 +264,9 @@ class BackupProtectionGroupsV1Controller:
         ) = None,
         **kwargs,
     ) -> export_malware_report_response.ExportMalwareReportResponse:
-        """Exports the specified malware report for a protection group S3 asset.
+        """Exports the specified malware report for a protection group S3 asset. This
+        endpoint is deprecated; use [POST /backups/protection-groups/s3-assets/threat-
+        report](#operation/export-protection-group-s3-asset-threat-report) instead.
 
         Args:
             embed:
@@ -302,6 +313,68 @@ class BackupProtectionGroupsV1Controller:
 
         if not resp.ok:
             error_str = f'export_protection_group_s3_asset_malware_report for url {urllib.parse.unquote(resp.url)} failed.'
+            raise clumio_exception.ClumioException(error_str, resp=resp)
+
+        resp_instance = get_instance_from_response(resp)
+
+        return resp_instance
+
+    def export_protection_group_s3_asset_threat_report(
+        self,
+        embed: str | None = None,
+        body: (
+            export_protection_group_s3_asset_threat_report_v1_request.ExportProtectionGroupS3AssetThreatReportV1Request
+            | None
+        ) = None,
+        **kwargs,
+    ) -> export_threat_report_response.ExportThreatReportResponse:
+        """Exports the specified threat report for a protection group S3 asset.
+
+        Args:
+            embed:
+                Embeds the details of each associated resource. Set the parameter to one of the
+                following embeddable links to include additional details associated with the
+                resource.
+
+                +-----------------+------------------------------------------------------------+
+                | Embeddable Link |                        Description                         |
+                +=================+============================================================+
+                | read-task       | Embeds the associated task in the response. For example,   |
+                |                 | embed=read-task                                            |
+                +-----------------+------------------------------------------------------------+
+
+            body:
+
+        """
+
+        def get_instance_from_response(resp: requests.Response) -> Any:
+            return export_threat_report_response.ExportThreatReportResponse.from_response(resp)
+
+        # Prepare query URL
+        _url_path = '/backups/protection-groups/s3-assets/threat-report'
+
+        _query_parameters: dict[str, Any] = {}
+        _query_parameters = {
+            'embed': embed,
+        }
+
+        resp_instance: export_threat_report_response.ExportThreatReportResponse
+        # Execute request
+        resp: requests.Response
+        try:
+            resp = self.client.post(
+                _url_path,
+                headers=self.headers,
+                params=_query_parameters,
+                json=body.dict() if body else None,
+                raw_response=True,
+                **kwargs,
+            )
+        except requests.exceptions.HTTPError as e:
+            resp = e.response
+
+        if not resp.ok:
+            error_str = f'export_protection_group_s3_asset_threat_report for url {urllib.parse.unquote(resp.url)} failed.'
             raise clumio_exception.ClumioException(error_str, resp=resp)
 
         resp_instance = get_instance_from_response(resp)
@@ -419,7 +492,11 @@ class BackupProtectionGroupsV1ControllerPaginator:
         limit: int | None = None,
         start: str | None = None,
         sort: str | None = None,
-        filter: backup_protection_groups_types.ListBackupProtectionGroupsV1FilterT | None = None,
+        filter: (
+            backup_protection_groups_types.ListBackupProtectionGroupsV1FilterT
+            | backup_protection_groups_types.ListBackupProtectionGroupsV1FilterTypeDef
+            | None
+        ) = None,
         **kwargs,
     ) -> Iterator[list_protection_group_backups_response.ListProtectionGroupBackupsResponse]:
         """Retrieves a list of protection group backups.
@@ -496,7 +573,9 @@ class BackupProtectionGroupsV1ControllerPaginator:
         start: str | None = None,
         sort: str | None = None,
         filter: (
-            backup_protection_groups_types.ListBackupProtectionGroupS3AssetsV1FilterT | None
+            backup_protection_groups_types.ListBackupProtectionGroupS3AssetsV1FilterT
+            | backup_protection_groups_types.ListBackupProtectionGroupS3AssetsV1FilterTypeDef
+            | None
         ) = None,
         **kwargs,
     ) -> Iterator[

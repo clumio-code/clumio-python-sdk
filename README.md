@@ -33,4 +33,22 @@ The following code block explains how to use the clumioapi SDK package.
    policy_defn = client.policy_definitions_v1.list_policy_definitions()
 
 ```
+
+## Filtering
+List operations accept a `filter` argument. Pass a plain `dict` exactly as the
+filter appears in the REST API reference — snake_case field names and
+`$`-prefixed operators — so a filter can be copied straight from the docs:
+```
+   #List S3 protection-group assets, copied 1:1 from the API reference.
+   assets = client.protection_groups_s3_assets_v1.list_protection_group_s3_assets(
+       filter={'aws_region': {'$eq': 'us-west-2'}, 'bucket_name': {'$contains': 'logs'}},
+   )
+```
+Each operation also generates a `...FilterTypeDef` TypedDict (for example
+`ListProtectionGroupS3AssetsV1FilterTypeDef`) so type checkers validate the field
+names and operators against the API.
+
+> **Note:** the older `...FilterT` filter classes are deprecated and will be
+> removed in a future major release. Prefer the dict form shown above.
+
 The REST API documentation describes all the available APIs and can be accessed from the help section in the top right corner of the Clumio UI.

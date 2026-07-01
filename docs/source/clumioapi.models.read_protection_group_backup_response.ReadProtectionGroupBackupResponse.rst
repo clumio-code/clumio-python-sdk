@@ -44,6 +44,8 @@ clumioapi.models.read\_protection\_group\_backup\_response.ReadProtectionGroupBa
       ~ReadProtectionGroupBackupResponse.ProtectionGroupName
       ~ReadProtectionGroupBackupResponse.ProtectionGroupVersion
       ~ReadProtectionGroupBackupResponse.StartTimestamp
+      ~ReadProtectionGroupBackupResponse.ThreatObjectCount
+      ~ReadProtectionGroupBackupResponse.ThreatObjectsListLink
       ~ReadProtectionGroupBackupResponse.Type
       ~ReadProtectionGroupBackupResponse.raw_response
    

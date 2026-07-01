@@ -2,7 +2,7 @@
 # Copyright 2023. Clumio, A Commvault Company.
 #
 import dataclasses
-from typing import Any, ClassVar, Dict, Mapping, Optional, overload, Sequence, TypeVar
+from typing import Any, ClassVar, Dict, Mapping, Optional, overload, TypeVar
 
 from clumioapi import api_helper
 from clumioapi.models import \
@@ -53,9 +53,11 @@ class ReadProtectionGroupS3AssetBackupResponse:
 
         MaliciousObjectCount:
             The number of objects that were detected to be malicious during the backup.
+            (deprecated, use `threat_object_count` instead.).
 
         MaliciousObjectsListLink:
             The link for the malicious objects list.
+            (deprecated, use `threat_objects_list_link` instead.).
 
         MissingObjectCount:
             The number of objects in the protection group s3 asset that were missing during
@@ -76,6 +78,12 @@ class ReadProtectionGroupS3AssetBackupResponse:
 
         StartTimestamp:
             The timestamp of when this backup started. represented in rfc-3339 format.
+
+        ThreatObjectCount:
+            The number of objects that were detected as threats during the backup.
+
+        ThreatObjectsListLink:
+            The link for the threat objects list.
 
         Type:
             The type of backup. possible values include `protection_group_s3_asset_backup`.
@@ -107,6 +115,8 @@ class ReadProtectionGroupS3AssetBackupResponse:
     ProtectionGroupS3AssetId: str | None = None
     ProtectionGroupVersion: int | None = None
     StartTimestamp: str | None = None
+    ThreatObjectCount: int | None = None
+    ThreatObjectsListLink: str | None = None
     Type: str | None = None
     raw_response: Optional[requests.Response] = None
 
@@ -201,6 +211,12 @@ class ReadProtectionGroupS3AssetBackupResponse:
         val = dictionary.get('start_timestamp', None)
         val_start_timestamp = val
 
+        val = dictionary.get('threat_object_count', None)
+        val_threat_object_count = val
+
+        val = dictionary.get('threat_objects_list_link', None)
+        val_threat_objects_list_link = val
+
         val = dictionary.get('type', None)
         val_type = val
 
@@ -224,6 +240,8 @@ class ReadProtectionGroupS3AssetBackupResponse:
             val_protection_group_s3_asset_id,
             val_protection_group_version,
             val_start_timestamp,
+            val_threat_object_count,
+            val_threat_objects_list_link,
             val_type,
         )
 

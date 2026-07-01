@@ -22,6 +22,7 @@ clumioapi.controllers.types.tasks\_types
       ListTasksParentEntityV1T
       ListTasksPrimaryEntityV1T
       ListTasksV1FilterT
+      ListTasksV1FilterTypeDef
    
    
 

@@ -2,13 +2,11 @@
 # Copyright 2023. Clumio, A Commvault Company.
 #
 
-import json
 import re
-from typing import Any, Iterator, Optional, Union
+from typing import Any, Iterator
 import urllib.parse
 
 from clumioapi import api_helper
-from clumioapi import configuration
 from clumioapi import sdk_version
 from clumioapi.controllers import base_controller
 from clumioapi.controllers.types import aws_s3_buckets_types
@@ -40,7 +38,11 @@ class AwsS3BucketsV1Controller:
         limit: int | None = None,
         start: str | None = None,
         sort: str | None = None,
-        filter: aws_s3_buckets_types.ListAwsS3BucketsV1FilterT | None = None,
+        filter: (
+            aws_s3_buckets_types.ListAwsS3BucketsV1FilterT
+            | aws_s3_buckets_types.ListAwsS3BucketsV1FilterTypeDef
+            | None
+        ) = None,
         lookback_days: int | None = None,
         bucket_matcher: (
             aws_s3_buckets_v1_bucket_matcher_types.ListAwsS3BucketsV1BucketMatcherT | None
@@ -423,7 +425,9 @@ class AwsS3BucketsV1Controller:
             'limit': limit,
             'start': start,
             'sort': sort,
-            'filter': filter.query_str if filter else None,
+            'filter': api_helper.to_filter_query_str(
+                filter, aws_s3_buckets_types.ListAwsS3BucketsV1FilterT
+            ),
             'lookback_days': lookback_days,
             'bucket_matcher': bucket_matcher.query_str if bucket_matcher else None,
         }
@@ -510,7 +514,11 @@ class AwsS3BucketsV1ControllerPaginator:
         limit: int | None = None,
         start: str | None = None,
         sort: str | None = None,
-        filter: aws_s3_buckets_types.ListAwsS3BucketsV1FilterT | None = None,
+        filter: (
+            aws_s3_buckets_types.ListAwsS3BucketsV1FilterT
+            | aws_s3_buckets_types.ListAwsS3BucketsV1FilterTypeDef
+            | None
+        ) = None,
         lookback_days: int | None = None,
         bucket_matcher: (
             aws_s3_buckets_v1_bucket_matcher_types.ListAwsS3BucketsV1BucketMatcherT | None
