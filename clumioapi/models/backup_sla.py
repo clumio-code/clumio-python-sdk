@@ -2,7 +2,7 @@
 # Copyright 2023. Clumio, A Commvault Company.
 #
 import dataclasses
-from typing import Any, ClassVar, Dict, Mapping, Optional, overload, Sequence, TypeVar
+from typing import Any, Dict, Mapping, Optional, overload, TypeVar
 
 from clumioapi import api_helper
 from clumioapi.models import retention_backup_sla_param as retention_backup_sla_param_

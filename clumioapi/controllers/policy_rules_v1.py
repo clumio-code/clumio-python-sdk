@@ -2,16 +2,13 @@
 # Copyright 2023. Clumio, A Commvault Company.
 #
 
-import json
 import re
-from typing import Any, Iterator, Optional, Union
+from typing import Any, Iterator
 import urllib.parse
 
 from clumioapi import api_helper
-from clumioapi import configuration
 from clumioapi import sdk_version
 from clumioapi.controllers import base_controller
-from clumioapi.controllers.types import aws_s3_buckets_v1_bucket_matcher_types
 from clumioapi.controllers.types import policy_rules_types
 from clumioapi.exceptions import clumio_exception
 from clumioapi.models import create_policy_rule_v1_request
@@ -46,7 +43,11 @@ class PolicyRulesV1Controller:
         start: str | None = None,
         organizational_unit_id: str | None = None,
         sort: str | None = None,
-        filter: policy_rules_types.ListPolicyRulesV1FilterT | None = None,
+        filter: (
+            policy_rules_types.ListPolicyRulesV1FilterT
+            | policy_rules_types.ListPolicyRulesV1FilterTypeDef
+            | None
+        ) = None,
         **kwargs,
     ) -> list_rules_response.ListRulesResponse:
         """Returns a list of policy rules.
@@ -114,7 +115,9 @@ class PolicyRulesV1Controller:
             'limit': limit,
             'organizational_unit_id': organizational_unit_id,
             'sort': sort,
-            'filter': filter.query_str if filter else None,
+            'filter': api_helper.to_filter_query_str(
+                filter, policy_rules_types.ListPolicyRulesV1FilterT
+            ),
         }
 
         resp_instance: list_rules_response.ListRulesResponse
@@ -331,7 +334,11 @@ class PolicyRulesV1ControllerPaginator:
         start: str | None = None,
         organizational_unit_id: str | None = None,
         sort: str | None = None,
-        filter: policy_rules_types.ListPolicyRulesV1FilterT | None = None,
+        filter: (
+            policy_rules_types.ListPolicyRulesV1FilterT
+            | policy_rules_types.ListPolicyRulesV1FilterTypeDef
+            | None
+        ) = None,
         **kwargs,
     ) -> Iterator[list_rules_response.ListRulesResponse]:
         """Returns a list of policy rules.

@@ -2,7 +2,7 @@
 # Copyright 2023. Clumio, A Commvault Company.
 #
 import dataclasses
-from typing import Any, ClassVar, Dict, Mapping, Optional, overload, Sequence, TypeVar
+from typing import Any, Dict, Mapping, Optional, overload, TypeVar
 
 from clumioapi import api_helper
 import requests
@@ -24,11 +24,18 @@ class ProtectionGroupBackupAdvancedSetting:
 
         MalwareScan:
             Determines whether malware scanning is enabled for protection group backups.
+            (deprecated, use `threat_scan` instead.).
+
+        ThreatScan:
+            Determines whether threat scanning is enabled for protection group backups.
+            when both `threat_scan` and `malware_scan` are provided, `threat_scan` takes
+            precedence.
 
     """
 
     BackupTier: str | None = None
     MalwareScan: bool | None = None
+    ThreatScan: bool | None = None
 
     def dict(self) -> Dict[str, Any]:
         """Returns the dictionary representation of the model."""
@@ -71,10 +78,14 @@ class ProtectionGroupBackupAdvancedSetting:
         val = dictionary.get('malware_scan', None)
         val_malware_scan = val
 
+        val = dictionary.get('threat_scan', None)
+        val_threat_scan = val
+
         # Return an object of this model
         return cls(
             val_backup_tier,
             val_malware_scan,
+            val_threat_scan,
         )
 
     @classmethod

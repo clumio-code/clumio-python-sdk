@@ -2,7 +2,7 @@
 # Copyright 2023. Clumio, A Commvault Company.
 #
 import dataclasses
-from typing import Any, ClassVar, Dict, Mapping, Optional, overload, Sequence, TypeVar
+from typing import Any, Dict, Mapping, Optional, overload, TypeVar
 
 from clumioapi import api_helper
 from clumioapi.models import audit_parent_entity as audit_parent_entity_
@@ -64,8 +64,8 @@ class AuditTrails:
             +-------------------------+----------------------------------------------------+
             | suspend                 | suspend an existing user                           |
             +-------------------------+----------------------------------------------------+
-            | full_restore            | full restore of the vm, volume, mailbox, database  |
-            |                         | or other entities                                  |
+            | full_restore            | full restore of the volume, mailbox, database or   |
+            |                         | other entities                                     |
             +-------------------------+----------------------------------------------------+
             | granular_retrieval      | restoring individual files, mails or records       |
             +-------------------------+----------------------------------------------------+
@@ -130,9 +130,6 @@ class AuditTrails:
             | bandwidth_config        | bandwidth configuration related changes            |
             +-------------------------+----------------------------------------------------+
             | partner_ecosystem       | changes to partner ecosystem                       |
-            +-------------------------+----------------------------------------------------+
-            | ecosystem_changes       | changes in the ecosystem like adding or removing   |
-            |                         | vms                                                |
             +-------------------------+----------------------------------------------------+
             | organizational_unit     | changes in the organizational unit/entity group    |
             |                         | such as creation, deletion, patch.                 |

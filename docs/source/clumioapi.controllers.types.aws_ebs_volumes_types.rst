@@ -22,6 +22,7 @@ clumioapi.controllers.types.aws\_ebs\_volumes\_types
       ListAwsEbsVolumesProtectionInfoV1T
       ListAwsEbsVolumesTagsV1T
       ListAwsEbsVolumesV1FilterT
+      ListAwsEbsVolumesV1FilterTypeDef
    
    
 

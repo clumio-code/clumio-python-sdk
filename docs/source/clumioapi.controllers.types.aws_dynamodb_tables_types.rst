@@ -22,6 +22,7 @@ clumioapi.controllers.types.aws\_dynamodb\_tables\_types
       ListAwsDynamodbTablesProtectionInfoV1T
       ListAwsDynamodbTablesTagsV1T
       ListAwsDynamodbTablesV1FilterT
+      ListAwsDynamodbTablesV1FilterTypeDef
    
    
 

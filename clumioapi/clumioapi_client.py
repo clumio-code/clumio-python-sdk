@@ -1,7 +1,6 @@
 #
 # Copyright 2023. Clumio, A Commvault Company.
 #
-import functools
 
 from clumioapi import configuration
 from clumioapi.controllers import audit_trails_v1

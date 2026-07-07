@@ -21,6 +21,7 @@ clumioapi.controllers.types.aws\_environment\_tags\_types
    
       ListAwsEnvironmentTagsProtectionInfoV1T
       ListAwsEnvironmentTagsV1FilterT
+      ListAwsEnvironmentTagsV1FilterTypeDef
    
    
 

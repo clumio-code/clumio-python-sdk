@@ -20,6 +20,7 @@ clumioapi.controllers.types.restored\_protection\_group\_instant\_access\_endpoi
       :template: custom-class-template.rst
    
       ListProtectionGroupInstantAccessEndpointsV1FilterT
+      ListProtectionGroupInstantAccessEndpointsV1FilterTypeDef
    
    
 

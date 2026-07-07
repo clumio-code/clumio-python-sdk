@@ -20,6 +20,7 @@ clumioapi.controllers.types.backup\_ec2\_mssql\_databases\_types
       :template: custom-class-template.rst
    
       ListBackupEc2MssqlDatabasesV1FilterT
+      ListBackupEc2MssqlDatabasesV1FilterTypeDef
    
    
 

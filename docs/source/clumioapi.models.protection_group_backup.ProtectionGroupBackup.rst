@@ -44,6 +44,8 @@ clumioapi.models.protection\_group\_backup.ProtectionGroupBackup
       ~ProtectionGroupBackup.ProtectionGroupName
       ~ProtectionGroupBackup.ProtectionGroupVersion
       ~ProtectionGroupBackup.StartTimestamp
+      ~ProtectionGroupBackup.ThreatObjectCount
+      ~ProtectionGroupBackup.ThreatObjectsListLink
       ~ProtectionGroupBackup.Type
    
    

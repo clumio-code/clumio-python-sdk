@@ -2,16 +2,13 @@
 # Copyright 2023. Clumio, A Commvault Company.
 #
 
-import json
 import re
-from typing import Any, Iterator, Optional, Union
+from typing import Any, Iterator
 import urllib.parse
 
 from clumioapi import api_helper
-from clumioapi import configuration
 from clumioapi import sdk_version
 from clumioapi.controllers import base_controller
-from clumioapi.controllers.types import aws_s3_buckets_v1_bucket_matcher_types
 from clumioapi.controllers.types import backup_gcp_protection_groups_gcs_assets_types
 from clumioapi.exceptions import clumio_exception
 from clumioapi.models import list_gcs_protection_group_asset_backups_response
@@ -42,6 +39,7 @@ class BackupGcpProtectionGroupsGcsAssetsV1Controller:
         sort: str | None = None,
         filter: (
             backup_gcp_protection_groups_gcs_assets_types.ListBackupGcpProtectionGroupGcsAssetsV1FilterT
+            | backup_gcp_protection_groups_gcs_assets_types.ListBackupGcpProtectionGroupGcsAssetsV1FilterTypeDef
             | None
         ) = None,
         **kwargs,
@@ -123,7 +121,10 @@ class BackupGcpProtectionGroupsGcsAssetsV1Controller:
             'limit': limit,
             'start': start,
             'sort': sort,
-            'filter': filter.query_str if filter else None,
+            'filter': api_helper.to_filter_query_str(
+                filter,
+                backup_gcp_protection_groups_gcs_assets_types.ListBackupGcpProtectionGroupGcsAssetsV1FilterT,
+            ),
         }
 
         resp_instance: (
@@ -216,6 +217,7 @@ class BackupGcpProtectionGroupsGcsAssetsV1ControllerPaginator:
         sort: str | None = None,
         filter: (
             backup_gcp_protection_groups_gcs_assets_types.ListBackupGcpProtectionGroupGcsAssetsV1FilterT
+            | backup_gcp_protection_groups_gcs_assets_types.ListBackupGcpProtectionGroupGcsAssetsV1FilterTypeDef
             | None
         ) = None,
         **kwargs,

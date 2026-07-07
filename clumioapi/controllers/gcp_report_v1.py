@@ -2,23 +2,17 @@
 # Copyright 2023. Clumio, A Commvault Company.
 #
 
-import json
-import re
-from typing import Any, Iterator, Optional, Union
+from typing import Any
 import urllib.parse
 
-from clumioapi import api_helper
-from clumioapi import configuration
 from clumioapi import sdk_version
 from clumioapi.controllers import base_controller
-from clumioapi.controllers.types import aws_s3_buckets_v1_bucket_matcher_types
 from clumioapi.exceptions import clumio_exception
 from clumioapi.models import gcs_asset_error_report_v1_request
 from clumioapi.models import gcs_asset_error_report_v1_response
 from clumioapi.models import gcs_protection_group_error_report_v1_request
 from clumioapi.models import gcs_protection_group_error_report_v1_response
 import requests
-import retrying
 
 
 class GcpReportV1Controller:

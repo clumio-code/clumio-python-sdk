@@ -2,7 +2,7 @@
 # Copyright 2023. Clumio, A Commvault Company.
 #
 import dataclasses
-from typing import Any, ClassVar, Dict, Mapping, Optional, overload, Sequence, TypeVar
+from typing import Any, Dict, Mapping, Optional, overload, Sequence, TypeVar
 
 from clumioapi import api_helper
 from clumioapi.models import gcp_bucket_rule_model as gcp_bucket_rule_model_
@@ -47,7 +47,8 @@ class CreateGcpProtectionGroupV1Request:
 
         StorageClasses:
             Storage classes to include in the backup. if omitted, objects of all storage
-            classes are backed up; an empty array is rejected.
+            classes are backed up; an empty array is rejected. valid values are:
+            `standard`, `nearline`, `coldline`, `archive`.
 
         UpdatedAfter:
             Only back up objects created after this timestamp (rfc-3339). if omitted,

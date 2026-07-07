@@ -20,6 +20,7 @@ clumioapi.controllers.types.restored\_files\_types
       :template: custom-class-template.rst
    
       ListRestoredFilesV1FilterT
+      ListRestoredFilesV1FilterTypeDef
    
    
 

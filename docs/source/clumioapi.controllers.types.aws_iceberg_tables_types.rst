@@ -22,6 +22,7 @@ clumioapi.controllers.types.aws\_iceberg\_tables\_types
       ListAwsIcebergTablesProtectionInfoV1T
       ListAwsIcebergTablesTagsV1T
       ListAwsIcebergTablesV1FilterT
+      ListAwsIcebergTablesV1FilterTypeDef
    
    
 

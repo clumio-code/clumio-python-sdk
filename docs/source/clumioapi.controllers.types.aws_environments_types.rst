@@ -20,6 +20,7 @@ clumioapi.controllers.types.aws\_environments\_types
       :template: custom-class-template.rst
    
       ListAwsEnvironmentsV1FilterT
+      ListAwsEnvironmentsV1FilterTypeDef
    
    
 

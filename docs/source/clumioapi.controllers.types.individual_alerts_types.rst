@@ -22,6 +22,7 @@ clumioapi.controllers.types.individual\_alerts\_types
       ListIndividualAlertsParentEntityV1T
       ListIndividualAlertsPrimaryEntityV1T
       ListIndividualAlertsV1FilterT
+      ListIndividualAlertsV1FilterTypeDef
    
    
 

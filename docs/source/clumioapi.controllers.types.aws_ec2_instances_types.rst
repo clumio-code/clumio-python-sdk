@@ -22,6 +22,7 @@ clumioapi.controllers.types.aws\_ec2\_instances\_types
       ListAwsEc2InstancesProtectionInfoV1T
       ListAwsEc2InstancesTagsV1T
       ListAwsEc2InstancesV1FilterT
+      ListAwsEc2InstancesV1FilterTypeDef
    
    
 

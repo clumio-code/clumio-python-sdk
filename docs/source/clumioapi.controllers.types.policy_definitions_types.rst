@@ -21,6 +21,7 @@ clumioapi.controllers.types.policy\_definitions\_types
    
       ListPolicyDefinitionsOperationsV1T
       ListPolicyDefinitionsV1FilterT
+      ListPolicyDefinitionsV1FilterTypeDef
    
    
 

@@ -2,12 +2,8 @@
 # Copyright 2023. Clumio, A Commvault Company.
 #
 
-import contextlib
-from typing import Any, Mapping, Optional
 
-from clumioapi import api_helper
 from clumioapi import configuration
-import requests
 import rest3client
 
 

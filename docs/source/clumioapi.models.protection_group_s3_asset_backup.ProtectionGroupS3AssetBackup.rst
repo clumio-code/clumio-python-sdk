@@ -47,6 +47,8 @@ clumioapi.models.protection\_group\_s3\_asset\_backup.ProtectionGroupS3AssetBack
       ~ProtectionGroupS3AssetBackup.ProtectionGroupS3AssetId
       ~ProtectionGroupS3AssetBackup.ProtectionGroupVersion
       ~ProtectionGroupS3AssetBackup.StartTimestamp
+      ~ProtectionGroupS3AssetBackup.ThreatObjectCount
+      ~ProtectionGroupS3AssetBackup.ThreatObjectsListLink
       ~ProtectionGroupS3AssetBackup.Type
    
    

@@ -2,16 +2,13 @@
 # Copyright 2023. Clumio, A Commvault Company.
 #
 
-import json
 import re
-from typing import Any, Iterator, Optional, Union
+from typing import Any, Iterator, Union
 import urllib.parse
 
 from clumioapi import api_helper
-from clumioapi import configuration
 from clumioapi import sdk_version
 from clumioapi.controllers import base_controller
-from clumioapi.controllers.types import aws_s3_buckets_v1_bucket_matcher_types
 from clumioapi.controllers.types import restored_protection_group_instant_access_endpoints_types
 from clumioapi.exceptions import clumio_exception
 from clumioapi.models import add_protection_group_instant_access_endpoint_role_v1_request
@@ -54,6 +51,7 @@ class RestoredProtectionGroupInstantAccessEndpointsV1Controller:
         start: str | None = None,
         filter: (
             restored_protection_group_instant_access_endpoints_types.ListProtectionGroupInstantAccessEndpointsV1FilterT
+            | restored_protection_group_instant_access_endpoints_types.ListProtectionGroupInstantAccessEndpointsV1FilterTypeDef
             | None
         ) = None,
         **kwargs,
@@ -102,7 +100,10 @@ class RestoredProtectionGroupInstantAccessEndpointsV1Controller:
         _query_parameters = {
             'limit': limit,
             'start': start,
-            'filter': filter.query_str if filter else None,
+            'filter': api_helper.to_filter_query_str(
+                filter,
+                restored_protection_group_instant_access_endpoints_types.ListProtectionGroupInstantAccessEndpointsV1FilterT,
+            ),
         }
 
         resp_instance: (
@@ -729,6 +730,7 @@ class RestoredProtectionGroupInstantAccessEndpointsV1ControllerPaginator:
         start: str | None = None,
         filter: (
             restored_protection_group_instant_access_endpoints_types.ListProtectionGroupInstantAccessEndpointsV1FilterT
+            | restored_protection_group_instant_access_endpoints_types.ListProtectionGroupInstantAccessEndpointsV1FilterTypeDef
             | None
         ) = None,
         **kwargs,

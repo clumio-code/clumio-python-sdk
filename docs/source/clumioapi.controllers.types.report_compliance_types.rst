@@ -20,6 +20,7 @@ clumioapi.controllers.types.report\_compliance\_types
       :template: custom-class-template.rst
    
       ListComplianceReportConfigurationsV1FilterT
+      ListComplianceReportConfigurationsV1FilterTypeDef
    
    
 

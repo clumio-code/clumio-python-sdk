@@ -2,23 +2,18 @@
 # Copyright 2023. Clumio, A Commvault Company.
 #
 
-import json
-import re
-from typing import Any, Iterator, Optional, Union
+from typing import Any
 import urllib.parse
 
 from clumioapi import api_helper
-from clumioapi import configuration
 from clumioapi import sdk_version
 from clumioapi.controllers import base_controller
-from clumioapi.controllers.types import aws_s3_buckets_v1_bucket_matcher_types
 from clumioapi.controllers.types import roles_types
 from clumioapi.exceptions import clumio_exception
 from clumioapi.models import list_permissions_response
 from clumioapi.models import list_roles_response
 from clumioapi.models import read_role_response
 import requests
-import retrying
 
 
 class RolesV1Controller:
@@ -37,7 +32,9 @@ class RolesV1Controller:
             self.headers.update(self.controller.config.custom_headers)
 
     def list_roles(
-        self, filter: roles_types.ListRolesV1FilterT | None = None, **kwargs
+        self,
+        filter: roles_types.ListRolesV1FilterT | roles_types.ListRolesV1FilterTypeDef | None = None,
+        **kwargs,
     ) -> list_roles_response.ListRolesResponse:
         """Returns a list of roles that can be assigned to users, either while inviting
         users using the
@@ -68,7 +65,7 @@ class RolesV1Controller:
 
         _query_parameters: dict[str, Any] = {}
         _query_parameters = {
-            'filter': filter.query_str if filter else None,
+            'filter': api_helper.to_filter_query_str(filter, roles_types.ListRolesV1FilterT),
         }
 
         resp_instance: list_roles_response.ListRolesResponse

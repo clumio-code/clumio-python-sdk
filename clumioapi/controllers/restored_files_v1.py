@@ -2,16 +2,13 @@
 # Copyright 2023. Clumio, A Commvault Company.
 #
 
-import json
 import re
-from typing import Any, Iterator, Optional, Union
+from typing import Any, Iterator
 import urllib.parse
 
 from clumioapi import api_helper
-from clumioapi import configuration
 from clumioapi import sdk_version
 from clumioapi.controllers import base_controller
-from clumioapi.controllers.types import aws_s3_buckets_v1_bucket_matcher_types
 from clumioapi.controllers.types import restored_files_types
 from clumioapi.exceptions import clumio_exception
 from clumioapi.models import download_shared_file_response
@@ -44,7 +41,11 @@ class RestoredFilesV1Controller:
         self,
         limit: int | None = None,
         start: str | None = None,
-        filter: restored_files_types.ListRestoredFilesV1FilterT | None = None,
+        filter: (
+            restored_files_types.ListRestoredFilesV1FilterT
+            | restored_files_types.ListRestoredFilesV1FilterTypeDef
+            | None
+        ) = None,
         **kwargs,
     ) -> restored_files_response.RestoredFilesResponse:
         """Gets the list of active restored files for an asset.
@@ -90,7 +91,9 @@ class RestoredFilesV1Controller:
         _query_parameters: dict[str, Any] = {}
         _query_parameters = {
             'limit': limit,
-            'filter': filter.query_str if filter else None,
+            'filter': api_helper.to_filter_query_str(
+                filter, restored_files_types.ListRestoredFilesV1FilterT
+            ),
         }
 
         resp_instance: restored_files_response.RestoredFilesResponse
@@ -345,7 +348,11 @@ class RestoredFilesV1ControllerPaginator:
         self,
         limit: int | None = None,
         start: str | None = None,
-        filter: restored_files_types.ListRestoredFilesV1FilterT | None = None,
+        filter: (
+            restored_files_types.ListRestoredFilesV1FilterT
+            | restored_files_types.ListRestoredFilesV1FilterTypeDef
+            | None
+        ) = None,
         **kwargs,
     ) -> Iterator[restored_files_response.RestoredFilesResponse]:
         """Gets the list of active restored files for an asset.

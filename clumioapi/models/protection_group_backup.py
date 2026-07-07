@@ -2,7 +2,7 @@
 # Copyright 2023. Clumio, A Commvault Company.
 #
 import dataclasses
-from typing import Any, ClassVar, Dict, Mapping, Optional, overload, Sequence, TypeVar
+from typing import Any, ClassVar, Dict, Mapping, Optional, overload, TypeVar
 
 from clumioapi import api_helper
 from clumioapi.models import protection_group_backup_links as protection_group_backup_links_
@@ -41,9 +41,11 @@ class ProtectionGroupBackup:
 
         MaliciousObjectCount:
             The number of objects that were detected to be malicious during the backup.
+            (deprecated, use `threat_object_count` instead.).
 
         MaliciousObjectsListLink:
             The link for the malicious objects list at protection group level.
+            (deprecated, use `threat_objects_list_link` instead.).
 
         MissingObjectCount:
             The number of objects in the protection group that were missing during backup.
@@ -63,6 +65,12 @@ class ProtectionGroupBackup:
 
         StartTimestamp:
             The timestamp of when this backup started. represented in rfc-3339 format.
+
+        ThreatObjectCount:
+            The number of objects that were detected as threats during the backup.
+
+        ThreatObjectsListLink:
+            The link for the threat objects list at protection group level.
 
         Type:
             The type of backup. possible values include `protection_group_backup`.
@@ -91,6 +99,8 @@ class ProtectionGroupBackup:
     ProtectionGroupName: str | None = None
     ProtectionGroupVersion: int | None = None
     StartTimestamp: str | None = None
+    ThreatObjectCount: int | None = None
+    ThreatObjectsListLink: str | None = None
     Type: str | None = None
 
     def dict(self) -> Dict[str, Any]:
@@ -173,6 +183,12 @@ class ProtectionGroupBackup:
         val = dictionary.get('start_timestamp', None)
         val_start_timestamp = val
 
+        val = dictionary.get('threat_object_count', None)
+        val_threat_object_count = val
+
+        val = dictionary.get('threat_objects_list_link', None)
+        val_threat_objects_list_link = val
+
         val = dictionary.get('type', None)
         val_type = val
 
@@ -193,6 +209,8 @@ class ProtectionGroupBackup:
             val_protection_group_name,
             val_protection_group_version,
             val_start_timestamp,
+            val_threat_object_count,
+            val_threat_objects_list_link,
             val_type,
         )
 

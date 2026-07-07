@@ -2,16 +2,12 @@
 # Copyright 2023. Clumio, A Commvault Company.
 #
 
-import json
-import re
-from typing import Any, Iterator, Optional, Union
+from typing import Any
 import urllib.parse
 
 from clumioapi import api_helper
-from clumioapi import configuration
 from clumioapi import sdk_version
 from clumioapi.controllers import base_controller
-from clumioapi.controllers.types import aws_s3_buckets_v1_bucket_matcher_types
 from clumioapi.controllers.types import policy_definitions_types
 from clumioapi.exceptions import clumio_exception
 from clumioapi.models import create_policy_definition_v1_request
@@ -22,7 +18,6 @@ from clumioapi.models import read_policy_response
 from clumioapi.models import update_policy_definition_v1_request
 from clumioapi.models import update_policy_response
 import requests
-import retrying
 
 
 class PolicyDefinitionsV1Controller:
@@ -42,7 +37,11 @@ class PolicyDefinitionsV1Controller:
 
     def list_policy_definitions(
         self,
-        filter: policy_definitions_types.ListPolicyDefinitionsV1FilterT | None = None,
+        filter: (
+            policy_definitions_types.ListPolicyDefinitionsV1FilterT
+            | policy_definitions_types.ListPolicyDefinitionsV1FilterTypeDef
+            | None
+        ) = None,
         embed: str | None = None,
         **kwargs,
     ) -> list_policies_response.ListPoliciesResponse:
@@ -188,7 +187,9 @@ class PolicyDefinitionsV1Controller:
 
         _query_parameters: dict[str, Any] = {}
         _query_parameters = {
-            'filter': filter.query_str if filter else None,
+            'filter': api_helper.to_filter_query_str(
+                filter, policy_definitions_types.ListPolicyDefinitionsV1FilterT
+            ),
             'embed': embed,
         }
 

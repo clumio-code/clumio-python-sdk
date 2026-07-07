@@ -20,6 +20,7 @@ clumioapi.controllers.types.backup\_gcp\_protection\_groups\_types
       :template: custom-class-template.rst
    
       ListBackupGcpProtectionGroupsV1FilterT
+      ListBackupGcpProtectionGroupsV1FilterTypeDef
    
    
 

@@ -2,16 +2,13 @@
 # Copyright 2023. Clumio, A Commvault Company.
 #
 
-import json
 import re
-from typing import Any, Iterator, Optional, Union
+from typing import Any, Iterator
 import urllib.parse
 
 from clumioapi import api_helper
-from clumioapi import configuration
 from clumioapi import sdk_version
 from clumioapi.controllers import base_controller
-from clumioapi.controllers.types import aws_s3_buckets_v1_bucket_matcher_types
 from clumioapi.controllers.types import report_compliance_runs_types
 from clumioapi.exceptions import clumio_exception
 from clumioapi.models import create_compliance_report_run_v1_request
@@ -42,7 +39,11 @@ class ReportComplianceRunsV1Controller:
         configuration_id: str | None = None,
         limit: int | None = None,
         start: str | None = None,
-        filter: report_compliance_runs_types.ListComplianceReportRunsV1FilterT | None = None,
+        filter: (
+            report_compliance_runs_types.ListComplianceReportRunsV1FilterT
+            | report_compliance_runs_types.ListComplianceReportRunsV1FilterTypeDef
+            | None
+        ) = None,
         **kwargs,
     ) -> list_compliance_runs_response.ListComplianceRunsResponse:
         """Get a list of all the compliance report runs belonging to the configuration.
@@ -102,7 +103,9 @@ class ReportComplianceRunsV1Controller:
         _query_parameters: dict[str, Any] = {}
         _query_parameters = {
             'limit': limit,
-            'filter': filter.query_str if filter else None,
+            'filter': api_helper.to_filter_query_str(
+                filter, report_compliance_runs_types.ListComplianceReportRunsV1FilterT
+            ),
         }
 
         resp_instance: list_compliance_runs_response.ListComplianceRunsResponse
@@ -305,7 +308,11 @@ class ReportComplianceRunsV1ControllerPaginator:
         configuration_id: str | None = None,
         limit: int | None = None,
         start: str | None = None,
-        filter: report_compliance_runs_types.ListComplianceReportRunsV1FilterT | None = None,
+        filter: (
+            report_compliance_runs_types.ListComplianceReportRunsV1FilterT
+            | report_compliance_runs_types.ListComplianceReportRunsV1FilterTypeDef
+            | None
+        ) = None,
         **kwargs,
     ) -> Iterator[list_compliance_runs_response.ListComplianceRunsResponse]:
         """Get a list of all the compliance report runs belonging to the configuration.

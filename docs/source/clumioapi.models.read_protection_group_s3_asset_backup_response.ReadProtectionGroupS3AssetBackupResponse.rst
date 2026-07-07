@@ -47,6 +47,8 @@ clumioapi.models.read\_protection\_group\_s3\_asset\_backup\_response.ReadProtec
       ~ReadProtectionGroupS3AssetBackupResponse.ProtectionGroupS3AssetId
       ~ReadProtectionGroupS3AssetBackupResponse.ProtectionGroupVersion
       ~ReadProtectionGroupS3AssetBackupResponse.StartTimestamp
+      ~ReadProtectionGroupS3AssetBackupResponse.ThreatObjectCount
+      ~ReadProtectionGroupS3AssetBackupResponse.ThreatObjectsListLink
       ~ReadProtectionGroupS3AssetBackupResponse.Type
       ~ReadProtectionGroupS3AssetBackupResponse.raw_response
    

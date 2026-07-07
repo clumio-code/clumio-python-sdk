@@ -2,17 +2,14 @@
 # Copyright 2023. Clumio, A Commvault Company.
 #
 
-import json
 import re
-from typing import Any, Iterator, Optional, Union
+from typing import Any, Iterator
 import urllib.parse
 
 from clumioapi import api_helper
-from clumioapi import configuration
 from clumioapi import sdk_version
 from clumioapi.controllers import base_controller
 from clumioapi.controllers.types import aws_environments_types
-from clumioapi.controllers.types import aws_s3_buckets_v1_bucket_matcher_types
 from clumioapi.exceptions import clumio_exception
 from clumioapi.models import list_aws_environments_response
 from clumioapi.models import read_aws_environment_response
@@ -39,7 +36,11 @@ class AwsEnvironmentsV1Controller:
         self,
         limit: int | None = None,
         start: str | None = None,
-        filter: aws_environments_types.ListAwsEnvironmentsV1FilterT | None = None,
+        filter: (
+            aws_environments_types.ListAwsEnvironmentsV1FilterT
+            | aws_environments_types.ListAwsEnvironmentsV1FilterTypeDef
+            | None
+        ) = None,
         embed: str | None = None,
         lookback_days: int | None = None,
         **kwargs,
@@ -154,7 +155,9 @@ class AwsEnvironmentsV1Controller:
         _query_parameters: dict[str, Any] = {}
         _query_parameters = {
             'limit': limit,
-            'filter': filter.query_str if filter else None,
+            'filter': api_helper.to_filter_query_str(
+                filter, aws_environments_types.ListAwsEnvironmentsV1FilterT
+            ),
             'embed': embed,
             'lookback_days': lookback_days,
         }
@@ -300,7 +303,11 @@ class AwsEnvironmentsV1ControllerPaginator:
         self,
         limit: int | None = None,
         start: str | None = None,
-        filter: aws_environments_types.ListAwsEnvironmentsV1FilterT | None = None,
+        filter: (
+            aws_environments_types.ListAwsEnvironmentsV1FilterT
+            | aws_environments_types.ListAwsEnvironmentsV1FilterTypeDef
+            | None
+        ) = None,
         embed: str | None = None,
         lookback_days: int | None = None,
         **kwargs,

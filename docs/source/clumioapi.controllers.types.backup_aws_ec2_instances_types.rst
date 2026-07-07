@@ -20,6 +20,7 @@ clumioapi.controllers.types.backup\_aws\_ec2\_instances\_types
       :template: custom-class-template.rst
    
       ListBackupAwsEc2InstancesV1FilterT
+      ListBackupAwsEc2InstancesV1FilterTypeDef
    
    
 

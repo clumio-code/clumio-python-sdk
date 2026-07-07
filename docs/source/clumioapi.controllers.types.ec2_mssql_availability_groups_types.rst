@@ -21,6 +21,7 @@ clumioapi.controllers.types.ec2\_mssql\_availability\_groups\_types
    
       ListEc2MssqlAvailabilityGroupsProtectionInfoV1T
       ListEc2MssqlAvailabilityGroupsV1FilterT
+      ListEc2MssqlAvailabilityGroupsV1FilterTypeDef
    
    
 

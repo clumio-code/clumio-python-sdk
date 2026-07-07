@@ -2,7 +2,7 @@
 # Copyright 2025. Clumio, A Commvault Company.
 #
 
-sdk_version = '1.0.4'
+sdk_version = '1.0.5'
 
 __all__ = [
     'api_helper',

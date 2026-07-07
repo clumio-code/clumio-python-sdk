@@ -2,17 +2,14 @@
 # Copyright 2023. Clumio, A Commvault Company.
 #
 
-import json
 import re
-from typing import Any, Iterator, Optional, Union
+from typing import Any, Iterator
 import urllib.parse
 
 from clumioapi import api_helper
-from clumioapi import configuration
 from clumioapi import sdk_version
 from clumioapi.controllers import base_controller
 from clumioapi.controllers.types import aws_environment_tags_types
-from clumioapi.controllers.types import aws_s3_buckets_v1_bucket_matcher_types
 from clumioapi.exceptions import clumio_exception
 from clumioapi.models import list_aws_tags_response
 from clumioapi.models import read_aws_tag_response
@@ -43,7 +40,11 @@ class AwsEnvironmentTagsV1Controller:
         total_count: int | None = None,
         total_pages_count: int | None = None,
         start: str | None = None,
-        filter: aws_environment_tags_types.ListAwsEnvironmentTagsV1FilterT | None = None,
+        filter: (
+            aws_environment_tags_types.ListAwsEnvironmentTagsV1FilterT
+            | aws_environment_tags_types.ListAwsEnvironmentTagsV1FilterTypeDef
+            | None
+        ) = None,
         embed: str | None = None,
         lookback_days: int | None = None,
         **kwargs,
@@ -196,7 +197,9 @@ class AwsEnvironmentTagsV1Controller:
             'total_count': total_count,
             'total_pages_count': total_pages_count,
             'start': start,
-            'filter': filter.query_str if filter else None,
+            'filter': api_helper.to_filter_query_str(
+                filter, aws_environment_tags_types.ListAwsEnvironmentTagsV1FilterT
+            ),
             'embed': embed,
             'lookback_days': lookback_days,
         }
@@ -369,7 +372,11 @@ class AwsEnvironmentTagsV1ControllerPaginator:
         total_count: int | None = None,
         total_pages_count: int | None = None,
         start: str | None = None,
-        filter: aws_environment_tags_types.ListAwsEnvironmentTagsV1FilterT | None = None,
+        filter: (
+            aws_environment_tags_types.ListAwsEnvironmentTagsV1FilterT
+            | aws_environment_tags_types.ListAwsEnvironmentTagsV1FilterTypeDef
+            | None
+        ) = None,
         embed: str | None = None,
         lookback_days: int | None = None,
         **kwargs,

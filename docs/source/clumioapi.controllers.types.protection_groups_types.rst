@@ -21,6 +21,7 @@ clumioapi.controllers.types.protection\_groups\_types
    
       ListProtectionGroupsProtectionInfoV1T
       ListProtectionGroupsV1FilterT
+      ListProtectionGroupsV1FilterTypeDef
    
    
 

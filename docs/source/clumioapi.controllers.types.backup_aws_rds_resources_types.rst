@@ -20,7 +20,9 @@ clumioapi.controllers.types.backup\_aws\_rds\_resources\_types
       :template: custom-class-template.rst
    
       ListAwsRdsResourcesOptionGroupsV1FilterT
+      ListAwsRdsResourcesOptionGroupsV1FilterTypeDef
       ListBackupAwsRdsResourcesV1FilterT
+      ListBackupAwsRdsResourcesV1FilterTypeDef
    
    
 

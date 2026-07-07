@@ -2,16 +2,13 @@
 # Copyright 2023. Clumio, A Commvault Company.
 #
 
-import json
 import re
-from typing import Any, Iterator, Optional, Union
+from typing import Any, Iterator
 import urllib.parse
 
 from clumioapi import api_helper
-from clumioapi import configuration
 from clumioapi import sdk_version
 from clumioapi.controllers import base_controller
-from clumioapi.controllers.types import aws_s3_buckets_v1_bucket_matcher_types
 from clumioapi.controllers.types import backup_ec2_mssql_databases_types
 from clumioapi.exceptions import clumio_exception
 from clumioapi.models import create_backup_ec2_mssql_database_v1_request
@@ -42,7 +39,11 @@ class BackupEc2MssqlDatabasesV1Controller:
         limit: int | None = None,
         start: str | None = None,
         sort: str | None = None,
-        filter: backup_ec2_mssql_databases_types.ListBackupEc2MssqlDatabasesV1FilterT | None = None,
+        filter: (
+            backup_ec2_mssql_databases_types.ListBackupEc2MssqlDatabasesV1FilterT
+            | backup_ec2_mssql_databases_types.ListBackupEc2MssqlDatabasesV1FilterTypeDef
+            | None
+        ) = None,
         embed: str | None = None,
         **kwargs,
     ) -> list_ec2_mssql_database_backups_response.ListEC2MSSQLDatabaseBackupsResponse:
@@ -123,7 +124,9 @@ class BackupEc2MssqlDatabasesV1Controller:
             'limit': limit,
             'start': start,
             'sort': sort,
-            'filter': filter.query_str if filter else None,
+            'filter': api_helper.to_filter_query_str(
+                filter, backup_ec2_mssql_databases_types.ListBackupEc2MssqlDatabasesV1FilterT
+            ),
             'embed': embed,
         }
 
@@ -285,7 +288,11 @@ class BackupEc2MssqlDatabasesV1ControllerPaginator:
         limit: int | None = None,
         start: str | None = None,
         sort: str | None = None,
-        filter: backup_ec2_mssql_databases_types.ListBackupEc2MssqlDatabasesV1FilterT | None = None,
+        filter: (
+            backup_ec2_mssql_databases_types.ListBackupEc2MssqlDatabasesV1FilterT
+            | backup_ec2_mssql_databases_types.ListBackupEc2MssqlDatabasesV1FilterTypeDef
+            | None
+        ) = None,
         embed: str | None = None,
         **kwargs,
     ) -> Iterator[list_ec2_mssql_database_backups_response.ListEC2MSSQLDatabaseBackupsResponse]:

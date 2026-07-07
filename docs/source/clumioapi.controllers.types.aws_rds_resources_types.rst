@@ -22,6 +22,7 @@ clumioapi.controllers.types.aws\_rds\_resources\_types
       ListAwsRdsResourcesProtectionInfoV1T
       ListAwsRdsResourcesTagsV1T
       ListAwsRdsResourcesV1FilterT
+      ListAwsRdsResourcesV1FilterTypeDef
    
    
 

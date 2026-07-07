@@ -20,6 +20,7 @@ clumioapi.controllers.types.roles\_types
       :template: custom-class-template.rst
    
       ListRolesV1FilterT
+      ListRolesV1FilterTypeDef
    
    
 

@@ -20,6 +20,7 @@ clumioapi.controllers.types.aws\_rds\_resource\_restored\_records\_types
       :template: custom-class-template.rst
    
       ListRdsRestoredRecordsV1FilterT
+      ListRdsRestoredRecordsV1FilterTypeDef
    
    
 

@@ -2,16 +2,13 @@
 # Copyright 2023. Clumio, A Commvault Company.
 #
 
-import json
 import re
-from typing import Any, Iterator, Optional, Union
+from typing import Any, Iterator
 import urllib.parse
 
 from clumioapi import api_helper
-from clumioapi import configuration
 from clumioapi import sdk_version
 from clumioapi.controllers import base_controller
-from clumioapi.controllers.types import aws_s3_buckets_v1_bucket_matcher_types
 from clumioapi.controllers.types import individual_alerts_types
 from clumioapi.exceptions import clumio_exception
 from clumioapi.models import list_alerts_response
@@ -42,7 +39,11 @@ class IndividualAlertsV1Controller:
         limit: int | None = None,
         start: str | None = None,
         sort: str | None = None,
-        filter: individual_alerts_types.ListIndividualAlertsV1FilterT | None = None,
+        filter: (
+            individual_alerts_types.ListIndividualAlertsV1FilterT
+            | individual_alerts_types.ListIndividualAlertsV1FilterTypeDef
+            | None
+        ) = None,
         embed: str | None = None,
         **kwargs,
     ) -> list_alerts_response.ListAlertsResponse:
@@ -255,7 +256,9 @@ class IndividualAlertsV1Controller:
             'limit': limit,
             'start': start,
             'sort': sort,
-            'filter': filter.query_str if filter else None,
+            'filter': api_helper.to_filter_query_str(
+                filter, individual_alerts_types.ListIndividualAlertsV1FilterT
+            ),
             'embed': embed,
         }
 
@@ -424,7 +427,11 @@ class IndividualAlertsV1ControllerPaginator:
         limit: int | None = None,
         start: str | None = None,
         sort: str | None = None,
-        filter: individual_alerts_types.ListIndividualAlertsV1FilterT | None = None,
+        filter: (
+            individual_alerts_types.ListIndividualAlertsV1FilterT
+            | individual_alerts_types.ListIndividualAlertsV1FilterTypeDef
+            | None
+        ) = None,
         embed: str | None = None,
         **kwargs,
     ) -> Iterator[list_alerts_response.ListAlertsResponse]:

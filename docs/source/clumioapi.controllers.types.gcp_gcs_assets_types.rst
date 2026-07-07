@@ -20,7 +20,9 @@ clumioapi.controllers.types.gcp\_gcs\_assets\_types
       :template: custom-class-template.rst
    
       ListGcpGcsAssetPitrIntervalsV1FilterT
+      ListGcpGcsAssetPitrIntervalsV1FilterTypeDef
       ListGcpGcsAssetsV1FilterT
+      ListGcpGcsAssetsV1FilterTypeDef
    
    
 

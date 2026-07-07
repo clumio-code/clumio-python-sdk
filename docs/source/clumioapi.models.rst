@@ -347,6 +347,9 @@
    export_malware_report_links
    export_malware_report_response
    export_protection_group_s3_asset_malware_report_v1_request
+   export_protection_group_s3_asset_threat_report_v1_request
+   export_threat_report_links
+   export_threat_report_response
    file_descriptor
    file_list_response
    file_restore_source
@@ -868,6 +871,9 @@
    s3_asset_malware_report_source
    s3_asset_malware_report_target
    s3_asset_malware_scan_task
+   s3_asset_threat_report_source
+   s3_asset_threat_report_target
+   s3_asset_threat_scan_task
    s3_bucket_size_res
    s3_buckets_inventory_summary_bucket_size_breakdown
    s3_cloudwatch_metrics
@@ -931,6 +937,7 @@
    task_with_e_tag
    template_configuration_v2
    template_links
+   threat_report_protection_group_backup
    time_unit_param_asset_backup_min_retention_duration
    time_unit_param_lookback_period
    time_unit_param_policy_min_retention_duration

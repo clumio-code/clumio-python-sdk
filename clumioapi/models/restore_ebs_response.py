@@ -2,7 +2,7 @@
 # Copyright 2023. Clumio, A Commvault Company.
 #
 import dataclasses
-from typing import Any, ClassVar, Dict, Mapping, Optional, overload, Sequence, TypeVar
+from typing import Any, ClassVar, Dict, Mapping, Optional, overload, TypeVar
 
 from clumioapi import api_helper
 from clumioapi.models import read_task_hateoas_outer_embedded as read_task_hateoas_outer_embedded_

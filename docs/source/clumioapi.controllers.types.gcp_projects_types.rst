@@ -20,6 +20,7 @@ clumioapi.controllers.types.gcp\_projects\_types
       :template: custom-class-template.rst
    
       ListGcpProjectsV1FilterT
+      ListGcpProjectsV1FilterTypeDef
    
    
 

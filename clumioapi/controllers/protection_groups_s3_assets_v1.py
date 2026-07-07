@@ -2,16 +2,13 @@
 # Copyright 2023. Clumio, A Commvault Company.
 #
 
-import json
 import re
-from typing import Any, Iterator, Optional, Union
+from typing import Any, Iterator
 import urllib.parse
 
 from clumioapi import api_helper
-from clumioapi import configuration
 from clumioapi import sdk_version
 from clumioapi.controllers import base_controller
-from clumioapi.controllers.types import aws_s3_buckets_v1_bucket_matcher_types
 from clumioapi.controllers.types import protection_groups_s3_assets_types
 from clumioapi.exceptions import clumio_exception
 from clumioapi.models import list_protection_group_s3_asset_pitr_intervals_response
@@ -42,7 +39,9 @@ class ProtectionGroupsS3AssetsV1Controller:
         limit: int | None = None,
         start: str | None = None,
         filter: (
-            protection_groups_s3_assets_types.ListProtectionGroupS3AssetsV1FilterT | None
+            protection_groups_s3_assets_types.ListProtectionGroupS3AssetsV1FilterT
+            | protection_groups_s3_assets_types.ListProtectionGroupS3AssetsV1FilterTypeDef
+            | None
         ) = None,
         lookback_days: int | None = None,
         **kwargs,
@@ -165,7 +164,9 @@ class ProtectionGroupsS3AssetsV1Controller:
         _query_parameters = {
             'limit': limit,
             'start': start,
-            'filter': filter.query_str if filter else None,
+            'filter': api_helper.to_filter_query_str(
+                filter, protection_groups_s3_assets_types.ListProtectionGroupS3AssetsV1FilterT
+            ),
             'lookback_days': lookback_days,
         }
 
@@ -331,6 +332,7 @@ class ProtectionGroupsS3AssetsV1Controller:
         start: str | None = None,
         filter: (
             protection_groups_s3_assets_types.ListProtectionGroupS3AssetPitrIntervalsV1FilterT
+            | protection_groups_s3_assets_types.ListProtectionGroupS3AssetPitrIntervalsV1FilterTypeDef
             | None
         ) = None,
         **kwargs,
@@ -384,7 +386,10 @@ class ProtectionGroupsS3AssetsV1Controller:
         _query_parameters: dict[str, Any] = {}
         _query_parameters = {
             'limit': limit,
-            'filter': filter.query_str if filter else None,
+            'filter': api_helper.to_filter_query_str(
+                filter,
+                protection_groups_s3_assets_types.ListProtectionGroupS3AssetPitrIntervalsV1FilterT,
+            ),
         }
 
         resp_instance: (
@@ -428,7 +433,9 @@ class ProtectionGroupsS3AssetsV1ControllerPaginator:
         limit: int | None = None,
         start: str | None = None,
         filter: (
-            protection_groups_s3_assets_types.ListProtectionGroupS3AssetsV1FilterT | None
+            protection_groups_s3_assets_types.ListProtectionGroupS3AssetsV1FilterT
+            | protection_groups_s3_assets_types.ListProtectionGroupS3AssetsV1FilterTypeDef
+            | None
         ) = None,
         lookback_days: int | None = None,
         **kwargs,
@@ -567,6 +574,7 @@ class ProtectionGroupsS3AssetsV1ControllerPaginator:
         start: str | None = None,
         filter: (
             protection_groups_s3_assets_types.ListProtectionGroupS3AssetPitrIntervalsV1FilterT
+            | protection_groups_s3_assets_types.ListProtectionGroupS3AssetPitrIntervalsV1FilterTypeDef
             | None
         ) = None,
         **kwargs,
