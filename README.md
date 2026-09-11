@@ -8,7 +8,8 @@ information on how to build and use the SDK.
 
 ## Requirements
 
-The library requires Python 3.6 and higher. Third-party libraries are also required.
+Python 3.9 or higher. Third-party dependencies are listed in `requirements.txt` and are
+installed automatically by `pip`.
 
 ## Installation
 ```
@@ -34,6 +35,19 @@ The following code block explains how to use the clumioapi SDK package.
 
 ```
 
+## Configuration
+`api_token` falls back to the `API_TOKEN` environment variable when it is not passed
+explicitly. Two optional arguments cover multi-tenant and proxy setups:
+```
+   config = configuration.Configuration(
+       hostname='api.clumio.com',
+       organizational_unit_context='<organizational_unit_id>',
+       custom_headers={'x-my-header': 'value'},
+   )
+```
+`organizational_unit_context` scopes every request to that organizational unit, and
+`custom_headers` is merged into the headers the SDK already sends.
+
 ## Filtering
 List operations accept a `filter` argument. Pass a plain `dict` exactly as the
 filter appears in the REST API reference — snake_case field names and
@@ -50,5 +64,18 @@ names and operators against the API.
 
 > **Note:** the older `...FilterT` filter classes are deprecated and will be
 > removed in a future major release. Prefer the dict form shown above.
+
+## Pagination
+Every resource also exposes a `<resource>_paginator` property. It walks the `_links.next`
+chain and yields one response per page, so `start` does not have to be tracked by hand:
+```
+   for page in client.protection_groups_s3_assets_v1_paginator.list_protection_group_s3_assets(
+       filter={'aws_region': {'$eq': 'us-west-2'}},
+   ):
+       for asset in page.Embedded.Items:
+           print(asset.name)
+```
+The non-paginated controller returns a single page and accepts `limit` and `start` for
+callers that need to drive paging themselves.
 
 The REST API documentation describes all the available APIs and can be accessed from the help section in the top right corner of the Clumio UI.
