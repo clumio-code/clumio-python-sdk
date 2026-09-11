@@ -8,7 +8,8 @@ information on how to build and use the SDK.
 
 ## Requirements
 
-The library requires Python 3.6 and higher. Third-party libraries are also required.
+Python 3.9 or higher. Third-party dependencies are listed in `requirements.txt` and are
+installed automatically by `pip`.
 
 ## Installation
 ```
